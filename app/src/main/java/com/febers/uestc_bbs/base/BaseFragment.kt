@@ -19,6 +19,7 @@ abstract class BaseFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         contentView = inflater.inflate(setContentView(), container, false)
+        initView()
         isInit = true
         /**初始化的时候去加载数据 */
         isCanLoadData()
@@ -70,6 +71,7 @@ abstract class BaseFragment: Fragment() {
         return  getContentView().findViewById(id) as T
     }
 
+    protected abstract fun initView()
     /**
      * 当视图初始化并且对用户可见的时候去真正的加载数据
      */

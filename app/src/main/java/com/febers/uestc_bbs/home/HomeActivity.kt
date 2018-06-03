@@ -18,7 +18,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.toast
 
-class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, Drawer.OnDrawerItemClickListener, OnCheckedChangeListener{
+class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
+        Drawer.OnDrawerItemClickListener, OnCheckedChangeListener{
 
     var homeDrawer: Drawer? = null
 
@@ -100,10 +101,22 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
 
     override fun onTabSelected(position: Int) {
         when(position) {
-            0 -> null_view_home.visibility = View.VISIBLE
-            1 -> null_view_home.visibility = View.GONE
-            2 -> null_view_home.visibility = View.VISIBLE
-            3 -> null_view_home.visibility = View.GONE
+            0 -> {
+                null_view_home.visibility = View.VISIBLE
+                toolbar_home.setTitle(getString(R.string.home_page))
+            }
+            1 -> {
+                null_view_home.visibility = View.GONE
+                toolbar_home.setTitle(getString(R.string.forum_list_page))
+            }
+            2 -> {
+                null_view_home.visibility = View.VISIBLE
+                toolbar_home.setTitle(getString(R.string.message_page))
+            }
+            3 -> {
+                null_view_home.visibility = View.GONE
+                toolbar_home.setTitle(getString(R.string.more_page))
+            }
             else -> {}
         }
     }
