@@ -1,6 +1,6 @@
-package com.febers.uestc_bbs.util
+package com.febers.uestc_bbs.utils
 
-enum class BBSURL(val Url: String) {
+enum class BBS_URL(val URL: String) {
     PREFIX("http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r="),
     /**
      * 登录、注销。
@@ -17,7 +17,7 @@ enum class BBSURL(val Url: String) {
      * uid
      * userName
      */
-    LOGIN(PREFIX.Url+"user/login"),
+    LOGIN(PREFIX.URL+"user/login"),
 
     /**
      * 设置用户位置（与周边用户/帖子功能配合使用）。
@@ -26,7 +26,7 @@ enum class BBSURL(val Url: String) {
      * latitude 纬度
      * location 地址
      */
-    LOCATION(PREFIX.Url+"user/location"),
+    LOCATION(PREFIX.URL+"user/location"),
 
     /**
      * 修改用户信息(头像，密码，性别，签名)
@@ -37,18 +37,18 @@ enum class BBSURL(val Url: String) {
      * oldPassword
      * newPassword
      */
-    UPDATE_USER_INFO(PREFIX.Url+"user/updateuserinfo"),
+    UPDATE_USER_INFO(PREFIX.URL+"user/updateuserinfo"),
 
     /**
      * 其他 user API
      */
-    QQ_INFO(PREFIX.Url+"user/qqinfo"),
-    SAVE_QQ_INFO(PREFIX.Url+"user/saveqqinfo"),
-    QQ_LOGIN(PREFIX.Url+"user/qqlogin"),
-    PLATFORM_INFO(PREFIX.Url+"user/platforminfo"),
-    SAVE_PLATFORM_INFO(PREFIX.Url+"user/saveplatforminfo"),
-    SIGN(PREFIX.Url+"user/sign"),
-    SWITCH(PREFIX.Url+"user/switch"),
+    QQ_INFO(PREFIX.URL+"user/qqinfo"),
+    SAVE_QQ_INFO(PREFIX.URL+"user/saveqqinfo"),
+    QQ_LOGIN(PREFIX.URL+"user/qqlogin"),
+    PLATFORM_INFO(PREFIX.URL+"user/platforminfo"),
+    SAVE_PLATFORM_INFO(PREFIX.URL+"user/saveplatforminfo"),
+    SIGN(PREFIX.URL+"user/sign"),
+    SWITCH(PREFIX.URL+"user/switch"),
 
     /**
      * 获取版块列表。
@@ -74,7 +74,7 @@ enum class BBSURL(val Url: String) {
      * td_posts_num 今日发帖量。
      * topic_total_num 主题总数。
      */
-    FORUM_LIST(PREFIX.Url+"forum/forumlist"),
+    FORUM_LIST(PREFIX.URL+"forum/forumlist"),
 
     /**
      * 获取某一版块的主题列表。
@@ -136,7 +136,7 @@ enum class BBSURL(val Url: String) {
      * description
      * icon
      */
-    TOPOIC_LIST(PREFIX.Url+"forum/topiclist"),
+    TOPOIC_LIST(PREFIX.URL+"forum/topiclist"),
 
     /**
      * 获取帖子的回复列表。
@@ -224,7 +224,7 @@ enum class BBSURL(val Url: String) {
      * field3
      * showAllUrl 显示所有评分记录的 URL（forum/ratelistview）。
      */
-    POST_LIST(PREFIX.Url+"forum/postlist"),
+    POST_LIST(PREFIX.URL+"forum/postlist"),
 
     /**
      * 发帖/回复。
@@ -261,7 +261,7 @@ enum class BBSURL(val Url: String) {
      * ...
      * ]
      */
-     TOPIC_ADMIN(PREFIX.Url+"forum/topicadmin"),
+     TOPIC_ADMIN(PREFIX.URL+"forum/topicadmin"),
 
     /**
      * 搜索（参数和 Discuz! search.php 一致）。
@@ -271,7 +271,7 @@ enum class BBSURL(val Url: String) {
      * pageSize
      * searchid
      */
-    SEARCH(PREFIX.Url+"forum/search"),
+    SEARCH(PREFIX.URL+"forum/search"),
 
     /**
      * 发送附件的高级版本，可以将图片上传到相册。
@@ -286,7 +286,7 @@ enum class BBSURL(val Url: String) {
      * id 附件 ID，发帖时在 aid 参数中指定。
      * urlName 附件 URL，发帖时在 infor 字段中指定。
      */
-    SEND_ATTACHMENTEX(PREFIX.Url+"forum/sendattachmentex"),
+    SEND_ATTACHMENTEX(PREFIX.URL+"forum/sendattachmentex"),
 
     /**
      * 投票。
@@ -300,7 +300,7 @@ enum class BBSURL(val Url: String) {
      * pollItemId
      * totalNum
      */
-    VOTE(PREFIX.Url+"forum/sendattachmentex"),
+    VOTE(PREFIX.URL+"forum/sendattachmentex"),
 
     /**
      * 对回复进行支持/反对操作。
@@ -310,14 +310,14 @@ enum class BBSURL(val Url: String) {
      * type 'topic'（默认）== 'thread', 'post'
      * action 'support'（默认）, 'against'
      */
-    SUPPORT(PREFIX.Url+"forum/support"),
+    SUPPORT(PREFIX.URL+"forum/support"),
 
     /**
      * 站点公告。
 
      * id
      */
-    ANNOUNCEMENT(PREFIX.Url+"forum/announcement"),
+    ANNOUNCEMENT(PREFIX.URL+"forum/announcement"),
 
     /**
      * 获取可以@的好友。（相当于河畔编辑器里单击@朋友后弹出的列表。）
@@ -334,7 +334,7 @@ enum class BBSURL(val Url: String) {
      * name
      * role_num
      */
-    AT_USER_LIST(PREFIX.Url+"forum/atuserlist"),
+    AT_USER_LIST(PREFIX.URL+"forum/atuserlist"),
 
     /**
      * 获取包含图片的帖子。
@@ -342,7 +342,7 @@ enum class BBSURL(val Url: String) {
      * page
      * pageSize
      */
-    PHOTO_GALLERY(PREFIX.Url+"forum/photogallery"),
+    PHOTO_GALLERY(PREFIX.URL+"forum/photogallery"),
 
     /**
      * 评分记录查询。返回的 HTML。
@@ -350,7 +350,7 @@ enum class BBSURL(val Url: String) {
      * tid
      * pid
      */
-    RATE_LIST_VIEW(PREFIX.Url+"forum/ratelistview"),
+    RATE_LIST_VIEW(PREFIX.URL+"forum/ratelistview"),
 
     /**
      * 活动帖参加、取消。
@@ -366,7 +366,7 @@ enum class BBSURL(val Url: String) {
      * // 其他参数（活动时填写的信息）
      * }
      */
-    TOPIC_ACTIVITY(PREFIX.Url+"forum/topicactivity"),
+    TOPIC_ACTIVITY(PREFIX.URL+"forum/topicactivity"),
 
     /**
      * 参加活动。返回是 HTML。
@@ -374,7 +374,7 @@ enum class BBSURL(val Url: String) {
      * tid
      * act
      */
-    TOPIC_ACTIVITY_VIEW(PREFIX.Url+"forum/topicactivityview"),
+    TOPIC_ACTIVITY_VIEW(PREFIX.URL+"forum/topicactivityview"),
 
     /**
      * 管理操作。返回 HTML。
@@ -385,7 +385,7 @@ enum class BBSURL(val Url: String) {
      * act
      * type 'topic'（默认）
      */
-    TOPIC_ADMIN_VIEW(PREFIX.Url+"forum/topicadminview"),
+    TOPIC_ADMIN_VIEW(PREFIX.URL+"forum/topicadminview"),
 
     /**
      * 评分。返回 HTML。
@@ -393,12 +393,12 @@ enum class BBSURL(val Url: String) {
      * tid
      * pid
      */
-    TOPIC_RATE(PREFIX.Url+"forum/topicrate"),
+    TOPIC_RATE(PREFIX.URL+"forum/topicrate"),
 
     /**
      * 查询新提醒数目（每隔一段时间查询）。
      */
-    MESSAGE_HEART(PREFIX.Url+"message/heart"),
+    MESSAGE_HEART(PREFIX.URL+"message/heart"),
 
     /**
      * 提醒列表。
@@ -407,7 +407,7 @@ enum class BBSURL(val Url: String) {
      * page
      * pageSize
      */
-    MESSAGE_NOTYFY_LIST(PREFIX.Url+"message/notifylist"),
+    MESSAGE_NOTYFY_LIST(PREFIX.URL+"message/notifylist"),
 
     /**
      * 短消息列表。
@@ -430,7 +430,7 @@ enum class BBSURL(val Url: String) {
      * }
      * }
      */
-    MESSAGE_PM_LIST(PREFIX.Url+"message/pmlist"),
+    MESSAGE_PM_LIST(PREFIX.URL+"message/pmlist"),
 
     /**
      短消息管理（发送、删除）。
@@ -449,7 +449,7 @@ enum class BBSURL(val Url: String) {
      * "pmid": 123  // delpmid
      * }
      */
-    MESSAGE_PM_ADMIN(PREFIX.Url+"message/pmadmin"),
+    MESSAGE_PM_ADMIN(PREFIX.URL+"message/pmadmin"),
 
     /**
      获取短消息会话列表。
@@ -462,7 +462,7 @@ enum class BBSURL(val Url: String) {
      * "pageSize": 10 // 可选，默认为 10。
      * }
      */
-    MESSAGE_PM_SESSION_LIST(PREFIX.Url+"message/pmsessionlist"),
+    MESSAGE_PM_SESSION_LIST(PREFIX.URL+"message/pmsessionlist"),
 
     /**
      获取周边用户/帖子。
@@ -474,5 +474,5 @@ enum class BBSURL(val Url: String) {
      * pageSize
      * radius 半径，单位为米（默认为 100000）。
      */
-    SURROUNDING(PREFIX.Url+"square/surrounding")
+    SURROUNDING(PREFIX.URL+"square/surrounding")
 }

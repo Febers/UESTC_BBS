@@ -16,6 +16,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -36,4 +40,12 @@ dependencies {
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.r0adkll:slidableactivity:2.0.6'
     implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+        transitive = true
+    }
+    //compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
 }
