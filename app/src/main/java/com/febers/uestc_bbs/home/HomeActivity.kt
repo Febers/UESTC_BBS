@@ -27,7 +27,6 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
     }
 
     override fun initView() {
-
         val acountHeader = AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.color.primary)
@@ -52,18 +51,18 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
                     false
                 }
                 //头像点击
-                .withOnAccountHeaderProfileImageListener(object : AccountHeader.OnAccountHeaderProfileImageListener {
-                    override fun onProfileImageClick(view: View, profile: IProfile<*>, current: Boolean): Boolean {
-                        d("here", "click image")
-                        return false
-                    }
+                .withOnAccountHeaderProfileImageListener(
+                        object : AccountHeader.OnAccountHeaderProfileImageListener {
+                            override fun onProfileImageClick(view: View, profile: IProfile<*>, current: Boolean): Boolean {
+                                d("here", "click image")
+                                return false
+                            }
 
-                    override fun onProfileImageLongClick(view: View, profile: IProfile<*>, current: Boolean): Boolean {
-                        return false
-                    }
-                })
+                            override fun onProfileImageLongClick(view: View, profile: IProfile<*>, current: Boolean): Boolean {
+                                return false
+                            }
+                        })
                 .build()
-
         homeDrawer = DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar_home)
@@ -88,11 +87,12 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
                                 .withOnCheckedChangeListener(this))
                 .withOnDrawerItemClickListener(this)
                 .build()
-        bottom_navigation_bar.setMode(BottomNavigationBar.MODE_FIXED)
-        bottom_navigation_bar.addItem(BottomNavigationItem(R.drawable.navigation_empty_icon, getString(R.string.app_name)))
-                .addItem(BottomNavigationItem(R.drawable.navigation_empty_icon, getString(R.string.app_name)))
-                .addItem(BottomNavigationItem(R.drawable.navigation_empty_icon, getString(R.string.app_name)))
-                .addItem(BottomNavigationItem(R.drawable.navigation_empty_icon, getString(R.string.app_name)))
+        bottom_navigation_bar
+                .addItem(BottomNavigationItem(R.drawable.home_gray, getString(R.string.home_page)))
+                .addItem(BottomNavigationItem(R.drawable.forum_list_gray, getString(R.string.forum_list_page)))
+                .addItem(BottomNavigationItem(R.drawable.message_gray, getString(R.string.message_page)))
+                .addItem(BottomNavigationItem(R.drawable.more_gray, getString(R.string.more_page)))
+                .setMode(BottomNavigationBar.MODE_FIXED)
                 .setFirstSelectedPosition(0)
                 .initialise()
         bottom_navigation_bar.setTabSelectedListener(this)
@@ -102,7 +102,9 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
         when(position) {
             0 -> null_view_home.visibility = View.VISIBLE
             1 -> null_view_home.visibility = View.GONE
-            else -> toast("you click no 0 or 1")
+            2 -> null_view_home.visibility = View.VISIBLE
+            3 -> null_view_home.visibility = View.GONE
+            else -> {}
         }
     }
 
@@ -117,7 +119,7 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
     }
 
     override fun onCheckedChanged(drawerItem: IDrawerItem<*, *>?, buttonView: CompoundButton?, isChecked: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //
     }
 
     override fun onTabReselected(position: Int) {
@@ -126,9 +128,5 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener, 
 
     override fun onTabUnselected(position: Int) {
 
-    }
-
-    override fun getContentView(): Int {
-        return super.getContentView()
     }
 }
