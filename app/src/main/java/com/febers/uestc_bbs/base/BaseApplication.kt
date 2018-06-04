@@ -2,17 +2,18 @@ package com.febers.uestc_bbs.base
 
 import android.app.Application
 import android.content.Context
+import kotlin.properties.Delegates
 
 class BaseApplication: Application() {
 
-    private var context: Context? = null
 
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
     }
 
-    fun getContext(): Context? {
-        return context
+    companion object {
+        var context: Context by Delegates.notNull()
+            private set
     }
 }

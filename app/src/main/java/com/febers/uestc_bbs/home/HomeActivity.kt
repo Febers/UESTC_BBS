@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.home
 
+import android.support.v4.app.FragmentTransaction
 import android.util.Log.d
 import android.view.View
 import android.widget.CompoundButton
@@ -18,7 +19,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.toast
 
-class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
+class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
         Drawer.OnDrawerItemClickListener, OnCheckedChangeListener{
 
     var homeDrawer: Drawer? = null
@@ -66,7 +67,7 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                 .build()
         homeDrawer = DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar_home)
+                //.withToolbar(toolbar_home)
                 .withAccountHeader(acountHeader)
                 .withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
@@ -97,28 +98,34 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                 .setFirstSelectedPosition(0)
                 .initialise()
         bottom_navigation_bar.setTabSelectedListener(this)
+
+        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment_layout_home, HomeFragmentManager.getInstance(0))
+        fragmentTransaction.commit()
+        fragmentTransaction.show(HomeFragmentManager.getInstance(0))
     }
 
     override fun onTabSelected(position: Int) {
         when(position) {
             0 -> {
-                null_view_home.visibility = View.VISIBLE
-                toolbar_home.setTitle(getString(R.string.home_page))
+
             }
             1 -> {
-                null_view_home.visibility = View.GONE
-                toolbar_home.setTitle(getString(R.string.forum_list_page))
+
             }
+
             2 -> {
-                null_view_home.visibility = View.VISIBLE
-                toolbar_home.setTitle(getString(R.string.message_page))
             }
+
             3 -> {
-                null_view_home.visibility = View.GONE
-                toolbar_home.setTitle(getString(R.string.more_page))
             }
+
             else -> {}
         }
+    }
+
+    private fun showHomeFragments(position: Int) {
+
     }
 
     override fun onItemClick(view: View?, position: Int, drawerItem: IDrawerItem<*, *>?): Boolean {
@@ -131,14 +138,26 @@ class HomeActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
         return false
     }
 
-    override fun onCheckedChanged(drawerItem: IDrawerItem<*, *>?, buttonView: CompoundButton?, isChecked: Boolean) {
-        //
+    override fun onCompleted(any: Any) {
+
     }
 
+    override fun onError(error: String) {
+        toast(error)
+    }
+
+
+    //drawer开关
+    override fun onCheckedChanged(drawerItem: IDrawerItem<*, *>?, buttonView: CompoundButton?, isChecked: Boolean) {
+
+    }
+
+    //bottomTab二次选择
     override fun onTabReselected(position: Int) {
 
     }
 
+    //bottomTab取消选择
     override fun onTabUnselected(position: Int) {
 
     }

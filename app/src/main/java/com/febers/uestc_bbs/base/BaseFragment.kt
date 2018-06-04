@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.view.MyProgressDialog
 
-abstract class BaseFragment: Fragment() {
+abstract class BaseFragment: Fragment(), BaseView {
 
     private var isInit = false
 
@@ -19,11 +19,16 @@ abstract class BaseFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         contentView = inflater.inflate(setContentView(), container, false)
-        initView()
         isInit = true
         /**初始化的时候去加载数据 */
         isCanLoadData()
         return contentView
+    }
+
+    //在kotlin中， 直接使用xml id对控件进行操作，必须要在这个方法回调之后
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
     }
 
     /**
@@ -82,14 +87,14 @@ abstract class BaseFragment: Fragment() {
      */
     protected fun stopLoad() {}
 
-    protected fun showProgressDialog() {
+    override fun showProgressDialog(title: String) {
         if (mProgressDialog == null) {
             mProgressDialog = MyProgressDialog(context)
         }
         mProgressDialog!!.show()
     }
 
-    protected fun hideProgressDialog() {
+    override fun dismissProgressDialog() {
         if (mProgressDialog == null) {
             return
         }

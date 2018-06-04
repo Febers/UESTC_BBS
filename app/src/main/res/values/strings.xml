@@ -9,4 +9,7 @@
     <string name="no_login">未登录</string>
     <string name="user_password">密码</string>
     <string name="user_name">用户名</string>
+    <string name="new_post">最新发表</string>
+    <string name="new_reply">最新回复</string>
+    <string name="hot_article">热门帖子</string>
 </resources>

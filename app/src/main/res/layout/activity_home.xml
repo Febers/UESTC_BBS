@@ -5,30 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:mContext=".home.HomeActivity"
-    android:orientation="vertical">
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_home"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/app_name">
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    tools:mContext=".home.HomeActivity">
+
     <FrameLayout
-        android:id="@+id/frame_layout_home"
+        android:id="@+id/fragment_layout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottom_navigation_height">
     </FrameLayout>
-
-    <include layout="@layout/layout_null"
-        android:id="@+id/null_view_home"/>
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"

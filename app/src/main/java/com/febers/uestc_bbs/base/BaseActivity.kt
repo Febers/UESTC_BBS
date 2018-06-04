@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.febers.uestc_bbs.view.MyProgressDialog
 
-
-abstract class BaseActivity : AppCompatActivity() {
+/**
+ * 抽象Activity
+ */
+abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     protected var mProgressDialog: MyProgressDialog? = null
 
@@ -19,16 +21,17 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected abstract fun setView(): Int
+
     protected abstract fun initView()
 
-    protected fun showProgressDialog() {
+    override fun showProgressDialog(title: String) {
         if (mProgressDialog == null) {
             mProgressDialog = MyProgressDialog(this)
         }
         mProgressDialog!!.show()
     }
 
-    protected fun hideProgressDialog() {
+    override fun dismissProgressDialog() {
         if (mProgressDialog == null) {
             return
         }
