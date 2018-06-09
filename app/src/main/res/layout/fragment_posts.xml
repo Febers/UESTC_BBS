@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-6-9 上午9:22.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-6-9 上午9:21.
+  -->
+
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.design.widget.AppBarLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout_posts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_posts"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/app_name">
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-        </android.support.v7.widget.Toolbar>
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout_posts"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tablayout_height"
-            app:tabTextColor="@color/colorAccent">
-        </android.support.design.widget.TabLayout>
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="@dimen/tablayout_height"
+        android:background="@color/colorPrimary"
+        app:tabTextColor="@color/md_white_1000"
+        app:tabSelectedTextColor="@color/colorAccent"/>
 
     <android.support.v4.view.ViewPager
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/view_pager_posts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/tablayout_height">
     </android.support.v4.view.ViewPager>
 </android.support.design.widget.CoordinatorLayout>

@@ -1,3 +1,9 @@
+/*
+ * Created by Febers at 18-6-9 上午9:22.
+ * Copyright (c). All rights reserved.
+ * Last modified 18-6-9 上午9:21.
+ */
+
 package com.febers.uestc_bbs.base
 
 import android.os.Bundle
@@ -5,7 +11,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.febers.uestc_bbs.view.MyProgressDialog
+import com.febers.uestc_bbs.view.CustomProgressDialog
 
 abstract class BaseFragment: Fragment(), BaseView {
 
@@ -13,7 +19,7 @@ abstract class BaseFragment: Fragment(), BaseView {
 
     private var isLoad = true
 
-    protected var mProgressDialog: MyProgressDialog? = null
+    protected var mProgressDialog: CustomProgressDialog? = null
 
     private var contentView: View? = null
 
@@ -89,7 +95,7 @@ abstract class BaseFragment: Fragment(), BaseView {
 
     override fun showProgressDialog(title: String) {
         if (mProgressDialog == null) {
-            mProgressDialog = MyProgressDialog(context)
+            mProgressDialog = CustomProgressDialog(context)
         }
         mProgressDialog!!.show()
     }
