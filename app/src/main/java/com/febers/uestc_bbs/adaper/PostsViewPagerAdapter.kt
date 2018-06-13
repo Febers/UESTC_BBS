@@ -20,9 +20,9 @@ class PostsViewPagerAdapter: FragmentPagerAdapter {
 
     override fun getItem(position: Int): Fragment {
         when(position) {
-            0 -> return SubPostsFragmentManager.getNewPostFragment()
-            1 -> return SubPostsFragmentManager.getNewReplayFragment()
-            2 -> return SubPostsFragmentManager.getHotArticleFragment()
+            0 -> return SPFragmentManager.getNewPostFragment()
+            1 -> return SPFragmentManager.getNewReplayFragment()
+            2 -> return SPFragmentManager.getHotArticleFragment()
             else -> return Fragment()
         }
     }
@@ -36,6 +36,6 @@ class PostsViewPagerAdapter: FragmentPagerAdapter {
     }
 
     private fun getString(stringId: Int): String {
-        return BaseApplication.context.getString(stringId)
+        return BaseApplication.context().getString(stringId)
     }
 }

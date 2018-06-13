@@ -25,6 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.febers.uestc_bbs.module.post.view.PostListActivity">
+        </activity>
+        <activity android:name="com.febers.uestc_bbs.module.login.view.LoginActivity">
+        </activity>
     </application>
 
 </manifest>

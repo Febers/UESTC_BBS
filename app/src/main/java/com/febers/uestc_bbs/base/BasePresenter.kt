@@ -7,7 +7,6 @@
 package com.febers.uestc_bbs.base
 
 abstract class BasePresenter<V : BaseView>(protected var mView: V?) {
-
     fun detachView() {
         mView = null
     }

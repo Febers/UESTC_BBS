@@ -4,17 +4,17 @@
  * Last modified 18-6-9 上午9:21.
  */
 
-package com.febers.uestc_bbs.post
+package com.febers.uestc_bbs.home
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostsViewPagerAdapter
 import com.febers.uestc_bbs.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_posts.*
+import kotlinx.android.synthetic.main.fragment_post.*
 
-class PostsFragment: BaseFragment() {
+class PostFragment: BaseFragment() {
 
     override fun setContentView(): Int {
-        return R.layout.fragment_posts
+        return R.layout.fragment_post
     }
 
     override fun initView() {
@@ -24,14 +24,6 @@ class PostsFragment: BaseFragment() {
     }
 
     override fun lazyLoad() {
-
-    }
-
-    override fun onCompleted(any: Any) {
-
-    }
-
-    override fun onError(error: String) {
 
     }
 }

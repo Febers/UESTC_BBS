@@ -21,7 +21,7 @@ enum class BBS_URL(val URL: String) {
      * token
      * avatar 头像 URL。
      * uid
-     * userName
+     * mUserName
      */
     LOGIN(PREFIX.URL+"user/login"),
 

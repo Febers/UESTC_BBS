@@ -10,7 +10,6 @@ package com.febers.uestc_bbs.base
  * View公共接口
  */
 interface BaseView {
-    fun onCompleted(any: Any)
     fun onError(error: String)
     fun showProgressDialog(title: String)
     fun dismissProgressDialog()

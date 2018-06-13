@@ -6,14 +6,18 @@
 
 package com.febers.uestc_bbs.home
 
+import android.content.Intent
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.util.Log.d
 import android.view.View
 import android.widget.CompoundButton
-import com.ashokvarma.bottomnavigation.BottomNavigationBar
-import com.ashokvarma.bottomnavigation.BottomNavigationItem
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.module.login.view.LoginActivity
+import com.febers.uestc_bbs.utils.CustomPreference
 import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
@@ -23,12 +27,17 @@ import com.mikepenz.materialdrawer.model.*
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import kotlinx.android.synthetic.main.activity_home.*
-import org.jetbrains.anko.toast
 
-class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
+class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
         Drawer.OnDrawerItemClickListener, OnCheckedChangeListener{
 
-    var homeDrawer: Drawer? = null
+    private var mHomeDrawer: Drawer? = null
+    private val mHomeFragments: MutableList<Fragment> = ArrayList()
+    private val mPostFragment = HomeFragmentManager.getInstance(0)
+    private val mForumListFragment = HomeFragmentManager.getInstance(1)
+    private val mNoticeFragment = HomeFragmentManager.getInstance(2)
+    private val mMessageFragment = HomeFragmentManager.getInstance(3)
+    private val mMoreFragment = HomeFragmentManager.getInstance(4)
 
     override fun setView(): Int {
         return R.layout.activity_home
@@ -43,13 +52,13 @@ class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                         ProfileDrawerItem()
                                 .withName("Mike Penz")
                                 .withEmail("mikepenz@gmail.com")
-                                .withIcon(R.drawable.ic_android_blue_24dp)
+                                .withIcon(R.drawable.ic_forum_gray_water)
                 )
                 .addProfiles(
                         ProfileDrawerItem()
                                 .withName("Second")
                                 .withEmail("second@gmail.com")
-                                .withIcon(R.drawable.ic_person_white_24dp)
+                                .withIcon(R.drawable.ic_forum_gray_tiyu)
                 )
                 //头部点击事件
                 .withOnAccountHeaderSelectionViewClickListener { view, profile -> false }
@@ -63,6 +72,7 @@ class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                         object : AccountHeader.OnAccountHeaderProfileImageListener {
                             override fun onProfileImageClick(view: View, profile: IProfile<*>, current: Boolean): Boolean {
                                 d("here", "click image")
+                                startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
                                 return false
                             }
 
@@ -71,7 +81,7 @@ class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                             }
                         })
                 .build()
-        homeDrawer = DrawerBuilder()
+        mHomeDrawer = DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar_home)
                 .withAccountHeader(acountHeader)
@@ -81,11 +91,11 @@ class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                                 .withName("分组"),
                         PrimaryDrawerItem()
                                 .withName(getString(R.string.account_detail))
-                                .withIcon(R.drawable.ic_android_blue_24dp)
+                                .withIcon(R.drawable.ic_forum_gray_linux)
                                 .withIdentifier(0),
                         PrimaryDrawerItem()
                                 .withName(getString(R.string.account_detail))
-                                .withIcon(R.drawable.ic_android_blue_24dp)
+                                .withIcon(R.drawable.ic_forum_gray_music)
                                 .withIdentifier(1),
                         SwitchDrawerItem()
                                 .withSwitchEnabled(true)
@@ -95,43 +105,52 @@ class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
                                 .withOnCheckedChangeListener(this))
                 .withOnDrawerItemClickListener(this)
                 .build()
-        bottom_navigation_bar
-                .addItem(BottomNavigationItem(R.drawable.home_gray, getString(R.string.home_page)))
-                .addItem(BottomNavigationItem(R.drawable.forum_list_gray, getString(R.string.forum_list_page)))
-                .addItem(BottomNavigationItem(R.drawable.message_gray, getString(R.string.message_page)))
-                .addItem(BottomNavigationItem(R.drawable.more_gray, getString(R.string.more_page)))
-                .setMode(BottomNavigationBar.MODE_FIXED)
-                .setFirstSelectedPosition(0)
-                .initialise()
-        bottom_navigation_bar.setTabSelectedListener(this)
 
-        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragment_layout_home, HomeFragmentManager.getInstance(0))
-        fragmentTransaction.commit()
-        fragmentTransaction.show(HomeFragmentManager.getInstance(0))
+        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
+        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
+        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.notice_page), R.drawable.ic_notice_gray))
+        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
+        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
+        bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
+        bottom_navigation_home.setOnTabSelectedListener(this)
+        bottom_navigation_home.manageFloatingActionButtonBehavior(action_button_home)
+
+        val mFragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        mFragmentTransaction
+                .add(R.id.fragment_layout_home, mPostFragment)
+                .add(R.id.fragment_layout_home, mForumListFragment)
+                .add(R.id.fragment_layout_home, mNoticeFragment)
+                .add(R.id.fragment_layout_home, mMessageFragment)
+                .add(R.id.fragment_layout_home, mMoreFragment)
+                .commit()
+        mHomeFragments.add(mPostFragment)
+        mHomeFragments.add(mForumListFragment)
+        mHomeFragments.add(mNoticeFragment)
+        mHomeFragments.add(mMessageFragment)
+        mHomeFragments.add(mMoreFragment)
+        showHomeFragments(0)
+        var name by CustomPreference(this, "name", "1")
+        d("home", name)
+        name = "20"
     }
 
-    override fun onTabSelected(position: Int) {
-        when(position) {
-            0 -> {
-
-            }
-            1 -> {
-
-            }
-
-            2 -> {
-            }
-
-            3 -> {
-            }
-
-            else -> {}
-        }
+    override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
+        showHomeFragments(position)
+        return true
     }
 
     private fun showHomeFragments(position: Int) {
-
+        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        for (f in mHomeFragments) {
+            fragmentTransaction.hide(f)
+        }
+        fragmentTransaction.show(mHomeFragments.get(position))
+        fragmentTransaction.commitAllowingStateLoss()
+        if (position != 0) {
+            showFloatingActionButton(false)
+        } else{
+            showFloatingActionButton(true)
+        }
     }
 
     override fun onItemClick(view: View?, position: Int, drawerItem: IDrawerItem<*, *>?): Boolean {
@@ -144,27 +163,20 @@ class HomeActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener,
         return false
     }
 
-    override fun onCompleted(any: Any) {
-
-    }
-
-    override fun onError(error: String) {
-        toast(error)
-    }
-
-
     //drawer开关
     override fun onCheckedChanged(drawerItem: IDrawerItem<*, *>?, buttonView: CompoundButton?, isChecked: Boolean) {
 
     }
 
-    //bottomTab二次选择
-    override fun onTabReselected(position: Int) {
-
+    private fun showFloatingActionButton(show: Boolean) {
+        if(show) {
+            action_button_home.visibility = View.VISIBLE
+        } else {
+            action_button_home.visibility = View.GONE
+        }
     }
 
-    //bottomTab取消选择
-    override fun onTabUnselected(position: Int) {
-
+    override fun isSlideBack(): Boolean {
+        return false
     }
 }

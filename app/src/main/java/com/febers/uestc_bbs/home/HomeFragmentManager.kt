@@ -7,7 +7,6 @@
 package com.febers.uestc_bbs.home
 
 import android.support.v4.app.Fragment
-import com.febers.uestc_bbs.post.PostsFragment
 
 /**
  * Created by Febers on img_2018/2/3.
@@ -15,15 +14,44 @@ import com.febers.uestc_bbs.post.PostsFragment
 
 object HomeFragmentManager {
 
-    private var sPostsFragment: PostsFragment? = null
+    private var sPostFragment: PostFragment? = null
+    private var sForumListFragment: ForumListFragment? = null
+    private var sNoticeFragment: NoticeFragment? = null
+    private var sMessageFragment: MessageFragment? = null
+    private var sMoreFragment: MoreFragment? = null
 
     fun getInstance(position: Int): Fragment {
+
         when (position) {
             0 -> {
-                if (sPostsFragment == null) {
-                    sPostsFragment = PostsFragment()
+                if (sPostFragment == null) {
+                    sPostFragment = PostFragment()
                 }
-                return sPostsFragment as Fragment
+                return sPostFragment as Fragment
+            }
+            1 -> {
+                if (sForumListFragment == null) {
+                    sForumListFragment = ForumListFragment()
+                }
+                return sForumListFragment as Fragment
+            }
+            2 -> {
+                if (sNoticeFragment == null) {
+                    sNoticeFragment = NoticeFragment()
+                }
+                return sNoticeFragment as Fragment
+            }
+            3 -> {
+                if (sMessageFragment == null) {
+                    sMessageFragment = MessageFragment()
+                }
+                return sMessageFragment as Fragment
+            }
+            4 -> {
+                if (sMoreFragment == null) {
+                    sMoreFragment = MoreFragment()
+                }
+                return sMoreFragment as Fragment
             }
         }
         return Fragment()

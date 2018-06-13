@@ -12,14 +12,13 @@ import kotlin.properties.Delegates
 
 class BaseApplication: Application() {
 
-
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
     }
 
     companion object {
-        var context: Context by Delegates.notNull()
-            private set
+        private var context: Context by Delegates.notNull()
+        fun context() = context
     }
 }

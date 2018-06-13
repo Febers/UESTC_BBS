@@ -33,10 +33,26 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
-    <com.ashokvarma.bottomnavigation.BottomNavigationBar
-        android:id="@+id/bottom_navigation_bar"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/action_button_home"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="88dp"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="10dp"
+        android:clickable="true"
+        app:rippleColor="@color/md_red_900"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_forum_gray_compus_hot"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_behavior="com.febers.uestc_bbs.view.CustomScrollAwareFABBehavior"/>
+
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+        android:id="@+id/bottom_navigation_home"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_navigation_height"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom">
-    </com.ashokvarma.bottomnavigation.BottomNavigationBar>
+    </com.aurelhubert.ahbottomnavigation.AHBottomNavigation>
+
 </android.support.design.widget.CoordinatorLayout>

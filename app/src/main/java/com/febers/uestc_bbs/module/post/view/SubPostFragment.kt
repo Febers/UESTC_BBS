@@ -1,28 +1,29 @@
 /*
- * Created by Febers at 18-6-9 上午9:22.
+ * Created by Febers at 18-6-13 下午5:48.
  * Copyright (c). All rights reserved.
- * Last modified 18-6-9 上午9:21.
+ * Last modified 18-6-13 下午5:48.
  */
 
-package com.febers.uestc_bbs.post
+package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
+import com.febers.uestc_bbs.module.post.presenter.PostContract
+import com.febers.uestc_bbs.module.post.presenter.PostPresenter
 import kotlinx.android.synthetic.main.fragment_sub_posts.*
-import org.jetbrains.anko.toast
 
 /**
  * 首页Fragment包含三个Fragment
  * 依次为最新回去，最新发表，热门帖子
  */
-class SubPostsFragment: BaseFragment(), PostContract.View {
+class SubPostFragment: BaseFragment(), PostContract.View {
 
     var position: Int = 0
 
     companion object {
-        fun getInstance(args: Bundle): SubPostsFragment {
-            val fragment = SubPostsFragment()
+        fun getInstance(args: Bundle): SubPostFragment {
+            val fragment = SubPostFragment()
             fragment.arguments = args
             return fragment
         }
@@ -42,17 +43,8 @@ class SubPostsFragment: BaseFragment(), PostContract.View {
         getPosts()
     }
 
-    override fun onCompleted(any: Any) {
-
-    }
-
-    override fun onError(error: String) {
-        context?.toast(error)
-    }
-
     override fun getPosts() {
         val p = PostPresenter(this)
         p.getPosts(position)
     }
-
 }

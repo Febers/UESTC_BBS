@@ -7,11 +7,13 @@
 package com.febers.uestc_bbs.base
 
 import android.os.Bundle
+import android.support.annotation.MainThread
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.view.CustomProgressDialog
+import org.jetbrains.anko.toast
 
 abstract class BaseFragment: Fragment(), BaseView {
 
@@ -26,7 +28,6 @@ abstract class BaseFragment: Fragment(), BaseView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         contentView = inflater.inflate(setContentView(), container, false)
         isInit = true
-        /**初始化的时候去加载数据 */
         isCanLoadData()
         return contentView
     }
@@ -37,9 +38,6 @@ abstract class BaseFragment: Fragment(), BaseView {
         initView()
     }
 
-    /**
-     * 视图是否已经对用户可见，系统的方法
-     */
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         isCanLoadData()
@@ -101,9 +99,13 @@ abstract class BaseFragment: Fragment(), BaseView {
     }
 
     override fun dismissProgressDialog() {
-        if (mProgressDialog == null) {
-            return
+        if (mProgressDialog != null) {
+            mProgressDialog!!.dismiss()
         }
-        mProgressDialog!!.dismiss()
+    }
+
+    @MainThread
+    override fun onError(error: String) {
+        context?.toast(error)
     }
 }
