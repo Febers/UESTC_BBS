@@ -15,7 +15,7 @@ import android.support.v4.app.Fragment
 object HomeFragmentManager {
 
     private var sPostFragment: PostFragment? = null
-    private var sForumListFragment: ForumListFragment? = null
+    private var sBlockListFragment: BlockListFragment? = null
     private var sNoticeFragment: NoticeFragment? = null
     private var sMessageFragment: MessageFragment? = null
     private var sMoreFragment: MoreFragment? = null
@@ -30,10 +30,10 @@ object HomeFragmentManager {
                 return sPostFragment as Fragment
             }
             1 -> {
-                if (sForumListFragment == null) {
-                    sForumListFragment = ForumListFragment()
+                if (sBlockListFragment == null) {
+                    sBlockListFragment = BlockListFragment()
                 }
-                return sForumListFragment as Fragment
+                return sBlockListFragment as Fragment
             }
             2 -> {
                 if (sNoticeFragment == null) {

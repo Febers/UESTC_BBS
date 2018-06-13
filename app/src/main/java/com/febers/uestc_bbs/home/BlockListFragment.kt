@@ -17,7 +17,7 @@ import com.febers.uestc_bbs.module.post.view.PostListActivity
 import kotlinx.android.synthetic.main.fragment_forum_list.*
 import java.util.ArrayList
 
-class ForumListFragment: BaseFragment() {
+class BlockListFragment: BaseFragment() {
 
     override fun setContentView(): Int {
         return R.layout.fragment_forum_list
