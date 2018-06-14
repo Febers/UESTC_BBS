@@ -36,31 +36,16 @@ class BlockListFragment: BaseFragment() {
         grid_view_play.adapter = playAdapter
         grid_view_market.adapter = marketAdapter
         grid_view_manager.adapter = manageAdapter
-        grid_view_compus.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onClickCompusGridViewItem(position)
-            }
-        }
-        grid_view_tech.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onClickTechGridViewItem(position)
-            }
-        }
-        grid_view_play.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onClickPlayGridViewItem(position)
-            }
-        }
-        grid_view_market.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onClickMarketGridViewItem(position)
-            }
-        }
-        grid_view_manager.onItemClickListener =object : AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onClickManageGridViewItem(position)
-            }
-        }
+        grid_view_compus.onItemClickListener = AdapterView.OnItemClickListener {
+            _, _, position, _ -> onClickGridViewItem(0, position) }
+        grid_view_tech.onItemClickListener = AdapterView.OnItemClickListener {
+            _, _, position, _ -> onClickGridViewItem(1, position) }
+        grid_view_play.onItemClickListener = AdapterView.OnItemClickListener {
+            _, _, position, _ -> onClickGridViewItem(2, position) }
+        grid_view_market.onItemClickListener = AdapterView.OnItemClickListener {
+            _, _, position, _ -> onClickGridViewItem(3, position) }
+        grid_view_manager.onItemClickListener = AdapterView.OnItemClickListener {
+            _parent, _view, position, _id -> onClickGridViewItem(4, position) }
     }
 
     override fun lazyLoad() {
@@ -158,36 +143,9 @@ class BlockListFragment: BaseFragment() {
         return gridList
     }
 
-    private fun onClickCompusGridViewItem(position: Int) {
+    private fun onClickGridViewItem(group: Int, position: Int) {
         val intent = Intent(context, PostListActivity::class.java)
-        intent.putExtra("group", 0)
-        intent.putExtra("position", position)
-        startActivity(intent)
-    }
-
-    private fun onClickTechGridViewItem(position: Int) {
-        val intent = Intent(context, PostListActivity::class.java)
-        intent.putExtra("group", 1)
-        intent.putExtra("position", position)
-        startActivity(intent)
-    }
-
-    private fun onClickPlayGridViewItem(position: Int) {
-        val intent = Intent(context, PostListActivity::class.java)
-        intent.putExtra("group", 2)
-        intent.putExtra("position", position)
-        startActivity(intent)
-    }
-
-    private fun onClickMarketGridViewItem(position: Int) {
-        val intent = Intent(context, PostListActivity::class.java)
-        intent.putExtra("group", 3)
-        intent.putExtra("position", position)
-        startActivity(intent)
-    }
-    private fun onClickManageGridViewItem(position: Int) {
-        val intent = Intent(context, PostListActivity::class.java)
-        intent.putExtra("group", 4)
+        intent.putExtra("group", group)
         intent.putExtra("position", position)
         startActivity(intent)
     }

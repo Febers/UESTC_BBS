@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.home
 
+import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
@@ -16,6 +17,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.dao.DaoMaster
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.utils.CustomPreference
 import com.mikepenz.materialdrawer.AccountHeader
@@ -132,6 +134,7 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
         var name by CustomPreference(this, "name", "1")
         d("home", name)
         name = "20"
+        testDb()
     }
 
     override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
@@ -178,5 +181,9 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener,
 
     override fun isSlideBack(): Boolean {
         return false
+    }
+
+    fun testDb() {
+
     }
 }

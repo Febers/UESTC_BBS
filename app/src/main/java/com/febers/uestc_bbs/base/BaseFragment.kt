@@ -93,7 +93,7 @@ abstract class BaseFragment: Fragment(), BaseView {
 
     override fun showProgressDialog(title: String) {
         if (mProgressDialog == null) {
-            mProgressDialog = CustomProgressDialog(context)
+            mProgressDialog = CustomProgressDialog(context!!)
         }
         mProgressDialog!!.show()
     }

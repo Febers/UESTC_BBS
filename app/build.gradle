@@ -10,6 +10,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'org.greenrobot.greendao'
+
 ext.anko_version='0.10.5'
 
 android {
@@ -32,6 +34,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'com.febers.uestc_bbs.dao'
+    targetGenDir 'src/main/java'
 }
 
 dependencies {
@@ -59,4 +67,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.wangjiegulu:rfab:2.0.0'
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
 }

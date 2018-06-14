@@ -18,12 +18,10 @@ class CustomPreference<T>(val context: Context, val name: String, val default: T
     val prefs: SharedPreferences by lazy { context.defaultSharedPreferences }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        d("get", name)
         return findPreference(name, default)
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        d("put", name)
         putPreference(name, value)
     }
 

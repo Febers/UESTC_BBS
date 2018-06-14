@@ -7,5 +7,5 @@
 package com.febers.uestc_bbs.module.login.model
 
 interface ILoginModel {
-    fun loginService(userName: String, userPw: String)
+    fun loginService(_userName: String, _userPw: String)
 }

@@ -27,8 +27,8 @@ package com.febers.uestc_bbs.entity
  * "userTitle":"\u6cb3\u87f9 (Lv.3)",
  * "repeatList":[],
  * "verify":[],
- * "creditShowList":[{"type":"credits","title":"\u79ef\u5206","data":244},
- * {"type":"extcredits2","title":"\u6c34\u6ef4","data":228}],
+ * "creditShowList":[{"type":"credits","title":"\u79ef\u5206","data":244},  //积分
+ * {"type":"extcredits2","title":"\u6c34\u6ef4","data":228}], //水滴
  * "mobile":"","groupid":10}
  *
  * 错误返回
@@ -38,6 +38,7 @@ package com.febers.uestc_bbs.entity
  * "version":"2.6.1.7","alert":1},
  * "body":{"externInfo":{"padding":""}}}
  */
+
 data class LoginResult(var rs: String, var errcode: String,
                        var head: LoginResultHead, var body: LoginResultBody,
                        var isValidation: String, var token: String, var secret: String,

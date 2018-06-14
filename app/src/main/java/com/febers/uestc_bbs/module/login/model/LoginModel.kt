@@ -21,8 +21,8 @@ const val LOGIN_SECCESS_RS = "1"
 
 class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
-    lateinit var mUserName: String
-    lateinit var mUserPw: String
+    private lateinit var mUserName: String
+    private lateinit var mUserPw: String
 
     override fun loginService(_userName: String, _userPw: String) {
         mUserName = _userName
