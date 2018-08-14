@@ -1,10 +1,10 @@
 /*
- * Created by Febers at 18-6-9 上午9:22.
+ * Created by Febers at 18-8-14 上午1:29.
  * Copyright (c). All rights reserved.
- * Last modified 18-6-9 上午9:21.
+ * Last modified 18-6-14 下午4:51.
  */
 
-package com.febers.uestc_bbs.view
+package com.febers.uestc_bbs.view.custom
 
 import android.content.Context
 import android.support.design.widget.TextInputEditText

@@ -6,13 +6,15 @@
 
 package com.febers.uestc_bbs.base
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.MainThread
 import android.support.v4.app.Fragment
+import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.febers.uestc_bbs.view.CustomProgressDialog
+import com.febers.uestc_bbs.view.custom.CustomProgressDialog
 import org.jetbrains.anko.toast
 
 abstract class BaseFragment: Fragment(), BaseView {
@@ -25,6 +27,9 @@ abstract class BaseFragment: Fragment(), BaseView {
 
     private var contentView: View? = null
 
+    protected lateinit var mContext: Context
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         contentView = inflater.inflate(setContentView(), container, false)
         isInit = true
@@ -35,6 +40,7 @@ abstract class BaseFragment: Fragment(), BaseView {
     //在kotlin中， 直接使用xml id对控件进行操作，必须要在这个方法回调之后
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mContext = context!!
         initView()
     }
 

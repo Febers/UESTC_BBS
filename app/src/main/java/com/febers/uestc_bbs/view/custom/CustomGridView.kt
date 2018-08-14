@@ -4,7 +4,7 @@
  * Last modified 18-6-7 下午5:36.
  */
 
-package com.febers.uestc_bbs.view
+package com.febers.uestc_bbs.view.custom
 
 import android.content.Context
 import android.util.AttributeSet

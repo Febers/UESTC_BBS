@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.base
 import android.os.Bundle
 import android.support.annotation.MainThread
 import android.support.v7.app.AppCompatActivity
-import com.febers.uestc_bbs.view.CustomProgressDialog
+import com.febers.uestc_bbs.view.custom.CustomProgressDialog
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -41,9 +41,8 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     protected abstract fun initView()
 
-    //必须加open关键字，否则无法重写该方法
     open protected fun isSlideBack(): Boolean {
-        return false
+        return true
     }
 
     override fun showProgressDialog(title: String) {

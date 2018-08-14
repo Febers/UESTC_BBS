@@ -5,24 +5,23 @@
   ~ Last modified 18-6-9 上午9:21.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout_posts"
+        android:id="@+id/tab_layout_post"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tablayout_height"
         android:background="@color/colorPrimary"
-        app:tabTextColor="@color/md_white_1000"
-        app:tabSelectedTextColor="@color/colorAccent"/>
+        app:tabSelectedTextColor="@color/material_white"
+        app:tabTextColor="@color/material_grey_350"/>
 
-    <android.support.v4.view.ViewPager
+    <com.febers.uestc_bbs.view.custom.CustomViewPager
         android:id="@+id/view_pager_posts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/tablayout_height">
-    </android.support.v4.view.ViewPager>
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_height="match_parent">
+    </com.febers.uestc_bbs.view.custom.CustomViewPager>
+</LinearLayout>

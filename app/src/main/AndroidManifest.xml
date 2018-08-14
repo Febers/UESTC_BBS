@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by Febers at 18-6-9 上午9:22.
   ~ Copyright (c). All rights reserved.
   ~ Last modified 18-6-9 上午9:21.
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.febers.uestc_bbs">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".base.BaseApplication"
@@ -18,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.HomeActivity"
+        <activity
+            android:name=".home.HomeActivity"
             android:theme="@style/CustomTheme_1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.febers.uestc_bbs.module.post.view.PostListActivity"
-            android:theme="@style/CustomTheme_1">
-        </activity>
-        <activity android:name="com.febers.uestc_bbs.module.login.view.LoginActivity"
-            android:theme="@style/CustomTheme_1">
-        </activity>
+        <activity
+            android:name=".module.post.view.PostListActivity"
+            android:theme="@style/CustomTheme_1"></activity>
+        <activity
+            android:name=".module.login.view.LoginActivity"
+            android:theme="@style/CustomTheme_1"></activity>
+        <activity android:name=".module.post.view.PostDetailActivity"></activity>
     </application>
 
 </manifest>

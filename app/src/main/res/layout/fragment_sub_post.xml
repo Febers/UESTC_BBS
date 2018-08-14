@@ -14,11 +14,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <ImageView
-            android:id="@+id/image_view_sub_posts"
-            android:layout_margin="250dp"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:id="@+id/image_view_sub_post"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="500dp"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/ic_forum_gray_play"/>
+            android:src="@drawable/ic_forum_gray_movie"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

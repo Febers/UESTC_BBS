@@ -6,13 +6,8 @@
 
 package com.febers.uestc_bbs.entity;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
+public class UserBean {
 
-@Entity
-public class User {
-    @Id
     private long id;
     private String name;
     private String password;
@@ -26,10 +21,10 @@ public class User {
     private int credits;
     private int extcredits2;
 
-    @Generated(hash = 477681708)
-    public User(long id, String name, String password, int uid, String title,
-            String token, String secrete, int score, String avatar, int groupId,
-            int credits, int extcredits2) {
+
+    public UserBean(long id, String name, String password, int uid, String title,
+                    String token, String secrete, int score, String avatar, int groupId,
+                    int credits, int extcredits2) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -44,8 +39,8 @@ public class User {
         this.extcredits2 = extcredits2;
     }
 
-    @Generated(hash = 586692638)
-    public User() {
+
+    public UserBean() {
     }
 
     public long getId() {

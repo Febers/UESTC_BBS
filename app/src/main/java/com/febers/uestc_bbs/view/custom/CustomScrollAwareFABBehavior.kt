@@ -4,7 +4,7 @@
  * Last modified 18-6-12 下午6:41.
  */
 
-package com.febers.uestc_bbs.view
+package com.febers.uestc_bbs.view.custom
 
 import android.content.Context
 import android.support.design.widget.FloatingActionButton

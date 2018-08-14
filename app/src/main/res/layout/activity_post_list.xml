@@ -33,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="每个板块的帖子列表"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/materialize_baseline_grid_x3"/>
+            android:textColor="@color/colorPrimary"/>
 
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

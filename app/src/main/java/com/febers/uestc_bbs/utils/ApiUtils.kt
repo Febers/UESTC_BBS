@@ -6,8 +6,9 @@
 
 package com.febers.uestc_bbs.utils
 
-enum class BBS_URL(val URL: String) {
-    PREFIX("http://bbs.uestc.edu.cn/mobcent/app/web/index.php?r="),
+object ApiUtils {
+
+    const val BBS_BASE_URL = "http://bbs.uestc.edu.cn/"
     /**
      * 登录、注销。
      * type 'login'（默认值）或 'logout'。
@@ -23,7 +24,7 @@ enum class BBS_URL(val URL: String) {
      * uid
      * mUserName
      */
-    LOGIN(PREFIX.URL+"user/login"),
+    const val BBS_LOGIN_URL = "mobcent/app/web/index.php?r=user/login"
 
     /**
      * 设置用户位置（与周边用户/帖子功能配合使用）。
@@ -32,7 +33,7 @@ enum class BBS_URL(val URL: String) {
      * latitude 纬度
      * location 地址
      */
-    LOCATION(PREFIX.URL+"user/location"),
+    const val BBS_LOCATION_URL = "mobcent/app/web/index.php?r=user/location"
 
     /**
      * 修改用户信息(头像，密码，性别，签名)
@@ -43,18 +44,19 @@ enum class BBS_URL(val URL: String) {
      * oldPassword
      * newPassword
      */
-    UPDATE_USER_INFO(PREFIX.URL+"user/updateuserinfo"),
-
+    const val BBS_UPDATE_USER_INFO_URL = "mobcent/app/web/index.php?r=user/updateuserinfo"
+}
+enum class BBS_URL(val URL: String) {
     /**
      * 其他 user API
      */
-    QQ_INFO(PREFIX.URL+"user/qqinfo"),
-    SAVE_QQ_INFO(PREFIX.URL+"user/saveqqinfo"),
-    QQ_LOGIN(PREFIX.URL+"user/qqlogin"),
-    PLATFORM_INFO(PREFIX.URL+"user/platforminfo"),
-    SAVE_PLATFORM_INFO(PREFIX.URL+"user/saveplatforminfo"),
-    SIGN(PREFIX.URL+"user/sign"),
-    SWITCH(PREFIX.URL+"user/switch"),
+    QQ_INFO("mobcent/app/web/index.php?r=user/qqinfo"),
+    SAVE_QQ_INFO("mobcent/app/web/index.php?r=user/saveqqinfo"),
+    QQ_LOGIN("mobcent/app/web/index.php?r=user/qqlogin"),
+    PLATFORM_INFO("mobcent/app/web/index.php?r=user/platforminfo"),
+    SAVE_PLATFORM_INFO("mobcent/app/web/index.php?r=user/saveplatforminfo"),
+    SIGN("mobcent/app/web/index.php?r=user/sign"),
+    SWITCH("mobcent/app/web/index.php?r=user/switch"),
 
     /**
      * 获取版块列表。
@@ -80,7 +82,7 @@ enum class BBS_URL(val URL: String) {
      * td_posts_num 今日发帖量。
      * topic_total_num 主题总数。
      */
-    FORUM_LIST(PREFIX.URL+"forum/forumlist"),
+    FORUM_LIST("mobcent/app/web/index.php?r=forum/forumlist"),
 
     /**
      * 获取某一版块的主题列表。
@@ -142,7 +144,7 @@ enum class BBS_URL(val URL: String) {
      * description
      * icon
      */
-    TOPOIC_LIST(PREFIX.URL+"forum/topiclist"),
+    TOPOIC_LIST("mobcent/app/web/index.php?r=forum/topiclist"),
 
     /**
      * 获取帖子的回复列表。
@@ -230,7 +232,7 @@ enum class BBS_URL(val URL: String) {
      * field3
      * showAllUrl 显示所有评分记录的 URL（forum/ratelistview）。
      */
-    POST_LIST(PREFIX.URL+"forum/postlist"),
+    POST_LIST("mobcent/app/web/index.php?r=forum/postlist"),
 
     /**
      * 发帖/回复。
@@ -267,7 +269,7 @@ enum class BBS_URL(val URL: String) {
      * ...
      * ]
      */
-     TOPIC_ADMIN(PREFIX.URL+"forum/topicadmin"),
+     TOPIC_ADMIN("mobcent/app/web/index.php?r=forum/topicadmin"),
 
     /**
      * 搜索（参数和 Discuz! search.php 一致）。
@@ -277,7 +279,7 @@ enum class BBS_URL(val URL: String) {
      * pageSize
      * searchid
      */
-    SEARCH(PREFIX.URL+"forum/search"),
+    SEARCH("mobcent/app/web/index.php?r=forum/search"),
 
     /**
      * 发送附件的高级版本，可以将图片上传到相册。
@@ -292,7 +294,7 @@ enum class BBS_URL(val URL: String) {
      * id 附件 ID，发帖时在 aid 参数中指定。
      * urlName 附件 URL，发帖时在 infor 字段中指定。
      */
-    SEND_ATTACHMENTEX(PREFIX.URL+"forum/sendattachmentex"),
+    SEND_ATTACHMENTEX("mobcent/app/web/index.php?r=forum/sendattachmentex"),
 
     /**
      * 投票。
@@ -306,7 +308,7 @@ enum class BBS_URL(val URL: String) {
      * pollItemId
      * totalNum
      */
-    VOTE(PREFIX.URL+"forum/sendattachmentex"),
+    VOTE("mobcent/app/web/index.php?r=forum/sendattachmentex"),
 
     /**
      * 对回复进行支持/反对操作。
@@ -316,14 +318,14 @@ enum class BBS_URL(val URL: String) {
      * type 'topic'（默认）== 'thread', 'post'
      * action 'support'（默认）, 'against'
      */
-    SUPPORT(PREFIX.URL+"forum/support"),
+    SUPPORT("mobcent/app/web/index.php?r=forum/support"),
 
     /**
      * 站点公告。
 
      * id
      */
-    ANNOUNCEMENT(PREFIX.URL+"forum/announcement"),
+    ANNOUNCEMENT("mobcent/app/web/index.php?r=forum/announcement"),
 
     /**
      * 获取可以@的好友。（相当于河畔编辑器里单击@朋友后弹出的列表。）
@@ -340,7 +342,7 @@ enum class BBS_URL(val URL: String) {
      * name
      * role_num
      */
-    AT_USER_LIST(PREFIX.URL+"forum/atuserlist"),
+    AT_USER_LIST("mobcent/app/web/index.php?r=forum/atuserlist"),
 
     /**
      * 获取包含图片的帖子。
@@ -348,7 +350,7 @@ enum class BBS_URL(val URL: String) {
      * page
      * pageSize
      */
-    PHOTO_GALLERY(PREFIX.URL+"forum/photogallery"),
+    PHOTO_GALLERY("mobcent/app/web/index.php?r=forum/photogallery"),
 
     /**
      * 评分记录查询。返回的 HTML。
@@ -356,7 +358,7 @@ enum class BBS_URL(val URL: String) {
      * tid
      * pid
      */
-    RATE_LIST_VIEW(PREFIX.URL+"forum/ratelistview"),
+    RATE_LIST_VIEW("mobcent/app/web/index.php?r=forum/ratelistview"),
 
     /**
      * 活动帖参加、取消。
@@ -372,7 +374,7 @@ enum class BBS_URL(val URL: String) {
      * // 其他参数（活动时填写的信息）
      * }
      */
-    TOPIC_ACTIVITY(PREFIX.URL+"forum/topicactivity"),
+    TOPIC_ACTIVITY("mobcent/app/web/index.php?r=forum/topicactivity"),
 
     /**
      * 参加活动。返回是 HTML。
@@ -380,7 +382,7 @@ enum class BBS_URL(val URL: String) {
      * tid
      * act
      */
-    TOPIC_ACTIVITY_VIEW(PREFIX.URL+"forum/topicactivityview"),
+    TOPIC_ACTIVITY_VIEW("mobcent/app/web/index.php?r=forum/topicactivityview"),
 
     /**
      * 管理操作。返回 HTML。
@@ -391,7 +393,7 @@ enum class BBS_URL(val URL: String) {
      * act
      * type 'topic'（默认）
      */
-    TOPIC_ADMIN_VIEW(PREFIX.URL+"forum/topicadminview"),
+    TOPIC_ADMIN_VIEW("mobcent/app/web/index.php?r=forum/topicadminview"),
 
     /**
      * 评分。返回 HTML。
@@ -399,12 +401,12 @@ enum class BBS_URL(val URL: String) {
      * tid
      * pid
      */
-    TOPIC_RATE(PREFIX.URL+"forum/topicrate"),
+    TOPIC_RATE("mobcent/app/web/index.php?r=forum/topicrate"),
 
     /**
      * 查询新提醒数目（每隔一段时间查询）。
      */
-    MESSAGE_HEART(PREFIX.URL+"message/heart"),
+    MESSAGE_HEART("mobcent/app/web/index.php?r=message/heart"),
 
     /**
      * 提醒列表。
@@ -413,7 +415,7 @@ enum class BBS_URL(val URL: String) {
      * page
      * pageSize
      */
-    MESSAGE_NOTYFY_LIST(PREFIX.URL+"message/notifylist"),
+    MESSAGE_NOTYFY_LIST("mobcent/app/web/index.php?r=message/notifylist"),
 
     /**
      * 短消息列表。
@@ -436,7 +438,7 @@ enum class BBS_URL(val URL: String) {
      * }
      * }
      */
-    MESSAGE_PM_LIST(PREFIX.URL+"message/pmlist"),
+    MESSAGE_PM_LIST("mobcent/app/web/index.php?r=message/pmlist"),
 
     /**
      短消息管理（发送、删除）。
@@ -455,7 +457,7 @@ enum class BBS_URL(val URL: String) {
      * "pmid": 123  // delpmid
      * }
      */
-    MESSAGE_PM_ADMIN(PREFIX.URL+"message/pmadmin"),
+    MESSAGE_PM_ADMIN("mobcent/app/web/index.php?r=message/pmadmin"),
 
     /**
      获取短消息会话列表。
@@ -468,7 +470,7 @@ enum class BBS_URL(val URL: String) {
      * "pageSize": 10 // 可选，默认为 10。
      * }
      */
-    MESSAGE_PM_SESSION_LIST(PREFIX.URL+"message/pmsessionlist"),
+    MESSAGE_PM_SESSION_LIST("mobcent/app/web/index.php?r=message/pmsessionlist"),
 
     /**
      获取周边用户/帖子。
@@ -480,5 +482,5 @@ enum class BBS_URL(val URL: String) {
      * pageSize
      * radius 半径，单位为米（默认为 100000）。
      */
-    SURROUNDING(PREFIX.URL+"square/surrounding")
+    SURROUNDING("mobcent/app/web/index.php?r=square/surrounding")
 }

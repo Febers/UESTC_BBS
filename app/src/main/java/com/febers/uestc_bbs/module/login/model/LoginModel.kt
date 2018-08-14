@@ -6,10 +6,15 @@
 
 package com.febers.uestc_bbs.module.login.model
 
-import android.util.Log.d
+import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.entity.LoginResult
+import com.febers.uestc_bbs.base.BaseCode
+import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.dao.UserSaver
+import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
+import com.febers.uestc_bbs.utils.ApiUtils
+import com.febers.uestc_bbs.utils.BBS_URL
 import com.febers.uestc_bbs.utils.CustomPreference
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +28,7 @@ class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
+    private val mContext = BaseApplication.context()
 
     override fun loginService(_userName: String, _userPw: String) {
         mUserName = _userName
@@ -36,10 +42,10 @@ class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
     private fun login() {
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://bbs.uestc.edu.cn/")
+                .baseUrl(ApiUtils.BBS_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        val loginRequest = retrofit.create(LoginService::class.java)
+        val loginRequest = retrofit.create(LoginInterface::class.java)
         val call = loginRequest.login(
                 type = "login",
                 username = mUserName,
@@ -47,33 +53,31 @@ class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
                 mobile = "",
                 code = "",
                 isValidation = "")
-        call.enqueue(object : Callback<LoginResult> {
-            override fun onFailure(call: Call<LoginResult>?, t: Throwable?) {
-                d("error", "${t.toString()}")
+        call.enqueue(object : Callback<LoginResultBean> {
+            override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
+                loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, "登录出错:${t.toString()}"))
             }
 
-            override fun onResponse(call: Call<LoginResult>?, response: Response<LoginResult>?) {
+            override fun onResponse(call: Call<LoginResultBean>?, response: Response<LoginResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
+                    loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, "服务器响应为空"))
                     return
                 }
-                resolveLoginResult(body!!)
-                d("result", "${body?.toString()}")
+                resolveLoginResult(body)
             }
         })
     }
 
-    private fun resolveLoginResult(loginResult: LoginResult) {
-        val rs = loginResult.rs
+    private fun resolveLoginResult(loginResultBean: LoginResultBean) {
+        val rs = loginResultBean.rs
         if (rs != LOGIN_SECCESS_RS ) {
-            loginPresenter.loginResult(loginResult.head.errInfo)
+            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, loginResultBean.head.errInfo))
             return
         }
-        var userName by CustomPreference(BaseApplication.context(), "sp_user_name", "mUserName")
-        userName = mUserName
-        var userPw by CustomPreference(BaseApplication.context(), "sp_user_password", "mUserPw")
-        userPw = mUserPw
-        var userTitle by CustomPreference(BaseApplication.context(), "sp_user_title", "userTitle")
-        userTitle = loginResult.userTitle
+        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, ""))
+        var uid by CustomPreference(mContext, mContext.getString(R.string.sp_user_uid), "")
+        uid = loginResultBean.uid
+        UserSaver.save(uid, loginResultBean)
     }
 }

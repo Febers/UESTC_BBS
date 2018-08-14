@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-8-13 下午11:32.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-8-13 下午11:32.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground">
+    <ImageView
+        android:id="@+id/item_more_image_view"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
+        android:padding="4dp"
+        android:scaleType="centerInside" />
+    <TextView
+        android:id="@+id/item_more_text_view"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="我的帖子"
+        android:textSize="18dp"
+        android:layout_marginLeft="20dp"/>
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:padding="5dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_arrow_gray"/>
+</LinearLayout>

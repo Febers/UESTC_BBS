@@ -7,6 +7,7 @@
 package com.febers.uestc_bbs.module.login.presenter
 
 import android.util.Log.d
+import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.module.login.model.ILoginModel
 import com.febers.uestc_bbs.module.login.model.LoginModel
 
@@ -17,7 +18,7 @@ class LoginPresenter(view: LoginContract.View): LoginContract.Presenter(view){
         loginModel.loginService(userName, userPw)
     }
 
-    override fun loginResult(result: String) {
-        d("result", result)
+    override fun loginResult(event: BaseEvent<String>) {
+
     }
 }

@@ -25,21 +25,15 @@
                 android:text="成电校园"
                 android:textSize="14dp"
                 android:gravity="center_vertical"
-                android:layout_margin="2dp"
-                android:textColor="@color/md_black_1000"/>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="0dp">
-                <com.febers.uestc_bbs.view.CustomGridView
-                    android:id="@+id/grid_view_compus"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="3">
-                </com.febers.uestc_bbs.view.CustomGridView>
-            </android.support.v7.widget.CardView>
+                android:textColor="@color/material_grey_800"/>
+
+            <com.febers.uestc_bbs.view.custom.CustomGridView
+                android:id="@+id/grid_view_compus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3">
+            </com.febers.uestc_bbs.view.custom.CustomGridView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -47,21 +41,15 @@
                 android:text="科技交流"
                 android:textSize="14dp"
                 android:gravity="center_vertical"
-                android:layout_margin="2dp"
-                android:textColor="@color/md_black_1000"/>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="0dp">
-                <com.febers.uestc_bbs.view.CustomGridView
-                    android:id="@+id/grid_view_tech"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="3">
-                </com.febers.uestc_bbs.view.CustomGridView>
-            </android.support.v7.widget.CardView>
+                android:textColor="@color/material_grey_800"/>
+
+            <com.febers.uestc_bbs.view.custom.CustomGridView
+                android:id="@+id/grid_view_tech"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3">
+            </com.febers.uestc_bbs.view.custom.CustomGridView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -69,21 +57,15 @@
                 android:text="休闲娱乐"
                 android:textSize="14dp"
                 android:gravity="center_vertical"
-                android:layout_margin="2dp"
-                android:textColor="@color/md_black_1000"/>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="0dp">
-                <com.febers.uestc_bbs.view.CustomGridView
-                    android:id="@+id/grid_view_play"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="3">
-                </com.febers.uestc_bbs.view.CustomGridView>
-            </android.support.v7.widget.CardView>
+                android:textColor="@color/material_grey_800"/>
+
+            <com.febers.uestc_bbs.view.custom.CustomGridView
+                android:id="@+id/grid_view_play"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3">
+            </com.febers.uestc_bbs.view.custom.CustomGridView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -91,21 +73,15 @@
                 android:text="跳蚤市场"
                 android:textSize="14dp"
                 android:gravity="center_vertical"
-                android:layout_margin="2dp"
-                android:textColor="@color/md_black_1000"/>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="0dp">
-                <com.febers.uestc_bbs.view.CustomGridView
-                    android:id="@+id/grid_view_market"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="3">
-                </com.febers.uestc_bbs.view.CustomGridView>
-            </android.support.v7.widget.CardView>
+                android:textColor="@color/material_grey_800"/>
+
+            <com.febers.uestc_bbs.view.custom.CustomGridView
+                android:id="@+id/grid_view_market"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3">
+            </com.febers.uestc_bbs.view.custom.CustomGridView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -113,21 +89,16 @@
                 android:text="站务管理"
                 android:textSize="14dp"
                 android:gravity="center_vertical"
-                android:layout_margin="2dp"
-                android:textColor="@color/md_black_1000"/>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="0dp">
-                <com.febers.uestc_bbs.view.CustomGridView
-                    android:id="@+id/grid_view_manager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="3">
-                </com.febers.uestc_bbs.view.CustomGridView>
-            </android.support.v7.widget.CardView>
+                android:textColor="@color/material_grey_800"/>
+
+            <com.febers.uestc_bbs.view.custom.CustomGridView
+                android:id="@+id/grid_view_manager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3">
+            </com.febers.uestc_bbs.view.custom.CustomGridView>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

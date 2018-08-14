@@ -1,7 +1,7 @@
 /*
- * Created by Febers at 18-6-9 上午9:22.
+ * Created by Febers at 18-8-14 上午2:03.
  * Copyright (c). All rights reserved.
- * Last modified 18-6-9 上午9:21.
+ * Last modified 18-8-14 上午2:03.
  */
 
 package com.febers.uestc_bbs.adaper
@@ -9,26 +9,33 @@ package com.febers.uestc_bbs.adaper
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.util.Log.i
+import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseApplication
+import com.febers.uestc_bbs.view.manager.MessageFragmentManager
 
-class PostsViewPagerAdapter: FragmentPagerAdapter {
+class MessageViewPageAdapter : FragmentPagerAdapter {
 
     constructor(fragmentManager: FragmentManager): super(fragmentManager)
 
-    private val titles = arrayOf(getString(R.string.new_post), getString(R.string.new_reply), getString(R.string.hot_article))
+    private val titles = arrayOf(getString(R.string.post_reply_message),
+            getString(R.string.private_message),
+            "@我",
+            getString(R.string.system_message))
 
     override fun getItem(position: Int): Fragment {
         when(position) {
-            0 -> return SubPostFragmentManager.getNewPostFragment()
-            1 -> return SubPostFragmentManager.getNewReplayFragment()
-            2 -> return SubPostFragmentManager.getHotArticleFragment()
+            0 -> return MessageFragmentManager.getInctance(0)
+            1 -> return MessageFragmentManager.getInctance(1)
+            2 -> return MessageFragmentManager.getInctance(2)
+            3 -> return MessageFragmentManager.getInctance(3)
             else -> return Fragment()
         }
     }
 
     override fun getCount(): Int {
-        return titles.size
+       return titles.size
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

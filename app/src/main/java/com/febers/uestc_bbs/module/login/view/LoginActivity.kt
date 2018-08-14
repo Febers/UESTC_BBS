@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
 import com.febers.uestc_bbs.module.login.presenter.LoginPresenter
 import com.r0adkll.slidr.Slidr
@@ -46,17 +47,10 @@ class LoginActivity: BaseActivity(), View.OnClickListener, LoginContract.View {
     }
 
     private fun login() {
-        btn_login.startAnimation()
         val loginPresenter: LoginContract.Presenter = LoginPresenter(this)
-        loginPresenter.loginRequest("name", "password")
+        loginPresenter.loginRequest(edit_text_user_name.text.toString(), edit_text_user_pw.text.toString())
     }
 
-    override fun loginResult(result: Boolean) {
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_suceess_pink)
-        runOnUiThread { btn_login.doneLoadingAnimation(R.color.primary, bitmap) }
-    }
-
-    override fun isSlideBack(): Boolean {
-        return true
+    override fun loginResult(event: BaseEvent<String>) {
     }
 }

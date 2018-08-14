@@ -6,15 +6,17 @@
 
 package com.febers.uestc_bbs.module.login.model
 
-import com.febers.uestc_bbs.entity.LoginResult
+import com.febers.uestc_bbs.entity.LoginResultBean
+import com.febers.uestc_bbs.utils.ApiUtils
+import com.febers.uestc_bbs.utils.CustomPreference
 import retrofit2.Call
 import retrofit2.http.*
 
-interface LoginService {
+interface LoginInterface {
     @FormUrlEncoded
-    @POST("mobcent/app/web/index.php?r=user/login")
+    @POST(ApiUtils.BBS_LOGIN_URL)
     fun login(@Field("type") type: String, @Field("username") username: String,
               @Field("password") password: String, @Field("mobile") mobile: String,
               @Field("code") code: String, @Field("isValidation") isValidation: String):
-            Call<LoginResult>
+            Call<LoginResultBean>
 }

@@ -6,6 +6,8 @@
 
 package com.febers.uestc_bbs.home
 
+import android.util.Log.d
+import android.util.Log.i
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostsViewPagerAdapter
 import com.febers.uestc_bbs.base.BaseFragment
@@ -18,9 +20,9 @@ class PostFragment: BaseFragment() {
     }
 
     override fun initView() {
-        val postsViewPagerAdapter = PostsViewPagerAdapter(fragmentManager!!)
+        val postsViewPagerAdapter = PostsViewPagerAdapter(childFragmentManager)
         view_pager_posts.adapter = postsViewPagerAdapter
-        tab_layout_posts.setupWithViewPager(view_pager_posts)
+        tab_layout_post.setupWithViewPager(view_pager_posts)
     }
 
     override fun lazyLoad() {

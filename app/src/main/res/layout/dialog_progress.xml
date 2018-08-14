@@ -7,14 +7,23 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ProgressBar
         android:id="@+id/pb_progress"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_margin="15dp"
         android:indeterminate="true"/>
+    <TextView
+        android:id="@+id/progress_dialog_title"
+        android:text="正在加载"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="18dp"
+        android:layout_margin="15dp"/>
 </LinearLayout>

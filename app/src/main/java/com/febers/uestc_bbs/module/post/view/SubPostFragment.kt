@@ -11,7 +11,6 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenter
-import kotlinx.android.synthetic.main.fragment_sub_posts.*
 
 /**
  * 首页Fragment包含三个Fragment
@@ -30,13 +29,12 @@ class SubPostFragment: BaseFragment(), PostContract.View {
     }
 
     override fun setContentView(): kotlin.Int {
-        return R.layout.fragment_sub_posts
+        return R.layout.fragment_sub_post
     }
 
     override fun initView() {
         val bundle = arguments
         this.position = bundle?.getInt("position") as Int
-        image_view_sub_posts.setImageResource(R.drawable.ic_android_blue_24dp)
     }
 
     override fun lazyLoad() {
