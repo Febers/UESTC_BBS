@@ -32,6 +32,8 @@
     <string name="developer_name">Febers</string>
     <string name="login">登录</string>
 
+    <string name="sp_user_valid">user_valid</string>
+    <string name="sp_user_exist">user_exist</string>
     <string name="sp_user_name">user_name</string>
     <string name="sp_user_title">user_title</string>
     <string name="sp_user_gender">user_gender</string>

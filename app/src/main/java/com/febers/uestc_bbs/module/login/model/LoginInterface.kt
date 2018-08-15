@@ -8,7 +8,6 @@ package com.febers.uestc_bbs.module.login.model
 
 import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.utils.CustomPreference
 import retrofit2.Call
 import retrofit2.http.*
 

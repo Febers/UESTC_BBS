@@ -6,31 +6,44 @@
 
 package com.febers.uestc_bbs.home
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.util.Log.d
+import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.util.Log.i
+import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
-import com.febers.uestc_bbs.base.BaseActivity
+
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.utils.CustomPreference
-import com.febers.uestc_bbs.view.manager.HomeFragmentManager
 import kotlinx.android.synthetic.main.activity_home.*
+import me.yokeyword.fragmentation.SupportActivity
+import me.yokeyword.fragmentation.SupportFragment
 
-class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
+class HomeActivity: SupportActivity(), AHBottomNavigation.OnTabSelectedListener {
 
-    private val mHomeFragments: MutableList<Fragment> = ArrayList()
-    private val mPostFragment = HomeFragmentManager.getInstance(0)
-    private val mForumListFragment = HomeFragmentManager.getInstance(1)
-    private val mNoticeFragment = HomeFragmentManager.getInstance(2)
-    private val mMoreFragment = HomeFragmentManager.getInstance(3)
+    private var mFragments : MutableList<SupportFragment> = ArrayList()
 
-    override fun setView(): Int {
-        return R.layout.activity_home
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
+
+        var firstFragment: SupportFragment? = findFragment(PostFragment::class.java)
+        if (firstFragment == null) {
+            mFragments.add(0, PostFragment())
+            mFragments.add(1, BlockFragment())
+            mFragments.add(2, MessageFragment())
+            mFragments.add(3, MoreFragment())
+            loadMultipleRootFragment(R.id.activity_home_container, 0,
+                    mFragments[0], mFragments[1], mFragments[2], mFragments[3])
+        } else {
+            mFragments[0] = firstFragment
+            mFragments[1] = findFragment(BlockFragment::class.java)
+            mFragments[2] = findFragment(MessageFragment::class.java)
+            mFragments[3] = findFragment(MoreFragment::class.java)
+        }
+        initView()
     }
 
-    override fun initView() {
-
+    fun initView() {
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
@@ -39,51 +52,30 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
         bottom_navigation_home.canScrollHorizontally(AHBottomNavigation.LAYOUT_DIRECTION_INHERIT)
         bottom_navigation_home.setOnTabSelectedListener(this)
 //        bottom_navigation_home.manageFloatingActionButtonBehavior(action_button_home)
-
-        val mFragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        mFragmentTransaction
-                .add(R.id.fragment_layout_home, mPostFragment)
-                .add(R.id.fragment_layout_home, mForumListFragment)
-                .add(R.id.fragment_layout_home, mNoticeFragment)
-                .add(R.id.fragment_layout_home, mMoreFragment)
-                .commit()
-        mHomeFragments.add(mPostFragment)
-        mHomeFragments.add(mForumListFragment)
-        mHomeFragments.add(mNoticeFragment)
-        mHomeFragments.add(mMoreFragment)
-        showHomeFragments(0)
-        var name by CustomPreference(this, "name", "1")
-        d("home", name)
     }
 
     override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
-        showHomeFragments(position)
+        if(wasSelected) {
+            onTabReselected(position)
+            return true
+        }
+        showHideFragment(mFragments[position])
         return true
     }
 
-    private fun showHomeFragments(position: Int) {
-        val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        for (f in mHomeFragments) {
-            fragmentTransaction.hide(f)
-        }
-        fragmentTransaction.show(mHomeFragments.get(position))
-        fragmentTransaction.commitAllowingStateLoss()
-        if (position != 0) {
-            showFloatingActionButton(false)
-        } else{
-            showFloatingActionButton(true)
-        }
-    }
-
-    private fun showFloatingActionButton(show: Boolean) {
-        if(show) {
-//            action_button_home.visibility = View.VISIBLE
+    override fun onBackPressedSupport() {
+        if(supportFragmentManager.backStackEntryCount > 1) {
+            pop()
         } else {
-//            action_button_home.visibility = View.GONE
+            ActivityCompat.finishAfterTransition(this)
         }
     }
 
-    override fun isSlideBack(): Boolean {
-        return false
+    private fun onTabReselected(position: Int) {
+        i("HA", "${position}")
+    }
+
+    fun hideToolbar() {
+        toolbar_home.visibility = View.GONE
     }
 }

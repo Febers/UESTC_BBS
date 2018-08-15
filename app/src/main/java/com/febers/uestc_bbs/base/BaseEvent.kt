@@ -6,7 +6,9 @@
 
 package com.febers.uestc_bbs.base
 
-data class BaseEvent<T>(var code: BaseCode, var data: T)
+import com.febers.uestc_bbs.entity.UserBean
+
+open class BaseEvent<T>(var code: BaseCode, var data: T)
 enum class BaseCode {
     SUCCESS, FAILURE, ERROR, LOCAL, UPDATE, TIME_OUT
 }

@@ -35,7 +35,7 @@
     <ImageView
         android:layout_width="0dp"
         android:layout_weight="0.5"
-        android:padding="5dp"
+        android:padding="8dp"
         android:layout_height="30dp"
         android:src="@drawable/ic_arrow_gray"/>
 </LinearLayout>

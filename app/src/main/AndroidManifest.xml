@@ -27,11 +27,12 @@
         </activity>
         <activity
             android:name=".module.post.view.PostListActivity"
-            android:theme="@style/CustomTheme_1"></activity>
+            android:theme="@style/CustomTheme_1">
+        </activity>
         <activity
             android:name=".module.login.view.LoginActivity"
-            android:theme="@style/CustomTheme_1"></activity>
-        <activity android:name=".module.post.view.PostDetailActivity"></activity>
+            android:theme="@style/CustomTheme_1">
+        </activity>
     </application>
 
 </manifest>

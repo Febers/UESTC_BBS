@@ -11,6 +11,4 @@ package com.febers.uestc_bbs.base
  */
 interface BaseView {
     fun onError(error: String)
-    fun showProgressDialog(title: String)
-    fun dismissProgressDialog()
 }

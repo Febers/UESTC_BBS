@@ -9,10 +9,9 @@ package com.febers.uestc_bbs.base
 import android.os.Bundle
 import android.support.annotation.MainThread
 import android.support.v7.app.AppCompatActivity
-import com.febers.uestc_bbs.view.custom.CustomProgressDialog
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrPosition
+import android.util.Log.i
+import android.view.MenuItem
+import android.view.View
 import org.jetbrains.anko.toast
 
 /**
@@ -20,20 +19,12 @@ import org.jetbrains.anko.toast
  */
 abstract class BaseActivity : AppCompatActivity(), BaseView {
 
-    protected var mProgressDialog: CustomProgressDialog? = null
-
     protected val contentView: Int
         get() = setView()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(contentView)
-        if (isSlideBack()) {
-            val slidrConfig = SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            Slidr.attach(this, slidrConfig)
-        }
         initView()
     }
 
@@ -41,26 +32,19 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
 
     protected abstract fun initView()
 
-    open protected fun isSlideBack(): Boolean {
-        return true
-    }
-
-    override fun showProgressDialog(title: String) {
-        if (mProgressDialog == null) {
-            mProgressDialog = CustomProgressDialog(this)
-        }
-        mProgressDialog!!.show()
-    }
-
-    override fun dismissProgressDialog() {
-        if (mProgressDialog == null) {
-            return
-        }
-        mProgressDialog!!.dismiss()
-    }
-
     @MainThread
     override fun onError(error: String) {
         toast(error)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+            else -> {}
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

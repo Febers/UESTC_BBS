@@ -6,26 +6,41 @@
 
 package com.febers.uestc_bbs.home
 
-import android.util.Log.d
-import android.util.Log.i
+import android.os.Bundle
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostsViewPagerAdapter
-import com.febers.uestc_bbs.base.BaseFragment
+
 import kotlinx.android.synthetic.main.fragment_post.*
+import me.yokeyword.fragmentation.SupportFragment
+import org.greenrobot.eventbus.EventBus
 
-class PostFragment: BaseFragment() {
+class PostFragment: SupportFragment() {
 
-    override fun setContentView(): Int {
-        return R.layout.fragment_post
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view: View = inflater.inflate(R.layout.fragment_post, container, false)
+        return view
     }
 
-    override fun initView() {
+    override fun onLazyInitView(savedInstanceState: Bundle?) {
+        super.onLazyInitView(savedInstanceState)
+        initView()
+    }
+
+    fun initView() {
         val postsViewPagerAdapter = PostsViewPagerAdapter(childFragmentManager)
         view_pager_posts.adapter = postsViewPagerAdapter
+        view_pager_posts.offscreenPageLimit = 3
         tab_layout_post.setupWithViewPager(view_pager_posts)
     }
 
-    override fun lazyLoad() {
-
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

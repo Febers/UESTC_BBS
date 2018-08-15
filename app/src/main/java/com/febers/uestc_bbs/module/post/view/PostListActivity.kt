@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_post_list.*
 
-class PostListActivity: BaseActivity(), View.OnClickListener {
+class PostListActivity: BaseActivity() {
 
     private var group = 0
     private var position = 0
@@ -28,18 +28,5 @@ class PostListActivity: BaseActivity(), View.OnClickListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle("板块名称")
         d("post_list", "group:$group position:$position")
-    }
-
-    override fun onClick(v: View?) {
-        when(v?.id) {
-            android.R.id.home -> {
-                finish()
-            }
-            else -> {}
-        }
-    }
-
-    override fun isSlideBack(): Boolean {
-        return true
     }
 }

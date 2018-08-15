@@ -15,8 +15,7 @@
         android:id="@+id/tab_layout_message"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tablayout_height"
-        android:background="@color/colorPrimary"
-        app:tabSelectedTextColor="@color/material_white"
+        app:tabSelectedTextColor="@color/material_grey_700"
         app:tabTextColor="@color/material_grey_350"/>
 
     <com.febers.uestc_bbs.view.custom.CustomViewPager

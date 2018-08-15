@@ -12,10 +12,10 @@ import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.dao.UserSaver
 import com.febers.uestc_bbs.entity.LoginResultBean
+import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.utils.BBS_URL
-import com.febers.uestc_bbs.utils.CustomPreference
+import com.febers.uestc_bbs.utils.PreferenceUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,8 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val LOGIN_SECCESS_RS = "1"
 
-class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
+class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
+    private val user: UserBean = UserBean()
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
     private val mContext = BaseApplication.context()
@@ -55,13 +56,15 @@ class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
                 isValidation = "")
         call.enqueue(object : Callback<LoginResultBean> {
             override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
-                loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, "登录出错:${t.toString()}"))
+                user.msg = "登录出错:${t.toString()}"
+                loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, user))
             }
 
             override fun onResponse(call: Call<LoginResultBean>?, response: Response<LoginResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, "服务器响应为空"))
+                    user.msg = "服务器响应为空"
+                    loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, user))
                     return
                 }
                 resolveLoginResult(body)
@@ -72,12 +75,26 @@ class LoginModel(val loginPresenter: LoginContract.Presenter): ILoginModel {
     private fun resolveLoginResult(loginResultBean: LoginResultBean) {
         val rs = loginResultBean.rs
         if (rs != LOGIN_SECCESS_RS ) {
-            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, loginResultBean.head.errInfo))
+            user.msg = loginResultBean.head.errInfo
+            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
             return
         }
-        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, ""))
-        var uid by CustomPreference(mContext, mContext.getString(R.string.sp_user_uid), "")
+        user.name = loginResultBean.userName
+                user.uid = loginResultBean.uid
+                user.title = loginResultBean.userTitle
+        user.gender = loginResultBean.gender
+        user.token = loginResultBean.token
+        user.secrete = loginResultBean.secret
+        user.avatar = loginResultBean.avatar
+        user.credits = loginResultBean.creditShowList[0].data
+        user.extcredits2 = loginResultBean.creditShowList[1].data
+        user.groupId = loginResultBean.groupid
+        user.mobile = loginResultBean.mobile
+        user.valid = true
+
+        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, user))
+        var uid by PreferenceUtils(mContext, mContext.getString(R.string.sp_user_uid), "")
         uid = loginResultBean.uid
-        UserSaver.save(uid, loginResultBean)
+        UserSaver.save(uid, user)
     }
 }

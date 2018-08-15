@@ -13,7 +13,14 @@ import org.jetbrains.anko.defaultSharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class CustomPreference<T>(val context: Context, val name: String, val default: T): ReadWriteProperty<Any?, T> {
+/**
+ * 自定义的封装SharedPreferences工具类
+ * 使用方法：
+ * var i by PreferenceUtils.get("name", "default_value")
+ * 通过赋值的方式简单改变i的值:
+ * i = "new_value"
+ */
+class PreferenceUtils<T>(val context: Context, val name: String, val default: T): ReadWriteProperty<Any?, T> {
 
     val prefs: SharedPreferences by lazy { context.defaultSharedPreferences }
 

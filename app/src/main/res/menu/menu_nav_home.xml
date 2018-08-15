@@ -11,7 +11,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/item_user_favorite"
-            android:icon="@drawable/ic_action_action_search"
+            android:icon="@drawable/ic_forum_gray_movie"
             android:title="@string/user_favorite"/>
     </group>
 

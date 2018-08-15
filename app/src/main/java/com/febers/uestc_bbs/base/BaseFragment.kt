@@ -97,19 +97,6 @@ abstract class BaseFragment: Fragment(), BaseView {
      */
     protected fun stopLoad() {}
 
-    override fun showProgressDialog(title: String) {
-        if (mProgressDialog == null) {
-            mProgressDialog = CustomProgressDialog(context!!)
-        }
-        mProgressDialog!!.show()
-    }
-
-    override fun dismissProgressDialog() {
-        if (mProgressDialog != null) {
-            mProgressDialog!!.dismiss()
-        }
-    }
-
     @MainThread
     override fun onError(error: String) {
         context?.toast(error)

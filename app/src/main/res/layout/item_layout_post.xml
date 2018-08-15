@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-8-15 下午10:34.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-8-15 下午10:34.
+  -->
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/image_view_item_post_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_man_color" />
+
+    <TextView
+        android:id="@+id/text_view_item_post_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="52dp"
+        android:maxLines="2"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/image_view_item_post_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="这是帖帖子子详情" />
+
+    <TextView
+        android:id="@+id/text_view_item_post_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_view_item_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_item_post_title"
+        app:layout_constraintVertical_bias="0.049"
+        tools:text="这是帖子详情,这是帖子详情,这是帖子详情,这是帖子详情" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="344dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="355dp" />
+
+    <TextView
+        android:id="@+id/text_view_item_poster"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_item_post_title"
+        app:layout_constraintStart_toStartOf="@+id/text_view_item_post_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="作者作者" />
+
+    <TextView
+        android:id="@+id/text_view_item_post_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/text_view_item_poster"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="板块板块" />
+
+    <TextView
+        android:id="@+id/text_view_item_post_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="55dp"
+        android:text="10"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_item_post_hits"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/text_view_item_post_hits"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/text_view_item_post_hits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_item_post_content"
+        app:layout_constraintVertical_bias="0.382"
+        tools:text="200" />
+
+    <TextView
+        android:id="@+id/text_view_item_post_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_item_post_hits"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/text_view_item_post_hits"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="17:85" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_item_post_hits"
+        app:layout_constraintEnd_toStartOf="@+id/text_view_item_post_reply"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_view_item_post_title"
+        app:layout_constraintTop_toTopOf="@+id/text_view_item_post_hits"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_reply_samll_gray" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_item_post_hits"
+        app:layout_constraintEnd_toStartOf="@+id/text_view_item_post_hits"
+        app:layout_constraintTop_toTopOf="@+id/text_view_item_post_hits"
+        app:layout_constraintVertical_bias="0.888"
+        app:srcCompat="@mipmap/ic_eye_small_gray" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_view_item_post_hits"
+        app:layout_constraintEnd_toStartOf="@+id/text_view_item_post_time"
+        app:layout_constraintTop_toTopOf="@+id/text_view_item_post_hits"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_clock_small_gray" />
+
+</android.support.constraint.ConstraintLayout>

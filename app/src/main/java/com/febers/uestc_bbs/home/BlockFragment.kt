@@ -7,23 +7,32 @@
 package com.febers.uestc_bbs.home
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.util.ArrayMap
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.module.post.view.PostListActivity
-import kotlinx.android.synthetic.main.fragment_forum_list.*
+import kotlinx.android.synthetic.main.fragment_block_list.*
+import me.yokeyword.fragmentation.SupportFragment
 import java.util.ArrayList
 
-class BlockListFragment: BaseFragment() {
+class BlockFragment: SupportFragment() {
 
-    override fun setContentView(): Int {
-        return R.layout.fragment_forum_list
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view: View = inflater.inflate(R.layout.fragment_block_list, container, false)
+        return view
     }
 
-    override fun initView() {
+    override fun onLazyInitView(savedInstanceState: Bundle?) {
+        super.onLazyInitView(savedInstanceState)
+        initView()
+    }
+
+    fun initView() {
         val from = arrayOf("image", "title")
         val to = intArrayOf(R.id.image_view_forum_list_item, R.id.text_view_forum_list_item)
         val compusAdapter = SimpleAdapter(context, compusGridList(), R.layout.item_forum_list_grid_view, from, to)
@@ -48,9 +57,6 @@ class BlockListFragment: BaseFragment() {
             _parent, _view, position, _id -> onClickGridViewItem(4, position) }
     }
 
-    override fun lazyLoad() {
-
-    }
 
     private fun compusGridList(): List<Map<String, Any>> {
         val gridList = ArrayList<Map<String, Any>>()
