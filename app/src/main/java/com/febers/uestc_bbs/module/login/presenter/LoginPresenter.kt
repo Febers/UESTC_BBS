@@ -21,6 +21,7 @@ class LoginPresenter(view: LoginContract.View): LoginContract.Presenter(view){
     }
 
     override fun loginResult(event: BaseEvent<UserBean>) {
+        mView?.loginResult(event)
         EventBus.getDefault().post(event)
     }
 }

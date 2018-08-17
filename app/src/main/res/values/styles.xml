@@ -13,6 +13,11 @@
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/material_white</item>
+        <item name="textColorFirst">@color/textColorFirst_Day</item>
+        <item name="textColorSecond">@color/textColorSecond_Day</item>
+        <item name="textColorThird">@color/textColorThird_Day</item>
+        <item name="background_first">@color/backgroundFirst_Day</item>
+        <item name="background_second">@color/backgroundSecond_Day</item>
     </style>
 
     <style name="PinkTheme" parent="AppTheme">
@@ -24,5 +29,22 @@
     <style name="CustomTheme_1" parent="PinkTheme" >
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:textColorSecondary">@color/text_color_secondary</item>
+    </style>
+
+    <!--夜晚主题-->
+    <!--参考:https://github.com/tyzlmjj/AndroidUI/tree/master/ChangeTheme-->
+    <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!--ActionBar背景  -->
+    <item name="colorPrimary">@color/topbar_Background_Night</item>
+    <item name="toolbar_Menu_Text_Color">@color/toolbar_Menu_Text_Color_Night</item>
+    <item name="toolbar_Text_Color">@color/toolbar_Text_Color_Night</item>
+    <!--页面背景-->
+    <item name="android:windowBackground">@color/background_Night</item>
+    <!--主页item背景色-->
+    <item name="background_first">@color/backgroundFirst_Night</item>
+    <!--三种文字颜色-->
+    <item name="textColorFirst">@color/textColorFirst_Night</item>
+    <item name="textColorSecond">@color/textColorSecond_Night</item>
+    <item name="textColorThird">@color/textColorThird_Night</item>
     </style>
 </resources>

@@ -36,7 +36,7 @@ object ApiUtils {
         boardId:0
         page:1
         pageSize:5
-        sortby:new
+        sortby:new/all
         r:forum/topiclist
      */
     const val BBS_HOME_POST_URL = "mobcent/app/web/index.php"

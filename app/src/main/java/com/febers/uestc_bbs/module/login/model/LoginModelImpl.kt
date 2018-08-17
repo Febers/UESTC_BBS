@@ -56,7 +56,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
                 isValidation = "")
         call.enqueue(object : Callback<LoginResultBean> {
             override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
-                user.msg = "登录出错:${t.toString()}"
+                user.msg = "服务器未响应:${t.toString()}"
                 loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, user))
             }
 

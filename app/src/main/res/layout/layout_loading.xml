@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-8-17 上午7:07.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-8-17 上午7:07.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/material_grey_350"
+    android:minHeight="50dp">
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:id="@+id/item_load_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
+        android:text="上拉加载更多"
+        android:textColor="#4d4d4d"
+        android:textSize="14dp"/>
+
+    <ProgressBar
+        android:id="@+id/item_load_pb"
+        style="@android:style/Widget.Holo.ProgressBar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="140dp"
+        android:visibility="gone"/>
+</RelativeLayout>

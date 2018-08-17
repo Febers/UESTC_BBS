@@ -13,34 +13,41 @@ import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostsViewPagerAdapter
+import com.febers.uestc_bbs.base.BaseFragment
+import com.febers.uestc_bbs.entity.EndRefreshEvent
+import com.febers.uestc_bbs.entity.StartRefreshEvent
 
 import kotlinx.android.synthetic.main.fragment_post.*
 import me.yokeyword.fragmentation.SupportFragment
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
-class PostFragment: SupportFragment() {
+class PostFragment: BaseFragment() {
 
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_post, container, false)
-        return view
+    override fun setContentView(): Int {
+        return R.layout.fragment_post
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        initView()
+        initMyView()
     }
 
-    fun initView() {
+    private fun initMyView() {
         val postsViewPagerAdapter = PostsViewPagerAdapter(childFragmentManager)
         view_pager_posts.adapter = postsViewPagerAdapter
         view_pager_posts.offscreenPageLimit = 3
         tab_layout_post.setupWithViewPager(view_pager_posts)
+        refresh_layout_post_fragment.setOnRefreshListener { EventBus.getDefault().post(StartRefreshEvent(true)) }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
+    override fun registEventBus(): Boolean {
+        return true
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun endRefresh(event: EndRefreshEvent) {
+        refresh_layout_post_fragment.isRefreshing = false
     }
 }

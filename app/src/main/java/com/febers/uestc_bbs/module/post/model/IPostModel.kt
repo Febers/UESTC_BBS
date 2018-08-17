@@ -7,5 +7,5 @@
 package com.febers.uestc_bbs.module.post.model
 
 interface IPostModel {
-    fun postService(_fid: String, _page: String, _refresh: Boolean)
+    fun postService(_fid: String, _page: Int, _refresh: Boolean)
 }

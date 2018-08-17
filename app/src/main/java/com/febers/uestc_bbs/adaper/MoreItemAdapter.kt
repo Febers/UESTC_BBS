@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
+import com.othershe.baseadapter.interfaces.OnItemClickListener
 
 class MoreItemAdapter(context: Context, data: List<MoreItemBean>, isLoadMore: Boolean):
         CommonBaseAdapter<MoreItemBean>(context, data, isLoadMore) {

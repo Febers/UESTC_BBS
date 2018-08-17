@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-8-16 下午5:58.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-8-16 下午5:58.
+  -->
+
+<resources>
+    <attr name="colorPrimary" format="color"/>
+    <attr name="colorAccent" format="color"/>
+    <attr name="textColorFirst" format="color"/>
+    <attr name="textColorSecond" format="color"/>
+    <attr name="textColorThird" format="color"/>
+    <attr name="toolbar_Text_Color" format="color"/>
+    <attr name="toolbar_Background_Color" format="color"/>
+    <attr name="toolbar_Menu_Text_Color" format="color"/>
+    <attr name="background_first" format="color"/>
+    <attr name="background_second" format="color"/>
+</resources>

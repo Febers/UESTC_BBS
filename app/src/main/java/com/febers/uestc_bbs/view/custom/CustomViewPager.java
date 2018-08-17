@@ -10,6 +10,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import java.util.LinkedHashMap;
  */
 public class CustomViewPager extends ViewPager {
 
+    private static final String TAG = "CustomViewPager";
     private int current;
     /**
      * 保存position与对于的View
@@ -87,8 +89,6 @@ public class CustomViewPager extends ViewPager {
             setLayoutParams(layoutParams);
         }
     }
-
-
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {

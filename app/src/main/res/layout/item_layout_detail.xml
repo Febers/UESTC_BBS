@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-8-17 上午2:28.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-8-17 上午2:28.
+  -->
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" 
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:foreground="?android:attr/selectableItemBackground">
+    <TextView
+        android:id="@+id/text_view_item_detail_param"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center_vertical"
+        android:text="名字"/>
+
+    <TextView
+        android:id="@+id/text_view_item_detail_value"
+        android:layout_width="0dp"
+        android:layout_weight="5"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="16dp"
+        android:maxLines="2"
+        android:gravity="end"
+        android:ellipsize="end"
+        android:textColor="?attr/textColorFirst"
+        android:text="张三" />
+</LinearLayout>

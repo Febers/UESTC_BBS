@@ -46,4 +46,7 @@
     <string name="sp_user_extcredit_data">user_ext_credit_data</string>
     <string name="sp_user_mobile">user_mobile</string>
     <string name="sp_user_group_id">user_group_id</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

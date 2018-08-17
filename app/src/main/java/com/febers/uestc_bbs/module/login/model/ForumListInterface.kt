@@ -12,5 +12,4 @@ import retrofit2.http.POST
 interface ForumListInterface {
 //    @FormUrlEncoded
 //    @POST
-
 }

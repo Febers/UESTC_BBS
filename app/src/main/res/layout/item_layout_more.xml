@@ -30,12 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="我的帖子"
-        android:textSize="18dp"
+        android:textColor="?attr/textColorFirst"
+        android:textSize="17dp"
         android:layout_marginLeft="20dp"/>
     <ImageView
         android:layout_width="0dp"
         android:layout_weight="0.5"
-        android:padding="8dp"
+        android:padding="9dp"
         android:layout_height="30dp"
         android:src="@drawable/ic_arrow_gray"/>
 </LinearLayout>

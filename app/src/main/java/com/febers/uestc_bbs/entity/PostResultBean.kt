@@ -68,16 +68,21 @@ package com.febers.uestc_bbs.entity
 "total_num": 1574982
 }
  */
-data class PostResultBean(var rs: String, var errcode: String, var head: ResultHeadBean,
-                          var body: Any?, var list: Array<SimplePostBean>, var page: Int,
-                          var has_next: Int, var total_num: Int)
+data class PostResultBean(var rs: String? = null, var errcode: String? = null,
+                          var head: ResultHeadBean? = null, var body: Any? = null,
+                          var list: List<SimplePostBean>? = null, var page: Int? = null,
+                          var has_next: Int? = null, var total_num: Int? = null)
 
-data class SimplePostBean(var boadrd_id: String, var board_name: String, var topic_id: String,
-                          var type: String, var title: String, var user_id: String,
-                          var user_nick_name: String, var userAvatar: String, var last_reply_date: String,
-                          var vote: String, var hot: String, var hits: String,
-                          var replies: String, var essence: String, var top: String,
-                          var status: String, var subject: String, var pic_path: String,
-                          var retio: String, var gender: String, var userTitle: String,
-                          var recommendAdd: String, var imageList:Array<String>, var sourceWebUrl: String,
-                          var veryfy: String)
+data class SimplePostBean(var boadrd_id: String? = null, var board_name: String? = null,
+                          var topic_id: String? = null, var type: String? = null,
+                          var title: String? = null, var user_id: String? = null,
+                          var user_nick_name: String? = null, var userAvatar: String? = null,
+                          var last_reply_date: String? = null, var vote: String? = null,
+                          var hot: String? = null, var hits: String? = null,
+                          var replies: String? = null, var essence: String? = null,
+                          var top: String? = null, var status: String? = null,
+                          var subject: String? = null, var pic_path: String? = null,
+                          var retio: String? = null, var gender: String? = null,
+                          var userTitle: String? = null, var recommendAdd: String? = null,
+                          var imageList:Array<String>? = null, var sourceWebUrl: String? = null,
+                          var veryfy: String? = null)

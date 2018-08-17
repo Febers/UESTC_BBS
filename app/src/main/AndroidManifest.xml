@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".home.HomeActivity"
-            android:theme="@style/CustomTheme_1">
+            android:theme="@style/CustomTheme_1"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,10 +30,7 @@
             android:name=".module.post.view.PostListActivity"
             android:theme="@style/CustomTheme_1">
         </activity>
-        <activity
-            android:name=".module.login.view.LoginActivity"
-            android:theme="@style/CustomTheme_1">
-        </activity>
+
     </application>
 
 </manifest>

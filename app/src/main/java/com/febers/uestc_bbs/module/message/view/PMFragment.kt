@@ -7,12 +7,10 @@
 package com.febers.uestc_bbs.module.message.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseFragment
 import me.yokeyword.fragmentation.SupportFragment
 
 /**
