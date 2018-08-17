@@ -12,73 +12,92 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/background_second">
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_more"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="清水河畔">
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/more_fragment_header"
+        android:layout_marginTop="?android:attr/actionBarSize">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:background="?attr/background_first"
-            android:focusable="true">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/more_fragment_header"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:background="?attr/background_first"
+                android:focusable="true">
 
-            <ImageView
-                android:id="@+id/image_view_fragment_user_avatar"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                <ImageView
+                    android:id="@+id/image_view_fragment_user_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@mipmap/ic_launcher_round" />
 
-            <TextView
-                android:id="@id/text_view_fragment_user_name"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@id/text_view_fragment_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:text="请登录/注册"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="@+id/text_view_fragment_user_title"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/image_view_fragment_user_avatar"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_view_fragment_user_title"
+                    android:layout_width="66dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="24dp"
+                    android:text=""
+                    app:layout_constraintBottom_toBottomOf="@+id/image_view_fragment_user_avatar"
+                    app:layout_constraintStart_toEndOf="@+id/image_view_fragment_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_fragment_user_name"
+                    app:layout_constraintVertical_bias="1.0" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/more_fragment_recyclerview_1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
-                android:text="请登录/注册"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="@+id/text_view_fragment_user_title"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/image_view_fragment_user_avatar"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="10dp"
+                android:background="?attr/background_first">
+            </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/text_view_fragment_user_title"
-                android:layout_width="66dp"
-                android:layout_height="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="24dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="@+id/image_view_fragment_user_avatar"
-                app:layout_constraintStart_toEndOf="@+id/image_view_fragment_user_avatar"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_fragment_user_name"
-                app:layout_constraintVertical_bias="1.0" />
-        </android.support.constraint.ConstraintLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/more_fragment_recyclerview_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="?attr/background_first"
+                android:layout_marginBottom="@dimen/bottom_navigation_height">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/more_fragment_recyclerview_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="?attr/background_first">
-        </android.support.v7.widget.RecyclerView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/more_fragment_recyclerview_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="?attr/background_first">
-        </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

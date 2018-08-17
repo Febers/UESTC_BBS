@@ -52,7 +52,9 @@ abstract class BaseFragment : Fragment(), ISupportFragment, BaseView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(setContentView(), container, false)
         if (registEventBus()) {
-            EventBus.getDefault().register(this)
+            if(!EventBus.getDefault().isRegistered(this)) {
+                EventBus.getDefault().register(this)
+            }
         }
         return view
     }
@@ -370,7 +372,7 @@ abstract class BaseFragment : Fragment(), ISupportFragment, BaseView {
     /**
      * 获取栈内的fragment对象
      */
-    fun <T : ISupportFragment> findChildFragment(fragmentClass: Class<T>): T {
+    fun <T : ISupportFragment> findChildFragment(fragmentClass: Class<T>): T? {
         return SupportHelper.findFragment(childFragmentManager, fragmentClass)
     }
 

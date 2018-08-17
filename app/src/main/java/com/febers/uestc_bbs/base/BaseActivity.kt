@@ -22,8 +22,7 @@ import me.yokeyword.fragmentation.ExtraTransaction
 import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.SupportFragment
-import android.support.annotation.NonNull
-
+import org.greenrobot.eventbus.EventBus
 
 
 /**
@@ -40,12 +39,19 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, ISupportActivity {
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
         setContentView(contentView)
+        if (registEvenBus()) {
+            if (!EventBus.getDefault().isRegistered(this)) {
+                EventBus.getDefault().register(this)
+            }
+        }
         initView()
     }
 
     protected abstract fun setView(): Int
 
     protected abstract fun initView()
+
+    protected open fun registEvenBus() = false
 
     @MainThread
     override fun onError(error: String) {
@@ -87,6 +93,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, ISupportActivity {
     override fun onDestroy() {
         mDelegate.onDestroy()
         super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     /**

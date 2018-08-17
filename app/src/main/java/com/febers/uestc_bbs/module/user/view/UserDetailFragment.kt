@@ -10,11 +10,7 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.febers.uestc_bbs.R
@@ -30,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_user_detail.*
 /**
  * 用户个人信息
  */
-class DetailFragment: BasePopFragment() {
+class UserDetailFragment: BasePopFragment() {
 
     private lateinit var user: UserBean
 
@@ -39,8 +35,8 @@ class DetailFragment: BasePopFragment() {
     }
 
     override fun setContentView(): Int {
-//        //status透明，实现图片全透明，在退出时恢复
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        //status透明，实现图片全透明，在退出时恢复,但是回造成home界面的bottomnavigationbar下沉
+        //activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         return R.layout.fragment_user_detail
     }
 
@@ -72,7 +68,7 @@ class DetailFragment: BasePopFragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String) =
-                DetailFragment().apply {
+                UserDetailFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                     }

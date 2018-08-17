@@ -1,29 +1,26 @@
 /*
- * Created by Febers at 18-6-12 下午12:45.
+ * Created by Febers at 18-8-17 下午4:13.
  * Copyright (c). All rights reserved.
- * Last modified 18-6-12 下午12:45.
+ * Last modified 18-8-17 下午4:12.
  */
 
-package com.febers.uestc_bbs.home
+package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log.i
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.MoreItemAdapter
-import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
-import com.febers.uestc_bbs.module.user.view.DetailFragment
-import com.febers.uestc_bbs.module.user.view.RepliesFragment
+import com.febers.uestc_bbs.module.user.view.UserDetailFragment
+import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_more.*
@@ -82,7 +79,6 @@ class MoreFragment: BaseFragment() {
     private fun initMoreItem2(): List<MoreItemBean> {
         val item5 = MoreItemBean("主题选择", R.mipmap.ic_theme_purple)
         val item6 = MoreItemBean("设置", R.mipmap.ic_setting_gray)
-
         return listOf(item5, item6)
     }
 
@@ -97,15 +93,19 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun itemClick(position: Int) {
-        val supportActivity: BaseActivity = activity as BaseActivity
+//        val supportActivity: BaseActivity = activity as BaseActivity
+        val parentFragment: BaseFragment = parentFragment as BaseFragment
         if (position == -1) {
             if (BaseApplication.getUser().valid) {
-                supportActivity.start(DetailFragment.newInstance(""))
+                parentFragment.start(UserDetailFragment.newInstance(""))
+//                supportActivity.start(UserDetailFragment.newInstance(""))
             } else {
-                supportActivity.start(LoginFragment.newInstance(""))
+                parentFragment.start(LoginFragment.newInstance(""))
+//                supportActivity.start(LoginFragment.newInstance(""))
             }
             return
         }
-        supportActivity.start(RepliesFragment.newInstance(""))
+        parentFragment.start(UserRepliesFragment.newInstance(""))
+//        supportActivity.start(UserRepliesFragment.newInstance(""))
     }
 }

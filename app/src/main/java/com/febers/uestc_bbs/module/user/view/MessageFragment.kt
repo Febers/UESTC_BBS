@@ -4,7 +4,7 @@
  * Last modified 18-6-12 下午1:00.
  */
 
-package com.febers.uestc_bbs.home
+package com.febers.uestc_bbs.module.user.view
 
 import android.os.Bundle
 import android.util.Log
@@ -14,17 +14,21 @@ import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.MessageViewPageAdapter
+import com.febers.uestc_bbs.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_message.*
 import me.yokeyword.fragmentation.SupportFragment
 import org.greenrobot.eventbus.EventBus
 
-class MessageFragment: SupportFragment() {
+class MessageFragment: BaseFragment() {
 
     var messageViewPageAdapter: MessageViewPageAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_message, container, false)
-        return view
+    override fun setContentView(): Int {
+        return R.layout.fragment_message
+    }
+
+    override fun initView() {
+
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {

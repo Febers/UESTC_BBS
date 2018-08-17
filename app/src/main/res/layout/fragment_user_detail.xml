@@ -31,7 +31,7 @@
                 android:src="@mipmap/ic_blur_white"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"/>
-            <!--注意其中toolbar margin一个statusbar的高度-->
+            <!--注意其中toolbar margin一个statusbar的高度24dp-->
 
             <ImageView
                 android:id="@+id/image_view_detail_avatar"
@@ -46,7 +46,6 @@
                 android:layout_height="?android:attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_collapseMode="pin"
-                android:layout_marginTop="24dp"
                 app:title="四条眉毛">
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>

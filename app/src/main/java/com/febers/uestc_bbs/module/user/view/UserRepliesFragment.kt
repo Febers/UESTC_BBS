@@ -17,7 +17,7 @@ import com.febers.uestc_bbs.base.BasePopFragment
 import kotlinx.android.synthetic.main.fragment_my_reply.*
 
 
-class RepliesFragment : BasePopFragment() {
+class UserRepliesFragment : BasePopFragment() {
 
     override fun setToolbar(): Toolbar {
         return toolbar_my_reply
@@ -35,7 +35,7 @@ class RepliesFragment : BasePopFragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String) =
-                RepliesFragment().apply {
+                UserRepliesFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Febers at 18-6-12 下午1:01.
+  ~ Created by Febers at 18-8-17 下午3:22.
   ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-6-12 下午1:01.
+  ~ Last modified 18-8-17 下午3:22.
   -->
 
 <android.support.design.widget.CoordinatorLayout
@@ -12,7 +12,7 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout_message"
+        android:id="@+id/tab_layout_post"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -20,7 +20,7 @@
         app:tabTextColor="@color/material_grey_350"
         app:tabIndicatorColor="@color/material_white"/>
     <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager_message"
+        android:id="@+id/view_pager_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize">

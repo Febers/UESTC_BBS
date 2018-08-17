@@ -22,7 +22,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val LOGIN_SECCESS_RS = "1"
+const val REQUEST_SECCESS_RS = "1"
+const val HAVE_NEXT_PAGE = "1"
+const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
+const val SERVICE_RESPONSE_NULL = "服务器响应为空"
 
 class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
@@ -56,15 +59,15 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
                 isValidation = "")
         call.enqueue(object : Callback<LoginResultBean> {
             override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
-                user.msg = "服务器未响应:${t.toString()}"
-                loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, user))
+                user.msg = "${SERVICE_RESPONSE_ERROR + t.toString()}"
+                loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
             }
 
             override fun onResponse(call: Call<LoginResultBean>?, response: Response<LoginResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    user.msg = "服务器响应为空"
-                    loginPresenter.loginResult(BaseEvent(BaseCode.ERROR, user))
+                    user.msg = SERVICE_RESPONSE_NULL
+                    loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
                     return
                 }
                 resolveLoginResult(body)
@@ -74,7 +77,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
     private fun resolveLoginResult(loginResultBean: LoginResultBean) {
         val rs = loginResultBean.rs
-        if (rs != LOGIN_SECCESS_RS ) {
+        if (rs != REQUEST_SECCESS_RS ) {
             user.msg = loginResultBean.head.errInfo
             loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
             return

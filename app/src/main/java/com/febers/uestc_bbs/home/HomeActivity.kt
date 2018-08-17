@@ -6,10 +6,8 @@
 
 package com.febers.uestc_bbs.home
 
-import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.util.Log.i
-import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 
@@ -17,10 +15,8 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
-import me.yokeyword.fragmentation.SupportActivity
-import me.yokeyword.fragmentation.SupportFragment
 
-class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
+class HomeActivity: BaseActivity() {
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
 
@@ -29,19 +25,19 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
     }
 
     override fun initView() {
-        var firstFragment: ISupportFragment? = findFragment(PostFragment::class.java)
+        var firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
         if (firstFragment == null) {
-            mFragments.add(0, PostFragment())
-            mFragments.add(1, BlockFragment())
-            mFragments.add(2, MessageFragment())
-            mFragments.add(3, MoreFragment())
+            mFragments.add(0, HomeFirstContainer())
+            mFragments.add(1, HomeSecondContainer())
+            mFragments.add(2, HomeThirdContainer())
+            mFragments.add(3, HomeFourthContainer())
             loadMultipleRootFragment(R.id.activity_home_container, 0,
                     mFragments[0], mFragments[1], mFragments[2], mFragments[3])
         } else {
             mFragments.add(0,firstFragment)
-            mFragments.add(1, findFragment(BlockFragment::class.java))
-            mFragments.add(2, findFragment(MessageFragment::class.java))
-            mFragments.add(3, findFragment(MoreFragment::class.java))
+            mFragments.add(1, findFragment(HomeSecondContainer::class.java))
+            mFragments.add(2, findFragment(HomeThirdContainer::class.java))
+            mFragments.add(3, findFragment(HomeFourthContainer::class.java))
         }
 
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
@@ -50,11 +46,10 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
         bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
         bottom_navigation_home.canScrollHorizontally(AHBottomNavigation.LAYOUT_DIRECTION_INHERIT)
-        bottom_navigation_home.setOnTabSelectedListener(this)
-//        bottom_navigation_home.manageFloatingActionButtonBehavior(action_button_home)
+        bottom_navigation_home.setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
     }
 
-    override fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
+    private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
         if(wasSelected) {
             onTabReselected(position)
             return true
@@ -64,6 +59,7 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
     }
 
     override fun onBackPressedSupport() {
+        i("HActivity", "${supportFragmentManager.backStackEntryCount}")
         if(supportFragmentManager.backStackEntryCount > 0) {
             pop()
         } else {
@@ -72,6 +68,7 @@ class HomeActivity: BaseActivity(), AHBottomNavigation.OnTabSelectedListener {
     }
 
     private fun onTabReselected(position: Int) {
-        i("HA", "${position}")
+
     }
+
 }

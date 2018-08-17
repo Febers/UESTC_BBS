@@ -31,7 +31,6 @@ abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
     internal val mSwipeDelegate = SwipeBackFragmentDelegate(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity?.findViewById<Toolbar>(R.id.toolbar_home)?.visibility = View.GONE
         activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.GONE
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -47,6 +46,7 @@ abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
         super.onViewCreated(view, savedInstanceState)
         mSwipeDelegate.onViewCreated(view, savedInstanceState)
         getSwipeBackLayout().setParallaxOffset(0.0f) // 滑动退出视觉差，默认0.3
+        swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MAX)
         //添加toolbar点击返回
         val activity: AppCompatActivity = getActivity() as AppCompatActivity
         activity.setSupportActionBar(setToolbar())
@@ -100,7 +100,6 @@ abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
 
     override fun onDestroyView() {
         mSwipeDelegate.onDestroyView()
-        activity?.findViewById<Toolbar>(R.id.toolbar_home)?.visibility = View.VISIBLE
         activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.VISIBLE
         super.onDestroyView()
     }

@@ -1,24 +1,18 @@
 /*
- * Created by Febers at 18-6-9 下午5:52.
+ * Created by Febers at 18-8-17 下午4:11.
  * Copyright (c). All rights reserved.
- * Last modified 18-6-9 下午5:52.
+ * Last modified 18-8-17 上午1:59.
  */
 
-package com.febers.uestc_bbs.home
+package com.febers.uestc_bbs.module.more
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.ArrayMap
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
-import com.febers.uestc_bbs.module.post.view.PostListActivity
 import kotlinx.android.synthetic.main.fragment_block_list.*
-import me.yokeyword.fragmentation.SupportFragment
 import java.util.ArrayList
 
 class BlockFragment: BaseFragment() {
@@ -31,7 +25,6 @@ class BlockFragment: BaseFragment() {
         super.onLazyInitView(savedInstanceState)
         initMyView()
     }
-
 
     private fun initMyView() {
         val from = arrayOf("image", "title")
@@ -151,9 +144,6 @@ class BlockFragment: BaseFragment() {
     }
 
     private fun onClickGridViewItem(group: Int, position: Int) {
-        val intent = Intent(context, PostListActivity::class.java)
-        intent.putExtra("group", group)
-        intent.putExtra("position", position)
-        startActivity(intent)
+
     }
 }

@@ -1,26 +1,23 @@
 /*
- * Created by Febers at 18-6-13 下午5:48.
+ * Created by Febers at 18-8-18 上午1:32.
  * Copyright (c). All rights reserved.
- * Last modified 18-6-13 下午5:48.
+ * Last modified 18-8-18 上午1:32.
  */
 
 package com.febers.uestc_bbs.module.post.presenter
 
-import android.util.Log
-import android.util.Log.i
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.entity.SimplePostBean
+import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.model.IPostModel
 import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
-class PostPresenterImpl(mView: PostContract.View) : PostContract.Presenter(mView) {
-
-    override fun postRequest(fid: String, page: Int, refresh: Boolean) {
-        val postMode: IPostModel = PostModelImpl(this)
-        postMode.postService(fid, page, refresh)
+class PostPresenterImpl(mView: PostContract.View): PostContract.Presenter(mView) {
+    override fun postRequest(postId: String, page: Int, authorId: String, order: String) {
+        val postModel: IPostModel = PostModelImpl(this)
+        postModel.postService(postId, page, authorId, order)
     }
 
-    override fun postResult(event: BaseEvent<List<SimplePostBean>?>) {
+    override fun postResult(event: BaseEvent<PostResultBean>) {
         mView?.postResult(event)
     }
 }
