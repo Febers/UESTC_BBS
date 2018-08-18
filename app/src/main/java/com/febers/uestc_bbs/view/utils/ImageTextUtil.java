@@ -41,7 +41,6 @@ public class ImageTextUtil {
         if (tv == null) {
             return;     //防止跟kotlin的空冲突
         }
-        Log.i(TAG, "setImageText: " + html);
         Spanned htmlStr = Html.fromHtml(html);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             tv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);

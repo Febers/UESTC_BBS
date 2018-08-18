@@ -10,6 +10,9 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
@@ -19,6 +22,7 @@ import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BasePopFragment
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
 import com.febers.uestc_bbs.view.custom.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
@@ -45,9 +49,7 @@ class UserDetailFragment: BasePopFragment() {
         recyclerview_detail_fragment.layoutManager = LinearLayoutManager(context)
         recyclerview_detail_fragment.adapter = DetailItemAdapter(context!!, initItem(), false)
         recyclerview_detail_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
-        Glide.with(this).load(user.avatar)
-                .transform(BlurTransformation(context, 100f)).into(image_view_detail_blur_avatar)
-        Glide.with(this).load(user.avatar).into(image_view_detail_avatar)
+        Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context)).into(image_view_detail_avatar)
     }
 
     override fun onDestroyView() {
@@ -72,5 +74,10 @@ class UserDetailFragment: BasePopFragment() {
                         putString(ARG_PARAM1, param1)
                     }
                 }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        return attachToSwipeBack(view!!)
     }
 }

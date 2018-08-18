@@ -13,6 +13,21 @@ import com.febers.uestc_bbs.dao.UserSaver
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import android.support.annotation.NonNull
+import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
+
+
+
+
 
 class BaseApplication: Application() {
 
@@ -29,7 +44,15 @@ class BaseApplication: Application() {
             return UserSaver.get(uid)
         }
         init {
-
+            //设置全局的Header构建器
+            SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
+                //layout.setPrimaryColorsId(R.color.colorAccent, android.R.color.white);//全局设置主题颜色
+                ClassicsHeader(context)
+            }
+            //设置全局的Footer构建器
+            SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
+                ClassicsFooter(context).setDrawableSize(20f)
+            }
         }
     }
 }

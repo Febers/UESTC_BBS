@@ -17,12 +17,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.PostItemAdapter
+import com.febers.uestc_bbs.adaper.PostSimpleItemAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimpleTopicBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.TopicContract
 import com.febers.uestc_bbs.module.post.presenter.TopicPresenterImpl
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_sub_post.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -37,7 +39,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
     private val topicList: MutableList<SimpleTopicBean> = ArrayList()
     private lateinit var mParentFragment: BaseFragment
     private lateinit var mPParentFragment: BaseFragment
-    private lateinit var postItemAdapter: PostItemAdapter
+    private lateinit var postSimpleItemAdapter: PostSimpleItemAdapter
     private lateinit var user: UserBean
     private var topicPresenter:
             TopicContract.Presenter = TopicPresenterImpl(this)
@@ -45,7 +47,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
     private var shouldRefresh = true
 
     override fun setContentView(): Int {
-        postItemAdapter = PostItemAdapter(context!!, topicList, true)
+        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, topicList, true)
         return R.layout.fragment_sub_post
     }
 
@@ -53,26 +55,24 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
         super.onLazyInitView(savedInstanceState)
         user = BaseApplication.getUser()
         mParentFragment = parentFragment as BaseFragment
-        postItemAdapter.setLoadingView(R.layout.layout_loading)
-        postItemAdapter.setOnLoadMoreListener { getPost(++page, true) }
-        postItemAdapter.setLoadEndView(R.layout.layout_load_end)
         recyclerview_subpost_fragment.layoutManager = LinearLayoutManager(context)
-        recyclerview_subpost_fragment.adapter = postItemAdapter
+        recyclerview_subpost_fragment.adapter = postSimpleItemAdapter
         recyclerview_subpost_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
-        refresh_layout_post_fragment.isRefreshing = true
-        refresh_layout_post_fragment.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
+        refresh_layout_post_fragment.setEnableLoadMore(false)
+        refresh_layout_post_fragment.autoRefresh()
+        refresh_layout_post_fragment.setOnRefreshListener(object : OnRefreshListener {
+            override fun onRefresh(refreshLayout: RefreshLayout) {
                 page = 1
                 getPost(page, true)
             }
         })
-        getPost(page, true)
-        postItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
+        refresh_layout_post_fragment.setOnLoadMoreListener { getPost(++page, true) }
+        postSimpleItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
     }
 
     fun getPost(page: Int, refresh: Boolean) {
-        i("GET", "${page}")
+        refresh_layout_post_fragment.setNoMoreData(false)
         topicPresenter.topicRequest(fid = param1!!, page = page, refresh = refresh)
     }
 
@@ -87,20 +87,24 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
 
     @UiThread
     override fun topicResult(event: BaseEvent<List<SimpleTopicBean>?>) {
-        refresh_layout_post_fragment?.isRefreshing = false
         if (event.code == BaseCode.FAILURE) {
             onError(event!!.data!![0]!!.title!!)    //我佛了
+            refresh_layout_post_fragment.finishRefresh(false)
+            refresh_layout_post_fragment.finishLoadMore(false)
             return
         }
+        refresh_layout_post_fragment.finishRefresh()
+        refresh_layout_post_fragment.finishLoadMore()
+        refresh_layout_post_fragment.setEnableLoadMore(true)
         if (page == 1) {
-            postItemAdapter.setNewData(event.data)
+            postSimpleItemAdapter.setNewData(event.data)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
-            postItemAdapter.loadEnd()
+            refresh_layout_post_fragment.finishLoadMoreWithNoMoreData()
             return
         }
-        postItemAdapter.setLoadMoreData(event.data)
+        postSimpleItemAdapter.setLoadMoreData(event.data)
     }
 
     companion object {
@@ -121,7 +125,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
         val emptyView: View = LayoutInflater
                 .from(context!!)
                 .inflate(R.layout.layout_empty, recyclerview_subpost_fragment.parent as ViewGroup, false)
-        postItemAdapter.setEmptyView(emptyView)
+        postSimpleItemAdapter.setEmptyView(emptyView)
     }
 
     private fun clickItem(topic: SimpleTopicBean) {

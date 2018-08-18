@@ -46,7 +46,7 @@ abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
         super.onViewCreated(view, savedInstanceState)
         mSwipeDelegate.onViewCreated(view, savedInstanceState)
         getSwipeBackLayout().setParallaxOffset(0.0f) // 滑动退出视觉差，默认0.3
-        swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MAX)
+        swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
         //添加toolbar点击返回
         val activity: AppCompatActivity = getActivity() as AppCompatActivity
         activity.setSupportActionBar(setToolbar())

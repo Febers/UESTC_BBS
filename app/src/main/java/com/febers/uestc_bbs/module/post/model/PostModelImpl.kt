@@ -74,7 +74,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): IPostModel {
                     postPresenter.postResult(BaseEvent(BaseCode.FAILURE, PostResultBean(rs = postResultBean.head?.errInfo)))
                     return
                 }
-                if (postResultBean.have_next != HAVE_NEXT_PAGE) {
+                if (postResultBean.has_next != HAVE_NEXT_PAGE) {
                     postPresenter.postResult(BaseEvent(BaseCode.SUCCESS_END, postResultBean))
                     return
                 }

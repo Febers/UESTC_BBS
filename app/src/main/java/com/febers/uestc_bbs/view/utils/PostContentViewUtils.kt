@@ -90,12 +90,12 @@ object PostContentViewUtils {
                 textView.layoutParams = ViewGroup
                         .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 linearLayout?.addView(textView)
-//                linearLayout?.addView(divideView(context, 40))
                 continue
             }
             if (content.type == CONTENT_TYPE_IMG) {
                 //添加图片
                 val imageView = ImageView(context)
+                imageView.setLayerType(View.LAYER_TYPE_HARDWARE, null)  //打开硬件加速
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 imageView.layoutParams = ViewGroup
                         .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -163,7 +163,6 @@ object PostContentViewUtils {
         try {
             begin = raw.indexOf("""[mobcent_phiz=""", lastBegin)
             if (begin == -1) {
-                i("Utils", "$-1")
                 return newContent
             }
             var end = raw.indexOf("""]""", begin)
@@ -171,20 +170,17 @@ object PostContentViewUtils {
             var rawUrlString = raw.substring(begin+14, end) //不需要包括]
             var imgString = """<img src="${rawUrlString}">"""
             newContent = raw.replace(rawFormatString, imgString)
-
-            i("Utils rep ", "${newContent}")
         } catch (e:Exception) {
             i("Utils", "${e}")
             return newContent
         }
-        i("Utils img ", "$newContent")
         return emotionTransform(newContent, begin)
     }
 
-    /*
-        将原始空格和换行转换成HTML页面中的值
-     */
-    fun String.encodeSpaces(): String {
-        return this.replace("\n", "<br>").replace("\r", "&nbsp;")
-    }
+}
+/*
+    将原始空格和换行转换成HTML页面中的值
+ */
+fun String.encodeSpaces(): String {
+    return this.replace("\n", "<br>").replace("\r", "&nbsp;")
 }

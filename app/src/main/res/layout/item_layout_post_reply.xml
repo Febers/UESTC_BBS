@@ -5,9 +5,122 @@
   ~ Last modified 18-8-18 下午2:09.
   -->
 
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_view_post_reply_author_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@mipmap/ic_default_avatar" />
+        <TextView
+            android:id="@+id/text_view_post_reply_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:maxLines="1"
+            android:text="作者"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/image_view_post_reply_author_avatar"
+            app:layout_constraintTop_toTopOf="@+id/image_view_post_reply_author_avatar" />
+        <TextView
+            android:id="@+id/text_view_post_reply_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="作者等级"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_view_post_reply_author"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_post_reply_author"
+            app:layout_constraintVertical_bias="0.0" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_view_post_reply_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="回复时间"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_author"
+            app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_author"
+            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_author"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_view_post_reply_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="#1"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.957"
+            app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_date"
+            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_date"
+            app:layout_constraintVertical_bias="0.0" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_post_reply_quota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="15dp"
+        android:padding="6dp"
+        android:visibility="gone"
+        android:background="?attr/background_second">
+        <TextView
+            android:id="@+id/text_view_post_reply_quota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.1"
+            android:textSize="15dp"
+            android:textColor="?attr/textColorSecond"
+            android:text="某个人 发表于 2018-8-16 16:25
+
+这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="15dp">
+        <TextView
+            android:id="@+id/text_view_post_reply_content"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="?attr/textColorFirst"
+            android:text="这是回复内容内容内容这是回复内容内容内容这是回复内容内容内容这是引回复内容内容内容这是引用的回复内容内容内容"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -8,7 +8,8 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
 import android.support.annotation.UiThread
-import android.support.v4.widget.SwipeRefreshLayout
+import android.support.design.widget.BottomSheetDialog
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.adaper.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.ARG_PARAM1
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
@@ -29,8 +31,9 @@ import kotlinx.android.synthetic.main.fragment_post_detail.*
 
 class PostDetailFragment: BasePopFragment(), PostContract.View {
 
-    private var replyList: List<PostReplyBean> = ArrayList()
+    private var replyList: MutableList<PostReplyBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
+    private lateinit var replyItemAdapter: PostReplyItemAdapter
     private var page = 1
     private var authorId = ""
     private lateinit var postId: String
@@ -42,50 +45,66 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
 
     override fun setContentView(): Int {
         postPresenter = PostPresenterImpl(this)
+        replyItemAdapter = PostReplyItemAdapter(context!!, replyList, false)
         postId = param1!!
         return R.layout.fragment_post_detail
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        image_view_post_detail_author_avatar?.visibility = View.INVISIBLE
-        linear_layout_detail_divide?.visibility = View.INVISIBLE
-        refresh_layout_post_detail?.isRefreshing = true
-        refresh_layout_post_detail.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
-            override fun onRefresh() {
-                page = 1
-                getPost(postId, page)
-            }
-        })
+        btn_reply.setOnClickListener { openBottomSheet() }
+        refresh_layout_post_detail.setEnableLoadMore(false)
+        refresh_layout_post_detail.autoRefresh()
+        refresh_layout_post_detail.setOnRefreshListener {
+            page = 1
+            getPost(postId, page) }
+        replyItemAdapter.setLoadingView(R.layout.layout_loading)
+        refresh_layout_post_detail.setOnLoadMoreListener { getPost(postId, ++page) }
+        replyItemAdapter.setLoadEndView(R.layout.layout_load_end)
         recyclerview_post_detail_replies.layoutManager = LinearLayoutManager(context)
-
-        getPost(postId, page)
+        recyclerview_post_detail_replies.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+        recyclerview_post_detail_replies.adapter = replyItemAdapter
     }
 
     private fun getPost(_postId: String, _page: Int, _authorId: String = "", _order: String = "") {
+        //获取数据之后(由于已经关闭加载更多，只能由刷新触发)，恢复加载更多设置
+        refresh_layout_post_detail.setNoMoreData(false)
         postPresenter.postRequest(_postId, _page, _authorId, _order)
     }
 
     @UiThread
     override fun postResult(event: BaseEvent<PostResultBean>) {
-        refresh_layout_post_detail?.isRefreshing = false
         if (event.code == BaseCode.FAILURE) {
             onError(event.data.rs!!)
+            refresh_layout_post_detail.finishRefresh(false)
+            refresh_layout_post_detail.finishLoadMore(false)
             return
         }
-
-        linear_layout_detail_divide?.visibility = View.VISIBLE
-        if (image_view_post_detail_author_avatar != null) {
-            image_view_post_detail_author_avatar.visibility = View.VISIBLE
-            Glide.with(context!!).load(event.data.topic?.icon).transform(GlideCircleTransform(context))
-                    .into(image_view_post_detail_author_avatar)
+        refresh_layout_post_detail.finishLoadMore(true)
+        refresh_layout_post_detail.finishRefresh(true)
+        refresh_layout_post_detail.setEnableLoadMore(true)
+        if (page == 1) {
+            //绘制主贴视图，否则只需要添加评论内容
+            linear_layout_detail_divide?.visibility = View.VISIBLE
+            if (image_view_post_detail_author_avatar != null) {
+                image_view_post_detail_author_avatar.visibility = View.VISIBLE
+                Glide.with(context!!).load(event.data.topic?.icon).transform(GlideCircleTransform(context))
+                        .into(image_view_post_detail_author_avatar)
+            }
+            text_view_post_detail_title?.setText(event.data.topic?.title)
+            text_view_post_detail_author?.setText(event.data.topic?.user_nick_name)
+            text_view_post_detail_author_title?.setText(event.data.topic?.userTitle)
+            text_view_post_detail_date?.setText(event.data.topic?.create_date)
+            PostContentViewUtils.creat(context, linear_layout_detail_content, event.data.topic?.content)
+            replyList.clear()
         }
+        replyList.addAll(event.data.list!!)
+        replyItemAdapter.notifyDataSetChanged()
 
-        text_view_post_detail_title?.setText(event.data.topic?.title)
-        text_view_post_detail_author?.setText(event.data.topic?.user_nick_name)
-        text_view_post_detail_time?.setText(event.data.topic?.create_date)
-        PostContentViewUtils.creat(context, linear_layout_detail_content, event.data.topic?.content)
-
+        if (event.code == BaseCode.SUCCESS_END) {
+            refresh_layout_post_detail.finishLoadMoreWithNoMoreData()
+            return
+        }
     }
 
     companion object {
@@ -106,5 +125,11 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         return attachToSwipeBack(view!!)
+    }
+
+    private fun openBottomSheet() {
+        val bottomSheetDialog = BottomSheetDialog(context!!, R.style.PinkBottomSheetTheme)
+        bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
+        bottomSheetDialog.show()
     }
 }

@@ -16,7 +16,7 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class PostItemAdapter(context: Context, data: List<SimpleTopicBean>, isLoadMore: Boolean):
+class PostSimpleItemAdapter(context: Context, data: List<SimpleTopicBean>, isLoadMore: Boolean):
         CommonBaseAdapter<SimpleTopicBean>(context, data, isLoadMore) {
 
     override fun convert(p0: ViewHolder?, p1: SimpleTopicBean?, p2: Int) {
@@ -50,4 +50,6 @@ class PostItemAdapter(context: Context, data: List<SimpleTopicBean>, isLoadMore:
     override fun setLoadEndView(loadEndId: Int) {
         super.setLoadEndView(loadEndId)
     }
+
+
 }

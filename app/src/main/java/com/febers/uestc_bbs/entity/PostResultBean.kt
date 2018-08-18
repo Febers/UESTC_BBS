@@ -158,7 +158,7 @@ accessToken=f265c4405fa903d493da843e28e63&accessSecret=08a733a5054250923e04b4ee5
 
 
 data class PostResultBean(var rs: String? = null, var errcode: String? = null, var head: ResultHeadBean? = null,
-                          var body: Any? = null, var topic:PostTopicBaen? = null, var page: String? = null, var have_next: String? = null,
+                          var body: Any? = null, var topic:PostTopicBaen? = null, var page: String? = null, var has_next: String? = null,
                           var total_num: String? = null, var list: List<PostReplyBean>? = null, var forumName: String? = null,
                           var boardId: String? = null, var forumTopicUrl: String? = null, var img_url: String? = null,
                           var icon_url: String? = null)
@@ -184,7 +184,7 @@ data class PostExtraPanelBean(var action: String?, var title: String?, var extPa
 
 data class PostReplyBean(var reply_id: String?, var reply_content: List<SimpleContentBean>? = null, var reply_type: String?,
                          var reply_name: String?, var reply_post_id: String?, var poststick: String?,
-                         var poisition: String?, var posts_data: String?, var icon: String?,
+                         var position: String?, var posts_data: String?, var icon: String?,
                          var level: String?, var userTitle: String?, var userColor: String?,
                          var location: String?, var mobileSign: String?, var reply_status: String?,
                          var status: String?, var role_num: String?, var title: String?,
