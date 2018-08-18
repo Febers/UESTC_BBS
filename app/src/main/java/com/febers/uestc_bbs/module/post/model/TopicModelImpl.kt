@@ -11,6 +11,8 @@ import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.TopicResultBean
 import com.febers.uestc_bbs.entity.SimpleTopicBean
+import com.febers.uestc_bbs.module.login.model.SERVICE_RESPONSE_ERROR
+import com.febers.uestc_bbs.module.login.model.SERVICE_RESPONSE_NULL
 import com.febers.uestc_bbs.module.post.presenter.TopicContract
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
@@ -41,13 +43,13 @@ class TopicModelImpl(val topicPresenter: TopicContract.Presenter) : ITopicModel 
     private fun getTopic() {
         getCall().enqueue(object : Callback<TopicResultBean> {
             override fun onFailure(call: Call<TopicResultBean>?, t: Throwable?) {
-                topicPresenter.topicResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimpleTopicBean(title = "服务器未响应"))))
+                topicPresenter.topicResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimpleTopicBean(title = SERVICE_RESPONSE_ERROR))))
             }
 
             override fun onResponse(call: Call<TopicResultBean>?, response: Response<TopicResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    topicPresenter.topicResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimpleTopicBean(title = "服务器相应为空"))))
+                    topicPresenter.topicResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimpleTopicBean(title = SERVICE_RESPONSE_NULL))))
                     return
                 }
                 if (body.has_next == 0) {

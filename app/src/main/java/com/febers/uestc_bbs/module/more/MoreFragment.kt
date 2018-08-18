@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.MoreItemAdapter
 import com.febers.uestc_bbs.base.BaseApplication
@@ -19,6 +18,7 @@ import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
+import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
 import com.febers.uestc_bbs.module.user.view.UserDetailFragment
 import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
 import com.othershe.baseadapter.ViewHolder
@@ -64,8 +64,8 @@ class MoreFragment: BaseFragment() {
             text_view_fragment_user_name.setText(user.name)
             text_view_fragment_user_title.setText(user.title)
         }
-        Glide.with(this).load(user.avatar).apply(RequestOptions().placeholder(R.mipmap.ic_launcher))
-                .apply(RequestOptions().circleCrop()).into(image_view_fragment_user_avatar)
+        Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context))
+                .into(image_view_fragment_user_avatar)
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
@@ -87,8 +87,8 @@ class MoreFragment: BaseFragment() {
     fun onLoginSeccess(event: BaseEvent<UserBean>) {
         text_view_fragment_user_name.setText(event.data.name)
         text_view_fragment_user_title.setText(event.data.title)
-        Glide.with(this).load(user.avatar).apply(RequestOptions().placeholder(R.mipmap.ic_launcher))
-                .apply(RequestOptions().circleCrop()).into(image_view_fragment_user_avatar)
+        Glide.with(this).load(user.avatar).placeholder(R.mipmap.ic_launcher)
+                .into(image_view_fragment_user_avatar)
         user = event.data
     }
 

@@ -170,8 +170,8 @@ data class PostTopicBaen(var topic_id: String? = null, var title: String? = null
                          var top: String?, var is_favor: String?, var create_date: String?,
                          var icon: String? = null, var level: String? = null, var userTitle: String? = null,
                          var userColor: String?, var isFollow: String?, var zanList: List<Any>?,
-                         var content: List<SimpleContentBean>? = null, var poll_info: String?, var activityInfo: String?,
-                         var location: String?, var delThread: String?, var managePanel: List<Any>?,
+                         var content: List<SimpleContentBean>? = null, var poll_info: Any?, var activityInfo: Any?,
+                         var location: String?, var delThread: Any?, var managePanel: List<Any>?,
                          var extraPanel: List<PostExtraPanelBean>? = null, var mobileSign :String?, var status: String?,
                          var reply_status: String?, var flag :String?, var gender :String?,
                          var reply_posts_id: String?, var rateList: Any?, var relateItem: Any?)

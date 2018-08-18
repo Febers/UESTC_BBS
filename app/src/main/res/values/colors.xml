@@ -276,7 +276,7 @@
     <!--Toolbar背景  -->
     <color name="topbar_Background_Day">#3F51B5</color>
     <!--主页item背景色-->
-    <color name="backgroundFirst_Day">#FFFFFF</color>
+    <color name="backgroundFirst_Day">#ffffff</color>
     <color name="backgroundSecond_Day">#EEEEEE</color>
 
     <!--夜间模式-->

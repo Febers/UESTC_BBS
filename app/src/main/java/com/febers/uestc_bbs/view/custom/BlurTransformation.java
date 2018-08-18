@@ -82,7 +82,7 @@ public class BlurTransformation extends BitmapTransformation {
      * @param color The color filter for blurring.
      */
     public BlurTransformation(Context context, @FloatRange(from = 0.0f) float radius, int color) {
-        super();
+        super(context);
         mContext = context;
         if (radius > MAX_RADIUS) {
             mSampling = radius / 25.0f;
@@ -202,8 +202,8 @@ public class BlurTransformation extends BitmapTransformation {
         return sb.toString();
     }
 
-    @Override
-    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-
-    }
+//    @Override
+//    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+//
+//    }
 }

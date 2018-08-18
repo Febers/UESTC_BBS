@@ -15,7 +15,6 @@ import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostItemAdapter
@@ -24,8 +23,6 @@ import com.febers.uestc_bbs.entity.SimpleTopicBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.TopicContract
 import com.febers.uestc_bbs.module.post.presenter.TopicPresenterImpl
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_sub_post.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -57,8 +54,8 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
         user = BaseApplication.getUser()
         mParentFragment = parentFragment as BaseFragment
         postItemAdapter.setLoadingView(R.layout.layout_loading)
-        postItemAdapter.setOnLoadMoreListener { getPost(page++, true) }
-
+        postItemAdapter.setOnLoadMoreListener { getPost(++page, true) }
+        postItemAdapter.setLoadEndView(R.layout.layout_load_end)
         recyclerview_subpost_fragment.layoutManager = LinearLayoutManager(context)
         recyclerview_subpost_fragment.adapter = postItemAdapter
         recyclerview_subpost_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
@@ -75,6 +72,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
     }
 
     fun getPost(page: Int, refresh: Boolean) {
+        i("GET", "${page}")
         topicPresenter.topicRequest(fid = param1!!, page = page, refresh = refresh)
     }
 
@@ -89,7 +87,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
 
     @UiThread
     override fun topicResult(event: BaseEvent<List<SimpleTopicBean>?>) {
-        refresh_layout_post_fragment.isRefreshing = false
+        refresh_layout_post_fragment?.isRefreshing = false
         if (event.code == BaseCode.FAILURE) {
             onError(event!!.data!![0]!!.title!!)    //我佛了
             return

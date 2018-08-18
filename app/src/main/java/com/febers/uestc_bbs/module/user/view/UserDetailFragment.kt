@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.WindowManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.DetailItemAdapter
 import com.febers.uestc_bbs.base.ARG_PARAM1
@@ -47,8 +46,8 @@ class UserDetailFragment: BasePopFragment() {
         recyclerview_detail_fragment.adapter = DetailItemAdapter(context!!, initItem(), false)
         recyclerview_detail_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         Glide.with(this).load(user.avatar)
-                .apply(RequestOptions().transform(BlurTransformation(context, 100f))).into(image_view_detail_blur_avatar)
-        Glide.with(this).load(user.avatar).apply(RequestOptions().circleCrop()).into(image_view_detail_avatar)
+                .transform(BlurTransformation(context, 100f)).into(image_view_detail_blur_avatar)
+        Glide.with(this).load(user.avatar).into(image_view_detail_avatar)
     }
 
     override fun onDestroyView() {
