@@ -28,6 +28,7 @@ import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import kotlinx.android.synthetic.main.fragment_post_detail.*
+import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
 class PostDetailFragment: BasePopFragment(), PostContract.View {
 
@@ -38,7 +39,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     private var authorId = ""
     private lateinit var postId: String
     private var order = ""
-
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     override fun setToolbar(): Toolbar? {
         return toolbar_post_detail
     }
@@ -52,13 +53,15 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
+        bottomSheetDialog = MyBottomSheetDialog(context!!, R.style.PinkBottomSheetTheme)
+        bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
+
         btn_reply.setOnClickListener { openBottomSheet() }
         refresh_layout_post_detail.setEnableLoadMore(false)
         refresh_layout_post_detail.autoRefresh()
         refresh_layout_post_detail.setOnRefreshListener {
             page = 1
             getPost(postId, page) }
-        replyItemAdapter.setLoadingView(R.layout.layout_loading)
         refresh_layout_post_detail.setOnLoadMoreListener { getPost(postId, ++page) }
         replyItemAdapter.setLoadEndView(R.layout.layout_load_end)
         recyclerview_post_detail_replies.layoutManager = LinearLayoutManager(context)
@@ -95,6 +98,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
             text_view_post_detail_author?.setText(event.data.topic?.user_nick_name)
             text_view_post_detail_author_title?.setText(event.data.topic?.userTitle)
             text_view_post_detail_date?.setText(event.data.topic?.create_date)
+            btn_reply.setText(event.data.topic?.replies+"条评论")
             PostContentViewUtils.creat(context, linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
         }
@@ -128,8 +132,6 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     }
 
     private fun openBottomSheet() {
-        val bottomSheetDialog = BottomSheetDialog(context!!, R.style.PinkBottomSheetTheme)
-        bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
         bottomSheetDialog.show()
     }
 }

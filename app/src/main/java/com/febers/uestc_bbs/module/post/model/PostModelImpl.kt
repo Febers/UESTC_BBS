@@ -58,7 +58,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): IPostModel {
                 page = page,
                 pageSize = COMMON_PAGE_SIZE)
 
-        call.enqueue(object : Callback<PostResultBean> {
+        call?.enqueue(object : Callback<PostResultBean> {
             override fun onFailure(call: Call<PostResultBean>?, t: Throwable?) {
                 i("PML", "${t.toString()}")
                 postPresenter.postResult(BaseEvent(BaseCode.FAILURE, PostResultBean(rs = SERVICE_RESPONSE_ERROR + t.toString())))

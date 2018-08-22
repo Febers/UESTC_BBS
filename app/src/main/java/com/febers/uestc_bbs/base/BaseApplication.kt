@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import android.support.annotation.NonNull
+import android.util.TypedValue
 import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.api.RefreshFooter
@@ -46,11 +47,12 @@ class BaseApplication: Application() {
         init {
             //设置全局的Header构建器
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-                //layout.setPrimaryColorsId(R.color.colorAccent, android.R.color.white);//全局设置主题颜色
+//                layout.setPrimaryColorsId(typeValue.data, android.R.color.white);//全局设置主题颜色
                 ClassicsHeader(context)
             }
             //设置全局的Footer构建器
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
+                layout.setFooterHeight(38f)
                 ClassicsFooter(context).setDrawableSize(20f)
             }
         }

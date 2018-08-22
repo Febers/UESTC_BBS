@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Febers at 18-8-19 下午11:22.
+  ~ Copyright (c). All rights reserved.
+  ~ Last modified 18-8-19 下午11:22.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="@color/material_grey_200" />
+
+    <corners
+        android:radius="4dp"
+        />
+</shape>

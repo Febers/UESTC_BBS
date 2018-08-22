@@ -12,12 +12,14 @@ import android.support.v7.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.MoreItemAdapter
+import com.febers.uestc_bbs.base.ARG_PARAM1
 import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
+import com.febers.uestc_bbs.module.more.theme.ThemeFragment
 import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
 import com.febers.uestc_bbs.module.user.view.UserDetailFragment
 import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
@@ -38,12 +40,12 @@ class MoreFragment: BaseFragment() {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         user = BaseApplication.getUser()
-        more_fragment_header.setOnClickListener { itemClick(-1) }
+        more_fragment_header.setOnClickListener { itemClick(-1, -1) }
 
         val moreItemAdapter1 = MoreItemAdapter(context!!, initMoreItem1(), false)
         moreItemAdapter1.setOnItemClickListener(object : OnItemClickListener<MoreItemBean> {
             override fun onItemClick(p0: ViewHolder?, p1: MoreItemBean?, p2: Int) {
-                itemClick(p2)
+                itemClick(0, p2)
             }
         })
         more_fragment_recyclerview_1.layoutManager = LinearLayoutManager(context)
@@ -53,7 +55,7 @@ class MoreFragment: BaseFragment() {
         val moreItemAdapter2 = MoreItemAdapter(context!!, initMoreItem2(), false)
         moreItemAdapter2.setOnItemClickListener(object : OnItemClickListener<MoreItemBean> {
             override fun onItemClick(p0: ViewHolder?, p1: MoreItemBean?, p2: Int) {
-                itemClick(p2)
+                itemClick(1, p2)
             }
         })
         more_fragment_recyclerview_2.layoutManager = LinearLayoutManager(context)
@@ -92,20 +94,22 @@ class MoreFragment: BaseFragment() {
         user = event.data
     }
 
-    private fun itemClick(position: Int) {
-//        val supportActivity: BaseActivity = activity as BaseActivity
+    private fun itemClick(view: Int, position: Int) {
         val parentFragment: BaseFragment = parentFragment as BaseFragment
-        if (position == -1) {
+        if (view == -1) {
             if (BaseApplication.getUser().valid) {
                 parentFragment.start(UserDetailFragment.newInstance(""))
-//                supportActivity.start(UserDetailFragment.newInstance(""))
             } else {
                 parentFragment.start(LoginFragment.newInstance(""))
-//                supportActivity.start(LoginFragment.newInstance(""))
             }
             return
         }
-        parentFragment.start(UserRepliesFragment.newInstance(""))
-//        supportActivity.start(UserRepliesFragment.newInstance(""))
+        if (view == 0) {
+            parentFragment.start(UserRepliesFragment.newInstance(""))
+            return
+        }
+        if (view == 1) {
+            parentFragment.start(ThemeFragment.newInstance(""))
+        }
     }
 }
