@@ -7,9 +7,7 @@
 package com.febers.uestc_bbs.module.login.model
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.UserSaver
 import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.entity.UserBean
@@ -21,11 +19,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-const val REQUEST_SECCESS_RS = "1"
-const val HAVE_NEXT_PAGE = "1"
-const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
-const val SERVICE_RESPONSE_NULL = "服务器响应为空"
 
 class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
 

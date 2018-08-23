@@ -18,6 +18,9 @@ import me.yokeyword.fragmentation.SupportActivityDelegate
 import org.jetbrains.anko.toast
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 import android.view.MotionEvent
+import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.ThemeUtils
 import me.yokeyword.fragmentation.ExtraTransaction
 import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.ISupportFragment
@@ -38,6 +41,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, ISupportActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
+        setTheme(ThemeUtils.getTheme())
         setContentView(contentView)
         if (registEvenBus()) {
             if (!EventBus.getDefault().isRegistered(this)) {

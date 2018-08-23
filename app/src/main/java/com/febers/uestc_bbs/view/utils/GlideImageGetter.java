@@ -18,7 +18,7 @@ import com.febers.uestc_bbs.R;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
+public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     private final Context mContext;
 
     private final TextView mTextView;

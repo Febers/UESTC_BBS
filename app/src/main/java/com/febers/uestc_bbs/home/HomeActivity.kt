@@ -13,6 +13,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
+import com.febers.uestc_bbs.utils.AttrUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 
@@ -46,6 +47,7 @@ class HomeActivity: BaseActivity() {
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
         bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
         bottom_navigation_home.canScrollHorizontally(AHBottomNavigation.LAYOUT_DIRECTION_INHERIT)
+        bottom_navigation_home.accentColor = AttrUtils.getColor(this, R.attr.colorAccent)
         bottom_navigation_home.setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
     }
 
@@ -70,5 +72,4 @@ class HomeActivity: BaseActivity() {
     private fun onTabReselected(position: Int) {
 
     }
-
 }

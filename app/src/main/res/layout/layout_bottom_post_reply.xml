@@ -31,7 +31,7 @@
             android:layout_weight="4"
             android:layout_height="30dp"
             android:gravity="center"
-            android:textColor="@color/material_grey_700"
+            android:textColor="@color/color_gray_light"
             android:background="@drawable/ic_corner_bg_gray"
             android:text="回复" />
         <ImageView

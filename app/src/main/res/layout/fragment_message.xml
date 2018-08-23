@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:tabSelectedTextColor="@color/material_white"
-        app:tabTextColor="@color/material_grey_350"
-        app:tabIndicatorColor="@color/material_white"/>
+        app:tabSelectedTextColor="@color/color_white"
+        app:tabTextColor="@color/color_gray"
+        app:tabIndicatorColor="@color/color_white"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_message"
         android:layout_width="match_parent"

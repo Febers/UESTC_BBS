@@ -7,14 +7,8 @@
 package com.febers.uestc_bbs.module.post.model
 
 import android.util.Log.i
-import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostResultBean
-import com.febers.uestc_bbs.module.login.model.HAVE_NEXT_PAGE
-import com.febers.uestc_bbs.module.login.model.REQUEST_SECCESS_RS
-import com.febers.uestc_bbs.module.login.model.SERVICE_RESPONSE_ERROR
-import com.febers.uestc_bbs.module.login.model.SERVICE_RESPONSE_NULL
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call

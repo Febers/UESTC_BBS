@@ -11,7 +11,10 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.ThemeAdapter
 import com.febers.uestc_bbs.base.ARG_PARAM1
 import com.febers.uestc_bbs.base.BasePopFragment
+import com.febers.uestc_bbs.base.DEFAULT_THEME_CODE
 import com.febers.uestc_bbs.entity.ThemeItemBean
+import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_theme.*
 
 class ThemeFragment : BasePopFragment() {
@@ -28,34 +31,36 @@ class ThemeFragment : BasePopFragment() {
         super.onLazyInitView(savedInstanceState)
 
         val themeAdapter = ThemeAdapter(context!!, initThemeList(), false)
-        themeAdapter.setOnItemClickListener { viewHolder, themeItemBean, i ->  }
+        themeAdapter.setOnItemClickListener { viewHolder, themeItemBean, i ->  reChooseTheme(i)}
         recyclerview_theme.layoutManager = LinearLayoutManager(context)
         recyclerview_theme.adapter = themeAdapter
     }
 
     private fun initThemeList(): List<ThemeItemBean> {
-        val item1 = ThemeItemBean(R.drawable.ic_circle_red, "红色", false)
-        val item2 = ThemeItemBean(R.drawable.ic_circle_blue, "蓝色", false)
-        val item3 = ThemeItemBean(R.drawable.ic_circle_purple, "紫色", false)
-        val item4 = ThemeItemBean(R.drawable.ic_circle_green, "绿色", false)
-        val item5 = ThemeItemBean(R.drawable.ic_circle_yellow, "黄色", false)
-        val item6 = ThemeItemBean(R.drawable.ic_circle_pink, "粉红", false)
-        val item7 = ThemeItemBean(R.drawable.ic_circle_teal, "鸭绿", false)
-        val item8 = ThemeItemBean(R.drawable.ic_circle_cyan, "靛蓝", false)
+        val item1 = ThemeItemBean(R.drawable.ic_circle_green, getString(R.string.theme_green), false)
+        val item2 = ThemeItemBean(R.drawable.ic_circle_red, getString(R.string.theme_red), false)
+        val item3 = ThemeItemBean(R.drawable.ic_circle_pink, getString(R.string.theme_pink), false)
+        val item4 = ThemeItemBean(R.drawable.ic_circle_cyan, getString(R.string.theme_cyan), false)
+        val item5 = ThemeItemBean(R.drawable.ic_circle_teal, getString(R.string.theme_teal), false)
+        val item6 = ThemeItemBean(R.drawable.ic_circle_purple, getString(R.string.theme_purple), false)
+        val item7 = ThemeItemBean(R.drawable.ic_circle_blue, getString(R.string.theme_blue), false)
+        val item8 = ThemeItemBean(R.drawable.ic_circle_gray, getString(R.string.theme_gray), false)
         return listOf(item1, item2, item3, item4, item5, item6, item7, item8)
     }
 
     private fun reChooseTheme(position: Int) {
-
+        ThemeUtils.saveTheme(position)
+        activity?.recreate()
     }
 
     //切换主题时候重新创建Fragment
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contextThemeWrapper = ContextThemeWrapper(context, R.style.AppTheme)
-        val localInflater = inflater.cloneInContext(contextThemeWrapper)
-        val view = localInflater.inflate(R.layout.fragment_theme, container, false)
-        return view
-    }
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        val themeCode by PreferenceUtils(context!!, "theme_code", DEFAULT_THEME_CODE)
+//        val contextThemeWrapper = ContextThemeWrapper(context, R.style.DefaultTheme)
+//        val localInflater = inflater.cloneInContext(contextThemeWrapper)
+//        val view = localInflater.inflate(R.layout.fragment_theme, container, false)
+//        return view
+//    }
 
     companion object {
         @JvmStatic

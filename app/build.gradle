@@ -51,15 +51,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
-
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-
     implementation 'me.yokeyword:fragmentation:1.3.6'
     implementation 'me.yokeyword:fragmentation-swipeback:1.3.6'
-
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     implementation 'com.github.Othershe:RecyclerViewAdapter:1.2.5'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation files('lib/glide-3.7.0.jar')
 }

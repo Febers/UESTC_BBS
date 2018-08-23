@@ -32,6 +32,16 @@
     <string name="developer_name">Febers</string>
     <string name="login">登录</string>
 
+    <string name="theme_green">酷安绿</string>
+    <string name="theme_red">姨妈红</string>
+    <string name="theme_pink">哔哩粉</string>
+    <string name="theme_cyan">卧堤蓝</string>
+    <string name="theme_teal">水鸭青</string>
+    <string name="theme_purple">激情紫</string>
+    <string name="theme_blue">知乎蓝</string>
+    <string name="theme_gray">低调灰</string>
+
+    <string name="sp_theme_code">2</string>
     <string name="sp_user_valid">user_valid</string>
     <string name="sp_user_exist">user_exist</string>
     <string name="sp_user_name">user_name</string>
@@ -46,7 +56,4 @@
     <string name="sp_user_extcredit_data">user_ext_credit_data</string>
     <string name="sp_user_mobile">user_mobile</string>
     <string name="sp_user_group_id">user_group_id</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

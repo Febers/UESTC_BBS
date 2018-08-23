@@ -7,12 +7,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/material_white</item>
+        <item name="android:windowBackground">@color/color_white</item>
         <item name="textColorFirst">@color/textColorFirst_Day</item>
         <item name="textColorSecond">@color/textColorSecond_Day</item>
         <item name="textColorThird">@color/textColorThird_Day</item>
@@ -20,21 +20,64 @@
         <item name="background_second">@color/backgroundSecond_Day</item>
     </style>
 
-    <style name="PinkTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/material_pink_400</item>
-        <item name="colorPrimaryDark">@color/material_pink_400</item>
-        <item name="colorAccent">@color/material_pink_accent_400</item>
+    <style name="GreenTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_green_kuan</item>
+        <item name="colorPrimaryDark">@color/color_green_kuan</item>
+        <item name="colorAccent">@color/color_green_kuan</item>
     </style>
 
-    <style name="CustomTheme_1" parent="PinkTheme" >
-        <item name="android:textColorPrimary">@color/text_color_primary</item>
-        <item name="android:textColorSecondary">@color/text_color_secondary</item>
+    <style name="RedTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_red_yima</item>
+        <item name="colorPrimaryDark">@color/color_red_yima</item>
+        <item name="colorAccent">@color/color_red_yima</item>
+    </style>
+
+    <style name="PinkTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_pink_bili</item>
+        <item name="colorPrimaryDark">@color/color_pink_bili</item>
+        <item name="colorAccent">@color/color_pink_bili</item>
+    </style>
+
+    <style name="CyanTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_cyan_wodi</item>
+        <item name="colorPrimaryDark">@color/color_cyan_wodi</item>
+        <item name="colorAccent">@color/color_cyan_wodi</item>
+    </style>
+
+    <style name="TealTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_teal_shuiya</item>
+        <item name="colorPrimaryDark">@color/color_teal_shuiya</item>
+        <item name="colorAccent">@color/color_teal_shuiya</item>
+    </style>
+
+    <style name="PurpleTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_purple_gay</item>
+        <item name="colorPrimaryDark">@color/color_purple_gay</item>
+        <item name="colorAccent">@color/color_purple_gay</item>
+    </style>
+
+    <style name="BlueTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_blue_zhihu</item>
+        <item name="colorPrimaryDark">@color/color_blue_zhihu</item>
+        <item name="colorAccent">@color/color_blue_zhihu</item>
+    </style>
+
+    <style name="GrayTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_gray_didiao</item>
+        <item name="colorPrimaryDark">@color/color_gray_didiao</item>
+        <item name="colorAccent">@color/color_gray_didiao</item>
+    </style>
+
+    <style name="Theme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_pink_bili</item>
+        <item name="colorPrimaryDark">@color/color_pink_bili</item>
+        <item name="colorAccent">@color/color_pink_bili</item>
     </style>
 
     <style name="PinkBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/material_pink_400</item>
-        <item name="colorPrimaryDark">@color/material_pink_400</item>
-        <item name="colorAccent">@color/material_pink_accent_400</item>
+        <item name="colorPrimary">@color/color_blue_zhihu</item>
+        <item name="colorPrimaryDark">@color/color_blue_zhihu</item>
+        <item name="colorAccent">@color/color_blue_zhihu</item>
     </style>
 
     <!--夜晚主题-->

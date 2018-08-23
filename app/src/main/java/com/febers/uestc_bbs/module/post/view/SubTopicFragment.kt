@@ -89,19 +89,19 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
     override fun topicResult(event: BaseEvent<List<SimpleTopicBean>?>) {
         if (event.code == BaseCode.FAILURE) {
             onError(event!!.data!![0]!!.title!!)    //我佛了
-            refresh_layout_post_fragment.finishRefresh(false)
-            refresh_layout_post_fragment.finishLoadMore(false)
+            refresh_layout_post_fragment?.finishRefresh(false)
+            refresh_layout_post_fragment?.finishLoadMore(false)
             return
         }
-        refresh_layout_post_fragment.finishRefresh()
-        refresh_layout_post_fragment.finishLoadMore()
-        refresh_layout_post_fragment.setEnableLoadMore(true)
+        refresh_layout_post_fragment?.finishRefresh()
+        refresh_layout_post_fragment?.finishLoadMore()
+        refresh_layout_post_fragment?.setEnableLoadMore(true)
         if (page == 1) {
             postSimpleItemAdapter.setNewData(event.data)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_post_fragment.finishLoadMoreWithNoMoreData()
+            refresh_layout_post_fragment?.finishLoadMoreWithNoMoreData()
             return
         }
         postSimpleItemAdapter.setLoadMoreData(event.data)

@@ -6,13 +6,9 @@
 
 package com.febers.uestc_bbs.module.post.model
 
-import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.TopicResultBean
 import com.febers.uestc_bbs.entity.SimpleTopicBean
-import com.febers.uestc_bbs.module.login.model.SERVICE_RESPONSE_ERROR
-import com.febers.uestc_bbs.module.login.model.SERVICE_RESPONSE_NULL
 import com.febers.uestc_bbs.module.post.presenter.TopicContract
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
