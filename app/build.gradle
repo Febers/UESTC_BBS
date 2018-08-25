@@ -15,7 +15,7 @@ apply plugin: 'org.greenrobot.greendao'
 ext.anko_version = '0.10.5'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.febers.uestc_bbs"
         minSdkVersion 17

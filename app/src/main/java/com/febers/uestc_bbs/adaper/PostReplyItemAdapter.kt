@@ -11,10 +11,10 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostReplyBean
-import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.view.utils.ImageTextUtil
-import com.febers.uestc_bbs.view.utils.PostContentViewUtils
-import com.febers.uestc_bbs.view.utils.encodeSpaces
+import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
+import com.febers.uestc_bbs.utils.encodeSpaces
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
@@ -29,8 +29,9 @@ class PostReplyItemAdapter(context: Context, data: List<PostReplyBean>, isLoadMo
         p0?.setText(R.id.text_view_post_reply_floor, "#"+p1?.position)
 //        p0?.setText(R.id.text_view_post_reply_content, p1?.reply_content?.get(0)?.infor)
         //支持表情
-        ImageTextUtil.setImageText(p0?.getView(R.id.text_view_post_reply_content),
-                PostContentViewUtils.emotionTransform(p1?.reply_content?.get(0)?.infor).encodeSpaces())
+//        ImageTextUtil.setImageText(p0?.getView(R.id.text_view_post_reply_content),
+//                PostContentViewUtils.emotionTransform(p1?.reply_content?.get(0)?.infor).encodeSpaces())
+        PostContentViewUtils.creat(p0?.convertView?.context, p0?.convertView?.findViewById(R.id.linear_layout_post_reply), p1?.reply_content)
         if (p1?.is_quote == REPLY_IS_QUOTA) {
             p0?.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
             p0?.setText(R.id.text_view_post_reply_quota, p1?.quote_content?.multiLineSpaces())

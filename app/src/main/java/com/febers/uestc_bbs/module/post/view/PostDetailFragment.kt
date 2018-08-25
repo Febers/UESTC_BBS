@@ -26,7 +26,8 @@ import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.view.utils.PostContentViewUtils
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
+import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
@@ -79,13 +80,13 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     override fun postResult(event: BaseEvent<PostResultBean>) {
         if (event.code == BaseCode.FAILURE) {
             onError(event.data.rs!!)
-            refresh_layout_post_detail.finishRefresh(false)
-            refresh_layout_post_detail.finishLoadMore(false)
+            refresh_layout_post_detail?.finishRefresh(false)
+            refresh_layout_post_detail?.finishLoadMore(false)
             return
         }
-        refresh_layout_post_detail.finishLoadMore(true)
-        refresh_layout_post_detail.finishRefresh(true)
-        refresh_layout_post_detail.setEnableLoadMore(true)
+        refresh_layout_post_detail?.finishLoadMore(true)
+        refresh_layout_post_detail?.finishRefresh(true)
+        refresh_layout_post_detail?.setEnableLoadMore(true)
         if (page == 1) {
             //绘制主贴视图，否则只需要添加评论内容
             linear_layout_detail_divide?.visibility = View.VISIBLE

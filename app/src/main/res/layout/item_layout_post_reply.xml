@@ -106,6 +106,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linear_layout_post_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -113,14 +114,14 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp">
-        <TextView
-            android:id="@+id/text_view_post_reply_content"
-            android:lineSpacingMultiplier="1.2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="?attr/textColorFirst"
-            android:text="这是回复内容内容内容这是回复内容内容内容这是回复内容内容内容这是引回复内容内容内容这是引用的回复内容内容内容"/>
+        <!--<TextView-->
+            <!--android:id="@+id/text_view_post_reply_content"-->
+            <!--android:lineSpacingMultiplier="1.2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="16dp"-->
+            <!--android:textColor="?attr/textColorFirst"-->
+            <!--android:text="这是回复内容内容内容这是回复内容内容内容这是回复内容内容内容这是引回复内容内容内容这是引用的回复内容内容内容"/>-->
     </LinearLayout>
 
 </LinearLayout>

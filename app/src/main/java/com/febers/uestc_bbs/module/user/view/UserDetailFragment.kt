@@ -22,8 +22,7 @@ import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BasePopFragment
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
-import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
-import com.febers.uestc_bbs.view.custom.BlurTransformation
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
 /**

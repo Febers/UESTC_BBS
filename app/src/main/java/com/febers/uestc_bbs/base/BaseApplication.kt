@@ -23,6 +23,7 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
@@ -53,7 +54,7 @@ class BaseApplication: Application() {
             //设置全局的Footer构建器
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)
-                ClassicsFooter(context).setDrawableSize(20f)
+                BallPulseFooter(context)
             }
         }
     }

@@ -55,7 +55,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         System.out.println("Downloading from: " + url);
         Glide.with(mContext)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(new ImageGetterViewTarget(mTextView, urlDrawable));
 
 

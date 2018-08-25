@@ -4,7 +4,7 @@
  * Last modified 18-8-18 下午2:32.
  */
 
-package com.febers.uestc_bbs.view.utils
+package com.febers.uestc_bbs.module.post.utils
 
 import android.content.Context
 import android.graphics.Color
@@ -19,6 +19,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.entity.SimpleContentBean
+import com.febers.uestc_bbs.utils.encodeSpaces
+import com.febers.uestc_bbs.view.utils.ImageTextUtil
 
 /**
  * 动态向视图中添加帖子内容
@@ -73,37 +75,17 @@ object PostContentViewUtils {
             return
         }
         linearLayout?.removeAllViews()
+        val stringBuilder = StringBuilder()
         for (content in contents) {
             if (context == null) {
                 return
             }
             if (content.type == CONTENT_TYPE_TEXT) {
-                //添加文本
-                var textView = TextView(context)
-                textView.setLineSpacing(1.0f, 1.3f)
-                textView.setTextColor(Color.parseColor("#DD000000"))
-                textView.textSize = 16f
-                textView.autoLinkMask = Linkify.EMAIL_ADDRESSES
-                textView.setTextIsSelectable(true)
-                ImageTextUtil.setImageText(textView, emotionTransform(content.infor).encodeSpaces())
-                //宽高
-                textView.layoutParams = ViewGroup
-                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                linearLayout?.addView(textView)
+                stringBuilder.append(emotionTransform(content.infor).encodeSpaces())
                 continue
             }
             if (content.type == CONTENT_TYPE_IMG) {
-                //添加图片
-                val imageView = ImageView(context)
-                imageView.setLayerType(View.LAYER_TYPE_HARDWARE, null)  //打开硬件加速
-                imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                imageView.layoutParams = ViewGroup
-                        .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                linearLayout?.addView(divideView(context))
-                linearLayout?.addView(imageView)
-                linearLayout?.addView(divideView(context))
-                Glide.with(context).load(content.originalInfo)
-                        .into(imageView)
+                stringBuilder.append(imgTransform(content.originalInfo))
                 continue
             }
             if (content.type == CONTENT_TYPE_AUDIO) {
@@ -111,17 +93,19 @@ object PostContentViewUtils {
                 continue
             }
             if (content.type == CONTENT_TYPE_URL) {
+                stringBuilder.append(urlTransform(content.url, content.infor))
+                i("UTILS URL", stringBuilder.toString())
                 //添加超链接文字
-                i("if", "${content}")
-                val textView = TextView(context)
-                textView.setLineSpacing(1.0f, 1.3f)
-                textView.textSize = 16f
-                textView.movementMethod = LinkMovementMethod.getInstance()
-                textView.setText(Html.fromHtml(urlText(content.infor, content.url)))
-                textView.layoutParams = ViewGroup
-                        .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                linearLayout?.addView(textView)
-                linearLayout?.addView(divideView(context, 10))
+//                i("if", "${content}")
+//                val textView = TextView(context)
+//                textView.setLineSpacing(1.0f, 1.3f)
+//                textView.textSize = 16f
+//                textView.movementMethod = LinkMovementMethod.getInstance()
+//                textView.setText(Html.fromHtml(urlText(content.infor, content.url)))
+//                textView.layoutParams = ViewGroup
+//                        .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//                linearLayout?.addView(textView)
+//                linearLayout?.addView(divideView(context, 10))
                 continue
             }
             if (content.type == CONTENT_TYPE_FILE) {
@@ -129,6 +113,17 @@ object PostContentViewUtils {
                 continue
             }
         }
+        val textView = TextView(context)
+        textView.setLineSpacing(1.0f, 1.3f)
+        textView.setTextColor(Color.parseColor("#DD000000"))
+        textView.textSize = 16f
+        textView.autoLinkMask = Linkify.EMAIL_ADDRESSES
+        textView.setTextIsSelectable(true)
+        ImageTextUtil.setImageText(textView, stringBuilder.toString())
+        //宽高
+        textView.layoutParams = ViewGroup
+                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        linearLayout?.addView(textView)
     }
 
     //绘制间隔视图
@@ -137,13 +132,6 @@ object PostContentViewUtils {
         view.layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         return view
-    }
-
-    //返回html形式的字符串，添加超链接支持
-    fun urlText(infor: String?, url: String?): String {
-        val s =  """<a href='${url}'>${infor}</a>"""
-        i("Utils", "${s}")
-        return s
     }
 
     /**
@@ -171,16 +159,27 @@ object PostContentViewUtils {
             var imgString = """<img src="${rawUrlString}">"""
             newContent = raw.replace(rawFormatString, imgString)
         } catch (e:Exception) {
-            i("Utils", "${e}")
+            i("Utils", "${e.toString()}")
             return newContent
         }
         return emotionTransform(newContent, begin)
     }
 
-}
-/*
-    将原始空格和换行转换成HTML页面中的值
- */
-fun String.encodeSpaces(): String {
-    return this.replace("\n", "<br>").replace("\r", "&nbsp;")
+    /**
+     * 将图片的content转换成html的图片标签，
+     * 然后交给imageTextView统一加载
+     */
+    fun imgTransform(raw: String?): String {
+        if (raw == null) {
+            return ""
+        }
+        return """<img src=${raw}>"""
+    }
+
+    fun urlTransform(raw: String?, title: String?): String {
+        if (raw == null || title == null) {
+            return ""
+        }
+        return """<a href="${raw}">${title}</a>"""
+    }
 }

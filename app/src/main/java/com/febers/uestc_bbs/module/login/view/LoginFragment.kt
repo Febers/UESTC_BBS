@@ -7,6 +7,7 @@
 package com.febers.uestc_bbs.module.login.view
 
 import android.os.Bundle
+import android.support.annotation.UiThread
 
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
@@ -36,12 +37,13 @@ class LoginFragment: BasePopFragment(), LoginContract.View {
         loginPresenter.loginRequest(edit_text_user_name.text.toString(), edit_text_user_pw.text.toString())
     }
 
+    @UiThread
     override fun loginResult(event: BaseEvent<UserBean>) {
         if (event.code == BaseCode.SUCCESS) {
-            error("登录成功")
+            onError("登录成功")
             pop()
         } else {
-            error("${event.data.msg}")
+            onError("${event.data.msg}")
         }
     }
 

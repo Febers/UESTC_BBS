@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.MoreItemAdapter
-import com.febers.uestc_bbs.base.ARG_PARAM1
 import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseFragment
@@ -20,7 +19,7 @@ import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
 import com.febers.uestc_bbs.module.more.theme.ThemeFragment
-import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.module.user.view.UserDetailFragment
 import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
 import com.othershe.baseadapter.ViewHolder

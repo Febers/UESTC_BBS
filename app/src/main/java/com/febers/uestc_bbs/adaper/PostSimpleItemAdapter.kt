@@ -11,7 +11,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SimpleTopicBean
-import com.febers.uestc_bbs.module.post.view.GlideCircleTransform
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
