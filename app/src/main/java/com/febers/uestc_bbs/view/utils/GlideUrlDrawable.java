@@ -15,13 +15,13 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 
 /**
  * 参考：https://github.com/CentMeng/RichTextView/blob/master/app/src/main/java/com/luoteng/
- * richtextview/utils/UrlDrawable_Glide.java
+ * richtextview/utils/GlideUrlDrawable.java
  * 注意的是Glide4中移除了GlideDrawable
  * v4添加了对原生Drawable的支持
  * !!!补充：为了兼容另一个工具类，改回v3版本的glide
  * 而且只能手动导入jar包
  */
-public class UrlDrawable_Glide extends Drawable implements Drawable.Callback {
+public class GlideUrlDrawable extends Drawable implements Drawable.Callback {
 
     private GlideDrawable mDrawable;
 

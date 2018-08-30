@@ -8,19 +8,18 @@ package com.febers.uestc_bbs.module.post.utils
 
 import android.content.Context
 import android.graphics.Color
-import android.text.Html
-import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.util.Log.i
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.entity.SimpleContentBean
 import com.febers.uestc_bbs.utils.encodeSpaces
-import com.febers.uestc_bbs.view.utils.ImageTextUtil
+
+
+import com.febers.uestc_bbs.view.utils.ImageTextUtils
+
 
 /**
  * 动态向视图中添加帖子内容
@@ -119,7 +118,10 @@ object PostContentViewUtils {
         textView.textSize = 16f
         textView.autoLinkMask = Linkify.EMAIL_ADDRESSES
         textView.setTextIsSelectable(true)
-        ImageTextUtil.setImageText(textView, stringBuilder.toString())
+
+        ImageTextUtils.setImageText(textView, stringBuilder.toString())
+        ImageTextUtils.setImageText(textView, stringBuilder.toString())
+        ImageTextUtils.setImageText(textView, stringBuilder.toString())
         //宽高
         textView.layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

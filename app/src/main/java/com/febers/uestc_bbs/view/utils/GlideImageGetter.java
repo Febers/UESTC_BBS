@@ -49,18 +49,14 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     @Override
     public Drawable getDrawable(String url) {
-        final UrlDrawable_Glide urlDrawable = new UrlDrawable_Glide();
-
+        final GlideUrlDrawable urlDrawable = new GlideUrlDrawable();
 
         System.out.println("Downloading from: " + url);
         Glide.with(mContext)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(new ImageGetterViewTarget(mTextView, urlDrawable));
-
-
         return urlDrawable;
-
     }
 
     @Override
@@ -80,9 +76,9 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     private class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
 
-        private final UrlDrawable_Glide mDrawable;
+        private final GlideUrlDrawable mDrawable;
 
-        private ImageGetterViewTarget(TextView view, UrlDrawable_Glide drawable) {
+        private ImageGetterViewTarget(TextView view, GlideUrlDrawable drawable) {
             super(view);
             mTargets.add(this);
             this.mDrawable = drawable;
@@ -94,8 +90,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
             if (resource.getIntrinsicWidth() > 100) {
                 float width;
                 float height;
-                System.out.println("Image width is " + resource.getIntrinsicWidth());
-                System.out.println("View width is " + view.getWidth());
+
                 if (resource.getIntrinsicWidth() >= getView().getWidth()) {
                     float downScale = (float) resource.getIntrinsicWidth() / getView().getWidth();
                     width = (float) resource.getIntrinsicWidth() / (float) downScale;
@@ -105,8 +100,6 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
                     width = (float) resource.getIntrinsicWidth() * (float) multiplier;
                     height = (float) resource.getIntrinsicHeight() * (float) multiplier;
                 }
-                System.out.println("New Image width is " + width);
-
 
                 rect = new Rect(0, 0, Math.round(width), Math.round(height));
             } else {
@@ -116,7 +109,6 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
             mDrawable.setBounds(rect);
             mDrawable.setDrawable(resource);
-
 
             if (resource.isAnimated()) {
                 mDrawable.setCallback(get(getView()));

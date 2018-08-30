@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.design.widget.AppBarLayout
+    <com.febers.uestc_bbs.view.custom.CustomAppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v7.widget.Toolbar
@@ -22,7 +22,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="清水河畔">
         </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    </com.febers.uestc_bbs.view.custom.CustomAppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

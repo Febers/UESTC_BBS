@@ -9,11 +9,12 @@ package com.febers.uestc_bbs.adaper
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.util.Log.i
-import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.view.manager.MessageFragmentManager
+import com.febers.uestc_bbs.module.message.view.AMFragment
+import com.febers.uestc_bbs.module.message.view.PMFragment
+import com.febers.uestc_bbs.module.message.view.RMFragment
+import com.febers.uestc_bbs.module.message.view.SMFragment
 
 class MessageViewPageAdapter : FragmentPagerAdapter {
 
@@ -26,10 +27,10 @@ class MessageViewPageAdapter : FragmentPagerAdapter {
 
     override fun getItem(position: Int): Fragment {
         when(position) {
-            0 -> return MessageFragmentManager.getInctance(0)
-            1 -> return MessageFragmentManager.getInctance(1)
-            2 -> return MessageFragmentManager.getInctance(2)
-            3 -> return MessageFragmentManager.getInctance(3)
+            0 -> return RMFragment.newInstance("")
+            1 -> return PMFragment.newInstance("")
+            2 -> return AMFragment.newInstance("")
+            3 -> return SMFragment.newInstance("")
             else -> return Fragment()
         }
     }

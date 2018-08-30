@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
+    android:padding="8dp"
     android:foreground="?android:attr/selectableItemBackground">
     <ImageView
         android:id="@+id/image_view_theme_color"
@@ -15,8 +15,9 @@
         android:layout_width="0dp"
         android:layout_weight="5"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:text="红色"/>
     <TextView
         android:id="@+id/text_view_theme_using"

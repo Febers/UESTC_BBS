@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.ARG_PARAM1
 import me.yokeyword.fragmentation.SupportFragment
 
 /**
@@ -24,5 +25,15 @@ class PMFragment : SupportFragment() {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String) =
+                PMFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                    }
+                }
     }
 }

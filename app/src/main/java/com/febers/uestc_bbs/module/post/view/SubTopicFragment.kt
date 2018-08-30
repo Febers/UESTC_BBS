@@ -117,7 +117,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
                 }
     }
 
-    override fun registEventBus(): Boolean {
+    override fun registeEventBus(): Boolean {
         return true
     }
 

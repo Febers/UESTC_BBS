@@ -45,13 +45,13 @@ abstract class BaseFragment : Fragment(), ISupportFragment, BaseView {
 
     protected abstract fun setContentView():Int
 
-    protected open fun registEventBus(): Boolean = false
+    protected open fun registeEventBus(): Boolean = false
 
     protected open fun initView() {}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(setContentView(), container, false)
-        if (registEventBus()) {
+        if (registeEventBus()) {
             if(!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
             }

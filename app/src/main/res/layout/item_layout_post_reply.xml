@@ -35,6 +35,7 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:text="作者"
+            android:textColor="?attr/textColorFirst"
             android:textSize="14dp"
             app:layout_constraintStart_toEndOf="@+id/image_view_post_reply_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_post_reply_author_avatar" />
@@ -90,6 +91,7 @@
         android:orientation="vertical"
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
         android:padding="6dp"
         android:visibility="gone"
         android:background="?attr/background_second">

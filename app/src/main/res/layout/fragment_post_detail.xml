@@ -11,7 +11,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
+
+    <com.febers.uestc_bbs.view.custom.CustomAppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -21,10 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="帖子详情"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:title="帖子详情">
         </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    </com.febers.uestc_bbs.view.custom.CustomAppBarLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -82,6 +82,7 @@
                         android:layout_marginStart="8dp"
                         android:maxLines="1"
                         android:text=""
+                        android:textColor="?attr/textColorFirst"
                         android:textSize="14dp"
                         app:layout_constraintStart_toEndOf="@+id/image_view_post_detail_author_avatar"
                         app:layout_constraintTop_toTopOf="@+id/image_view_post_detail_author_avatar" />

@@ -53,15 +53,6 @@ class ThemeFragment : BasePopFragment() {
         activity?.recreate()
     }
 
-    //切换主题时候重新创建Fragment
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val themeCode by PreferenceUtils(context!!, "theme_code", DEFAULT_THEME_CODE)
-//        val contextThemeWrapper = ContextThemeWrapper(context, R.style.DefaultTheme)
-//        val localInflater = inflater.cloneInContext(contextThemeWrapper)
-//        val view = localInflater.inflate(R.layout.fragment_theme, container, false)
-//        return view
-//    }
-
     companion object {
         @JvmStatic
         fun newInstance(param1: String) =
@@ -70,5 +61,10 @@ class ThemeFragment : BasePopFragment() {
                         putString(ARG_PARAM1, param1)
                     }
                 }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        return attachToSwipeBack(view!!)
     }
 }

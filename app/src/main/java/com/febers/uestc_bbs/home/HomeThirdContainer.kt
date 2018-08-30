@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.home
 import android.os.Bundle
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
-import com.febers.uestc_bbs.module.user.view.MessageFragment
+import com.febers.uestc_bbs.module.message.view.MsgPagerFragment
 
 class HomeThirdContainer : BaseFragment() {
     override fun setContentView(): Int {
@@ -18,8 +18,8 @@ class HomeThirdContainer : BaseFragment() {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        if (findChildFragment(MessageFragment::class.java) == null) {
-            loadRootFragment(R.id.home_third_container, MessageFragment())
+        if (findChildFragment(MsgPagerFragment::class.java) == null) {
+            loadRootFragment(R.id.home_third_container, MsgPagerFragment())
         }
     }
 }

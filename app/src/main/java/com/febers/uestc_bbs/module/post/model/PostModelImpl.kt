@@ -44,15 +44,14 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): IPostModel {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val postRequest = retrofit.create(PostInterface::class.java)
-        val call = postRequest.getPostDetail(accessToken = user.token!!,
-                accessSecret = user.secrete!!,
+        val call = postRequest.getPostDetail(accessToken = user.token,
+                accessSecret = user.secrete,
                 topicId = postId,
                 authorId = authorId,
                 order = order,
                 page = page,
                 pageSize = COMMON_PAGE_SIZE)
-
-        call?.enqueue(object : Callback<PostResultBean> {
+        call.enqueue(object : Callback<PostResultBean> {
             override fun onFailure(call: Call<PostResultBean>?, t: Throwable?) {
                 i("PML", "${t.toString()}")
                 postPresenter.postResult(BaseEvent(BaseCode.FAILURE, PostResultBean(rs = SERVICE_RESPONSE_ERROR + t.toString())))

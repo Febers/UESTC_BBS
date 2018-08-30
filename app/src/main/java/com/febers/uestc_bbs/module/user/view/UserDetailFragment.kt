@@ -13,17 +13,20 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.DetailItemAdapter
 import com.febers.uestc_bbs.base.ARG_PARAM1
 import com.febers.uestc_bbs.base.BaseApplication
+import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePopFragment
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.view.custom.BlurTransformation
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_user_detail.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * 用户个人信息
@@ -37,8 +40,6 @@ class UserDetailFragment: BasePopFragment() {
     }
 
     override fun setContentView(): Int {
-        //status透明，实现图片全透明，在退出时恢复,但是回造成home界面的bottomnavigationbar下沉
-        //activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         return R.layout.fragment_user_detail
     }
 
@@ -48,12 +49,8 @@ class UserDetailFragment: BasePopFragment() {
         recyclerview_detail_fragment.layoutManager = LinearLayoutManager(context)
         recyclerview_detail_fragment.adapter = DetailItemAdapter(context!!, initItem(), false)
         recyclerview_detail_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+        Glide.with(this).load(user.avatar).transform(BlurTransformation(context)).into(image_view_detail_blur_avatar)
         Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context)).into(image_view_detail_avatar)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     private fun initItem(): List<DetailItemBean> {

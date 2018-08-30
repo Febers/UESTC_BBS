@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.base
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.MainThread
 import android.support.annotation.Nullable
@@ -26,6 +27,10 @@ import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.SupportFragment
 import org.greenrobot.eventbus.EventBus
+import android.view.WindowManager
+import android.os.Build
+
+
 
 
 /**
@@ -40,6 +45,19 @@ abstract class BaseActivity : AppCompatActivity(), BaseView, ISupportActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //参考 https://www.jianshu.com/p/648176c8b67e
+        val window = window
+        //透明状态栏，分为sdk>21、21>sdk>19情况设置,sdk<19不支持
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val decorView = getWindow().decorView
+            val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            decorView.systemUiVisibility = option
+            window.statusBarColor = Color.TRANSPARENT
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // Translucent status bar
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        }
+
         mDelegate.onCreate(savedInstanceState)
         setTheme(ThemeUtils.getTheme())
         setContentView(contentView)

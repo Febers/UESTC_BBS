@@ -9,6 +9,7 @@ package com.febers.uestc_bbs.module.more
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log.i
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.MoreItemAdapter
@@ -31,6 +32,8 @@ import org.greenrobot.eventbus.ThreadMode
 class MoreFragment: BaseFragment() {
 
     private lateinit var user: UserBean
+
+    override fun registeEventBus(): Boolean = true
 
     override fun setContentView(): Int {
         return R.layout.fragment_more
@@ -61,7 +64,7 @@ class MoreFragment: BaseFragment() {
         more_fragment_recyclerview_2.adapter = moreItemAdapter2
         more_fragment_recyclerview_2.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
-        if (user != null && user.valid != false) {
+        if (user.valid) {
             text_view_fragment_user_name.setText(user.name)
             text_view_fragment_user_title.setText(user.title)
         }
@@ -85,10 +88,12 @@ class MoreFragment: BaseFragment() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSeccess(event: BaseEvent<UserBean>) {
+    public fun onLoginSeccess(event: BaseEvent<UserBean>) {
+        i("MORE", "")
         text_view_fragment_user_name.setText(event.data.name)
         text_view_fragment_user_title.setText(event.data.title)
         Glide.with(this).load(user.avatar).placeholder(R.mipmap.ic_launcher)
+                .transform(GlideCircleTransform(context))
                 .into(image_view_fragment_user_avatar)
         user = event.data
     }

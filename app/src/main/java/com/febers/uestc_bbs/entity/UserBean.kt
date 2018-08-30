@@ -9,17 +9,17 @@ package com.febers.uestc_bbs.entity
 
 data class UserBean (
         var valid : Boolean = false,
-        var msg: String? = null,
-        var name: String? = null,
-        var uid: String? = null,
-        var title: String? = null,
-        var gender: String? = null,
-        var token: String? = null,
-        var secrete: String? = null,
-        var score: String? = null,
-        var avatar: String? = null,
-        var groupId: String? = null,
-        var mobile: String? = null,
-        var credits: String? = null,
-        var extcredits2: String? = null
+        var msg: String = "",
+        var name: String = "",
+        var uid: String = "",
+        var title: String = "",
+        var gender: String = "",
+        var token: String = "",
+        var secrete: String = "",
+        var score: String = "",
+        var avatar: String = "",
+        var groupId: String = "",
+        var mobile: String = "",
+        var credits: String = "",
+        var extcredits2: String = ""
 )

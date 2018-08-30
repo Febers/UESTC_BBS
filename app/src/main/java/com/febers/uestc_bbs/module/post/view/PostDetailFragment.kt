@@ -99,7 +99,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
             text_view_post_detail_author?.setText(event.data.topic?.user_nick_name)
             text_view_post_detail_author_title?.setText(event.data.topic?.userTitle)
             text_view_post_detail_date?.setText(event.data.topic?.create_date)
-            btn_reply.setText(event.data.topic?.replies+"条评论")
+            btn_reply?.setText(event.data.topic?.replies+"条评论")
             PostContentViewUtils.creat(context, linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
         }

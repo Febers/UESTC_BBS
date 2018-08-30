@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.design.widget.AppBarLayout
+    <com.febers.uestc_bbs.view.custom.CustomAppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v7.widget.Toolbar
@@ -22,7 +22,7 @@
             app:title="@string/login"
             app:layout_scrollFlags="scroll|enterAlways|snap">
         </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    </com.febers.uestc_bbs.view.custom.CustomAppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

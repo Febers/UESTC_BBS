@@ -11,12 +11,11 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostReplyBean
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
-import com.febers.uestc_bbs.view.utils.ImageTextUtil
 import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
-import com.febers.uestc_bbs.utils.encodeSpaces
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
+
 
 const val REPLY_IS_QUOTA = "1"
 class PostReplyItemAdapter(context: Context, data: List<PostReplyBean>, isLoadMore: Boolean):

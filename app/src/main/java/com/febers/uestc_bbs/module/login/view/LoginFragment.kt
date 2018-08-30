@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
 import com.febers.uestc_bbs.module.login.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.greenrobot.eventbus.EventBus
 
 class LoginFragment: BasePopFragment(), LoginContract.View {
 
@@ -41,6 +42,7 @@ class LoginFragment: BasePopFragment(), LoginContract.View {
     override fun loginResult(event: BaseEvent<UserBean>) {
         if (event.code == BaseCode.SUCCESS) {
             onError("登录成功")
+            EventBus.getDefault().post(event)
             pop()
         } else {
             onError("${event.data.msg}")
