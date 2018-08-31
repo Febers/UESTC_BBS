@@ -8,7 +8,6 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
 import android.support.annotation.UiThread
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log.i
@@ -23,22 +22,19 @@ import com.febers.uestc_bbs.entity.SimpleTopicBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.TopicContract
 import com.febers.uestc_bbs.module.post.presenter.TopicPresenterImpl
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import kotlinx.android.synthetic.main.fragment_sub_post.*
+import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
 /**
  * 首页Fragment包含三个Fragment
- * 依次为最新回去，最新发表，热门帖子
+ * 依次为最新回复，最新发表，热门帖子
  */
-class SubTopicFragment: BaseFragment(), TopicContract.View {
+class PostListFragment: BaseFragment(), TopicContract.View {
 
     private val topicList: MutableList<SimpleTopicBean> = ArrayList()
     private lateinit var mParentFragment: BaseFragment
-    private lateinit var mPParentFragment: BaseFragment
     private lateinit var postSimpleItemAdapter: PostSimpleItemAdapter
     private lateinit var user: UserBean
     private var topicPresenter:
@@ -48,7 +44,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
 
     override fun setContentView(): Int {
         postSimpleItemAdapter = PostSimpleItemAdapter(context!!, topicList, true)
-        return R.layout.fragment_sub_post
+        return R.layout.fragment_post_list
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
@@ -61,12 +57,10 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
 
         refresh_layout_post_fragment.setEnableLoadMore(false)
         refresh_layout_post_fragment.autoRefresh()
-        refresh_layout_post_fragment.setOnRefreshListener(object : OnRefreshListener {
-            override fun onRefresh(refreshLayout: RefreshLayout) {
-                page = 1
-                getPost(page, true)
-            }
-        })
+        refresh_layout_post_fragment.setOnRefreshListener {
+            page = 1
+            getPost(page, true)
+        }
         refresh_layout_post_fragment.setOnLoadMoreListener { getPost(++page, true) }
         postSimpleItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
     }
@@ -110,7 +104,7 @@ class SubTopicFragment: BaseFragment(), TopicContract.View {
     companion object {
         @JvmStatic
         fun newInstance(param1: String) =
-                SubTopicFragment().apply {
+                PostListFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                     }

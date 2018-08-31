@@ -13,18 +13,13 @@ import com.febers.uestc_bbs.dao.UserSaver
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.api.RefreshHeader
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import android.support.annotation.NonNull
-import android.util.TypedValue
-import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.scwang.smartrefresh.layout.api.RefreshFooter
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.lqr.emoji.IImageLoader
+import com.lqr.emoji.LQREmotionKit
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 
@@ -36,6 +31,11 @@ class BaseApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        LQREmotionKit.init(context, object : IImageLoader {
+            override fun displayImage(context: Context?, path: String?, imageView: ImageView?) {
+                Glide.with(context).load(path).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView)
+            }
+        })
     }
 
     companion object {
@@ -56,6 +56,7 @@ class BaseApplication: Application() {
                 layout.setFooterHeight(38f)
                 BallPulseFooter(context)
             }
+
         }
     }
 }

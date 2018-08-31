@@ -75,9 +75,9 @@
     </style>
 
     <style name="PinkBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/color_blue_zhihu</item>
-        <item name="colorPrimaryDark">@color/color_blue_zhihu</item>
-        <item name="colorAccent">@color/color_blue_zhihu</item>
+        <item name="colorPrimary">@color/color_pink_bili</item>
+        <item name="colorPrimaryDark">@color/color_pink_bili</item>
+        <item name="colorAccent">@color/color_pink_bili</item>
     </style>
 
     <!--夜晚主题-->

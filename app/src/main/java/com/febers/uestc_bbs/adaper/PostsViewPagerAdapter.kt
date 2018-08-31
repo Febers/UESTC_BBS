@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.module.post.view.SubTopicFragment
+import com.febers.uestc_bbs.module.post.view.PostListFragment
 
 class PostsViewPagerAdapter: FragmentPagerAdapter {
 
@@ -18,12 +18,12 @@ class PostsViewPagerAdapter: FragmentPagerAdapter {
 
     private val titles = arrayOf(getString(R.string.new_post), getString(R.string.new_reply), getString(R.string.hot_article))
 
-    override fun getItem(position: Int): SubTopicFragment {
+    override fun getItem(position: Int): PostListFragment {
         when(position) {
-            0 -> return SubTopicFragment.newInstance("0")
-            1 -> return SubTopicFragment.newInstance("1")
-            2 -> return SubTopicFragment.newInstance("2")
-            else -> return SubTopicFragment.newInstance("0")
+            0 -> return PostListFragment.newInstance("0")
+            1 -> return PostListFragment.newInstance("1")
+            2 -> return PostListFragment.newInstance("2")
+            else -> return PostListFragment.newInstance("0")
         }
     }
 

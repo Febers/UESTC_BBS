@@ -8,14 +8,17 @@ package com.febers.uestc_bbs.module.post.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.text.util.Linkify
 import android.util.Log.i
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.SimpleContentBean
 import com.febers.uestc_bbs.utils.encodeSpaces
+import com.febers.uestc_bbs.view.utils.GlideImageGetter
 
 
 import com.febers.uestc_bbs.view.utils.ImageTextUtils
@@ -69,7 +72,7 @@ const val CONTENT_TYPE_FILE = "5"
 const val DIVIDE_HEIGHT = 20
 
 object PostContentViewUtils {
-    fun creat(context: Context?, linearLayout: LinearLayout?, contents: List<SimpleContentBean>?) {
+    fun create(context: Context?, linearLayout: LinearLayout?, contents: List<SimpleContentBean>?) {
         if (contents == null) {
             return
         }
@@ -92,19 +95,9 @@ object PostContentViewUtils {
                 continue
             }
             if (content.type == CONTENT_TYPE_URL) {
+                stringBuilder.append(" ")
                 stringBuilder.append(urlTransform(content.url, content.infor))
-                i("UTILS URL", stringBuilder.toString())
-                //添加超链接文字
-//                i("if", "${content}")
-//                val textView = TextView(context)
-//                textView.setLineSpacing(1.0f, 1.3f)
-//                textView.textSize = 16f
-//                textView.movementMethod = LinkMovementMethod.getInstance()
-//                textView.setText(Html.fromHtml(urlText(content.infor, content.url)))
-//                textView.layoutParams = ViewGroup
-//                        .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//                linearLayout?.addView(textView)
-//                linearLayout?.addView(divideView(context, 10))
+                stringBuilder.append(" ")
                 continue
             }
             if (content.type == CONTENT_TYPE_FILE) {
@@ -116,11 +109,8 @@ object PostContentViewUtils {
         textView.setLineSpacing(1.0f, 1.3f)
         textView.setTextColor(Color.parseColor("#DD000000"))
         textView.textSize = 16f
-        textView.autoLinkMask = Linkify.EMAIL_ADDRESSES
         textView.setTextIsSelectable(true)
 
-        ImageTextUtils.setImageText(textView, stringBuilder.toString())
-        ImageTextUtils.setImageText(textView, stringBuilder.toString())
         ImageTextUtils.setImageText(textView, stringBuilder.toString())
         //宽高
         textView.layoutParams = ViewGroup
@@ -144,7 +134,7 @@ object PostContentViewUtils {
      * 转换成:
      * <img src="http://bbs.uestc.edu.cn/static/image/smiley/too/1.gif">
      */
-    fun emotionTransform(raw: String?, lastBegin: Int = 0): String{
+    private fun emotionTransform(raw: String?, lastBegin: Int = 0): String{
         if (raw == null) {
             return ""
         }
@@ -171,14 +161,14 @@ object PostContentViewUtils {
      * 将图片的content转换成html的图片标签，
      * 然后交给imageTextView统一加载
      */
-    fun imgTransform(raw: String?): String {
+    private fun imgTransform(raw: String?): String {
         if (raw == null) {
             return ""
         }
         return """<img src=${raw}>"""
     }
 
-    fun urlTransform(raw: String?, title: String?): String {
+    private fun urlTransform(raw: String?, title: String?): String {
         if (raw == null || title == null) {
             return ""
         }

@@ -19,17 +19,27 @@ import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
-import com.febers.uestc_bbs.module.more.theme.ThemeFragment
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.module.user.view.UserDetailFragment
 import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class MoreFragment: BaseFragment() {
+
+    private val FIRST_ITEM_VIEW = -1
+    private val SECOND_ITEM_VIEW = 0
+    private val THIRD_ITEM_VIEW = 1
+
+    private val USER_DETAIL_ITEM = -1
+    private val USER_POST_ITEM = 0
+    private val USER_REPLY_ITEM = 1
+    private val USER_FAV_ITEM = 2
+    private val USER_FRIEND_ITEM = 3
+
+    private val THEME_ITEM = 0
+    private val SETTING_ITEM = 1
 
     private lateinit var user: UserBean
 
@@ -42,24 +52,16 @@ class MoreFragment: BaseFragment() {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         user = BaseApplication.getUser()
-        more_fragment_header.setOnClickListener { itemClick(-1, -1) }
+        more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
 
         val moreItemAdapter1 = MoreItemAdapter(context!!, initMoreItem1(), false)
-        moreItemAdapter1.setOnItemClickListener(object : OnItemClickListener<MoreItemBean> {
-            override fun onItemClick(p0: ViewHolder?, p1: MoreItemBean?, p2: Int) {
-                itemClick(0, p2)
-            }
-        })
+        moreItemAdapter1.setOnItemClickListener { p0, p1, p2 -> itemClick(view = SECOND_ITEM_VIEW, position = p2) }
         more_fragment_recyclerview_1.layoutManager = LinearLayoutManager(context)
         more_fragment_recyclerview_1.adapter = moreItemAdapter1
         more_fragment_recyclerview_1.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
         val moreItemAdapter2 = MoreItemAdapter(context!!, initMoreItem2(), false)
-        moreItemAdapter2.setOnItemClickListener(object : OnItemClickListener<MoreItemBean> {
-            override fun onItemClick(p0: ViewHolder?, p1: MoreItemBean?, p2: Int) {
-                itemClick(1, p2)
-            }
-        })
+        moreItemAdapter2.setOnItemClickListener { p0, p1, p2 -> itemClick(view = THIRD_ITEM_VIEW, position = p2) }
         more_fragment_recyclerview_2.layoutManager = LinearLayoutManager(context)
         more_fragment_recyclerview_2.adapter = moreItemAdapter2
         more_fragment_recyclerview_2.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
@@ -88,7 +90,7 @@ class MoreFragment: BaseFragment() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public fun onLoginSeccess(event: BaseEvent<UserBean>) {
+    fun onLoginSeccess(event: BaseEvent<UserBean>) {
         i("MORE", "")
         text_view_fragment_user_name.setText(event.data.name)
         text_view_fragment_user_title.setText(event.data.title)
@@ -100,7 +102,7 @@ class MoreFragment: BaseFragment() {
 
     private fun itemClick(view: Int, position: Int) {
         val parentFragment: BaseFragment = parentFragment as BaseFragment
-        if (view == -1) {
+        if (view == FIRST_ITEM_VIEW) {
             if (BaseApplication.getUser().valid) {
                 parentFragment.start(UserDetailFragment.newInstance(""))
             } else {
@@ -108,12 +110,34 @@ class MoreFragment: BaseFragment() {
             }
             return
         }
-        if (view == 0) {
-            parentFragment.start(UserRepliesFragment.newInstance(""))
-            return
+        if (view == SECOND_ITEM_VIEW) {
+            if (position == USER_POST_ITEM) {
+
+                return
+            }
+            if (position == USER_REPLY_ITEM) {
+                parentFragment.start(UserRepliesFragment.newInstance(""))
+                return
+            }
+            if (position == USER_FAV_ITEM) {
+
+                return
+            }
+            if (position == USER_FRIEND_ITEM) {
+
+                return
+            }
         }
-        if (view == 1) {
-            parentFragment.start(ThemeFragment.newInstance(""))
+        if (view == THIRD_ITEM_VIEW) {
+            if (position == THEME_ITEM) {
+                parentFragment.start(ThemeFragment.newInstance(""))
+                return
+            }
+            if (position == SETTING_ITEM) {
+
+                return
+            }
+
         }
     }
 }

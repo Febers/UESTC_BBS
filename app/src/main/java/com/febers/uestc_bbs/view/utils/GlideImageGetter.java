@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +20,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
+
+    private static final String TAG = "GlideImageGetter";
+
     private final Context mContext;
 
     private final TextView mTextView;
@@ -54,6 +58,8 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         System.out.println("Downloading from: " + url);
         Glide.with(mContext)
                 .load(url)
+                .placeholder(R.mipmap.ic_default_avatar)
+                .error(R.mipmap.ic_default_avatar)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(new ImageGetterViewTarget(mTextView, urlDrawable));
         return urlDrawable;
@@ -77,6 +83,18 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     private class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
 
         private final GlideUrlDrawable mDrawable;
+
+        private Request request;
+
+        @Override
+        public Request getRequest() {
+            return request;
+        }
+
+        @Override
+        public void setRequest(Request request) {
+            this.request = request;
+        }
 
         private ImageGetterViewTarget(TextView view, GlideUrlDrawable drawable) {
             super(view);
@@ -118,18 +136,6 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
             getView().setText(getView().getText());
             getView().invalidate();
-        }
-
-        private Request request;
-
-        @Override
-        public Request getRequest() {
-            return request;
-        }
-
-        @Override
-        public void setRequest(Request request) {
-            this.request = request;
         }
     }
 }

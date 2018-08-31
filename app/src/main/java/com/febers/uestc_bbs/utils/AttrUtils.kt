@@ -10,5 +10,5 @@ object AttrUtils {
         context.theme.resolveAttribute(attr, typeValue, true)
         i("Attr", "${typeValue.data}")
         return typeValue.data
-    }
+}
 }

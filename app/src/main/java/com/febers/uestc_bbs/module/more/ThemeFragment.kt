@@ -1,9 +1,8 @@
-package com.febers.uestc_bbs.module.more.theme
+package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.ThemeAdapter
 import com.febers.uestc_bbs.base.ARG_PARAM1
 import com.febers.uestc_bbs.base.BasePopFragment
-import com.febers.uestc_bbs.base.DEFAULT_THEME_CODE
 import com.febers.uestc_bbs.entity.ThemeItemBean
-import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_theme.*
 

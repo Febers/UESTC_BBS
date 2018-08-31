@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.post.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
@@ -28,6 +29,7 @@ import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
+import com.febers.uestc_bbs.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
@@ -54,7 +56,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        bottomSheetDialog = MyBottomSheetDialog(context!!, R.style.PinkBottomSheetTheme)
+        bottomSheetDialog = PostBottomSheet(context!!, R.style.PinkBottomSheetTheme)
         bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
 
         btn_reply.setOnClickListener { openBottomSheet() }
@@ -100,7 +102,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
             text_view_post_detail_author_title?.setText(event.data.topic?.userTitle)
             text_view_post_detail_date?.setText(event.data.topic?.create_date)
             btn_reply?.setText(event.data.topic?.replies+"条评论")
-            PostContentViewUtils.creat(context, linear_layout_detail_content, event.data.topic?.content)
+            PostContentViewUtils.create(context, linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
         }
         replyList.addAll(event.data.list!!)
