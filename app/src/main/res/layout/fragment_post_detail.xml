@@ -4,15 +4,15 @@
   ~ Copyright (c). All rights reserved.
   ~ Last modified 18-8-17 下午6:06.
   -->
-
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.febers.uestc_bbs.view.custom.CustomAppBarLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -22,9 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|snap|enterAlways"
             app:title="帖子详情">
         </android.support.v7.widget.Toolbar>
-    </com.febers.uestc_bbs.view.custom.CustomAppBarLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -152,5 +153,4 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"/>
-
 </android.support.design.widget.CoordinatorLayout>

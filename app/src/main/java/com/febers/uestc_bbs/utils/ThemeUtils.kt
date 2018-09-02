@@ -33,4 +33,8 @@ object ThemeUtils {
         var code by PreferenceUtils(BaseApplication.context(), "theme_code", MY_THEME_BLUE)
         code = position
     }
+
+    fun getBottomSheetTheme() {
+
+    }
 }

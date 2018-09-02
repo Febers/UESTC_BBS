@@ -11,126 +11,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="400dp">
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="回复 某人"
+            android:textSize="17dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/ic_img_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/image_view_emoji_post_reply"
+            app:layout_constraintHorizontal_bias="0.989"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageView
+            android:id="@+id/image_view_emoji_post_reply"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/ic_emotion_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:src="@mipmap/ic_at_small_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_emoji_post_reply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_view_emoji_post_reply"
+            app:layout_constraintVertical_bias="0.0" />
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="回复 某人"
-                android:textSize="17dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:src="@mipmap/ic_img_gray"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintEnd_toStartOf="@+id/image_view_emoji"
-                app:layout_constraintHorizontal_bias="0.989"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <ImageView
-                android:id="@+id/image_view_emoji"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
-                android:src="@mipmap/ic_emotion_gray"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintEnd_toStartOf="@+id/imageView7"
-                app:layout_constraintTop_toTopOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:src="@mipmap/ic_at_small_gray"
-                app:layout_constraintBottom_toBottomOf="@+id/image_view_emoji"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/image_view_emoji"
-                app:layout_constraintVertical_bias="0.0" />
-        </android.support.constraint.ConstraintLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/edit_view"
-                android:inputType="textMultiLine"
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:hint="请输入评论内容"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="40dp"
-                android:background="@drawable/ic_corner_bg_gray"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:textColor="?attr/colorAccent"
-                android:text="发送"/>
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edit_view_post_reply"
+            android:inputType="textMultiLine"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:hint="请输入评论内容"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_corner_bg_gray"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:textColor="?attr/colorAccent"
+            android:text="发送"/>
     </LinearLayout>
-
-
-    <com.lqr.emoji.EmotionLayout
-        android:id="@+id/emotion_layout"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:visibility="gone"
-        />
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="horizontal">-->
-            <!--<EditText-->
-                <!--android:inputType="textMultiLine"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_weight="6"-->
-                <!--android:hint="请输入评论内容"-->
-                <!--android:focusable="true"-->
-                <!--android:focusableInTouchMode="true"-->
-                <!--android:layout_margin="5dp"-->
-                <!--android:layout_height="wrap_content"/>-->
-            <!--<Button-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:background="@drawable/ic_corner_bg_gray"-->
-                <!--style="@style/Base.Widget.AppCompat.Button.Borderless"-->
-                <!--android:textColor="?attr/colorAccent"-->
-                <!--android:text="发送"/>-->
-        <!--</LinearLayout>-->
-    <!--</ScrollView>-->
 </LinearLayout>

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.febers.uestc_bbs.view.custom.CustomTabLayout
+        <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

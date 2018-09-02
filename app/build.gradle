@@ -59,6 +59,5 @@ dependencies {
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     implementation 'com.github.Othershe:RecyclerViewAdapter:1.2.5'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.lqr.emoji:library:1.0.2'
     implementation files('lib/glide-3.7.0.jar')
 }

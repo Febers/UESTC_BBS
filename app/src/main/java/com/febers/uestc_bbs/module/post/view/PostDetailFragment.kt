@@ -6,7 +6,6 @@
 
 package com.febers.uestc_bbs.module.post.view
 
-import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
@@ -19,17 +18,13 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostReplyItemAdapter
-import com.febers.uestc_bbs.base.ARG_PARAM1
-import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BasePopFragment
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
-import com.febers.uestc_bbs.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
@@ -60,6 +55,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
         bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
 
         btn_reply.setOnClickListener { openBottomSheet() }
+
         refresh_layout_post_detail.setEnableLoadMore(false)
         refresh_layout_post_detail.autoRefresh()
         refresh_layout_post_detail.setOnRefreshListener {
@@ -109,7 +105,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
         replyItemAdapter.notifyDataSetChanged()
 
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_post_detail.finishLoadMoreWithNoMoreData()
+            refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
             return
         }
     }
@@ -132,9 +128,10 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         return attachToSwipeBack(view!!)
-    }
 
+    }
     private fun openBottomSheet() {
         bottomSheetDialog.show()
+        //startActivity(Intent(activity, ReplyEditActivity::class.java))
     }
 }

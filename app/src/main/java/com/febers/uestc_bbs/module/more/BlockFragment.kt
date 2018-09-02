@@ -17,6 +17,7 @@ import java.util.ArrayList
 
 class BlockFragment: BaseFragment() {
 
+
     override fun setContentView(): Int {
         return R.layout.fragment_block_list
     }

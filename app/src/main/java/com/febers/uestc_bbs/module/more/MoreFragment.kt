@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.more
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
+import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.module.user.view.UserDetailFragment
 import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
@@ -104,7 +106,8 @@ class MoreFragment: BaseFragment() {
         val parentFragment: BaseFragment = parentFragment as BaseFragment
         if (view == FIRST_ITEM_VIEW) {
             if (BaseApplication.getUser().valid) {
-                parentFragment.start(UserDetailFragment.newInstance(""))
+                //parentFragment.start(UserDetailFragment.newInstance(""))
+                startActivity(Intent(activity, UserDetailActivity::class.java))
             } else {
                 parentFragment.start(LoginFragment.newInstance(""))
             }
@@ -134,7 +137,7 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SETTING_ITEM) {
-
+                startActivity(Intent(activity, UserDetailActivity::class.java))
                 return
             }
 

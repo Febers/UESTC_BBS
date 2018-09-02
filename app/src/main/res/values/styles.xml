@@ -18,6 +18,16 @@
         <item name="textColorThird">@color/textColorThird_Day</item>
         <item name="background_first">@color/backgroundFirst_Day</item>
         <item name="background_second">@color/backgroundSecond_Day</item>
+        <item name="android:windowIsTranslucent">true</item> <!-- 让activity不闪屏 -->
+        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
+
+    </style>
+
+    <style name="MyWindowAnimTheme" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/bottom_to_top_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/do_nothing_anim</item>
+        <item name="android:activityCloseEnterAnimation">@anim/do_nothing_anim</item>
+        <item name="android:activityCloseExitAnimation">@anim/top_to_bottom_out</item>
     </style>
 
     <style name="GreenTheme" parent="DefaultTheme">
@@ -78,6 +88,15 @@
         <item name="colorPrimary">@color/color_pink_bili</item>
         <item name="colorPrimaryDark">@color/color_pink_bili</item>
         <item name="colorAccent">@color/color_pink_bili</item>
+    </style>
+
+    <style name="myTransparent" parent="DefaultTheme">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item><!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item> <!-- 无标题 -->
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <!--夜晚主题-->

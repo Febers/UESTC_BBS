@@ -17,8 +17,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.lqr.emoji.IImageLoader
-import com.lqr.emoji.LQREmotionKit
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
@@ -31,11 +29,6 @@ class BaseApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-        LQREmotionKit.init(context, object : IImageLoader {
-            override fun displayImage(context: Context?, path: String?, imageView: ImageView?) {
-                Glide.with(context).load(path).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView)
-            }
-        })
     }
 
     companion object {

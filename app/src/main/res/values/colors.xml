@@ -25,6 +25,7 @@
     <color name="color_blue_zhihu">#2196f3</color>
     <color name="color_gray_didiao">#607d8b</color>
 
+    <color name="transparent">#00000000</color>
     <!--日间模式-->
     <color name="theme_Day">#3F51B5</color>
     <color name="textColorFirst_Day">#DD000000</color>

@@ -25,6 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="34dp"
             android:layout_weight="1"/>
+
         <Button
             android:id="@+id/btn_reply"
             android:layout_width="0dp"
@@ -35,13 +36,10 @@
             android:textColor="@color/color_gray"
             android:background="@drawable/ic_corner_bg_gray"
             android:text="回复" />
-        <ImageView
+        <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="25dp"
-            android:layout_marginTop="2dp"
-            android:gravity="center_vertical"
-            android:src="@mipmap/ic_write_gray"/>
+            android:layout_height="34dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </LinearLayout>
