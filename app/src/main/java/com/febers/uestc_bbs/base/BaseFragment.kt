@@ -31,13 +31,13 @@ import org.jetbrains.anko.toast
  * 参考：https://github.com/YoKeyword/Fragmentation/
  * blob/master/demo/src/main/java/me/yokeyword/sample/demo_flow/base/MySupportFragment.java
  */
-const val ARG_PARAM1 = "param"
+const val FID = "fid"
 
 abstract class BaseFragment : Fragment(), ISupportFragment, BaseView {
 
     val mDelegate = SupportFragmentDelegate(this)
     protected lateinit var _mActivity: FragmentActivity
-    protected var param1: String? = null
+    protected var fid: String? = null
 
     override fun getSupportDelegate(): SupportFragmentDelegate {
         return mDelegate
@@ -82,7 +82,7 @@ abstract class BaseFragment : Fragment(), ISupportFragment, BaseView {
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
+            fid = it.getString(FID)
         }
     }
 

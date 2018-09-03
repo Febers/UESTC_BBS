@@ -3,10 +3,10 @@ package com.febers.uestc_bbs.module.user.view
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BasePopFragment
+import com.febers.uestc_bbs.base.BaseSwipeFragment
 import kotlinx.android.synthetic.main.fragment_user_post.*
 
-class UserPostFragment: BasePopFragment() {
+class UserPostFragment: BaseSwipeFragment() {
 
     override fun setToolbar(): Toolbar? {
         return toolbar_user_post

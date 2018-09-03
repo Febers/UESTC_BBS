@@ -10,16 +10,16 @@ import android.content.Context
 import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.entity.SimpleTopicBean
+import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class PostSimpleItemAdapter(context: Context, data: List<SimpleTopicBean>, isLoadMore: Boolean):
-        CommonBaseAdapter<SimpleTopicBean>(context, data, isLoadMore) {
+class PostSimpleItemAdapter(context: Context, data: List<SimplePListBean>, isLoadMore: Boolean):
+        CommonBaseAdapter<SimplePListBean>(context, data, isLoadMore) {
 
-    override fun convert(p0: ViewHolder?, p1: SimpleTopicBean?, p2: Int) {
+    override fun convert(p0: ViewHolder?, p1: SimplePListBean?, p2: Int) {
         var summary = p1?.subject   //普通帖子
         if (summary == null) {
             summary = p1?.summary   //热门帖子

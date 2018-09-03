@@ -6,6 +6,6 @@
 
 package com.febers.uestc_bbs.module.post.model
 
-interface ITopicModel {
+interface IPListModel {
     fun topicService(_fid: String, _page: Int, _refresh: Boolean)
 }

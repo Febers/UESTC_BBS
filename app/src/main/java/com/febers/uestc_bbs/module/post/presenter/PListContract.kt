@@ -9,15 +9,15 @@ package com.febers.uestc_bbs.module.post.presenter
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePresenter
 import com.febers.uestc_bbs.base.BaseView
-import com.febers.uestc_bbs.entity.SimpleTopicBean
+import com.febers.uestc_bbs.entity.SimplePListBean
 
-interface TopicContract {
+interface PListContract {
     interface View : BaseView {
-        fun topicResult(event: BaseEvent<List<SimpleTopicBean>?>)
+        fun pListResult(event: BaseEvent<List<SimplePListBean>?>)
     }
 
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
-        abstract fun topicRequest(fid: String, page: Int, refresh: Boolean)
-        abstract fun topicResult(event: BaseEvent<List<SimpleTopicBean>?>)
+        abstract fun pListRequest(fid: String, page: Int, refresh: Boolean)
+        abstract fun pListResult(event: BaseEvent<List<SimplePListBean>?>)
     }
 }

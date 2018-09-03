@@ -20,9 +20,9 @@ import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
+import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
-import com.febers.uestc_bbs.module.user.view.UserDetailFragment
 import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
@@ -39,12 +39,13 @@ class MoreFragment: BaseFragment() {
     private val USER_REPLY_ITEM = 1
     private val USER_FAV_ITEM = 2
     private val USER_FRIEND_ITEM = 3
+    private val SEARCH_ITEM = 4
 
     private val THEME_ITEM = 0
     private val SETTING_ITEM = 1
 
     private lateinit var user: UserBean
-
+    private lateinit var mParentFragment: BaseFragment
     override fun registeEventBus(): Boolean = true
 
     override fun setContentView(): Int {
@@ -54,6 +55,7 @@ class MoreFragment: BaseFragment() {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         user = BaseApplication.getUser()
+        mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
 
         val moreItemAdapter1 = MoreItemAdapter(context!!, initMoreItem1(), false)
@@ -81,13 +83,14 @@ class MoreFragment: BaseFragment() {
         val item2 = MoreItemBean("我的回复", R.mipmap.ic_message_red)
         val item3 = MoreItemBean("我的收藏", R.mipmap.ic_star_blue)
         val item4 = MoreItemBean("我的好友", R.mipmap.ic_friend_blue)
-        return listOf(item1, item2, item3, item4)
+        val item5 = MoreItemBean("搜索", R.mipmap.ic_search_blue)
+        return listOf(item1, item2, item3, item4, item5)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
-        val item5 = MoreItemBean("主题选择", R.mipmap.ic_theme_purple)
-        val item6 = MoreItemBean("设置", R.mipmap.ic_setting_gray)
-        return listOf(item5, item6)
+        val item1 = MoreItemBean("主题选择", R.mipmap.ic_theme_purple)
+        val item2 = MoreItemBean("设置", R.mipmap.ic_setting_gray)
+        return listOf(item1, item2)
     }
 
 
@@ -103,13 +106,12 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun itemClick(view: Int, position: Int) {
-        val parentFragment: BaseFragment = parentFragment as BaseFragment
         if (view == FIRST_ITEM_VIEW) {
             if (BaseApplication.getUser().valid) {
                 //parentFragment.start(UserDetailFragment.newInstance(""))
                 startActivity(Intent(activity, UserDetailActivity::class.java))
             } else {
-                parentFragment.start(LoginFragment.newInstance(""))
+                mParentFragment.start(LoginFragment.newInstance(""))
             }
             return
         }
@@ -119,7 +121,7 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == USER_REPLY_ITEM) {
-                parentFragment.start(UserRepliesFragment.newInstance(""))
+                mParentFragment.start(UserRepliesFragment.newInstance(""))
                 return
             }
             if (position == USER_FAV_ITEM) {
@@ -130,10 +132,14 @@ class MoreFragment: BaseFragment() {
 
                 return
             }
+            if (position == SEARCH_ITEM) {
+                mParentFragment.start(SearchFragment.newInstance(""))
+                return
+            }
         }
         if (view == THIRD_ITEM_VIEW) {
             if (position == THEME_ITEM) {
-                parentFragment.start(ThemeFragment.newInstance(""))
+                mParentFragment.start(ThemeFragment.newInstance("", true))
                 return
             }
             if (position == SETTING_ITEM) {

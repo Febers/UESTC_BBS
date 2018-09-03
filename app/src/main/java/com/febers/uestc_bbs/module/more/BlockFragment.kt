@@ -11,12 +11,15 @@ import android.support.v4.util.ArrayMap
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseFragment
+import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.module.post.view.PListFragment
+import com.febers.uestc_bbs.utils.BlockUtils
 import kotlinx.android.synthetic.main.fragment_block_list.*
 import java.util.ArrayList
 
 class BlockFragment: BaseFragment() {
 
+    private lateinit var mParentFragment: BaseFragment
 
     override fun setContentView(): Int {
         return R.layout.fragment_block_list
@@ -145,6 +148,8 @@ class BlockFragment: BaseFragment() {
     }
 
     private fun onClickGridViewItem(group: Int, position: Int) {
-
+        mParentFragment = parentFragment as BaseFragment
+        start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
+                showBottomBarOnDestroy = true))
     }
 }

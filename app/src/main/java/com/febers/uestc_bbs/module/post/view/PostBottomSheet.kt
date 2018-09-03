@@ -20,7 +20,6 @@ class PostBottomSheet(context: Context, style: Int) : BottomSheetDialog(context,
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-
         image_view_emoji_post_reply.setOnClickListener { openEmoKeyBoard() }
     }
 

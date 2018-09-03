@@ -11,6 +11,11 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.utils.ApiUtils
+import com.febers.uestc_bbs.utils.ApiUtils.BBS_BASE_URL
+import com.febers.uestc_bbs.utils.ApiUtils.BBS_POST_LIST_URL
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.model.Progress
+import com.lzy.okgo.request.base.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,11 +35,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): IPostModel {
         authorId = _authorId
         order = _order
 
-        Thread(object : Runnable {
-            override fun run() {
-                getPost()
-            }
-        }).start()
+        Thread(Runnable { getPost() }).start()
     }
 
     private fun getPost() {

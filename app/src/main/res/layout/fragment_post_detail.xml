@@ -23,7 +23,7 @@
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|snap|enterAlways"
-            app:title="帖子详情">
+            app:title="">
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

@@ -6,12 +6,12 @@
 
 package com.febers.uestc_bbs.entity
 
-data class TopicResultBean(var rs: String? = null, var errcode: String? = null,
+data class PListResultBean(var rs: String? = null, var errcode: String? = null,
                            var head: ResultHeadBean? = null, var body: Any? = null,
-                           var list: List<SimpleTopicBean>? = null, var page: Int? = null,
+                           var list: List<SimplePListBean>? = null, var page: Int? = null,
                            var has_next: Int? = null, var total_num: Int? = null)
 
-data class SimpleTopicBean(var board_id: String? = null, var board_name: String? = null,
+data class SimplePListBean(var board_id: String? = null, var board_name: String? = null,
                            //左边普通，右边为热门帖子的id
                            var topic_id: String? = null, var source_id: String? = null,
 

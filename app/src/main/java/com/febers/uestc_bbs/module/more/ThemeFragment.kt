@@ -3,18 +3,16 @@ package com.febers.uestc_bbs.module.more
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.ThemeAdapter
-import com.febers.uestc_bbs.base.ARG_PARAM1
-import com.febers.uestc_bbs.base.BasePopFragment
+import com.febers.uestc_bbs.base.FID
+import com.febers.uestc_bbs.base.BaseSwipeFragment
+import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
 import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_theme.*
 
-class ThemeFragment : BasePopFragment() {
+class ThemeFragment : BaseSwipeFragment() {
 
     override fun setToolbar(): Toolbar? {
         return toolbar_theme
@@ -52,16 +50,12 @@ class ThemeFragment : BasePopFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(param1: String, showBottomBarOnDestroy: Boolean) =
                 ThemeFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
+                        putString(FID, param1)
+                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        return attachToSwipeBack(view!!)
     }
 }

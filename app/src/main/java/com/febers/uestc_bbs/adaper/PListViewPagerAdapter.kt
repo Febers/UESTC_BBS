@@ -10,20 +10,23 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.module.post.view.PostListFragment
+import com.febers.uestc_bbs.base.HOME_POSTS_HOT
+import com.febers.uestc_bbs.base.HOME_POSTS_REPLY
+import com.febers.uestc_bbs.base.HOME_POSTS_NEW
+import com.febers.uestc_bbs.module.post.view.PListHomeFragment
 
-class PostsViewPagerAdapter: FragmentPagerAdapter {
+class PListViewPagerAdapter: FragmentPagerAdapter {
 
     constructor(fragmentManager: FragmentManager): super(fragmentManager)
 
     private val titles = arrayOf(getString(R.string.new_post), getString(R.string.new_reply), getString(R.string.hot_article))
 
-    override fun getItem(position: Int): PostListFragment {
-        when(position) {
-            0 -> return PostListFragment.newInstance("0")
-            1 -> return PostListFragment.newInstance("1")
-            2 -> return PostListFragment.newInstance("2")
-            else -> return PostListFragment.newInstance("0")
+    override fun getItem(position: Int): PListHomeFragment {
+        return when(position) {
+            0 -> PListHomeFragment.newInstance(HOME_POSTS_NEW)
+            1 -> PListHomeFragment.newInstance(HOME_POSTS_REPLY)
+            2 -> PListHomeFragment.newInstance(HOME_POSTS_HOT)
+            else -> PListHomeFragment.newInstance(HOME_POSTS_NEW)
         }
     }
 

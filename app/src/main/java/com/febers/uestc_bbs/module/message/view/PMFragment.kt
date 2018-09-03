@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.ARG_PARAM1
+import com.febers.uestc_bbs.base.FID
 import me.yokeyword.fragmentation.SupportFragment
 
 /**
@@ -32,7 +32,7 @@ class PMFragment : SupportFragment() {
         fun newInstance(param1: String) =
                 PMFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
+                        putString(FID, param1)
                     }
                 }
     }

@@ -12,12 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.ARG_PARAM1
-import com.febers.uestc_bbs.base.BasePopFragment
+import com.febers.uestc_bbs.base.FID
+import com.febers.uestc_bbs.base.BaseSwipeFragment
 import kotlinx.android.synthetic.main.fragment_my_reply.*
 
 
-class UserRepliesFragment : BasePopFragment() {
+class UserRepliesFragment : BaseSwipeFragment() {
 
     override fun setToolbar(): Toolbar {
         return toolbar_my_reply
@@ -37,7 +37,7 @@ class UserRepliesFragment : BasePopFragment() {
         fun newInstance(param1: String) =
                 UserRepliesFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
+                        putString(FID, param1)
                     }
                 }
     }

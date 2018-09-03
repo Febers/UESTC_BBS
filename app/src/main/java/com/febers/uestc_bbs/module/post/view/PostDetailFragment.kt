@@ -12,9 +12,7 @@ import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostReplyItemAdapter
@@ -28,7 +26,7 @@ import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
-class PostDetailFragment: BasePopFragment(), PostContract.View {
+class PostDetailFragment: BaseSwipeFragment(), PostContract.View {
 
     private var replyList: MutableList<PostReplyBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
@@ -45,7 +43,7 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     override fun setContentView(): Int {
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(context!!, replyList, false)
-        postId = param1!!
+        postId = fid!!
         return R.layout.fragment_post_detail
     }
 
@@ -77,6 +75,9 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
     @UiThread
     override fun postResult(event: BaseEvent<PostResultBean>) {
         if (event.code == BaseCode.FAILURE) {
+            if (event.data.rs == null) {
+                return
+            }
             onError(event.data.rs!!)
             refresh_layout_post_detail?.finishRefresh(false)
             refresh_layout_post_detail?.finishLoadMore(false)
@@ -98,12 +99,12 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
             text_view_post_detail_author_title?.setText(event.data.topic?.userTitle)
             text_view_post_detail_date?.setText(event.data.topic?.create_date)
             btn_reply?.setText(event.data.topic?.replies+"条评论")
+            activity?.actionBar?.setTitle(event.data.forumName)
             PostContentViewUtils.create(context, linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
         }
         replyList.addAll(event.data.list!!)
         replyItemAdapter.notifyDataSetChanged()
-
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
             return
@@ -112,26 +113,21 @@ class PostDetailFragment: BasePopFragment(), PostContract.View {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(fid: String, showBottomBarOnDestroy: Boolean) =
                 PostDetailFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
+                        putString(FID, fid)
+                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }
     }
 
-    override fun onBackPressedSupport(): Boolean {
-        pop()
-        return true
-    }
+//    override fun onBackPressedSupport(): Boolean {
+//        pop()
+//        return true
+//    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        return attachToSwipeBack(view!!)
-
-    }
     private fun openBottomSheet() {
         bottomSheetDialog.show()
-        //startActivity(Intent(activity, ReplyEditActivity::class.java))
     }
 }

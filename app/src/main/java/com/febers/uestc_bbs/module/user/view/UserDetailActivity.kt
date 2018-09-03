@@ -7,13 +7,14 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.DetailItemAdapter
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.BaseApplication
+import com.febers.uestc_bbs.base.BaseSwipeActivty
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.view.custom.BlurTransformation
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 
-class UserDetailActivity : BaseActivity() {
+class UserDetailActivity : BaseSwipeActivty() {
 
     private lateinit var user: UserBean
 

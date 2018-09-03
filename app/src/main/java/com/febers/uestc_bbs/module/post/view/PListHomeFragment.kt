@@ -18,11 +18,11 @@ import android.view.ViewGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostSimpleItemAdapter
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.SimpleTopicBean
+import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean
-import com.febers.uestc_bbs.module.post.presenter.TopicContract
-import com.febers.uestc_bbs.module.post.presenter.TopicPresenterImpl
-import kotlinx.android.synthetic.main.fragment_post_list.*
+import com.febers.uestc_bbs.module.post.presenter.PListContract
+import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -31,26 +31,24 @@ import org.greenrobot.eventbus.ThreadMode
  * 首页Fragment包含三个Fragment
  * 依次为最新回复，最新发表，热门帖子
  */
-class PostListFragment: BaseFragment(), TopicContract.View {
+class PListHomeFragment: BaseFragment(), PListContract.View {
 
-    private val topicList: MutableList<SimpleTopicBean> = ArrayList()
-    private lateinit var mParentFragment: BaseFragment
+    private val PListList: MutableList<SimplePListBean> = ArrayList()
     private lateinit var postSimpleItemAdapter: PostSimpleItemAdapter
     private lateinit var user: UserBean
-    private var topicPresenter:
-            TopicContract.Presenter = TopicPresenterImpl(this)
+    private var PListPresenter:
+            PListContract.Presenter = PListPresenterImpl(this)
     private var page: Int = 1
     private var shouldRefresh = true
 
     override fun setContentView(): Int {
-        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, topicList, true)
-        return R.layout.fragment_post_list
+        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, PListList, true)
+        return R.layout.fragment_post_list_home
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         user = BaseApplication.getUser()
-        mParentFragment = parentFragment as BaseFragment
         recyclerview_subpost_fragment.layoutManager = LinearLayoutManager(context)
         recyclerview_subpost_fragment.adapter = postSimpleItemAdapter
         recyclerview_subpost_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
@@ -65,9 +63,9 @@ class PostListFragment: BaseFragment(), TopicContract.View {
         postSimpleItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
     }
 
-    fun getPost(page: Int, refresh: Boolean) {
+    private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_fragment.setNoMoreData(false)
-        topicPresenter.topicRequest(fid = param1!!, page = page, refresh = refresh)
+        PListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
     }
 
     /**
@@ -80,7 +78,7 @@ class PostListFragment: BaseFragment(), TopicContract.View {
     }
 
     @UiThread
-    override fun topicResult(event: BaseEvent<List<SimpleTopicBean>?>) {
+    override fun pListResult(event: BaseEvent<List<SimplePListBean>?>) {
         if (event.code == BaseCode.FAILURE) {
             onError(event!!.data!![0]!!.title!!)    //我佛了
             refresh_layout_post_fragment?.finishRefresh(false)
@@ -91,6 +89,7 @@ class PostListFragment: BaseFragment(), TopicContract.View {
         refresh_layout_post_fragment?.finishLoadMore()
         refresh_layout_post_fragment?.setEnableLoadMore(true)
         if (page == 1) {
+            i("DATA", event.data.toString())
             postSimpleItemAdapter.setNewData(event.data)
             return
         }
@@ -103,10 +102,10 @@ class PostListFragment: BaseFragment(), TopicContract.View {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String) =
-                PostListFragment().apply {
+        fun newInstance(fid: String) =
+                PListHomeFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
+                        putString(FID, fid)
                     }
                 }
     }
@@ -122,12 +121,13 @@ class PostListFragment: BaseFragment(), TopicContract.View {
         postSimpleItemAdapter.setEmptyView(emptyView)
     }
 
-    private fun clickItem(topic: SimpleTopicBean) {
-        var tid = topic.topic_id
+    private fun clickItem(PList: SimplePListBean) {
+        var mParentFragment = parentFragment as BaseFragment
+        var tid = PList.topic_id
         if(tid == null) {
-            i("STF null", "${topic.topic_id == null}")
-             tid = topic.source_id
+            i("STF null", "${PList.topic_id == null}")
+             tid = PList.source_id
         }
-        mParentFragment.start(PostDetailFragment.newInstance(tid!!))
+        mParentFragment.start(PostDetailFragment.newInstance(fid = tid!!, showBottomBarOnDestroy = true))
     }
 }

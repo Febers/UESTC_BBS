@@ -18,7 +18,7 @@ import com.febers.uestc_bbs.module.login.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.greenrobot.eventbus.EventBus
 
-class LoginFragment: BasePopFragment(), LoginContract.View {
+class LoginFragment: BaseSwipeFragment(), LoginContract.View {
 
     override fun setToolbar(): Toolbar {
         return toolbar_login
@@ -54,7 +54,7 @@ class LoginFragment: BasePopFragment(), LoginContract.View {
         fun newInstance(param: String) =
                 LoginFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param)
+                        putString(FID, param)
                     }
                 }
     }

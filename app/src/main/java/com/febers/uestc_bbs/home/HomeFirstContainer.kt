@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.home
 import android.os.Bundle
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
-import com.febers.uestc_bbs.module.post.view.TopicPagerFragment
+import com.febers.uestc_bbs.module.post.view.PListPagerFragment
 
 class HomeFirstContainer : BaseFragment() {
 
@@ -19,8 +19,8 @@ class HomeFirstContainer : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (findChildFragment(TopicPagerFragment::class.java) == null) {
-            loadRootFragment(R.id.home_first_container, TopicPagerFragment())
+        if (findChildFragment(PListPagerFragment::class.java) == null) {
+            loadRootFragment(R.id.home_first_container, PListPagerFragment())
         }
     }
 }

@@ -65,7 +65,6 @@ class HomeActivity: BaseActivity() {
     }
 
     override fun onBackPressedSupport() {
-        i("HActivity", "${supportFragmentManager.backStackEntryCount}")
         if(supportFragmentManager.backStackEntryCount > 0) {
             pop()
         } else {

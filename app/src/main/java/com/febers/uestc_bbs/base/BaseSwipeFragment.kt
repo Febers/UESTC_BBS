@@ -26,13 +26,17 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
  * 默认支持滑动返回
  * 销毁时又恢复
  */
-abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
+const val SHOW_BOTTOM_BAR_ON_DESTROY = "show_bottom_bar"
+
+abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
 
     internal val mSwipeDelegate = SwipeBackFragmentDelegate(this)
+    protected var showBottomBar = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.GONE
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        return attachToSwipeBack(view!!)
     }
 
     protected abstract fun setToolbar(): Toolbar?
@@ -40,6 +44,10 @@ abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSwipeDelegate.onCreate(savedInstanceState)
+        arguments?.let {
+            fid = it.getString(FID)
+            showBottomBar = it.getBoolean(SHOW_BOTTOM_BAR_ON_DESTROY)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,8 +108,14 @@ abstract class BasePopFragment: BaseFragment(), ISwipeBackFragment {
 
     override fun onDestroyView() {
         mSwipeDelegate.onDestroyView()
-        activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.VISIBLE
+        if (showBottomBar) {
+            activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.VISIBLE
+        }
         super.onDestroyView()
     }
 
+    override fun onBackPressedSupport(): Boolean {
+        pop()
+        return true
+    }
 }
