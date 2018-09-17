@@ -9,6 +9,8 @@ package com.febers.uestc_bbs.home
 import android.support.v4.app.ActivityCompat
 import android.util.Log.i
 import android.view.View
+import com.ashokvarma.bottomnavigation.BottomNavigationBar
+import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 
@@ -50,7 +52,10 @@ class HomeActivity: BaseActivity() {
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
         bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
         bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
-        bottom_navigation_home.canScrollHorizontally(AHBottomNavigation.LAYOUT_DIRECTION_INHERIT)
+        bottom_navigation_home.accentColor = AttrUtils.getColor(this, R.attr.colorAccent)
+        bottom_navigation_home.setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
+
+        bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
         bottom_navigation_home.accentColor = AttrUtils.getColor(this, R.attr.colorAccent)
         bottom_navigation_home.setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
     }

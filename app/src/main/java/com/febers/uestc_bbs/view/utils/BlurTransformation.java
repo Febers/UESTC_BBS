@@ -4,7 +4,7 @@
  * Last modified 18-8-17 上午12:18.
  */
 
-package com.febers.uestc_bbs.view.custom;
+package com.febers.uestc_bbs.view.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,12 +18,9 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.FloatRange;
-import android.support.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-
-import java.security.MessageDigest;
 
 /**
  * Glide高斯模糊的工具类

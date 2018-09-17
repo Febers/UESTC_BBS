@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.post.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -52,6 +53,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_list.setNoMoreData(false)
+        i("PLIST", "${fid}")
         PListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
     }
 
@@ -93,6 +95,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             i("STF null", "${PList.topic_id == null}")
             tid = PList.source_id
         }
-        start(PostDetailFragment.newInstance(fid = tid!!, showBottomBarOnDestroy = false))
+        //start(PostDetailFragment.newInstance(fid = tid!!, showBottomBarOnDestroy = false))
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", tid) })
     }
 }

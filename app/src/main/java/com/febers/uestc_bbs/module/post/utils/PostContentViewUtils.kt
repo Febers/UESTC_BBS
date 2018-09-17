@@ -8,17 +8,16 @@ package com.febers.uestc_bbs.module.post.utils
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.text.util.Linkify
 import android.util.Log.i
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.febers.uestc_bbs.base.BaseFragment
+import com.bumptech.glide.Glide
+import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SimpleContentBean
 import com.febers.uestc_bbs.utils.encodeSpaces
-import com.febers.uestc_bbs.view.utils.GlideImageGetter
 
 
 import com.febers.uestc_bbs.view.utils.ImageTextUtils
@@ -68,55 +67,94 @@ const val CONTENT_TYPE_TEXT = "0"
 const val CONTENT_TYPE_IMG = "1"
 const val CONTENT_TYPE_AUDIO = "3"
 const val CONTENT_TYPE_URL = "4"
-const val CONTENT_TYPE_FILE = "5"
+const val CONTENT_TYPE_FILE = "5"   //下一个content的描述信息
 const val DIVIDE_HEIGHT = 20
 
 object PostContentViewUtils {
-    fun create(context: Context?, linearLayout: LinearLayout?, contents: List<SimpleContentBean>?) {
-        if (contents == null) {
+
+    private lateinit var mContents: List<SimpleContentBean>
+    private lateinit var mStringBuilder: StringBuilder
+    private final val IMAGE_VIEW_MARGIN = 20
+
+    fun create(linearLayout: LinearLayout?, contents: List<SimpleContentBean>?) {
+        if (contents == null || linearLayout == null) {
             return
         }
-        linearLayout?.removeAllViews()
-        val stringBuilder = StringBuilder()
-        for (content in contents) {
-            if (context == null) {
-                return
+        mContents = contents
+        mStringBuilder = StringBuilder()
+        linearLayout.removeAllViews()
+        cycleDrawView(linearLayout, mStringBuilder, position = 0)
+    }
+
+    private fun cycleDrawView(linearLayout: LinearLayout, stringBuilder: StringBuilder, position: Int) {
+        if (position >= mContents.size) {
+            val textView = getTextView(linearLayout.context)
+            ImageTextUtils.setImageText(textView, stringBuilder.toString())
+            linearLayout.addView(textView)
+            return
+        }
+        when(mContents[position].type) {
+            CONTENT_TYPE_TEXT -> {
+                i("Utils", "TEXT:")
+                mStringBuilder.append(emotionTransform(mContents[position].infor).encodeSpaces())
+                cycleDrawView(linearLayout, stringBuilder, position+1)
             }
-            if (content.type == CONTENT_TYPE_TEXT) {
-                stringBuilder.append(emotionTransform(content.infor).encodeSpaces())
-                continue
+            CONTENT_TYPE_URL -> {
+                i("Utils", "URL:")
+                stringBuilder.append("  ")
+                    .append(urlTransform(mContents[position].url, mContents[position].infor))
+                    .append("  ")
+                cycleDrawView(linearLayout, stringBuilder, position+1)
             }
-            if (content.type == CONTENT_TYPE_IMG) {
-                stringBuilder.append(imgTransform(content.originalInfo))
-                continue
+            CONTENT_TYPE_IMG -> {
+                i("Utils", "IMG:")
+                val textView = getTextView(linearLayout.context)
+                ImageTextUtils.setImageText(textView, mStringBuilder.toString())
+                linearLayout.addView(textView)
+
+                val imageView = getImageView(linearLayout.context)
+                Glide.with(linearLayout.context).load(mContents[position].originalInfo)
+                        .placeholder(R.mipmap.ic_default_avatar).into(imageView)
+                linearLayout.addView(imageView)
+                cycleDrawView(linearLayout, StringBuilder(), position+1)
             }
-            if (content.type == CONTENT_TYPE_AUDIO) {
-                //添加音频
-                continue
-            }
-            if (content.type == CONTENT_TYPE_URL) {
+            CONTENT_TYPE_FILE -> {
+                i("Utils", "FILE:")
                 stringBuilder.append(" ")
-                stringBuilder.append(urlTransform(content.url, content.infor))
-                stringBuilder.append(" ")
-                continue
+                        .append(urlTransform(mContents[position].url, mContents[position].infor))
+                        .append(" ")
+                cycleDrawView(linearLayout, stringBuilder, position+1)
             }
-            if (content.type == CONTENT_TYPE_FILE) {
-                //添加附件
-                continue
+            else -> {
+                i("Utils", "OTHER:${mContents[position]}")
+                mStringBuilder.append(mContents[position].infor)
+                cycleDrawView(linearLayout, stringBuilder, position+1)
             }
         }
-        val textView = TextView(context)
-        textView.setLineSpacing(1.0f, 1.3f)
-        textView.setTextColor(Color.parseColor("#DD000000"))
-        textView.textSize = 16f
-        textView.setTextIsSelectable(true)
-
-        ImageTextUtils.setImageText(textView, stringBuilder.toString())
-        //宽高
-        textView.layoutParams = ViewGroup
-                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        linearLayout?.addView(textView)
     }
+
+    private fun getTextView(context: Context): TextView = TextView(context).apply {
+        setLineSpacing(1.0f, 1.3f)
+        setTextColor(Color.parseColor("#DD000000"))
+        textSize = 16f
+        setTextIsSelectable(true)
+        layoutParams = ViewGroup
+                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    private fun getImageView(context: Context): ImageView {
+        val imageView = ImageView(context).apply {
+            setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            layoutParams = ViewGroup
+                    .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        }
+        //val layoutParams = imageView.layoutParams
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(imageView.layoutParams).apply {
+            setMargins(IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN) }
+        imageView.layoutParams = marginLayoutParams
+        return imageView
+    }
+
 
     //绘制间隔视图
     fun divideView(context: Context?, height: Int = DIVIDE_HEIGHT): View {
@@ -138,20 +176,20 @@ object PostContentViewUtils {
         if (raw == null) {
             return ""
         }
-        var begin = -1
+        val begin: Int
         var newContent: String = raw
         try {
             begin = raw.indexOf("""[mobcent_phiz=""", lastBegin)
             if (begin == -1) {
                 return newContent
             }
-            var end = raw.indexOf("""]""", begin)
-            var rawFormatString = raw.substring(begin, end+1) //需要包括]
-            var rawUrlString = raw.substring(begin+14, end) //不需要包括]
-            var imgString = """<img src="${rawUrlString}">"""
+            val end = raw.indexOf("""]""", begin)
+            val rawFormatString = raw.substring(begin, end+1) //需要包括]
+            val rawUrlString = raw.substring(begin+14, end) //不需要包括]
+            val imgString = """<img src="$rawUrlString">"""
             newContent = raw.replace(rawFormatString, imgString)
         } catch (e:Exception) {
-            i("Utils", "${e.toString()}")
+            i("Utils", "$e")
             return newContent
         }
         return emotionTransform(newContent, begin)
@@ -165,13 +203,13 @@ object PostContentViewUtils {
         if (raw == null) {
             return ""
         }
-        return """<img src=${raw}>"""
+        return """<img src=$raw>"""
     }
 
     private fun urlTransform(raw: String?, title: String?): String {
         if (raw == null || title == null) {
             return ""
         }
-        return """<a href="${raw}">${title}</a>"""
+        return """<a href="$raw">$title</a>"""
     }
 }

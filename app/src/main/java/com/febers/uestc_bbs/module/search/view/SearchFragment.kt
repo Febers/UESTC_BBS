@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.BaseSwipeFragment
+import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment: BaseSwipeFragment() {
@@ -19,10 +20,11 @@ class SearchFragment: BaseSwipeFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(param1: String, showBottomBarOnDestroy: Boolean) =
                 SearchFragment().apply {
                     arguments = Bundle().apply {
                         putString(FID, param1)
+                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }
     }

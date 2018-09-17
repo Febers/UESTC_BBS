@@ -4,13 +4,15 @@
   ~ Copyright (c). All rights reserved.
   ~ Last modified 18-8-17 下午6:06.
   -->
+<!--android:descendantFocusability="blocksDescendants" 作用为获取根视图的焦点，以防加载复杂内容时自动滑动-->
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

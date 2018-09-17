@@ -30,7 +30,7 @@ class PostReplyItemAdapter(context: Context, data: List<PostReplyBean>, isLoadMo
         //支持表情
 //        ImageTextUtil.setImageText(p0?.getView(R.id.text_view_post_reply_content),
 //                PostContentViewUtils.emotionTransform(p1?.reply_content?.get(0)?.infor).encodeSpaces())
-        PostContentViewUtils.create(p0?.convertView?.context, p0?.convertView?.findViewById(R.id.linear_layout_post_reply), p1?.reply_content)
+        PostContentViewUtils.create(p0?.convertView?.findViewById(R.id.linear_layout_post_reply), p1?.reply_content)
         if (p1?.is_quote == REPLY_IS_QUOTA) {
             p0?.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
             p0?.setText(R.id.text_view_post_reply_quota, p1?.quote_content?.multiLineSpaces())

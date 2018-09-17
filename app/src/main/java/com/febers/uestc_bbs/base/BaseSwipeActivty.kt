@@ -3,6 +3,8 @@ package com.febers.uestc_bbs.base
 import me.yokeyword.fragmentation_swipeback.core.ISwipeBackActivity
 import me.yokeyword.fragmentation.SwipeBackLayout
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
 
 
@@ -11,11 +13,15 @@ abstract class BaseSwipeActivty : BaseActivity(), ISwipeBackActivity {
 
     val mSwipeDelegate = SwipeBackActivityDelegate(this)
 
+    protected open fun setToolbar(): Toolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSwipeDelegate.onCreate(savedInstanceState)
         swipeBackLayout.setParallaxOffset(0.0f)
         swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
+        setSupportActionBar(setToolbar())
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -50,5 +56,12 @@ abstract class BaseSwipeActivty : BaseActivity(), ISwipeBackActivity {
      */
     override fun swipeBackPriority(): Boolean {
         return mSwipeDelegate.swipeBackPriority()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -31,7 +31,7 @@ const val SHOW_BOTTOM_BAR_ON_DESTROY = "show_bottom_bar"
 abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
 
     internal val mSwipeDelegate = SwipeBackFragmentDelegate(this)
-    protected var showBottomBar = false
+    protected var showBottomBarOnDestroy = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.GONE
@@ -46,7 +46,7 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
         mSwipeDelegate.onCreate(savedInstanceState)
         arguments?.let {
             fid = it.getString(FID)
-            showBottomBar = it.getBoolean(SHOW_BOTTOM_BAR_ON_DESTROY)
+            showBottomBarOnDestroy = it.getBoolean(SHOW_BOTTOM_BAR_ON_DESTROY)
         }
     }
 
@@ -108,7 +108,7 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
 
     override fun onDestroyView() {
         mSwipeDelegate.onDestroyView()
-        if (showBottomBar) {
+        if (showBottomBarOnDestroy) {
             activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.VISIBLE
         }
         super.onDestroyView()

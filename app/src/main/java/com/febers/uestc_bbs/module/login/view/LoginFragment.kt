@@ -51,10 +51,11 @@ class LoginFragment: BaseSwipeFragment(), LoginContract.View {
 
     companion object {
         @JvmStatic
-        fun newInstance(param: String) =
+        fun newInstance(param: String, showBottomBarOnDestroy: Boolean) =
                 LoginFragment().apply {
                     arguments = Bundle().apply {
                         putString(FID, param)
+                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }
     }

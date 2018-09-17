@@ -1,12 +1,5 @@
-/*
- * Created by Febers at 18-8-15 下午11:40.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-15 下午11:40.
- */
-
 package com.febers.uestc_bbs.module.post.view
 
-import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -16,43 +9,44 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PostReplyItemAdapter
-import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.base.BaseCode
+import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.BaseSwipeActivty
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
-import kotlinx.android.synthetic.main.fragment_post_detail.*
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
+import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
-class PostDetailFragment: BaseSwipeFragment(), PostContract.View {
+class PostDetailActivity : BaseSwipeActivty(), PostContract.View {
 
     private var replyList: MutableList<PostReplyBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
     private lateinit var replyItemAdapter: PostReplyItemAdapter
     private var page = 1
     private var authorId = ""
-    private lateinit var postId: String
+    private var postId: String = "0"
     private var order = ""
     private lateinit var bottomSheetDialog: BottomSheetDialog
+
+    override fun setView(): Int = R.layout.activity_post_detail
+
     override fun setToolbar(): Toolbar? {
         return toolbar_post_detail
     }
 
-    override fun setContentView(): Int {
+    override fun initView() {
+        postId = intent.getStringExtra("fid")
         postPresenter = PostPresenterImpl(this)
-        replyItemAdapter = PostReplyItemAdapter(context!!, replyList, false)
-        postId = fid!!
-        return R.layout.fragment_post_detail
-    }
+        replyItemAdapter = PostReplyItemAdapter(this, replyList, false)
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
-        bottomSheetDialog = PostBottomSheet(context!!, R.style.PinkBottomSheetTheme)
+        bottomSheetDialog = PostBottomSheet(this, R.style.PinkBottomSheetTheme)
         bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
 
-        btn_reply.setOnClickListener { openBottomSheet() }
+        btn_reply.setOnClickListener { bottomSheetDialog.show() }
 
         refresh_layout_post_detail.setEnableLoadMore(false)
         refresh_layout_post_detail.autoRefresh()
@@ -61,8 +55,8 @@ class PostDetailFragment: BaseSwipeFragment(), PostContract.View {
             getPost(postId, page) }
         refresh_layout_post_detail.setOnLoadMoreListener { getPost(postId, ++page) }
         replyItemAdapter.setLoadEndView(R.layout.layout_load_end)
-        recyclerview_post_detail_replies.layoutManager = LinearLayoutManager(context)
-        recyclerview_post_detail_replies.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+        recyclerview_post_detail_replies.layoutManager = LinearLayoutManager(this)
+        recyclerview_post_detail_replies.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         recyclerview_post_detail_replies.adapter = replyItemAdapter
     }
 
@@ -91,7 +85,7 @@ class PostDetailFragment: BaseSwipeFragment(), PostContract.View {
             linear_layout_detail_divide?.visibility = View.VISIBLE
             if (image_view_post_detail_author_avatar != null) {
                 image_view_post_detail_author_avatar.visibility = View.VISIBLE
-                Glide.with(context!!).load(event.data.topic?.icon).transform(GlideCircleTransform(context))
+                Glide.with(this).load(event.data.topic?.icon).transform(GlideCircleTransform(this))
                         .into(image_view_post_detail_author_avatar)
             }
             text_view_post_detail_title?.setText(event.data.topic?.title)
@@ -108,20 +102,5 @@ class PostDetailFragment: BaseSwipeFragment(), PostContract.View {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
             return
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(fid: String, showBottomBarOnDestroy: Boolean) =
-                PostDetailFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(FID, fid)
-                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-                    }
-                }
-    }
-
-    private fun openBottomSheet() {
-        bottomSheetDialog.show()
     }
 }

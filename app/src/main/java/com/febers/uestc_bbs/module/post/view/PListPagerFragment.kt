@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.post.view
 
+import android.content.Intent
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.adaper.PListViewPagerAdapter
 
@@ -29,10 +30,11 @@ class PListPagerFragment : BaseFragment(){
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun startAnotherPost(event: PostEvent) {
-        start(PostDetailFragment.newInstance(event.tid, true))
+        //start(PostDetailFragment.newInstance(event.tid, true))
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", event.tid) })
     }
 
-    override fun registeEventBus(): Boolean {
+    override fun registerEventBus(): Boolean {
         return true
     }
 }

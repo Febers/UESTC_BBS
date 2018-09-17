@@ -1,9 +1,6 @@
 package com.febers.uestc_bbs.utils
 
-import com.febers.uestc_bbs.base.COMPUS_GROUP
-import com.febers.uestc_bbs.base.MANAGE_GRUOP
-import com.febers.uestc_bbs.base.PLAY_GROUP
-import com.febers.uestc_bbs.base.TECH_GROUP
+import com.febers.uestc_bbs.base.*
 
 object BlockUtils {
 
@@ -35,7 +32,7 @@ object BlockUtils {
                 else -> fid
             }
         }
-        if (group == PLAY_GROUP) {
+        if (group == MAKET_GRUOP) {
             fid = when(position) {
                 0 -> "61";1 -> "255";2 -> "111"
                 else -> fid

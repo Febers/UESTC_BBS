@@ -6,10 +6,14 @@
 
 package com.febers.uestc_bbs.module.post.view
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +30,6 @@ import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-
 /**
  * 首页Fragment包含三个Fragment
  * 依次为最新回复，最新发表，热门帖子
@@ -40,9 +43,10 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             PListContract.Presenter = PListPresenterImpl(this)
     private var page: Int = 1
     private var shouldRefresh = true
+    private var isLoadMore = false
 
     override fun setContentView(): Int {
-        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, PListList, true)
+        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, PListList, false)
         return R.layout.fragment_post_list_home
     }
 
@@ -59,8 +63,21 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             page = 1
             getPost(page, true)
         }
-        refresh_layout_post_fragment.setOnLoadMoreListener { getPost(++page, true) }
+        refresh_layout_post_fragment.autoRefresh()
+        refresh_layout_post_fragment.setOnLoadMoreListener { onLoadMore() }
         postSimpleItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
+        //以下代码用来当Recyclerview滑动时不加载图片，暂时失效
+        recyclerview_subpost_fragment.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {   //滑动静止时
+                    postSimpleItemAdapter.setScrolling(false)
+                    postSimpleItemAdapter.notifyDataSetChanged()
+                } else {
+                    postSimpleItemAdapter.setScrolling(true)
+                }
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
@@ -79,6 +96,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     @UiThread
     override fun pListResult(event: BaseEvent<List<SimplePListBean>?>) {
+        isLoadMore = false
         if (event.code == BaseCode.FAILURE) {
             onError(event!!.data!![0]!!.title!!)    //我佛了
             refresh_layout_post_fragment?.finishRefresh(false)
@@ -89,7 +107,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         refresh_layout_post_fragment?.finishLoadMore()
         refresh_layout_post_fragment?.setEnableLoadMore(true)
         if (page == 1) {
-            i("DATA", event.data.toString())
             postSimpleItemAdapter.setNewData(event.data)
             return
         }
@@ -110,8 +127,13 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 }
     }
 
-    override fun registeEventBus(): Boolean {
+    override fun registerEventBus(): Boolean {
         return true
+    }
+
+    private fun onLoadMore() {
+        getPost(++page, true)
+        isLoadMore = true
     }
 
     private fun setEmptyView() {
@@ -122,12 +144,10 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     }
 
     private fun clickItem(PList: SimplePListBean) {
-        var mParentFragment = parentFragment as BaseFragment
         var tid = PList.topic_id
         if(tid == null) {
-            i("STF null", "${PList.topic_id == null}")
              tid = PList.source_id
         }
-        mParentFragment.start(PostDetailFragment.newInstance(fid = tid!!, showBottomBarOnDestroy = true))
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", tid) })
     }
 }

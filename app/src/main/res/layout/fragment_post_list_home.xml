@@ -5,24 +5,28 @@
   ~ Last modified 18-8-17 下午3:25.
   -->
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!--SmartRefreshLayout的app:srlEnableNestedScrolling="false"
+    和RecyclerView的android:nestedScrollingEnabled="false"
+    非常重要-->
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+    android:id="@+id/refresh_layout_post_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    app:srlAccentColor="@color/color_white"
+    app:srlPrimaryColor="?attr/colorPrimary"
+    app:srlEnableNestedScrolling="false"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refresh_layout_post_fragment"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view_plist_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableNestedScrolling="true"
-        app:srlAccentColor="@color/color_white"
-        app:srlPrimaryColor="?attr/colorPrimary">
+        android:scrollbars="vertical">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_subpost_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false">
         </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-</FrameLayout>

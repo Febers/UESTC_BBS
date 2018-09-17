@@ -46,7 +46,7 @@ class MoreFragment: BaseFragment() {
 
     private lateinit var user: UserBean
     private lateinit var mParentFragment: BaseFragment
-    override fun registeEventBus(): Boolean = true
+    override fun registerEventBus(): Boolean = true
 
     override fun setContentView(): Int {
         return R.layout.fragment_more
@@ -75,6 +75,7 @@ class MoreFragment: BaseFragment() {
             text_view_fragment_user_title.setText(user.title)
         }
         Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context))
+                .placeholder(R.mipmap.ic_default_avatar)
                 .into(image_view_fragment_user_avatar)
     }
 
@@ -111,13 +112,12 @@ class MoreFragment: BaseFragment() {
                 //parentFragment.start(UserDetailFragment.newInstance(""))
                 startActivity(Intent(activity, UserDetailActivity::class.java))
             } else {
-                mParentFragment.start(LoginFragment.newInstance(""))
+                mParentFragment.start(LoginFragment.newInstance("", true))
             }
             return
         }
         if (view == SECOND_ITEM_VIEW) {
             if (position == USER_POST_ITEM) {
-
                 return
             }
             if (position == USER_REPLY_ITEM) {
@@ -133,7 +133,7 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SEARCH_ITEM) {
-                mParentFragment.start(SearchFragment.newInstance(""))
+                mParentFragment.start(SearchFragment.newInstance("", true))
                 return
             }
         }
