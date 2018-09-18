@@ -12,11 +12,16 @@ import com.febers.uestc_bbs.base.BaseView
 import com.febers.uestc_bbs.entity.SimplePListBean
 
 interface PListContract {
-    interface View : BaseView {
-        fun pListResult(event: BaseEvent<List<SimplePListBean>?>)
+
+    interface Model {
+        fun topicService(_fid: String, _page: Int, _refresh: Boolean)
     }
 
-    abstract class Presenter(view: View) : BasePresenter<View>(view) {
+    interface View : BaseView {
+        fun showPList(event: BaseEvent<List<SimplePListBean>?>)
+    }
+
+    abstract class Presenter(view: BaseView) : BasePresenter<BaseView>(view) {
         abstract fun pListRequest(fid: String, page: Int, refresh: Boolean)
         abstract fun pListResult(event: BaseEvent<List<SimplePListBean>?>)
     }

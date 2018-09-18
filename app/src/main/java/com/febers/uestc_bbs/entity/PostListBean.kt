@@ -6,7 +6,7 @@
 
 package com.febers.uestc_bbs.entity
 
-data class PListResultBean(var rs: String? = null, var errcode: String? = null,
+data class PListResultBean(var rs: Int? = null, var errcode: String? = null,
                            var head: ResultHeadBean? = null, var body: Any? = null,
                            var list: List<SimplePListBean>? = null, var page: Int? = null,
                            var has_next: Int? = null, var total_num: Int? = null)

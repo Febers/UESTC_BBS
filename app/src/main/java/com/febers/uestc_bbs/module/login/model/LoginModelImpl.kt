@@ -70,7 +70,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
 
     private fun resolveLoginResult(loginResultBean: LoginResultBean) {
         val rs = loginResultBean.rs
-        if (rs != REQUEST_SECCESS_RS ) {
+        if (rs != REQUEST_SUCCESS_RS ) {
             user.msg = loginResultBean.head.errInfo
             loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
             return

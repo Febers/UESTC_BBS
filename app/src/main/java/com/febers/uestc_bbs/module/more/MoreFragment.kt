@@ -13,17 +13,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log.i
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.MoreItemAdapter
-import com.febers.uestc_bbs.base.BaseApplication
-import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BaseFragment
+import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.view.adaper.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
+import com.febers.uestc_bbs.module.user.view.UserPostFragment
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
-import com.febers.uestc_bbs.module.user.view.UserRepliesFragment
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -118,14 +116,15 @@ class MoreFragment: BaseFragment() {
         }
         if (view == SECOND_ITEM_VIEW) {
             if (position == USER_POST_ITEM) {
+                mParentFragment.start(UserPostFragment.newInstance(user.uid, type = USER_START_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_REPLY_ITEM) {
-                mParentFragment.start(UserRepliesFragment.newInstance(""))
+                mParentFragment.start(UserPostFragment.newInstance(user.uid, type = USER_REPLY_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_FAV_ITEM) {
-
+                mParentFragment.start(UserPostFragment.newInstance(user.uid, type = USER_FAV_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_FRIEND_ITEM) {
@@ -133,7 +132,7 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SEARCH_ITEM) {
-                mParentFragment.start(SearchFragment.newInstance("", true))
+                mParentFragment.start(SearchFragment.newInstance(true))
                 return
             }
         }

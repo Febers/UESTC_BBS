@@ -6,7 +6,7 @@
 
 package com.febers.uestc_bbs.entity
 
-data class LoginResultBean(var rs: String, var errcode: String,
+data class LoginResultBean(var rs: Int, var errcode: String,
                            var head: ResultHeadBean, var body: LoginResultBody,
                            var isValidation: String, var token: String, var secret: String,
                            var score: String, var uid: String, var userName: String, var avatar: String,

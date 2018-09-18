@@ -7,20 +7,17 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.PostSimpleItemAdapter
+import com.febers.uestc_bbs.view.adaper.PostSimpleItemAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean
@@ -95,17 +92,21 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     }
 
     @UiThread
-    override fun pListResult(event: BaseEvent<List<SimplePListBean>?>) {
+    override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
         isLoadMore = false
         if (event.code == BaseCode.FAILURE) {
-            onError(event!!.data!![0]!!.title!!)    //我佛了
-            refresh_layout_post_fragment?.finishRefresh(false)
-            refresh_layout_post_fragment?.finishLoadMore(false)
+            onError(event.data!![0].title!!)
+            refresh_layout_post_fragment?.apply {
+                finishRefresh(false)
+                finishLoadMore(false)
+            }
             return
         }
-        refresh_layout_post_fragment?.finishRefresh()
-        refresh_layout_post_fragment?.finishLoadMore()
-        refresh_layout_post_fragment?.setEnableLoadMore(true)
+        refresh_layout_post_fragment?.apply {
+            finishRefresh(true)
+            finishLoadMore(true)
+            setEnableLoadMore(true)
+        }
         if (page == 1) {
             postSimpleItemAdapter.setNewData(event.data)
             return

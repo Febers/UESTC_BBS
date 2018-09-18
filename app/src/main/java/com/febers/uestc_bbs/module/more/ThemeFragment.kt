@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.ThemeAdapter
+import com.febers.uestc_bbs.view.adaper.ThemeAdapter
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.BaseSwipeFragment
 import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY

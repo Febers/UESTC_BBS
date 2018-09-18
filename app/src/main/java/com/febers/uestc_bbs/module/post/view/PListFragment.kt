@@ -7,10 +7,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log.i
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.PostSimpleItemAdapter
+import com.febers.uestc_bbs.view.adaper.PostSimpleItemAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
-import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import kotlinx.android.synthetic.main.fragment_post_list.*
@@ -19,8 +18,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     private val PListList: MutableList<SimplePListBean> = ArrayList()
     private lateinit var postSimpleItemAdapter: PostSimpleItemAdapter
-    private lateinit var user: UserBean
-    private var PListPresenter:
+    private var pListPresenter:
             PListContract.Presenter = PListPresenterImpl(this)
     private var page: Int = 1
     private var shouldRefresh = true
@@ -36,13 +34,14 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        user = BaseApplication.getUser()
-        recyclerview_post_list.layoutManager = LinearLayoutManager(context)
-        recyclerview_post_list.adapter = postSimpleItemAdapter
-        recyclerview_post_list.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+        recyclerview_post_list.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = postSimpleItemAdapter
+            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL)) }
 
-        refresh_layout_post_list.setEnableLoadMore(false)
-        refresh_layout_post_list.autoRefresh()
+        refresh_layout_post_list.apply {
+            setEnableLoadMore(false)
+            autoRefresh() }
         refresh_layout_post_list.setOnRefreshListener {
             page = 1
             getPost(page, true)
@@ -54,19 +53,23 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_list.setNoMoreData(false)
         i("PLIST", "${fid}")
-        PListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
+        pListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
     }
 
-    override fun pListResult(event: BaseEvent<List<SimplePListBean>?>) {
+    override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
         if (event.code == BaseCode.FAILURE) {
-            onError(event!!.data!![0]!!.title!!)    //我佛了
-            refresh_layout_post_list?.finishRefresh(false)
-            refresh_layout_post_list?.finishLoadMore(false)
+            onError(event.data!![0].title!!)
+            refresh_layout_post_list?.apply {
+                finishRefresh(false)
+                finishLoadMore(false)
+            }
             return
         }
-        refresh_layout_post_list?.finishRefresh()
-        refresh_layout_post_list?.finishLoadMore()
-        refresh_layout_post_list?.setEnableLoadMore(true)
+        refresh_layout_post_list?.apply {
+            finishRefresh()
+            finishLoadMore()
+            setEnableLoadMore(true)
+        }
         if (page == 1) {
             postSimpleItemAdapter.setNewData(event.data)
             return
@@ -89,13 +92,11 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                 }
     }
 
-    private fun clickItem(PList: SimplePListBean) {
-        var tid = PList.topic_id
+    private fun clickItem(simplePList: SimplePListBean) {
+        var tid = simplePList.topic_id
         if(tid == null) {
-            i("STF null", "${PList.topic_id == null}")
-            tid = PList.source_id
+            tid = simplePList.source_id
         }
-        //start(PostDetailFragment.newInstance(fid = tid!!, showBottomBarOnDestroy = false))
         startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", tid) })
     }
 }

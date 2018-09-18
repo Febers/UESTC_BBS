@@ -10,10 +10,7 @@ import android.os.Bundle
 import android.support.annotation.FloatRange
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.R
 import me.yokeyword.fragmentation.SwipeBackLayout
@@ -39,6 +36,10 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
         return attachToSwipeBack(view!!)
     }
 
+    protected open fun setMenu(): Int? {
+        return null
+    }
+
     protected abstract fun setToolbar(): Toolbar?
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,13 +54,16 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mSwipeDelegate.onViewCreated(view, savedInstanceState)
-        getSwipeBackLayout().setParallaxOffset(0.0f) // 滑动退出视觉差，默认0.3
+        swipeBackLayout.setParallaxOffset(0.0f) // 滑动退出视觉差，默认0.3
         swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
         //添加toolbar点击返回
         val activity: AppCompatActivity = getActivity() as AppCompatActivity
         activity.setSupportActionBar(setToolbar())
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setToolbar()?.setNavigationOnClickListener { pop() }
+        if (setMenu()!=null) {
+            setToolbar()?.inflateMenu(setMenu()!!)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

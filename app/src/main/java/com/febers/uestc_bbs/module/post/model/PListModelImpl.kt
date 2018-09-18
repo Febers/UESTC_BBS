@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 const val COMMON_PAGE_SIZE = "20"
 
-class TopicModelImpl(val PListPresenter: PListContract.Presenter) : IPListModel {
+class TopicModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
 
     private val mContext = BaseApplication.context()
     private lateinit var fid: String
@@ -44,11 +44,11 @@ class TopicModelImpl(val PListPresenter: PListContract.Presenter) : IPListModel 
                     PListPresenter.pListResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimplePListBean(title = SERVICE_RESPONSE_NULL))))
                     return
                 }
-                if(body.rs != REQUEST_SECCESS_RS) {
+                if(body.rs != REQUEST_SUCCESS_RS) {
                     PListPresenter.pListResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimplePListBean(title = body.head?.errInfo))))
                     return
                 }
-                if (body.has_next == 0) {
+                if (body.has_next != HAVE_NEXT_PAGE) {
                     PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS_END, body.list))
                 } else {
                     PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
@@ -58,12 +58,7 @@ class TopicModelImpl(val PListPresenter: PListContract.Presenter) : IPListModel 
     }
 
     private fun getCall(): Call<PListResultBean>{
-        val user = BaseApplication.getUser()
-        val retrofit = Retrofit.Builder()
-                .baseUrl(ApiUtils.BBS_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val pListRequest = retrofit.create(PListInterface::class.java)
+        val pListRequest = getRetrofit().create(PListInterface::class.java)
         //最新发表
         if (fid == HOME_POSTS_NEW) {
             return pListRequest.newPosts(r = "forum/topiclist",
@@ -88,8 +83,8 @@ class TopicModelImpl(val PListPresenter: PListContract.Presenter) : IPListModel 
                     pageSize = COMMON_PAGE_SIZE)
         }
         //版块里的帖子
-        return pListRequest.normalPosts(accessToken = user.token,
-                accessSecret = user.secrete,
+        return pListRequest.normalPosts(accessToken = getUser().token,
+                accessSecret = getUser().secrete,
                 boardId = fid,
                 page = page,
                 pageSize = COMMON_PAGE_SIZE,

@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.post.view
 
+import android.annotation.SuppressLint
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -8,7 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.PostReplyItemAdapter
+import com.febers.uestc_bbs.view.adaper.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseSwipeActivty
@@ -48,51 +49,66 @@ class PostDetailActivity : BaseSwipeActivty(), PostContract.View {
 
         btn_reply.setOnClickListener { bottomSheetDialog.show() }
 
-        refresh_layout_post_detail.setEnableLoadMore(false)
-        refresh_layout_post_detail.autoRefresh()
-        refresh_layout_post_detail.setOnRefreshListener {
-            page = 1
-            getPost(postId, page) }
-        refresh_layout_post_detail.setOnLoadMoreListener { getPost(postId, ++page) }
+        refresh_layout_post_detail.apply {
+            setEnableLoadMore(false)
+            autoRefresh()
+            setOnRefreshListener {
+                page = 1
+                getPost(postId, page) }
+            setOnLoadMoreListener {
+                getPost(postId, ++page) }
+        }
         replyItemAdapter.setLoadEndView(R.layout.layout_load_end)
-        recyclerview_post_detail_replies.layoutManager = LinearLayoutManager(this)
-        recyclerview_post_detail_replies.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        recyclerview_post_detail_replies.adapter = replyItemAdapter
+        recyclerview_post_detail_replies.apply {
+            layoutManager = LinearLayoutManager(this@PostDetailActivity)
+            addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
+            adapter = replyItemAdapter
+        }
     }
 
+    /*
+    获取数据之后,恢复加载更多设置
+    (由于已经关闭加载更多，只能由刷新触发)，
+     */
     private fun getPost(_postId: String, _page: Int, _authorId: String = "", _order: String = "") {
-        //获取数据之后(由于已经关闭加载更多，只能由刷新触发)，恢复加载更多设置
         refresh_layout_post_detail.setNoMoreData(false)
         postPresenter.postRequest(_postId, _page, _authorId, _order)
     }
 
+    @SuppressLint("SetTextI18n")
     @UiThread
-    override fun postResult(event: BaseEvent<PostResultBean>) {
+    override fun showPost(event: BaseEvent<PostResultBean>) {
         if (event.code == BaseCode.FAILURE) {
             if (event.data.rs == null) {
                 return
             }
-            onError(event.data.rs!!)
-            refresh_layout_post_detail?.finishRefresh(false)
-            refresh_layout_post_detail?.finishLoadMore(false)
+            onError(event.data.errcode!!)
+            refresh_layout_post_detail?.apply {
+                finishRefresh(false)
+                finishLoadMore(false)
+            }
             return
         }
-        refresh_layout_post_detail?.finishLoadMore(true)
-        refresh_layout_post_detail?.finishRefresh(true)
-        refresh_layout_post_detail?.setEnableLoadMore(true)
+        refresh_layout_post_detail?.apply {
+            finishLoadMore(true)
+            finishRefresh(true)
+            setEnableLoadMore(true)
+        }
         if (page == 1) {
             //绘制主贴视图，否则只需要添加评论内容
             linear_layout_detail_divide?.visibility = View.VISIBLE
             if (image_view_post_detail_author_avatar != null) {
                 image_view_post_detail_author_avatar.visibility = View.VISIBLE
-                Glide.with(this).load(event.data.topic?.icon).transform(GlideCircleTransform(this))
-                        .into(image_view_post_detail_author_avatar)
+                if (!this.isDestroyed) {
+                    Glide.with(this).load(event.data.topic?.icon).transform(GlideCircleTransform(this))
+                            .into(image_view_post_detail_author_avatar)
+                }
             }
-            text_view_post_detail_title?.setText(event.data.topic?.title)
-            text_view_post_detail_author?.setText(event.data.topic?.user_nick_name)
-            text_view_post_detail_author_title?.setText(event.data.topic?.userTitle)
-            text_view_post_detail_date?.setText(event.data.topic?.create_date)
-            btn_reply?.setText(event.data.topic?.replies+"条评论")
+            text_view_post_detail_title?.text = event.data.topic?.title
+            text_view_post_detail_author?.text = event.data.topic?.user_nick_name
+            text_view_post_detail_author_title?.text = event.data.topic?.userTitle
+            text_view_post_detail_date?.text = event.data.topic?.create_date
+            btn_reply?.text = event.data.topic?.replies+"条评论"
             PostContentViewUtils.create(linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
         }

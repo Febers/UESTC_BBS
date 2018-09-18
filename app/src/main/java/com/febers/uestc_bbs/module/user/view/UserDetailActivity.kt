@@ -2,22 +2,27 @@ package com.febers.uestc_bbs.module.user.view
 
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.DetailItemAdapter
+import com.febers.uestc_bbs.view.adaper.DetailItemAdapter
 import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BaseSwipeActivty
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.view.utils.BlurTransformation
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
-import kotlinx.android.synthetic.main.fragment_user_detail.*
+import kotlinx.android.synthetic.main.activity_user_detail.*
 
 class UserDetailActivity : BaseSwipeActivty() {
 
     private lateinit var user: UserBean
 
     override fun noStatusBar(): Boolean = true
+
+    override fun setToolbar(): Toolbar? {
+        return toolbar_user_detail
+    }
 
     override fun setView(): Int {
         return R.layout.activity_user_detail

@@ -1,8 +1,7 @@
 package com.febers.uestc_bbs.module.message.view
 
-import android.support.design.widget.TabLayout
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.MessageViewPageAdapter
+import com.febers.uestc_bbs.view.adaper.MessageViewPageAdapter
 import com.febers.uestc_bbs.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_message_pager.*
 

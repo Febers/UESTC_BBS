@@ -109,7 +109,7 @@ object PostContentViewUtils {
             CONTENT_TYPE_IMG -> {
                 i("Utils", "IMG:")
                 val textView = getTextView(linearLayout.context)
-                ImageTextUtils.setImageText(textView, mStringBuilder.toString())
+                ImageTextUtils.setImageText(textView, stringBuilder.toString())
                 linearLayout.addView(textView)
 
                 val imageView = getImageView(linearLayout.context)

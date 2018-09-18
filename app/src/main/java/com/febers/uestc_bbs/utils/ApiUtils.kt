@@ -60,6 +60,21 @@ object ApiUtils {
     const val BBS_UPDATE_USER_INFO_URL = "mobcent/app/web/index.php?r=user/updateuserinfo"
 
     /**
+        获取用户发布的帖子
+        uid
+        page
+        accessToken
+        accessSecret
+        sdkVersion
+        apphash
+     */
+    const val BBS_USER_START_URL = "mobcent/app/web/index.php?r=user/topiclist&type=topic"
+
+    const val BBS_USER_REPLY_URL = "mobcent/app/web/index.php?r=user/topiclist&type=reply"
+
+    const val BBS_USER_FAV_URL = "mobcent/app/web/index.php?r=user/topiclist&type=favorite"
+
+    /**
      * 获取版块列表。
         fid 可选。获取指定版块的子版块。
         type 待确认，但是我们可能用不到。

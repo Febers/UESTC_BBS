@@ -15,7 +15,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.adaper.PostReplyItemAdapter
+import com.febers.uestc_bbs.view.adaper.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
@@ -73,12 +73,12 @@ class PostDetailFragment: BaseSwipeFragment(), PostContract.View {
     }
 
     @UiThread
-    override fun postResult(event: BaseEvent<PostResultBean>) {
+    override fun showPost(event: BaseEvent<PostResultBean>) {
         if (event.code == BaseCode.FAILURE) {
             if (event.data.rs == null) {
                 return
             }
-            onError(event.data.rs!!)
+            onError(event.data.errcode!!)
             refresh_layout_post_detail?.finishRefresh(false)
             refresh_layout_post_detail?.finishLoadMore(false)
             return

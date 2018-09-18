@@ -8,16 +8,16 @@ package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.PostResultBean
-import com.febers.uestc_bbs.module.post.model.IPostModel
 import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
-class PostPresenterImpl(mView: PostContract.View): PostContract.Presenter(mView) {
+class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(view) {
+
     override fun postRequest(postId: String, page: Int, authorId: String, order: String) {
-        val postModel: IPostModel = PostModelImpl(this)
+        val postModel: PostContract.Model = PostModelImpl(this)
         postModel.postService(postId, page, authorId, order)
     }
 
     override fun postResult(event: BaseEvent<PostResultBean>) {
-        mView?.postResult(event)
+        view.showPost(event)
     }
 }

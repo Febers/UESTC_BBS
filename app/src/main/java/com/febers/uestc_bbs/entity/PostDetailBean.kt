@@ -6,8 +6,8 @@
 
 package com.febers.uestc_bbs.entity
 
-data class PostResultBean(var rs: String? = null, var errcode: String? = null, var head: ResultHeadBean? = null,
-                          var body: Any? = null, var topic:PostTopicBaen? = null, var page: String? = null, var has_next: String? = null,
+data class PostResultBean(var rs: Int? = null, var errcode: String? = null, var head: ResultHeadBean? = null,
+                          var body: Any? = null, var topic:PostTopicBaen? = null, var page: String? = null, var has_next: Int? = null,
                           var total_num: String? = null, var list: List<PostReplyBean>? = null, var forumName: String? = null,
                           var boardId: String? = null, var forumTopicUrl: String? = null, var img_url: String? = null,
                           var icon_url: String? = null)

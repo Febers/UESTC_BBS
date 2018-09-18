@@ -17,10 +17,12 @@ import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast
 
 const val FID = "fid"
+const val UID = "uid"
 
 abstract class BaseFragment : SupportFragament(), BaseView {
 
     protected var fid: String? = null
+    protected var uid: String? = null
 
     protected abstract fun setContentView():Int
 
@@ -33,6 +35,7 @@ abstract class BaseFragment : SupportFragament(), BaseView {
         mDelegate.onCreate(savedInstanceState)
         arguments?.let {
             fid = it.getString(FID)
+            uid = it.getString(UID)
         }
     }
 

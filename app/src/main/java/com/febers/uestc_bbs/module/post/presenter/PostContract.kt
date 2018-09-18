@@ -12,8 +12,13 @@ import com.febers.uestc_bbs.base.BaseView
 import com.febers.uestc_bbs.entity.PostResultBean
 
 interface PostContract {
+
+    interface Model {
+        fun postService(_postId: String, _page: Int, _authorId: String, _order: String)
+    }
+
     interface View: BaseView {
-        fun postResult(event: BaseEvent<PostResultBean>)
+        fun showPost(event: BaseEvent<PostResultBean>)
     }
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
         abstract fun postRequest(postId: String, page: Int, authorId: String = "", order: String = "")
