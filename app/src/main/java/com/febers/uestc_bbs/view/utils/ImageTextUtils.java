@@ -7,14 +7,11 @@
 package com.febers.uestc_bbs.view.utils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
@@ -26,9 +23,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.base.BaseFragment;
 import com.febers.uestc_bbs.utils.AttrUtils;
-import com.febers.uestc_bbs.utils.LinkClickUtils;
+import com.febers.uestc_bbs.utils.ViewClickUtils;
 
 
 import static android.util.Log.i;
@@ -52,9 +48,7 @@ public class ImageTextUtils {
         }
         Context context = tv.getContext();
         Spanned htmlStr = Html.fromHtml(html);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//            tv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-//        }
+
         tv.setClickable(true);
         tv.setTextIsSelectable(true);
         tv.setText(htmlStr);
@@ -74,8 +68,6 @@ public class ImageTextUtils {
             SpannableStringBuilder style = new SpannableStringBuilder(text);
             style.clearSpans();
             for(URLSpan url : urls){
-//                style.setSpan(url,sp.getSpanStart(url),sp.getSpanEnd(url),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                Log.i(TAG, "setImageText: " + url.getURL());
                 MyUrlSpan myUrlSpan = new MyUrlSpan(url.getURL(), context);
                 style.setSpan(myUrlSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(AttrUtils.INSTANCE.getColor(tv.getContext(), R.attr.colorAccent));
@@ -109,7 +101,7 @@ public class ImageTextUtils {
 
         @Override
         public void onClick(View widget) {
-            LinkClickUtils.INSTANCE.click(mUrl, mContext);
+            ViewClickUtils.INSTANCE.linkClick(mUrl, mContext);
         }
     }
 }

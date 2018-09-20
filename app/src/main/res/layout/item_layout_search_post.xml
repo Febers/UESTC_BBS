@@ -8,36 +8,20 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/image_view_item_user_post_avatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/ic_default_avatar" />
-
     <TextView
         android:id="@+id/text_view_item_search_post_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:maxLines="2"
         android:text="TextView"
         android:textColor="?attr/textColorFirst"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/image_view_item_user_post_avatar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="这是帖帖子子详情" />
 
@@ -58,18 +42,27 @@
         tools:text="这是帖子详情,这是帖子详情,这是帖子详情,这是帖子详情" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_view_item_search_post_title"
         app:layout_constraintTop_toBottomOf="@+id/text_view_item_search_post_content"
-        app:layout_constraintVertical_bias="0.02">
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/text_view_item_search_post_user"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:text="用户名"
+            android:textSize="12dp"
+            android:textColor="?attr/textColorSecond" />
 
         <LinearLayout
             android:layout_width="0dp"

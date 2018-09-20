@@ -17,12 +17,6 @@ object ApiUtils {
         mobile （用于手机验证登录，我们用不到，下同）
         code
         isValidation
-        返回值
-        secret
-        token
-        avatar 头像 URL。
-        uid
-        mUserName
      */
     const val BBS_LOGIN_URL = "mobcent/app/web/index.php?r=user/login"
 
@@ -78,24 +72,6 @@ object ApiUtils {
      * 获取版块列表。
         fid 可选。获取指定版块的子版块。
         type 待确认，但是我们可能用不到。
-        返回值
-
-        list 数组。
-        board_category_name 版块名称。
-        board_category_id 相当于河畔上的 gid。
-        board_category_type
-        board_list 数组，包含分栏下的版块。
-        board_child 是否有子版块。
-        board_content 是否为空版块（不能发帖，只有子版块，例如学院在线）。
-        board_id 相当于河畔上的 fid。
-        board_img
-        board_name 版块名称。
-        description
-        forumRedirect
-        last_posts_date 最后发表时间。
-        posts_total_num 总发帖量。
-        td_posts_num 今日发帖量。
-        topic_total_num 主题总数。
      */
     const val BBS_FORUM_LIST = "mobcent/app/web/index.php?r=forum/forumlist"
 
@@ -109,56 +85,8 @@ object ApiUtils {
         filterId 分类 ID，只返回指定分类的主题。
         isImageList
         topOrder 0（不返回置顶帖，默认）, 1（返回本版置顶帖）, 2（返回分类置顶帖）, 3（返回全局置顶帖）。置顶帖包含在 topTopicList 字段中。
-        返回值
-
-        list 数组。
-        topic_id
-        type
-        title （包含分类信息）
-        subject （仅包含标题）
-        imageList
-        sourceWebUrl
-        user_id
-        user_nick_name
-        userAvatar
-        gender
-        last_reply_date
-        vote 是否为投票帖。
-        hot
-        hits
-        replies
-        essence
-        top
-        status
-        pic_path
-        ratio
-        recommendAdd
-        isHasRecommendAdd
-        board_id
-        board_name
-        topTopicList 数组，包含置顶帖。
-        id
-        title
-        page
-        hasNext
-        total_num
-        newTopicPanel 数组。
-        type （nomal、vote……）
-        action （空）
-        title （发表帖子、发起投票）
-        classificationTop_list 数组。
-        classificationType_list 数组。
-        classificationType_id
-        classificationType_name
-        isOnlyTopicType
-        anno_list 数组。
-        forumInfo
-        id
-        title
-        description
-        icon
-     */
-    const val BBS_TOPOIC_LIST_URL = "mobcent/app/web/index.php?r=forum/topiclist"
+    */
+    const val BBS_TOPIC_LIST_URL = "mobcent/app/web/index.php?r=forum/topiclist"
 
     /**
      * 获取帖子的回复列表。
@@ -167,83 +95,6 @@ object ApiUtils {
         order 0 或 1（回帖倒序排列）
         page
         pageSize
-        返回值
-
-        page
-        has_next
-        total_num
-        list 数组。回复列表，不包含楼主。
-        reply_id 内部使用？
-        reply_content 回复内容（结构参考发帖时的 content 字段）。
-        reply_type
-        reply_name 用户名
-        reply_posts_id 回复 pid。
-        position 楼层编号。
-        posts_date 回复时间。
-        icon 头像 URL。
-        level
-        userTitle 用户组
-        location
-        mobileSign
-        reply_status
-        status
-        role_num
-        title
-        is_quote
-        quote_pid
-        quote_content
-        quote_user_name
-        managePanel
-        extraPanel 参见 topic 字段。
-        topic 字段与 forum/topiclist 返回值中 list 项目类似
-        两者均包含 topic_id, title, type, user_id, user_nick_name, replies, hits, essence, vote, hot, top, status, gender 这些字段，topic 字段不包含 board_id, board_name, last_reply_date, subject, pic_path, ratio, userAvatar, recommendAdd, isHasRecommendAdd, imageList, sourceWebUrl，此外还包含下列字段：
-        sortId
-        is_favor
-        create_date 发帖时间
-        icon 头像？
-        level
-        userTitle 用户组
-        content 主题帖内容（结构参考发帖时的 content 字段）。
-        poll_info
-        deadline
-        is_visible
-        voters
-        type
-        poll_status
-        poll_id 数组。
-        poll_item_list 数组。
-        name
-        poll_item_id
-        total_num
-        percent
-        activityInfo
-        location
-        managePanel
-        extraPanel 数组。
-        action 相当于 HTML <form> action 属性？
-        title 操作（例如“评分”）。
-        type 如果是评分则为 'rate'。
-        extParams
-        beforeAction 执行前请求的 URL？
-        mobileSign
-        reply_status
-        flag
-        reply_posts_id 楼主（1 楼） pid。
-        rateList
-        padding rateList 为空时包含该字段。
-        head 表头字段名
-        field1
-        field2
-        field3
-        body 数组。相当于 <tbody> 每一行。
-        field1
-        field2
-        field3
-        total 总计。
-        field1
-        field2
-        field3
-        showAllUrl 显示所有评分记录的 URL（forum/ratelistview）。
      */
     const val BBS_POST_LIST_URL = "mobcent/app/web/index.php?r=forum/postlist"
 
@@ -252,7 +103,6 @@ object ApiUtils {
         act 'new'（发帖）、'reply'（回复）、其他字符串（编辑）
         json JSON 格式的发帖内容。
         JSON 格式：
-
         {
         "body": {
         "json": {

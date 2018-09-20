@@ -8,6 +8,7 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.MainThread
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -17,7 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PostSimpleItemAdapter
+import com.febers.uestc_bbs.view.adaper.PostSimpleAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean
@@ -26,6 +27,7 @@ import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.runOnUiThread
 
 /**
  * 首页Fragment包含三个Fragment
@@ -34,7 +36,7 @@ import org.greenrobot.eventbus.ThreadMode
 class PListHomeFragment: BaseFragment(), PListContract.View {
 
     private val PListList: MutableList<SimplePListBean> = ArrayList()
-    private lateinit var postSimpleItemAdapter: PostSimpleItemAdapter
+    private lateinit var postSimpleAdapter: PostSimpleAdapter
     private lateinit var user: UserBean
     private var PListPresenter:
             PListContract.Presenter = PListPresenterImpl(this)
@@ -43,7 +45,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     private var isLoadMore = false
 
     override fun setContentView(): Int {
-        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, PListList, false)
+        postSimpleAdapter = PostSimpleAdapter(context!!, PListList, false)
         return R.layout.fragment_post_list_home
     }
 
@@ -51,7 +53,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         super.onLazyInitView(savedInstanceState)
         user = BaseApplication.getUser()
         recyclerview_subpost_fragment.layoutManager = LinearLayoutManager(context)
-        recyclerview_subpost_fragment.adapter = postSimpleItemAdapter
+        recyclerview_subpost_fragment.adapter = postSimpleAdapter
         recyclerview_subpost_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
         refresh_layout_post_fragment.setEnableLoadMore(false)
@@ -62,15 +64,15 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         }
         refresh_layout_post_fragment.autoRefresh()
         refresh_layout_post_fragment.setOnLoadMoreListener { onLoadMore() }
-        postSimpleItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
+        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
         //以下代码用来当Recyclerview滑动时不加载图片，暂时失效
         recyclerview_subpost_fragment.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {   //滑动静止时
-                    postSimpleItemAdapter.setScrolling(false)
-                    postSimpleItemAdapter.notifyDataSetChanged()
+                    postSimpleAdapter.setScrolling(false)
+                    postSimpleAdapter.notifyDataSetChanged()
                 } else {
-                    postSimpleItemAdapter.setScrolling(true)
+                    postSimpleAdapter.setScrolling(true)
                 }
                 super.onScrollStateChanged(recyclerView, newState)
             }
@@ -102,20 +104,26 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             }
             return
         }
+        if (event.code == BaseCode.LOCAL) {
+            context?.runOnUiThread {
+                postSimpleAdapter.setNewData(event.data)
+            }
+            return
+        }
         refresh_layout_post_fragment?.apply {
             finishRefresh(true)
             finishLoadMore(true)
             setEnableLoadMore(true)
         }
         if (page == 1) {
-            postSimpleItemAdapter.setNewData(event.data)
+            postSimpleAdapter.setNewData(event.data)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_fragment?.finishLoadMoreWithNoMoreData()
             return
         }
-        postSimpleItemAdapter.setLoadMoreData(event.data)
+        postSimpleAdapter.setLoadMoreData(event.data)
     }
 
     companion object {
@@ -141,7 +149,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         val emptyView: View = LayoutInflater
                 .from(context!!)
                 .inflate(R.layout.layout_empty, recyclerview_subpost_fragment.parent as ViewGroup, false)
-        postSimpleItemAdapter.setEmptyView(emptyView)
+        postSimpleAdapter.setEmptyView(emptyView)
     }
 
     private fun clickItem(PList: SimplePListBean) {

@@ -4,7 +4,7 @@
  * Last modified 18-8-18 下午2:32.
  */
 
-package com.febers.uestc_bbs.module.post.utils
+package com.febers.uestc_bbs.view.utils
 
 import android.content.Context
 import android.graphics.Color
@@ -14,13 +14,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SimpleContentBean
+import com.febers.uestc_bbs.utils.GlideLoadUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
-
-
-import com.febers.uestc_bbs.view.utils.ImageTextUtils
 
 
 /**
@@ -67,19 +65,20 @@ const val CONTENT_TYPE_TEXT = "0"
 const val CONTENT_TYPE_IMG = "1"
 const val CONTENT_TYPE_AUDIO = "3"
 const val CONTENT_TYPE_URL = "4"
-const val CONTENT_TYPE_FILE = "5"   //下一个content的描述信息
+const val CONTENT_TYPE_FILE = "5"
 const val DIVIDE_HEIGHT = 20
 
 object PostContentViewUtils {
 
     private lateinit var mContents: List<SimpleContentBean>
     private lateinit var mStringBuilder: StringBuilder
-    private final val IMAGE_VIEW_MARGIN = 20
+    private val IMAGE_VIEW_MARGIN = 20
 
     fun create(linearLayout: LinearLayout?, contents: List<SimpleContentBean>?) {
         if (contents == null || linearLayout == null) {
             return
         }
+        println(contents)
         mContents = contents
         mStringBuilder = StringBuilder()
         linearLayout.removeAllViews()
@@ -87,6 +86,17 @@ object PostContentViewUtils {
     }
 
     private fun cycleDrawView(linearLayout: LinearLayout, stringBuilder: StringBuilder, position: Int) {
+        fun drawTextView() {
+            val textView = getTextView(linearLayout.context)
+            ImageTextUtils.setImageText(textView, stringBuilder.toString())
+            linearLayout.addView(textView)
+        }
+        fun drawImageView() {
+            drawTextView()
+            val imageView = getImageView(linearLayout.context)
+            linearLayout.addView(imageView)
+            GlideLoadUtils.load(linearLayout.context, mContents[position].originalInfo, imageView, R.mipmap.ic_default_avatar)
+        }
         if (position >= mContents.size) {
             val textView = getTextView(linearLayout.context)
             ImageTextUtils.setImageText(textView, stringBuilder.toString())
@@ -95,40 +105,28 @@ object PostContentViewUtils {
         }
         when(mContents[position].type) {
             CONTENT_TYPE_TEXT -> {
-                i("Utils", "TEXT:")
-                mStringBuilder.append(emotionTransform(mContents[position].infor).encodeSpaces())
-                cycleDrawView(linearLayout, stringBuilder, position+1)
+                stringBuilder.append(emotionTransform(mContents[position].infor).encodeSpaces())
+                cycleDrawView(linearLayout, stringBuilder, position + 1)
             }
             CONTENT_TYPE_URL -> {
-                i("Utils", "URL:")
-                stringBuilder.append("  ")
-                    .append(urlTransform(mContents[position].url, mContents[position].infor))
-                    .append("  ")
-                cycleDrawView(linearLayout, stringBuilder, position+1)
+                stringBuilder
+                    .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
+                cycleDrawView(linearLayout, stringBuilder, position + 1)
             }
             CONTENT_TYPE_IMG -> {
-                i("Utils", "IMG:")
-                val textView = getTextView(linearLayout.context)
-                ImageTextUtils.setImageText(textView, stringBuilder.toString())
-                linearLayout.addView(textView)
-
-                val imageView = getImageView(linearLayout.context)
-                Glide.with(linearLayout.context).load(mContents[position].originalInfo)
-                        .placeholder(R.mipmap.ic_default_avatar).into(imageView)
-                linearLayout.addView(imageView)
-                cycleDrawView(linearLayout, StringBuilder(), position+1)
+                drawImageView()
+                cycleDrawView(linearLayout, StringBuilder(), position + 1)
             }
             CONTENT_TYPE_FILE -> {
-                i("Utils", "FILE:")
-                stringBuilder.append(" ")
-                        .append(urlTransform(mContents[position].url, mContents[position].infor))
-                        .append(" ")
-                cycleDrawView(linearLayout, stringBuilder, position+1)
+                if (mContents[position].infor?.unMatchImageUrl()!!) {
+                    stringBuilder
+                            .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
+                }
+                cycleDrawView(linearLayout, stringBuilder, position + 1)
             }
             else -> {
-                i("Utils", "OTHER:${mContents[position]}")
-                mStringBuilder.append(mContents[position].infor)
-                cycleDrawView(linearLayout, stringBuilder, position+1)
+                stringBuilder.append(mContents[position].infor)
+                cycleDrawView(linearLayout, stringBuilder, position + 1)
             }
         }
     }
@@ -137,22 +135,27 @@ object PostContentViewUtils {
         setLineSpacing(1.0f, 1.3f)
         setTextColor(Color.parseColor("#DD000000"))
         textSize = 16f
+        linksClickable = true
+
         setTextIsSelectable(true)
         layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun getImageView(context: Context): ImageView {
-        val imageView = ImageView(context).apply {
+    private fun getImageView(ctx: Context): ImageView {
+        val imageView = ImageView(ctx).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             layoutParams = ViewGroup
-                    .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
-        //val layoutParams = imageView.layoutParams
         val marginLayoutParams = ViewGroup.MarginLayoutParams(imageView.layoutParams).apply {
             setMargins(IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN) }
-        imageView.layoutParams = marginLayoutParams
-        return imageView
+        return imageView.apply {
+            layoutParams = marginLayoutParams
+            setOnClickListener {
+                ViewClickUtils.imgClick(url = " ", context = ctx)
+            }
+        }
     }
 
 
@@ -212,4 +215,10 @@ object PostContentViewUtils {
         }
         return """<a href="$raw">$title</a>"""
     }
+
+    private fun String.matchImageUrl(): Boolean = endsWith(".jpg") || endsWith(".png") ||
+                endsWith(".jpeg") || endsWith(".bmp")
+
+
+    private fun String.unMatchImageUrl(): Boolean = !matchImageUrl()
 }

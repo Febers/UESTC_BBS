@@ -1,17 +1,17 @@
 package com.febers.uestc_bbs.module.user.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.entity.UserPostBean
-import com.febers.uestc_bbs.module.user.model.UserPostModelImpl
+import com.febers.uestc_bbs.entity.UserPListBean
+import com.febers.uestc_bbs.module.user.model.UserPListModelImpl
 
 class UserPresenterImpl(var view: UserContract.View): UserContract.Presenter(view) {
 
-    override fun userPostRequest(uid: String, type: Int, page: String) {
-        val userPostModel: UserContract.Model = UserPostModelImpl(this)
-        userPostModel.userPostService(uid, type, page)
+    override fun userPListRequest(uid: String, type: Int, page: String) {
+        val userPostModel: UserContract.Model = UserPListModelImpl(this)
+        userPostModel.userPListService(uid, type, page)
     }
 
-    override fun userPostResult(event: BaseEvent<UserPostBean>) {
-        view.showUserPost(event)
+    override fun userPListResult(event: BaseEvent<UserPListBean>) {
+        view.showUserPList(event)
     }
 }

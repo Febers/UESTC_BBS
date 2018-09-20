@@ -7,32 +7,29 @@
 package com.febers.uestc_bbs.module.post.model
 
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.dao.PostStore
 import com.febers.uestc_bbs.entity.PListResultBean
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
-import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-const val COMMON_PAGE_SIZE = "20"
-
-class TopicModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
-
-    private val mContext = BaseApplication.context()
-    private lateinit var fid: String
-    private lateinit var page: String
+class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
 
     override fun topicService(_fid: String, _page: Int, _refresh: Boolean) {
-        fid = _fid
-        page = _page.toString()
+        mFid = _fid
+        mPage = _page.toString()
 
-        Thread(Runnable { getTopic() }).start()
+        Thread(Runnable {
+            getSavedPList()
+        }).start()
+        Thread(Runnable {
+            getPList()
+        }).start()
     }
 
-    private fun getTopic() {
+    private fun getPList() {
         getCall().enqueue(object : Callback<PListResultBean> {
             override fun onFailure(call: Call<PListResultBean>?, t: Throwable?) {
                 PListPresenter.pListResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimplePListBean(title = SERVICE_RESPONSE_ERROR))))
@@ -53,6 +50,7 @@ class TopicModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
                 } else {
                     PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
                 }
+                if (mPage == FIRST_PAGE) PostStore.savePostList(mFid, body)
             }
         })
     }
@@ -60,37 +58,46 @@ class TopicModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
     private fun getCall(): Call<PListResultBean>{
         val pListRequest = getRetrofit().create(PListInterface::class.java)
         //最新发表
-        if (fid == HOME_POSTS_NEW) {
+        if (mFid == HOME_POSTS_NEW) {
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
-                    page = page,
+                    page = mPage,
                     pageSize = COMMON_PAGE_SIZE,
                     sortby = "new")
         }
         //最新回复
-        if (fid == HOME_POSTS_REPLY) {
+        if (mFid == HOME_POSTS_REPLY) {
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
-                    page = page,
+                    page = mPage,
                     pageSize = COMMON_PAGE_SIZE,
                     sortby = "all")
         }
         //热门帖子
-        if (fid == HOME_POSTS_HOT) {
+        if (mFid == HOME_POSTS_HOT) {
             return pListRequest.hotPosts(r = "portal/newslist",
                     moduleId = "2",
-                    page = page,
+                    page = mPage,
                     pageSize = COMMON_PAGE_SIZE)
         }
         //版块里的帖子
         return pListRequest.normalPosts(accessToken = getUser().token,
                 accessSecret = getUser().secrete,
-                boardId = fid,
-                page = page,
+                boardId = mFid,
+                page = mPage,
                 pageSize = COMMON_PAGE_SIZE,
                 sortby = "new",
                 filterType = "sortid",
                 isImageList = "fales",
                 topOrdere = "0")
+    }
+
+    private fun getSavedPList() {
+        if (mPage != FIRST_PAGE) return
+        PostStore.getPostList(mFid).apply {
+            if (this.list != null) {
+                PListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this.list))
+            }
+        }
     }
 }

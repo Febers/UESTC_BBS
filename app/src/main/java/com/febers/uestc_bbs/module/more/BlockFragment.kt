@@ -8,6 +8,7 @@ package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
 import android.support.v4.util.ArrayMap
+import android.view.View
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
@@ -31,6 +32,11 @@ class BlockFragment: BaseFragment() {
     }
 
     private fun initMyView() {
+        text_view_title_compus.visibility = View.VISIBLE
+        text_view_title_tech.visibility = View.VISIBLE
+        text_view_title_play.visibility = View.VISIBLE
+        text_view_title_market.visibility = View.VISIBLE
+        text_view_title_manager.visibility = View.VISIBLE
         val from = arrayOf("image", "title")
         val to = intArrayOf(R.id.image_view_forum_list_item, R.id.text_view_forum_list_item)
         val compusAdapter = SimpleAdapter(context, compusGridList(), R.layout.item_forum_list_grid_view, from, to)

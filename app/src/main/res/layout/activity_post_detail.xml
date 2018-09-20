@@ -4,21 +4,30 @@
   ~ Copyright (c). All rights reserved.
   ~ Last modified 18-8-17 下午6:06.
   -->
-<!--android:descendantFocusability="blocksDescendants" 作用为获取根视图的焦点，以防加载复杂内容时自动滑动-->
+<!--android:descendantFocusability="blocksDescendants"
+作用为获取根视图的焦点，以防加载复杂内容时自动滑动
+    beforeDescendants：viewgroup会优先其子类控件而获取到焦点
+    afterDescendants：viewgroup只有当其子类控件不需要获取焦点时才获取焦点
+    blocksDescendants：viewgroup会覆盖子类控件而直接获得焦点
+以上的设置会拦截所有子view的点击事件，
+改成android:focusableInTouchMode="true"即可
+-->
 <android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coo_layout_post_activity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants">
+    android:focusableInTouchMode="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:layout_marginBottom="50dp">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_post_detail"
             android:layout_width="match_parent"
@@ -34,10 +43,9 @@
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableNestedScrolling="true"
+        app:srlEnableNestedScrolling="false"
         app:srlAccentColor="@color/color_white"
-        app:srlPrimaryColor="?attr/colorPrimary"
-        android:layout_marginBottom="50dp">
+        app:srlPrimaryColor="?attr/colorPrimary">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageview,否则无法绘制-->
         <android.support.v4.widget.NestedScrollView
@@ -145,7 +153,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false">
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginBottom="50dp">
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

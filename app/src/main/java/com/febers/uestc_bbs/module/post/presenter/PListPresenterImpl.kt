@@ -8,12 +8,12 @@ package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.SimplePListBean
-import com.febers.uestc_bbs.module.post.model.TopicModelImpl
+import com.febers.uestc_bbs.module.post.model.PListModelImpl
 
 class PListPresenterImpl(var view: PListContract.View) : PListContract.Presenter(view) {
 
     override fun pListRequest(fid: String, page: Int, refresh: Boolean) {
-        val topicMode: PListContract.Model = TopicModelImpl(this)
+        val topicMode: PListContract.Model = PListModelImpl(this)
         topicMode.topicService(fid, page, refresh)
     }
 

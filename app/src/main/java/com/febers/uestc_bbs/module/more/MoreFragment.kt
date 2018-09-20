@@ -20,7 +20,7 @@ import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
-import com.febers.uestc_bbs.module.user.view.UserPostFragment
+import com.febers.uestc_bbs.module.user.view.UserPListFragment
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
@@ -69,8 +69,8 @@ class MoreFragment: BaseFragment() {
         more_fragment_recyclerview_2.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
         if (user.valid) {
-            text_view_fragment_user_name.setText(user.name)
-            text_view_fragment_user_title.setText(user.title)
+            text_view_fragment_user_name.text = user.name
+            text_view_fragment_user_title.text = user.title
         }
         Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context))
                 .placeholder(R.mipmap.ic_default_avatar)
@@ -96,8 +96,8 @@ class MoreFragment: BaseFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLoginSeccess(event: BaseEvent<UserBean>) {
         i("MORE", "")
-        text_view_fragment_user_name.setText(event.data.name)
-        text_view_fragment_user_title.setText(event.data.title)
+        text_view_fragment_user_name.text = event.data.name
+        text_view_fragment_user_title.text = event.data.title
         Glide.with(this).load(user.avatar).placeholder(R.mipmap.ic_launcher)
                 .transform(GlideCircleTransform(context))
                 .into(image_view_fragment_user_avatar)
@@ -107,24 +107,23 @@ class MoreFragment: BaseFragment() {
     private fun itemClick(view: Int, position: Int) {
         if (view == FIRST_ITEM_VIEW) {
             if (BaseApplication.getUser().valid) {
-                //parentFragment.start(UserDetailFragment.newInstance(""))
                 startActivity(Intent(activity, UserDetailActivity::class.java))
             } else {
-                mParentFragment.start(LoginFragment.newInstance("", true))
+                mParentFragment.start(LoginFragment.newInstance(true))
             }
             return
         }
         if (view == SECOND_ITEM_VIEW) {
             if (position == USER_POST_ITEM) {
-                mParentFragment.start(UserPostFragment.newInstance(user.uid, type = USER_START_POST, showBottomBarOnDestroy = true))
+                mParentFragment.start(UserPListFragment.newInstance(user.uid, type = USER_START_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_REPLY_ITEM) {
-                mParentFragment.start(UserPostFragment.newInstance(user.uid, type = USER_REPLY_POST, showBottomBarOnDestroy = true))
+                mParentFragment.start(UserPListFragment.newInstance(user.uid, type = USER_REPLY_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_FAV_ITEM) {
-                mParentFragment.start(UserPostFragment.newInstance(user.uid, type = USER_FAV_POST, showBottomBarOnDestroy = true))
+                mParentFragment.start(UserPListFragment.newInstance(user.uid, type = USER_FAV_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_FRIEND_ITEM) {

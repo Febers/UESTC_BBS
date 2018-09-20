@@ -14,11 +14,12 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
-import com.febers.uestc_bbs.module.login.presenter.LoginPresenter
+import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
 import kotlinx.android.synthetic.main.fragment_login.*
-import org.greenrobot.eventbus.EventBus
 
 class LoginFragment: BaseSwipeFragment(), LoginContract.View {
+
+    private lateinit var loginPresenter: LoginContract.Presenter
 
     override fun setToolbar(): Toolbar {
         return toolbar_login
@@ -28,13 +29,12 @@ class LoginFragment: BaseSwipeFragment(), LoginContract.View {
         return R.layout.fragment_login
     }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
+    override fun initView() {
+        loginPresenter = LoginPresenterImpl(this)
         btn_login.setOnClickListener { login() }
     }
 
     private fun login() {
-        val loginPresenter: LoginContract.Presenter = LoginPresenter(this)
         loginPresenter.loginRequest(edit_text_user_name.text.toString(), edit_text_user_pw.text.toString())
     }
 
@@ -42,19 +42,18 @@ class LoginFragment: BaseSwipeFragment(), LoginContract.View {
     override fun loginResult(event: BaseEvent<UserBean>) {
         if (event.code == BaseCode.SUCCESS) {
             onError("登录成功")
-            EventBus.getDefault().post(event)
+            hideSoftInput()
             pop()
         } else {
-            onError("${event.data.msg}")
+            onError(event.data.msg)
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param: String, showBottomBarOnDestroy: Boolean) =
+        fun newInstance(showBottomBarOnDestroy: Boolean) =
                 LoginFragment().apply {
                     arguments = Bundle().apply {
-                        putString(FID, param)
                         putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }

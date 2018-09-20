@@ -8,10 +8,12 @@ import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.PostEvent
 import org.greenrobot.eventbus.EventBus
 
-object LinkClickUtils {
+object ViewClickUtils {
 
-    fun click(url: String, context: Context) {
-        i("Link", url)
+    fun linkClick(url: String, context: Context) {
+        if (url.endsWith(".gif")) {
+            return
+        }
         if (url.contains("mailto")) {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse(url.removeRange(0,  url.lastIndexOf("mailto")))
@@ -25,5 +27,9 @@ object LinkClickUtils {
         }
         val uri = Uri.parse(url)
         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+    }
+
+    fun imgClick(url: String, context: Context) {
+        i("IMG", url)
     }
 }

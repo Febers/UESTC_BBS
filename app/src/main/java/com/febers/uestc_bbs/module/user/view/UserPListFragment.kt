@@ -8,18 +8,19 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.UserPostBean
+import com.febers.uestc_bbs.entity.UserPListBean
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.view.adaper.UserPostAdapter
 import kotlinx.android.synthetic.main.fragment_user_post.*
+import org.jetbrains.anko.runOnUiThread
 
-class UserPostFragment: BaseSwipeFragment(), UserContract.View {
+class UserPListFragment: BaseSwipeFragment(), UserContract.View {
 
-    private val userPostList: MutableList<UserPostBean.ListBean> = ArrayList()
-    private lateinit var userPostPresenter: UserContract.Presenter
-    private lateinit var userPostAdapter: UserPostAdapter
+    private val userPListList: MutableList<UserPListBean.ListBean> = ArrayList()
+    private lateinit var userPListPresenter: UserContract.Presenter
+    private lateinit var userPListAdapter: UserPostAdapter
     private var page = 1
     private var type = USER_START_POST
 
@@ -31,89 +32,97 @@ class UserPostFragment: BaseSwipeFragment(), UserContract.View {
         arguments?.let {
             type = it.getInt(USER_POST_TYPE)
         }
-        userPostPresenter = UserPresenterImpl(this)
+        userPListPresenter = UserPresenterImpl(this)
         return R.layout.fragment_user_post
     }
 
 
     override fun initView() {
         setToolbarTitle()
-        userPostAdapter = UserPostAdapter(context!!, userPostList, false).apply {
+        userPListAdapter = UserPostAdapter(context!!, userPListList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onClickItem(listBean) }
         }
         recyclerview_user_post.apply {
-            adapter = userPostAdapter
+            adapter = userPListAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))}
+            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+        }
         refresh_layout_user_post.apply {
             setEnableLoadMore(false)
             autoRefresh()
             setOnRefreshListener {
                 page = 1
-                getUserPost()
+                getUserPList()
             }
             setOnLoadMoreListener {
                 ++page
-                getUserPost()}
+                getUserPList()
+            }
         }
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        getUserPost()
+        getUserPList()
     }
 
-    private fun getUserPost() {
+    private fun getUserPList() {
         refresh_layout_user_post.setNoMoreData(false)
-        userPostPresenter.userPostRequest(uid+"", type, ""+page)
+        userPListPresenter.userPListRequest(uid+"", type, ""+page)
     }
 
     @UiThread
-    override fun showUserPost(event: BaseEvent<UserPostBean>) {
+    override fun showUserPList(event: BaseEvent<UserPListBean>) {
         if (event.code == BaseCode.FAILURE) {
             onError(event.data.errcode!!)
-            refresh_layout_user_post.apply {
+            refresh_layout_user_post?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)
             }
             return
         }
-        refresh_layout_user_post.apply {
+        if (event.code == BaseCode.LOCAL) {
+            context?.runOnUiThread {
+                userPListAdapter.setNewData(event.data.list)
+            }
+            return
+        }
+        refresh_layout_user_post?.apply {
             finishRefresh(true)
             finishLoadMore(true)
             setEnableLoadMore(true)
         }
         if (page == 1) {
-            userPostAdapter.setNewData(event.data.list)
+            userPListAdapter.setNewData(event.data.list)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_user_post.finishLoadMoreWithNoMoreData()
+            refresh_layout_user_post?.finishLoadMoreWithNoMoreData()
         }
-        userPostAdapter.setLoadMoreData(event.data.list)
+        userPListAdapter.setLoadMoreData(event.data.list)
     }
 
-    private fun onClickItem(item: UserPostBean.ListBean) {
+    private fun onClickItem(item: UserPListBean.ListBean) {
         val tid = item.topic_id
         startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", ""+tid) })
     }
 
     private fun setToolbarTitle() {
         if (type == USER_START_POST) {
-            toolbar_user_post.title = "发表"
+            toolbar_user_post?.title = "发表"
         }
         if (type == USER_REPLY_POST) {
-            toolbar_user_post.title = "回复"
+            toolbar_user_post?.title = "回复"
         }
         if (type == USER_FAV_POST) {
-            toolbar_user_post.title = "收藏"
+            toolbar_user_post?.title = "收藏"
         }
     }
 
     companion object {
         @JvmStatic
         fun newInstance(uid: String, type: Int, showBottomBarOnDestroy: Boolean) =
-                UserPostFragment().apply {
+                UserPListFragment().apply {
                     arguments = Bundle().apply {
                         putString(UID, uid)
                         putInt(USER_POST_TYPE, type)

@@ -32,32 +32,34 @@ class HomeActivity: BaseActivity() {
     }
 
     override fun initView() {
-        var firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
+        val firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
         if (firstFragment == null) {
-            mFragments.add(0, HomeFirstContainer())
-            mFragments.add(1, HomeSecondContainer())
-            mFragments.add(2, HomeThirdContainer())
-            mFragments.add(3, HomeFourthContainer())
+            with(mFragments) {
+                add(0, HomeFirstContainer())
+                add(1, HomeSecondContainer())
+                add(2, HomeThirdContainer())
+                add(3, HomeFourthContainer())
+            }
             loadMultipleRootFragment(R.id.activity_home_container, 0,
                     mFragments[0], mFragments[1], mFragments[2], mFragments[3])
         } else {
-            mFragments.add(0,firstFragment)
-            mFragments.add(1, findFragment(HomeSecondContainer::class.java))
-            mFragments.add(2, findFragment(HomeThirdContainer::class.java))
-            mFragments.add(3, findFragment(HomeFourthContainer::class.java))
+            with(mFragments) {
+                add(0,firstFragment)
+                add(1, findFragment(HomeSecondContainer::class.java))
+                add(2, findFragment(HomeThirdContainer::class.java))
+                add(3, findFragment(HomeFourthContainer::class.java))
+            }
         }
 
-        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
-        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
-        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
-        bottom_navigation_home.addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
-        bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_SHOW
-        bottom_navigation_home.accentColor = AttrUtils.getColor(this, R.attr.colorAccent)
-        bottom_navigation_home.setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
-
-        bottom_navigation_home.titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
-        bottom_navigation_home.accentColor = AttrUtils.getColor(this, R.attr.colorAccent)
-        bottom_navigation_home.setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
+        bottom_navigation_home.apply {
+            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
+            addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
+            addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
+            addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
+            titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
+            accentColor = AttrUtils.getColor(this@HomeActivity, R.attr.colorAccent)
+            setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
+        }
     }
 
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {

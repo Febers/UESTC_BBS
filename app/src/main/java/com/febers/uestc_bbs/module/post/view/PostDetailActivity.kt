@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -17,7 +18,7 @@ import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
+import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*

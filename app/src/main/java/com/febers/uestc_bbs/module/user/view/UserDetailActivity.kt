@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.DetailItemAdapter
+import com.febers.uestc_bbs.view.adaper.UserDetailAdapter
 import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BaseSwipeActivty
 import com.febers.uestc_bbs.entity.DetailItemBean
@@ -31,7 +31,7 @@ class UserDetailActivity : BaseSwipeActivty() {
     override fun initView() {
         user = BaseApplication.getUser()
         recyclerview_detail_fragment.layoutManager = LinearLayoutManager(this)
-        recyclerview_detail_fragment.adapter = DetailItemAdapter(this, initItem(), false)
+        recyclerview_detail_fragment.adapter = UserDetailAdapter(this, initItem(), false)
         recyclerview_detail_fragment.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
         Glide.with(this).load(user.avatar).transform(BlurTransformation(this)).into(image_view_detail_blur_avatar)
         Glide.with(this).load(user.avatar).transform(GlideCircleTransform(this)).into(image_view_detail_avatar)

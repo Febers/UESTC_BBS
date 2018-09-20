@@ -26,7 +26,7 @@ interface PListInterface {
 
 
     @FormUrlEncoded
-    @POST(ApiUtils.BBS_TOPOIC_LIST_URL)
+    @POST(ApiUtils.BBS_TOPIC_LIST_URL)
     fun normalPosts(@Field("accessToken")accessToken: String, @Field("accessSecret")accessSecret: String,
                     @Field("boardId")boardId: String, @Field("page")page: String,
                     @Field("pageSize")pageSize: String, @Field("sortby")sortby: String,

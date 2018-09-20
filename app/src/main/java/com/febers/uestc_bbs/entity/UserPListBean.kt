@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.entity
 
-class UserPostBean {
+class UserPListBean {
     /**
      * rs : 1
      * errcode :

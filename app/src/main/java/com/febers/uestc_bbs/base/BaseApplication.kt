@@ -9,14 +9,11 @@ package com.febers.uestc_bbs.base
 import android.app.Application
 import android.content.Context
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.dao.UserSaver
+import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
@@ -36,7 +33,7 @@ class BaseApplication: Application() {
         fun context() = context
         fun getUser(): UserBean {
             val uid by PreferenceUtils(context, context.getString(R.string.sp_user_uid), "")
-            return UserSaver.get(uid)
+            return UserStore.get(uid)
         }
         init {
             //设置全局的Header构建器

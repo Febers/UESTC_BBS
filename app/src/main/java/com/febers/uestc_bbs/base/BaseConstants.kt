@@ -18,7 +18,8 @@ const val MAKET_GRUOP = 3
 const val MANAGE_GRUOP = 4
 
 const val USER_POST_TYPE = "type"
-const val USER_START_POST = 0
-const val USER_REPLY_POST = 1
-const val USER_FAV_POST = 2
+const val USER_START_POST = 5
+const val USER_REPLY_POST = 6
+const val USER_FAV_POST = 7
 
+const val SP_USERS = "users"

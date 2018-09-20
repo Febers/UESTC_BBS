@@ -22,7 +22,7 @@ import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
-import com.febers.uestc_bbs.module.post.utils.PostContentViewUtils
+import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 

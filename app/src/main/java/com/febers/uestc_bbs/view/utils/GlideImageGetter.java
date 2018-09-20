@@ -55,7 +55,6 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     public Drawable getDrawable(String url) {
         final GlideUrlDrawable urlDrawable = new GlideUrlDrawable();
 
-        System.out.println("Downloading from: " + url);
         Glide.with(mContext)
                 .load(url)
                 .placeholder(R.mipmap.ic_default_avatar)

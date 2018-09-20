@@ -59,15 +59,20 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
         //添加toolbar点击返回
         val activity: AppCompatActivity = getActivity() as AppCompatActivity
         activity.setSupportActionBar(setToolbar())
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
         setToolbar()?.setNavigationOnClickListener { pop() }
         if (setMenu()!=null) {
+            setHasOptionsMenu(true)
             setToolbar()?.inflateMenu(setMenu()!!)
+            setToolbar()?.title = ""
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
+            hideSoftInput()
             pop()
         }
         return super.onOptionsItemSelected(item)

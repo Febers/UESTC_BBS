@@ -7,11 +7,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 open class BaseModel {
 
+    protected val COMMON_PAGE_SIZE = "30"
+    protected val FIRST_PAGE = "1"
+
+    protected lateinit var mFid: String
     protected lateinit var mPostId: String
     protected lateinit var mUid: String
     protected lateinit var mPage: String
     protected lateinit var mOrder: String
     protected lateinit var mAuthorId: String
+    protected lateinit var mKeyword: String
 
     protected fun getUser(): UserBean = BaseApplication.getUser()
 

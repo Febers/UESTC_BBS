@@ -8,41 +8,30 @@ package com.febers.uestc_bbs.module.login.model
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.dao.UserSaver
+import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
-import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
+class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), LoginContract.Model {
 
-    private val user: UserBean = UserBean()
+    private val mUser: UserBean = UserBean()
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
     private val mContext = BaseApplication.context()
 
-    override fun loginService(_userName: String, _userPw: String) {
-        mUserName = _userName
-        mUserPw = _userPw
-        Thread(object : Runnable {
-            override fun run() {
-                login()
-            }
-        }).start()
+    override fun loginService(userName: String, userPw: String) {
+        mUserName = userName
+        mUserPw = userPw
+        Thread(Runnable { login() }).start()
     }
 
     private fun login() {
-        val retrofit = Retrofit.Builder()
-                .baseUrl(ApiUtils.BBS_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val loginRequest = retrofit.create(LoginInterface::class.java)
+        val loginRequest = getRetrofit().create(LoginInterface::class.java)
         val call = loginRequest.login(
                 type = "login",
                 username = mUserName,
@@ -52,15 +41,15 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
                 isValidation = "")
         call.enqueue(object : Callback<LoginResultBean> {
             override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
-                user.msg = "${SERVICE_RESPONSE_ERROR + t.toString()}"
-                loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
+                mUser.msg = SERVICE_RESPONSE_ERROR + t.toString()
+                loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUser))
             }
 
             override fun onResponse(call: Call<LoginResultBean>?, response: Response<LoginResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    user.msg = SERVICE_RESPONSE_NULL
-                    loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
+                    mUser.msg = SERVICE_RESPONSE_NULL
+                    loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUser))
                     return
                 }
                 resolveLoginResult(body)
@@ -71,26 +60,26 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): ILoginModel {
     private fun resolveLoginResult(loginResultBean: LoginResultBean) {
         val rs = loginResultBean.rs
         if (rs != REQUEST_SUCCESS_RS ) {
-            user.msg = loginResultBean.head.errInfo
-            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, user))
+            mUser.msg = loginResultBean.head.errInfo
+            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUser))
             return
         }
-        user.name = loginResultBean.userName
-                user.uid = loginResultBean.uid
-                user.title = loginResultBean.userTitle
-        user.gender = loginResultBean.gender
-        user.token = loginResultBean.token
-        user.secrete = loginResultBean.secret
-        user.avatar = loginResultBean.avatar
-        user.credits = loginResultBean.creditShowList[0].data
-        user.extcredits2 = loginResultBean.creditShowList[1].data
-        user.groupId = loginResultBean.groupid
-        user.mobile = loginResultBean.mobile
-        user.valid = true
+        mUser.name = loginResultBean.userName
+                mUser.uid = loginResultBean.uid
+                mUser.title = loginResultBean.userTitle
+        mUser.gender = loginResultBean.gender
+        mUser.token = loginResultBean.token
+        mUser.secrete = loginResultBean.secret
+        mUser.avatar = loginResultBean.avatar
+        mUser.credits = loginResultBean.creditShowList[0].data
+        mUser.extcredits2 = loginResultBean.creditShowList[1].data
+        mUser.groupId = loginResultBean.groupid
+        mUser.mobile = loginResultBean.mobile
+        mUser.valid = true
 
-        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, user))
+        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUser))
         var uid by PreferenceUtils(mContext, mContext.getString(R.string.sp_user_uid), "")
         uid = loginResultBean.uid
-        UserSaver.save(uid, user)
+        UserStore.save(uid, mUser)
     }
 }

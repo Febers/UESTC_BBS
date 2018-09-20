@@ -2,22 +2,24 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log.i
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PostSimpleItemAdapter
+import com.febers.uestc_bbs.view.adaper.PostSimpleAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import kotlinx.android.synthetic.main.fragment_post_list.*
+import org.jetbrains.anko.runOnUiThread
 
 class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     private val PListList: MutableList<SimplePListBean> = ArrayList()
-    private lateinit var postSimpleItemAdapter: PostSimpleItemAdapter
+    private lateinit var postSimpleAdapter: PostSimpleAdapter
     private var pListPresenter:
             PListContract.Presenter = PListPresenterImpl(this)
     private var page: Int = 1
@@ -28,7 +30,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     }
 
     override fun setContentView(): Int {
-        postSimpleItemAdapter = PostSimpleItemAdapter(context!!, PListList, true)
+        postSimpleAdapter = PostSimpleAdapter(context!!, PListList, true)
         return R.layout.fragment_post_list
     }
 
@@ -36,7 +38,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         super.onLazyInitView(savedInstanceState)
         recyclerview_post_list.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = postSimpleItemAdapter
+            adapter = postSimpleAdapter
             addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL)) }
 
         refresh_layout_post_list.apply {
@@ -47,7 +49,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             getPost(page, true)
         }
         refresh_layout_post_list.setOnLoadMoreListener { getPost(++page, true) }
-        postSimpleItemAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
+        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
@@ -56,6 +58,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         pListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
     }
 
+    @UiThread
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
         if (event.code == BaseCode.FAILURE) {
             onError(event.data!![0].title!!)
@@ -65,20 +68,26 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             }
             return
         }
+        if (event.code == BaseCode.LOCAL) {
+            context?.runOnUiThread {
+                postSimpleAdapter.setNewData(event.data)
+            }
+            return
+        }
         refresh_layout_post_list?.apply {
             finishRefresh()
             finishLoadMore()
             setEnableLoadMore(true)
         }
         if (page == 1) {
-            postSimpleItemAdapter.setNewData(event.data)
+            postSimpleAdapter.setNewData(event.data)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_list?.finishLoadMoreWithNoMoreData()
             return
         }
-        postSimpleItemAdapter.setLoadMoreData(event.data)
+        postSimpleAdapter.setLoadMoreData(event.data)
     }
 
     companion object {

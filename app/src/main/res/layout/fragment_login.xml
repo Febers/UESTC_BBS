@@ -65,14 +65,6 @@
                 android:text="@string/login"
                 android:layout_gravity="center_horizontal"/>
 
-            <Button
-                android:id="@+id/btn_forum_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="板块列表"
-                android:layout_gravity="center_horizontal"/>
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

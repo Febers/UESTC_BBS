@@ -8,7 +8,7 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.content.Intent
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PListViewPagerAdapter
+import com.febers.uestc_bbs.view.adaper.PListPagerAdapter
 
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.base.PostEvent
@@ -22,7 +22,7 @@ class PListPagerFragment : BaseFragment(){
     }
 
     override fun initView() {
-        val postsViewPagerAdapter = PListViewPagerAdapter(childFragmentManager)
+        val postsViewPagerAdapter = PListPagerAdapter(childFragmentManager)
         view_pager_post.adapter = postsViewPagerAdapter
         view_pager_post.offscreenPageLimit = 3
         tab_layout_post.setupWithViewPager(view_pager_post)
