@@ -26,8 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp"
-        android:layout_marginBottom="50dp">
+        app:elevation="0dp">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_post_detail"
             android:layout_width="match_parent"
@@ -42,10 +41,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:srlEnableNestedScrolling="false"
         app:srlAccentColor="@color/color_white"
-        app:srlPrimaryColor="?attr/colorPrimary">
+        app:srlPrimaryColor="?attr/colorPrimary"
+        android:layout_marginBottom="50dp">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageview,否则无法绘制-->
         <android.support.v4.widget.NestedScrollView
@@ -153,8 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_marginBottom="50dp">
+                    android:nestedScrollingEnabled="false">
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.entity.UserPListBean
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
-import com.febers.uestc_bbs.view.adaper.UserPostAdapter
+import com.febers.uestc_bbs.view.adapter.UserPostAdapter
 import kotlinx.android.synthetic.main.fragment_user_post.*
 import org.jetbrains.anko.runOnUiThread
 
@@ -30,7 +30,7 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
 
     override fun setContentView(): Int {
         arguments?.let {
-            type = it.getInt(USER_POST_TYPE)
+            type = it.getString(USER_POST_TYPE)
         }
         userPListPresenter = UserPresenterImpl(this)
         return R.layout.fragment_user_post
@@ -121,11 +121,11 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
 
     companion object {
         @JvmStatic
-        fun newInstance(uid: String, type: Int, showBottomBarOnDestroy: Boolean) =
+        fun newInstance(uid: String, type: String, showBottomBarOnDestroy: Boolean) =
                 UserPListFragment().apply {
                     arguments = Bundle().apply {
                         putString(UID, uid)
-                        putInt(USER_POST_TYPE, type)
+                        putString(USER_POST_TYPE, type)
                         putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }

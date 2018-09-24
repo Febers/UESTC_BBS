@@ -17,6 +17,7 @@ open class BaseModel {
     protected lateinit var mOrder: String
     protected lateinit var mAuthorId: String
     protected lateinit var mKeyword: String
+    protected lateinit var mType: String
 
     protected fun getUser(): UserBean = BaseApplication.getUser()
 

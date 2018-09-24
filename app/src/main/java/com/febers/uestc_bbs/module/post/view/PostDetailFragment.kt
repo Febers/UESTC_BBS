@@ -15,7 +15,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PostReplyItemAdapter
+import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean

@@ -8,7 +8,6 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.MainThread
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -18,7 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PostSimpleAdapter
+import com.febers.uestc_bbs.view.adapter.PostSimpleAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean

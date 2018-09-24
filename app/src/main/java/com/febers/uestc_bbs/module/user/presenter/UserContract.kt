@@ -8,7 +8,7 @@ import com.febers.uestc_bbs.entity.UserPListBean
 interface UserContract {
 
     interface Model {
-        fun userPListService(uid: String, type: Int, page: String)
+        fun userPListService(uid: String, type: String, page: String)
     }
 
     interface View: BaseView {
@@ -16,7 +16,7 @@ interface UserContract {
     }
 
     abstract class Presenter(view: BaseView): BasePresenter<BaseView>(view) {
-        abstract fun userPListRequest(uid: String, type: Int, page: String)
+        abstract fun userPListRequest(uid: String, type: String, page: String)
         abstract fun userPListResult(event: BaseEvent<UserPListBean>)
     }
 }

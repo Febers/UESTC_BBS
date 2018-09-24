@@ -11,15 +11,20 @@ const val HOME_POSTS_NEW = "-1"
 const val HOME_POSTS_REPLY  = "-2"
 const val HOME_POSTS_HOT = "-3"
 
-const val COMPUS_GROUP = 0
+const val CAMPUS_GROUP = 0
 const val TECH_GROUP = 1
 const val PLAY_GROUP = 2
-const val MAKET_GRUOP = 3
-const val MANAGE_GRUOP = 4
+const val MARKET_GROUP = 3
+const val MANAGE_GROUP = 4
 
-const val USER_POST_TYPE = "type"
-const val USER_START_POST = 5
-const val USER_REPLY_POST = 6
-const val USER_FAV_POST = 7
+const val MSG_TYPE_REPLY = "5"
+const val MSG_TYPE_PRIVATE = "6"
+const val MSG_TYPE_AT = "7"
+const val MSG_TYPE_SYSTEM = "8"
+
+const val USER_POST_TYPE = "post_type"
+const val USER_START_POST = "9"
+const val USER_REPLY_POST = "10"
+const val USER_FAV_POST = "11"
 
 const val SP_USERS = "users"

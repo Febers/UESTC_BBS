@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.UserDetailAdapter
+import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
 import com.febers.uestc_bbs.base.BaseApplication
 import com.febers.uestc_bbs.base.BaseSwipeActivty
 import com.febers.uestc_bbs.entity.DetailItemBean

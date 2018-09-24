@@ -7,21 +7,14 @@
 package com.febers.uestc_bbs.home
 
 import android.support.v4.app.ActivityCompat
-import android.util.Log.i
-import android.view.View
-import com.ashokvarma.bottomnavigation.BottomNavigationBar
-import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.utils.AttrUtils
-import com.febers.uestc_bbs.utils.KeyBoardUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 class HomeActivity: BaseActivity() {
 

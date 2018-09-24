@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log.i
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PostSimpleAdapter
+import com.febers.uestc_bbs.view.adapter.PostSimpleAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract

@@ -99,6 +99,12 @@
                 android:background="?attr/background_first"
                 android:layout_marginBottom="@dimen/bottom_navigation_height">
             </android.support.v7.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/btn_test_emoji"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="测试表情"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

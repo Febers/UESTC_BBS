@@ -10,13 +10,10 @@ import retrofit2.Response
 
 class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseModel(), UserContract.Model {
 
-    private var userPostType = USER_START_POST
-
-    override fun userPListService(uid: String, type: Int, page: String) {
+    override fun userPListService(uid: String, type: String, page: String) {
         mUid = uid
         mPage = page
-        userPostType = type
-        mFid = type.toString()
+        mType = type
         Thread(Runnable { getUserPost() }).start()
         Thread(Runnable { getSavedPList() }).start()
     }
@@ -52,7 +49,7 @@ class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseMod
 
     private fun getCall(): Call<UserPListBean> {
         val userPostRequest = getRetrofit().create(UserInterface::class.java)
-        return when(userPostType) {
+        return when(mType) {
             USER_START_POST -> {
                 userPostRequest.getUserStartPList(accessToken = getUser().token,
                         accessSecret = getUser().secrete,

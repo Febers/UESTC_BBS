@@ -14,10 +14,11 @@ import android.util.Log.i
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.view.adaper.MoreItemAdapter
+import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
+import com.febers.uestc_bbs.module.post.view.PostEditActivity
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.module.user.view.UserPListFragment
@@ -75,6 +76,10 @@ class MoreFragment: BaseFragment() {
         Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context))
                 .placeholder(R.mipmap.ic_default_avatar)
                 .into(image_view_fragment_user_avatar)
+
+        btn_test_emoji.setOnClickListener {
+            startActivity(Intent(activity, PostEditActivity::class.java))
+        }
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {

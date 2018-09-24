@@ -36,17 +36,14 @@ class BaseApplication: Application() {
             return UserStore.get(uid)
         }
         init {
-            //设置全局的Header构建器
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
 //                layout.setPrimaryColorsId(typeValue.data, android.R.color.white);//全局设置主题颜色
                 ClassicsHeader(context)
             }
-            //设置全局的Footer构建器
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)
                 BallPulseFooter(context)
             }
-
         }
     }
 }

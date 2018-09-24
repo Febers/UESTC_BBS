@@ -19,6 +19,7 @@ import org.jetbrains.anko.toast
 
 const val FID = "fid"
 const val UID = "uid"
+const val MSG_TYPE = "msg_type"
 
 abstract class BaseFragment : SupportFragament(), BaseView {
 

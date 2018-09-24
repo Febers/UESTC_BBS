@@ -68,6 +68,7 @@ object ApiUtils {
 
     const val BBS_USER_FAV_URL = "mobcent/app/web/index.php?r=user/topiclist&type=favorite"
 
+
     /**
      * 获取版块列表。
         fid 可选。获取指定版块的子版块。
@@ -255,18 +256,31 @@ object ApiUtils {
      */
     const val BBS_TOPIC_RATE_URL = "mobcent/app/web/index.php?r=forum/topicrate"
 
+
     /**
      * 查询新提醒数目（每隔一段时间查询）。
      */
     const val BBS_MESSAGE_HEART_URL = "mobcent/app/web/index.php?r=message/heart"
 
+
     /**
-     * 提醒列表。
-        type 'post'（帖子）, 'at'（@消息）, 'friend'（好友？）
+     * 各种提醒列表。
+        type 'post'（帖子）, 'at'（@消息）, 'system'（系统）
         page
         pageSize
      */
-    const val BBS_MESSAGE_NOTYFY_LIST = "mobcent/app/web/index.php?r=message/notifylist"
+    const val BBS_MESSAGE_NOTIFY_LIST = "mobcent/app/web/index.php?r=message/notifylist"
+
+    /**
+    获取私信列表。
+     * json 必选。
+     * JSON 格式：
+    {
+    "page": 1, // 可选，默认为 1。
+    "pageSize": 10 // 可选，默认为 10。
+    }
+     */
+    const val BBS_MESSAGE_PM_SESSION_LIST = "mobcent/app/web/index.php?r=message/pmsessionlist"
 
     /**
      * 短消息列表。
@@ -306,16 +320,6 @@ object ApiUtils {
      */
     const val BBS_MESSAGE_PM_ADMIN = "mobcent/app/web/index.php?r=message/pmadmin"
 
-    /**
-    获取短消息会话列表。
-     * json 必选。
-     * JSON 格式：
-        {
-        "page": 1, // 可选，默认为 1。
-        "pageSize": 10 // 可选，默认为 10。
-        }
-     */
-    const val BBS_MESSAGE_PM_SESSION_LIST = "mobcent/app/web/index.php?r=message/pmsessionlist"
 
     /**
      获取周边用户/帖子。

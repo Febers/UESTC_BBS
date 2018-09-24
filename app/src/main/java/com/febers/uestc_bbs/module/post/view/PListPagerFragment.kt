@@ -8,7 +8,7 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.content.Intent
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PListPagerAdapter
+import com.febers.uestc_bbs.view.adapter.PListPagerAdapter
 
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.base.PostEvent

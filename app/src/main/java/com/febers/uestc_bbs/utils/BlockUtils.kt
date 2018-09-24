@@ -6,7 +6,7 @@ object BlockUtils {
 
     fun getBlockIdByPosition(group: Int, position: Int): String {
         var fid = "25"
-        if (group == COMPUS_GROUP) {
+        if (group == CAMPUS_GROUP) {
             fid = when(position) {
                 0 -> "174";1 -> "20";2 -> "219"
                 3 -> "45";4 -> "309";5 -> "236"
@@ -32,13 +32,13 @@ object BlockUtils {
                 else -> fid
             }
         }
-        if (group == MAKET_GRUOP) {
+        if (group == MARKET_GROUP) {
             fid = when(position) {
                 0 -> "61";1 -> "255";2 -> "111"
                 else -> fid
             }
         }
-        if (group == MANAGE_GRUOP) {
+        if (group == MANAGE_GROUP) {
             fid = when(position) {
                 0 -> "2";1 -> "46"
                 else -> fid

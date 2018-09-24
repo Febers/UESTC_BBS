@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
@@ -10,7 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.PostReplyItemAdapter
+import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseSwipeActivty

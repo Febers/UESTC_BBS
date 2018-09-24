@@ -1,11 +1,11 @@
 package com.febers.uestc_bbs.module.message.view
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adaper.MsgPagerAdapter
+import com.febers.uestc_bbs.view.adapter.MsgPagerAdapter
 import com.febers.uestc_bbs.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_message_pager.*
 
-class MsgPagerFragment(): BaseFragment() {
+class MsgPagerFragment: BaseFragment() {
 
     override fun setContentView(): Int {
         return R.layout.fragment_message_pager

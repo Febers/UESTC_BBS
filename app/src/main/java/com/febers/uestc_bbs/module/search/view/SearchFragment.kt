@@ -16,7 +16,7 @@ import com.febers.uestc_bbs.entity.SearchPostBean
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.search.presenter.SearchContrect
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
-import com.febers.uestc_bbs.view.adaper.SearchAdapter
+import com.febers.uestc_bbs.view.adapter.SearchAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
