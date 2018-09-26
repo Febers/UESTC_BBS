@@ -38,7 +38,7 @@ class MsgSystemFragment : BaseFragment(), MsgContract.View {
         msgPresenter.msgRequest(type = MSG_TYPE_SYSTEM, page = page)
     }
 
-    override fun showMessage(event: BaseEvent<MsgBaseBean>) {
+    override fun <M : MsgBaseBean> showMessage(event: BaseEvent<M>) {
 
     }
 

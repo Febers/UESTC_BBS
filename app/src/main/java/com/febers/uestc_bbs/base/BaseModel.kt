@@ -19,7 +19,7 @@ open class BaseModel {
     protected lateinit var mKeyword: String
     protected lateinit var mType: String
 
-    protected fun getUser(): UserBean = BaseApplication.getUser()
+    protected fun getUser(): UserBean = MyApplication.getUser()
 
     protected fun getRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(ApiUtils.BBS_BASE_URL)

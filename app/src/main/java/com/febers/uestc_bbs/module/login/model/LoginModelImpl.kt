@@ -22,7 +22,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
     private val mUser: UserBean = UserBean()
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
-    private val mContext = BaseApplication.context()
+    private val mContext = MyApplication.context()
 
     override fun loginService(userName: String, userPw: String) {
         mUserName = userName

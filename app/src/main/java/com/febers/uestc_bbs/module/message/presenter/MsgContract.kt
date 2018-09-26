@@ -12,11 +12,11 @@ interface MsgContract {
     }
 
     interface View: BaseView {
-        fun showMessage(event: BaseEvent<MsgBaseBean>)
+        fun <M: MsgBaseBean> showMessage(event: BaseEvent<M>)
     }
 
     abstract class Presenter(view: MsgContract.View): BasePresenter<MsgContract.View>(view) {
         abstract fun msgRequest(type: String, page: Int)
-        abstract fun msgResult(event: BaseEvent<MsgBaseBean>)
+        abstract fun <M :MsgBaseBean> msgResult(event: BaseEvent<M>)
     }
 }

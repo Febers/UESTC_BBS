@@ -33,7 +33,7 @@ data class PostExtraPanelBean(var action: String?, var title: String?, var extPa
 
 data class PostReplyBean(var reply_id: String?, var reply_content: List<SimpleContentBean>? = null, var reply_type: String?,
                          var reply_name: String?, var reply_post_id: String?, var poststick: String?,
-                         var position: Int?, var posts_data: String?, var icon: String?,
+                         var position: Int?, var posts_date: String?, var icon: String?,
                          var level: String?, var userTitle: String?, var userColor: String?,
                          var location: String?, var mobileSign: String?, var reply_status: String?,
                          var status: String?, var role_num: String?, var title: String?,

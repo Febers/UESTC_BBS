@@ -42,11 +42,10 @@ class SearchModelImpl(val searchPresenter: SearchContrect.Presenter): BaseModel(
                             .apply { errcode = searchPostBean.head?.errInfo }))
                     return
                 }
-                if (searchPostBean.has_next != HAVE_NEXT_PAGE) {
-                    searchPresenter.searchResult(BaseEvent(BaseCode.SUCCESS_END, searchPostBean))
-                } else {
-                    searchPresenter.searchResult(BaseEvent(BaseCode.SUCCESS, searchPostBean))
-                }
+                searchPresenter.searchResult(BaseEvent(
+                        if (searchPostBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
+                        else BaseCode.SUCCESS,
+                        searchPostBean))
             }
         })
     }

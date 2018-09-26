@@ -2,14 +2,15 @@ package com.febers.uestc_bbs.module.message.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.MsgBaseBean
+import com.febers.uestc_bbs.module.message.model.MsgModelImpl
 
 class MsgPresenterImpl(val view: MsgContract.View) : MsgContract.Presenter(view) {
 
     override fun msgRequest(type: String, page: Int) {
-
+        MsgModelImpl(this).msgService(type, page)
     }
 
-    override fun msgResult(event: BaseEvent<MsgBaseBean>) {
-
+    override fun <M : MsgBaseBean> msgResult(event: BaseEvent<M>) {
+        view.showMessage(event)
     }
 }

@@ -17,10 +17,10 @@ const val PLAY_GROUP = 2
 const val MARKET_GROUP = 3
 const val MANAGE_GROUP = 4
 
-const val MSG_TYPE_REPLY = "5"
-const val MSG_TYPE_PRIVATE = "6"
-const val MSG_TYPE_AT = "7"
-const val MSG_TYPE_SYSTEM = "8"
+const val MSG_TYPE_REPLY = "post"
+const val MSG_TYPE_PRIVATE = "getPrivate"
+const val MSG_TYPE_AT = "at"
+const val MSG_TYPE_SYSTEM = "system"
 
 const val USER_POST_TYPE = "post_type"
 const val USER_START_POST = "9"

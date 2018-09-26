@@ -13,7 +13,6 @@ import android.support.annotation.UiThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.febers.uestc_bbs.view.custom.CustomProgressDialog
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast
 
@@ -66,6 +65,6 @@ abstract class BaseFragment : SupportFragament(), BaseView {
 
     @UiThread
     override fun onError(error: String) {
-        BaseApplication.context().toast(error)
+        MyApplication.context().toast(error)
     }
 }

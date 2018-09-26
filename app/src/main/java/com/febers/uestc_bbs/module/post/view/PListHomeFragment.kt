@@ -50,7 +50,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        user = BaseApplication.getUser()
+        user = MyApplication.getUser()
         recyclerview_subpost_fragment.layoutManager = LinearLayoutManager(context)
         recyclerview_subpost_fragment.adapter = postSimpleAdapter
         recyclerview_subpost_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))

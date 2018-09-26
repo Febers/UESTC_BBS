@@ -21,7 +21,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 
 
-class BaseApplication: Application() {
+class MyApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()

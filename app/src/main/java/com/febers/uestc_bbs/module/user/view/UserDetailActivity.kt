@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
-import com.febers.uestc_bbs.base.BaseApplication
+import com.febers.uestc_bbs.base.MyApplication
 import com.febers.uestc_bbs.base.BaseSwipeActivty
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
@@ -29,7 +29,7 @@ class UserDetailActivity : BaseSwipeActivty() {
     }
 
     override fun initView() {
-        user = BaseApplication.getUser()
+        user = MyApplication.getUser()
         recyclerview_detail_fragment.layoutManager = LinearLayoutManager(this)
         recyclerview_detail_fragment.adapter = UserDetailAdapter(this, initItem(), false)
         recyclerview_detail_fragment.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))

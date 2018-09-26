@@ -17,6 +17,7 @@ import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
+import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.activity_post_detail.*
@@ -107,7 +108,7 @@ class PostDetailActivity : BaseSwipeActivty(), PostContract.View {
             text_view_post_detail_title?.text = event.data.topic?.title
             text_view_post_detail_author?.text = event.data.topic?.user_nick_name
             text_view_post_detail_author_title?.text = event.data.topic?.userTitle
-            text_view_post_detail_date?.text = event.data.topic?.create_date
+            text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
             btn_reply?.text = event.data.topic?.replies+"条评论"
             PostContentViewUtils.create(linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()

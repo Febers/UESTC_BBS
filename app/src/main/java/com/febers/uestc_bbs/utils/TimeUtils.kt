@@ -8,6 +8,7 @@ package com.febers.uestc_bbs.utils
 
 import android.os.SystemClock
 import android.util.Log.i
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,20 +16,39 @@ object TimeUtils {
     /*
      * 将时间戳转换为时间
      */
-    fun stampToDate(s: String?): String {
-        if (s == null) {
-            return ""
-        }
+    fun stampChange(s: String?): String {
+        if (s == null) return ""
+
+        i("Time1", s)
         val lt = s.toLong()
         val nt = System.currentTimeMillis()
         var dt = nt - lt
-        dt = dt/(1000*60)   //转换成分钟
+        dt /= (1000 * 60)   //转换成分钟
+        //23min
         if (dt<60) {
             return dt.toString()+"min"
         }
-        if (dt<3600) {
+        //78min
+        if (dt<60*24) {
             return (dt/60).toString()+"h"
         }
-        return (dt/(3600*24)).toString()+"d"
+        //86401min
+        if (dt<60*24*30) {
+            return (dt/(60*24)).toString()+"d"
+        }
+        return stampToDate(lt)
     }
+
+    private fun stampToDate(s: Long): String {
+        i("Time2", s.toString())
+        return try {
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale("English"))
+            sdf.format(Date(s))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+
 }

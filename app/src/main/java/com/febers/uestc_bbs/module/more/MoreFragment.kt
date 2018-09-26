@@ -53,7 +53,7 @@ class MoreFragment: BaseFragment() {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        user = BaseApplication.getUser()
+        user = MyApplication.getUser()
         mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
 
@@ -111,7 +111,7 @@ class MoreFragment: BaseFragment() {
 
     private fun itemClick(view: Int, position: Int) {
         if (view == FIRST_ITEM_VIEW) {
-            if (BaseApplication.getUser().valid) {
+            if (MyApplication.getUser().valid) {
                 startActivity(Intent(activity, UserDetailActivity::class.java))
             } else {
                 mParentFragment.start(LoginFragment.newInstance(true))
