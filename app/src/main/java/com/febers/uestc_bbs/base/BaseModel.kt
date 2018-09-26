@@ -10,14 +10,14 @@ open class BaseModel {
     protected val COMMON_PAGE_SIZE = "30"
     protected val FIRST_PAGE = "1"
 
-    protected lateinit var mFid: String
-    protected lateinit var mPostId: String
-    protected lateinit var mUid: String
-    protected lateinit var mPage: String
-    protected lateinit var mOrder: String
-    protected lateinit var mAuthorId: String
-    protected lateinit var mKeyword: String
-    protected lateinit var mType: String
+    protected var mFid: String = ""
+    protected var mPostId: String = ""
+    protected var mUid: String = ""
+    protected var mPage: String = ""
+    protected var mOrder: String = ""
+    protected var mAuthorId: String = ""
+    protected var mKeyword: String = ""
+    protected var mType: String = ""
 
     protected fun getUser(): UserBean = MyApplication.getUser()
 

@@ -16,14 +16,15 @@ import android.view.ViewGroup
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast
 
-const val FID = "fid"
-const val UID = "uid"
-const val MSG_TYPE = "msg_type"
+const val FID = "mFid"
+const val UID = "mUid"
+const val MSG_TYPE = "mMsgType"
 
 abstract class BaseFragment : SupportFragament(), BaseView {
 
-    protected var fid: String? = null
-    protected var uid: String? = null
+    protected var mFid: String? = null
+    protected var mUid: String? = null
+    protected var mMsgType: String? = MSG_TYPE_REPLY
 
     protected abstract fun setContentView():Int
 
@@ -35,8 +36,9 @@ abstract class BaseFragment : SupportFragament(), BaseView {
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
         arguments?.let {
-            fid = it.getString(FID)
-            uid = it.getString(UID)
+            mFid = it.getString(FID)
+            mUid = it.getString(UID)
+            mMsgType = it.getString(MSG_TYPE)
         }
     }
 

@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/image_view_item_user_post_avatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/image_size_default_avatar"
+        android:layout_height="@dimen/image_size_default_avatar"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -25,7 +25,7 @@
         app:srcCompat="@mipmap/ic_default_avatar" />
 
     <TextView
-        android:id="@+id/text_view_item_search_post_title"
+        android:id="@+id/text_view_item_user_post_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -34,7 +34,7 @@
         android:maxLines="2"
         android:text="TextView"
         android:textColor="?attr/textColorFirst"
-        android:textSize="18dp"
+        android:textSize="@dimen/text_size_big"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/image_view_item_user_post_avatar"
@@ -42,18 +42,19 @@
         tools:text="这是帖帖子子详情" />
 
     <TextView
-        android:id="@+id/text_view_item_search_post_content"
+        android:id="@+id/text_view_item_user_post_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="6dp"
         android:text="TextView"
+        android:textSize="@dimen/text_size_normal"
         android:textColor="?attr/textColorSecond"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/text_view_item_search_post_title"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_item_search_post_title"
+        app:layout_constraintStart_toStartOf="@+id/text_view_item_user_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_item_user_post_title"
         app:layout_constraintVertical_bias="0.0"
         tools:text="这是帖子详情,这是帖子详情,这是帖子详情,这是帖子详情" />
 
@@ -68,7 +69,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_item_search_post_content"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_item_user_post_content"
         app:layout_constraintVertical_bias="0.02">
 
         <LinearLayout
@@ -85,7 +86,7 @@
                 app:srcCompat="@mipmap/ic_eye_small_gray" />
 
             <TextView
-                android:id="@+id/text_view_item_search_post_hits"
+                android:id="@+id/text_view_item_user_post_hits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
@@ -109,7 +110,7 @@
                 app:srcCompat="@mipmap/ic_reply_small_gray" />
 
             <TextView
-                android:id="@+id/text_view_item_search_post_reply"
+                android:id="@+id/text_view_item_user_post_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
@@ -132,7 +133,7 @@
                 app:srcCompat="@mipmap/ic_clock_small_gray" />
 
             <TextView
-                android:id="@+id/text_view_item_search_post_time"
+                android:id="@+id/text_view_item_user_post_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"

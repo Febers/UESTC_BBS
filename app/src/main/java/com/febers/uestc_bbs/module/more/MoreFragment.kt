@@ -142,11 +142,11 @@ class MoreFragment: BaseFragment() {
         }
         if (view == THIRD_ITEM_VIEW) {
             if (position == THEME_ITEM) {
-                mParentFragment.start(ThemeFragment.newInstance("", true))
+                mParentFragment.start(ThemeFragment.newInstance(true))
                 return
             }
             if (position == SETTING_ITEM) {
-                startActivity(Intent(activity, UserDetailActivity::class.java))
+                mParentFragment.start(SettingFragment.newInstance(true))
                 return
             }
 

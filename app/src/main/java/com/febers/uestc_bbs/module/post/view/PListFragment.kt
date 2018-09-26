@@ -13,6 +13,8 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.jetbrains.anko.runOnUiThread
 
@@ -23,7 +25,6 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     private var pListPresenter:
             PListContract.Presenter = PListPresenterImpl(this)
     private var page: Int = 1
-    private var shouldRefresh = true
 
     override fun setToolbar(): Toolbar? {
         return toolbar_post_list
@@ -49,13 +50,15 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             getPost(page, true)
         }
         refresh_layout_post_list.setOnLoadMoreListener { getPost(++page, true) }
-        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
+        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i ->
+            clickToPostDetail(context, activity, simplePostBean.topic_id ?: simplePostBean.source_id)
+        }
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_list.setNoMoreData(false)
-        i("PLIST", "${fid}")
-        pListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
+        i("PLIST", "${mFid}")
+        pListPresenter.pListRequest(fid = mFid!!, page = page, refresh = refresh)
     }
 
     @UiThread
@@ -99,13 +102,5 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                         putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }
-    }
-
-    private fun clickItem(simplePList: SimplePListBean) {
-        var tid = simplePList.topic_id
-        if(tid == null) {
-            tid = simplePList.source_id
-        }
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", tid) })
     }
 }

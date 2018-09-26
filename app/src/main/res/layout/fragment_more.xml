@@ -5,11 +5,12 @@
   ~ Last modified 18-6-12 下午12:46.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/background_second">
     <android.support.design.widget.AppBarLayout
@@ -34,7 +35,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/bottom_navigation_height">
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/more_fragment_header"
                 android:layout_width="match_parent"
@@ -108,4 +110,4 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

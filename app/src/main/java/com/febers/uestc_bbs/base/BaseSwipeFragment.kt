@@ -46,7 +46,7 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
         super.onCreate(savedInstanceState)
         mSwipeDelegate.onCreate(savedInstanceState)
         arguments?.let {
-            fid = it.getString(FID)
+            mFid = it.getString(FID)
             showBottomBarOnDestroy = it.getBoolean(SHOW_BOTTOM_BAR_ON_DESTROY)
         }
     }

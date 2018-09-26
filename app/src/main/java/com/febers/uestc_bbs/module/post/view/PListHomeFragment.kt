@@ -23,6 +23,7 @@ import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -41,7 +42,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             PListContract.Presenter = PListPresenterImpl(this)
     private var page: Int = 1
     private var shouldRefresh = true
-    private var isLoadMore = false
 
     override fun setContentView(): Int {
         postSimpleAdapter = PostSimpleAdapter(context!!, PListList, false)
@@ -51,19 +51,27 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         user = MyApplication.getUser()
-        recyclerview_subpost_fragment.layoutManager = LinearLayoutManager(context)
-        recyclerview_subpost_fragment.adapter = postSimpleAdapter
-        recyclerview_subpost_fragment.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
-
-        refresh_layout_post_fragment.setEnableLoadMore(false)
-        refresh_layout_post_fragment.autoRefresh()
-        refresh_layout_post_fragment.setOnRefreshListener {
-            page = 1
-            getPost(page, true)
+        recyclerview_subpost_fragment.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = postSimpleAdapter
+            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         }
-        refresh_layout_post_fragment.autoRefresh()
-        refresh_layout_post_fragment.setOnLoadMoreListener { onLoadMore() }
-        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i -> clickItem(simplePostBean) }
+
+        refresh_layout_post_fragment.apply {
+            setEnableLoadMore(false)
+            autoRefresh()
+            setOnRefreshListener {
+                page = 1
+                getPost(page, true)
+            }
+            setOnLoadMoreListener {
+                getPost(++page, true)
+            }
+        }
+
+        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i ->
+            ViewClickUtils.clickToPostDetail(context, activity, simplePostBean.topic_id ?: simplePostBean.source_id) }
+
         //以下代码用来当Recyclerview滑动时不加载图片，暂时失效
         recyclerview_subpost_fragment.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
@@ -80,21 +88,11 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_fragment.setNoMoreData(false)
-        PListPresenter.pListRequest(fid = fid!!, page = page, refresh = refresh)
-    }
-
-    /**
-     * 登录成功,获取数据
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSeccess(event: BaseEvent<UserBean>) {
-        user = event.data
-        shouldRefresh = true
+        PListPresenter.pListRequest(fid = mFid!!, page = page, refresh = refresh)
     }
 
     @UiThread
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
-        isLoadMore = false
         if (event.code == BaseCode.FAILURE) {
             onError(event.data!![0].title!!)
             refresh_layout_post_fragment?.apply {
@@ -139,9 +137,13 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         return true
     }
 
-    private fun onLoadMore() {
-        getPost(++page, true)
-        isLoadMore = true
+    /**
+     * 登录成功,获取数据
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onLoginSeccess(event: BaseEvent<UserBean>) {
+        user = event.data
+        shouldRefresh = true
     }
 
     private fun setEmptyView() {
@@ -149,13 +151,5 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 .from(context!!)
                 .inflate(R.layout.layout_empty, recyclerview_subpost_fragment.parent as ViewGroup, false)
         postSimpleAdapter.setEmptyView(emptyView)
-    }
-
-    private fun clickItem(PList: SimplePListBean) {
-        var tid = PList.topic_id
-        if(tid == null) {
-             tid = PList.source_id
-        }
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", tid) })
     }
 }

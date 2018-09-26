@@ -126,7 +126,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     private fun onItemClick(item: SearchPostBean.ListBean) {
         val tid = item.topic_id
         hideSoftInput()
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", ""+tid) })
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("mFid", ""+tid) })
     }
     companion object {
         @JvmStatic

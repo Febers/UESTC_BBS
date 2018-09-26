@@ -16,5 +16,6 @@ class MsgPagerFragment: BaseFragment() {
         view_pager_message.adapter = messageViewPageAdapter
         view_pager_message.offscreenPageLimit = 4
         tab_layout_message.setupWithViewPager(view_pager_message)
+        //view_pager_message.setCurrentItem(1, true)
     }
 }

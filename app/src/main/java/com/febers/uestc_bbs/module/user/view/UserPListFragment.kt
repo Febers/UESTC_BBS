@@ -68,7 +68,7 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
 
     private fun getUserPList() {
         refresh_layout_user_post.setNoMoreData(false)
-        userPListPresenter.userPListRequest(uid+"", type, ""+page)
+        userPListPresenter.userPListRequest(mUid+"", type, ""+page)
     }
 
     @UiThread
@@ -104,7 +104,7 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
 
     private fun onClickItem(item: UserPListBean.ListBean) {
         val tid = item.topic_id
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", ""+tid) })
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("mFid", ""+tid) })
     }
 
     private fun setToolbarTitle() {

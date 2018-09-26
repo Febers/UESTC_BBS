@@ -15,7 +15,7 @@ const val MY_THEME_GRAY = 7
 
 object ThemeUtils {
     fun getTheme() : Int{
-        val code by PreferenceUtils(MyApplication.context(), "theme_code", DEFAULT_THEME_CODE)
+        val code by PreferenceUtils(MyApplication.context(), MyApplication.context().getString(R.string.sp_theme_code), DEFAULT_THEME_CODE)
         return when(code) {
             MY_THEME_GREEN  -> R.style.GreenTheme
             MY_THEME_RED -> R.style.RedTheme
@@ -30,7 +30,7 @@ object ThemeUtils {
     }
 
     fun saveTheme(position: Int) {
-        var code by PreferenceUtils(MyApplication.context(), "theme_code", MY_THEME_BLUE)
+        var code by PreferenceUtils(MyApplication.context(), MyApplication.context().getString(R.string.sp_theme_code), MY_THEME_BLUE)
         code = position
     }
 

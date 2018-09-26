@@ -11,14 +11,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:foreground="?android:attr/selectableItemBackground">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/image_view_msg_reply_author_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/image_view_post_reply_author_avatar"
+            android:layout_width="@dimen/image_size_default_avatar"
+            android:layout_height="@dimen/image_size_default_avatar"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -29,7 +30,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@mipmap/ic_default_avatar" />
         <TextView
-            android:id="@+id/text_view_msg_reply_author"
+            android:id="@+id/text_view_post_reply_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -37,10 +38,10 @@
             android:text="作者"
             android:textColor="?attr/textColorFirst"
             android:textSize="14dp"
-            app:layout_constraintStart_toEndOf="@+id/image_view_msg_reply_author_avatar"
-            app:layout_constraintTop_toTopOf="@+id/image_view_msg_reply_author_avatar" />
+            app:layout_constraintStart_toEndOf="@+id/image_view_post_reply_author_avatar"
+            app:layout_constraintTop_toTopOf="@+id/image_view_post_reply_author_avatar" />
         <TextView
-            android:id="@+id/text_view_post_reply_title"
+            android:id="@+id/text_view_post_reply_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
@@ -49,12 +50,12 @@
             android:text="作者等级"
             android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/text_view_msg_reply_author"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_msg_reply_author"
+            app:layout_constraintStart_toStartOf="@+id/text_view_post_reply_author"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_post_reply_author"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/text_view_msg_reply_date"
+            android:id="@+id/text_view_post_reply_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -62,9 +63,9 @@
             android:maxLines="1"
             android:text="回复时间"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_view_msg_reply_author"
-            app:layout_constraintStart_toEndOf="@+id/text_view_msg_reply_author"
-            app:layout_constraintTop_toTopOf="@+id/text_view_msg_reply_author"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_author"
+            app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_author"
+            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_author"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
@@ -76,16 +77,16 @@
             android:layout_marginStart="8dp"
             android:text="#1"
             android:textSize="14dp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_view_msg_reply_date"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.957"
-            app:layout_constraintStart_toEndOf="@+id/text_view_msg_reply_date"
-            app:layout_constraintTop_toTopOf="@+id/text_view_msg_reply_date"
+            app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_date"
+            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_date"
             app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/linear_layout_msg_reply_quota"
+        android:id="@+id/linear_layout_post_reply_quota"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -94,7 +95,7 @@
         android:layout_marginBottom="5dp"
         android:padding="6dp"
         android:visibility="gone"
-        android:background="?attr/background_second">
+        android:background="@color/color_gray_light">
         <TextView
             android:id="@+id/text_view_post_reply_quota"
             android:layout_width="match_parent"
@@ -108,7 +109,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_layout_msg_reply"
+        android:id="@+id/linear_layout_post_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

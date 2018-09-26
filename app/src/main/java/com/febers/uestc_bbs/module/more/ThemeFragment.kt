@@ -9,6 +9,7 @@ import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.BaseSwipeFragment
 import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
 import com.febers.uestc_bbs.entity.ThemeItemBean
+import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_theme.*
 
@@ -40,7 +41,10 @@ class ThemeFragment : BaseSwipeFragment() {
         val item6 = ThemeItemBean(R.drawable.ic_circle_purple, getString(R.string.theme_purple), false)
         val item7 = ThemeItemBean(R.drawable.ic_circle_blue, getString(R.string.theme_blue), false)
         val item8 = ThemeItemBean(R.drawable.ic_circle_gray, getString(R.string.theme_gray), false)
-        return listOf(item1, item2, item3, item4, item5, item6, item7, item8)
+        val themeCode by PreferenceUtils(context = context!!, name = getString(R.string.sp_theme_code), default = 1)
+        return listOf(item1, item2, item3, item4, item5, item6, item7, item8).apply {
+            get(themeCode).itemUsing = true
+        }
     }
 
     private fun reChooseTheme(position: Int) {
@@ -50,10 +54,9 @@ class ThemeFragment : BaseSwipeFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, showBottomBarOnDestroy: Boolean) =
+        fun newInstance(showBottomBarOnDestroy: Boolean) =
                 ThemeFragment().apply {
                     arguments = Bundle().apply {
-                        putString(FID, param1)
                         putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }

@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.user.model
 
+import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.PostStore
 import com.febers.uestc_bbs.entity.UserPListBean
@@ -37,11 +38,9 @@ class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseMod
                             .apply { errcode = userPListBean.head?.errInfo}))
                     return
                 }
-                if (userPListBean.has_next != HAVE_NEXT_PAGE) {
-                    presenter.userPListResult(BaseEvent(BaseCode.SUCCESS_END, userPListBean))
-                } else {
-                    presenter.userPListResult(BaseEvent(BaseCode.SUCCESS, userPListBean))
-                }
+                presenter.userPListResult(BaseEvent(
+                        if (userPListBean.has_next != HAVE_NEXT_PAGE)BaseCode.SUCCESS_END
+                        else BaseCode.SUCCESS, userPListBean))
                 if (mPage == FIRST_PAGE) PostStore.saveUserPList(mFid, userPListBean)
             }
         })

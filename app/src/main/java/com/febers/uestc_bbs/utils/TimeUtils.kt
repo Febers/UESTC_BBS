@@ -19,7 +19,6 @@ object TimeUtils {
     fun stampChange(s: String?): String {
         if (s == null) return ""
 
-        i("Time1", s)
         val lt = s.toLong()
         val nt = System.currentTimeMillis()
         var dt = nt - lt
@@ -40,7 +39,6 @@ object TimeUtils {
     }
 
     private fun stampToDate(s: Long): String {
-        i("Time2", s.toString())
         return try {
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale("English"))
             sdf.format(Date(s))

@@ -31,7 +31,7 @@ class PListPagerFragment : BaseFragment(){
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun startAnotherPost(event: PostEvent) {
         //start(PostDetailFragment.newInstance(event.tid, true))
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("fid", event.tid) })
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("mFid", event.tid) })
     }
 
     override fun registerEventBus(): Boolean {

@@ -13,6 +13,7 @@ import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseSwipeActivty
+import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
@@ -41,7 +42,7 @@ class PostDetailActivity : BaseSwipeActivty(), PostContract.View {
     }
 
     override fun initView() {
-        postId = intent.getStringExtra("fid")
+        postId = intent.getStringExtra(FID)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false)
 

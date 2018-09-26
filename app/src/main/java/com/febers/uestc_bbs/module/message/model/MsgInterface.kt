@@ -14,7 +14,7 @@ import retrofit2.http.POST
 interface MsgInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_MESSAGE_NOTIFY_LIST)
-    fun getReply(
+    fun getReplyAndSystemAndAt(
             @Field("accessToken")accessToken: String, @Field("accessSecret")accessSecret: String,
             @Field("type")type: String, @Field("page")page: String, @Field("pageSize")pageSize: String):
             Call<JsonObject>
@@ -23,6 +23,6 @@ interface MsgInterface {
     @POST(ApiUtils.BBS_MESSAGE_PM_SESSION_LIST)
     fun getPrivate(
             @Field("accessToken")accessToken: String, @Field("accessSecret")accessSecret: String,
-            @Field("type")type: String, @Field("page")page: String, @Field("pageSize")pageSize: String):
+            @Field("json")json: String):
             Call<MsgPrivateBean>
 }

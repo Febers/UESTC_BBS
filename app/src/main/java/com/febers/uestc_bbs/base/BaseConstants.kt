@@ -18,13 +18,13 @@ const val MARKET_GROUP = 3
 const val MANAGE_GROUP = 4
 
 const val MSG_TYPE_REPLY = "post"
-const val MSG_TYPE_PRIVATE = "getPrivate"
+const val MSG_TYPE_PRIVATE = "private"
 const val MSG_TYPE_AT = "at"
 const val MSG_TYPE_SYSTEM = "system"
 
 const val USER_POST_TYPE = "post_type"
-const val USER_START_POST = "9"
-const val USER_REPLY_POST = "10"
-const val USER_FAV_POST = "11"
+const val USER_START_POST = "-9"
+const val USER_REPLY_POST = "-10"
+const val USER_FAV_POST = "-11"
 
 const val SP_USERS = "users"

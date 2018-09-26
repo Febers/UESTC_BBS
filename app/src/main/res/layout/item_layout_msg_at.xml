@@ -1,6 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view_msg_at_author_avatar"
+            android:layout_width="@dimen/image_size_default_avatar"
+            android:layout_height="@dimen/image_size_default_avatar"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@mipmap/ic_default_avatar" />
+
+        <TextView
+            android:id="@+id/text_view_msg_at_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:maxLines="1"
+            android:text="作者"
+            android:textColor="?attr/textColorFirst"
+            android:textSize="@dimen/text_size_normal"
+            app:layout_constraintStart_toEndOf="@+id/image_view_msg_at_author_avatar"
+            app:layout_constraintTop_toTopOf="@+id/image_view_msg_at_author_avatar" />
+
+        <TextView
+            android:id="@+id/text_view_msg_at_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="回复时间"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_msg_at_author"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.958"
+            app:layout_constraintStart_toEndOf="@+id/image_view_msg_at_author_avatar"
+            app:layout_constraintTop_toTopOf="@+id/text_view_msg_at_author"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_msg_at_quota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:padding="6dp"
+        android:background="@color/color_gray_light">
+        <TextView
+            android:id="@+id/text_view_msg_at_quota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.1"
+            android:textSize="@dimen/text_size_normal"
+            android:padding="4dp"
+            android:textColor="?attr/textColorSecond"
+            android:text="某人 发表于 2018-8-16 16:25
+            帖子内容帖子内容帖子内容帖子内容帖子内容"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_msg_at"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="15dp">
+        <TextView
+            android:id="@+id/text_view_msg_at_content"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:textColor="?attr/textColorFirst"
+            android:text="at你的人的内容内容"/>
+    </LinearLayout>
+
+</LinearLayout>

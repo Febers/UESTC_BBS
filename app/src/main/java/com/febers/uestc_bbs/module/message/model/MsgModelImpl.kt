@@ -2,7 +2,8 @@ package com.febers.uestc_bbs.module.message.model
 
 import android.util.Log.i
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.MsgAtMBean
+import com.febers.uestc_bbs.entity.MsgAtBean
+import com.febers.uestc_bbs.entity.MsgPrivateBean
 import com.febers.uestc_bbs.entity.MsgReplyBean
 import com.febers.uestc_bbs.entity.MsgSystemBean
 import com.febers.uestc_bbs.module.message.presenter.MsgContract
@@ -22,19 +23,52 @@ class MsgModelImpl(private val msgPresenter: MsgContract.Presenter) : BaseModel(
 
     private fun getMessage() {
         when(mType) {
-            MSG_TYPE_PRIVATE -> getPrivateMsg()
+            MSG_TYPE_PRIVATE -> getPrivate()
             else -> getReplyAndSystemAndAt()
         }
     }
 
-    private fun getPrivateMsg() {
+    private fun getPrivate() {
+        getRetrofit()
+                .create(MsgInterface::class.java)
+                .getPrivate(
+                        accessToken = getUser().token,
+                        accessSecret = getUser().secrete,
+                        json = """{"page":$mPage,pageSize:$COMMON_PAGE_SIZE}""")
+                .enqueue(object : Callback<MsgPrivateBean> {
+                    override fun onFailure(call: Call<MsgPrivateBean>?, t: Throwable?) {
+                        i("msgM error", t.toString())
+                        msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgPrivateBean().apply {
+                            errcode = t.toString()
+                        }))
+                    }
 
+                    override fun onResponse(call: Call<MsgPrivateBean>?, response: Response<MsgPrivateBean>?) {
+                        val msgPrivateBean = response?.body()
+                        if (msgPrivateBean == null) {
+                            msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgReplyBean().apply {
+                                errcode = SERVICE_RESPONSE_NULL
+                            }))
+                            return
+                        }
+                        if (msgPrivateBean.rs != REQUEST_SUCCESS_RS) {
+                            msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgPrivateBean().apply {
+                                errcode = SERVICE_RESPONSE_ERROR
+                            }))
+                            return
+                        }
+                        msgPresenter.msgResult(BaseEvent(
+                                if (msgPrivateBean.body.hasNext != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
+                                else BaseCode.SUCCESS,
+                                msgPrivateBean))
+                    }
+                })
     }
 
     private fun getReplyAndSystemAndAt() {
         getRetrofit()
                 .create(MsgInterface::class.java)
-                .getReply(
+                .getReplyAndSystemAndAt(
                         accessToken = getUser().token,
                         accessSecret = getUser().secrete,
                         type = mType,
@@ -50,7 +84,7 @@ class MsgModelImpl(private val msgPresenter: MsgContract.Presenter) : BaseModel(
                                 }))
                             }
                             MSG_TYPE_AT -> {
-                                msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgAtMBean().apply {
+                                msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgAtBean().apply {
                                     errcode = t.toString()
                                 }))
                             }
@@ -59,7 +93,6 @@ class MsgModelImpl(private val msgPresenter: MsgContract.Presenter) : BaseModel(
                                     errcode = t.toString()
                                 }))
                             }
-                            else -> {}
                         }
                     }
 
@@ -83,22 +116,20 @@ class MsgModelImpl(private val msgPresenter: MsgContract.Presenter) : BaseModel(
                                 msgPresenter.msgResult(BaseEvent(
                                         if (msgReplyBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                         else BaseCode.SUCCESS,
-                                        msgReplyBean
-                                ))
+                                        msgReplyBean))
                             }
                             MSG_TYPE_AT -> {
-                                val msgAtBean = Gson().fromJson(json, MsgAtMBean::class.java)
+                                val msgAtBean = Gson().fromJson(json, MsgAtBean::class.java)
                                 if (msgAtBean.rs != REQUEST_SUCCESS_RS) {
-                                    msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgAtMBean().apply {
+                                    msgPresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgAtBean().apply {
                                         errcode = SERVICE_RESPONSE_ERROR
                                     }))
                                     return
-                                }
+                            }
                                 msgPresenter.msgResult(BaseEvent(
                                         if (msgAtBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                         else BaseCode.SUCCESS,
-                                        msgAtBean
-                                ))
+                                        msgAtBean))
                             }
                             MSG_TYPE_SYSTEM -> {
                                 val msgSystemBean = Gson().fromJson(json, MsgSystemBean::class.java)
@@ -111,10 +142,8 @@ class MsgModelImpl(private val msgPresenter: MsgContract.Presenter) : BaseModel(
                                 msgPresenter.msgResult(BaseEvent(
                                         if (msgSystemBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                         else BaseCode.SUCCESS,
-                                        msgSystemBean
-                                ))
+                                        msgSystemBean))
                             }
-                            else -> {}
                         }
                     }
                 })

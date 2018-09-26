@@ -5,7 +5,7 @@
   ~ Last modified 18-6-9 下午5:58.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -33,6 +33,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_navigation_height"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/text_view_title_compus"
@@ -42,7 +43,7 @@
                 android:textSize="14dp"
                 android:gravity="center_vertical"
                 android:layout_margin="4dp"
-                android:textColor="@color/material_grey_800"
+                android:textColor="?attr/textColorSecond"
                 android:visibility="gone"/>
             <com.febers.uestc_bbs.view.custom.CustomGridView
                 android:id="@+id/grid_view_compus"
@@ -59,7 +60,7 @@
                 android:textSize="14dp"
                 android:gravity="center_vertical"
                 android:layout_margin="4dp"
-                android:textColor="@color/material_grey_800"
+                android:textColor="?attr/textColorSecond"
                 android:visibility="gone"/>
             <com.febers.uestc_bbs.view.custom.CustomGridView
                 android:id="@+id/grid_view_tech"
@@ -76,7 +77,7 @@
                 android:textSize="14dp"
                 android:gravity="center_vertical"
                 android:layout_margin="4dp"
-                android:textColor="@color/material_grey_800"
+                android:textColor="?attr/textColorSecond"
                 android:visibility="gone"/>
             <com.febers.uestc_bbs.view.custom.CustomGridView
                 android:id="@+id/grid_view_play"
@@ -93,7 +94,7 @@
                 android:textSize="14dp"
                 android:gravity="center_vertical"
                 android:layout_margin="4dp"
-                android:textColor="@color/material_grey_800"
+                android:textColor="?attr/textColorSecond"
                 android:visibility="gone"/>
             <com.febers.uestc_bbs.view.custom.CustomGridView
                 android:id="@+id/grid_view_market"
@@ -110,7 +111,7 @@
                 android:textSize="14dp"
                 android:gravity="center_vertical"
                 android:layout_margin="4dp"
-                android:textColor="@color/material_grey_800"
+                android:textColor="?attr/textColorSecond"
                 android:visibility="gone"/>
             <com.febers.uestc_bbs.view.custom.CustomGridView
                 android:id="@+id/grid_view_manager"
@@ -123,4 +124,4 @@
     </android.support.v4.widget.NestedScrollView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

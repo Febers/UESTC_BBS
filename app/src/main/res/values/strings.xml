@@ -41,7 +41,7 @@
     <string name="theme_blue">知乎蓝</string>
     <string name="theme_gray">低调灰</string>
 
-    <string name="sp_theme_code">2</string>
+    <string name="sp_theme_code">theme_code</string>
     <string name="sp_user_valid">user_valid</string>
     <string name="sp_user_exist">user_exist</string>
     <string name="sp_user_name">user_name</string>

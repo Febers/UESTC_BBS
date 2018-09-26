@@ -18,7 +18,7 @@
         android:maxLines="2"
         android:text="TextView"
         android:textColor="?attr/textColorFirst"
-        android:textSize="18dp"
+        android:textSize="@dimen/text_size_big"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +32,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginTop="6dp"
         android:text="TextView"
+        android:textSize="@dimen/text_size_normal"
         android:textColor="?attr/textColorSecond"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +62,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2.5"
             android:text="用户名"
-            android:textSize="12dp"
+            android:textSize="@dimen/text_size_small"
             android:textColor="?attr/textColorSecond" />
 
         <LinearLayout

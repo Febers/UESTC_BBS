@@ -41,16 +41,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:srlEnableNestedScrolling="false"
         app:srlAccentColor="@color/color_white"
         app:srlPrimaryColor="?attr/colorPrimary"
-        android:layout_marginBottom="50dp">
+        android:paddingBottom="50dp">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageview,否则无法绘制-->
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             android:layerType="software">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,8 +75,8 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/image_view_post_detail_author_avatar"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/image_size_default_avatar"
+                        android:layout_height="@dimen/image_size_default_avatar"
                         android:layout_marginBottom="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"

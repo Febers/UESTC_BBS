@@ -55,7 +55,7 @@ object ApiUtils {
 
     /**
         获取用户发布的帖子
-        uid
+        mUid
         page
         accessToken
         accessSecret
@@ -64,7 +64,7 @@ object ApiUtils {
      */
     const val BBS_USER_START_URL = "mobcent/app/web/index.php?r=user/topiclist&type=topic"
 
-    const val BBS_USER_REPLY_URL = "mobcent/app/web/index.php?r=user/topiclist&type=getReply"
+    const val BBS_USER_REPLY_URL = "mobcent/app/web/index.php?r=user/topiclist&type=getReplyAndSystemAndAt"
 
     const val BBS_USER_FAV_URL = "mobcent/app/web/index.php?r=user/topiclist&type=favorite"
 
@@ -101,7 +101,7 @@ object ApiUtils {
 
     /**
      * 发帖/回复。
-        act 'new'（发帖）、'getReply'（回复）、其他字符串（编辑）
+        act 'new'（发帖）、'getReplyAndSystemAndAt'（回复）、其他字符串（编辑）
         json JSON 格式的发帖内容。
         JSON 格式：
         {
@@ -197,7 +197,7 @@ object ApiUtils {
         total_num
         has_next
         list
-        uid
+        mUid
         name
         role_num
      */
@@ -314,7 +314,7 @@ object ApiUtils {
         "type": "text", // 'text', 'image', 'audio'
         "content": "消息内容（经过 URL 编码）/图片 URL/音频 URL"
         }, // send
-        "plid": 123, // delplid（并非 uid）
+        "plid": 123, // delplid（并非 mUid）
         "pmid": 123  // delpmid
         }
      */
