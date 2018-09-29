@@ -6,7 +6,6 @@
 
 package com.febers.uestc_bbs.module.post.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
@@ -15,6 +14,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.febers.uestc_bbs.MyApplication
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostSimpleAdapter
@@ -23,7 +23,7 @@ import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.view.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -133,18 +133,18 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 }
     }
 
-    override fun registerEventBus(): Boolean {
-        return true
-    }
+//    override fun registerEventBus(): Boolean {
+//        return true
+//    }
 
     /**
      * 登录成功,获取数据
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSeccess(event: BaseEvent<UserBean>) {
-        user = event.data
-        shouldRefresh = true
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    fun onLoginSuccess(event: BaseEvent<UserBean>) {
+//        user = event.data
+//        shouldRefresh = true
+//    }
 
     private fun setEmptyView() {
         val emptyView: View = LayoutInflater

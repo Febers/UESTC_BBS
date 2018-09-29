@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.login.model
 
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.UserStore

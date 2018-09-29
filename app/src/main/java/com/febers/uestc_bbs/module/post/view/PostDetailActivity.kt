@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BaseSwipeActivty
+import com.febers.uestc_bbs.base.BaseSwipeActivity
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
@@ -24,7 +24,7 @@ import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
-class PostDetailActivity : BaseSwipeActivty(), PostContract.View {
+class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
 
     private var replyList: MutableList<PostReplyBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter

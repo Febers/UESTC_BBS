@@ -6,7 +6,7 @@ import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
-import com.febers.uestc_bbs.utils.StatusBarUtils
+import com.febers.uestc_bbs.view.utils.StatusBarUtils
 
 /**
  * 自定义控件，在其中令其paddingTop为statusBar的高度

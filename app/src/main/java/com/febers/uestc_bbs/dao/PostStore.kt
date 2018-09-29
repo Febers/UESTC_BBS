@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.dao
 
 import android.content.Context
-import com.febers.uestc_bbs.base.MyApplication
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.entity.PListResultBean
 import com.febers.uestc_bbs.entity.UserPListBean
 import com.google.gson.Gson

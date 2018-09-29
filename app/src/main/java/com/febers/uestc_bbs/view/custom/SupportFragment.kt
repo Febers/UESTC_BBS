@@ -6,15 +6,13 @@
  *
  */
 
-package com.febers.uestc_bbs.base
+package com.febers.uestc_bbs.view.custom
 
 import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.Animation
 
 import me.yokeyword.fragmentation.ExtraTransaction
@@ -23,7 +21,7 @@ import me.yokeyword.fragmentation.SupportFragmentDelegate
 import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
-abstract class SupportFragament : Fragment(), ISupportFragment {
+abstract class SupportFragment : Fragment(), ISupportFragment {
 
     internal val mDelegate = SupportFragmentDelegate(this)
     protected lateinit var _mActivity: FragmentActivity

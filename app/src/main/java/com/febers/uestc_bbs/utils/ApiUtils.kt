@@ -64,7 +64,7 @@ object ApiUtils {
      */
     const val BBS_USER_START_URL = "mobcent/app/web/index.php?r=user/topiclist&type=topic"
 
-    const val BBS_USER_REPLY_URL = "mobcent/app/web/index.php?r=user/topiclist&type=getReplyAndSystemAndAt"
+    const val BBS_USER_REPLY_URL = "mobcent/app/web/index.php?r=user/topiclist&type=reply"
 
     const val BBS_USER_FAV_URL = "mobcent/app/web/index.php?r=user/topiclist&type=favorite"
 
@@ -101,7 +101,7 @@ object ApiUtils {
 
     /**
      * 发帖/回复。
-        act 'new'（发帖）、'getReplyAndSystemAndAt'（回复）、其他字符串（编辑）
+        act 'new'（发帖）、'reply'（回复）、其他字符串（编辑）
         json JSON 格式的发帖内容。
         JSON 格式：
         {

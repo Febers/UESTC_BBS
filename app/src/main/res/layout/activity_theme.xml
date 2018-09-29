@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.design.widget.AppBarLayout
+    <com.febers.uestc_bbs.view.custom.CustomAppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -18,7 +18,7 @@
             app:layout_scrollFlags="scroll|snap|enterAlways"
             app:title="选择主题">
         </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    </com.febers.uestc_bbs.view.custom.CustomAppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

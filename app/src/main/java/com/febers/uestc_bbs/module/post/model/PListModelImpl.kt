@@ -50,7 +50,7 @@ class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
                 } else {
                     PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
                 }
-                if (mPage == FIRST_PAGE) PostStore.savePostList(mFid, body)
+                //if (mPage == FIRST_PAGE) PostStore.savePostList(mFid, body)
             }
         })
     }

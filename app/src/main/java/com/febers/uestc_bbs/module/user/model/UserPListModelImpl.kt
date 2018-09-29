@@ -16,7 +16,7 @@ class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseMod
         mPage = page
         mType = type
         Thread(Runnable { getUserPost() }).start()
-        Thread(Runnable { getSavedPList() }).start()
+        //Thread(Runnable { getSavedPList() }).start()
     }
 
     private fun getUserPost() {
@@ -41,7 +41,7 @@ class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseMod
                 presenter.userPListResult(BaseEvent(
                         if (userPListBean.has_next != HAVE_NEXT_PAGE)BaseCode.SUCCESS_END
                         else BaseCode.SUCCESS, userPListBean))
-                if (mPage == FIRST_PAGE) PostStore.saveUserPList(mFid, userPListBean)
+                //if (mPage == FIRST_PAGE) PostStore.saveUserPList(mFid, userPListBean)
             }
         })
     }

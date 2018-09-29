@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_weight="5"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="@dimen/text_size_big"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="20dp"
         android:text="红色"/>
@@ -25,6 +25,7 @@
         android:layout_weight="2"
         android:layout_height="wrap_content"
         android:gravity="end"
+        android:textSize="@dimen/text_size_normal"
         android:layout_marginEnd="10dp"
         android:layout_gravity="center_vertical"
         android:text="使用中"/>

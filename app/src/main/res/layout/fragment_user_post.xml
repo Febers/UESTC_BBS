@@ -24,7 +24,9 @@
         android:id="@+id/refresh_layout_user_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:srlPrimaryColor="?attr/colorPrimary"
+        app:srlAccentColor="@color/color_white">
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

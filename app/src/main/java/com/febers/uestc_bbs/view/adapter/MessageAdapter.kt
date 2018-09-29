@@ -6,7 +6,7 @@ import com.febers.uestc_bbs.entity.MsgAtBean
 import com.febers.uestc_bbs.entity.MsgPrivateBean
 import com.febers.uestc_bbs.entity.MsgReplyBean
 import com.febers.uestc_bbs.entity.MsgSystemBean
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.view.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
@@ -30,6 +30,7 @@ class MsgPrivateAdapter(val context: Context, data: List<MsgPrivateBean.BodyBean
 
 class MsgReplyAdapter(val context: Context, data: List<MsgReplyBean.ListBean>, isLoadMore: Boolean):
         CommonBaseAdapter<MsgReplyBean.ListBean>(context, data, isLoadMore), MsgBaseAdapter {
+
     override fun getItemLayoutId(): Int {
         return R.layout.item_layout_msg_reply
     }
@@ -60,6 +61,7 @@ class MsgSystemAdapter(val context: Context, data: List<MsgSystemBean.BodyBean.D
 
 class MsgAtAdapter(val context: Context, data: List<MsgAtBean.ListBean>, isLoadMore: Boolean):
         CommonBaseAdapter<MsgAtBean.ListBean>(context, data, isLoadMore), MsgBaseAdapter {
+
     override fun getItemLayoutId(): Int {
         return R.layout.item_layout_msg_at
     }

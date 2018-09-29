@@ -6,7 +6,7 @@
  *
  */
 
-package com.febers.uestc_bbs.base
+package com.febers.uestc_bbs.view.custom
 
 import android.os.Bundle
 import android.support.annotation.DrawableRes

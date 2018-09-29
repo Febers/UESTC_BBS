@@ -1,11 +1,10 @@
-package com.febers.uestc_bbs.utils
+package com.febers.uestc_bbs.view.utils
 
 import android.content.Context
 import android.widget.ImageView
 
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 
 object ImageLoader {
 
@@ -19,8 +18,10 @@ object ImageLoader {
      * @param imageView     加载图片的ImageView 控件
      * @param placeImage 图片展示错误的本地图片 id
      */
-    fun load(context: Context?, url: String?, imageView: ImageView?, placeImage: Int = R.mipmap.ic_default_avatar,
-             isCircle: Boolean = true, isBlur: Boolean = false) {
+    fun load(context: Context?, url: String?, imageView: ImageView?,
+             placeImage: Int = R.mipmap.ic_default_avatar,
+             isCircle: Boolean = true,
+             isBlur: Boolean = false) {
         try {
             Glide.with(context).load(url)
                     .apply {
@@ -33,6 +34,17 @@ object ImageLoader {
                     }
                     .placeholder(placeImage)
                     .crossFade().into(imageView)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget) {
+        try {
+            Glide.with(context).load(url)
+                    .placeholder(R.mipmap.ic_place_holder_grey)
+                    .error(R.mipmap.ic_place_holder_grey)
+                    .crossFade().into(viewTarget)
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -12,6 +12,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log.i
 import com.bumptech.glide.Glide
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
@@ -51,8 +52,7 @@ class MoreFragment: BaseFragment() {
         return R.layout.fragment_more
     }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
+    override fun initView() {
         user = MyApplication.getUser()
         mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
@@ -76,10 +76,6 @@ class MoreFragment: BaseFragment() {
         Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context))
                 .placeholder(R.mipmap.ic_default_avatar)
                 .into(image_view_fragment_user_avatar)
-
-        btn_test_emoji.setOnClickListener {
-            startActivity(Intent(activity, PostEditActivity::class.java))
-        }
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
@@ -142,14 +138,13 @@ class MoreFragment: BaseFragment() {
         }
         if (view == THIRD_ITEM_VIEW) {
             if (position == THEME_ITEM) {
-                mParentFragment.start(ThemeFragment.newInstance(true))
+                startActivity(Intent(activity, ThemeActivity::class.java))
                 return
             }
             if (position == SETTING_ITEM) {
                 mParentFragment.start(SettingFragment.newInstance(true))
                 return
             }
-
         }
     }
 }

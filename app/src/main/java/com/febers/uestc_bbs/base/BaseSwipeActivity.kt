@@ -9,7 +9,7 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
 
 
 
-abstract class BaseSwipeActivty : BaseActivity(), ISwipeBackActivity {
+abstract class BaseSwipeActivity : BaseActivity(), ISwipeBackActivity {
 
     val mSwipeDelegate = SwipeBackActivityDelegate(this)
 

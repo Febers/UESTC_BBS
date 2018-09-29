@@ -16,8 +16,7 @@ import com.febers.uestc_bbs.utils.ThemeUtils
 import org.greenrobot.eventbus.EventBus
 import android.view.WindowManager
 import android.os.Build
-
-
+import com.febers.uestc_bbs.view.custom.SupportActivity
 
 
 /**

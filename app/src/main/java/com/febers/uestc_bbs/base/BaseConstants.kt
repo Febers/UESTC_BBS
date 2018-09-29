@@ -11,6 +11,7 @@ const val HOME_POSTS_NEW = "-1"
 const val HOME_POSTS_REPLY  = "-2"
 const val HOME_POSTS_HOT = "-3"
 
+const val NEW_POST = "new_post"
 const val CAMPUS_GROUP = 0
 const val TECH_GROUP = 1
 const val PLAY_GROUP = 2

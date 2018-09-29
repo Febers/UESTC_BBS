@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.base
 
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Retrofit

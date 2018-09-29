@@ -19,6 +19,20 @@
         android:layout_height="match_parent">
     </FrameLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_write_white"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="8dp"
+        app:layout_anchor="@+id/bottom_navigation_home"
+        app:layout_anchorGravity="end"
+        android:layout_marginEnd="@dimen/fab_margin_right"
+        android:layout_marginBottom="@dimen/fab_margin_bottom"
+        android:visibility="gone"/>
+
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/bottom_navigation_home"
         android:layout_width="match_parent"

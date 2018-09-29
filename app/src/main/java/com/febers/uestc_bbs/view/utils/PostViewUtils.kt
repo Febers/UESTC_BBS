@@ -16,8 +16,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SimpleContentBean
-import com.febers.uestc_bbs.utils.ImageLoader
-import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
 
 
@@ -96,7 +94,7 @@ object PostContentViewUtils {
             val imageView = getImageView(linearLayout.context)
             linearLayout.addView(imageView)
             ImageLoader.load(linearLayout.context, mContents[position].originalInfo, imageView,
-                    R.mipmap.ic_default_avatar, isCircle = false)
+                    R.mipmap.ic_place_holder_grey, isCircle = false)
         }
         if (position >= mContents.size) {
             val textView = getTextView(linearLayout.context)

@@ -7,11 +7,9 @@
 package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
-import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SimplePListBean
-import com.febers.uestc_bbs.utils.ImageLoader
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
+import com.febers.uestc_bbs.view.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter

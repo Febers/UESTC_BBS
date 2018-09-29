@@ -6,15 +6,15 @@ import android.support.v7.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
-import com.febers.uestc_bbs.base.MyApplication
-import com.febers.uestc_bbs.base.BaseSwipeActivty
+import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.base.BaseSwipeActivity
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.view.utils.BlurTransformation
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.activity_user_detail.*
 
-class UserDetailActivity : BaseSwipeActivty() {
+class UserDetailActivity : BaseSwipeActivity() {
 
     private lateinit var user: UserBean
 

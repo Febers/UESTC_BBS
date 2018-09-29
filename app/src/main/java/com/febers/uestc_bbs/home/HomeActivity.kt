@@ -6,19 +6,28 @@
 
 package com.febers.uestc_bbs.home
 
+import android.content.Intent
 import android.support.v4.app.ActivityCompat
+import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
+import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.entity.ThemeItemBean
+import com.febers.uestc_bbs.module.post.view.PostEditActivity
 import com.febers.uestc_bbs.utils.AttrUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class HomeActivity: BaseActivity() {
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
+
+    override fun registerEvenBus(): Boolean = true
 
     override fun setView(): Int {
         return R.layout.activity_home
@@ -43,7 +52,7 @@ class HomeActivity: BaseActivity() {
                 add(3, findFragment(HomeFourthContainer::class.java))
             }
         }
-
+        bottom_navigation_home.manageFloatingActionButtonBehavior(fab_home)
         bottom_navigation_home.apply {
             addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
             addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
@@ -53,9 +62,13 @@ class HomeActivity: BaseActivity() {
             accentColor = AttrUtils.getColor(this@HomeActivity, R.attr.colorAccent)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
         }
+        fab_home.setOnClickListener { startActivity(Intent(this@HomeActivity, PostEditActivity::class.java)) }
+        fab_home.visibility = View.GONE
     }
 
+
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
+        if (position == 0) fab_home.visibility = View.VISIBLE else fab_home.visibility = View.GONE
         if(wasSelected) {
             onTabReselected(position)
             return true
@@ -74,5 +87,17 @@ class HomeActivity: BaseActivity() {
 
     private fun onTabReselected(position: Int) {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onThemeChange(event: BaseEvent<ThemeItemBean>) {
+        recreate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (bottom_navigation_home.currentItem == 0) {
+            fab_home.visibility = View.VISIBLE
+        }
     }
 }

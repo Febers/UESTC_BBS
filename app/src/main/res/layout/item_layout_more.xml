@@ -31,7 +31,7 @@
         android:layout_gravity="center_vertical"
         android:text="我的帖子"
         android:textColor="?attr/textColorFirst"
-        android:textSize="17dp"
+        android:textSize="@dimen/text_size_big"
         android:layout_marginLeft="20dp"/>
     <ImageView
         android:layout_width="0dp"

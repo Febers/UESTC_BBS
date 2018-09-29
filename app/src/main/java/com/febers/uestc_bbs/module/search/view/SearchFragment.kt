@@ -8,15 +8,20 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.util.Log.i
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.EditText
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.search.presenter.SearchContrect
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
+import com.febers.uestc_bbs.utils.KeyBoardUtils
 import com.febers.uestc_bbs.view.adapter.SearchAdapter
+import com.febers.uestc_bbs.view.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
@@ -26,6 +31,8 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     private val searchPostList: MutableList<SearchPostBean.ListBean> = ArrayList()
     private lateinit var searchPresenter: SearchContrect.Presenter
     private lateinit var searchAdapter: SearchAdapter
+    private lateinit var searchView: SearchView
+    private var menuItem: MenuItem? = null
     private var keyword = ""
     private var page: Int = 1
 
@@ -96,10 +103,9 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_search_fragment, menu)
-        val menuItem = menu?.findItem(R.id.item_search)
+        menuItem = menu?.findItem(R.id.item_search)
         menuItem?.isChecked = true
-        val searchView: SearchView = menuItem?.actionView as SearchView
-
+        searchView = menuItem?.actionView as SearchView
         val listener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query.isNullOrEmpty() || query?.trim().isNullOrEmpty()) {
@@ -124,10 +130,12 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     }
 
     private fun onItemClick(item: SearchPostBean.ListBean) {
-        val tid = item.topic_id
         hideSoftInput()
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("mFid", ""+tid) })
+        searchView.clearFocus()
+        val tid = item.topic_id
+        ViewClickUtils.clickToPostDetail(context, activity, tid.toString())
     }
+
     companion object {
         @JvmStatic
         fun newInstance(showBottomBarOnDestroy: Boolean) =

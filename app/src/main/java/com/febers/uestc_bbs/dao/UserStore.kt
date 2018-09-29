@@ -7,7 +7,7 @@
 package com.febers.uestc_bbs.dao
 
 import android.content.Context
-import com.febers.uestc_bbs.base.MyApplication
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.entity.UserBean
 import com.google.gson.Gson

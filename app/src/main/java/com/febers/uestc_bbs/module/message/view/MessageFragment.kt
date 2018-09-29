@@ -15,8 +15,8 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.message.presenter.MsgContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
+import com.febers.uestc_bbs.view.utils.ViewClickUtils.clickToPostDetail
+import com.febers.uestc_bbs.view.utils.ViewClickUtils.clickToUserDetail
 import com.febers.uestc_bbs.view.adapter.*
 import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_message.*

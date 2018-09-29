@@ -4,11 +4,10 @@
  * Last modified 18-6-9 上午9:21.
  */
 
-package com.febers.uestc_bbs.base
+package com.febers.uestc_bbs
 
 import android.app.Application
 import android.content.Context
-import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
@@ -16,9 +15,6 @@ import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
-
-
-
 
 
 class MyApplication: Application() {
@@ -37,7 +33,6 @@ class MyApplication: Application() {
         }
         init {
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-//                layout.setPrimaryColorsId(typeValue.data, android.R.color.white);//全局设置主题颜色
                 ClassicsHeader(context)
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->

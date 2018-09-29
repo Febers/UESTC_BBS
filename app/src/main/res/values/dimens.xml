@@ -5,7 +5,9 @@
   -->
 
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin_right">16dp</dimen>
+    <!--bottom_bar_height is 56dp-->
+    <dimen name="fab_margin_bottom">72dp</dimen>
     <dimen name="course_btn_height">96dp</dimen>
     <dimen name="half_course_btn_height">48dp</dimen>
     <dimen name="card_radius">1dp</dimen>
@@ -15,6 +17,7 @@
     <dimen name="header_height">180dp</dimen>
 
     <dimen name="image_size_default_avatar">40dp</dimen>
+    <dimen name="text_size_super_big">18sp</dimen>
     <dimen name="text_size_big">16sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>

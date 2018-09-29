@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.view.adapter
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.MyApplication
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.base.HOME_POSTS_HOT
 import com.febers.uestc_bbs.base.HOME_POSTS_REPLY
 import com.febers.uestc_bbs.base.HOME_POSTS_NEW

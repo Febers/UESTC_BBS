@@ -54,13 +54,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     @Override
     public Drawable getDrawable(String url) {
         final GlideUrlDrawable urlDrawable = new GlideUrlDrawable();
-
-        Glide.with(mContext)
-                .load(url)
-                .placeholder(R.mipmap.ic_default_avatar)
-                .error(R.mipmap.ic_default_avatar)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(new ImageGetterViewTarget(mTextView, urlDrawable));
+        ImageLoader.INSTANCE.loadViewTarget(mContext, url, new ImageGetterViewTarget(mTextView, urlDrawable));
         return urlDrawable;
     }
 
@@ -79,7 +73,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     }
 
-    private class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
+    public class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
 
         private final GlideUrlDrawable mDrawable;
 

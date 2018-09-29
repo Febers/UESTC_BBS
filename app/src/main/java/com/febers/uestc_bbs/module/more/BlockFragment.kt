@@ -8,21 +8,28 @@ package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
 import android.support.v4.util.ArrayMap
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.post.view.PListFragment
+import com.febers.uestc_bbs.module.post.view.PostEditFragment
 import com.febers.uestc_bbs.utils.BlockUtils
 import kotlinx.android.synthetic.main.fragment_block_list.*
+import kotlinx.android.synthetic.main.layout_block_list.*
 import java.util.ArrayList
 
 class BlockFragment: BaseFragment() {
 
     private lateinit var mParentFragment: BaseFragment
+    private var newPost: Boolean = false
 
     override fun setContentView(): Int {
+        arguments?.let {
+            newPost = it.getBoolean(NEW_POST)
+        }
         return R.layout.fragment_block_list
     }
 
@@ -32,24 +39,32 @@ class BlockFragment: BaseFragment() {
     }
 
     private fun initMyView() {
-        text_view_title_compus.visibility = View.VISIBLE
+        if (newPost) {
+            (activity as AppCompatActivity).setSupportActionBar(toolbar_block_list)
+            (activity as AppCompatActivity).supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
+                title = "选择板块"
+            }
+            toolbar_block_list.setNavigationOnClickListener { activity?.finish() }
+        }
+        text_view_title_campus.visibility = View.VISIBLE
         text_view_title_tech.visibility = View.VISIBLE
         text_view_title_play.visibility = View.VISIBLE
         text_view_title_market.visibility = View.VISIBLE
         text_view_title_manager.visibility = View.VISIBLE
         val from = arrayOf("image", "title")
         val to = intArrayOf(R.id.image_view_forum_list_item, R.id.text_view_forum_list_item)
-        val compusAdapter = SimpleAdapter(context, compusGridList(), R.layout.item_forum_list_grid_view, from, to)
+        val campusAdapter = SimpleAdapter(context, campusGridList(), R.layout.item_forum_list_grid_view, from, to)
         val techAdapter = SimpleAdapter(context, techGridList(), R.layout.item_forum_list_grid_view, from, to)
         val playAdapter = SimpleAdapter(context, playGridList(), R.layout.item_forum_list_grid_view, from, to)
         val marketAdapter = SimpleAdapter(context, marketGridList(), R.layout.item_forum_list_grid_view, from, to)
         val manageAdapter = SimpleAdapter(context, manageGridList(), R.layout.item_forum_list_grid_view, from, to)
-        grid_view_compus.adapter = compusAdapter
+        grid_view_campus.adapter = campusAdapter
         grid_view_tech.adapter = techAdapter
         grid_view_play.adapter = playAdapter
         grid_view_market.adapter = marketAdapter
         grid_view_manager.adapter = manageAdapter
-        grid_view_compus.onItemClickListener = AdapterView.OnItemClickListener {
+        grid_view_campus.onItemClickListener = AdapterView.OnItemClickListener {
             _, _, position, _ -> onClickGridViewItem(0, position) }
         grid_view_tech.onItemClickListener = AdapterView.OnItemClickListener {
             _, _, position, _ -> onClickGridViewItem(1, position) }
@@ -62,7 +77,7 @@ class BlockFragment: BaseFragment() {
     }
 
 
-    private fun compusGridList(): List<Map<String, Any>> {
+    private fun campusGridList(): List<Map<String, Any>> {
         val gridList = ArrayList<Map<String, Any>>()
         val titles = arrayOf(
                 "就业创业", "学术交流", "出国留学",
@@ -153,9 +168,41 @@ class BlockFragment: BaseFragment() {
         return gridList
     }
 
+    /**
+     * 根据点击的结果跳转页面
+     * 如果用户的行为是要发表帖子，那么newPost为true，将fid传过去即可
+     * 如果用户的行为是要查看板块的帖子，则将fid和相应的标题传过去
+     * 因为gridView的List包含Map，为了获取其中的标题，采用逆向获取字符串的方式
+     *  **List()[position].values.last().toString()
+     * @param group 所选择的分组
+     * @param position 选项在分组中的位置
+     */
     private fun onClickGridViewItem(group: Int, position: Int) {
-        mParentFragment = parentFragment as BaseFragment
-        start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
-                showBottomBarOnDestroy = true))
+        if (newPost) {
+            startWithPop(PostEditFragment
+                    .newInstance(fid = BlockUtils.getBlockIdByPosition(group, position)))
+
+        } else {
+            mParentFragment = parentFragment as BaseFragment
+            start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
+                    title = when(group) {
+                        0 -> campusGridList()[position].values.last().toString()
+                        1 -> techGridList()[position].values.last().toString()
+                        2 -> playGridList()[position].values.last().toString()
+                        3 -> marketGridList()[position].values.last().toString()
+                        4 -> manageGridList()[position].values.last().toString()
+                        else -> ""
+                    }, showBottomBarOnDestroy = true))
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(newPost: Boolean) =
+                BlockFragment().apply {
+                    arguments = Bundle().apply {
+                        putBoolean(NEW_POST, newPost)
+                    }
+                }
     }
 }

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.utils
+package com.febers.uestc_bbs.view.utils
 
 import android.content.Context
 import android.content.Intent

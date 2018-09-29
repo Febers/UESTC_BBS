@@ -1,35 +1,43 @@
 package com.febers.uestc_bbs.module.more
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adapter.ThemeAdapter
-import com.febers.uestc_bbs.base.FID
-import com.febers.uestc_bbs.base.BaseSwipeFragment
-import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
+import com.febers.uestc_bbs.base.BaseCode
+import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.BaseSwipeActivity
 import com.febers.uestc_bbs.entity.ThemeItemBean
+import com.febers.uestc_bbs.utils.AttrUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.ThemeUtils
-import kotlinx.android.synthetic.main.fragment_theme.*
+import com.febers.uestc_bbs.view.adapter.ThemeAdapter
+import kotlinx.android.synthetic.main.activity_theme.*
+import org.greenrobot.eventbus.EventBus
 
-class ThemeFragment : BaseSwipeFragment() {
+class ThemeActivity : BaseSwipeActivity() {
+
+    override fun setView(): Int {
+        return R.layout.activity_theme
+    }
 
     override fun setToolbar(): Toolbar? {
         return toolbar_theme
     }
 
-    override fun setContentView(): Int {
-        return R.layout.fragment_theme
+    override fun initView() {
+        val themeAdapter = ThemeAdapter(this, initThemeList(), false)
+        themeAdapter.setOnItemClickListener { viewHolder, themeItemBean, i ->  reChooseTheme(themeItemBean, i)}
+        recyclerview_theme.layoutManager = LinearLayoutManager(this)
+        recyclerview_theme.adapter = themeAdapter
     }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
-
-        val themeAdapter = ThemeAdapter(context!!, initThemeList(), false)
-        themeAdapter.setOnItemClickListener { viewHolder, themeItemBean, i ->  reChooseTheme(i)}
-        recyclerview_theme.layoutManager = LinearLayoutManager(context)
-        recyclerview_theme.adapter = themeAdapter
+    private fun reChooseTheme(themeItemBean: ThemeItemBean, position: Int) {
+        if (themeItemBean.itemUsing) {
+            return
+        }
+        ThemeUtils.saveTheme(position)
+        EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, ThemeItemBean()))
+        recreate()
     }
 
     private fun initThemeList(): List<ThemeItemBean> {
@@ -41,24 +49,11 @@ class ThemeFragment : BaseSwipeFragment() {
         val item6 = ThemeItemBean(R.drawable.ic_circle_purple, getString(R.string.theme_purple), false)
         val item7 = ThemeItemBean(R.drawable.ic_circle_blue, getString(R.string.theme_blue), false)
         val item8 = ThemeItemBean(R.drawable.ic_circle_gray, getString(R.string.theme_gray), false)
-        val themeCode by PreferenceUtils(context = context!!, name = getString(R.string.sp_theme_code), default = 1)
+        val themeCode by PreferenceUtils(this, name = getString(R.string.sp_theme_code), default = 1)
         return listOf(item1, item2, item3, item4, item5, item6, item7, item8).apply {
             get(themeCode).itemUsing = true
         }
     }
 
-    private fun reChooseTheme(position: Int) {
-        ThemeUtils.saveTheme(position)
-        activity?.recreate()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(showBottomBarOnDestroy: Boolean) =
-                ThemeFragment().apply {
-                    arguments = Bundle().apply {
-                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-                    }
-                }
-    }
+    override fun noStatusBar(): Boolean = true
 }

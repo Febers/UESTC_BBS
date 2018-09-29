@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.post.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
@@ -13,17 +12,16 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
+import com.febers.uestc_bbs.view.utils.ViewClickUtils.clickToPostDetail
 import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.jetbrains.anko.runOnUiThread
 
 class PListFragment: BaseSwipeFragment(), PListContract.View {
 
-    private val PListList: MutableList<SimplePListBean> = ArrayList()
+    private val postList: MutableList<SimplePListBean> = ArrayList()
     private lateinit var postSimpleAdapter: PostSimpleAdapter
-    private var pListPresenter:
-            PListContract.Presenter = PListPresenterImpl(this)
+    private lateinit var pListPresenter: PListContract.Presenter
+    private var title = "板块名称"
     private var page: Int = 1
 
     override fun setToolbar(): Toolbar? {
@@ -31,8 +29,16 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     }
 
     override fun setContentView(): Int {
-        postSimpleAdapter = PostSimpleAdapter(context!!, PListList, true)
+        arguments?.let {
+            title = it.getString("title")
+        }
         return R.layout.fragment_post_list
+    }
+
+    override fun initView() {
+        pListPresenter = PListPresenterImpl(this)
+        postSimpleAdapter = PostSimpleAdapter(context!!, postList, true)
+        toolbar_post_list.title = title
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
@@ -95,10 +101,11 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     companion object {
         @JvmStatic
-        fun newInstance(fid: String, showBottomBarOnDestroy: Boolean) =
+        fun newInstance(fid: String, title: String, showBottomBarOnDestroy: Boolean) =
                 PListFragment().apply {
                     arguments = Bundle().apply {
                         putString(FID, fid)
+                        putString("title", title)
                         putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }

@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.utils
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.MyApplication
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.base.DEFAULT_THEME_CODE
 
 const val MY_THEME_GREEN = 0
