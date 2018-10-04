@@ -81,8 +81,7 @@ class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
                     pageSize = COMMON_PAGE_SIZE)
         }
         //版块里的帖子
-        return pListRequest.normalPosts(accessToken = getUser().token,
-                accessSecret = getUser().secrete,
+        return pListRequest.normalPosts(
                 boardId = mFid,
                 page = mPage,
                 pageSize = COMMON_PAGE_SIZE,

@@ -50,29 +50,25 @@ class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseMod
         val userPostRequest = getRetrofit().create(UserInterface::class.java)
         return when(mType) {
             USER_START_POST -> {
-                userPostRequest.getUserStartPList(accessToken = getUser().token,
-                        accessSecret = getUser().secrete,
+                userPostRequest.getUserStartPList(
                         uid = mUid,
                         page = mPage,
                         pageSize = COMMON_PAGE_SIZE)
             }
             USER_REPLY_POST -> {
-                userPostRequest.getUserReplyPList(accessToken = getUser().token,
-                        accessSecret = getUser().secrete,
+                userPostRequest.getUserReplyPList(
                         uid = mUid,
                         page = mPage,
                         pageSize = COMMON_PAGE_SIZE)
             }
             USER_FAV_POST -> {
-                userPostRequest.getUserFavPList(accessToken = getUser().token,
-                        accessSecret = getUser().secrete,
+                userPostRequest.getUserFavPList(
                         uid = mUid,
                         page = mPage,
                         pageSize = COMMON_PAGE_SIZE)
             }
             else -> {
-                userPostRequest.getUserStartPList(accessToken = getUser().token,
-                        accessSecret = getUser().secrete,
+                userPostRequest.getUserStartPList(
                         uid = mUid,
                         page = mPage,
                         pageSize = COMMON_PAGE_SIZE)

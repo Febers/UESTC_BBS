@@ -26,8 +26,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
 
     private fun getPost() {
         val postRequest = getRetrofit().create(PostInterface::class.java)
-        val call = postRequest.getPostDetail(accessToken = getUser().token,
-                accessSecret = getUser().secrete,
+        val call = postRequest.getPostDetail(
                 topicId = mPostId,
                 authorId = mAuthorId,
                 order = mOrder,

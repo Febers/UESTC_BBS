@@ -10,7 +10,6 @@ import retrofit2.http.POST
 interface SearchInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_SEARCH_URL)
-    fun getSearchPost(@Field("accessToken")accessToken: String, @Field("accessSecret")accessSecret: String,
-                         @Field("keyword")keyword: String, @Field("page")page :String,
-                         @Field("pageSize")pageSize: String) : Call<SearchPostBean>
+    fun getSearchPost(@Field("keyword")keyword: String, @Field("page")page :String,
+                      @Field("pageSize")pageSize: String) : Call<SearchPostBean>
 }

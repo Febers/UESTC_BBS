@@ -29,3 +29,6 @@ const val USER_REPLY_POST = "-10"
 const val USER_FAV_POST = "-11"
 
 const val SP_USERS = "users"
+
+const val ITEM_AUTHOR_ONLY = 0
+const val ITEM_ORDER_POSITIVE = 1

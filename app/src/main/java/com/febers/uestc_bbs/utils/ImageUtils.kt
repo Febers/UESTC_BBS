@@ -1,10 +1,12 @@
-package com.febers.uestc_bbs.view.utils
+package com.febers.uestc_bbs.utils
 
 import android.content.Context
 import android.widget.ImageView
 
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.view.utils.GlideCircleTransform
+import com.febers.uestc_bbs.view.utils.GlideImageGetter
 
 object ImageLoader {
 
@@ -33,9 +35,13 @@ object ImageLoader {
                         }
                     }
                     .placeholder(placeImage)
+                    .error(R.mipmap.ic_default_avatar)
                     .crossFade().into(imageView)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+        imageView?.setOnClickListener {
+            ViewClickUtils.clickToImgBig(url, context)
         }
     }
 
@@ -47,6 +53,9 @@ object ImageLoader {
                     .crossFade().into(viewTarget)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+        viewTarget.view.setOnClickListener {
+            ViewClickUtils.clickToImgBig(url, context)
         }
     }
 }

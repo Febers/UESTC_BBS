@@ -10,6 +10,8 @@ data class MoreItemBean(var itemName: String, var itemIcon: Int)
 
 data class DetailItemBean(var itemParam: String, var itemValue: String?)
 
+data class OptionItemBean(var itemName: String, var itemIcon: Int)
+
 data class ThemeItemBean(var itemColor: Int = 0, var itemName: String = "", var itemUsing: Boolean = false)
 
 

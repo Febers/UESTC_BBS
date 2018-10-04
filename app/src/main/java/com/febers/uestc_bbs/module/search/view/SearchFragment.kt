@@ -1,27 +1,22 @@
 package com.febers.uestc_bbs.module.search.view
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
-import android.util.Log.i
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.EditText
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
-import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.search.presenter.SearchContrect
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
-import com.febers.uestc_bbs.utils.KeyBoardUtils
 import com.febers.uestc_bbs.view.adapter.SearchAdapter
-import com.febers.uestc_bbs.view.utils.ViewClickUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 

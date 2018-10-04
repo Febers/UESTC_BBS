@@ -31,10 +31,15 @@
         <activity android:name=".module.post.view.PostDetailActivity" />
         <activity
             android:name=".module.post.view.PostEditActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-        <activity android:name=".module.more.ThemeActivity">
-        </activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".module.more.ThemeActivity" />
+        <activity android:name=".module.message.view.PMDetailActivity" />
+
+        <service
+            android:name="com.febers.uestc_bbs.module.service.MsgHeartService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

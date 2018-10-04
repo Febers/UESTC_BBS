@@ -13,24 +13,26 @@ import android.support.v7.widget.LinearLayoutManager
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
-import com.febers.uestc_bbs.module.message.presenter.MsgContract
+import com.febers.uestc_bbs.module.message.presenter.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
-import com.febers.uestc_bbs.view.utils.ViewClickUtils.clickToPostDetail
-import com.febers.uestc_bbs.view.utils.ViewClickUtils.clickToUserDetail
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPM
 import com.febers.uestc_bbs.view.adapter.*
 import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_message.*
 
 /**
- * 帖子回复
+ * 消息列表的Fragment，分为四种类型
+ * 依次为帖子回复、私信、At和系统消息
  */
-class MessageFragment : BaseFragment(), MsgContract.View {
+class MessageFragment : BaseFragment(), MessageContract.View {
 
     private val replyList: MutableList<MsgReplyBean.ListBean> = ArrayList()
     private val privateList: MutableList<MsgPrivateBean.BodyBean.ListBean> = ArrayList()
     private val atList: MutableList<MsgAtBean.ListBean> = ArrayList()
     private val systemList: MutableList<MsgSystemBean.BodyBean.DataBean> = ArrayList()
-    private lateinit var msgPresenter: MsgContract.Presenter
+    private lateinit var messagePresenter: MessageContract.Presenter
     private lateinit var msgAdapter: MsgBaseAdapter
     private var page = 1
 
@@ -39,7 +41,7 @@ class MessageFragment : BaseFragment(), MsgContract.View {
     }
 
     override fun initView() {
-        msgPresenter = MsgPresenterImpl(this)
+        messagePresenter = MsgPresenterImpl(this)
         when(mMsgType) {
             MSG_TYPE_REPLY -> msgAdapter = MsgReplyAdapter(context!!, replyList, false).apply {
                 recyclerview_sub_message.adapter = this
@@ -51,6 +53,7 @@ class MessageFragment : BaseFragment(), MsgContract.View {
             }
             MSG_TYPE_PRIVATE -> msgAdapter = MsgPrivateAdapter(context!!, privateList, false).apply {
                 recyclerview_sub_message.adapter = this
+                setOnItemClickListener { viewHolder, listBean, i -> clickToPM(context, activity, listBean.toUserId.toString()) }
             }
             MSG_TYPE_AT -> msgAdapter = MsgAtAdapter(context!!, atList, false).apply {
                 recyclerview_sub_message.adapter = this
@@ -84,7 +87,7 @@ class MessageFragment : BaseFragment(), MsgContract.View {
     }
 
     private fun getMsg(page: Int) {
-        msgPresenter.msgRequest(type = mMsgType?: MSG_TYPE_PRIVATE, page = page)
+        messagePresenter.msgRequest(type = mMsgType?: MSG_TYPE_PRIVATE, page = page)
     }
 
     @UiThread

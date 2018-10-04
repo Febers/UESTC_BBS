@@ -4,17 +4,16 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.febers.uestc_bbs.R;
+import com.febers.uestc_bbs.utils.ImageLoader;
 
 import java.util.HashSet;
 import java.util.Set;

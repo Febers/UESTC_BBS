@@ -18,8 +18,6 @@ class SearchModelImpl(val searchPresenter: SearchContrect.Presenter): BaseModel(
     private fun getSearchPost() {
         val searchQuest = getRetrofit().create(SearchInterface::class.java)
         val call = searchQuest.getSearchPost(
-                accessSecret = getUser().secrete,
-                accessToken = getUser().token,
                 keyword = mKeyword,
                 page = mPage,
                 pageSize = COMMON_PAGE_SIZE

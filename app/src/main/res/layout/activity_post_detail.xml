@@ -42,13 +42,13 @@
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableNestedScrolling="false"
+        app:srlEnableNestedScrolling="true"
         app:srlAccentColor="@color/color_white"
-        app:srlPrimaryColor="?attr/colorPrimary"
-        android:paddingBottom="50dp">
+        app:srlPrimaryColor="?attr/colorPrimary">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageview,否则无法绘制-->
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view_post_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
@@ -160,8 +160,13 @@
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <include layout="@layout/layout_bottom_post_reply"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_post_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:src="@mipmap/ic_write_white"
+        app:pressedTranslationZ="8dp"
+        android:layout_margin="@dimen/fab_margin_right"
+        android:layout_gravity="end|bottom"/>
 </android.support.design.widget.CoordinatorLayout>

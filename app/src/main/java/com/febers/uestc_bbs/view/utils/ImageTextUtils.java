@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.febers.uestc_bbs.R;
 import com.febers.uestc_bbs.utils.AttrUtils;
+import com.febers.uestc_bbs.utils.ViewClickUtils;
 
 
 import static android.util.Log.i;

@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.base
 
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,6 +25,7 @@ open class BaseModel {
 
     protected fun getRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(ApiUtils.BBS_BASE_URL)
+            .client(TokenClient.get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 }

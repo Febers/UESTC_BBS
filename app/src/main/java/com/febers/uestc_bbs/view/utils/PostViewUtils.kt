@@ -16,6 +16,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SimpleContentBean
+import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
 
 
@@ -152,7 +154,7 @@ object PostContentViewUtils {
         return imageView.apply {
             layoutParams = marginLayoutParams
             setOnClickListener {
-                ViewClickUtils.imgClick(url = " ", context = ctx)
+                ViewClickUtils.clickToImgBig(url = " ", context = ctx)
             }
         }
     }

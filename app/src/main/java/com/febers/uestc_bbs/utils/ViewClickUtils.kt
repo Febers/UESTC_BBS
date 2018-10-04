@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.utils
+package com.febers.uestc_bbs.utils
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.net.Uri
 import android.support.v4.app.FragmentActivity
 import android.util.Log.i
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import org.greenrobot.eventbus.EventBus
@@ -31,7 +32,9 @@ object ViewClickUtils {
         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 
-    fun imgClick(url: String, context: Context) {
+    fun clickToImgBig(url: String?, context: Context?) {
+        url ?: return
+        context ?: return
         i("IMG", url)
     }
 
@@ -50,6 +53,15 @@ object ViewClickUtils {
         fid ?: return
         context.startActivity(Intent(activity, PostDetailActivity::class.java).apply {
             putExtra(FID, fid)
+        })
+    }
+
+    fun clickToPM(context: Context?, activity: FragmentActivity?, uid: String?) {
+        context ?: return
+        activity ?: return
+        uid ?: return
+        context.startActivity(Intent(activity, PMDetailActivity::class.java).apply {
+            putExtra(UID, uid)
         })
     }
 }

@@ -10,7 +10,7 @@ import android.content.Context
 import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostReplyBean
-import com.febers.uestc_bbs.view.utils.ImageLoader
+import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import com.othershe.baseadapter.ViewHolder

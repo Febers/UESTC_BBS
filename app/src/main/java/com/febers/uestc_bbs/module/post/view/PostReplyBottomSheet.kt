@@ -14,7 +14,7 @@ import android.view.WindowManager
 import com.febers.uestc_bbs.utils.KeyBoardUtils
 import kotlinx.android.synthetic.main.layout_bottom_sheet_reply.*
 
-class PostBottomSheet(context: Context, style: Int) : BottomSheetDialog(context, style) {
+class PostReplyBottomSheet(context: Context, style: Int) : BottomSheetDialog(context, style) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

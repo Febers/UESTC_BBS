@@ -4,6 +4,7 @@ import me.yokeyword.fragmentation_swipeback.core.ISwipeBackActivity
 import me.yokeyword.fragmentation.SwipeBackLayout
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.MenuItem
 import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
 
@@ -15,6 +16,10 @@ abstract class BaseSwipeActivity : BaseActivity(), ISwipeBackActivity {
 
     protected open fun setToolbar(): Toolbar? = null
 
+    protected open fun setMenu(): Int? {
+        return null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSwipeDelegate.onCreate(savedInstanceState)
@@ -22,6 +27,16 @@ abstract class BaseSwipeActivity : BaseActivity(), ISwipeBackActivity {
         swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
         setSupportActionBar(setToolbar())
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if (setMenu()!=null) {
+            setToolbar()!!.inflateMenu(setMenu()!!)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (setMenu()!=null) {
+            menuInflater.inflate(setMenu()!!, menu)
+        }
+        return true
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

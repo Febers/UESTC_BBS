@@ -23,10 +23,8 @@ import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.view.utils.ViewClickUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.runOnUiThread
 
 /**

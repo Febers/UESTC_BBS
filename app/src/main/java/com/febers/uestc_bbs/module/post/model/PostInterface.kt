@@ -16,8 +16,7 @@ import retrofit2.http.POST
 interface PostInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_POST_LIST_URL)
-    fun getPostDetail(@Field("accessToken")accessToken: String, @Field("accessSecret")accessSecret: String,
-                      @Field("topicId")topicId: String, @Field("authorId")authorId: String,
+    fun getPostDetail(@Field("topicId")topicId: String, @Field("authorId")authorId: String,
                       @Field("order")order: String, @Field("page")page :String,
                       @Field("pageSize")pageSize: String) : Call<PostResultBean>
 }

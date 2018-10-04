@@ -1,39 +1,47 @@
 package com.febers.uestc_bbs.module.post.view
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
-import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BaseSwipeActivity
-import com.febers.uestc_bbs.base.FID
+import com.febers.uestc_bbs.entity.OptionItemBean
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
+import com.febers.uestc_bbs.utils.ThemeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
+import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.activity_post_detail.*
-import kotlinx.android.synthetic.main.layout_bottom_post_reply.*
 
-class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
+class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickListener {
 
     private var replyList: MutableList<PostReplyBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
     private lateinit var replyItemAdapter: PostReplyItemAdapter
+    private lateinit var optionBottomSheet: PostOptionBottomSheet
+    private lateinit var replyBottomSheet: BottomSheetDialog
+    private lateinit var hideFAB: AnimatorSet
+    private lateinit var showFAB: AnimatorSet
     private var page = 1
     private var authorId = ""
     private var postId: String = "0"
-    private var order = ""
-    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private var orderPositive: Boolean = true
+    private var authorOnly: Boolean = false
+    private var drawFinish: Boolean = false
 
     override fun setView(): Int = R.layout.activity_post_detail
 
@@ -41,15 +49,19 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
         return toolbar_post_detail
     }
 
+    override fun setMenu(): Int? {
+        return R.menu.menu_post_detail
+    }
+
     override fun initView() {
         postId = intent.getStringExtra(FID)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false)
 
-        bottomSheetDialog = PostBottomSheet(this, R.style.PinkBottomSheetTheme)
-        bottomSheetDialog.setContentView(R.layout.layout_bottom_sheet_reply)
-
-        btn_reply.setOnClickListener { bottomSheetDialog.show() }
+        optionBottomSheet = PostOptionBottomSheet(this, R.style.PinkBottomSheetTheme, this)
+        replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme)
+        optionBottomSheet.setContentView(R.layout.layout_bottom_sheet_option)
+        replyBottomSheet.setContentView(R.layout.layout_bottom_sheet_reply)
 
         refresh_layout_post_detail.apply {
             setEnableLoadMore(false)
@@ -66,6 +78,20 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
             addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
         }
+
+        fab_post_detail.setOnClickListener {
+            if (drawFinish) {
+                replyBottomSheet.show()
+            }
+        }
+        scroll_view_post_detail?.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (scrollY - oldScrollY < -3) {
+                fab_post_detail.show()
+            }
+            if (scrollY - oldScrollY > 3) {
+                fab_post_detail.hide()
+            }
+        }
     }
 
     /*
@@ -81,14 +107,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
     @UiThread
     override fun showPost(event: BaseEvent<PostResultBean>) {
         if (event.code == BaseCode.FAILURE) {
-            if (event.data.rs == null) {
-                return
-            }
             onError(event.data.errcode!!)
             refresh_layout_post_detail?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)
             }
+            drawFinish = true
             return
         }
         refresh_layout_post_detail?.apply {
@@ -110,7 +134,6 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
             text_view_post_detail_author?.text = event.data.topic?.user_nick_name
             text_view_post_detail_author_title?.text = event.data.topic?.userTitle
             text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
-            btn_reply?.text = event.data.topic?.replies+"条评论"
             PostContentViewUtils.create(linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
         }
@@ -118,7 +141,37 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View {
         replyItemAdapter.notifyDataSetChanged()
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
-            return
         }
+        drawFinish = true
+    }
+
+    override fun onOptionItemSelect(position: Int) {
+        if (position == ITEM_AUTHOR_ONLY) {
+            authorOnly = !authorOnly
+            optionBottomSheet.hide()
+            //refresh
+        }
+        if (position == ITEM_ORDER_POSITIVE) {
+            orderPositive = !orderPositive
+            optionBottomSheet.hide()
+            //refresh
+        }
+    }
+
+    /**
+     * fab滑动消失和显示的动画，弃用
+     */
+    private fun initAnimation() {
+        hideFAB = AnimatorInflater.loadAnimator(this, R.animator.scroll_hide_fab) as AnimatorSet
+        showFAB = AnimatorInflater.loadAnimator(this, R.animator.scroll_show_fab) as AnimatorSet
+        hideFAB.setTarget(fab_post_detail)
+        showFAB.setTarget(fab_post_detail)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.item_post_detail_option && drawFinish) {
+            optionBottomSheet.show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

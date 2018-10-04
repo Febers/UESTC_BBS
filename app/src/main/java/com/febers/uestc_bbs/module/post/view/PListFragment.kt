@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.view.utils.ViewClickUtils.clickToPostDetail
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.jetbrains.anko.runOnUiThread
 
