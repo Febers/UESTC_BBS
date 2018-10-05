@@ -11,12 +11,15 @@ import android.support.v4.app.ActivityCompat
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import com.aurelhubert.ahbottomnavigation.notification.AHNotification
+import com.aurelhubert.ahbottomnavigation.notification.AHNotificationHelper
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.module.post.view.PostEditActivity
+import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.utils.AttrUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
@@ -62,12 +65,15 @@ class HomeActivity: BaseActivity() {
             accentColor = AttrUtils.getColor(this@HomeActivity, R.attr.colorAccent)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
         }
+        bottom_navigation_home.setNotification("1", 2)
         fab_home.setOnClickListener { startActivity(Intent(this@HomeActivity, PostEditActivity::class.java)) }
         fab_home.visibility = View.GONE
+        startService()
     }
 
 
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
+        bottom_navigation_home.setNotification("", 2)
         if (position == 0) fab_home.visibility = View.VISIBLE else fab_home.visibility = View.GONE
         if(wasSelected) {
             onTabReselected(position)
@@ -99,5 +105,10 @@ class HomeActivity: BaseActivity() {
         if (bottom_navigation_home.currentItem == 0) {
             fab_home.visibility = View.VISIBLE
         }
+    }
+
+    private fun startService() {
+        val intent = Intent(this, HeartMsgService::class.java)
+        startService(intent)
     }
 }

@@ -73,8 +73,8 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         }
         recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data))
         collapsing_toolbar_layout_detail?.title = event.data.name
-        ImageLoader.load(this, event.data.icon, image_view_detail_blur_avatar, isCircle = false, isBlur = true, noCache = true)
-        ImageLoader.load(this, event.data.icon, image_view_detail_avatar, isCircle = true, noCache = true)
+        ImageLoader.load(this, event.data.icon, image_view_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
+        ImageLoader.load(this, event.data.icon, image_view_detail_avatar, placeImage = null, isCircle = true, noCache = true)
 
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
@@ -92,8 +92,8 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         }
         recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItSelfItem())
         collapsing_toolbar_layout_detail?.title = userSimple.name
-        ImageLoader.load(this, userSimple.avatar, image_view_detail_blur_avatar, isCircle = false, isBlur = true, noCache = true)
-        ImageLoader.load(this, userSimple.avatar, image_view_detail_avatar, isCircle = true, noCache = true)
+        ImageLoader.load(this, userSimple.avatar, image_view_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
+        ImageLoader.load(this, userSimple.avatar, image_view_detail_avatar, placeImage = null, isCircle = true, noCache = true)
     }
 
     private fun initUserItSelfItem(): List<DetailItemBean> {
@@ -106,7 +106,7 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     }
 
     private fun initUserItem(user: UserDetailBean): List<DetailItemBean> {
-        val item1 = DetailItemBean("签名", if(user.sign.isNullOrEmpty()) "该用户签名未设置" else user.sign)
+        val item1 = DetailItemBean("签名", if(user.sign.isNullOrEmpty()) "该用户未设置签名" else user.sign)
         val item2 = DetailItemBean("性别", GenderUtils.change(user.gender.toString()))
         val item3 = DetailItemBean("等级", user.userTitle)
         val item4 = DetailItemBean("积分", user.score.toString())

@@ -37,7 +37,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <service
-            android:name=".module.service.MsgHeartService"
+            android:name=".module.service.HeartMsgService"
             android:enabled="true"
             android:exported="false">
         </service>

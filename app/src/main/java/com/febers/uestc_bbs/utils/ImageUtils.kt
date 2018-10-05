@@ -23,7 +23,7 @@ object ImageLoader {
      * @param placeImage 图片展示错误的本地图片 id
      */
     fun load(context: Context?, url: String?, imageView: ImageView?,
-             placeImage: Int = R.mipmap.ic_default_avatar,
+             placeImage: Int? = R.mipmap.ic_default_avatar,
              isCircle: Boolean = true,
              isBlur: Boolean = false,
              noCache: Boolean = false) {
@@ -39,7 +39,10 @@ object ImageLoader {
                         if (noCache) {
                             this.diskCacheStrategy(DiskCacheStrategy.NONE)
                         }
-                        this.placeholder(placeImage)
+                        if (placeImage != null) {
+                            this.placeholder(placeImage)
+                        }
+
                         this.error(R.mipmap.ic_default_avatar)
                         this.crossFade()
                     }
