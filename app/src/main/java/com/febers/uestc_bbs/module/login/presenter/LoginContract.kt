@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.module.login.presenter
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePresenter
 import com.febers.uestc_bbs.base.BaseView
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 
 interface LoginContract {
 
@@ -18,10 +18,10 @@ interface LoginContract {
     }
 
     interface View: BaseView {
-        fun loginResult(event: BaseEvent<UserBean>)
+        fun loginResult(event: BaseEvent<UserSimpleBean>)
     }
     abstract class Presenter(view: BaseView): BasePresenter<BaseView>(mView = view) {
         abstract fun loginRequest(userName: String, userPw: String)
-        abstract fun loginResult(event: BaseEvent<UserBean>)
+        abstract fun loginResult(event: BaseEvent<UserSimpleBean>)
     }
 }

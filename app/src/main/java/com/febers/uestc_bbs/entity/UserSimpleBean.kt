@@ -7,7 +7,7 @@
 package com.febers.uestc_bbs.entity
 
 
-data class UserBean (
+data class UserSimpleBean (
         var valid : Boolean = false,
         var msg: String = "",
         var name: String = "",
@@ -21,5 +21,6 @@ data class UserBean (
         var groupId: String = "",
         var mobile: String = "",
         var credits: String = "",
-        var extcredits2: String = ""
+        var extcredits2: String = "",
+        var sign: String = ""
 )

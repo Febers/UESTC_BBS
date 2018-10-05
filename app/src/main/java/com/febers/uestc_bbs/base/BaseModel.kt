@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.base
 
 import com.febers.uestc_bbs.MyApplication
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Retrofit
@@ -21,7 +21,7 @@ open class BaseModel {
     protected var mKeyword: String = ""
     protected var mType: String = ""
 
-    protected fun getUser(): UserBean = MyApplication.getUser()
+    protected fun getUser(): UserSimpleBean = MyApplication.getUser()
 
     protected fun getRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(ApiUtils.BBS_BASE_URL)

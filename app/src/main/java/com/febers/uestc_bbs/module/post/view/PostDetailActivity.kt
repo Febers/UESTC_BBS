@@ -20,8 +20,10 @@ import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
+import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ThemeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
@@ -56,8 +58,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
     override fun initView() {
         postId = intent.getStringExtra(FID)
         postPresenter = PostPresenterImpl(this)
-        replyItemAdapter = PostReplyItemAdapter(this, replyList, false)
-
+        replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
+            setOnItemClickListener { viewHolder, postReplyBean, i ->  }
+            setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
+                viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
+            }
+        }
         optionBottomSheet = PostOptionBottomSheet(this, R.style.PinkBottomSheetTheme, this)
         replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme)
         optionBottomSheet.setContentView(R.layout.layout_bottom_sheet_option)
@@ -72,7 +78,6 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             setOnLoadMoreListener {
                 getPost(postId, ++page) }
         }
-        replyItemAdapter.setLoadEndView(R.layout.layout_load_end)
         recyclerview_post_detail_replies.apply {
             layoutManager = LinearLayoutManager(this@PostDetailActivity)
             addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
@@ -123,13 +128,29 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
         if (page == 1) {
             //绘制主贴视图，否则只需要添加评论内容
             linear_layout_detail_divide?.visibility = View.VISIBLE
-            if (image_view_post_detail_author_avatar != null) {
-                image_view_post_detail_author_avatar.visibility = View.VISIBLE
-                if (!this.isDestroyed) {
-                    Glide.with(this).load(event.data.topic?.icon).transform(GlideCircleTransform(this))
-                            .into(image_view_post_detail_author_avatar)
+            image_view_post_detail_author_avatar?.let { it ->
+                it.visibility = View.VISIBLE
+                ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
+                it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id) }
+            }
+
+            image_view_post_fav?.let { it ->
+                it.visibility = View.VISIBLE
+                if (event.data.topic?.is_favor == POST_FAVORED) {
+                    it.setImageResource(R.mipmap.ic_star_yellow)
+                    it.setOnClickListener {
+                        image_view_post_fav.setImageResource(R.mipmap.ic_star_grey)
+                        //取消收藏
+                    }
+                } else {
+                    it.setImageResource(R.mipmap.ic_star_grey)
+                    it.setOnClickListener {
+                        image_view_post_fav.setImageResource(R.mipmap.ic_star_yellow)
+                        //收藏
+                    }
                 }
             }
+            toolbar_post_detail?.title = event.data.forumName
             text_view_post_detail_title?.text = event.data.topic?.title
             text_view_post_detail_author?.text = event.data.topic?.user_nick_name
             text_view_post_detail_author_title?.text = event.data.topic?.userTitle
@@ -149,13 +170,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
         if (position == ITEM_AUTHOR_ONLY) {
             authorOnly = !authorOnly
             optionBottomSheet.hide()
-            //refresh
         }
         if (position == ITEM_ORDER_POSITIVE) {
             orderPositive = !orderPositive
             optionBottomSheet.hide()
-            //refresh
         }
+        refresh_layout_post_detail.autoRefresh()
     }
 
     /**

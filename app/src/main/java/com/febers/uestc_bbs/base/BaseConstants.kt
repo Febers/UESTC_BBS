@@ -4,6 +4,7 @@ const val DEFAULT_THEME_CODE = 0
 
 const val REQUEST_SUCCESS_RS = 1
 const val HAVE_NEXT_PAGE = 1
+const val POST_FAVORED = 1
 const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
 const val SERVICE_RESPONSE_NULL = "服务器响应为空"
 
@@ -29,6 +30,9 @@ const val USER_REPLY_POST = "-10"
 const val USER_FAV_POST = "-11"
 
 const val SP_USERS = "users"
+const val USER_IT_SELF = "user_it_self"
+const val USER_ID = "uid"
+const val USER_NAME = "user_name"
 
 const val ITEM_AUTHOR_ONLY = 0
 const val ITEM_ORDER_POSITIVE = 1

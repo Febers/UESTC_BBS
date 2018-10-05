@@ -1,48 +1,121 @@
 package com.febers.uestc_bbs.module.user.view
 
-import android.support.v7.widget.DividerItemDecoration
+import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import com.bumptech.glide.Glide
+import android.util.Log.i
+import android.view.MenuItem
+import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
 import com.febers.uestc_bbs.MyApplication
-import com.febers.uestc_bbs.base.BaseSwipeActivity
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
-import com.febers.uestc_bbs.entity.UserBean
-import com.febers.uestc_bbs.view.utils.BlurTransformation
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
+import com.febers.uestc_bbs.entity.UserSimpleBean
+import com.febers.uestc_bbs.entity.UserDetailBean
+import com.febers.uestc_bbs.module.user.presenter.UserContract
+import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
+import com.febers.uestc_bbs.utils.GenderUtils
+import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.utils.ViewClickUtils
+import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.activity_user_detail.*
 
-class UserDetailActivity : BaseSwipeActivity() {
+class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
 
-    private lateinit var user: UserBean
+    private lateinit var userPresenter: UserContract.Presenter
+    private lateinit var userSimple: UserSimpleBean
+    private var userItSelf = false
+    private var userId: String? = ""
 
     override fun noStatusBar(): Boolean = true
+
+    override fun setMenu(): Int? {
+        if (userItSelf) {
+            return R.menu.menu_user_detail
+        }
+        return null
+    }
+
+    override fun setView(): Int {
+        userItSelf = intent.getBooleanExtra(USER_IT_SELF, false)
+        userId = intent.getStringExtra(USER_ID)
+        return R.layout.activity_user_detail
+    }
 
     override fun setToolbar(): Toolbar? {
         return toolbar_user_detail
     }
 
-    override fun setView(): Int {
-        return R.layout.activity_user_detail
-    }
-
     override fun initView() {
-        user = MyApplication.getUser()
-        recyclerview_detail_fragment.layoutManager = LinearLayoutManager(this)
-        recyclerview_detail_fragment.adapter = UserDetailAdapter(this, initItem(), false)
-        recyclerview_detail_fragment.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        Glide.with(this).load(user.avatar).transform(BlurTransformation(this)).into(image_view_detail_blur_avatar)
-        Glide.with(this).load(user.avatar).transform(GlideCircleTransform(this)).into(image_view_detail_avatar)
+        if (userItSelf) {
+            initUserItSelfView()
+            return
+        }
+        i("User", userId)
+        userPresenter = UserPresenterImpl(this)
+        refresh_layout_user_detail.apply {
+            autoRefresh()
+            setEnableLoadMore(false)
+            setOnRefreshListener { getUserDetail() }
+        }
     }
 
-    private fun initItem(): List<DetailItemBean> {
-        val item1 = DetailItemBean("名字", user.name)
-        val item2 = DetailItemBean("性别", user.gender)
-        val item3 = DetailItemBean("等级", user.title)
-        val item4 = DetailItemBean("积分", user.credits)
-        val item5 = DetailItemBean("水滴", user.extcredits2)
+    private fun getUserDetail() {
+        userPresenter.userDetailRequest(userId.toString())
+    }
+
+    override fun showUserDetail(event: BaseEvent<UserDetailBean>) {
+        if (event.code == BaseCode.FAILURE) {
+            refresh_layout_user_detail?.finishRefresh(false)
+            onError(event.data.errcode)
+            return
+        }
+        recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data))
+        collapsing_toolbar_layout_detail?.title = event.data.name
+        ImageLoader.load(this, event.data.icon, image_view_detail_blur_avatar, isCircle = false, isBlur = true, noCache = true)
+        ImageLoader.load(this, event.data.icon, image_view_detail_avatar, isCircle = true, noCache = true)
+
+        fab_user_detail?.let { it ->
+            it.visibility = View.VISIBLE
+            it.setOnClickListener { ViewClickUtils.clickToPM(this@UserDetailActivity, userId, event.data.name) }
+        }
+        linear_layout_user_post_start?.visibility = View.VISIBLE
+        linear_layout_user_post_reply?.visibility = View.VISIBLE
+        refresh_layout_user_detail?.finishRefresh()
+    }
+
+    private fun initUserItSelfView() {
+        userSimple = MyApplication.getUser()
+        refresh_layout_user_detail.apply {
+            isEnabled = false
+        }
+        recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItSelfItem())
+        collapsing_toolbar_layout_detail?.title = userSimple.name
+        ImageLoader.load(this, userSimple.avatar, image_view_detail_blur_avatar, isCircle = false, isBlur = true, noCache = true)
+        ImageLoader.load(this, userSimple.avatar, image_view_detail_avatar, isCircle = true, noCache = true)
+    }
+
+    private fun initUserItSelfItem(): List<DetailItemBean> {
+        val item1 = DetailItemBean("签名", if(userSimple.sign.isEmpty()) "签名未设置" else userSimple.sign)
+        val item2 = DetailItemBean("性别", GenderUtils.change(userSimple.gender))
+        val item3 = DetailItemBean("等级", userSimple.title)
+        val item4 = DetailItemBean("积分", userSimple.credits)
+        val item5 = DetailItemBean("水滴", userSimple.extcredits2)
         return arrayListOf(item1, item2, item3, item4, item5)
+    }
+
+    private fun initUserItem(user: UserDetailBean): List<DetailItemBean> {
+        val item1 = DetailItemBean("签名", if(user.sign.isNullOrEmpty()) "该用户签名未设置" else user.sign)
+        val item2 = DetailItemBean("性别", GenderUtils.change(user.gender.toString()))
+        val item3 = DetailItemBean("等级", user.userTitle)
+        val item4 = DetailItemBean("积分", user.score.toString())
+        val item5 = DetailItemBean("水滴", user.gold_num.toString())
+        return arrayListOf(item1, item2, item3, item4, item5)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        startActivity(Intent(this, UserEditActivity::class.java))
+        return super.onOptionsItemSelected(item)
     }
 }

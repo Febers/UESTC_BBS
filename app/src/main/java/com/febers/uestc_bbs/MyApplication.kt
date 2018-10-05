@@ -9,7 +9,7 @@ package com.febers.uestc_bbs
 import android.app.Application
 import android.content.Context
 import com.febers.uestc_bbs.dao.UserStore
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -27,7 +27,7 @@ class MyApplication: Application() {
     companion object {
         private var context: Context by Delegates.notNull()
         fun context() = context
-        fun getUser(): UserBean {
+        fun getUser(): UserSimpleBean {
             val uid by PreferenceUtils(context, context.getString(R.string.sp_user_uid), "")
             return UserStore.get(uid)
         }

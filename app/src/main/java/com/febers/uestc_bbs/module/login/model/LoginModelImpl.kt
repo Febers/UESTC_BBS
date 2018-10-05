@@ -11,7 +11,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.LoginResultBean
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import retrofit2.Call
@@ -20,7 +20,7 @@ import retrofit2.Response
 
 class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), LoginContract.Model {
 
-    private val mUser: UserBean = UserBean()
+    private val mUserSimple: UserSimpleBean = UserSimpleBean()
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
     private val mContext = MyApplication.context()
@@ -42,15 +42,15 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
                 isValidation = "")
         call.enqueue(object : Callback<LoginResultBean> {
             override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
-                mUser.msg = SERVICE_RESPONSE_ERROR + t.toString()
-                loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUser))
+                mUserSimple.msg = SERVICE_RESPONSE_ERROR + t.toString()
+                loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUserSimple))
             }
 
             override fun onResponse(call: Call<LoginResultBean>?, response: Response<LoginResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    mUser.msg = SERVICE_RESPONSE_NULL
-                    loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUser))
+                    mUserSimple.msg = SERVICE_RESPONSE_NULL
+                    loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUserSimple))
                     return
                 }
                 resolveLoginResult(body)
@@ -61,26 +61,26 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
     private fun resolveLoginResult(loginResultBean: LoginResultBean) {
         val rs = loginResultBean.rs
         if (rs != REQUEST_SUCCESS_RS ) {
-            mUser.msg = loginResultBean.head.errInfo
-            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUser))
+            mUserSimple.msg = loginResultBean.head.errInfo
+            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUserSimple))
             return
         }
-        mUser.name = loginResultBean.userName
-                mUser.uid = loginResultBean.uid
-                mUser.title = loginResultBean.userTitle
-        mUser.gender = loginResultBean.gender
-        mUser.token = loginResultBean.token
-        mUser.secrete = loginResultBean.secret
-        mUser.avatar = loginResultBean.avatar
-        mUser.credits = loginResultBean.creditShowList[0].data
-        mUser.extcredits2 = loginResultBean.creditShowList[1].data
-        mUser.groupId = loginResultBean.groupid
-        mUser.mobile = loginResultBean.mobile
-        mUser.valid = true
+        mUserSimple.name = loginResultBean.userName
+                mUserSimple.uid = loginResultBean.uid
+                mUserSimple.title = loginResultBean.userTitle
+        mUserSimple.gender = loginResultBean.gender
+        mUserSimple.token = loginResultBean.token
+        mUserSimple.secrete = loginResultBean.secret
+        mUserSimple.avatar = loginResultBean.avatar
+        mUserSimple.credits = loginResultBean.creditShowList[0].data
+        mUserSimple.extcredits2 = loginResultBean.creditShowList[1].data
+        mUserSimple.groupId = loginResultBean.groupid
+        mUserSimple.mobile = loginResultBean.mobile
+        mUserSimple.valid = true
 
-        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUser))
+        loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
         var uid by PreferenceUtils(mContext, mContext.getString(R.string.sp_user_uid), "")
         uid = loginResultBean.uid
-        UserStore.save(uid, mUser)
+        UserStore.save(uid, mUserSimple)
     }
 }

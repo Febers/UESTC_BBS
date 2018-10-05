@@ -9,30 +9,30 @@ package com.febers.uestc_bbs.dao
 import android.content.Context
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.base.SP_USERS
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.google.gson.Gson
 
 object UserStore {
 
-    fun save(uid: String, user: UserBean) {
+    fun save(uid: String, userSimple: UserSimpleBean) {
         context().getSharedPreferences(SP_USERS, 0).edit().apply {
             val gson = Gson()
-            val json: String = gson.toJson(user)
+            val json: String = gson.toJson(userSimple)
             putString(uid, json)
             apply()
         }
     }
 
-    fun get(uid: String) : UserBean {
+    fun get(uid: String) : UserSimpleBean {
         try {
             with(context().getSharedPreferences(SP_USERS, 0)) {
                 val gson = Gson()
                 val json: String = this.getString(uid, "")
-                return gson.fromJson(json, UserBean::class.java)
+                return gson.fromJson(json, UserSimpleBean::class.java)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            return UserBean()
+            return UserSimpleBean()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -43,7 +44,26 @@ object ViewClickUtils {
         activity ?: return
         uid ?: return
         context.startActivity(Intent(activity, UserDetailActivity::class.java).apply {
-            putExtra(UID, uid)
+            putExtra(USER_IT_SELF, false)
+            putExtra(USER_ID, uid)
+        })
+    }
+
+    fun clickToUserDetail(activity: FragmentActivity?, uid: String?) {
+        activity ?: return
+        uid ?: return
+        activity.startActivity(Intent(activity, UserDetailActivity::class.java).apply {
+            putExtra(USER_IT_SELF, false)
+            putExtra(USER_ID, uid)
+        })
+    }
+
+    fun clickToUserDetail(activity: Activity?, uid: String?) {
+        activity ?: return
+        uid ?: return
+        activity.startActivity(Intent(activity, UserDetailActivity::class.java).apply {
+            putExtra(USER_IT_SELF, false)
+            putExtra(USER_ID, uid)
         })
     }
 
@@ -56,12 +76,24 @@ object ViewClickUtils {
         })
     }
 
-    fun clickToPM(context: Context?, activity: FragmentActivity?, uid: String?) {
+    fun clickToPM(context: Context?, activity: FragmentActivity?, uid: String?, userName: String?) {
         context ?: return
         activity ?: return
         uid ?: return
+        userName ?: return
         context.startActivity(Intent(activity, PMDetailActivity::class.java).apply {
-            putExtra(UID, uid)
+            putExtra(USER_ID, uid)
+            putExtra(USER_NAME, userName)
+        })
+    }
+
+    fun clickToPM(activity: Activity?, uid: String?, userName: String?) {
+        activity ?: return
+        uid ?: return
+        userName ?: return
+        activity.startActivity(Intent(activity, PMDetailActivity::class.java).apply {
+            putExtra(USER_ID, uid)
+            putExtra(USER_NAME, userName)
         })
     }
 }

@@ -7,7 +7,6 @@
 package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log.i
@@ -17,9 +16,8 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
-import com.febers.uestc_bbs.module.post.view.PostEditActivity
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.module.user.view.UserPListFragment
@@ -44,7 +42,7 @@ class MoreFragment: BaseFragment() {
     private val THEME_ITEM = 0
     private val SETTING_ITEM = 1
 
-    private lateinit var user: UserBean
+    private lateinit var userSimple: UserSimpleBean
     private lateinit var mParentFragment: BaseFragment
     override fun registerEventBus(): Boolean = true
 
@@ -53,7 +51,7 @@ class MoreFragment: BaseFragment() {
     }
 
     override fun initView() {
-        user = MyApplication.getUser()
+        userSimple = MyApplication.getUser()
         mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
 
@@ -69,11 +67,11 @@ class MoreFragment: BaseFragment() {
         more_fragment_recyclerview_2.adapter = moreItemAdapter2
         more_fragment_recyclerview_2.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
-        if (user.valid) {
-            text_view_fragment_user_name.text = user.name
-            text_view_fragment_user_title.text = user.title
+        if (userSimple.valid) {
+            text_view_fragment_user_name.text = userSimple.name
+            text_view_fragment_user_title.text = userSimple.title
         }
-        Glide.with(this).load(user.avatar).transform(GlideCircleTransform(context))
+        Glide.with(this).load(userSimple.avatar).transform(GlideCircleTransform(context))
                 .placeholder(R.mipmap.ic_default_avatar)
                 .into(image_view_fragment_user_avatar)
     }
@@ -95,20 +93,20 @@ class MoreFragment: BaseFragment() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSeccess(event: BaseEvent<UserBean>) {
+    fun onLoginSeccess(event: BaseEvent<UserSimpleBean>) {
         i("MORE", "")
         text_view_fragment_user_name.text = event.data.name
         text_view_fragment_user_title.text = event.data.title
-        Glide.with(this).load(user.avatar).placeholder(R.mipmap.ic_launcher)
+        Glide.with(this).load(userSimple.avatar).placeholder(R.mipmap.ic_launcher)
                 .transform(GlideCircleTransform(context))
                 .into(image_view_fragment_user_avatar)
-        user = event.data
+        userSimple = event.data
     }
 
     private fun itemClick(view: Int, position: Int) {
         if (view == FIRST_ITEM_VIEW) {
             if (MyApplication.getUser().valid) {
-                startActivity(Intent(activity, UserDetailActivity::class.java))
+                startActivity(Intent(activity, UserDetailActivity::class.java).apply { putExtra(USER_IT_SELF, true) })
             } else {
                 mParentFragment.start(LoginFragment.newInstance(true))
             }
@@ -116,15 +114,15 @@ class MoreFragment: BaseFragment() {
         }
         if (view == SECOND_ITEM_VIEW) {
             if (position == USER_POST_ITEM) {
-                mParentFragment.start(UserPListFragment.newInstance(user.uid, type = USER_START_POST, showBottomBarOnDestroy = true))
+                mParentFragment.start(UserPListFragment.newInstance(userSimple.uid, type = USER_START_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_REPLY_ITEM) {
-                mParentFragment.start(UserPListFragment.newInstance(user.uid, type = USER_REPLY_POST, showBottomBarOnDestroy = true))
+                mParentFragment.start(UserPListFragment.newInstance(userSimple.uid, type = USER_REPLY_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_FAV_ITEM) {
-                mParentFragment.start(UserPListFragment.newInstance(user.uid, type = USER_FAV_POST, showBottomBarOnDestroy = true))
+                mParentFragment.start(UserPListFragment.newInstance(userSimple.uid, type = USER_FAV_POST, showBottomBarOnDestroy = true))
                 return
             }
             if (position == USER_FRIEND_ITEM) {

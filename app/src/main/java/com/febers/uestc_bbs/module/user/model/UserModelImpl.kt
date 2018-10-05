@@ -3,24 +3,30 @@ package com.febers.uestc_bbs.module.user.model
 import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.PostStore
+import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPListBean
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseModel(), UserContract.Model {
+class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(), UserContract.Model {
 
     override fun userPListService(uid: String, type: String, page: String) {
         mUid = uid
         mPage = page
         mType = type
-        Thread(Runnable { getUserPost() }).start()
+        Thread(Runnable { getUserPList() }).start()
         //Thread(Runnable { getSavedPList() }).start()
     }
 
-    private fun getUserPost() {
-        getCall().enqueue(object : Callback<UserPListBean> {
+    override fun userDetailService(uid: String) {
+        mUid = uid
+        Thread(Runnable { getUserDetail() }).start()
+    }
+
+    private fun getUserPList() {
+        getUserPListCall().enqueue(object : Callback<UserPListBean> {
             override fun onFailure(call: Call<UserPListBean>?, t: Throwable?) {
                 presenter.userPListResult(BaseEvent(BaseCode.FAILURE, UserPListBean()
                         .apply { errcode = SERVICE_RESPONSE_ERROR + t.toString() }))
@@ -46,7 +52,31 @@ class UserPListModelImpl(private val presenter: UserContract.Presenter): BaseMod
         })
     }
 
-    private fun getCall(): Call<UserPListBean> {
+    private fun getUserDetail() {
+        getRetrofit().create(UserInterface::class.java)
+                .getUserDetail(userId = mUid)
+                .enqueue(object : Callback<UserDetailBean> {
+                    override fun onFailure(call: Call<UserDetailBean>, t: Throwable) {
+                        presenter.userDetailResult(BaseEvent(BaseCode.FAILURE, UserDetailBean().apply {
+                            errcode = SERVICE_RESPONSE_ERROR + t.toString()
+                        }))
+                    }
+
+                    override fun onResponse(call: Call<UserDetailBean>, response: Response<UserDetailBean>) {
+                        val userDetailBean = response?.body()
+                        if (userDetailBean == null) {
+                            presenter.userDetailResult(BaseEvent(BaseCode.FAILURE, UserDetailBean().apply {
+                                errcode = SERVICE_RESPONSE_NULL
+                            }))
+                            return
+                        }
+                        presenter.userDetailResult(BaseEvent(BaseCode.SUCCESS, userDetailBean))
+                    }
+                })
+    }
+
+
+    private fun getUserPListCall(): Call<UserPListBean> {
         val userPostRequest = getRetrofit().create(UserInterface::class.java)
         return when(mType) {
             USER_START_POST -> {

@@ -68,7 +68,12 @@ object ApiUtils {
 
     const val BBS_USER_FAV_URL = "mobcent/app/web/index.php?r=user/topiclist&type=favorite"
 
+    /**
+     * 获取用户详细信息
+     * uid 用户id
+     */
 
+    const val BBS_USER_INFO_URL = "mobcent/app/web/index.php?r=user/userinfo"
     /**
      * 获取版块列表。
         fid 可选。获取指定版块的子版块。

@@ -53,18 +53,23 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             }
             MSG_TYPE_PRIVATE -> msgAdapter = MsgPrivateAdapter(context!!, privateList, false).apply {
                 recyclerview_sub_message.adapter = this
-                setOnItemClickListener { viewHolder, listBean, i -> clickToPM(context, activity, listBean.toUserId.toString()) }
+                setOnItemClickListener { viewHolder, listBean, i -> clickToPM(context, activity, listBean.toUserId.toString(), listBean.toUserName) }
+                setOnItemChildClickListener(R.id.image_view_msg_private_author_avatar) {
+                    viewHolder, listBean, i -> clickToUserDetail(activity, listBean.toUserId.toString())
+                }
             }
             MSG_TYPE_AT -> msgAdapter = MsgAtAdapter(context!!, atList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
                     clickToPostDetail(context, activity, listBean.topic_id.toString())}
+                setOnItemChildClickListener(R.id.image_view_msg_at_author_avatar) {
+                    viewHolder, listBean, i -> clickToUserDetail(activity, listBean.user_id.toString())
+                }
             }
             MSG_TYPE_SYSTEM -> msgAdapter = MsgSystemAdapter(context!!, systemList, false).apply {
                 recyclerview_sub_message.adapter = this
             }
         }
-
         recyclerview_sub_message.apply {
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))

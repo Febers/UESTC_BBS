@@ -52,6 +52,6 @@ class PostOptionBottomSheet(context: Context, style: Int, val itemClickListener:
                 OptionItemBean(if (orderPositive)"倒序查看" else "正序查看",
                         if (orderPositive)R.drawable.ic_order_navi_green_24dp else R.drawable.ic_order_posi_green_24dp),
                 OptionItemBean("Web版", R.drawable.ic_web_purple_24dp),
-                OptionItemBean("复制链接", R.drawable.ic_copy_red_24dp))
+                OptionItemBean("复制链接", R.drawable.ic_link_orange_24dp))
     }
 }

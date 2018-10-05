@@ -4,7 +4,9 @@ import android.content.Context
 import android.widget.ImageView
 
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.view.utils.BlurTransformation
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import com.febers.uestc_bbs.view.utils.GlideImageGetter
 
@@ -23,7 +25,8 @@ object ImageLoader {
     fun load(context: Context?, url: String?, imageView: ImageView?,
              placeImage: Int = R.mipmap.ic_default_avatar,
              isCircle: Boolean = true,
-             isBlur: Boolean = false) {
+             isBlur: Boolean = false,
+             noCache: Boolean = false) {
         try {
             Glide.with(context).load(url)
                     .apply {
@@ -31,12 +34,16 @@ object ImageLoader {
                             this.transform(GlideCircleTransform(context))
                         }
                         if (isBlur) {
-
+                            this.transform(BlurTransformation(context))
                         }
+                        if (noCache) {
+                            this.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        }
+                        this.placeholder(placeImage)
+                        this.error(R.mipmap.ic_default_avatar)
+                        this.crossFade()
                     }
-                    .placeholder(placeImage)
-                    .error(R.mipmap.ic_default_avatar)
-                    .crossFade().into(imageView)
+                    .into(imageView)
         } catch (e: Exception) {
             e.printStackTrace()
         }

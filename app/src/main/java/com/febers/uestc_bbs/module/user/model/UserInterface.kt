@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.user.model
 
+import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPListBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
@@ -22,4 +23,8 @@ interface UserInterface {
     @POST(ApiUtils.BBS_USER_FAV_URL)
     fun getUserFavPList(@Field("uid")uid: String, @Field("page")page :String,
                         @Field("pageSize")pageSize: String) : Call<UserPListBean>
+
+    @FormUrlEncoded
+    @POST(ApiUtils.BBS_USER_INFO_URL)
+    fun getUserDetail(@Field("userId")userId: String) : Call<UserDetailBean>
 }

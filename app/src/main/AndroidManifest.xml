@@ -33,13 +33,16 @@
             android:name=".module.post.view.PostEditActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".module.more.ThemeActivity" />
-        <activity android:name=".module.message.view.PMDetailActivity" />
+        <activity android:name=".module.message.view.PMDetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <service
-            android:name="com.febers.uestc_bbs.module.service.MsgHeartService"
+            android:name=".module.service.MsgHeartService"
             android:enabled="true"
             android:exported="false">
         </service>
+        <activity android:name=".module.user.view.UserEditActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -12,8 +12,8 @@ import com.febers.uestc_bbs.entity.DetailItemBean
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class UserDetailAdapter(context: Context, data: List<DetailItemBean>, isLoadMore: Boolean):
-        CommonBaseAdapter<DetailItemBean>(context, data, isLoadMore){
+class UserDetailAdapter(context: Context, data: List<DetailItemBean>):
+        CommonBaseAdapter<DetailItemBean>(context, data, false){
 
     override fun convert(p0: ViewHolder?, p1: DetailItemBean?, p2: Int) {
         p0?.setText(R.id.text_view_item_detail_param, p1?.itemParam)

@@ -7,7 +7,7 @@
 package com.febers.uestc_bbs.module.login.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.model.LoginModelImpl
 import org.greenrobot.eventbus.EventBus
 
@@ -18,7 +18,7 @@ class LoginPresenterImpl(val view: LoginContract.View): LoginContract.Presenter(
         loginModel.loginService(userName, userPw)
     }
 
-    override fun loginResult(event: BaseEvent<UserBean>) {
+    override fun loginResult(event: BaseEvent<UserSimpleBean>) {
         view.loginResult(event)
         EventBus.getDefault().post(event)
     }

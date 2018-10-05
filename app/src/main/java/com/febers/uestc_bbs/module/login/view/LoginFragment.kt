@@ -12,7 +12,7 @@ import android.support.annotation.UiThread
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.UserBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.presenter.LoginContract
 import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -39,7 +39,7 @@ class LoginFragment: BaseSwipeFragment(), LoginContract.View {
     }
 
     @UiThread
-    override fun loginResult(event: BaseEvent<UserBean>) {
+    override fun loginResult(event: BaseEvent<UserSimpleBean>) {
         if (event.code == BaseCode.SUCCESS) {
             onError("登录成功")
             hideSoftInput()

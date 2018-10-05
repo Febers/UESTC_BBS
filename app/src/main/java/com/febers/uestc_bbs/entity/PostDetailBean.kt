@@ -16,7 +16,7 @@ data class PostTopicBean(var topic_id: String? = null, var title: String? = null
                          var special: String?, var sortId: String?, var user_id: String? = null,
                          var user_nick_name: String?, var replies: String?, var hits: String?,
                          var essence: String?, var vote: String?, var hot: String?,
-                         var top: String?, var is_favor: String?, var create_date: String?,
+                         var top: String?, var is_favor: Int?, var create_date: String?,
                          var icon: String? = null, var level: String? = null, var userTitle: String? = null,
                          var userColor: String?, var isFollow: String?, var zanList: List<Any>?,
                          var content: List<SimpleContentBean>? = null, var poll_info: Any?, var activityInfo: Any?,

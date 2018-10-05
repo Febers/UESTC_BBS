@@ -14,16 +14,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.febers.uestc_bbs.MyApplication
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostSimpleAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SimplePListBean
-import com.febers.uestc_bbs.entity.UserBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.jetbrains.anko.runOnUiThread
 
@@ -33,28 +32,31 @@ import org.jetbrains.anko.runOnUiThread
  */
 class PListHomeFragment: BaseFragment(), PListContract.View {
 
-    private val PListList: MutableList<SimplePListBean> = ArrayList()
+    private val pListList: MutableList<SimplePListBean> = ArrayList()
     private lateinit var postSimpleAdapter: PostSimpleAdapter
-    private lateinit var user: UserBean
-    private var PListPresenter:
-            PListContract.Presenter = PListPresenterImpl(this)
+    private lateinit var pListPresenter: PListContract.Presenter
     private var page: Int = 1
     private var shouldRefresh = true
 
     override fun setContentView(): Int {
-        postSimpleAdapter = PostSimpleAdapter(context!!, PListList, false)
         return R.layout.fragment_post_list_home
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        user = MyApplication.getUser()
+        pListPresenter = PListPresenterImpl(this)
+        postSimpleAdapter = PostSimpleAdapter(context!!, pListList, false).apply {
+            setOnItemClickListener { viewHolder, simplePostBean, i ->
+                ViewClickUtils.clickToPostDetail(context, activity, simplePostBean.topic_id ?: simplePostBean.source_id) }
+            setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
+                viewHolder, simplePostBean, i -> ViewClickUtils.clickToUserDetail(context, activity, simplePostBean.user_id)
+            }
+        }
         recyclerview_subpost_fragment.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postSimpleAdapter
             addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         }
-
         refresh_layout_post_fragment.apply {
             setEnableLoadMore(false)
             autoRefresh()
@@ -66,9 +68,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(++page, true)
             }
         }
-
-        postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i ->
-            ViewClickUtils.clickToPostDetail(context, activity, simplePostBean.topic_id ?: simplePostBean.source_id) }
 
         //以下代码用来当Recyclerview滑动时不加载图片，暂时失效
         recyclerview_subpost_fragment.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -86,7 +85,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_fragment.setNoMoreData(false)
-        PListPresenter.pListRequest(fid = mFid!!, page = page, refresh = refresh)
+        pListPresenter.pListRequest(fid = mFid!!, page = page, refresh = refresh)
     }
 
     @UiThread
@@ -139,8 +138,8 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
      * 登录成功,获取数据
      */
 //    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun onLoginSuccess(event: BaseEvent<UserBean>) {
-//        user = event.data
+//    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
+//        userSimple = event.data
 //        shouldRefresh = true
 //    }
 
