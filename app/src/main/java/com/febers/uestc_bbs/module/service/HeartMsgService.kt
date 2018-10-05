@@ -98,7 +98,7 @@ class HeartMsgService : Service() {
 
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
                             if (response.body()?.rs != 1) return
-                            
+
                         }
                     })
         }
