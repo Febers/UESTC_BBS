@@ -154,7 +154,7 @@ object PostContentViewUtils {
         return imageView.apply {
             layoutParams = marginLayoutParams
             setOnClickListener {
-                ViewClickUtils.clickToImgBig(url = " ", context = ctx)
+                ViewClickUtils.clickToImageView(url = " ", context = ctx)
             }
         }
     }

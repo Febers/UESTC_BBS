@@ -11,22 +11,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
-import com.febers.uestc_bbs.entity.OptionItemBean
 import com.febers.uestc_bbs.entity.PostReplyBean
 import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.utils.ImageLoader
-import com.febers.uestc_bbs.utils.ThemeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickListener {
@@ -137,15 +132,15 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             image_view_post_fav?.let { it ->
                 it.visibility = View.VISIBLE
                 if (event.data.topic?.is_favor == POST_FAVORED) {
-                    it.setImageResource(R.mipmap.ic_star_yellow)
+                    it.setImageResource(R.drawable.ic_star_color_primary_24dp)
                     it.setOnClickListener {
-                        image_view_post_fav.setImageResource(R.mipmap.ic_star_grey)
+                        image_view_post_fav.setImageResource(R.drawable.ic_star_border_black_24dp)
                         //取消收藏
                     }
                 } else {
-                    it.setImageResource(R.mipmap.ic_star_grey)
+                    it.setImageResource(R.drawable.ic_star_border_black_24dp)
                     it.setOnClickListener {
-                        image_view_post_fav.setImageResource(R.mipmap.ic_star_yellow)
+                        image_view_post_fav.setImageResource(R.drawable.ic_star_color_primary_24dp)
                         //收藏
                     }
                 }

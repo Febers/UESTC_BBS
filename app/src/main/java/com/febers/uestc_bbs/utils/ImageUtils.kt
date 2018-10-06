@@ -51,7 +51,7 @@ object ImageLoader {
             e.printStackTrace()
         }
         imageView?.setOnClickListener {
-            ViewClickUtils.clickToImgBig(url, context)
+            ViewClickUtils.clickToImageView(url, context)
         }
     }
 
@@ -65,7 +65,7 @@ object ImageLoader {
             e.printStackTrace()
         }
         viewTarget.view.setOnClickListener {
-            ViewClickUtils.clickToImgBig(url, context)
+            ViewClickUtils.clickToImageView(url, context)
         }
     }
 }

@@ -8,7 +8,8 @@
     package="com.febers.uestc_bbs">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -33,16 +34,17 @@
             android:name=".module.post.view.PostEditActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".module.more.ThemeActivity" />
-        <activity android:name=".module.message.view.PMDetailActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name=".module.message.view.PMDetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <service
             android:name=".module.service.HeartMsgService"
             android:enabled="true"
-            android:exported="false">
-        </service>
-        <activity android:name=".module.user.view.UserEditActivity">
-        </activity>
+            android:exported="false"></service>
+
+        <activity android:name=".module.user.view.UserEditActivity"></activity>
+        <activity android:name=".home.ImageActivity"></activity>
     </application>
 
 </manifest>

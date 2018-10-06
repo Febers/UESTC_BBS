@@ -166,7 +166,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onTabReselceted(event: TabReselectedEvent) {
+    fun onTabReselected(event: TabReselectedEvent) {
         if (isSupportVisible && loadFinish && event.position == 2) {
             scroll_view_sub_message?.scrollTo(0, 0)
             refresh_layout_sub_message?.autoRefresh()

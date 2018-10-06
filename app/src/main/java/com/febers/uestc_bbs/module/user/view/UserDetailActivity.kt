@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.user.view
 
 import android.content.Intent
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.Log.i
 import android.view.MenuItem
@@ -18,7 +17,6 @@ import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.utils.GenderUtils
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.activity_user_detail.*
 
 class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
@@ -75,7 +73,9 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         collapsing_toolbar_layout_detail?.title = event.data.name
         ImageLoader.load(this, event.data.icon, image_view_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
         ImageLoader.load(this, event.data.icon, image_view_detail_avatar, placeImage = null, isCircle = true, noCache = true)
-
+        image_view_detail_avatar.setOnClickListener {
+            ViewClickUtils.clickToImageViewByUid(uid = userId, context = this)
+        }
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
             it.setOnClickListener { ViewClickUtils.clickToPM(this@UserDetailActivity, userId, event.data.name) }
@@ -94,6 +94,9 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         collapsing_toolbar_layout_detail?.title = userSimple.name
         ImageLoader.load(this, userSimple.avatar, image_view_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
         ImageLoader.load(this, userSimple.avatar, image_view_detail_avatar, placeImage = null, isCircle = true, noCache = true)
+        image_view_detail_avatar.setOnClickListener {
+            ViewClickUtils.clickToImageViewByUid(uid = userSimple.uid, context = this)
+        }
     }
 
     private fun initUserItSelfItem(): List<DetailItemBean> {

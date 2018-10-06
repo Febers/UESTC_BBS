@@ -37,3 +37,5 @@ const val USER_NAME = "user_name"
 
 const val ITEM_AUTHOR_ONLY = 0
 const val ITEM_ORDER_POSITIVE = 1
+
+const val IMAGE_URL = "image_url"

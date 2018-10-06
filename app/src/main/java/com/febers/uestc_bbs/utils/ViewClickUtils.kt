@@ -7,6 +7,7 @@ import android.net.Uri
 import android.support.v4.app.FragmentActivity
 import android.util.Log.i
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.home.ImageActivity
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
@@ -33,11 +34,20 @@ object ViewClickUtils {
         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 
-    fun clickToImgBig(url: String?, context: Context?) {
+    fun clickToImageViewByUid(uid: String?, context: Context?) {
+        uid ?: return
+        context ?: return
+        clickToImageView(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
+    }
+
+    fun clickToImageView(url: String?, context: Context?) {
         url ?: return
         context ?: return
-        i("IMG", url)
+        context.startActivity(Intent(context, ImageActivity::class.java).apply {
+            putExtra(IMAGE_URL, url)
+        })
     }
+
 
     fun clickToUserDetail(context: Context?, activity: FragmentActivity?, uid: String?) {
         context ?: return
