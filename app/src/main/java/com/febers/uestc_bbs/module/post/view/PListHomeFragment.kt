@@ -22,8 +22,9 @@ import com.febers.uestc_bbs.entity.SimplePListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.runOnUiThread
 
 /**
@@ -36,7 +37,9 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     private lateinit var postSimpleAdapter: PostSimpleAdapter
     private lateinit var pListPresenter: PListContract.Presenter
     private var page: Int = 1
-    private var shouldRefresh = true
+    private var loadFinish = false
+
+    override fun registerEventBus(): Boolean = true
 
     override fun setContentView(): Int {
         return R.layout.fragment_post_list_home
@@ -90,6 +93,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     @UiThread
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
+        loadFinish = true
         if (event.code == BaseCode.FAILURE) {
             onError(event.data!![0].title!!)
             refresh_layout_post_fragment?.apply {
@@ -130,17 +134,19 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 }
     }
 
-//    override fun registerEventBus(): Boolean {
-//        return true
-//    }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onTabReselceted(event: TabReselectedEvent) {
+        if (isSupportVisible && loadFinish && event.position == 0) {
+            scroll_view_plist_home?.scrollTo(0, 0)
+            refresh_layout_post_fragment?.autoRefresh()
+        }
+    }
     /**
      * 登录成功,获取数据
      */
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
-//        userSimple = event.data
-//        shouldRefresh = true
+
 //    }
 
     private fun setEmptyView() {

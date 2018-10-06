@@ -22,6 +22,7 @@ object TimeUtils {
         val lt = s.toLong()
         val nt = System.currentTimeMillis()
         var dt = nt - lt
+        if (dt/1000 < 60) return (dt/1000).toString() + "s"
         dt /= (1000 * 60)   //转换成分钟
         //23min
         if (dt<60) {
@@ -33,7 +34,7 @@ object TimeUtils {
         }
         //86401min
         if (dt<60*24*30) {
-            return (dt/(60*24)).toString()+"d"
+            return (dt/(60*24)).toString()+"day"
         }
         return stampToDate(lt)
     }

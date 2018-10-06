@@ -17,3 +17,9 @@ enum class BaseCode {
 }
 
 data class PostEvent(var code: BaseCode, var tid: String)
+
+data class MsgEvent(var code: BaseCode, var count: Int)
+
+data class TabReselectedEvent(var code: BaseCode, var position: Int)
+
+data class MsgFeedbackEvent(var code: BaseCode, var type: String)

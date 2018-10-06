@@ -19,6 +19,7 @@ const val PLAY_GROUP = 2
 const val MARKET_GROUP = 3
 const val MANAGE_GROUP = 4
 
+const val MSG_COUNT = "msg_count"
 const val MSG_TYPE_REPLY = "post"
 const val MSG_TYPE_PRIVATE = "private"
 const val MSG_TYPE_AT = "at"

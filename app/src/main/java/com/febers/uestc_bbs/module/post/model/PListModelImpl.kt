@@ -50,7 +50,8 @@ class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
                 } else {
                     PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
                 }
-                //if (mPage == FIRST_PAGE) PostStore.savePostList(mFid, body)
+                //保存首页的第一页帖子列表
+                if (mPage == FIRST_PAGE && mFid.toInt() < 0) PostStore.savePostList(mFid, body)
             }
         })
     }

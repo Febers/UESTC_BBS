@@ -8,27 +8,27 @@ package com.febers.uestc_bbs.home
 
 import android.content.Intent
 import android.support.v4.app.ActivityCompat
+import android.util.Log.i
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
-import com.aurelhubert.ahbottomnavigation.notification.AHNotification
-import com.aurelhubert.ahbottomnavigation.notification.AHNotificationHelper
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseActivity
-import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.module.post.view.PostEditActivity
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.utils.AttrUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class HomeActivity: BaseActivity() {
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
+    private var msgCount = 0
 
     override fun registerEvenBus(): Boolean = true
 
@@ -65,7 +65,6 @@ class HomeActivity: BaseActivity() {
             accentColor = AttrUtils.getColor(this@HomeActivity, R.attr.colorAccent)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
         }
-        bottom_navigation_home.setNotification("1", 2)
         fab_home.setOnClickListener { startActivity(Intent(this@HomeActivity, PostEditActivity::class.java)) }
         fab_home.visibility = View.GONE
         startService()
@@ -73,7 +72,10 @@ class HomeActivity: BaseActivity() {
 
 
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
-        bottom_navigation_home.setNotification("", 2)
+        if (position == 2) {
+            bottom_navigation_home.setNotification("", 2)
+            msgCount = 0
+        }
         if (position == 0) fab_home.visibility = View.VISIBLE else fab_home.visibility = View.GONE
         if(wasSelected) {
             onTabReselected(position)
@@ -92,12 +94,29 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun onTabReselected(position: Int) {
-
+        i("HOME", position.toString())
+        EventBus.getDefault().post(TabReselectedEvent(BaseCode.SUCCESS, position))
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onThemeChange(event: BaseEvent<ThemeItemBean>) {
         recreate()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onGetNewMsg(event: MsgEvent) {
+        msgCount = event.count
+        bottom_navigation_home.setNotification(msgCount, 2)
+    }
+    /**
+     * Activity通过Intent的FLAG_ACTIVITY_SINGLE_TOP启动时
+     * 生命周期为 onNewIntent -> onResume()
+     * 在其中接收Service传过来的数据
+     */
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        i("HOME", "newsInstance")
+        showHideFragment(mFragments[2])
     }
 
     override fun onResume() {

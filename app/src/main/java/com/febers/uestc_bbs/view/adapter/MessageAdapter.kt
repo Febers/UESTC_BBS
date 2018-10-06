@@ -1,6 +1,8 @@
 package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
+import android.view.View
+import android.widget.ImageView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.MsgAtBean
 import com.febers.uestc_bbs.entity.MsgPrivateBean
@@ -21,6 +23,9 @@ class MsgPrivateAdapter(val context: Context, data: List<MsgPrivateBean.BodyBean
     }
 
     override fun convert(p0: ViewHolder?, p1: MsgPrivateBean.BodyBean.ListBean?, p2: Int) {
+        if(p1?.isNew == 1) {  //未读
+            p0?.getView<ImageView>(R.id.image_view_msg_private_unread)?.visibility = View.VISIBLE
+        }
         p0?.setText(R.id.text_view_msg_private_author, p1?.toUserName)
         p0?.setText(R.id.text_view_msg_private_date, TimeUtils.stampChange(p1?.lastDateline))
         p0?.setText(R.id.text_view_msg_private_content, p1?.lastSummary)
