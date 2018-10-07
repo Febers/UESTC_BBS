@@ -35,11 +35,14 @@ object FileUtils {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
             fos.flush()
             fos.close()
-            val uri = Uri.parse(imgFile.absolutePath)
-            return uri
+            return Uri.parse(imgFile.absolutePath)
         } catch (e: IOException) {
             e.printStackTrace()
             return null
         }
+    }
+
+    fun saveGif(gifByte: ByteArray): Uri? {
+        return null
     }
 }

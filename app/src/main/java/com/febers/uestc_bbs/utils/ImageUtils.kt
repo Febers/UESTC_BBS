@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.widget.ImageView
 
 import com.bumptech.glide.Glide
@@ -42,7 +43,6 @@ object ImageLoader {
                         if (placeImage != null) {
                             this.placeholder(placeImage)
                         }
-
                         this.error(R.mipmap.ic_default_avatar)
                         this.crossFade()
                     }
@@ -58,7 +58,7 @@ object ImageLoader {
     fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget) {
         try {
             Glide.with(context).load(url)
-                    .placeholder(R.mipmap.ic_place_holder_grey)
+                    //.placeholder(R.mipmap.ic_place_holder_grey)
                     .error(R.mipmap.ic_place_holder_grey)
                     .crossFade().into(viewTarget)
         } catch (e: Exception) {
