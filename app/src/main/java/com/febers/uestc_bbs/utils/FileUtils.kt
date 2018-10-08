@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.utils
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
-import android.util.Log.i
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -16,9 +15,6 @@ object FileUtils {
     private val appImageDir = appDir + "images/"
 
     fun saveImage(bitmap: Bitmap): Uri? {
-        val now: Calendar = GregorianCalendar()
-        val simpleDate: SimpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
-        val fileName: String = simpleDate.format(now.time)
         if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) { //内存未挂载
             return null
         }
@@ -26,23 +22,50 @@ object FileUtils {
             val file: File = File(appImageDir)
             if (!file.exists()) {
                 if (!file.mkdirs()) {
-                    i("Image", "no e")
                     throw IOException()
                 }
             }
-            val imgFile = File("$appImageDir$fileName.png")
+            val imgFile = File("$appImageDir${getFileName()}.png")
             val fos: FileOutputStream = FileOutputStream(imgFile)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
             fos.flush()
             fos.close()
             return Uri.parse(imgFile.absolutePath)
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             e.printStackTrace()
             return null
         }
     }
 
-    fun saveGif(gifByte: ByteArray): Uri? {
-        return null
+    fun saveGif(gifByte: ByteArray?): Uri? {
+        if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) { //内存未挂载
+            return null
+        }
+        if (gifByte == null) {
+            return null
+        }
+        try {
+            val file: File = File(appImageDir)
+            if (!file.exists()) {
+                if (!file.mkdirs()) {
+                    throw IOException()
+                }
+            }
+            val gifFile = File("$appImageDir${getFileName()}.gif")
+            val fos: FileOutputStream = FileOutputStream(gifFile)
+            fos.write(gifByte, 0, gifByte.size)
+            fos.flush()
+            fos.close()
+            return Uri.parse(gifFile.absolutePath)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    private fun getFileName(): String {
+        val now: Calendar = GregorianCalendar()
+        val simpleDate: SimpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
+        return simpleDate.format(now.time)
     }
 }

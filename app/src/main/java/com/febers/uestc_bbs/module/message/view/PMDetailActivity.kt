@@ -1,9 +1,6 @@
 package com.febers.uestc_bbs.module.message.view
 
 import android.support.v7.widget.Toolbar
-import android.util.Log.i
-import android.view.View
-import android.widget.ScrollView
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -62,7 +59,7 @@ class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
      */
     override fun showPMDetail(event: BaseEvent<PMDetailBean>) {
         if (event.code == BaseCode.FAILURE) {
-            onError(event.data.errcode)
+            showToast(event.data.errcode)
             return
         }
         pmList.addAll(event.data.body.pmList[0].msgList)

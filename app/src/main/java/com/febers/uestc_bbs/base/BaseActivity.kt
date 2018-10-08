@@ -63,7 +63,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     protected open fun registerEvenBus() = false
 
     @MainThread
-    override fun onError(error: String) {
+    override fun showToast(error: String) {
         toast(error)
     }
 

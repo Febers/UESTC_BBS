@@ -14,5 +14,5 @@ import com.febers.uestc_bbs.view.custom.CustomProgressDialog
  */
 interface BaseView {
     @UiThread
-    fun onError(error: String)
+    fun showToast(msg: String)
 }

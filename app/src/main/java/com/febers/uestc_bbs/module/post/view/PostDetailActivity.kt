@@ -107,7 +107,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
     @UiThread
     override fun showPost(event: BaseEvent<PostResultBean>) {
         if (event.code == BaseCode.FAILURE) {
-            onError(event.data.errcode!!)
+            showToast(event.data.errcode!!)
             refresh_layout_post_detail?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)

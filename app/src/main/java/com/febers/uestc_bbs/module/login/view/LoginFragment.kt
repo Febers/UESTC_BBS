@@ -41,11 +41,11 @@ class LoginFragment: BaseSwipeFragment(), LoginContract.View {
     @UiThread
     override fun loginResult(event: BaseEvent<UserSimpleBean>) {
         if (event.code == BaseCode.SUCCESS) {
-            onError("登录成功")
+            showToast("登录成功")
             hideSoftInput()
             pop()
         } else {
-            onError(event.data.msg)
+            showToast(event.data.msg)
         }
     }
 

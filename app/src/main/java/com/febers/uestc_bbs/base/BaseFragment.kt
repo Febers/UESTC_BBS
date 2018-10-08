@@ -68,7 +68,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     }
 
     @UiThread
-    override fun onError(error: String) {
+    override fun showToast(error: String) {
         MyApplication.context().toast(error)
     }
 }

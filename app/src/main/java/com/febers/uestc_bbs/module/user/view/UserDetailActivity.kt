@@ -66,7 +66,7 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     override fun showUserDetail(event: BaseEvent<UserDetailBean>) {
         if (event.code == BaseCode.FAILURE) {
             refresh_layout_user_detail?.finishRefresh(false)
-            onError(event.data.errcode)
+            showToast(event.data.errcode)
             return
         }
         recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data))

@@ -74,7 +74,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     override fun showSearchResult(event: BaseEvent<SearchPostBean>) {
         progressDialog?.dismiss()
         if (event.code == BaseCode.FAILURE) {
-            onError(event.data.errcode!!)
+            showToast(event.data.errcode!!)
             refresh_layout_search?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)

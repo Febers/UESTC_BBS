@@ -95,7 +95,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
         loadFinish = true
         if (event.code == BaseCode.FAILURE) {
-            onError(event.data!![0].title!!)
+            showToast(event.data!![0].title!!)
             refresh_layout_post_fragment?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)

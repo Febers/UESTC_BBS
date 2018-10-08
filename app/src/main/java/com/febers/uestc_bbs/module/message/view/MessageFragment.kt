@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
@@ -109,7 +108,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     override fun <M : MsgBaseBean> showMessage(event: BaseEvent<M>) {
         loadFinish = true
         if (event.code == BaseCode.FAILURE) {
-            onError(""+(event.data as MsgReplyBean).errcode)
+            showToast(""+(event.data as MsgReplyBean).errcode)
             refresh_layout_sub_message?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)

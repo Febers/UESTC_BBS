@@ -70,7 +70,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     @UiThread
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
         if (event.code == BaseCode.FAILURE) {
-            onError(event.data!![0].title!!)
+            showToast(event.data!![0].title!!)
             refresh_layout_post_list?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)

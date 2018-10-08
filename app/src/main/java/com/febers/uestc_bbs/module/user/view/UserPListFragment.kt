@@ -74,7 +74,7 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
     @UiThread
     override fun showUserPList(event: BaseEvent<UserPListBean>) {
         if (event.code == BaseCode.FAILURE) {
-            onError(event.data.errcode!!)
+            showToast(event.data.errcode!!)
             refresh_layout_user_post?.apply {
                 finishRefresh(false)
                 finishLoadMore(false)
