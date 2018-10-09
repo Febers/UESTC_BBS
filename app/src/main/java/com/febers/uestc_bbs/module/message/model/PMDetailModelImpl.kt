@@ -32,24 +32,21 @@ class PMDetailModelImpl(val presenter: MessageContract.PMPresenter):MessageContr
                 """.trimIndent())
                 .enqueue(object : Callback<PMDetailBean> {
                     override fun onFailure(call: Call<PMDetailBean>, t: Throwable) {
-                        presenter.pmResult(BaseEvent(BaseCode.FAILURE, PMDetailBean()
-                                .apply { errcode = SERVICE_RESPONSE_ERROR }))
+                        presenter.errorResult(t.toString())
                     }
 
                     override fun onResponse(call: Call<PMDetailBean>, response: Response<PMDetailBean>) {
                         val bean = response.body()
                         if (bean == null) {
-                            presenter.pmResult(BaseEvent(BaseCode.FAILURE, PMDetailBean()
-                                    .apply { errcode = SERVICE_RESPONSE_NULL }))
+                            presenter.errorResult(SERVICE_RESPONSE_NULL)
                             return
                         }
                         if (bean.rs != REQUEST_SUCCESS_RS) {
-                            presenter.pmResult(BaseEvent(BaseCode.FAILURE, PMDetailBean()
-                                    .apply { errcode = bean.head.errInfo }))
+                            presenter.errorResult(bean.head?.errInfo.toString())
                             return
                         }
                         presenter.pmResult(event = BaseEvent(
-                                if (bean.body.pmList[0].hasPrev != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
+                                if (bean.body?.pmList!![0].hasPrev != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                 else BaseCode.SUCCESS, bean))
                     }
                 })

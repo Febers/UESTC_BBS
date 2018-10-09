@@ -11,11 +11,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
-import com.febers.uestc_bbs.entity.PostReplyBean
-import com.febers.uestc_bbs.entity.PostResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.utils.ImageLoader
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickListener {
 
-    private var replyList: MutableList<PostReplyBean> = ArrayList()
+    private var replyList: MutableList<PostDetailBean.ListBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
     private lateinit var replyItemAdapter: PostReplyItemAdapter
     private lateinit var optionBottomSheet: PostOptionBottomSheet
@@ -56,7 +57,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
             setOnItemClickListener { viewHolder, postReplyBean, i ->  }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
-                viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
+                viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id.toString())
             }
         }
         optionBottomSheet = PostOptionBottomSheet(this, R.style.PinkBottomSheetTheme, this)
@@ -105,28 +106,19 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
 
     @SuppressLint("SetTextI18n")
     @UiThread
-    override fun showPost(event: BaseEvent<PostResultBean>) {
-        if (event.code == BaseCode.FAILURE) {
-            showToast(event.data.errcode!!)
-            refresh_layout_post_detail?.apply {
-                finishRefresh(false)
-                finishLoadMore(false)
-            }
-            drawFinish = true
-            return
-        }
+    override fun showPost(event: BaseEvent<PostDetailBean>) {
         refresh_layout_post_detail?.apply {
             finishLoadMore(true)
             finishRefresh(true)
             setEnableLoadMore(true)
         }
-        if (page == 1) {
+//        if (page == 1) {
             //绘制主贴视图，否则只需要添加评论内容
             linear_layout_detail_divide?.visibility = View.VISIBLE
             image_view_post_detail_author_avatar?.let { it ->
                 it.visibility = View.VISIBLE
                 ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
-                it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id) }
+                it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id.toString()) }
             }
 
             image_view_post_fav?.let { it ->
@@ -136,12 +128,14 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
                     it.setOnClickListener {
                         image_view_post_fav.setImageResource(R.drawable.ic_star_border_black_24dp)
                         //取消收藏
+                        event.data.topic?.is_favor = POST_NO_FAVORED
                     }
                 } else {
                     it.setImageResource(R.drawable.ic_star_border_black_24dp)
                     it.setOnClickListener {
                         image_view_post_fav.setImageResource(R.drawable.ic_star_color_primary_24dp)
                         //收藏
+                        event.data.topic?.is_favor = POST_FAVORED
                     }
                 }
             }
@@ -152,13 +146,44 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
             PostContentViewUtils.create(linear_layout_detail_content, event.data.topic?.content)
             replyList.clear()
-        }
+//        }
         replyList.addAll(event.data.list!!)
         replyItemAdapter.notifyDataSetChanged()
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
         }
+        //如果是投票贴
+        if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
+            drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
+        }
         drawFinish = true
+    }
+
+    /**
+     * 绘制投票的界面
+     * 包括用户未投票的，由RadioGroup和Button组成的界面
+     * 以及自定义的投票结果View
+     * 该投票结果View应该由ListView构成
+     * @param pollInfo 投票详数据情
+     */
+    private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
+        pollInfo ?: return
+        pollInfo.poll_item_list?.forEach {
+            val radioButton = RadioButton(this).apply {
+                layoutParams = RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, 50).apply {
+                    setMargins(0, 0, 0 , 0)
+                }
+                text = it.name
+            }
+        }
+        //如果投票仍有效并且用户未曾投票，Button的text显示相应的文字
+        button_post_vote.apply {
+            //text = ""
+            visibility = View.VISIBLE
+            setOnClickListener {
+
+            }
+        }
     }
 
     override fun onOptionItemSelect(position: Int) {
@@ -171,6 +196,15 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             optionBottomSheet.hide()
         }
         refresh_layout_post_detail.autoRefresh()
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_post_detail?.apply {
+            finishRefresh(false)
+            finishLoadMore(false)
+        }
+        drawFinish = true
     }
 
     /**

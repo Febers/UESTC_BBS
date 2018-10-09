@@ -8,7 +8,7 @@ package com.febers.uestc_bbs.module.post.model
 
 import android.util.Log.i
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.PostResultBean
+import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,20 +32,19 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                 order = mOrder,
                 page = mPage,
                 pageSize = COMMON_PAGE_SIZE)
-        call.enqueue(object : Callback<PostResultBean> {
-            override fun onFailure(call: Call<PostResultBean>?, t: Throwable?) {
-                i("PML", t.toString())
-                postPresenter.postResult(BaseEvent(BaseCode.FAILURE, PostResultBean(errcode = SERVICE_RESPONSE_ERROR + t.toString())))
+        call.enqueue(object : Callback<PostDetailBean> {
+            override fun onFailure(call: Call<PostDetailBean>?, t: Throwable?) {
+                postPresenter.errorResult(SERVICE_RESPONSE_ERROR)
             }
 
-            override fun onResponse(call: Call<PostResultBean>?, response: Response<PostResultBean>?) {
+            override fun onResponse(call: Call<PostDetailBean>?, response: Response<PostDetailBean>?) {
                 val postResultBean = response?.body()
                 if (postResultBean == null) {
-                    postPresenter.postResult(BaseEvent(BaseCode.FAILURE, PostResultBean(errcode = SERVICE_RESPONSE_NULL)))
+                    postPresenter.errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }
                 if (postResultBean.rs != REQUEST_SUCCESS_RS) {
-                    postPresenter.postResult(BaseEvent(BaseCode.FAILURE, PostResultBean(errcode = postResultBean.head?.errInfo)))
+                    postPresenter.errorResult(postResultBean.head?.errInfo.toString())
                     return
                 }
                 if (postResultBean.has_next != HAVE_NEXT_PAGE) {

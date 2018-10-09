@@ -1,45 +1,42 @@
 package com.febers.uestc_bbs.module.user.view
 
 import android.content.Intent
-import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.UserPListBean
+import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.view.adapter.UserPostAdapter
-import kotlinx.android.synthetic.main.fragment_user_post.*
-import org.jetbrains.anko.runOnUiThread
+import kotlinx.android.synthetic.main.activity_user_post.*
 
-class UserPListFragment: BaseSwipeFragment(), UserContract.View {
+class UserPostActivity: BaseSwipeActivity(), UserContract.View {
 
-    private val userPListList: MutableList<UserPListBean.ListBean> = ArrayList()
+    private val userPostList: MutableList<UserPostBean.ListBean> = ArrayList()
     private lateinit var userPListPresenter: UserContract.Presenter
     private lateinit var userPListAdapter: UserPostAdapter
     private var page = 1
+    private var uid = ""
     private var type = USER_START_POST
 
     override fun setToolbar(): Toolbar? {
         return toolbar_user_post
     }
 
-    override fun setContentView(): Int {
-        arguments?.let {
-            type = it.getString(USER_POST_TYPE)
-        }
-        userPListPresenter = UserPresenterImpl(this)
-        return R.layout.fragment_user_post
+    override fun setView(): Int {
+        uid = intent.getStringExtra(USER_ID)
+        type = intent.getStringExtra(USER_POST_TYPE)
+        return R.layout.activity_user_post
     }
-
 
     override fun initView() {
         setToolbarTitle()
-        userPListAdapter = UserPostAdapter(context!!, userPListList, false).apply {
+        userPListPresenter = UserPresenterImpl(this)
+        userPListAdapter = UserPostAdapter(this, userPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onClickItem(listBean) }
         }
         recyclerview_user_post.apply {
@@ -52,37 +49,24 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
             autoRefresh()
             setOnRefreshListener {
                 page = 1
-                getUserPList()
+                getUserPost()
             }
             setOnLoadMoreListener {
                 ++page
-                getUserPList()
+                getUserPost()
             }
         }
     }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
-        getUserPList()
-    }
-
-    private fun getUserPList() {
+    private fun getUserPost() {
         refresh_layout_user_post.setNoMoreData(false)
-        userPListPresenter.userPListRequest(mUid+"", type, ""+page)
+        userPListPresenter.userPostRequest(uid+"", type, ""+page)
     }
 
     @UiThread
-    override fun showUserPList(event: BaseEvent<UserPListBean>) {
-        if (event.code == BaseCode.FAILURE) {
-            showToast(event.data.errcode!!)
-            refresh_layout_user_post?.apply {
-                finishRefresh(false)
-                finishLoadMore(false)
-            }
-            return
-        }
+    override fun showUserPost(event: BaseEvent<UserPostBean>) {
         if (event.code == BaseCode.LOCAL) {
-            context?.runOnUiThread {
+            runOnUiThread {
                 userPListAdapter.setNewData(event.data.list)
             }
             return
@@ -102,9 +86,9 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
         userPListAdapter.setLoadMoreData(event.data.list)
     }
 
-    private fun onClickItem(item: UserPListBean.ListBean) {
+    private fun onClickItem(item: UserPostBean.ListBean) {
         val tid = item.topic_id
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("mFid", ""+tid) })
+        startActivity(Intent(this, PostDetailActivity::class.java).apply { putExtra("mFid", ""+tid) })
     }
 
     private fun setToolbarTitle() {
@@ -119,16 +103,11 @@ class UserPListFragment: BaseSwipeFragment(), UserContract.View {
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(uid: String, type: String, showBottomBarOnDestroy: Boolean) =
-                UserPListFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(UID, uid)
-                        putString(USER_POST_TYPE, type)
-                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-                    }
-                }
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_user_post?.apply {
+            finishRefresh(false)
+            finishLoadMore(false)
+        }
     }
-
 }

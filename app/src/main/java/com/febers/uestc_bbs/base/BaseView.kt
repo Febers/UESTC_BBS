@@ -13,6 +13,10 @@ import com.febers.uestc_bbs.view.custom.CustomProgressDialog
  * View公共接口
  */
 interface BaseView {
+
     @UiThread
     fun showToast(msg: String)
+
+    @UiThread
+    fun showError(msg: String){}
 }

@@ -3,7 +3,7 @@ package com.febers.uestc_bbs.dao
 import android.content.Context
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.entity.PListResultBean
-import com.febers.uestc_bbs.entity.UserPListBean
+import com.febers.uestc_bbs.entity.UserPostBean
 import com.google.gson.Gson
 
 object PostStore {
@@ -16,9 +16,9 @@ object PostStore {
         }
     }
 
-    fun saveUserPList(fid: String, pList: UserPListBean) {
+    fun saveUserPList(fid: String, post: UserPostBean) {
         context().getSharedPreferences(fid, 0).edit().apply {
-            val json = Gson().toJson(pList)
+            val json = Gson().toJson(post)
             putString(fid, json)
             apply()
         }
@@ -36,15 +36,15 @@ object PostStore {
         }
     }
 
-    fun getUserPList(fid: String): UserPListBean {
+    fun getUserPList(fid: String): UserPostBean {
         try {
             with(context().getSharedPreferences(fid, 0)) {
                 val json: String = this.getString(fid, "")
-                return Gson().fromJson(json, UserPListBean::class.java)
+                return Gson().fromJson(json, UserPostBean::class.java)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            return UserPListBean()
+            return UserPostBean()
         }
     }
 

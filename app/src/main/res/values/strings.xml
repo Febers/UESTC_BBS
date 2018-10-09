@@ -5,7 +5,18 @@
   -->
 
 <resources>
-    <string name="app_name">清水河畔</string>
+    <string name="app_name">i河畔</string>
+    <string name="developer_name">Febers</string>
+    <string name="developer_email">febers418@qq.com</string>
+    <string name="clear_image_cache">清除图片缓存</string>
+    <string name="version">版本</string>
+    <string name="version_value">v1.0</string>
+    <string name="check_update">检查更新</string>
+    <string name="feedback_and_other">反馈、建议及其他</string>
+    <string name="source_code">源代码</string>
+    <string name="open_source_project">开源项目</string>
+    <string name="open_source_license">开源协议</string>
+
     <string name="home_page">首页</string>
     <string name="forum_list_page">版块</string>
     <string name="message_page">消息</string>
@@ -18,18 +29,23 @@
     <string name="post_reply_message">帖子回复</string>
     <string name="private_message">私信</string>
     <string name="system_message">系统通知</string>
+    <string name="at_message">at</string>
 
-    <string name="user_post">我的帖子</string>
-    <string name="user_reply">我的回复</string>
-    <string name="user_favorite">我的收藏</string>
-    <string name="user_friends">我的好友</string>
-    <string name="option">设置</string>
+    <string name="user_post">发表</string>
+    <string name="user_reply">回复</string>
+    <string name="user_favorite">收藏</string>
+    <string name="user_friends">好友</string>
+    <string name="theme_style">主题风格</string>
+
+    <string name="setting">设置</string>
+    <string name="choose_theme">选择主题</string>
+    <string name="choose_block">选择板块</string>
+    <string name="edit">编辑</string>
 
     <string name="account_detail">账户信息</string>
     <string name="no_login">未登录</string>
     <string name="user_password">密码</string>
     <string name="user_name">用户名</string>
-    <string name="developer_name">Febers</string>
     <string name="login">登录</string>
 
     <string name="theme_green">酷安绿</string>
@@ -42,20 +58,5 @@
     <string name="theme_gray">低调灰</string>
 
     <string name="post_fav">收藏</string>
-
-    <string name="sp_theme_code">theme_code</string>
-    <string name="sp_user_valid">user_valid</string>
-    <string name="sp_user_exist">user_exist</string>
-    <string name="sp_user_name">user_name</string>
-    <string name="sp_user_title">user_title</string>
-    <string name="sp_user_gender">user_gender</string>
-    <string name="sp_user_token">user_token</string>
-    <string name="sp_user_secret">user_secret</string>
-    <string name="sp_user_score">user_score</string>
-    <string name="sp_user_uid">user_uid</string>
-    <string name="sp_user_avatar">user_avatar</string>
-    <string name="sp_user_credit_data">user_credit_data</string>
-    <string name="sp_user_extcredit_data">user_ext_credit_data</string>
-    <string name="sp_user_mobile">user_mobile</string>
-    <string name="sp_user_group_id">user_group_id</string>
+    <string name="post_vote">投票</string>
 </resources>

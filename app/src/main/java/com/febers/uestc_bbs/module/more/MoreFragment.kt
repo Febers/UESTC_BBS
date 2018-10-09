@@ -7,9 +7,13 @@
 package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log.i
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
@@ -20,7 +24,7 @@ import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginFragment
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
-import com.febers.uestc_bbs.module.user.view.UserPListFragment
+import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.view.utils.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
@@ -33,7 +37,7 @@ class MoreFragment: BaseFragment() {
     private val THIRD_ITEM_VIEW = 1
 
     private val USER_DETAIL_ITEM = -1
-    private val USER_POST_ITEM = 0
+    private val USER_START_ITEM = 0
     private val USER_REPLY_ITEM = 1
     private val USER_FAV_ITEM = 2
     private val USER_FRIEND_ITEM = 3
@@ -44,6 +48,7 @@ class MoreFragment: BaseFragment() {
 
     private lateinit var userSimple: UserSimpleBean
     private lateinit var mParentFragment: BaseFragment
+
     override fun registerEventBus(): Boolean = true
 
     override fun setContentView(): Int {
@@ -51,6 +56,7 @@ class MoreFragment: BaseFragment() {
     }
 
     override fun initView() {
+        initMenu()
         userSimple = MyApplication.getUser()
         mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
@@ -82,7 +88,7 @@ class MoreFragment: BaseFragment() {
         val item3 = MoreItemBean("我的收藏", R.mipmap.ic_star_blue)
         val item4 = MoreItemBean("我的好友", R.mipmap.ic_friend_blue)
         val item5 = MoreItemBean("搜索", R.mipmap.ic_search_blue)
-        return listOf(item1, item2, item3, item4, item5)
+        return listOf(item1, item2, item3)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
@@ -93,11 +99,11 @@ class MoreFragment: BaseFragment() {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSeccess(event: BaseEvent<UserSimpleBean>) {
+    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
         i("MORE", "")
         text_view_fragment_user_name.text = event.data.name
         text_view_fragment_user_title.text = event.data.title
-        Glide.with(this).load(userSimple.avatar).placeholder(R.mipmap.ic_launcher)
+        Glide.with(this).load(userSimple.avatar).placeholder(R.drawable.ic_person_white_24dp)
                 .transform(GlideCircleTransform(context))
                 .into(image_view_fragment_user_avatar)
         userSimple = event.data
@@ -106,27 +112,35 @@ class MoreFragment: BaseFragment() {
     private fun itemClick(view: Int, position: Int) {
         if (view == FIRST_ITEM_VIEW) {
             if (MyApplication.getUser().valid) {
-                startActivity(Intent(activity, UserDetailActivity::class.java).apply { putExtra(USER_IT_SELF, true) })
+                startActivity(Intent(activity, UserDetailActivity::class.java).apply {
+                    putExtra(USER_ID, MyApplication.getUser().uid)
+                    putExtra(USER_IT_SELF, true)
+                })
             } else {
                 mParentFragment.start(LoginFragment.newInstance(true))
             }
             return
         }
         if (view == SECOND_ITEM_VIEW) {
-            if (position == USER_POST_ITEM) {
-                mParentFragment.start(UserPListFragment.newInstance(userSimple.uid, type = USER_START_POST, showBottomBarOnDestroy = true))
+            if (position == USER_START_ITEM) {
+                startActivity(Intent(activity, UserPostActivity::class.java).apply {
+                    putExtra(USER_ID, userSimple.uid)
+                    putExtra(USER_POST_TYPE, USER_START_POST) })
                 return
             }
             if (position == USER_REPLY_ITEM) {
-                mParentFragment.start(UserPListFragment.newInstance(userSimple.uid, type = USER_REPLY_POST, showBottomBarOnDestroy = true))
+                startActivity(Intent(activity, UserPostActivity::class.java).apply {
+                    putExtra(USER_ID, userSimple.uid)
+                    putExtra(USER_POST_TYPE, USER_REPLY_POST) })
                 return
             }
             if (position == USER_FAV_ITEM) {
-                mParentFragment.start(UserPListFragment.newInstance(userSimple.uid, type = USER_FAV_POST, showBottomBarOnDestroy = true))
+                startActivity(Intent(activity, UserPostActivity::class.java).apply {
+                    putExtra(USER_ID, userSimple.uid)
+                    putExtra(USER_POST_TYPE, USER_FAV_POST) })
                 return
             }
             if (position == USER_FRIEND_ITEM) {
-
                 return
             }
             if (position == SEARCH_ITEM) {
@@ -144,5 +158,23 @@ class MoreFragment: BaseFragment() {
                 return
             }
         }
+    }
+
+    private fun initMenu() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar_more)
+        setHasOptionsMenu(true)
+        toolbar_more.inflateMenu(R.menu.menu_more_fragment)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_more_fragment, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.item_search_more_fragment) {
+            mParentFragment.start(SearchFragment.newInstance(true))
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

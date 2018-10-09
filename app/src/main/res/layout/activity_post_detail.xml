@@ -130,8 +130,8 @@
 
                     <ImageView
                         android:id="@+id/image_view_post_fav"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="18dp"
                         android:layout_marginBottom="8dp"
@@ -150,6 +150,21 @@
                     android:orientation="vertical"
                     android:layout_margin="10dp">
                 </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/radio_group_post_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </RadioGroup>
+                <Button
+                    android:id="@+id/button_post_vote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_vote"
+                    android:layout_gravity="center_horizontal"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:visibility="gone"/>
+                <!--在此处一个自定义的View，用以显示投票的结果-->
 
                 <LinearLayout
                     android:id="@+id/linear_layout_detail_divide"

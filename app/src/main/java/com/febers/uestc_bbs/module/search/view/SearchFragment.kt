@@ -73,14 +73,6 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     @UiThread
     override fun showSearchResult(event: BaseEvent<SearchPostBean>) {
         progressDialog?.dismiss()
-        if (event.code == BaseCode.FAILURE) {
-            showToast(event.data.errcode!!)
-            refresh_layout_search?.apply {
-                finishRefresh(false)
-                finishLoadMore(false)
-            }
-            return
-        }
         refresh_layout_search?.apply {
             finishRefresh(true)
             finishLoadMore(true)
@@ -98,7 +90,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_search_fragment, menu)
-        menuItem = menu?.findItem(R.id.item_search)
+        menuItem = menu?.findItem(R.id.item_search_search_fragment)
         menuItem?.isChecked = true
         searchView = menuItem?.actionView as SearchView
         val listener = object : SearchView.OnQueryTextListener {
@@ -128,7 +120,15 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
         hideSoftInput()
         searchView.clearFocus()
         val tid = item.topic_id
-        ViewClickUtils.clickToPostDetail(context, activity, tid.toString())
+        ViewClickUtils.clickToPostDetail(context, tid.toString())
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_search?.apply {
+            finishRefresh(false)
+            finishLoadMore(false)
+        }
     }
 
     companion object {

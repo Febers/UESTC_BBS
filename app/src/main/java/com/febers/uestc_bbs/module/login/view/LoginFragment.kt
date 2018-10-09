@@ -44,9 +44,11 @@ class LoginFragment: BaseSwipeFragment(), LoginContract.View {
             showToast("登录成功")
             hideSoftInput()
             pop()
-        } else {
-            showToast(event.data.msg)
         }
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
     }
 
     companion object {

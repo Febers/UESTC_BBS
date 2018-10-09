@@ -12,7 +12,7 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
 
 abstract class BaseSwipeActivity : BaseActivity(), ISwipeBackActivity {
 
-    val mSwipeDelegate = SwipeBackActivityDelegate(this)
+    private val mSwipeDelegate = SwipeBackActivityDelegate(this)
 
     protected open fun setToolbar(): Toolbar? = null
 

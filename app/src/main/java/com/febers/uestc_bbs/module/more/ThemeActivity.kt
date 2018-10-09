@@ -6,6 +6,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseSwipeActivity
+import com.febers.uestc_bbs.base.SP_THEME_CODE
 import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.utils.AttrUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
@@ -49,11 +50,11 @@ class ThemeActivity : BaseSwipeActivity() {
         val item6 = ThemeItemBean(R.drawable.ic_circle_purple, getString(R.string.theme_purple), false)
         val item7 = ThemeItemBean(R.drawable.ic_circle_blue, getString(R.string.theme_blue), false)
         val item8 = ThemeItemBean(R.drawable.ic_circle_gray, getString(R.string.theme_gray), false)
-        val themeCode by PreferenceUtils(this, name = getString(R.string.sp_theme_code), default = 1)
+        val themeCode by PreferenceUtils(this, name = SP_THEME_CODE, default = 1)
         return listOf(item1, item2, item3, item4, item5, item6, item7, item8).apply {
             get(themeCode).itemUsing = true
         }
     }
 
-    override fun noStatusBar(): Boolean = true
+    override fun hideStatusBar(): Boolean = true
 }

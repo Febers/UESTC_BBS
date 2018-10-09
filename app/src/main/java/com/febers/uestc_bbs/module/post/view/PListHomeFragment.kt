@@ -50,9 +50,9 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postSimpleAdapter = PostSimpleAdapter(context!!, pListList, false).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
-                ViewClickUtils.clickToPostDetail(context, activity, simplePostBean.topic_id ?: simplePostBean.source_id) }
+                ViewClickUtils.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id) }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
-                viewHolder, simplePostBean, i -> ViewClickUtils.clickToUserDetail(context, activity, simplePostBean.user_id)
+                viewHolder, simplePostBean, i -> ViewClickUtils.clickToUserDetail(context, simplePostBean.user_id)
             }
         }
         recyclerview_subpost_fragment.apply {
@@ -94,14 +94,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     @UiThread
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
         loadFinish = true
-        if (event.code == BaseCode.FAILURE) {
-            showToast(event.data!![0].title!!)
-            refresh_layout_post_fragment?.apply {
-                finishRefresh(false)
-                finishLoadMore(false)
-            }
-            return
-        }
         if (event.code == BaseCode.LOCAL) {
             context?.runOnUiThread {
                 postSimpleAdapter.setNewData(event.data)
@@ -122,6 +114,14 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             return
         }
         postSimpleAdapter.setLoadMoreData(event.data)
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_post_fragment?.apply {
+            finishRefresh(false)
+            finishLoadMore(false)
+        }
     }
 
     companion object {

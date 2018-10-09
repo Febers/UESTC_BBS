@@ -57,26 +57,17 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         }
         refresh_layout_post_list.setOnLoadMoreListener { getPost(++page, true) }
         postSimpleAdapter.setOnItemClickListener { viewHolder, simplePostBean, i ->
-            clickToPostDetail(context, activity, simplePostBean.topic_id ?: simplePostBean.source_id)
+            clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id)
         }
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_list.setNoMoreData(false)
-        i("PLIST", "${mFid}")
         pListPresenter.pListRequest(fid = mFid!!, page = page, refresh = refresh)
     }
 
     @UiThread
     override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
-        if (event.code == BaseCode.FAILURE) {
-            showToast(event.data!![0].title!!)
-            refresh_layout_post_list?.apply {
-                finishRefresh(false)
-                finishLoadMore(false)
-            }
-            return
-        }
         if (event.code == BaseCode.LOCAL) {
             context?.runOnUiThread {
                 postSimpleAdapter.setNewData(event.data)
@@ -97,6 +88,14 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             return
         }
         postSimpleAdapter.setLoadMoreData(event.data)
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_post_list?.apply {
+            finishRefresh(false)
+            finishLoadMore(false)
+        }
     }
 
     companion object {

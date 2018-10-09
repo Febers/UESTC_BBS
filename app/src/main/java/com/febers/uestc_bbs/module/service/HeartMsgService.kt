@@ -147,30 +147,30 @@ class HeartMsgService : Service() {
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
                             val heartBean = response.body() ?: return
                             i("service", "response")
-                            if (heartBean.rs != 1) return
-                            if (heartBean.body.replyInfo.count > 0) {
-                                createNotification(title = "${heartBean.body.replyInfo.count}条新回复",
-                                        content = TimeUtils.stampChange(heartBean.body.replyInfo.time),
+                            if (heartBean.rs != 1 || heartBean.body == null) return
+                            if (heartBean.body!!.replyInfo?.count!! > 0) {
+                                createNotification(title = "${heartBean.body?.replyInfo?.count}条新回复",
+                                        content = TimeUtils.stampChange(heartBean.body?.replyInfo?.time),
                                         msgType = MSG_TYPE_REPLY,
-                                        count = heartBean.body.replyInfo.count)
+                                        count = heartBean.body?.replyInfo?.count!! )
                                 showNotification(notificationId_r)
                             }
-                            if (heartBean.body.atMeInfo.count > 0) {
-                                createNotification(title = "${heartBean.body.atMeInfo.count}条@消息",
-                                        content = TimeUtils.stampChange(heartBean.body.atMeInfo.time),
+                            if (heartBean.body!!.atMeInfo?.count!! > 0) {
+                                createNotification(title = "${heartBean.body?.atMeInfo?.count}条@消息",
+                                        content = TimeUtils.stampChange(heartBean.body?.atMeInfo?.time),
                                         msgType = MSG_TYPE_AT,
-                                        count = heartBean.body.atMeInfo.count)
+                                        count = heartBean.body?.atMeInfo?.count!!)
                                 showNotification(notificationId_a)
                             }
-                            if (heartBean.body.pmInfos.size > 0) {
-                                if (heartBean.body.pmInfos.size > 3) {
-                                    createNotification(title = "${heartBean.body.pmInfos.size}条私信",
-                                            content = TimeUtils.stampChange(heartBean.body.pmInfos[0].time),
+                            if (heartBean.body?.pmInfos?.size!! > 0) {
+                                if (heartBean.body!!.pmInfos?.size!! > 3) {
+                                    createNotification(title = "${heartBean.body!!.pmInfos?.size}条私信",
+                                            content = TimeUtils.stampChange(heartBean.body!!.pmInfos!![0].time),
                                             msgType = MSG_TYPE_PRIVATE,
-                                            count = heartBean.body.pmInfos.size)
+                                            count = heartBean.body!!.pmInfos?.size!!)
                                     showNotification(notificationId_p)
                                 } else {
-                                    heartBean.body.pmInfos.forEach {
+                                    heartBean.body!!.pmInfos?.forEach {
                                         createNotification(title = "来自${it.fromUid}的消息",
                                                 content = TimeUtils.stampChange(it.time) + "之前",
                                                 msgType = MSG_TYPE_PRIVATE,

@@ -58,11 +58,7 @@ class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
      * recyclerview_private_detail.scrollToPosition(pmList.size-1)
      */
     override fun showPMDetail(event: BaseEvent<PMDetailBean>) {
-        if (event.code == BaseCode.FAILURE) {
-            showToast(event.data.errcode)
-            return
-        }
-        pmList.addAll(event.data.body.pmList[0].msgList)
+        event.data.body?.pmList?.get(0)?.msgList?.let { pmList.addAll(it) }
         pmAdapter.notifyItemInserted(pmList.size-1)
         scroll_view_pm.post {
             scroll_view_pm.scrollTo(0, linear_layout_pm_content.measuredHeight)

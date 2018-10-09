@@ -15,7 +15,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.entity.SimpleContentBean
+import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
@@ -61,20 +61,20 @@ import com.febers.uestc_bbs.utils.encodeSpaces
 }
 ],
  */
-const val CONTENT_TYPE_TEXT = "0"
-const val CONTENT_TYPE_IMG = "1"
-const val CONTENT_TYPE_AUDIO = "3"
-const val CONTENT_TYPE_URL = "4"
-const val CONTENT_TYPE_FILE = "5"
+const val CONTENT_TYPE_TEXT = 0
+const val CONTENT_TYPE_IMG = 1
+const val CONTENT_TYPE_AUDIO = 3
+const val CONTENT_TYPE_URL = 4
+const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
 object PostContentViewUtils {
 
-    private lateinit var mContents: List<SimpleContentBean>
+    private lateinit var mContents: List<PostDetailBean.ContentBean>
     private lateinit var mStringBuilder: StringBuilder
     private val IMAGE_VIEW_MARGIN = 20
 
-    fun create(linearLayout: LinearLayout?, contents: List<SimpleContentBean>?) {
+    fun create(linearLayout: LinearLayout?, contents: List<PostDetailBean.ContentBean>?) {
         if (contents == null || linearLayout == null) {
             return
         }

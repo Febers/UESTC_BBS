@@ -15,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
+class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
 
     override fun topicService(_fid: String, _page: Int, _refresh: Boolean) {
         mFid = _fid
@@ -32,23 +32,23 @@ class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
     private fun getPList() {
         getCall().enqueue(object : Callback<PListResultBean> {
             override fun onFailure(call: Call<PListResultBean>?, t: Throwable?) {
-                PListPresenter.pListResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimplePListBean(title = SERVICE_RESPONSE_ERROR))))
+                pListPresenter.errorResult(SERVICE_RESPONSE_ERROR)
             }
 
             override fun onResponse(call: Call<PListResultBean>?, response: Response<PListResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    PListPresenter.pListResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimplePListBean(title = SERVICE_RESPONSE_NULL))))
+                    pListPresenter.errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }
                 if(body.rs != REQUEST_SUCCESS_RS) {
-                    PListPresenter.pListResult(BaseEvent(BaseCode.FAILURE, arrayListOf(SimplePListBean(title = body.head?.errInfo))))
+                    pListPresenter.errorResult(body.head?.errInfo.toString())
                     return
                 }
                 if (body.has_next != HAVE_NEXT_PAGE) {
-                    PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS_END, body.list))
+                    pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS_END, body.list))
                 } else {
-                    PListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
+                    pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
                 }
                 //保存首页的第一页帖子列表
                 if (mPage == FIRST_PAGE && mFid.toInt() < 0) PostStore.savePostList(mFid, body)
@@ -93,10 +93,10 @@ class PListModelImpl(val PListPresenter: PListContract.Presenter) : BaseModel(),
     }
 
     private fun getSavedPList() {
-        if (mPage != FIRST_PAGE) return
+        if (mPage != FIRST_PAGE && mFid.toInt() >= 0) return
         PostStore.getPostList(mFid).apply {
             if (this.list != null) {
-                PListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this.list))
+                pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this.list))
             }
         }
     }

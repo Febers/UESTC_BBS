@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import android.view.View
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.entity.PostReplyBean
+import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.view.utils.PostContentViewUtils
@@ -17,11 +17,11 @@ import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
 
-const val REPLY_IS_QUOTA = "1"
-class PostReplyItemAdapter(val context: Context, data: List<PostReplyBean>, isLoadMore: Boolean):
-        CommonBaseAdapter<PostReplyBean>(context, data, isLoadMore) {
+const val REPLY_IS_QUOTA = 1
+class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, isLoadMore: Boolean):
+        CommonBaseAdapter<PostDetailBean.ListBean>(context, data, isLoadMore) {
 
-    override fun convert(p0: ViewHolder?, p1: PostReplyBean?, p2: Int) {
+    override fun convert(p0: ViewHolder?, p1: PostDetailBean.ListBean?, p2: Int) {
         p0?.setText(R.id.text_view_post_reply_author, p1?.reply_name)
         p0?.setText(R.id.text_view_post_reply_date, TimeUtils.stampChange(p1?.posts_date))
         p0?.setText(R.id.text_view_post_reply_content, p1?.userTitle)

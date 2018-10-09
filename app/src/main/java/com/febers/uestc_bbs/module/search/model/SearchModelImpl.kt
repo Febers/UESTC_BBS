@@ -24,20 +24,17 @@ class SearchModelImpl(val searchPresenter: SearchContrect.Presenter): BaseModel(
         )
         call.enqueue(object : Callback<SearchPostBean> {
             override fun onFailure(call: Call<SearchPostBean>?, t: Throwable?) {
-                searchPresenter.searchResult(BaseEvent(BaseCode.FAILURE, SearchPostBean()
-                        .apply { errcode = SERVICE_RESPONSE_ERROR + t.toString() }))
+                searchPresenter.errorResult(SERVICE_RESPONSE_ERROR)
             }
 
             override fun onResponse(call: Call<SearchPostBean>?, response: Response<SearchPostBean>?) {
                 val searchPostBean = response?.body()
                 if (searchPostBean == null) {
-                    searchPresenter.searchResult(BaseEvent(BaseCode.FAILURE, SearchPostBean()
-                            .apply { errcode = SERVICE_RESPONSE_NULL }))
+                    searchPresenter.errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }
                 if (searchPostBean.rs != REQUEST_SUCCESS_RS) {
-                    searchPresenter.searchResult(BaseEvent(BaseCode.FAILURE, SearchPostBean()
-                            .apply { errcode = searchPostBean.head?.errInfo }))
+                    searchPresenter.errorResult(searchPostBean.head?.errInfo.toString())
                     return
                 }
                 searchPresenter.searchResult(BaseEvent(

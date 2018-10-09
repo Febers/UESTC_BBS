@@ -10,23 +10,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/DefaultTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".module.user.view.UserDetailActivity" />
         <activity android:name=".module.post.view.PostDetailActivity" />
@@ -41,10 +36,17 @@
         <service
             android:name=".module.service.HeartMsgService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".module.user.view.UserEditActivity"></activity>
-        <activity android:name=".home.ImageActivity"></activity>
+        <activity android:name=".module.user.view.UserEditActivity" />
+        <activity android:name=".module.more.ImageActivity" />
+        <activity android:name=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".module.user.view.UserPostActivity" />
     </application>
 
 </manifest>

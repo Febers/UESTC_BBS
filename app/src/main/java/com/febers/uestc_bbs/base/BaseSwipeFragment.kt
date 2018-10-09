@@ -31,7 +31,12 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
     protected var showBottomBarOnDestroy = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.GONE
+        try {
+            activity?.findViewById<AHBottomNavigation>(R.id.bottom_navigation_home)?.visibility = View.GONE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         val view = super.onCreateView(inflater, container, savedInstanceState)
         return attachToSwipeBack(view!!)
     }
@@ -72,8 +77,8 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) {
-            hideSoftInput()
             pop()
+            hideSoftInput()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -126,5 +131,9 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
     override fun onBackPressedSupport(): Boolean {
         pop()
         return true
+    }
+
+    protected fun enableSwipeBack(enable: Boolean) {
+        mSwipeDelegate.setSwipeBackEnable(enable)
     }
 }

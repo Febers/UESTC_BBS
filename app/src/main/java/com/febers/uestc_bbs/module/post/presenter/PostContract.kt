@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.module.post.presenter
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePresenter
 import com.febers.uestc_bbs.base.BaseView
-import com.febers.uestc_bbs.entity.PostResultBean
+import com.febers.uestc_bbs.entity.PostDetailBean
 
 interface PostContract {
 
@@ -18,10 +18,10 @@ interface PostContract {
     }
 
     interface View: BaseView {
-        fun showPost(event: BaseEvent<PostResultBean>)
+        fun showPost(event: BaseEvent<PostDetailBean>)
     }
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
         abstract fun postRequest(postId: String, page: Int, authorId: String = "", order: String = "")
-        abstract fun postResult(event: BaseEvent<PostResultBean>)
+        abstract fun postResult(event: BaseEvent<PostDetailBean>)
     }
 }

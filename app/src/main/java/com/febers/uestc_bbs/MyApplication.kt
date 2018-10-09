@@ -8,6 +8,7 @@ package com.febers.uestc_bbs
 
 import android.app.Application
 import android.content.Context
+import com.febers.uestc_bbs.base.SP_USER_ID
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
@@ -28,7 +29,7 @@ class MyApplication: Application() {
         private var context: Context by Delegates.notNull()
         fun context() = context
         fun getUser(): UserSimpleBean {
-            val uid by PreferenceUtils(context, context.getString(R.string.sp_user_uid), "")
+            val uid by PreferenceUtils(context, SP_USER_ID, "")
             return UserStore.get(uid)
         }
         init {

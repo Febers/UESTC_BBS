@@ -5,4 +5,59 @@
   ~ Last modified 18-6-9 上午9:21.
   -->
 
-<resources></resources>
+<resources>
+    <string name="app_name">UESTC_BBS</string>
+    <string name="developer_name">Febers</string>
+    <string name="developer_email">febers418@qq.com</string>
+    <string name="clear_image_cache">Clear Image Cache</string>
+    <string name="version">Version</string>
+    <string name="version_value">v1.0</string>
+    <string name="check_update">Check Update</string>
+    <string name="feedback_and_other">Feedback Or Other</string>
+    <string name="source_code">Source Code</string>
+    <string name="open_source_project">Open Source Project</string>
+    <string name="open_source_license">Open Source License</string>
+
+    <string name="home_page">Home</string>
+    <string name="forum_list_page">Block</string>
+    <string name="message_page">Message</string>
+    <string name="more_page">More</string>
+
+    <string name="new_post">New Start</string>
+    <string name="new_reply">New Reply</string>
+    <string name="hot_article">Hot</string>
+
+    <string name="post_reply_message">reply</string>
+    <string name="private_message">pm</string>
+    <string name="system_message">system</string>
+    <string name="at_message">at</string>
+
+    <string name="user_post">My Post</string>
+    <string name="user_reply">My Reply</string>
+    <string name="user_favorite">My Favorite</string>
+    <string name="user_friends">My Friend</string>
+    <string name="theme_style">Theme Style</string>
+
+    <string name="setting">Setting</string>
+    <string name="choose_theme">Theme</string>
+    <string name="choose_block">Choose Block</string>
+    <string name="edit">Edit</string>
+
+    <string name="account_detail">Account Detail</string>
+    <string name="no_login">No Login</string>
+    <string name="user_password">Password</string>
+    <string name="user_name">User Name</string>
+    <string name="login">Login</string>
+
+    <string name="theme_green">Green</string>
+    <string name="theme_red">Red</string>
+    <string name="theme_pink">Pink</string>
+    <string name="theme_cyan">Cyan</string>
+    <string name="theme_teal">Teal</string>
+    <string name="theme_purple">Purple</string>
+    <string name="theme_blue">Blue</string>
+    <string name="theme_gray">Gray</string>
+
+    <string name="post_fav">Favorite</string>
+    <string name="post_vote">Vote</string>
+</resources>

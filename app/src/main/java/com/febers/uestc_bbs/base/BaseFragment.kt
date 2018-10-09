@@ -61,6 +61,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     override fun onDestroy() {
         mDelegate.onDestroy()
+        hideSoftInput()
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
@@ -68,7 +69,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     }
 
     @UiThread
-    override fun showToast(error: String) {
-        MyApplication.context().toast(error)
+    override fun showToast(msg: String) {
+        context!!.toast(msg)
     }
 }

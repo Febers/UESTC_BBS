@@ -8,7 +8,8 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class ThemeAdapter(val context: Context, data: List<ThemeItemBean>, isLoadMore: Boolean) : CommonBaseAdapter<ThemeItemBean>(context, data, isLoadMore) {
+class ThemeAdapter(val context: Context, data: List<ThemeItemBean>, isLoadMore: Boolean) :
+        CommonBaseAdapter<ThemeItemBean>(context, data, isLoadMore) {
 
     override fun convert(p0: ViewHolder?, p1: ThemeItemBean?, p2: Int) {
         p0?.setBgResource(R.id.image_view_theme_color, p1!!.itemColor)

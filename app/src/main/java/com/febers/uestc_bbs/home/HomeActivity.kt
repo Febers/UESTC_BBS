@@ -30,7 +30,7 @@ class HomeActivity: BaseActivity() {
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
     private var msgCount = 0
 
-    override fun registerEvenBus(): Boolean = true
+    override fun registerEventBus(): Boolean = true
 
     override fun setView(): Int {
         return R.layout.activity_home
@@ -57,7 +57,7 @@ class HomeActivity: BaseActivity() {
         }
         bottom_navigation_home.manageFloatingActionButtonBehavior(fab_home)
         bottom_navigation_home.apply {
-            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_home_gray))
+            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_windmill_gray))
             addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
             addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
             addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
@@ -94,7 +94,6 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun onTabReselected(position: Int) {
-        i("HOME", position.toString())
         EventBus.getDefault().post(TabReselectedEvent(BaseCode.SUCCESS, position))
     }
 
@@ -104,7 +103,7 @@ class HomeActivity: BaseActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onGetNewMsg(event: MsgEvent) {
+    fun onReceiveNewMsg(event: MsgEvent) {
         msgCount = event.count
         bottom_navigation_home.setNotification(msgCount, 2)
     }

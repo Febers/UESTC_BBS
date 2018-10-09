@@ -4,24 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:orientation="vertical"
-    android:clickable="true"
-    android:focusable="true"
+    android:orientation="horizontal"
     android:background="?android:attr/selectableItemBackground">
-    <TextView
-        android:id="@+id/item_setting_text_view_first"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="清理缓存"
-        android:textColor="?attr/textColorFirst"
-        android:textSize="@dimen/text_size_big"/>
-    <TextView
-        android:id="@+id/item_setting_text_view_second"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_view_item_setting_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="清理缓存"
+            android:textColor="?attr/textColorFirst"
+            android:textSize="@dimen/text_size_big"/>
+        <TextView
+            android:id="@+id/text_view_item_setting_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:text="清理缓存"
+            android:textColor="?attr/textColorSecond"
+            android:textSize="@dimen/text_size_small"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/check_box_item_setting"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="清理缓存"
-        android:textColor="?attr/textColorSecond"
-        android:textSize="@dimen/text_size_normal"/>
+        android:layout_height="20dp"
+        android:checked="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </LinearLayout>

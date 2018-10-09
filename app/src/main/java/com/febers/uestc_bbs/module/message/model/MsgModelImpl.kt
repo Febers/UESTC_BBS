@@ -35,28 +35,21 @@ class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : Ba
                         json = """{"page":$mPage,pageSize:$COMMON_PAGE_SIZE}""")
                 .enqueue(object : Callback<MsgPrivateBean> {
                     override fun onFailure(call: Call<MsgPrivateBean>?, t: Throwable?) {
-                        i("msgM error", t.toString())
-                        messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgPrivateBean().apply {
-                            errcode = t.toString()
-                        }))
+                        messagePresenter.errorResult(t.toString())
                     }
 
                     override fun onResponse(call: Call<MsgPrivateBean>?, response: Response<MsgPrivateBean>?) {
                         val msgPrivateBean = response?.body()
                         if (msgPrivateBean == null) {
-                            messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgReplyBean().apply {
-                                errcode = SERVICE_RESPONSE_NULL
-                            }))
+                            messagePresenter.errorResult(SERVICE_RESPONSE_NULL)
                             return
                         }
                         if (msgPrivateBean.rs != REQUEST_SUCCESS_RS) {
-                            messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgPrivateBean().apply {
-                                errcode = SERVICE_RESPONSE_ERROR
-                            }))
+                            messagePresenter.errorResult(msgPrivateBean.head?.errInfo.toString())
                             return
                         }
                         messagePresenter.msgResult(BaseEvent(
-                                if (msgPrivateBean.body.hasNext != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
+                                if (msgPrivateBean.body?.hasNext != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                 else BaseCode.SUCCESS,
                                 msgPrivateBean))
                     }
@@ -72,43 +65,22 @@ class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : Ba
                         pageSize = COMMON_PAGE_SIZE)
                 .enqueue(object : Callback<JsonObject> {
                     override fun onFailure(call: Call<JsonObject>?, t: Throwable?) {
-                        i("msgM error", t.toString())
-                        when(mType) {
-                            MSG_TYPE_REPLY -> {
-                                messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgReplyBean().apply {
-                                    errcode = t.toString()
-                                }))
-                            }
-                            MSG_TYPE_AT -> {
-                                messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgAtBean().apply {
-                                    errcode = t.toString()
-                                }))
-                            }
-                            MSG_TYPE_SYSTEM -> {
-                                messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgSystemBean().apply {
-                                    errcode = t.toString()
-                                }))
-                            }
-                        }
+                        messagePresenter.errorResult(t.toString())
                     }
 
                     override fun onResponse(call: Call<JsonObject>?, response: Response<JsonObject>?) {
                         if (response?.body() == null) {
-                            messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgReplyBean().apply {
-                                errcode = SERVICE_RESPONSE_NULL
-                            }))
+                            messagePresenter.errorResult(SERVICE_RESPONSE_NULL)
                             return
                         }
                         val json = response.body()
+                        if (json?.get("rs")?.asInt != REQUEST_SUCCESS_RS) {
+                            messagePresenter.errorResult("获取出错:" + json?.get("head")?.asJsonObject?.get("errInfo")?.asString)
+                            return
+                        }
                         when(mType) {
                             MSG_TYPE_REPLY -> {
                                 val msgReplyBean = Gson().fromJson(json, MsgReplyBean::class.java)
-                                if (msgReplyBean.rs != REQUEST_SUCCESS_RS) {
-                                    messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgReplyBean().apply {
-                                        errcode = SERVICE_RESPONSE_ERROR
-                                    }))
-                                    return
-                                }
                                 messagePresenter.msgResult(BaseEvent(
                                         if (msgReplyBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                         else BaseCode.SUCCESS,
@@ -116,12 +88,6 @@ class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : Ba
                             }
                             MSG_TYPE_AT -> {
                                 val msgAtBean = Gson().fromJson(json, MsgAtBean::class.java)
-                                if (msgAtBean.rs != REQUEST_SUCCESS_RS) {
-                                    messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgAtBean().apply {
-                                        errcode = SERVICE_RESPONSE_ERROR
-                                    }))
-                                    return
-                            }
                                 messagePresenter.msgResult(BaseEvent(
                                         if (msgAtBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                         else BaseCode.SUCCESS,
@@ -129,12 +95,6 @@ class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : Ba
                             }
                             MSG_TYPE_SYSTEM -> {
                                 val msgSystemBean = Gson().fromJson(json, MsgSystemBean::class.java)
-                                if (msgSystemBean.rs != REQUEST_SUCCESS_RS) {
-                                    messagePresenter.msgResult(BaseEvent(BaseCode.FAILURE, MsgSystemBean().apply {
-                                        errcode = SERVICE_RESPONSE_ERROR
-                                    }))
-                                    return
-                                }
                                 messagePresenter.msgResult(BaseEvent(
                                         if (msgSystemBean.has_next != HAVE_NEXT_PAGE) BaseCode.SUCCESS_END
                                         else BaseCode.SUCCESS,

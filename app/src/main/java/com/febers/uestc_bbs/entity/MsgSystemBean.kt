@@ -1,8 +1,6 @@
-package com.febers.uestc_bbs.entity;
+package com.febers.uestc_bbs.entity
 
-import java.util.List;
-
-public class MsgSystemBean extends MsgBaseBean{
+class MsgSystemBean : MsgBaseBean() {
 
     /**
      * rs : 1
@@ -15,80 +13,16 @@ public class MsgSystemBean extends MsgBaseBean{
      * list : []
      */
 
-    private int rs;
-    private String errcode;
-    private HeadBean head;
-    private BodyBean body;
-    private int page;
-    private int has_next;
-    private int total_num;
-    private List<?> list;
+    var rs: Int = 0
+    var errcode: String? = null
+    var head: HeadBean? = null
+    var body: BodyBean? = null
+    var page: Int = 0
+    var has_next: Int = 0
+    var total_num: Int = 0
+    var list: List<*>? = null
 
-    public int getRs() {
-        return rs;
-    }
-
-    public void setRs(int rs) {
-        this.rs = rs;
-    }
-
-    public String getErrcode() {
-        return errcode;
-    }
-
-    public void setErrcode(String errcode) {
-        this.errcode = errcode;
-    }
-
-    public HeadBean getHead() {
-        return head;
-    }
-
-    public void setHead(HeadBean head) {
-        this.head = head;
-    }
-
-    public BodyBean getBody() {
-        return body;
-    }
-
-    public void setBody(BodyBean body) {
-        this.body = body;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getHas_next() {
-        return has_next;
-    }
-
-    public void setHas_next(int has_next) {
-        this.has_next = has_next;
-    }
-
-    public int getTotal_num() {
-        return total_num;
-    }
-
-    public void setTotal_num(int total_num) {
-        this.total_num = total_num;
-    }
-
-    public List<?> getList() {
-        return list;
-    }
-
-    public void setList(List<?> list) {
-        this.list = list;
-    }
-
-    public static class HeadBean {
+    class HeadBean {
         /**
          * errCode : 00000000
          * errInfo : 调用成功,没有任何错误
@@ -96,86 +30,30 @@ public class MsgSystemBean extends MsgBaseBean{
          * alert : 0
          */
 
-        private String errCode;
-        private String errInfo;
-        private String version;
-        private int alert;
-
-        public String getErrCode() {
-            return errCode;
-        }
-
-        public void setErrCode(String errCode) {
-            this.errCode = errCode;
-        }
-
-        public String getErrInfo() {
-            return errInfo;
-        }
-
-        public void setErrInfo(String errInfo) {
-            this.errInfo = errInfo;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
-
-        public int getAlert() {
-            return alert;
-        }
-
-        public void setAlert(int alert) {
-            this.alert = alert;
-        }
+        var errCode: String? = null
+        var errInfo: String? = null
+        var version: String? = null
+        var alert: Int = 0
     }
 
-    public static class BodyBean {
+    class BodyBean {
         /**
          * externInfo : {"padding":""}
          * data : [{"dateline":"1516783261000","type":"system","note":"坏消息，坏消息，萌萌熊 看你不顺眼了,试图给你下头像变猪头的诅咒，不过这次他没成功。不知道他会不会再来一次的哦。想诅咒TA?点击这里试试吧","fromId":0,"fromIdType":"","author":"","authorId":0,"authorAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle","actions":[]},{"dateline":"1514121800000","type":"system","note":"您的用户组升级为 河蟹 (Lv.3)   看看我能做什么 \u203a","fromId":0,"fromIdType":"changeusergroup","author":"","authorId":0,"authorAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle","actions":[]},{"dateline":"1511485574000","type":"system","note":"11月25日线下活动通告！11月25日下午2点的开幕式改在活动中心1楼咖啡厅进行！！！到时候有大蛋糕吃！！！大家先过来看看，吃吃，再听听游戏的具体规则！我们不见不散！","fromId":0,"fromIdType":"sendnotice","author":"","authorId":0,"authorAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle","actions":[]},{"dateline":"1511449182000","type":"system","note":"十年同舟共济，一路河畔有你清河畔今年十岁了！在这十年里，河畔陪伴着大家走过风风雨雨、河畔分享着大家的喜怒哀乐、河畔陪伴着大家一起成长！戳戳这里：http://bbs.uestc.edu.cn/tenth_anniversary/index.php，看看自己与河畔有着怎样的故事~送祝福给河畔有神秘加成哦~","fromId":0,"fromIdType":"sendnotice","author":"","authorId":0,"authorAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle","actions":[]},{"dateline":"1510217118000","type":"system","note":"您的用户组升级为 虾米 (Lv.2)   看看我能做什么 \u203a","fromId":0,"fromIdType":"changeusergroup","author":"","authorId":0,"authorAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle","actions":[]},{"dateline":"1471955234000","type":"system","note":"尊敬的四条眉毛，您已经注册成为清水河畔－电子科技大学官方论坛的会员，请你务必阅读新手导航以了解河畔。点此下载手机客户端如果您有什么疑问可以联系管理员，Email: uestcbbs@163.com。\r\n\r\n\r\n清水河畔－电子科技大学官方论坛\r\n2016-8-23 20:27","fromId":0,"fromIdType":"welcomemsg","author":"","authorId":0,"authorAvatar":"http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=0&size=middle","actions":[]}]
          */
 
-        private ExternInfoBean externInfo;
-        private List<DataBean> data;
+        var externInfo: ExternInfoBean? = null
+        var data: List<DataBean>? = null
 
-        public ExternInfoBean getExternInfo() {
-            return externInfo;
-        }
-
-        public void setExternInfo(ExternInfoBean externInfo) {
-            this.externInfo = externInfo;
-        }
-
-        public List<DataBean> getData() {
-            return data;
-        }
-
-        public void setData(List<DataBean> data) {
-            this.data = data;
-        }
-
-        public static class ExternInfoBean {
+        class ExternInfoBean {
             /**
              * padding :
              */
 
-            private String padding;
-
-            public String getPadding() {
-                return padding;
-            }
-
-            public void setPadding(String padding) {
-                this.padding = padding;
-            }
+            var padding: String? = null
         }
 
-        public static class DataBean {
+        class DataBean {
             /**
              * dateline : 1516783261000
              * type : system
@@ -188,87 +66,15 @@ public class MsgSystemBean extends MsgBaseBean{
              * actions : []
              */
 
-            private String dateline;
-            private String type;
-            private String note;
-            private int fromId;
-            private String fromIdType;
-            private String author;
-            private int authorId;
-            private String authorAvatar;
-            private List<?> actions;
-
-            public String getDateline() {
-                return dateline;
-            }
-
-            public void setDateline(String dateline) {
-                this.dateline = dateline;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getNote() {
-                return note;
-            }
-
-            public void setNote(String note) {
-                this.note = note;
-            }
-
-            public int getFromId() {
-                return fromId;
-            }
-
-            public void setFromId(int fromId) {
-                this.fromId = fromId;
-            }
-
-            public String getFromIdType() {
-                return fromIdType;
-            }
-
-            public void setFromIdType(String fromIdType) {
-                this.fromIdType = fromIdType;
-            }
-
-            public String getAuthor() {
-                return author;
-            }
-
-            public void setAuthor(String author) {
-                this.author = author;
-            }
-
-            public int getAuthorId() {
-                return authorId;
-            }
-
-            public void setAuthorId(int authorId) {
-                this.authorId = authorId;
-            }
-
-            public String getAuthorAvatar() {
-                return authorAvatar;
-            }
-
-            public void setAuthorAvatar(String authorAvatar) {
-                this.authorAvatar = authorAvatar;
-            }
-
-            public List<?> getActions() {
-                return actions;
-            }
-
-            public void setActions(List<?> actions) {
-                this.actions = actions;
-            }
+            var dateline: String? = null
+            var type: String? = null
+            var note: String? = null
+            var fromId: Int = 0
+            var fromIdType: String? = null
+            var author: String? = null
+            var authorId: Int = 0
+            var authorAvatar: String? = null
+            var actions: List<*>? = null
         }
     }
 }

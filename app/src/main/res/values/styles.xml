@@ -12,7 +12,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/color_white</item>
+        <!--<item name="android:windowBackground">@color/color_white</item>-->
         <item name="textColorFirst">@color/textColorFirst_Day</item>
         <item name="textColorSecond">@color/textColorSecond_Day</item>
         <item name="textColorThird">@color/textColorThird_Day</item>

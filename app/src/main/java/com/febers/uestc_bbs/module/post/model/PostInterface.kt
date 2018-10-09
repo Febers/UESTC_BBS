@@ -6,7 +6,7 @@
 
 package com.febers.uestc_bbs.module.post.model
 
-import com.febers.uestc_bbs.entity.PostResultBean
+import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
 import retrofit2.http.Field
@@ -18,5 +18,5 @@ interface PostInterface {
     @POST(ApiUtils.BBS_POST_LIST_URL)
     fun getPostDetail(@Field("topicId")topicId: String, @Field("authorId")authorId: String,
                       @Field("order")order: String, @Field("page")page :String,
-                      @Field("pageSize")pageSize: String) : Call<PostResultBean>
+                      @Field("pageSize")pageSize: String) : Call<PostDetailBean>
 }

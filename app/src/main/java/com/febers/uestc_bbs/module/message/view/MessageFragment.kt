@@ -52,15 +52,15 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             MSG_TYPE_REPLY -> msgAdapter = MsgReplyAdapter(context!!, replyList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, activity, listBean.topic_id.toString()) }
+                    clickToPostDetail(context, listBean.topic_id.toString()) }
                 setOnItemChildClickListener(R.id.image_view_msg_reply_author_avatar) {
                     p0: ViewHolder?, p1: MsgReplyBean.ListBean?, p2: Int ->
-                    clickToUserDetail(context, activity, p1?.user_id.toString())}
+                    clickToUserDetail(context, p1?.user_id.toString())}
             }
             MSG_TYPE_PRIVATE -> msgAdapter = MsgPrivateAdapter(context!!, privateList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPM(context, activity, listBean.toUserId.toString(), listBean.toUserName)
+                    clickToPM(context, listBean.toUserId.toString(), listBean.toUserName)
                     listBean.isNew = 0
                     this.notifyDataSetChanged()}
                 setOnItemChildClickListener(R.id.image_view_msg_private_author_avatar) {
@@ -70,7 +70,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             MSG_TYPE_AT -> msgAdapter = MsgAtAdapter(context!!, atList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, activity, listBean.topic_id.toString())}
+                    clickToPostDetail(context, listBean.topic_id.toString())}
                 setOnItemChildClickListener(R.id.image_view_msg_at_author_avatar) {
                     viewHolder, listBean, i -> clickToUserDetail(activity, listBean.user_id.toString())
                 }
@@ -107,14 +107,18 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     @UiThread
     override fun <M : MsgBaseBean> showMessage(event: BaseEvent<M>) {
         loadFinish = true
-        if (event.code == BaseCode.FAILURE) {
-            showToast(""+(event.data as MsgReplyBean).errcode)
-            refresh_layout_sub_message?.apply {
-                finishRefresh(false)
-                finishLoadMore(false)
-                return
-            }
-        }
+//        if (event.code == BaseCode.FAILURE) {
+//            try {
+//                showToast(""+(event.data as MsgReplyBean).errcode)
+//            } catch (e: Exception) {
+//                showToast(""+(event.data as MsgPrivateBean).errcode)
+//            }
+//            refresh_layout_sub_message?.apply {
+//                finishRefresh(false)
+//                finishLoadMore(false)
+//                return
+//            }
+//        }
         refresh_layout_sub_message?.apply {
             finishRefresh(true)
             finishLoadMore(true)
@@ -135,10 +139,10 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 msgBean as MsgPrivateBean
                 EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
                 if (page == 1) {
-                    (msgAdapter as MsgPrivateAdapter).setNewData(msgBean.body.list)
+                    (msgAdapter as MsgPrivateAdapter).setNewData(msgBean.body?.list)
                     return
                 }
-                (msgAdapter as MsgPrivateAdapter).setLoadMoreData(msgBean.body.list)
+                (msgAdapter as MsgPrivateAdapter).setLoadMoreData(msgBean.body?.list)
             }
             MSG_TYPE_AT -> {
                 msgBean as MsgAtBean
@@ -153,14 +157,22 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 msgBean as MsgSystemBean
                 EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_SYSTEM))
                 if (page == 1) {
-                    (msgAdapter as MsgSystemAdapter).setNewData(msgBean.body.data)
+                    (msgAdapter as MsgSystemAdapter).setNewData(msgBean.body?.data)
                     return
                 }
-                (msgAdapter as MsgSystemAdapter).setLoadMoreData(msgBean.body.data)
+                (msgAdapter as MsgSystemAdapter).setLoadMoreData(msgBean.body?.data)
             }
         }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_sub_message?.finishLoadMoreWithNoMoreData()
+        }
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_sub_message?.apply {
+            finishRefresh(false)
+            finishLoadMore(false)
         }
     }
 

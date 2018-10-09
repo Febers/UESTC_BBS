@@ -53,7 +53,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     @Override
     public Drawable getDrawable(String url) {
         final GlideUrlDrawable urlDrawable = new GlideUrlDrawable();
-        ImageLoader.INSTANCE.loadViewTarget(mContext, url, new ImageGetterViewTarget(mTextView, urlDrawable));
+        ImageLoader.INSTANCE.loadViewTarget(mContext, url, new ImageGetterViewTarget(mTextView, urlDrawable), true);
         return urlDrawable;
     }
 

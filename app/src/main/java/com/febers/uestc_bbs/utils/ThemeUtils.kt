@@ -3,6 +3,7 @@ package com.febers.uestc_bbs.utils
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.base.DEFAULT_THEME_CODE
+import com.febers.uestc_bbs.base.SP_THEME_CODE
 
 const val MY_THEME_GREEN = 0
 const val MY_THEME_RED = 1
@@ -15,7 +16,7 @@ const val MY_THEME_GRAY = 7
 
 object ThemeUtils {
     fun getTheme() : Int{
-        val code by PreferenceUtils(MyApplication.context(), MyApplication.context().getString(R.string.sp_theme_code), DEFAULT_THEME_CODE)
+        val code by PreferenceUtils(MyApplication.context(), SP_THEME_CODE, DEFAULT_THEME_CODE)
         return when(code) {
             MY_THEME_GREEN  -> R.style.GreenTheme
             MY_THEME_RED -> R.style.RedTheme
@@ -30,7 +31,7 @@ object ThemeUtils {
     }
 
     fun saveTheme(position: Int) {
-        var code by PreferenceUtils(MyApplication.context(), MyApplication.context().getString(R.string.sp_theme_code), MY_THEME_BLUE)
+        var code by PreferenceUtils(MyApplication.context(), SP_THEME_CODE, MY_THEME_BLUE)
         code = position
     }
 

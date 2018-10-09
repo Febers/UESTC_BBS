@@ -42,15 +42,13 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
                 isValidation = "")
         call.enqueue(object : Callback<LoginResultBean> {
             override fun onFailure(call: Call<LoginResultBean>?, t: Throwable?) {
-                mUserSimple.msg = SERVICE_RESPONSE_ERROR + t.toString()
-                loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUserSimple))
+                loginPresenter.errorResult(SERVICE_RESPONSE_ERROR + t.toString())
             }
 
             override fun onResponse(call: Call<LoginResultBean>?, response: Response<LoginResultBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    mUserSimple.msg = SERVICE_RESPONSE_NULL
-                    loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUserSimple))
+                    loginPresenter.errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }
                 resolveLoginResult(body)
@@ -61,8 +59,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
     private fun resolveLoginResult(loginResultBean: LoginResultBean) {
         val rs = loginResultBean.rs
         if (rs != REQUEST_SUCCESS_RS ) {
-            mUserSimple.msg = loginResultBean.head.errInfo
-            loginPresenter.loginResult(BaseEvent(BaseCode.FAILURE, mUserSimple))
+            loginPresenter.errorResult(loginResultBean.head.errInfo)
             return
         }
         mUserSimple.name = loginResultBean.userName
@@ -79,7 +76,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
         mUserSimple.valid = true
 
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
-        var uid by PreferenceUtils(mContext, mContext.getString(R.string.sp_user_uid), "")
+        var uid by PreferenceUtils(mContext, SP_USER_ID, "")
         uid = loginResultBean.uid
         UserStore.save(uid, mUserSimple)
     }

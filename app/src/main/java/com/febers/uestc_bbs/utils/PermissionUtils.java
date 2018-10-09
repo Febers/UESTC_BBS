@@ -15,7 +15,8 @@ import android.support.v7.app.AlertDialog;
 import java.util.Arrays;
 import java.util.List;
 
-public class PermissionHelper {
+public class PermissionUtils {
+
     private static final int REQUEST_PERMISSION_CODE = 1000;
 
     private Object mContext;
@@ -24,7 +25,7 @@ public class PermissionHelper {
 
     private List<String> mPermissionList;
 
-    public PermissionHelper(@NonNull Object object){
+    public PermissionUtils(@NonNull Object object){
         checkCallingObjectSuitability(object);
         this.mContext = object;
     }

@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.base
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.MainThread
@@ -16,6 +17,9 @@ import com.febers.uestc_bbs.utils.ThemeUtils
 import org.greenrobot.eventbus.EventBus
 import android.view.WindowManager
 import android.os.Build
+import android.os.PersistableBundle
+import android.util.AttributeSet
+import android.util.Log.i
 import com.febers.uestc_bbs.view.custom.SupportActivity
 
 
@@ -29,8 +33,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (noStatusBar()) {
+        i("BaseA", "onCreate")
+        if (hideStatusBar()) {
             //参考 https://www.jianshu.com/p/648176c8b67e
             val window = window
             //透明状态栏，分为sdk>21、21>sdk>19情况设置,sdk<19不支持
@@ -46,7 +50,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         }
         setTheme(ThemeUtils.getTheme())
         setContentView(contentView)
-        if (registerEvenBus()) {
+        if (registerEventBus()) {
             if (!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
             }
@@ -54,17 +58,17 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         initView()
     }
 
-    protected open fun noStatusBar() = false
+    protected open fun hideStatusBar() = false
 
     protected abstract fun setView(): Int
 
     protected abstract fun initView()
 
-    protected open fun registerEvenBus() = false
+    protected open fun registerEventBus() = false
 
     @MainThread
-    override fun showToast(error: String) {
-        toast(error)
+    override fun showToast(msg: String) {
+        toast(msg)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -77,8 +81,24 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onStart() {
+        super.onStart()
+        i("BaseA", "onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        i("BaseA", "onStop")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        i("BaseA", "onSave")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        i("BaseA", "onDestroy")
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }

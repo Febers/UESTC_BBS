@@ -43,7 +43,7 @@ object ImageLoader {
                         if (placeImage != null) {
                             this.placeholder(placeImage)
                         }
-                        this.error(R.mipmap.ic_default_avatar)
+                        this.error(R.drawable.ic_error_white_24dp)
                         this.crossFade()
                     }
                     .into(imageView)
@@ -55,9 +55,15 @@ object ImageLoader {
         }
     }
 
-    fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget) {
+    fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget,
+                       noCache: Boolean) {
         try {
             Glide.with(context).load(url)
+                    .apply {
+                        if (noCache) {
+                            diskCacheStrategy(DiskCacheStrategy.NONE)
+                        }
+                    }
                     //.placeholder(R.mipmap.ic_place_holder_grey)
                     .error(R.mipmap.ic_place_holder_grey)
                     .crossFade().into(viewTarget)
@@ -65,7 +71,7 @@ object ImageLoader {
             e.printStackTrace()
         }
         viewTarget.view.setOnClickListener {
-            ViewClickUtils.clickToImageView(url, context)
+            //ViewClickUtils.clickToImageView(url, context)
         }
     }
 }
