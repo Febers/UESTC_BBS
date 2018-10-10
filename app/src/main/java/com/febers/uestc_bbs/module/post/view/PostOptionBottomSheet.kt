@@ -63,6 +63,6 @@ class PostOptionBottomSheet(context: Context, style: Int, private val itemClickL
                         if (orderPositive)R.drawable.ic_order_navi_green_24dp else R.drawable.ic_order_posi_green_24dp),
                 OptionItemBean("Web版", R.drawable.ic_web_purple_24dp),
                 OptionItemBean("复制链接", R.drawable.ic_link_orange_24dp),
-                OptionItemBean("分享", R.drawable.ic_share_green_24dp))
+                OptionItemBean("分享", R.drawable.ic_share_blue_24dp))
     }
 }

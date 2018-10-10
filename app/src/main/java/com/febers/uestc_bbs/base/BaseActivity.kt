@@ -17,7 +17,9 @@ import com.febers.uestc_bbs.utils.ThemeUtils
 import org.greenrobot.eventbus.EventBus
 import android.view.WindowManager
 import android.os.Build
+import android.os.Looper
 import android.os.PersistableBundle
+import android.support.annotation.UiThread
 import android.util.AttributeSet
 import android.util.Log.i
 import com.febers.uestc_bbs.view.custom.SupportActivity
@@ -66,9 +68,10 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     protected open fun registerEventBus() = false
 
-    @MainThread
     override fun showToast(msg: String) {
-        toast(msg)
+        runOnUiThread {
+            toast(msg)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

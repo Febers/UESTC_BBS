@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.utils
 
 import android.content.Context
-import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 
 import com.bumptech.glide.Glide
@@ -17,11 +17,11 @@ object ImageLoader {
 
     /**
      * Glide 加载 拦截异步加载数据时Glide 抛出的异常
-     *
+     * 通常用于加载头像
      * @param context
      * @param url           加载图片的url地址  String
      * @param imageView     加载图片的ImageView 控件
-     * @param placeImage 图片展示错误的本地图片 id
+     * @param placeImage 图片加载过程中的本地图片 id
      */
     fun load(context: Context?, url: String?, imageView: ImageView?,
              placeImage: Int? = R.mipmap.ic_default_avatar,
@@ -43,7 +43,7 @@ object ImageLoader {
                         if (placeImage != null) {
                             this.placeholder(placeImage)
                         }
-                        this.error(R.drawable.ic_error_white_24dp)
+                        this.error(R.mipmap.image_error_200200)
                         this.crossFade()
                     }
                     .into(imageView)
@@ -55,6 +55,31 @@ object ImageLoader {
         }
     }
 
+    /**
+     * 预加载图片，防止边绘制ImageView边加载图片，边滑动时的卡顿问题
+     * @param context Context
+     * @param url     加载图片的url地址  String
+     */
+    fun preload(context: Context?, url: String?) {
+        Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).preload()
+    }
+
+    /**
+     * 使用在后台预加载的图片，由于此时视图已经绘制完毕
+     * 只需要将Glide加载的图片填充进ImageView即可
+     * 通常用于加载帖子中的内容
+     * @param context
+     * @param url        加载图片的url地址  String
+     * @param imageView  加载图片的ImageView 控件
+     */
+    fun usePreload(context: Context?, url: String?, imageView: ImageView?) {
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .placeholder(R.mipmap.image_placeholder_400200)
+                .error(R.mipmap.image_error_400200)
+                .into(imageView)
+    }
+
     fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget,
                        noCache: Boolean) {
         try {
@@ -64,7 +89,6 @@ object ImageLoader {
                             diskCacheStrategy(DiskCacheStrategy.NONE)
                         }
                     }
-                    //.placeholder(R.mipmap.ic_place_holder_grey)
                     .error(R.mipmap.ic_place_holder_grey)
                     .crossFade().into(viewTarget)
         } catch (e: Exception) {

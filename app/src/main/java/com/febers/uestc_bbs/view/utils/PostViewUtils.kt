@@ -8,6 +8,7 @@ package com.febers.uestc_bbs.view.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.util.Log.i
 import android.view.View
 import android.view.ViewGroup
@@ -71,14 +72,26 @@ const val DIVIDE_HEIGHT = 20
 object PostContentViewUtils {
 
     private lateinit var mContents: List<PostDetailBean.ContentBean>
+    private var imageUrlList: MutableList<String> = ArrayList()
+    private var imageViewList: MutableList<ImageView> = ArrayList()
     private lateinit var mStringBuilder: StringBuilder
-    private val IMAGE_VIEW_MARGIN = 20
+    private val IMAGE_VIEW_MARGIN = 25
+
+    /**
+     * 当添加图片视图的时候，如果立即使用Glide加载图片，
+     * 会造成用户滑动时的卡顿，因此，保存imageView和相应的url
+     * 当绘制完整个视图之后，在Activity获取以上两个值
+     * 然后加载。这里使用了Glide的preload方法，具体由ImageLoader实现
+     */
+    fun getImageUrls() = imageUrlList
+    fun getImageViews() = imageViewList
 
     fun create(linearLayout: LinearLayout?, contents: List<PostDetailBean.ContentBean>?) {
         if (contents == null || linearLayout == null) {
             return
         }
-        println(contents)
+        imageUrlList.clear()
+        imageViewList.clear()
         mContents = contents
         mStringBuilder = StringBuilder()
         linearLayout.removeAllViews()
@@ -93,10 +106,11 @@ object PostContentViewUtils {
         }
         fun drawImageView() {
             drawTextView()
-            val imageView = getImageView(linearLayout.context)
+            val imageView = getImageView(linearLayout.context, mContents[position].originalInfo.toString())
             linearLayout.addView(imageView)
-            ImageLoader.load(linearLayout.context, mContents[position].originalInfo, imageView,
-                    R.mipmap.ic_place_holder_grey, isCircle = false)
+            ImageLoader.preload(linearLayout.context, mContents[position].originalInfo)
+            imageViewList.add(imageView)
+            imageUrlList.add(mContents[position].originalInfo.toString())
         }
         if (position >= mContents.size) {
             val textView = getTextView(linearLayout.context)
@@ -137,13 +151,12 @@ object PostContentViewUtils {
         setTextColor(Color.parseColor("#DD000000"))
         textSize = 16f
         linksClickable = true
-
         setTextIsSelectable(true)
         layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun getImageView(ctx: Context): ImageView {
+    private fun getImageView(ctx: Context, url: String): ImageView {
         val imageView = ImageView(ctx).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             layoutParams = ViewGroup
@@ -154,18 +167,9 @@ object PostContentViewUtils {
         return imageView.apply {
             layoutParams = marginLayoutParams
             setOnClickListener {
-                ViewClickUtils.clickToImageView(url = " ", context = ctx)
+                ViewClickUtils.clickToImageView(url = url, context = ctx)
             }
         }
-    }
-
-
-    //绘制间隔视图
-    fun divideView(context: Context?, height: Int = DIVIDE_HEIGHT): View {
-        val view = View(context)
-        view.layoutParams = ViewGroup
-                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
-        return view
     }
 
     /**

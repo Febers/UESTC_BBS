@@ -22,7 +22,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="snap|scroll|enterAlways"
-            app:title="清水河畔">
+            app:title="@string/app_name">
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="设置">
+            app:title="@string/setting">
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
@@ -29,12 +29,14 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/text_view_setting_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="设置"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
+                android:visibility="gone"
                 android:textColor="?attr/colorPrimary"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_1"
@@ -45,12 +47,14 @@
             </android.support.v7.widget.RecyclerView>
 
             <TextView
+                android:id="@+id/text_view_setting_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="版本"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
+                android:visibility="gone"
                 android:textColor="?attr/colorPrimary"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_2"
@@ -61,12 +65,14 @@
             </android.support.v7.widget.RecyclerView>
 
             <TextView
+                android:id="@+id/text_view_setting_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="开源"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
+                android:visibility="gone"
                 android:textColor="?attr/colorPrimary"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_3"

@@ -6,7 +6,7 @@
   -->
 
 <resources>
-    <string name="app_name">UESTC_BBS</string>
+    <string name="app_name">iBBS</string>
     <string name="developer_name">Febers</string>
     <string name="developer_email">febers418@qq.com</string>
     <string name="clear_image_cache">Clear Image Cache</string>
@@ -32,10 +32,14 @@
     <string name="system_message">system</string>
     <string name="at_message">at</string>
 
-    <string name="user_post">My Post</string>
-    <string name="user_reply">My Reply</string>
-    <string name="user_favorite">My Favorite</string>
-    <string name="user_friends">My Friend</string>
+    <string name="my_start_post">My Start Post</string>
+    <string name="my_reply_post">My Reply Post</string>
+    <string name="my_fav_post">My Favorite Post</string>
+
+    <string name="user_post">Post</string>
+    <string name="user_reply">Reply</string>
+    <string name="user_favorite">Favorite</string>
+    <string name="user_friends">Friend</string>
     <string name="theme_style">Theme Style</string>
 
     <string name="setting">Setting</string>

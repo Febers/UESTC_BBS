@@ -22,9 +22,9 @@ import org.jetbrains.anko.indeterminateProgressDialog
 
 class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
 
-    private var progressDialog: ProgressDialog? = null
     private val searchPostList: MutableList<SearchPostBean.ListBean> = ArrayList()
     private lateinit var searchPresenter: SearchContrect.Presenter
+    private lateinit var progressDialog: ProgressDialog
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchView: SearchView
     private var menuItem: MenuItem? = null
@@ -46,7 +46,8 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     override fun initView() {
         progressDialog = context!!.indeterminateProgressDialog("搜索中") {
             setCanceledOnTouchOutside(false)
-        }.apply { hide() }
+            hide()
+        }
         searchPresenter = SearchPresenterImpl(this)
         searchAdapter = SearchAdapter(context!!, searchPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onItemClick(listBean) }

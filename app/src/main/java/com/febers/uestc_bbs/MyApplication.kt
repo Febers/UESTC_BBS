@@ -7,7 +7,10 @@
 package com.febers.uestc_bbs
 
 import android.app.Application
+import android.content.ComponentCallbacks2
 import android.content.Context
+import android.util.Log.i
+import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.base.SP_USER_ID
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserSimpleBean
@@ -41,5 +44,20 @@ class MyApplication: Application() {
                 BallPulseFooter(context)
             }
         }
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        i("App", "trim")
+        if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            Glide.get(this).clearMemory()
+        }
+        Glide.get(this).trimMemory(level)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        i("App", "low")
+        Glide.get(this).clearMemory()
     }
 }

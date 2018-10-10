@@ -36,8 +36,8 @@ public class ImageTextUtils {
 
     private static final String TAG = "ImageTextUtils";
 
-    public static Drawable getUrlDrawable(String source, TextView mTextView) {
-        GlideImageGetter imageGetter = new GlideImageGetter(mTextView.getContext(),mTextView);
+    public static Drawable getUrlDrawable(String source, TextView textView) {
+        GlideImageGetter imageGetter = new GlideImageGetter(textView.getContext(),textView);
         return imageGetter.getDrawable(source);
     }
 

@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseSwipeFragment
 import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
@@ -12,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_setting.*
 
 class SettingFragment : BaseSwipeFragment() {
 
-    private val settingData: MutableList<SettingItemBean> = ArrayList()
     private lateinit var settingAdapter1: SettingAdapter
     private lateinit var settingAdapter2: SettingAdapter
     private lateinit var settingAdapter3: SettingAdapter
@@ -25,7 +25,12 @@ class SettingFragment : BaseSwipeFragment() {
         return R.layout.fragment_setting
     }
 
-    override fun initView() {
+    override fun onLazyInitView(savedInstanceState: Bundle?) {
+        super.onLazyInitView(savedInstanceState)
+        text_view_setting_1.visibility = View.VISIBLE
+        text_view_setting_2.visibility = View.VISIBLE
+        text_view_setting_3.visibility = View.VISIBLE
+
         settingAdapter1 = SettingAdapter(context!!, initSettingData1())
         recyclerview_setting_1.adapter = settingAdapter1
 

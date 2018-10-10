@@ -145,6 +145,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             text_view_post_detail_author_title?.text = event.data.topic?.userTitle
             text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
             PostContentViewUtils.create(linear_layout_detail_content, event.data.topic?.content)
+            loadImageView()
             replyList.clear()
 //        }
         replyList.addAll(event.data.list!!)
@@ -182,6 +183,14 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             visibility = View.VISIBLE
             setOnClickListener {
 
+            }
+        }
+    }
+
+    private fun loadImageView() {
+        PostContentViewUtils.getImageUrls().forEachIndexed { index, s ->
+            PostContentViewUtils.getImageViews()[index].apply {
+                ImageLoader.usePreload(context = context, url = PostContentViewUtils.getImageUrls()[index], imageView = this)
             }
         }
     }

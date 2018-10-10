@@ -83,17 +83,17 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
-        val item1 = MoreItemBean("我的帖子", R.mipmap.ic_write_blue)
-        val item2 = MoreItemBean("我的回复", R.mipmap.ic_message_red)
-        val item3 = MoreItemBean("我的收藏", R.mipmap.ic_star_blue)
-        val item4 = MoreItemBean("我的好友", R.mipmap.ic_friend_blue)
-        val item5 = MoreItemBean("搜索", R.mipmap.ic_search_blue)
+        val item1 = MoreItemBean(getString(R.string.my_start_post), R.mipmap.ic_write_blue)
+        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.mipmap.ic_message_red)
+        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.mipmap.ic_star_blue)
+        val item4 = MoreItemBean("", R.mipmap.ic_friend_blue)
+        val item5 = MoreItemBean("", R.mipmap.ic_search_blue)
         return listOf(item1, item2, item3)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
-        val item1 = MoreItemBean("主题选择", R.mipmap.ic_theme_purple)
-        val item2 = MoreItemBean("设置", R.mipmap.ic_setting_gray)
+        val item1 = MoreItemBean(getString(R.string.theme_style), R.mipmap.ic_theme_purple)
+        val item2 = MoreItemBean(getString(R.string.setting), R.mipmap.ic_setting_gray)
         return listOf(item1, item2)
     }
 
