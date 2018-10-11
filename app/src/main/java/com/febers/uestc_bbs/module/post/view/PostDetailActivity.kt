@@ -9,6 +9,7 @@ import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
@@ -22,7 +23,7 @@ import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.view.utils.PostContentViewUtils
+import com.febers.uestc_bbs.view.utils.ContentViewHelper
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickListener {
@@ -35,21 +36,24 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
     private lateinit var hideFAB: AnimatorSet
     private lateinit var showFAB: AnimatorSet
     private var page = 1
-    private var authorId = ""
+    private var authorId = 0
+    private var postOrder = POST_POSITIVE_ORDER
     private var postId: String = "0"
     private var orderPositive: Boolean = true
     private var authorOnly: Boolean = false
+    private var isFavorite: Int = POST_NO_FAVORED
+        set(value) {
+            field = value
+            onFavoriteChange(field)
+        }
     private var drawFinish: Boolean = false
 
     override fun setView(): Int = R.layout.activity_post_detail
 
-    override fun setToolbar(): Toolbar? {
-        return toolbar_post_detail
-    }
+    override fun setToolbar(): Toolbar? =toolbar_post_detail
 
-    override fun setMenu(): Int? {
-        return R.menu.menu_post_detail
-    }
+    override fun setMenu(): Int? = R.menu.menu_post_detail
+
 
     override fun initView() {
         postId = intent.getStringExtra(FID)
@@ -60,15 +64,18 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
                 viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id.toString())
             }
         }
-        optionBottomSheet = PostOptionBottomSheet(this, R.style.PinkBottomSheetTheme, this)
-        replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme)
+
+        optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
+                itemClickListener = this, postId = postId.toInt())
         optionBottomSheet.setContentView(R.layout.layout_bottom_sheet_option)
+        replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme)
         replyBottomSheet.setContentView(R.layout.layout_bottom_sheet_reply)
 
         refresh_layout_post_detail.apply {
             setEnableLoadMore(false)
             autoRefresh()
             setOnRefreshListener {
+                drawFinish = false
                 page = 1
                 getPost(postId, page) }
             setOnLoadMoreListener {
@@ -99,11 +106,16 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
     获取数据之后,恢复加载更多设置
     (由于已经关闭加载更多，只能由刷新触发)，
      */
-    private fun getPost(_postId: String, _page: Int, _authorId: String = "", _order: String = "") {
+    private fun getPost(postId: String, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
         refresh_layout_post_detail.setNoMoreData(false)
-        postPresenter.postRequest(_postId, _page, _authorId, _order)
+        postPresenter.postRequest(postId, page, authorId, order)
     }
 
+    /**
+     * 接收来自presenter的消息，绘制帖子视图
+     * 首先如果不是第一页，只添加主贴视图
+     * 然后绘制评论列表
+     */
     @SuppressLint("SetTextI18n")
     @UiThread
     override fun showPost(event: BaseEvent<PostDetailBean>) {
@@ -112,44 +124,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
             finishRefresh(true)
             setEnableLoadMore(true)
         }
-//        if (page == 1) {
-            //绘制主贴视图，否则只需要添加评论内容
-            linear_layout_detail_divide?.visibility = View.VISIBLE
-            image_view_post_detail_author_avatar?.let { it ->
-                it.visibility = View.VISIBLE
-                ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
-                it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id.toString()) }
-            }
-
-            image_view_post_fav?.let { it ->
-                it.visibility = View.VISIBLE
-                if (event.data.topic?.is_favor == POST_FAVORED) {
-                    it.setImageResource(R.drawable.ic_star_color_primary_24dp)
-                    it.setOnClickListener {
-                        image_view_post_fav.setImageResource(R.drawable.ic_star_border_black_24dp)
-                        //取消收藏
-                        event.data.topic?.is_favor = POST_NO_FAVORED
-                    }
-                } else {
-                    it.setImageResource(R.drawable.ic_star_border_black_24dp)
-                    it.setOnClickListener {
-                        image_view_post_fav.setImageResource(R.drawable.ic_star_color_primary_24dp)
-                        //收藏
-                        event.data.topic?.is_favor = POST_FAVORED
-                    }
-                }
-            }
-            toolbar_post_detail?.title = event.data.forumName
-            text_view_post_detail_title?.text = event.data.topic?.title
-            text_view_post_detail_author?.text = event.data.topic?.user_nick_name
-            text_view_post_detail_author_title?.text = event.data.topic?.userTitle
-            text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
-            PostContentViewUtils.create(linear_layout_detail_content, event.data.topic?.content)
-            loadImageView()
-            replyList.clear()
-//        }
+        if (page == 1) {
+            drawTopicView(event)
+        }
         replyList.addAll(event.data.list!!)
         replyItemAdapter.notifyDataSetChanged()
+        //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
         }
@@ -157,9 +137,36 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
         if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
+        //结束绘制
         drawFinish = true
     }
 
+    /**
+     * 绘制主贴视图
+     */
+    private fun drawTopicView(event: BaseEvent<PostDetailBean>) {
+        linear_layout_detail_divide?.visibility = View.VISIBLE
+        image_view_post_detail_author_avatar?.let { it ->
+            it.visibility = View.VISIBLE
+            ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
+            it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id.toString()) }
+        }
+        //收藏图标的相应设置
+        isFavorite = event.data.topic?.is_favor!!
+        initFavStatus()
+        toolbar_post_detail?.title = event.data.forumName
+        text_view_post_detail_title?.text = event.data.topic?.title
+        text_view_post_detail_author?.text = event.data.topic?.user_nick_name
+        text_view_post_detail_author_title?.text = event.data.topic?.userTitle
+        text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
+        //主贴图文视图的绘制
+        ContentViewHelper.create(linear_layout_detail_content, event.data.topic?.content)
+        fillImageView()
+        //由于只有第一页时才绘制主贴内容，相当于刷新，所以清空评论列表
+        replyList.clear()
+        //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
+        optionBottomSheet.postTitle = event.data.topic?.title!!
+    }
     /**
      * 绘制投票的界面
      * 包括用户未投票的，由RadioGroup和Button组成的界面
@@ -187,12 +194,39 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
         }
     }
 
-    private fun loadImageView() {
-        PostContentViewUtils.getImageUrls().forEachIndexed { index, s ->
-            PostContentViewUtils.getImageViews()[index].apply {
-                ImageLoader.usePreload(context = context, url = PostContentViewUtils.getImageUrls()[index], imageView = this)
+    //调用ImageLoader预加载的图片填充到view中
+    private fun fillImageView() {
+        ContentViewHelper.getImageUrls().forEachIndexed { index, s ->
+            ContentViewHelper.getImageViews()[index].apply {
+                ImageLoader.usePreload(context = context, url = ContentViewHelper.getImageUrls()[index], imageView = this)
             }
         }
+    }
+
+    private fun initFavStatus() {
+        image_view_post_fav?.let { it ->
+            it.visibility = View.VISIBLE
+            if (isFavorite == POST_FAVORED) {
+                it.setImageResource(R.drawable.ic_star_color_24dp)
+            } else {
+                it.setImageResource(R.drawable.ic_star_gray_24dp)
+            }
+            it.setOnClickListener {
+                if (isFavorite == POST_FAVORED) {
+                    image_view_post_fav.setImageResource(R.drawable.ic_star_gray_24dp)
+                    isFavorite = POST_NO_FAVORED
+                    return@setOnClickListener
+                }
+                if (isFavorite == POST_NO_FAVORED){
+                    image_view_post_fav.setImageResource(R.drawable.ic_star_color_24dp)
+                    isFavorite = POST_FAVORED
+                }
+            }
+        }
+    }
+
+    private fun onFavoriteChange(isFav: Int) {
+        //进行收藏状态的改变处理
     }
 
     override fun onOptionItemSelect(position: Int) {

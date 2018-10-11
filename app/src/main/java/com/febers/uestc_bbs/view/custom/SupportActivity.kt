@@ -21,7 +21,7 @@ import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 /**
- * 这是Fragmentation包的两个基类
+ * 这是Fragmentation包的基类
  * 将其变成抽象的以便实现项目的Base类
  */
 abstract class SupportActivity : AppCompatActivity(), ISupportActivity {

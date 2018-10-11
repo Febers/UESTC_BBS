@@ -24,7 +24,6 @@ object ActivityMgr {
     val count: Int
         get() = activityStack.size
 
-
     fun getActivityStack(): Stack<Activity>? {
         return activityStack
     }

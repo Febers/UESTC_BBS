@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.util.Log.i
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.MsgHeartBean
@@ -37,6 +38,8 @@ class HeartMsgService : Service() {
     private val requestCode = 0
     private val privateChannelId = "pci"
     private val privateChannelName = "pcn"
+    private val otherChannelId = "other"
+    private val otherChannelName = "other"
     private val replyChannelId = "rci"
     private val replyChannelName = "rcn"
     private val atChannelId = "aci"
@@ -46,30 +49,34 @@ class HeartMsgService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        //注意Android8上，当应用运行在后台时，启动服务，会报IllegalStateException
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApplication.appUiHidden()) {
+            startForeground(Int.MAX_VALUE, createNotification(title = "后台运行中", content = "", msgType = "", count = 0))
+        }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         HeartMsgThread().start()
     }
 
     /**
      * 初始化通知栏工具
      */
-    private fun createNotification(title: String, content: String, msgType: String, count: Int, uid: Int = -1) {
+    private fun createNotification(title: String, content: String, msgType: String, count: Int, uid: Int = -1): Notification {
         val channelId: String =  when(msgType) {
             MSG_TYPE_REPLY -> replyChannelId
             MSG_TYPE_PRIVATE -> privateChannelId
             MSG_TYPE_AT -> atChannelId
             MSG_TYPE_SYSTEM -> systemChannelId
-            else -> ""
+            else -> otherChannelId
         }
         val channelName: String = when(msgType) {
             MSG_TYPE_REPLY -> replyChannelName
             MSG_TYPE_PRIVATE -> privateChannelName
             MSG_TYPE_AT -> atChannelName
             MSG_TYPE_SYSTEM -> systemChannelName
-            else -> ""
+            else -> otherChannelName
         }
         val intents = arrayOf(Intent(this,
                 if (msgType == MSG_TYPE_PRIVATE && count == 1)PMDetailActivity::class.java else HomeActivity::class.java )
@@ -103,6 +110,7 @@ class HeartMsgService : Service() {
                     .setSmallIcon(R.mipmap.ic_default_circle)
                     .build()
         }
+        return notification
     }
 
     private fun showNotification(id: Int) {
@@ -199,7 +207,11 @@ class HeartMsgService : Service() {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
-        startService(Intent(this, HeartMsgService::class.java))
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            startForegroundService(Intent(this, HeartMsgService::class.java))
+//        } else {
+//            startService(Intent(this, HeartMsgService::class.java))
+//        }
     }
 }
 

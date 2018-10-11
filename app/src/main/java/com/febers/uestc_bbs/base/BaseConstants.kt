@@ -43,6 +43,9 @@ const val ITEM_WEB_POST = 2
 const val ITEM_COPY_URL = 3
 const val ITEM_SHARE_POST = 4
 
+const val POST_POSITIVE_ORDER = 0
+const val POST_NEGATIVE_ORDER = 1
+
 const val IMAGE_URL = "image_url"
 
 const val SP_USER_ID = "user_uid"

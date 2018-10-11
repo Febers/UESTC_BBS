@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="帖子详情">
+            app:title="@string/post_detail">
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
@@ -65,7 +65,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_super_big"
                         android:textColor="?attr/textColorFirst"
                         android:layout_margin="10dp"/>
                 </LinearLayout>
@@ -94,7 +95,7 @@
                         android:maxLines="1"
                         android:text=""
                         android:textColor="?attr/textColorFirst"
-                        android:textSize="14dp"
+                        android:textSize="@dimen/text_size_normal"
                         app:layout_constraintStart_toEndOf="@+id/image_view_post_detail_author_avatar"
                         app:layout_constraintTop_toTopOf="@+id/image_view_post_detail_author_avatar" />
 
@@ -106,7 +107,7 @@
                         android:layout_marginTop="8dp"
                         android:maxLines="1"
                         android:text=""
-                        android:textSize="12dp"
+                        android:textSize="@dimen/text_size_small"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/text_view_post_detail_author"
                         app:layout_constraintTop_toBottomOf="@+id/text_view_post_detail_author"
@@ -121,7 +122,7 @@
                         android:layout_marginEnd="8dp"
                         android:maxLines="1"
                         android:text=""
-                        android:textSize="14dp"
+                        android:textSize="@dimen/text_size_small"
                         app:layout_constraintBottom_toBottomOf="@+id/text_view_post_detail_author"
                         app:layout_constraintEnd_toStartOf="@+id/image_view_post_fav"
                         app:layout_constraintStart_toEndOf="@+id/text_view_post_detail_author"

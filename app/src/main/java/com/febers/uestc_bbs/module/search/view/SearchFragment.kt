@@ -46,8 +46,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
     override fun initView() {
         progressDialog = context!!.indeterminateProgressDialog("搜索中") {
             setCanceledOnTouchOutside(false)
-            hide()
-        }
+        }.apply { hide() }
         searchPresenter = SearchPresenterImpl(this)
         searchAdapter = SearchAdapter(context!!, searchPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onItemClick(listBean) }

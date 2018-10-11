@@ -22,9 +22,7 @@ class SettingAdapter(val context: Context, data: List<SettingItemBean>):
         if (p1.showCheck) {
             (p0?.getView(R.id.check_box_item_setting) as CheckBox).apply {
                 visibility = View.VISIBLE
-                if (p1.checked) {
-                    isChecked = true
-                }
+                isChecked = p1.checked
             }
         }
     }

@@ -32,11 +32,11 @@
                 android:id="@+id/text_view_setting_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="设置"
+                android:text="@string/setting"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
-                android:visibility="gone"
                 android:textColor="?attr/colorPrimary"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_1"
@@ -46,15 +46,19 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager">
             </android.support.v7.widget.RecyclerView>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/background_second"/>
             <TextView
                 android:id="@+id/text_view_setting_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="版本"
+                android:text="@string/version"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
-                android:visibility="gone"
                 android:textColor="?attr/colorPrimary"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_2"
@@ -64,15 +68,18 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager">
             </android.support.v7.widget.RecyclerView>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/background_second"/>
             <TextView
                 android:id="@+id/text_view_setting_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="开源"
+                android:text="@string/open_source"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textSize="@dimen/text_size_normal"
-                android:visibility="gone"
                 android:textColor="?attr/colorPrimary"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_3"

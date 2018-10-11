@@ -69,7 +69,7 @@ const val CONTENT_TYPE_URL = 4
 const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
-object PostContentViewUtils {
+object ContentViewHelper {
 
     private lateinit var mContents: List<PostDetailBean.ContentBean>
     private var imageUrlList: MutableList<String> = ArrayList()

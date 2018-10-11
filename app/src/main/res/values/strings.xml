@@ -14,6 +14,7 @@
     <string name="check_update">检查更新</string>
     <string name="feedback_and_other">反馈、建议及其他</string>
     <string name="source_code">源代码</string>
+    <string name="open_source">开源</string>
     <string name="open_source_project">开源项目</string>
     <string name="open_source_license">开源协议</string>
 
@@ -25,7 +26,7 @@
     <string name="new_post">最新发表</string>
     <string name="new_reply">最新回复</string>
     <string name="hot_article">热门帖子</string>
-
+    <string name="post_detail">帖子详情</string>
     <string name="post_reply_message">帖子回复</string>
     <string name="private_message">私信</string>
     <string name="system_message">系统通知</string>

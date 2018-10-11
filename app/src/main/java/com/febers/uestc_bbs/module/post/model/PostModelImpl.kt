@@ -6,7 +6,6 @@
 
 package com.febers.uestc_bbs.module.post.model
 
-import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
@@ -16,11 +15,11 @@ import retrofit2.Response
 
 class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), PostContract.Model {
 
-    override fun postService(_postId: String, _page: Int, _authorId: String, _order: String) {
-        mPostId = _postId
-        mPage = _page.toString()
-        mAuthorId = _authorId
-        mOrder = _order
+    override fun postService(postId: String, page: Int, authorId: Int, order: Int) {
+        mPostId = postId
+        mPage = page.toString()
+        mAuthorId = authorId.toString()
+        mOrder = order.toString()
         Thread(Runnable { getPost() }).start()
     }
 

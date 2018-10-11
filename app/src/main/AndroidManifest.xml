@@ -47,6 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.user.view.UserPostActivity" />
+        <activity android:name=".module.more.SettingActivity" />
     </application>
 
 </manifest>

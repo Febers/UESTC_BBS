@@ -30,11 +30,14 @@ class MyApplication: Application() {
 
     companion object {
         private var context: Context by Delegates.notNull()
+        private var uiHidden: Boolean = false
         fun context() = context
         fun getUser(): UserSimpleBean {
             val uid by PreferenceUtils(context, SP_USER_ID, "")
             return UserStore.get(uid)
         }
+        fun appUiHidden() = this.uiHidden
+
         init {
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
                 ClassicsHeader(context)
@@ -50,6 +53,7 @@ class MyApplication: Application() {
         super.onTrimMemory(level)
         i("App", "trim")
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
+            uiHidden = true
             Glide.get(this).clearMemory()
         }
         Glide.get(this).trimMemory(level)

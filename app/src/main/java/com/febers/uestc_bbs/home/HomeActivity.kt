@@ -7,6 +7,7 @@
 package com.febers.uestc_bbs.home
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.util.Log.i
 import android.view.View
@@ -107,6 +108,17 @@ class HomeActivity: BaseActivity() {
         msgCount = event.count
         bottom_navigation_home.setNotification(msgCount, 2)
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        i("Home", "onCreate")
+    }
+    override fun onStart() {
+        super.onStart()
+        i("Home", "onStart")
+    }
+
+
     /**
      * Activity通过Intent的FLAG_ACTIVITY_SINGLE_TOP启动时
      * 生命周期为 onNewIntent -> onResume()
@@ -120,9 +132,21 @@ class HomeActivity: BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        i("Home", "onResume")
         if (bottom_navigation_home.currentItem == 0) {
             fab_home.visibility = View.VISIBLE
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        i("Home", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        i("Home", "onDestroy")
+        stopService(Intent(this, HeartMsgService::class.java))
     }
 
     private fun startService() {

@@ -154,7 +154,7 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SETTING_ITEM) {
-                mParentFragment.start(SettingFragment.newInstance(true))
+                startActivity(Intent(activity, SettingActivity::class.java))
                 return
             }
         }

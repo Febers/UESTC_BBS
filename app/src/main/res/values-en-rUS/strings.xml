@@ -15,6 +15,7 @@
     <string name="check_update">Check Update</string>
     <string name="feedback_and_other">Feedback Or Other</string>
     <string name="source_code">Source Code</string>
+    <string name="open_source">Open Source</string>
     <string name="open_source_project">Open Source Project</string>
     <string name="open_source_license">Open Source License</string>
 
@@ -26,15 +27,16 @@
     <string name="new_post">New Start</string>
     <string name="new_reply">New Reply</string>
     <string name="hot_article">Hot</string>
+    <string name="post_detail">Post Detail</string>
 
     <string name="post_reply_message">reply</string>
     <string name="private_message">pm</string>
     <string name="system_message">system</string>
     <string name="at_message">at</string>
 
-    <string name="my_start_post">My Start Post</string>
-    <string name="my_reply_post">My Reply Post</string>
-    <string name="my_fav_post">My Favorite Post</string>
+    <string name="my_start_post">Start Post</string>
+    <string name="my_reply_post">Reply Post</string>
+    <string name="my_fav_post">Favorite Post</string>
 
     <string name="user_post">Post</string>
     <string name="user_reply">Reply</string>

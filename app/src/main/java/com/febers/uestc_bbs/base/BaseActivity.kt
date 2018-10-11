@@ -35,7 +35,6 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        i("BaseA", "onCreate")
         if (hideStatusBar()) {
             //参考 https://www.jianshu.com/p/648176c8b67e
             val window = window
@@ -84,24 +83,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onStart() {
-        super.onStart()
-        i("BaseA", "onStart")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        i("BaseA", "onStop")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        i("BaseA", "onSave")
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        i("BaseA", "onDestroy")
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
