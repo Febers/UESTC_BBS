@@ -120,7 +120,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
         hideSoftInput()
         searchView.clearFocus()
         val tid = item.topic_id
-        ViewClickUtils.clickToPostDetail(context, tid.toString())
+        ViewClickUtils.clickToPostDetail(context, tid)
     }
 
     override fun showError(msg: String) {

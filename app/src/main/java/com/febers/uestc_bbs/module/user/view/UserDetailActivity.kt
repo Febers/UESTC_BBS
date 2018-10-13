@@ -3,15 +3,13 @@ package com.febers.uestc_bbs.module.user.view
 import android.content.Intent
 import android.support.v7.widget.Toolbar
 import android.util.Log.i
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
-import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
-import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
@@ -25,7 +23,7 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     private lateinit var userBottomSheet: UserDetailBottomSheet
     private lateinit var userPresenter: UserContract.Presenter
     private var userItSelf = false
-    private var userId: String? = ""
+    private var userId: Int = 0
 
     override fun hideStatusBar(): Boolean = true
 
@@ -37,8 +35,8 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     }
 
     override fun setView(): Int {
-        userItSelf = intent.getBooleanExtra(USER_IT_SELF, false)
-        userId = intent.getStringExtra(USER_ID)
+        userId = intent.getIntExtra(USER_ID, 0)
+        if (userId == MyApplication.getUser().uid) userItSelf = true
         return R.layout.activity_user_detail
     }
 
@@ -47,17 +45,20 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     }
 
     override fun initView() {
-        i("User", userId)
+        i("User", userId.toString())
         userPresenter = UserPresenterImpl(this)
         refresh_layout_user_detail.apply {
             autoRefresh()
             setEnableLoadMore(false)
             setOnRefreshListener { getUserDetail() }
         }
+        if (userItSelf) {
+            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
+        }
     }
 
     private fun getUserDetail() {
-        userPresenter.userDetailRequest(userId.toString())
+        userPresenter.userDetailRequest(userId)
     }
 
     override fun showUserDetail(event: BaseEvent<UserDetailBean>) {
@@ -66,14 +67,14 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         ImageLoader.load(this, event.data.icon, image_view_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
         ImageLoader.load(this, event.data.icon, image_view_detail_avatar, placeImage = null, isCircle = true, noCache = true)
         image_view_detail_avatar.setOnClickListener {
-            ViewClickUtils.clickToImageViewByUid(uid = userId, context = this)
+            ViewClickUtils.clickToImageViewerByUid(uid = userId, context = this)
         }
         refresh_layout_user_detail?.finishRefresh()
         if (userItSelf) return
 
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
-            it.setOnClickListener { ViewClickUtils.clickToPM(this@UserDetailActivity, userId, event.data.name) }
+            it.setOnClickListener { ViewClickUtils.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
         }
         linear_layout_user_post_start?.apply {
             visibility = View.VISIBLE

@@ -13,7 +13,7 @@ import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
 class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(view) {
 
-    override fun postRequest(postId: String, page: Int, authorId: Int, order: Int) {
+    override fun postRequest(postId: Int, page: Int, authorId: Int, order: Int) {
         val postModel: PostContract.Model = PostModelImpl(this)
         postModel.postService(postId, page, authorId, order)
     }

@@ -47,6 +47,9 @@
     <string name="choose_block">选择板块</string>
     <string name="edit">编辑</string>
 
+    <string name="block_today_num">今日帖子</string>
+    <string name="block_all_num">总帖子</string>
+
     <string name="account_detail">账户信息</string>
     <string name="no_login">未登录</string>
     <string name="user_password">密码</string>
@@ -56,7 +59,7 @@
     <string name="theme_green">酷安绿</string>
     <string name="theme_red">姨妈红</string>
     <string name="theme_pink">哔哩粉</string>
-    <string name="theme_cyan">卧堤蓝</string>
+    <string name="theme_indigo">卧堤蓝</string>
     <string name="theme_teal">水鸭青</string>
     <string name="theme_purple">激情紫</string>
     <string name="theme_blue">知乎蓝</string>

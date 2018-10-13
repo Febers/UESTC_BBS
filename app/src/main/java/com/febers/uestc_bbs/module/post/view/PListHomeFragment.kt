@@ -18,7 +18,7 @@ import android.view.ViewGroup
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostSimpleAdapter
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.SimplePListBean
+import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils
@@ -33,7 +33,7 @@ import org.jetbrains.anko.runOnUiThread
  */
 class PListHomeFragment: BaseFragment(), PListContract.View {
 
-    private val pListList: MutableList<SimplePListBean> = ArrayList()
+    private val postSimpleList: MutableList<PostListBean.ListBean> = ArrayList()
     private lateinit var postSimpleAdapter: PostSimpleAdapter
     private lateinit var pListPresenter: PListContract.Presenter
     private var page: Int = 1
@@ -48,7 +48,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         pListPresenter = PListPresenterImpl(this)
-        postSimpleAdapter = PostSimpleAdapter(context!!, pListList, false).apply {
+        postSimpleAdapter = PostSimpleAdapter(context!!, postSimpleList, false).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
                 ViewClickUtils.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id) }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
@@ -71,19 +71,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(++page, true)
             }
         }
-
-        //以下代码用来当Recyclerview滑动时不加载图片，暂时失效
-        recyclerview_subpost_fragment.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {   //滑动静止时
-                    postSimpleAdapter.setScrolling(false)
-                    postSimpleAdapter.notifyDataSetChanged()
-                } else {
-                    postSimpleAdapter.setScrolling(true)
-                }
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        })
+        postSimpleAdapter.notifyDataSetChanged()
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
@@ -92,11 +80,11 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     }
 
     @UiThread
-    override fun showPList(event: BaseEvent<List<SimplePListBean>?>) {
+    override fun showPList(event: BaseEvent<PostListBean>) {
         loadFinish = true
         if (event.code == BaseCode.LOCAL) {
             context?.runOnUiThread {
-                postSimpleAdapter.setNewData(event.data)
+                postSimpleAdapter.setNewData(event.data.list)
             }
             return
         }
@@ -106,14 +94,14 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             setEnableLoadMore(true)
         }
         if (page == 1) {
-            postSimpleAdapter.setNewData(event.data)
+            postSimpleAdapter.setNewData(event.data.list)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_fragment?.finishLoadMoreWithNoMoreData()
             return
         }
-        postSimpleAdapter.setLoadMoreData(event.data)
+        postSimpleAdapter.setLoadMoreData(event.data.list)
     }
 
     override fun showError(msg: String) {
@@ -126,10 +114,10 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     companion object {
         @JvmStatic
-        fun newInstance(fid: String) =
+        fun newInstance(fid: Int) =
                 PListHomeFragment().apply {
                     arguments = Bundle().apply {
-                        putString(FID, fid)
+                        putInt(FID, fid)
                     }
                 }
     }

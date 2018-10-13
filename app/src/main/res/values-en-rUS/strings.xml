@@ -49,6 +49,9 @@
     <string name="choose_block">Choose Block</string>
     <string name="edit">Edit</string>
 
+    <string name="block_today_num">Today Posts Num</string>
+    <string name="block_all_num">All Post Num</string>
+
     <string name="account_detail">Account Detail</string>
     <string name="no_login">No Login</string>
     <string name="user_password">Password</string>
@@ -58,7 +61,7 @@
     <string name="theme_green">Green</string>
     <string name="theme_red">Red</string>
     <string name="theme_pink">Pink</string>
-    <string name="theme_cyan">Cyan</string>
+    <string name="theme_indigo">Indigo</string>
     <string name="theme_teal">Teal</string>
     <string name="theme_purple">Purple</string>
     <string name="theme_blue">Blue</string>

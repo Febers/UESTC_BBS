@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.view
+package com.febers.uestc_bbs.module.post.view.edit
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseSwipeActivity

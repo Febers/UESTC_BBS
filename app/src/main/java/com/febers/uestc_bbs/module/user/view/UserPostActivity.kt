@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.UserPostAdapter
 import kotlinx.android.synthetic.main.activity_user_post.*
 
@@ -20,7 +21,7 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
     private lateinit var userPListPresenter: UserContract.Presenter
     private lateinit var userPListAdapter: UserPostAdapter
     private var page = 1
-    private var uid = ""
+    private var uid: Int = 0
     private var type = USER_START_POST
 
     override fun setToolbar(): Toolbar? {
@@ -28,7 +29,7 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
     }
 
     override fun setView(): Int {
-        uid = intent.getStringExtra(USER_ID)
+        uid = intent.getIntExtra(USER_ID, 0)
         type = intent.getStringExtra(USER_POST_TYPE)
         return R.layout.activity_user_post
     }
@@ -37,7 +38,11 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
         setToolbarTitle()
         userPListPresenter = UserPresenterImpl(this)
         userPListAdapter = UserPostAdapter(this, userPostList, false).apply {
-            setOnItemClickListener { viewHolder, listBean, i -> onClickItem(listBean) }
+            setOnItemClickListener { viewHolder, listBean, i ->
+                ViewClickUtils.clickToPostDetail(this@UserPostActivity, listBean.topic_id) }
+            setOnItemChildClickListener(R.id.image_view_item_user_post_avatar) {
+                viewHolder, listBean, i ->  ViewClickUtils.clickToUserDetail(this@UserPostActivity, listBean.user_id)
+            }
         }
         recyclerview_user_post.apply {
             adapter = userPListAdapter
@@ -60,7 +65,7 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
 
     private fun getUserPost() {
         refresh_layout_user_post.setNoMoreData(false)
-        userPListPresenter.userPostRequest(uid+"", type, ""+page)
+        userPListPresenter.userPostRequest(uid, type, page)
     }
 
     @UiThread
@@ -84,11 +89,6 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
             refresh_layout_user_post?.finishLoadMoreWithNoMoreData()
         }
         userPListAdapter.setLoadMoreData(event.data.list)
-    }
-
-    private fun onClickItem(item: UserPostBean.ListBean) {
-        val tid = item.topic_id
-        startActivity(Intent(this, PostDetailActivity::class.java).apply { putExtra("mFid", ""+tid) })
     }
 
     private fun setToolbarTitle() {

@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.utils
 
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 
 import com.bumptech.glide.Glide
@@ -51,7 +50,7 @@ object ImageLoader {
             e.printStackTrace()
         }
         imageView?.setOnClickListener {
-            ViewClickUtils.clickToImageView(url, context)
+            ViewClickUtils.clickToImageViewer(url, context)
         }
     }
 
@@ -95,7 +94,7 @@ object ImageLoader {
             e.printStackTrace()
         }
         viewTarget.view.setOnClickListener {
-            //ViewClickUtils.clickToImageView(url, context)
+            //ViewClickUtils.clickToImageViewer(url, context)
         }
     }
 }

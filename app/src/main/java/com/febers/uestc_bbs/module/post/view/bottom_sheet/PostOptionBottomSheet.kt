@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.view
+package com.febers.uestc_bbs.module.post.view.bottom_sheet
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -7,17 +7,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.ITEM_AUTHOR_ONLY
-import com.febers.uestc_bbs.base.ITEM_COPY_URL
-import com.febers.uestc_bbs.base.ITEM_ORDER_POSITIVE
-import com.febers.uestc_bbs.base.ITEM_SHARE_POST
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.OptionItemBean
 import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import kotlinx.android.synthetic.main.layout_bottom_sheet_option.*
 import org.jetbrains.anko.toast
 
 class PostOptionBottomSheet(context: Context, style: Int,
-                            private val itemClickListener: OptionClickListener, private val postId: Int):
+                            private val itemClickListenerPost: PostOptionClickListener, private val postId: Int):
         BottomSheetDialog(context, style) {
 
     private lateinit var optionItemAdapter: PostOptionAdapter
@@ -40,14 +37,17 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 optionList.clear()
                 optionList.addAll(getOptionList())
                 optionItemAdapter.notifyDataSetChanged()
-                itemClickListener.onOptionItemSelect(ITEM_AUTHOR_ONLY)
+                itemClickListenerPost.onOptionItemSelect(ITEM_AUTHOR_ONLY)
             }
             if (i == ITEM_ORDER_POSITIVE) {
                 orderPositive = !orderPositive
                 optionList.clear()
                 optionList.addAll(getOptionList())
                 optionItemAdapter.notifyDataSetChanged()
-                itemClickListener.onOptionItemSelect(ITEM_ORDER_POSITIVE)
+                itemClickListenerPost.onOptionItemSelect(ITEM_ORDER_POSITIVE)
+            }
+            if (i == ITEM_WEB_POST) {
+                //打开web页面
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -62,6 +62,7 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 }
                 context.startActivity(Intent.createChooser(intent, "分享帖子"))
             }
+            dismiss()
         }
         recyclerview_post_option.adapter = optionItemAdapter
     }

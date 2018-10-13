@@ -7,7 +7,7 @@ import com.febers.uestc_bbs.module.user.model.UserModelImpl
 
 class UserPresenterImpl(var view: UserContract.View): UserContract.Presenter(view) {
 
-    override fun userPostRequest(uid: String, type: String, page: String) {
+    override fun userPostRequest(uid: Int, type: String, page: Int) {
         val userModel: UserContract.Model = UserModelImpl(this)
         userModel.userPostService(uid, type, page)
     }
@@ -16,7 +16,7 @@ class UserPresenterImpl(var view: UserContract.View): UserContract.Presenter(vie
         view.showUserPost(event)
     }
 
-    override fun userDetailRequest(uid: String) {
+    override fun userDetailRequest(uid: Int) {
         val userModel: UserContract.Model = UserModelImpl(this)
         userModel.userDetailService(uid)
     }

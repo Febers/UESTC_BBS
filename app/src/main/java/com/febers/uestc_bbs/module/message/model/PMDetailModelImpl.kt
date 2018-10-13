@@ -9,8 +9,8 @@ import retrofit2.Response
 
 class PMDetailModelImpl(val presenter: MessageContract.PMPresenter):MessageContract.PMModel, BaseModel() {
 
-    override fun pmService(uid: String, page: Int) {
-        mUid = uid
+    override fun pmService(uid: Int, page: Int) {
+        mUid = uid.toString()
         Thread(Runnable { getPmDetail() }).start()
     }
 

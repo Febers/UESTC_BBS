@@ -17,7 +17,7 @@ import com.febers.uestc_bbs.module.message.presenter.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPM
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPrivateMsg
 import com.febers.uestc_bbs.view.adapter.*
 import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_message.*
@@ -52,27 +52,27 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             MSG_TYPE_REPLY -> msgAdapter = MsgReplyAdapter(context!!, replyList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, listBean.topic_id.toString()) }
+                    clickToPostDetail(context, listBean.topic_id) }
                 setOnItemChildClickListener(R.id.image_view_msg_reply_author_avatar) {
                     p0: ViewHolder?, p1: MsgReplyBean.ListBean?, p2: Int ->
-                    clickToUserDetail(context, p1?.user_id.toString())}
+                    clickToUserDetail(context, p1?.user_id)}
             }
             MSG_TYPE_PRIVATE -> msgAdapter = MsgPrivateAdapter(context!!, privateList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPM(context, listBean.toUserId.toString(), listBean.toUserName)
+                    clickToPrivateMsg(context, listBean.toUserId, listBean.toUserName)
                     listBean.isNew = 0
                     this.notifyDataSetChanged()}
                 setOnItemChildClickListener(R.id.image_view_msg_private_author_avatar) {
-                    viewHolder, listBean, i -> clickToUserDetail(activity, listBean.toUserId.toString())
+                    viewHolder, listBean, i -> clickToUserDetail(activity, listBean.toUserId)
                 }
             }
             MSG_TYPE_AT -> msgAdapter = MsgAtAdapter(context!!, atList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, listBean.topic_id.toString())}
+                    clickToPostDetail(context, listBean.topic_id)}
                 setOnItemChildClickListener(R.id.image_view_msg_at_author_avatar) {
-                    viewHolder, listBean, i -> clickToUserDetail(activity, listBean.user_id.toString())
+                    viewHolder, listBean, i -> clickToUserDetail(activity, listBean.user_id)
                 }
             }
             MSG_TYPE_SYSTEM -> msgAdapter = MsgSystemAdapter(context!!, systemList, false).apply {

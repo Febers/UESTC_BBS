@@ -9,5 +9,4 @@ class UserDetailBottomSheet(context: Context, style: Int): BottomSheetDialog(con
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
 }

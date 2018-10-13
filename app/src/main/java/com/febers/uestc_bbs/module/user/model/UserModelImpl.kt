@@ -11,16 +11,16 @@ import retrofit2.Response
 
 class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(), UserContract.Model {
 
-    override fun userPostService(uid: String, type: String, page: String) {
-        mUid = uid
-        mPage = page
+    override fun userPostService(uid: Int, type: String, page: Int) {
+        mUid = uid.toString()
+        mPage = page.toString()
         mType = type
         Thread(Runnable { getUserPost() }).start()
         //Thread(Runnable { getSavedPList() }).start()
     }
 
-    override fun userDetailService(uid: String) {
-        mUid = uid
+    override fun userDetailService(uid: Int) {
+        mUid = uid.toString()
         Thread(Runnable { getUserDetail() }).start()
     }
 

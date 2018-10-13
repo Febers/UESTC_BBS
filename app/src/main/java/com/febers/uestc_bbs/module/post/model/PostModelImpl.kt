@@ -15,8 +15,8 @@ import retrofit2.Response
 
 class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), PostContract.Model {
 
-    override fun postService(postId: String, page: Int, authorId: Int, order: Int) {
-        mPostId = postId
+    override fun postService(postId: Int, page: Int, authorId: Int, order: Int) {
+        mPostId = postId.toString()
         mPage = page.toString()
         mAuthorId = authorId.toString()
         mOrder = order.toString()

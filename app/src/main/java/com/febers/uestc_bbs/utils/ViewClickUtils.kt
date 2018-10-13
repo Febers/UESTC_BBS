@@ -1,10 +1,8 @@
 package com.febers.uestc_bbs.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v4.app.FragmentActivity
 import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.more.ImageActivity
@@ -35,13 +33,13 @@ object ViewClickUtils {
         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
     }
 
-    fun clickToImageViewByUid(uid: String?, context: Context?) {
+    fun clickToImageViewerByUid(uid: Int?, context: Context?) {
         uid ?: return
         context ?: return
-        clickToImageView(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
+        clickToImageViewer(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
     }
 
-    fun clickToImageView(url: String?, context: Context?) {
+    fun clickToImageViewer(url: String?, context: Context?) {
         url ?: return
         context ?: return
         context.startActivity(Intent(context, ImageActivity::class.java).apply {
@@ -50,7 +48,7 @@ object ViewClickUtils {
     }
 
 
-    fun clickToUserDetail(context: Context?, uid: String?) {
+    fun clickToUserDetail(context: Context?, uid: Int?) {
         context ?: return
         uid ?: return
         context.startActivity(Intent(context, UserDetailActivity::class.java).apply {
@@ -59,7 +57,7 @@ object ViewClickUtils {
         })
     }
 
-    fun clickToPostDetail(context: Context?, fid: String?) {
+    fun clickToPostDetail(context: Context?, fid: Int?) {
         context ?: return
         fid ?: return
         context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
@@ -67,7 +65,7 @@ object ViewClickUtils {
         })
     }
 
-    fun clickToPM(context: Context?, uid: String?, userName: String?) {
+    fun clickToPrivateMsg(context: Context?, uid: Int?, userName: String?) {
         context ?: return
         uid ?: return
         userName ?: return

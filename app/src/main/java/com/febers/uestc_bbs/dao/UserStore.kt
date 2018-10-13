@@ -14,20 +14,20 @@ import com.google.gson.Gson
 
 object UserStore {
 
-    fun save(uid: String, userSimple: UserSimpleBean) {
+    fun save(uid: Int, userSimple: UserSimpleBean) {
         context().getSharedPreferences(SP_USERS, 0).edit().apply {
             val gson = Gson()
             val json: String = gson.toJson(userSimple)
-            putString(uid, json)
+            putString(uid.toString(), json)
             apply()
         }
     }
 
-    fun get(uid: String) : UserSimpleBean {
+    fun get(uid: Int) : UserSimpleBean {
         try {
             with(context().getSharedPreferences(SP_USERS, 0)) {
                 val gson = Gson()
-                val json: String = this.getString(uid, "")
+                val json: String = this.getString(uid.toString(), "")
                 return gson.fromJson(json, UserSimpleBean::class.java)
             }
         } catch (e: Exception) {

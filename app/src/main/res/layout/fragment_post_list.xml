@@ -5,19 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_post_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_post_list"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/coo_layout_post_list_fragment"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|snap|enterAlways"
-            app:title="板块名称">
-        </android.support.v7.widget.Toolbar>
+            android:layout_height="match_parent"
+            android:background="?attr/colorPrimary"
+            app:title="板块名称"
+            app:expandedTitleMarginStart="40dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_post_list"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin">
+            </android.support.v7.widget.Toolbar>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_post_list_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="50dp"
+                android:visibility="visible"
+                app:layout_collapseMode="parallax">
+                <TextView
+                    android:id="@+id/text_view_post_list_today_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:textColor="@color/color_white"/>
+                <TextView
+                    android:id="@+id/text_view_post_list_all_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="..."
+                    android:textColor="@color/color_white"/>
+            </LinearLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

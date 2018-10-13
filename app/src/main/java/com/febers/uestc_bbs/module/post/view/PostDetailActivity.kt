@@ -9,7 +9,6 @@ import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
@@ -20,13 +19,16 @@ import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListener
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.utils.ContentViewHelper
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
-class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickListener {
+class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionClickListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
@@ -38,7 +40,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
     private var page = 1
     private var authorId = 0
     private var postOrder = POST_POSITIVE_ORDER
-    private var postId: String = "0"
+    private var postId: Int = 0
     private var orderPositive: Boolean = true
     private var authorOnly: Boolean = false
     private var isFavorite: Int = POST_NO_FAVORED
@@ -56,17 +58,17 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
 
 
     override fun initView() {
-        postId = intent.getStringExtra(FID)
+        postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
             setOnItemClickListener { viewHolder, postReplyBean, i ->  }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
-                viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id.toString())
+                viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
             }
         }
 
         optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
-                itemClickListener = this, postId = postId.toInt())
+                itemClickListenerPost = this, postId = postId)
         optionBottomSheet.setContentView(R.layout.layout_bottom_sheet_option)
         replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme)
         replyBottomSheet.setContentView(R.layout.layout_bottom_sheet_reply)
@@ -106,7 +108,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
     获取数据之后,恢复加载更多设置
     (由于已经关闭加载更多，只能由刷新触发)，
      */
-    private fun getPost(postId: String, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
+    private fun getPost(postId: Int, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
         refresh_layout_post_detail.setNoMoreData(false)
         postPresenter.postRequest(postId, page, authorId, order)
     }
@@ -149,7 +151,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, OptionClickLi
         image_view_post_detail_author_avatar?.let { it ->
             it.visibility = View.VISIBLE
             ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
-            it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id.toString()) }
+            it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id) }
         }
         //收藏图标的相应设置
         isFavorite = event.data.topic?.is_favor!!

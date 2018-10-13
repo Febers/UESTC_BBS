@@ -11,7 +11,7 @@ data class UserSimpleBean (
         var valid : Boolean = false,
         var msg: String = "",
         var name: String = "",
-        var uid: String = "",
+        var uid: Int = 0,
         var title: String = "",
         var gender: String = "",
         var token: String = "",

@@ -8,8 +8,7 @@ package com.febers.uestc_bbs.module.post.model
 
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.PostStore
-import com.febers.uestc_bbs.entity.PListResultBean
-import com.febers.uestc_bbs.entity.SimplePListBean
+import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,9 +16,9 @@ import retrofit2.Response
 
 class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
 
-    override fun topicService(_fid: String, _page: Int, _refresh: Boolean) {
-        mFid = _fid
-        mPage = _page.toString()
+    override fun pListService(fid: Int, page: Int, refresh: Boolean) {
+        mFid = fid.toString()
+        mPage = page.toString()
 
         Thread(Runnable {
             getSavedPList()
@@ -30,12 +29,12 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
     }
 
     private fun getPList() {
-        getCall().enqueue(object : Callback<PListResultBean> {
-            override fun onFailure(call: Call<PListResultBean>?, t: Throwable?) {
+        getCall().enqueue(object : Callback<PostListBean> {
+            override fun onFailure(call: Call<PostListBean>?, t: Throwable?) {
                 pListPresenter.errorResult(SERVICE_RESPONSE_ERROR)
             }
 
-            override fun onResponse(call: Call<PListResultBean>?, response: Response<PListResultBean>?) {
+            override fun onResponse(call: Call<PostListBean>?, response: Response<PostListBean>?) {
                 val body = response?.body()
                 if (body == null) {
                     pListPresenter.errorResult(SERVICE_RESPONSE_NULL)
@@ -46,9 +45,9 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     return
                 }
                 if (body.has_next != HAVE_NEXT_PAGE) {
-                    pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS_END, body.list))
+                    pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS_END, body))
                 } else {
-                    pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body.list))
+                    pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body))
                 }
                 //保存首页的第一页帖子列表
                 if (mPage == FIRST_PAGE && mFid.toInt() < 0) PostStore.savePostList(mFid, body)
@@ -56,10 +55,10 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
         })
     }
 
-    private fun getCall(): Call<PListResultBean>{
+    private fun getCall(): Call<PostListBean>{
         val pListRequest = getRetrofit().create(PListInterface::class.java)
         //最新发表
-        if (mFid == HOME_POSTS_NEW) {
+        if (mFid == HOME_POSTS_NEW.toString()) {
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
                     page = mPage,
@@ -67,7 +66,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     sortby = "new")
         }
         //最新回复
-        if (mFid == HOME_POSTS_REPLY) {
+        if (mFid == HOME_POSTS_REPLY.toString()) {
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
                     page = mPage,
@@ -75,7 +74,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     sortby = "all")
         }
         //热门帖子
-        if (mFid == HOME_POSTS_HOT) {
+        if (mFid == HOME_POSTS_HOT.toString()) {
             return pListRequest.hotPosts(r = "portal/newslist",
                     moduleId = "2",
                     page = mPage,
@@ -96,7 +95,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
         if (mPage != FIRST_PAGE && mFid.toInt() >= 0) return
         PostStore.getPostList(mFid).apply {
             if (this.list != null) {
-                pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this.list))
+                pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))
             }
         }
     }

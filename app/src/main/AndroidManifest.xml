@@ -26,7 +26,7 @@
         <activity android:name=".module.user.view.UserDetailActivity" />
         <activity android:name=".module.post.view.PostDetailActivity" />
         <activity
-            android:name=".module.post.view.PostEditActivity"
+            android:name=".module.post.view.edit.PostEditActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".module.more.ThemeActivity" />
         <activity

@@ -8,14 +8,12 @@ package com.febers.uestc_bbs.view.utils
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.util.Log.i
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
@@ -167,7 +165,7 @@ object ContentViewHelper {
         return imageView.apply {
             layoutParams = marginLayoutParams
             setOnClickListener {
-                ViewClickUtils.clickToImageView(url = url, context = ctx)
+                ViewClickUtils.clickToImageViewer(url = url, context = ctx)
             }
         }
     }

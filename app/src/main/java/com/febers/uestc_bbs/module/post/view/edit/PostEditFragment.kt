@@ -1,8 +1,7 @@
-package com.febers.uestc_bbs.module.post.view
+package com.febers.uestc_bbs.module.post.view.edit
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
@@ -39,10 +38,10 @@ class PostEditFragment: BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(fid: String) =
+        fun newInstance(fid: Int) =
                 PostEditFragment().apply {
                     arguments = Bundle().apply {
-                        putString(FID, fid)
+                        putInt(FID, fid)
                     }
                 }
     }

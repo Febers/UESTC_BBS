@@ -9,8 +9,8 @@ import com.febers.uestc_bbs.entity.UserPostBean
 interface UserContract {
 
     interface Model {
-        fun userPostService(uid: String, type: String, page: String)
-        fun userDetailService(uid: String)
+        fun userPostService(uid: Int, type: String, page: Int)
+        fun userDetailService(uid: Int)
     }
 
     interface View: BaseView {
@@ -19,9 +19,9 @@ interface UserContract {
     }
 
     abstract class Presenter(view: BaseView): BasePresenter<BaseView>(view) {
-        abstract fun userPostRequest(uid: String, type: String, page: String)
+        abstract fun userPostRequest(uid: Int, type: String, page: Int)
         abstract fun userPostResult(event: BaseEvent<UserPostBean>)
-        abstract fun userDetailRequest(uid: String)
+        abstract fun userDetailRequest(uid: Int)
         abstract fun userDetailResult(event: BaseEvent<UserDetailBean>)
     }
 }

@@ -76,7 +76,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
         mUserSimple.valid = true
 
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
-        var uid by PreferenceUtils(mContext, SP_USER_ID, "")
+        var uid by PreferenceUtils(mContext, SP_USER_ID, 0)
         uid = loginResultBean.uid
         UserStore.save(uid, mUserSimple)
     }

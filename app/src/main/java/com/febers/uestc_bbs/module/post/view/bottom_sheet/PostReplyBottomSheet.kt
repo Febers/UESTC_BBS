@@ -4,7 +4,7 @@
  * Last modified 18-8-20 上午12:37.
  */
 
-package com.febers.uestc_bbs.module.post.view
+package com.febers.uestc_bbs.module.post.view.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle

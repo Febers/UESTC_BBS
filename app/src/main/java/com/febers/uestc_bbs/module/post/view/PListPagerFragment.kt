@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PListPagerAdapter
 
 import com.febers.uestc_bbs.base.BaseFragment
+import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.PostEvent
 import kotlinx.android.synthetic.main.fragment_post_pager.*
 import org.greenrobot.eventbus.Subscribe
@@ -31,7 +32,7 @@ class PListPagerFragment : BaseFragment(){
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun startAnotherPost(event: PostEvent) {
         //start(PostDetailFragment.newInstance(event.tid, true))
-        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra("mFid", event.tid) })
+        startActivity(Intent(activity, PostDetailActivity::class.java).apply { putExtra(FID, event.tid) })
     }
 
     override fun registerEventBus(): Boolean {

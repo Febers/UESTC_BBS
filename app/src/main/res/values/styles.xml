@@ -48,10 +48,10 @@
         <item name="colorAccent">@color/color_pink_bili</item>
     </style>
 
-    <style name="CyanTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_cyan_wodi</item>
-        <item name="colorPrimaryDark">@color/color_cyan_wodi</item>
-        <item name="colorAccent">@color/color_cyan_wodi</item>
+    <style name="IndigoTheme" parent="DefaultTheme">
+        <item name="colorPrimary">@color/color_indigo_wodi</item>
+        <item name="colorPrimaryDark">@color/color_indigo_wodi</item>
+        <item name="colorAccent">@color/color_indigo_wodi</item>
     </style>
 
     <style name="TealTheme" parent="DefaultTheme">

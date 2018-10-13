@@ -15,7 +15,7 @@ import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.post.view.PListFragment
-import com.febers.uestc_bbs.module.post.view.PostEditFragment
+import com.febers.uestc_bbs.module.post.view.edit.PostEditFragment
 import com.febers.uestc_bbs.utils.BlockUtils
 import kotlinx.android.synthetic.main.fragment_block_list.*
 import kotlinx.android.synthetic.main.layout_block_list.*

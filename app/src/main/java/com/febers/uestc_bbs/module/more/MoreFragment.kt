@@ -114,7 +114,6 @@ class MoreFragment: BaseFragment() {
             if (MyApplication.getUser().valid) {
                 startActivity(Intent(activity, UserDetailActivity::class.java).apply {
                     putExtra(USER_ID, MyApplication.getUser().uid)
-                    putExtra(USER_IT_SELF, true)
                 })
             } else {
                 mParentFragment.start(LoginFragment.newInstance(true))

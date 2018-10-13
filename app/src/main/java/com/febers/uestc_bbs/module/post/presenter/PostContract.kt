@@ -15,14 +15,14 @@ import com.febers.uestc_bbs.entity.PostDetailBean
 interface PostContract {
 
     interface Model {
-        fun postService(postId: String, page: Int, authorId: Int, order: Int)
+        fun postService(postId: Int, page: Int, authorId: Int, order: Int)
     }
 
     interface View: BaseView {
         fun showPost(event: BaseEvent<PostDetailBean>)
     }
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
-        abstract fun postRequest(postId: String, page: Int, authorId: Int = 0, order: Int = ITEM_ORDER_POSITIVE)
+        abstract fun postRequest(postId: Int, page: Int, authorId: Int = 0, order: Int = ITEM_ORDER_POSITIVE)
         abstract fun postResult(event: BaseEvent<PostDetailBean>)
     }
 }

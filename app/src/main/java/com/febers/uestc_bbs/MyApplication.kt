@@ -33,7 +33,7 @@ class MyApplication: Application() {
         private var uiHidden: Boolean = false
         fun context() = context
         fun getUser(): UserSimpleBean {
-            val uid by PreferenceUtils(context, SP_USER_ID, "")
+            val uid by PreferenceUtils(context, SP_USER_ID, 0)
             return UserStore.get(uid)
         }
         fun appUiHidden() = this.uiHidden

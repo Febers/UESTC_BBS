@@ -24,8 +24,8 @@ const val MSG_TYPE = "mMsgType"
 
 abstract class BaseFragment : SupportFragment(), BaseView {
 
-    protected var mFid: String? = null
-    protected var mUid: String? = null
+    protected var mFid: Int = 0
+    protected var mUid: Int = 0
     protected var mMsgType: String? = MSG_TYPE_REPLY
 
     protected abstract fun setContentView():Int
@@ -38,8 +38,8 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
         arguments?.let {
-            mFid = it.getString(FID)
-            mUid = it.getString(UID)
+            mFid = it.getInt(FID, 0)
+            mUid = it.getInt(UID, 0)
             mMsgType = it.getString(MSG_TYPE)
         }
     }

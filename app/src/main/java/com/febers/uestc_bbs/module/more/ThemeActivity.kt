@@ -8,7 +8,6 @@ import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseSwipeActivity
 import com.febers.uestc_bbs.base.SP_THEME_CODE
 import com.febers.uestc_bbs.entity.ThemeItemBean
-import com.febers.uestc_bbs.utils.AttrUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.ThemeUtils
 import com.febers.uestc_bbs.view.adapter.ThemeAdapter
@@ -45,7 +44,7 @@ class ThemeActivity : BaseSwipeActivity() {
         val item1 = ThemeItemBean(R.drawable.ic_circle_green, getString(R.string.theme_green), false)
         val item2 = ThemeItemBean(R.drawable.ic_circle_red, getString(R.string.theme_red), false)
         val item3 = ThemeItemBean(R.drawable.ic_circle_pink, getString(R.string.theme_pink), false)
-        val item4 = ThemeItemBean(R.drawable.ic_circle_cyan, getString(R.string.theme_cyan), false)
+        val item4 = ThemeItemBean(R.drawable.ic_circle_cyan, getString(R.string.theme_indigo), false)
         val item5 = ThemeItemBean(R.drawable.ic_circle_teal, getString(R.string.theme_teal), false)
         val item6 = ThemeItemBean(R.drawable.ic_circle_purple, getString(R.string.theme_purple), false)
         val item7 = ThemeItemBean(R.drawable.ic_circle_blue, getString(R.string.theme_blue), false)

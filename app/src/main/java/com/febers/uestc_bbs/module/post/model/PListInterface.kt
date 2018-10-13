@@ -6,7 +6,7 @@
 
 package com.febers.uestc_bbs.module.post.model
 
-import com.febers.uestc_bbs.entity.PListResultBean
+import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
 import retrofit2.http.*
@@ -16,13 +16,13 @@ interface PListInterface {
     @POST(ApiUtils.BBS_HOME_POST_URL)
     fun hotPosts(@Field("r")r: String, @Field("moduleId")moduleId: String,
                  @Field("page")page: String, @Field("pageSize")pageSize: String):
-            Call<PListResultBean>
+            Call<PostListBean>
 
     @FormUrlEncoded
     @POST(ApiUtils.BBS_HOME_POST_URL)
     fun newPosts(@Field("r")r: String, @Field("boardId")boardId: String,
                  @Field("page")page: String, @Field("pageSize")pageSize: String,
-                 @Field("sortby")sortby: String): Call<PListResultBean>
+                 @Field("sortby")sortby: String): Call<PostListBean>
 
 
     @FormUrlEncoded
@@ -30,5 +30,5 @@ interface PListInterface {
     fun normalPosts(@Field("boardId")boardId: String, @Field("page")page: String,
                     @Field("pageSize")pageSize: String, @Field("sortby")sortby: String,
                     @Field("filterType")filterType: String, @Field("isImageList")isImageList: String,
-                    @Field("topOrder")topOrdere: String): Call<PListResultBean>
+                    @Field("topOrder")topOrdere: String): Call<PostListBean>
 }

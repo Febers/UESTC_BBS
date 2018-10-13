@@ -8,7 +8,7 @@ import com.febers.uestc_bbs.base.SP_THEME_CODE
 const val MY_THEME_GREEN = 0
 const val MY_THEME_RED = 1
 const val MY_THEME_PINK = 2
-const val MY_THEME_CYAN = 3
+const val MY_THEME_INDIGO = 3
 const val MY_THEME_TEAL = 4
 const val MY_THEME_PURPLE = 5
 const val MY_THEME_BLUE = 6
@@ -21,7 +21,7 @@ object ThemeUtils {
             MY_THEME_GREEN  -> R.style.GreenTheme
             MY_THEME_RED -> R.style.RedTheme
             MY_THEME_PINK -> R.style.PinkTheme
-            MY_THEME_CYAN -> R.style.CyanTheme
+            MY_THEME_INDIGO -> R.style.IndigoTheme
             MY_THEME_TEAL -> R.style.TealTheme
             MY_THEME_PURPLE -> R.style.PurpleTheme
             MY_THEME_BLUE -> R.style.BlueTheme

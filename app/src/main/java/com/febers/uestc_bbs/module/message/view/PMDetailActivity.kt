@@ -22,7 +22,7 @@ class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
     private val pmList: MutableList<PmListBean.MsgListBean> = ArrayList()
     private lateinit var pmPresenter: MessageContract.PMPresenter
     private lateinit var pmAdapter: PMDetailAdapter
-    private var uid = "0"
+    private var uid = 0
     private var userName = ""
     private var page = 1
 
@@ -31,7 +31,7 @@ class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
     }
 
     override fun setView(): Int {
-        uid = intent.getStringExtra(USER_ID)
+        uid = intent.getIntExtra(USER_ID, 0)
         userName = intent.getStringExtra(USER_NAME) ?: "私信详情"
         return R.layout.activity_private_detail
     }

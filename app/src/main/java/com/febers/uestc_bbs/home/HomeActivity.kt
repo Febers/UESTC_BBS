@@ -17,7 +17,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.ThemeItemBean
-import com.febers.uestc_bbs.module.post.view.PostEditActivity
+import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.utils.AttrUtils
 import kotlinx.android.synthetic.main.activity_home.*

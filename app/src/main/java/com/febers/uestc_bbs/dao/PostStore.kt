@@ -2,13 +2,13 @@ package com.febers.uestc_bbs.dao
 
 import android.content.Context
 import com.febers.uestc_bbs.MyApplication
-import com.febers.uestc_bbs.entity.PListResultBean
+import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.google.gson.Gson
 
 object PostStore {
 
-    fun savePostList(fid: String, pList: PListResultBean) {
+    fun savePostList(fid: String, pList: PostListBean) {
         context().getSharedPreferences(fid, 0).edit().apply {
             val json = Gson().toJson(pList)
             putString(fid, json)
@@ -24,15 +24,15 @@ object PostStore {
         }
     }
 
-    fun getPostList(fid: String): PListResultBean {
+    fun getPostList(fid: String): PostListBean {
         try {
             with(context().getSharedPreferences(fid, 0)) {
                 val json: String = this.getString(fid, "")
-                return Gson().fromJson(json, PListResultBean::class.java)
+                return Gson().fromJson(json, PostListBean::class.java)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            return PListResultBean()
+            return PostListBean()
         }
     }
 
