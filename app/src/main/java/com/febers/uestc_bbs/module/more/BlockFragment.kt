@@ -183,7 +183,7 @@ class BlockFragment: BaseFragment() {
                     .newInstance(fid = BlockUtils.getBlockIdByPosition(group, position)))
 
         } else {
-            mParentFragment = parentFragment as BaseFragment
+            //mParentFragment = parentFragment as BaseFragment
             start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
                     title = when(group) {
                         0 -> campusGridList()[position].values.last().toString()

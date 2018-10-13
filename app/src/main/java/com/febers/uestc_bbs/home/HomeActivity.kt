@@ -20,6 +20,7 @@ import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.utils.AttrUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -66,7 +67,8 @@ class HomeActivity: BaseActivity() {
             accentColor = AttrUtils.getColor(this@HomeActivity, R.attr.colorAccent)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
         }
-        fab_home.setOnClickListener { startActivity(Intent(this@HomeActivity, PostEditActivity::class.java)) }
+        fab_home.setOnClickListener {
+            ViewClickUtils.clickToPostEdit(this@HomeActivity, 0) }
         fab_home.visibility = View.GONE
         startService()
     }

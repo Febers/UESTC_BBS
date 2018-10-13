@@ -14,8 +14,8 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class PostSimpleAdapter(val context: Context, data: List<PostListBean.ListBean>, isLoadMore: Boolean):
-        CommonBaseAdapter<PostListBean.ListBean>(context, data, isLoadMore) {
+class PostListAdapter(val context: Context, data: List<PostListBean.ListBean>):
+        CommonBaseAdapter<PostListBean.ListBean>(context, data, false) {
 
     override fun convert(p0: ViewHolder?, p1: PostListBean.ListBean?, p2: Int) {
         var summary = p1?.subject   //普通帖子
@@ -36,5 +36,17 @@ class PostSimpleAdapter(val context: Context, data: List<PostListBean.ListBean>,
 
     override fun getItemLayoutId(): Int {
         return R.layout.item_layout_post
+    }
+}
+
+class StickyPostAdapter(val context: Context, data: List<PostListBean.TopTopicListBean>):
+        CommonBaseAdapter<PostListBean.TopTopicListBean>(context, data, false) {
+
+    override fun getItemLayoutId(): Int {
+        return R.layout.item_layout_sticky_post
+    }
+
+    override fun convert(p0: ViewHolder?, p1: PostListBean.TopTopicListBean?, p2: Int) {
+        p0?.setText(R.id.text_view_item_sticky_post, p1?.title)
     }
 }

@@ -63,17 +63,48 @@
         app:srlAccentColor="@color/color_white"
         app:srlPrimaryColor="?attr/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view_post_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_post_list"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false">
-            </android.support.v7.widget.RecyclerView>
+                android:orientation="vertical">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_post_list_sticky"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone">
+                </android.support.v7.widget.RecyclerView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?attr/background_second"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_post_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_marginTop="10dp"
+                    android:nestedScrollingEnabled="false">
+                </android.support.v7.widget.RecyclerView>
 
+            </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_post_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_write_white"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="8dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin_right"/>
 </android.support.design.widget.CoordinatorLayout>

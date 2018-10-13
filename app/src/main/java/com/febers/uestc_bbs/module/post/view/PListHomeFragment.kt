@@ -10,13 +10,12 @@ import android.os.Bundle
 import android.support.annotation.UiThread
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.adapter.PostSimpleAdapter
+import com.febers.uestc_bbs.view.adapter.PostListAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
@@ -34,7 +33,7 @@ import org.jetbrains.anko.runOnUiThread
 class PListHomeFragment: BaseFragment(), PListContract.View {
 
     private val postSimpleList: MutableList<PostListBean.ListBean> = ArrayList()
-    private lateinit var postSimpleAdapter: PostSimpleAdapter
+    private lateinit var postListAdapter: PostListAdapter
     private lateinit var pListPresenter: PListContract.Presenter
     private var page: Int = 1
     private var loadFinish = false
@@ -48,7 +47,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         pListPresenter = PListPresenterImpl(this)
-        postSimpleAdapter = PostSimpleAdapter(context!!, postSimpleList, false).apply {
+        postListAdapter = PostListAdapter(context!!, postSimpleList).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
                 ViewClickUtils.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id) }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
@@ -57,7 +56,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         }
         recyclerview_subpost_fragment.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = postSimpleAdapter
+            adapter = postListAdapter
             addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         }
         refresh_layout_post_fragment.apply {
@@ -71,7 +70,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(++page, true)
             }
         }
-        postSimpleAdapter.notifyDataSetChanged()
+        postListAdapter.notifyDataSetChanged()
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
@@ -84,7 +83,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         loadFinish = true
         if (event.code == BaseCode.LOCAL) {
             context?.runOnUiThread {
-                postSimpleAdapter.setNewData(event.data.list)
+                postListAdapter.setNewData(event.data.list)
             }
             return
         }
@@ -94,14 +93,14 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             setEnableLoadMore(true)
         }
         if (page == 1) {
-            postSimpleAdapter.setNewData(event.data.list)
+            postListAdapter.setNewData(event.data.list)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_fragment?.finishLoadMoreWithNoMoreData()
             return
         }
-        postSimpleAdapter.setLoadMoreData(event.data.list)
+        postListAdapter.setLoadMoreData(event.data.list)
     }
 
     override fun showError(msg: String) {
@@ -141,6 +140,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         val emptyView: View = LayoutInflater
                 .from(context!!)
                 .inflate(R.layout.layout_empty, recyclerview_subpost_fragment.parent as ViewGroup, false)
-        postSimpleAdapter.setEmptyView(emptyView)
+        postListAdapter.setEmptyView(emptyView)
     }
 }

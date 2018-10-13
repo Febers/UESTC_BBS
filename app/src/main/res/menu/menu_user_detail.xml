@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/item_user_edit"
+        android:id="@+id/menu_item_user_edit"
         android:title="编辑"
         app:showAsAction="always"
         android:icon="@mipmap/ic_user_edit_white">

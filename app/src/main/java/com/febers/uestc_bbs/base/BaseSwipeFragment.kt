@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.support.annotation.FloatRange
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log.i
 import android.view.*
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.R
@@ -72,6 +73,11 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
             setToolbar()?.inflateMenu(setMenu()!!)
             setToolbar()?.title = ""
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        if (setMenu() == null) return
+        inflater?.inflate(setMenu()!!, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

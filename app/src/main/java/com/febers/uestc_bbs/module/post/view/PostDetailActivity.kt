@@ -5,7 +5,6 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.support.annotation.UiThread
 import android.support.design.widget.BottomSheetDialog
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -26,6 +25,7 @@ import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.utils.ContentViewHelper
+import com.febers.uestc_bbs.view.utils.FABBehaviorHelper
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionClickListener {
@@ -39,10 +39,10 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private lateinit var showFAB: AnimatorSet
     private var page = 1
     private var authorId = 0
+    private var topicId = 0
     private var postOrder = POST_POSITIVE_ORDER
     private var postId: Int = 0
-    private var orderPositive: Boolean = true
-    private var authorOnly: Boolean = false
+    private var replyOrder = POST_POSITIVE_ORDER
     private var isFavorite: Int = POST_NO_FAVORED
         set(value) {
             field = value
@@ -51,11 +51,8 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private var drawFinish: Boolean = false
 
     override fun setView(): Int = R.layout.activity_post_detail
-
     override fun setToolbar(): Toolbar? =toolbar_post_detail
-
     override fun setMenu(): Int? = R.menu.menu_post_detail
-
 
     override fun initView() {
         postId = intent.getIntExtra(FID, 0)
@@ -94,14 +91,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
                 replyBottomSheet.show()
             }
         }
-        scroll_view_post_detail?.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            if (scrollY - oldScrollY < -3) {
-                fab_post_detail.show()
-            }
-            if (scrollY - oldScrollY > 3) {
-                fab_post_detail.hide()
-            }
-        }
+        FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
     }
 
     /*
@@ -139,6 +129,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
+        topicId = event.data.topic?.user_id ?: topicId //倒叙查看中其值可能为null
         //结束绘制
         drawFinish = true
     }
@@ -169,6 +160,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
         optionBottomSheet.postTitle = event.data.topic?.title!!
     }
+
     /**
      * 绘制投票的界面
      * 包括用户未投票的，由RadioGroup和Button组成的界面
@@ -232,15 +224,22 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     }
 
     override fun onOptionItemSelect(position: Int) {
-        if (position == ITEM_AUTHOR_ONLY) {
-            authorOnly = !authorOnly
-            optionBottomSheet.hide()
+        if (position == ITEM_AUTHOR_ONLY) { //只看楼主
+            authorId = if (authorId == topicId) {
+                0
+            } else {
+                topicId
+            }
+            refresh_layout_post_detail.autoRefresh()
         }
-        if (position == ITEM_ORDER_POSITIVE) {
-            orderPositive = !orderPositive
-            optionBottomSheet.hide()
+        if (position == ITEM_ORDER_POSITIVE) { //颠倒顺序
+            postOrder = if (postOrder == POST_POSITIVE_ORDER){
+                POST_NEGATIVE_ORDER
+            } else {
+                POST_POSITIVE_ORDER
+            }
+            refresh_layout_post_detail.autoRefresh()
         }
-        refresh_layout_post_detail.autoRefresh()
     }
 
     override fun showError(msg: String) {
@@ -263,7 +262,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.item_post_detail_option && drawFinish) {
+        if (item?.itemId == R.id.menu_item_post_detail_option && drawFinish) {
             optionBottomSheet.show()
         }
         return super.onOptionsItemSelected(item)

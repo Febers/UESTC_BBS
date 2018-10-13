@@ -7,7 +7,9 @@ import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.more.ImageActivity
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
+import com.febers.uestc_bbs.module.more.WebActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
+import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import org.greenrobot.eventbus.EventBus
 
@@ -73,5 +75,23 @@ object ViewClickUtils {
             putExtra(USER_ID, uid)
             putExtra(USER_NAME, userName)
         })
+    }
+
+    fun clickToPostEdit(context: Context?, fid: Int?) {
+        context ?:return
+        fid ?: return
+        context.startActivity(Intent(context, PostEditActivity::class.java).apply {
+            putExtra(FID, fid)
+        })
+    }
+
+    fun clickToAppWeb(context: Context?, url: String?) {
+        context ?: return
+        url ?: return
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+//        context.startActivity(Intent(context, WebActivity::class.java).apply {
+//            putExtra(URL, url)
+//        })
+
     }
 }

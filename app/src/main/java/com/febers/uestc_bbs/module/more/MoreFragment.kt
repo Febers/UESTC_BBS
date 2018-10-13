@@ -171,7 +171,7 @@ class MoreFragment: BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.item_search_more_fragment) {
+        if (item?.itemId == R.id.menu_item_search_more_fragment) {
             mParentFragment.start(SearchFragment.newInstance(true))
         }
         return super.onOptionsItemSelected(item)

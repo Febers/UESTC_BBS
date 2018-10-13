@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetDialog
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.OptionItemBean
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import kotlinx.android.synthetic.main.layout_bottom_sheet_option.*
 import org.jetbrains.anko.toast
@@ -47,7 +48,7 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 itemClickListenerPost.onOptionItemSelect(ITEM_ORDER_POSITIVE)
             }
             if (i == ITEM_WEB_POST) {
-                //打开web页面
+                ViewClickUtils.clickToAppWeb(context, postId.pidToWebUrl())
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

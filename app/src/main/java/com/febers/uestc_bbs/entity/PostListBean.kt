@@ -112,7 +112,7 @@ class PostListBean {
 
     class TopTopicListBean {
         //topTopicList : [{"id": 1456557,"title": "清水河畔论坛新手导航 V2.1"}]
-        var id: Int? = null
+        var id: Int? = 0
         var title: String? = null
     }
     class ListBean {

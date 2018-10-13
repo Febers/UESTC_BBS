@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/item_search_more_fragment"
+        android:id="@+id/menu_item_search_more_fragment"
         android:title="搜索"
         android:icon="@drawable/ic_search_white_24dp"
         app:showAsAction="always"/>

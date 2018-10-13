@@ -90,7 +90,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_search_fragment, menu)
-        menuItem = menu?.findItem(R.id.item_search_search_fragment)
+        menuItem = menu?.findItem(R.id.menu_item_search_search_fragment)
         menuItem?.isChecked = true
         searchView = menuItem?.actionView as SearchView
         val listener = object : SearchView.OnQueryTextListener {

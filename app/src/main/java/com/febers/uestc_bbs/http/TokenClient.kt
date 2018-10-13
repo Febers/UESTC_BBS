@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.http
 
-import android.util.Log.i
 import com.febers.uestc_bbs.MyApplication
 import okhttp3.*
 import java.util.concurrent.TimeUnit
@@ -11,6 +10,7 @@ object TokenClient {
             OkHttpClient.Builder().addInterceptor(TokenInterceptor())
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10, TimeUnit.SECONDS)
+                    //.cookieJar(MyCookiesManager())
                     .build()
 }
 

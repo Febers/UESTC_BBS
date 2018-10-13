@@ -49,6 +49,7 @@
 
     <string name="block_today_num">今日帖子</string>
     <string name="block_all_num">总帖子</string>
+    <string name="show_sticky_post">显示置顶帖</string>
 
     <string name="account_detail">账户信息</string>
     <string name="no_login">未登录</string>

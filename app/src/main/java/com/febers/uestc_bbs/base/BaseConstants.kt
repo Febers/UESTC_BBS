@@ -47,6 +47,7 @@ const val POST_POSITIVE_ORDER = 0
 const val POST_NEGATIVE_ORDER = 1
 
 const val IMAGE_URL = "image_url"
+const val URL = "url"
 
 const val SP_USER_ID = "user_uid"
 const val SP_THEME_CODE = "theme_code"

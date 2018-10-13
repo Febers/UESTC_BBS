@@ -112,7 +112,7 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.item_user_edit) {
+        if (item?.itemId == R.id.menu_item_user_edit) {
             userBottomSheet.show()
         }
         return super.onOptionsItemSelected(item)

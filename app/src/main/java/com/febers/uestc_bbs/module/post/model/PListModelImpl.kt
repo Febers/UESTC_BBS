@@ -87,8 +87,8 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                 pageSize = COMMON_PAGE_SIZE,
                 sortby = "new",
                 filterType = "sortid",
-                isImageList = "fales",
-                topOrdere = "0")
+                isImageList = "false",
+                topOrdere = mTopOrder)
     }
 
     private fun getSavedPList() {

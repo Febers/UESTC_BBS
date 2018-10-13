@@ -51,6 +51,7 @@
 
     <string name="block_today_num">Today Posts Num</string>
     <string name="block_all_num">All Post Num</string>
+    <string name="show_sticky_post">Show Sticky Posts</string>
 
     <string name="account_detail">Account Detail</string>
     <string name="no_login">No Login</string>

@@ -20,6 +20,7 @@ open class BaseModel {
     protected var mAuthorId: String = ""
     protected var mKeyword: String = ""
     protected var mType: String = ""
+    protected var mTopOrder: String = "1"   //默认返回本版置顶帖
 
     protected fun getUser(): UserSimpleBean = MyApplication.getUser()
 
