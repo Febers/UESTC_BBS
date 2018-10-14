@@ -5,6 +5,7 @@ import com.febers.uestc_bbs.base.BasePresenter
 import com.febers.uestc_bbs.base.BaseView
 import com.febers.uestc_bbs.entity.MsgBaseBean
 import com.febers.uestc_bbs.entity.PMDetailBean
+import com.febers.uestc_bbs.entity.PMSendResultBean
 
 interface MessageContract {
 
@@ -22,15 +23,20 @@ interface MessageContract {
     }
 
     interface PMModel {
-        fun pmService(uid: Int, page: Int)
+        fun pmSessionService(uid: Int, page: Int)
+        fun pmSendService(content: Any, type: String)
     }
 
     interface PMView: BaseView {
-        fun showPMDetail(event: BaseEvent<PMDetailBean>)
+        fun showPMSession(event: BaseEvent<PMDetailBean>)
+        fun showPMSendResult(event: BaseEvent<PMSendResultBean>)
     }
 
     abstract class PMPresenter(view: MessageContract.PMView): BasePresenter<MessageContract.PMView>(view) {
-        abstract fun pmRequest(uid: Int, page: Int)
-        abstract fun pmResult(event: BaseEvent<PMDetailBean>)
+        abstract fun pmSessionRequest(uid: Int, page: Int)
+        abstract fun pmSessionResult(event: BaseEvent<PMDetailBean>)
+        abstract fun pmSendRequest(content: Any, type: String)
+        abstract fun pmSendResult(event: BaseEvent<PMSendResultBean>)
+
     }
 }

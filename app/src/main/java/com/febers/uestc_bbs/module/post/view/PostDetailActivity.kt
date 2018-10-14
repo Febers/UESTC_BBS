@@ -1,10 +1,7 @@
 package com.febers.uestc_bbs.module.post.view
 
-import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.support.annotation.UiThread
-import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -21,28 +18,28 @@ import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListener
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.view.utils.ContentViewHelper
-import com.febers.uestc_bbs.view.utils.FABBehaviorHelper
+import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
+import com.febers.uestc_bbs.view.helper.ContentViewHelper
+import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
-class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionClickListener {
+class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
     private lateinit var replyItemAdapter: PostReplyItemAdapter
-    private lateinit var optionBottomSheet: PostOptionBottomSheet
-    private lateinit var replyBottomSheet: BottomSheetDialog
-    private lateinit var hideFAB: AnimatorSet
-    private lateinit var showFAB: AnimatorSet
+    private var optionBottomSheet: PostOptionBottomSheet? = null
+    private var replyBottomSheet: PostReplyBottomSheet? = null
     private var page = 1
     private var authorId = 0
-    private var topicId = 0
+    private var topicId = 0 //楼主id
+    private var topicName = "楼主"  //楼主名称
     private var postOrder = POST_POSITIVE_ORDER
     private var postId: Int = 0
-    private var replyOrder = POST_POSITIVE_ORDER
     private var isFavorite: Int = POST_NO_FAVORED
         set(value) {
             field = value
@@ -58,17 +55,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
-            setOnItemClickListener { viewHolder, postReplyBean, i ->  }
+            setOnItemClickListener { viewHolder, postReplyBean, i ->
+                getReplyBottomSheet().showWithData(postReplyBean.reply_id, postReplyBean.reply_name!!) }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
-                viewHolder, postReplyBean, i -> ViewClickUtils.clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
+                viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
             }
         }
-
-        optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
-                itemClickListenerPost = this, postId = postId)
-        optionBottomSheet.setContentView(R.layout.layout_bottom_sheet_option)
-        replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme)
-        replyBottomSheet.setContentView(R.layout.layout_bottom_sheet_reply)
 
         refresh_layout_post_detail.apply {
             setEnableLoadMore(false)
@@ -79,18 +71,16 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
                 getPost(postId, page) }
             setOnLoadMoreListener {
                 getPost(postId, ++page) }
+            isNestedScrollingEnabled = false
         }
         recyclerview_post_detail_replies.apply {
-            layoutManager = LinearLayoutManager(this@PostDetailActivity)
+            layoutManager = LinearLayoutManager(this@PostDetailActivity).apply {
+                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerview不错乱
+            }
             addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
         }
 
-        fab_post_detail.setOnClickListener {
-            if (drawFinish) {
-                replyBottomSheet.show()
-            }
-        }
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
     }
 
@@ -111,11 +101,6 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     @SuppressLint("SetTextI18n")
     @UiThread
     override fun showPost(event: BaseEvent<PostDetailBean>) {
-        refresh_layout_post_detail?.apply {
-            finishLoadMore(true)
-            finishRefresh(true)
-            setEnableLoadMore(true)
-        }
         if (page == 1) {
             drawTopicView(event)
         }
@@ -130,8 +115,19 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
         topicId = event.data.topic?.user_id ?: topicId //倒叙查看中其值可能为null
+        topicName = event.data.topic?.user_nick_name ?: topicName
         //结束绘制
         drawFinish = true
+        fab_post_detail.setOnClickListener {
+            getReplyBottomSheet().showWithData(toUId = topicId, toUName = topicName)
+        }
+        refresh_layout_post_detail?.apply {
+            finishLoadMore(true)
+            finishRefresh(true)
+            setEnableLoadMore(true)
+            //很重要，重新关闭nestedScroll
+            isNestedScrollingEnabled = false
+        }
     }
 
     /**
@@ -158,7 +154,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         //由于只有第一页时才绘制主贴内容，相当于刷新，所以清空评论列表
         replyList.clear()
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
-        optionBottomSheet.postTitle = event.data.topic?.title!!
+        getOptionBottomSheet().postTitle = event.data.topic?.title!!
     }
 
     /**
@@ -242,6 +238,10 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         }
     }
 
+    override fun onReplySend(vararg contents: Pair<String, String>, toUid: Int) {
+
+    }
+
     override fun showError(msg: String) {
         showToast(msg)
         refresh_layout_post_detail?.apply {
@@ -251,20 +251,27 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         drawFinish = true
     }
 
-    /**
-     * fab滑动消失和显示的动画，弃用
-     */
-    private fun initAnimation() {
-        hideFAB = AnimatorInflater.loadAnimator(this, R.animator.scroll_hide_fab) as AnimatorSet
-        showFAB = AnimatorInflater.loadAnimator(this, R.animator.scroll_show_fab) as AnimatorSet
-        hideFAB.setTarget(fab_post_detail)
-        showFAB.setTarget(fab_post_detail)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_item_post_detail_option && drawFinish) {
-            optionBottomSheet.show()
+            getOptionBottomSheet().show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun getOptionBottomSheet(): PostOptionBottomSheet {
+        if (optionBottomSheet == null) {
+            optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
+                    itemClickListenerPost = this, postId = postId)
+            optionBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_option)
+        }
+        return optionBottomSheet!!
+    }
+
+    private fun getReplyBottomSheet(): PostReplyBottomSheet {
+        if (replyBottomSheet == null) {
+            replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme, this)
+            replyBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_reply)
+        }
+        return replyBottomSheet!!
     }
 }

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.utils
+package com.febers.uestc_bbs.view.helper
 
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.NestedScrollView

@@ -4,7 +4,7 @@
  * Last modified 18-8-18 下午4:04.
  */
 
-package com.febers.uestc_bbs.view.utils;
+package com.febers.uestc_bbs.view.helper;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -32,9 +32,9 @@ import static android.util.Log.i;
  * 构建可显示图片的textview
  * 参考：https://github.com/CentMeng/RichTextView
  */
-public class ImageTextUtils {
+public class ImageTextHelper {
 
-    private static final String TAG = "ImageTextUtils";
+    private static final String TAG = "ImageTextHelper";
 
     public static Drawable getUrlDrawable(String source, TextView textView) {
         GlideImageGetter imageGetter = new GlideImageGetter(textView.getContext(),textView);

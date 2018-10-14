@@ -15,7 +15,8 @@ import com.febers.uestc_bbs.entity.PostDetailBean
 interface PostContract {
 
     interface Model {
-        fun postService(postId: Int, page: Int, authorId: Int, order: Int)
+        fun postDetailService(postId: Int, page: Int, authorId: Int, order: Int)
+        fun postReplyService()
     }
 
     interface View: BaseView {

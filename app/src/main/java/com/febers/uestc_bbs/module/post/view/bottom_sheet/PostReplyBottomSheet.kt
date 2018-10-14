@@ -11,19 +11,33 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.view.View
 import android.view.WindowManager
-import com.febers.uestc_bbs.utils.KeyBoardUtils
 import kotlinx.android.synthetic.main.layout_bottom_sheet_reply.*
 
-class PostReplyBottomSheet(context: Context, style: Int) : BottomSheetDialog(context, style) {
+class PostReplyBottomSheet(context: Context, style: Int, val listener: PostReplySendListener):
+        BottomSheetDialog(context, style) {
+
+    private var toUserId: Int = 0
+    private var toUserName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        image_view_post_reply_picture.visibility = View.INVISIBLE
+        image_view_post_reply_emoji.visibility = View.INVISIBLE
+        image_view_post_reply_at.visibility = View.INVISIBLE
 
-        image_view_emoji_post_reply.setOnClickListener { openEmoKeyBoard() }
+        image_view_post_reply_emoji.setOnClickListener {  }
+        btn_post_reply.setOnClickListener {
+            val stContent: String = edit_view_post_reply.text.toString()
+            if (stContent.isEmpty()) return@setOnClickListener
+            listener.onReplySend(contents = *arrayOf("text" to stContent), toUid = toUserId)
+        }
     }
 
-    fun openEmoKeyBoard() {
-
+    fun showWithData(toUId: Int, toUName: String) {
+        toUserId = toUId
+        toUserName = toUName
+        text_view_post_reply_to_name.text = toUserName
+        super.show()
     }
 }

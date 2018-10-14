@@ -6,9 +6,9 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.utils.BlurTransformation
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
-import com.febers.uestc_bbs.view.utils.GlideImageGetter
+import com.febers.uestc_bbs.view.helper.BlurTransformation
+import com.febers.uestc_bbs.view.helper.GlideCircleTransform
+import com.febers.uestc_bbs.view.helper.GlideImageGetter
 
 object ImageLoader {
 
@@ -60,7 +60,10 @@ object ImageLoader {
      * @param url     加载图片的url地址  String
      */
     fun preload(context: Context?, url: String?) {
-        Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).preload()
+        try {
+            Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).preload()
+        } catch (e: Exception) {
+        }
     }
 
     /**

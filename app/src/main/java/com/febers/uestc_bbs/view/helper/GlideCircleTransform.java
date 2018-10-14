@@ -4,7 +4,7 @@
  * Last modified 18-8-18 下午7:07.
  */
 
-package com.febers.uestc_bbs.view.utils;
+package com.febers.uestc_bbs.view.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;

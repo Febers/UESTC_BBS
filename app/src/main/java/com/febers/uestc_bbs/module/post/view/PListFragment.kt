@@ -18,7 +18,7 @@ import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
-import com.febers.uestc_bbs.view.utils.FABBehaviorHelper
+import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import kotlinx.android.synthetic.main.fragment_post_list.*
 
 class PListFragment: BaseSwipeFragment(), PListContract.View {

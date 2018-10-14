@@ -25,7 +25,7 @@ import com.febers.uestc_bbs.module.login.view.LoginFragment
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
-import com.febers.uestc_bbs.view.utils.GlideCircleTransform
+import com.febers.uestc_bbs.view.helper.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

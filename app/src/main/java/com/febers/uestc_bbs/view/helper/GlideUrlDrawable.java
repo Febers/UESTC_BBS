@@ -4,7 +4,7 @@
  * Last modified 18-8-18 下午3:09.
  */
 
-package com.febers.uestc_bbs.view.utils;
+package com.febers.uestc_bbs.view.helper;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

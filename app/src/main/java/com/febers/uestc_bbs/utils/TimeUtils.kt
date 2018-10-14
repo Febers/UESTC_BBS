@@ -6,9 +6,6 @@
 
 package com.febers.uestc_bbs.utils
 
-import android.os.SystemClock
-import android.util.Log.i
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,13 +13,17 @@ object TimeUtils {
     /*
      * 将时间戳转换为时间
      */
-    fun stampChange(s: String?): String {
+    fun stampChange(s: String?, ignoreSecond: Boolean = false): String {
         if (s == null) return ""
 
         val lt = s.toLong()
         val nt = System.currentTimeMillis()
         var dt = nt - lt
-        if (dt/1000 < 60) return (dt/1000).toString() + "s"
+        if (!ignoreSecond) {
+            if (dt/1000 < 60)
+                //return (dt/1000 + 1).toString() + "s" //加一避免出现0s
+                return "刚刚"
+        }
         dt /= (1000 * 60)   //转换成分钟
         //23min
         if (dt<60) {

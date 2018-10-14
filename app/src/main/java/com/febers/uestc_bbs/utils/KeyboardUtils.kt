@@ -6,7 +6,7 @@ import android.support.v7.widget.SearchView
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
-object KeyBoardUtils {
+object KeyboardUtils {
 
     fun openKeyboard(editText: EditText, context: Context) {
         val imm = context
@@ -15,7 +15,6 @@ object KeyBoardUtils {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
                 InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
-
 
     fun closeKeyboard(editText: EditText, context: Context) {
         val imm = context
@@ -38,5 +37,5 @@ object KeyBoardUtils {
             return inputManger.isActive && activity.window.currentFocus != null
         }
         return false
-}
+    }
 }

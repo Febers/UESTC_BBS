@@ -18,6 +18,8 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 
@@ -44,7 +46,8 @@ class MyApplication: Application() {
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)
-                BallPulseFooter(context)
+                //BallPulseFooter(context)
+                ClassicsFooter(context)
             }
         }
     }

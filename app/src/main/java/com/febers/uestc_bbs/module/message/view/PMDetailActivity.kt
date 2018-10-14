@@ -1,11 +1,15 @@
 package com.febers.uestc_bbs.module.message.view
 
+import android.support.annotation.UiThread
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.util.Log.i
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.entity.PMDetailBean.BodyBean.PmListBean
+import com.febers.uestc_bbs.entity.PMSendResultBean
 import com.febers.uestc_bbs.module.message.presenter.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.PMDetailPresenterImpl
 import com.febers.uestc_bbs.utils.PMTimeUtils
@@ -25,10 +29,13 @@ class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
     private var uid = 0
     private var userName = ""
     private var page = 1
+    private var isSoftInputShow: Boolean = false
+        set(value) {
+            field = value
+            softInputStatusChange()
+        }
 
-    override fun setToolbar(): Toolbar? {
-        return toolbar_private_detail
-    }
+    override fun setToolbar(): Toolbar? =toolbar_private_detail
 
     override fun setView(): Int {
         uid = intent.getIntExtra(USER_ID, 0)
@@ -44,24 +51,72 @@ class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
             adapter = pmAdapter
         }
         getPmList()
+        btn_pm_send.setOnClickListener { sendPM() }
+        /**
+         * 通过监听父布局的高度变化，判断输入法是否弹出
+         * 测试未弹出时diff为76，弹出后为827
+         * 参考 https://blog.csdn.net/adayabetter/article/details/78819183
+         */
+        relative_layout_pm.viewTreeObserver.addOnGlobalLayoutListener {
+            val diffHeight = relative_layout_pm.rootView.height - relative_layout_pm.height
+            i("PM", diffHeight.toString())
+            if (diffHeight >= 500) {
+                isSoftInputShow = true
+            }}
+        //开启后台线程轮询消息
     }
 
     private fun getPmList() {
-        pmPresenter.pmRequest(uid = uid, page = page)
+        pmPresenter.pmSessionRequest(uid = uid, page = page)
     }
 
     /**
-     * 将数据显示在界面上
-     * recyclerview要移动到底部
-     * 添加新数据的时候从底部添加
+     * 将数据显示在界面上。recyclerview要移动到底部，添加新数据的时候从底部添加：
      * pmAdapter.notifyItemInserted(pmList.size-1)
+     * 下面一句控制视图的滑动是无效的
      * recyclerview_private_detail.scrollToPosition(pmList.size-1)
+     * 需要调用 scroll_view_pm.post {
+     * scroll_view_pm.scrollTo(0, linear_layout_pm_content.measuredHeight) }
      */
-    override fun showPMDetail(event: BaseEvent<PMDetailBean>) {
+    override fun showPMSession(event: BaseEvent<PMDetailBean>) {
         event.data.body?.pmList?.get(0)?.msgList?.let { pmList.addAll(it) }
         pmAdapter.notifyItemInserted(pmList.size-1)
-        scroll_view_pm.post {
-            scroll_view_pm.scrollTo(0, linear_layout_pm_content.measuredHeight)
+        scrollViewScrollToBottom()
+    }
+
+    private fun sendPM() {
+        val stContent: String = edit_view_pm.text.toString()
+        if (stContent.isEmpty()) return
+        pmPresenter.pmSendRequest(stContent, "text")
+        edit_view_pm.text.clear()
+        pmList.add(PmListBean.MsgListBean().apply {
+            sender = MyApplication.getUser().uid
+            content = stContent
+            type = "text"
+            time = System.currentTimeMillis().toString()
+        })
+    }
+
+    override fun showPMSendResult(event: BaseEvent<PMSendResultBean>) {
+        runOnUiThread {
+            pmAdapter.notifyItemInserted(pmList.size)
+            scrollViewScrollToBottom()
+        }
+    }
+
+    private fun softInputStatusChange() {
+        if (isSoftInputShow) {
+            scrollViewScrollToBottom()
+        }
+    }
+
+    private fun scrollViewScrollToBottom() = scroll_view_pm.post {
+        scroll_view_pm.scrollTo(0, linear_layout_pm_content.measuredHeight)
+    }
+
+    override fun showError(msg: String) {
+        runOnUiThread {
+            showToast(msg)
         }
     }
 }

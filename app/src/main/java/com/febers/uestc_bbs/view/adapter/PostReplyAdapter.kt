@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.view.utils.ContentViewHelper
+import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 

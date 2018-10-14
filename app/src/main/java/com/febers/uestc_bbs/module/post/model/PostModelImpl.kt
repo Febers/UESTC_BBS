@@ -15,12 +15,16 @@ import retrofit2.Response
 
 class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), PostContract.Model {
 
-    override fun postService(postId: Int, page: Int, authorId: Int, order: Int) {
+    override fun postDetailService(postId: Int, page: Int, authorId: Int, order: Int) {
         mPostId = postId.toString()
         mPage = page.toString()
         mAuthorId = authorId.toString()
         mOrder = order.toString()
         Thread(Runnable { getPost() }).start()
+    }
+
+    override fun postReplyService() {
+
     }
 
     private fun getPost() {

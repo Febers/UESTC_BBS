@@ -111,16 +111,6 @@ class HomeActivity: BaseActivity() {
         bottom_navigation_home.setNotification(msgCount, 2)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        i("Home", "onCreate")
-    }
-    override fun onStart() {
-        super.onStart()
-        i("Home", "onStart")
-    }
-
-
     /**
      * Activity通过Intent的FLAG_ACTIVITY_SINGLE_TOP启动时
      * 生命周期为 onNewIntent -> onResume()

@@ -15,8 +15,8 @@ class PMTimeUtils {
 
     fun isShowTime(time: String?): Boolean {
         time ?: return false
-        val t = TimeUtils.stampChange(time)
-        val lt = TimeUtils.stampChange(lastTime)
+        val t = TimeUtils.stampChange(time, ignoreSecond = true)
+        val lt = TimeUtils.stampChange(lastTime, ignoreSecond = true)
         return if (t == lt) false
         else {
             lastTime = time

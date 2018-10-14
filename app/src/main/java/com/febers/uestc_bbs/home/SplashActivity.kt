@@ -19,6 +19,6 @@ class SplashActivity : BaseActivity() {
             startActivity(Intent(this, HomeActivity::class.java))
             overridePendingTransition(0, 0)
             finish()
-        }, 500)
+        }, 800)
     }
 }

@@ -4,7 +4,7 @@
  * Last modified 18-8-18 下午2:32.
  */
 
-package com.febers.uestc_bbs.view.utils
+package com.febers.uestc_bbs.view.helper
 
 import android.content.Context
 import android.graphics.Color
@@ -96,10 +96,15 @@ object ContentViewHelper {
         cycleDrawView(linearLayout, mStringBuilder, position = 0)
     }
 
+    /**
+     * 根据Content的内容，递归地绘制内容
+     * 当遇到text内容，添加进stringBuilder
+     * 遇到image，结束一次绘制，继续开始下一次绘制
+     */
     private fun cycleDrawView(linearLayout: LinearLayout, stringBuilder: StringBuilder, position: Int) {
         fun drawTextView() {
             val textView = getTextView(linearLayout.context)
-            ImageTextUtils.setImageText(textView, stringBuilder.toString())
+            ImageTextHelper.setImageText(textView, stringBuilder.toString())
             linearLayout.addView(textView)
         }
         fun drawImageView() {
@@ -110,12 +115,14 @@ object ContentViewHelper {
             imageViewList.add(imageView)
             imageUrlList.add(mContents[position].originalInfo.toString())
         }
+        //当遍历结束之后之后，绘制stringBuilder的内容
         if (position >= mContents.size) {
             val textView = getTextView(linearLayout.context)
-            ImageTextUtils.setImageText(textView, stringBuilder.toString())
+            ImageTextHelper.setImageText(textView, stringBuilder.toString())
             linearLayout.addView(textView)
             return
         }
+        //根据type选择不同的策略
         when(mContents[position].type) {
             CONTENT_TYPE_TEXT -> {
                 stringBuilder.append(emotionTransform(mContents[position].infor).encodeSpaces())
@@ -144,6 +151,7 @@ object ContentViewHelper {
         }
     }
 
+    //创建TextView
     private fun getTextView(context: Context): TextView = TextView(context).apply {
         setLineSpacing(1.0f, 1.3f)
         setTextColor(Color.parseColor("#DD000000"))
@@ -154,6 +162,7 @@ object ContentViewHelper {
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
+    //创建ImageView
     private fun getImageView(ctx: Context, url: String): ImageView {
         val imageView = ImageView(ctx).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
@@ -172,7 +181,7 @@ object ContentViewHelper {
 
     /**
      * 将content.infor中的表情gif图片变成超链接，
-     * 然后交给{@link #ImageTextUtils.setImageText(TextView tv, String html)} 处理
+     * 然后交给{@link #ImageTextHelper.setImageText(TextView tv, String html)} 处理
      * raw比如:
      * ...你好啊[mobcent_phiz=http://bbs.uestc.edu.cn/static/image/smiley/too/1.gif]...
      * 转换成:
