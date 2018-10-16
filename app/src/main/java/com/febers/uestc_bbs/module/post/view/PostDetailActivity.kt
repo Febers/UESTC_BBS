@@ -2,16 +2,21 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
 import android.support.annotation.UiThread
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.util.Log
+import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
@@ -34,18 +39,20 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private lateinit var replyItemAdapter: PostReplyItemAdapter
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var replyBottomSheet: PostReplyBottomSheet? = null
-    private var page = 1
+    private var tempReplyBean: PostDetailBean.ListBean? = null
+    private var topicName = "楼主"  //楼主名称
+    private var replyCount = 0
     private var authorId = 0
     private var topicId = 0 //楼主id
-    private var topicName = "楼主"  //楼主名称
+    private var postId = 0
+    private var page = 1
     private var postOrder = POST_POSITIVE_ORDER
-    private var postId: Int = 0
     private var isFavorite: Int = POST_NO_FAVORED
         set(value) {
             field = value
             onFavoriteChange(field)
         }
-    private var drawFinish: Boolean = false
+    private var drawFinish = false
 
     override fun setView(): Int = R.layout.activity_post_detail
     override fun setToolbar(): Toolbar? =toolbar_post_detail
@@ -56,7 +63,8 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
             setOnItemClickListener { viewHolder, postReplyBean, i ->
-                getReplyBottomSheet().showWithData(postReplyBean.reply_id, postReplyBean.reply_name!!) }
+                getReplyBottomSheet().showWithData(topicId = topicId, toUId = postReplyBean.reply_id,
+                        replyId = postReplyBean.reply_posts_id, toUName = postReplyBean.reply_name!!) }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
             }
@@ -71,7 +79,6 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
                 getPost(postId, page) }
             setOnLoadMoreListener {
                 getPost(postId, ++page) }
-            isNestedScrollingEnabled = false
         }
         recyclerview_post_detail_replies.apply {
             layoutManager = LinearLayoutManager(this@PostDetailActivity).apply {
@@ -80,8 +87,14 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
             addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
         }
-
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
+        scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            Log.i("PM", "scrollY: $scrollY, oldScrollY: $oldScrollY diff ${oldScrollY - scrollY}")
+            if ((oldScrollY - scrollY) > 1000) {
+                i("PM", "bug scroll")
+            }
+        }
+        scroll_view_post_detail.isNestedScrollingEnabled = true
     }
 
     /*
@@ -90,7 +103,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
      */
     private fun getPost(postId: Int, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
         refresh_layout_post_detail.setNoMoreData(false)
-        postPresenter.postRequest(postId, page, authorId, order)
+        postPresenter.postDetailRequest(postId, page, authorId, order)
     }
 
     /**
@@ -100,7 +113,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
      */
     @SuppressLint("SetTextI18n")
     @UiThread
-    override fun showPost(event: BaseEvent<PostDetailBean>) {
+    override fun showPostDetail(event: BaseEvent<PostDetailBean>) {
         if (page == 1) {
             drawTopicView(event)
         }
@@ -114,19 +127,19 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
-        topicId = event.data.topic?.user_id ?: topicId //倒叙查看中其值可能为null
-        topicName = event.data.topic?.user_nick_name ?: topicName
+        topicId = event.data.topic!!.user_id ?: topicId //倒叙查看中其值可能为null
+        topicName = event.data.topic!!.user_nick_name ?: topicName
+        replyCount = event.data.topic!!.replies
         //结束绘制
         drawFinish = true
-        fab_post_detail.setOnClickListener {
-            getReplyBottomSheet().showWithData(toUId = topicId, toUName = topicName)
+        fab_post_detail?.setOnClickListener {
+            getReplyBottomSheet().showWithData(topicId = topicId, toUId = topicId,
+                    replyId = event.data.topic!!.reply_posts_id, toUName = topicName)
         }
         refresh_layout_post_detail?.apply {
             finishLoadMore(true)
             finishRefresh(true)
             setEnableLoadMore(true)
-            //很重要，重新关闭nestedScroll
-            isNestedScrollingEnabled = false
         }
     }
 
@@ -219,8 +232,24 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         //进行收藏状态的改变处理
     }
 
+    /**
+     * 发送消息成功之后的回调
+     * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
+     * 否则加载下一页(?)
+     */
+    @UiThread
+    override fun showPostReplyResult(event: BaseEvent<ReplySendResultBean>) {
+        showToast(event.data.head?.errInfo.toString())
+        if (replyCount > COMMON_PAGE_SIZE && tempReplyBean != null) {
+            replyList.add(tempReplyBean!!)
+            replyItemAdapter.notifyDataSetChanged()
+        } else {
+            refresh_layout_post_detail?.autoLoadMore()
+        }
+    }
+
     override fun onOptionItemSelect(position: Int) {
-        if (position == ITEM_AUTHOR_ONLY) { //只看楼主
+        if (position == ONLY_AUTHOR) { //只看楼主
             authorId = if (authorId == topicId) {
                 0
             } else {
@@ -238,8 +267,24 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         }
     }
 
-    override fun onReplySend(vararg contents: Pair<String, String>, toUid: Int) {
-
+    /**
+     * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
+     * 然后发送消息
+     */
+    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+        tempReplyBean = PostDetailBean.ListBean().apply {
+            reply_content = listOf(PostDetailBean.ContentBean().apply {
+                type = contents[0].first
+                infor = contents[0].second
+            })
+            //reply_id = MyApplication.getUser().uid
+            reply_name = MyApplication.getUser().name
+            icon = MyApplication.getUser().avatar
+            title = MyApplication.getUser().title
+            posts_date = System.currentTimeMillis().toString()
+            level = replyCount + 1
+        }
+        postPresenter.postReplyRequest(tid = postId, isQuote = isQuote, replyId = replyId, contents = *contents)
     }
 
     override fun showError(msg: String) {

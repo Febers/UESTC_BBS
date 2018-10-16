@@ -9,6 +9,7 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import android.view.View
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
@@ -16,8 +17,6 @@ import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-
-const val REPLY_IS_QUOTA = 1
 class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, isLoadMore: Boolean):
         CommonBaseAdapter<PostDetailBean.ListBean>(context, data, isLoadMore) {
 
@@ -27,8 +26,8 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         p0?.setText(R.id.text_view_post_reply_content, p1?.userTitle)
         p0?.setText(R.id.text_view_post_reply_floor, "#"+(p1?.position?.minus(1)))
 
-        ContentViewHelper.create(p0?.convertView?.findViewById(R.id.linear_layout_post_reply), p1?.reply_content)
-        if (p1?.is_quote == REPLY_IS_QUOTA) {
+        ContentViewHelper.create(linearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply), contents = p1?.reply_content)
+        if (p1?.is_quote == REPLY_QUOTA) {
             p0?.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
             p0?.setText(R.id.text_view_post_reply_quota, p1.quote_content?.multiLineSpaces())
         }

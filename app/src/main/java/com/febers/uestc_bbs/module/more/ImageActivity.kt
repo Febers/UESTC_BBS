@@ -60,6 +60,7 @@ class ImageActivity : BaseActivity() {
                             Glide.with(context).load(R.mipmap.image_error_400200).into(this)
                             setOnClickListener {
                                 finish()
+                                overridePendingTransition(0, 0)
                             }
                         }
                         progressDialog.hide()

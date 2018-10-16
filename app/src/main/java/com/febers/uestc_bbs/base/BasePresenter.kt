@@ -8,11 +8,11 @@ package com.febers.uestc_bbs.base
 
 abstract class BasePresenter<V : BaseView>(protected var mView: V?) {
 
-    fun detachView() {
+    open fun detachView() {
         mView = null
     }
 
-     fun errorResult(error: String) {
-         mView?.showError(error)
-     }
+    fun errorResult(error: String) {
+        mView?.showError(error)
+    }
 }

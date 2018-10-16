@@ -1,9 +1,13 @@
 package com.febers.uestc_bbs.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.util.Log.i
+import android.view.View
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.more.ImageActivity
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
@@ -41,12 +45,33 @@ object ViewClickUtils {
         clickToImageViewer(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
     }
 
-    fun clickToImageViewer(url: String?, context: Context?) {
+
+    /**
+     * 打开ImageViewer，目前调用一个Activity进行展示，待改进
+     * @param url
+     * @param context
+     * @param transitionView 进行页面共享的view
+     * @param transitionViewName 进行页面共享的view的name
+     * 页面共享的文章见:https://blog.csdn.net/sinat_31057219/article/details/78095038
+     * 目前没有进行相应的调用
+     */
+    fun clickToImageViewer(url: String?, context: Context?, transitionView: View? = null, transitionViewName: String? = null) {
         url ?: return
         context ?: return
-        context.startActivity(Intent(context, ImageActivity::class.java).apply {
-            putExtra(IMAGE_URL, url)
-        })
+        var bundle: Bundle? = null
+        if (transitionView != null && transitionViewName != null) {
+            if (context is Activity)
+                bundle = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
+            context.startActivity(Intent(context, ImageActivity::class.java).apply {
+                putExtra(IMAGE_URL, url)
+            }, bundle)
+            (context as Activity).overridePendingTransition(0, 0)
+        } else {
+            context.startActivity(Intent(context, ImageActivity::class.java).apply {
+                putExtra(IMAGE_URL, url)
+            })
+        }
     }
 
 
@@ -57,6 +82,7 @@ object ViewClickUtils {
             putExtra(USER_IT_SELF, false)
             putExtra(USER_ID, uid)
         })
+
     }
 
     fun clickToPostDetail(context: Context?, fid: Int?) {

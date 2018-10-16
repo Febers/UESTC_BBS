@@ -62,7 +62,7 @@ class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : Ba
                 .getReplyAndSystemAndAt(
                         type = mType,
                         page = mPage,
-                        pageSize = COMMON_PAGE_SIZE)
+                        pageSize = COMMON_PAGE_SIZE.toString())
                 .enqueue(object : Callback<JsonObject> {
                     override fun onFailure(call: Call<JsonObject>?, t: Throwable?) {
                         messagePresenter.errorResult(t.toString())

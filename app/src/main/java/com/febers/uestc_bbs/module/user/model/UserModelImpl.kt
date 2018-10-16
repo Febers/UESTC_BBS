@@ -79,31 +79,31 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                 userPostRequest.getUserStartPList(
                         uid = mUid,
                         page = mPage,
-                        pageSize = COMMON_PAGE_SIZE)
+                        pageSize = COMMON_PAGE_SIZE.toString())
             }
             USER_REPLY_POST -> {
                 userPostRequest.getUserReplyPList(
                         uid = mUid,
                         page = mPage,
-                        pageSize = COMMON_PAGE_SIZE)
+                        pageSize = COMMON_PAGE_SIZE.toString())
             }
             USER_FAV_POST -> {
                 userPostRequest.getUserFavPList(
                         uid = mUid,
                         page = mPage,
-                        pageSize = COMMON_PAGE_SIZE)
+                        pageSize = COMMON_PAGE_SIZE.toString())
             }
             else -> {
                 userPostRequest.getUserStartPList(
                         uid = mUid,
                         page = mPage,
-                        pageSize = COMMON_PAGE_SIZE)
+                        pageSize = COMMON_PAGE_SIZE.toString())
             }
         }
     }
 
     private fun getSavedPList() {
-        if (mPage != FIRST_PAGE) return
+        if (mPage != FIRST_PAGE.toString()) return
         PostStore.getUserPList(mFid).apply {
             if (this.list != null) {
                 presenter.userPostResult(BaseEvent(BaseCode.LOCAL, this))

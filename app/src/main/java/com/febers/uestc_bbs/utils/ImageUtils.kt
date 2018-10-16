@@ -63,6 +63,7 @@ object ImageLoader {
         try {
             Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).preload()
         } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

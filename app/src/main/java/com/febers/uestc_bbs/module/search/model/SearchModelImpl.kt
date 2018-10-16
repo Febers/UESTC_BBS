@@ -20,7 +20,7 @@ class SearchModelImpl(val searchPresenter: SearchContrect.Presenter): BaseModel(
         val call = searchQuest.getSearchPost(
                 keyword = mKeyword,
                 page = mPage,
-                pageSize = COMMON_PAGE_SIZE
+                pageSize = COMMON_PAGE_SIZE.toString()
         )
         call.enqueue(object : Callback<SearchPostBean> {
             override fun onFailure(call: Call<SearchPostBean>?, t: Throwable?) {

@@ -28,7 +28,7 @@ object KeyboardUtils {
         imm.hideSoftInputFromWindow(searchView.windowToken, 0)
     }
 
-    fun isSoftInputShow(activity: Activity): Boolean {
+    fun isInputViewShow(activity: Activity): Boolean {
         // 虚拟键盘隐藏 判断view是否为空
         val view = activity.window.peekDecorView()
         if (view != null) {

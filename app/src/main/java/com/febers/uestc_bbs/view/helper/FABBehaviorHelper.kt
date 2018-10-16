@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.view.helper
 
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.widget.NestedScrollView
+import android.util.Log.i
 
 object FABBehaviorHelper {
 
@@ -14,5 +15,6 @@ object FABBehaviorHelper {
                 fab.hide()
             }
         }
+
     }
 }

@@ -6,8 +6,10 @@
 
 package com.febers.uestc_bbs.module.post.model
 
+import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,8 +25,52 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         Thread(Runnable { getPost() }).start()
     }
 
-    override fun postReplyService() {
+    override fun postReplyService(tid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+        Thread(Runnable {
+            reply(isQuote, replyId, *contents)
+        }).start()
+    }
 
+    private fun reply(isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+        val stContents = StringBuilder()
+        contents.forEach {
+            stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
+        }
+        stContents.deleteCharAt(stContents.lastIndex)
+        i("POST", stContents.toString())
+        getRetrofit().create(PostInterface::class.java)
+                .postReply(json = """
+                    {"body":
+                        {"json":
+                            {
+                                "tid":$mPostId,
+                                "isAnonymous":0,
+                                "isOnlyAuthor":0,
+                                "isQuote":$isQuote,
+                                "replyId":$replyId,
+                                "content":"[$stContents]"
+                            }
+                        }
+                    }
+                        """.trimIndent())
+                .enqueue(object : Callback<ReplySendResultBean> {
+                    override fun onFailure(call: Call<ReplySendResultBean>, t: Throwable?) {
+                        postPresenter.errorResult(t.toString())
+                    }
+
+                    override fun onResponse(call: Call<ReplySendResultBean>, response: Response<ReplySendResultBean>?) {
+                        val replySendResultBean = response?.body()
+                        if (replySendResultBean == null) {
+                            postPresenter.errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (replySendResultBean.rs != REQUEST_SUCCESS_RS) {
+                            postPresenter.errorResult(replySendResultBean.head?.errInfo.toString())
+                            return
+                        }
+                        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, replySendResultBean))
+                    }
+                })
     }
 
     private fun getPost() {
@@ -34,7 +80,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                 authorId = mAuthorId,
                 order = mOrder,
                 page = mPage,
-                pageSize = COMMON_PAGE_SIZE)
+                pageSize = COMMON_PAGE_SIZE.toString())
         call.enqueue(object : Callback<PostDetailBean> {
             override fun onFailure(call: Call<PostDetailBean>?, t: Throwable?) {
                 postPresenter.errorResult(SERVICE_RESPONSE_ERROR)
@@ -51,10 +97,10 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                     return
                 }
                 if (postResultBean.has_next != HAVE_NEXT_PAGE) {
-                    postPresenter.postResult(BaseEvent(BaseCode.SUCCESS_END, postResultBean))
+                    postPresenter.postDetailResult(BaseEvent(BaseCode.SUCCESS_END, postResultBean))
                     return
                 }
-                postPresenter.postResult(BaseEvent(BaseCode.SUCCESS, postResultBean))
+                postPresenter.postDetailResult(BaseEvent(BaseCode.SUCCESS, postResultBean))
             }
         })
     }

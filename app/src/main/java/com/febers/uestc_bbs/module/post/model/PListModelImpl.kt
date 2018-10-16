@@ -50,7 +50,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body))
                 }
                 //保存首页的第一页帖子列表
-                if (mPage == FIRST_PAGE && mFid.toInt() < 0) PostStore.savePostList(mFid, body)
+                if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0) PostStore.savePostList(mFid, body)
             }
         })
     }
@@ -62,7 +62,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
                     page = mPage,
-                    pageSize = COMMON_PAGE_SIZE,
+                    pageSize = COMMON_PAGE_SIZE.toString(),
                     sortby = "new")
         }
         //最新回复
@@ -70,7 +70,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
                     page = mPage,
-                    pageSize = COMMON_PAGE_SIZE,
+                    pageSize = COMMON_PAGE_SIZE.toString(),
                     sortby = "all")
         }
         //热门帖子
@@ -78,13 +78,13 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             return pListRequest.hotPosts(r = "portal/newslist",
                     moduleId = "2",
                     page = mPage,
-                    pageSize = COMMON_PAGE_SIZE)
+                    pageSize = COMMON_PAGE_SIZE.toString())
         }
         //版块里的帖子
         return pListRequest.normalPosts(
                 boardId = mFid,
                 page = mPage,
-                pageSize = COMMON_PAGE_SIZE,
+                pageSize = COMMON_PAGE_SIZE.toString(),
                 sortby = "new",
                 filterType = "sortid",
                 isImageList = "false",
@@ -92,7 +92,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
     }
 
     private fun getSavedPList() {
-        if (mPage != FIRST_PAGE && mFid.toInt() >= 0) return
+        if (mPage != FIRST_PAGE.toString() && mFid.toInt() >= 0) return
         PostStore.getPostList(mFid).apply {
             if (this.list != null) {
                 pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))

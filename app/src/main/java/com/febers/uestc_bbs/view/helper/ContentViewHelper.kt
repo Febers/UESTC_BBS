@@ -6,6 +6,8 @@
 
 package com.febers.uestc_bbs.view.helper
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.util.Log.i
@@ -14,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
@@ -74,7 +77,7 @@ object ContentViewHelper {
     private var imageViewList: MutableList<ImageView> = ArrayList()
     private lateinit var mStringBuilder: StringBuilder
     private val IMAGE_VIEW_MARGIN = 25
-
+    private var idCount = 0
     /**
      * 当添加图片视图的时候，如果立即使用Glide加载图片，
      * 会造成用户滑动时的卡顿，因此，保存imageView和相应的url
@@ -174,7 +177,7 @@ object ContentViewHelper {
         return imageView.apply {
             layoutParams = marginLayoutParams
             setOnClickListener {
-                ViewClickUtils.clickToImageViewer(url = url, context = ctx)
+                ViewClickUtils.clickToImageViewer(url = url, context = context)
             }
         }
     }

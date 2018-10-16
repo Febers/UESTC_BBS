@@ -41,7 +41,7 @@
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableNestedScrolling="true"
+        app:srlEnableNestedScrolling="false"
         app:srlAccentColor="@color/color_white"
         app:srlPrimaryColor="?attr/colorPrimary">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->

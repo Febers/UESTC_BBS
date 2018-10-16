@@ -46,15 +46,14 @@ class MyApplication: Application() {
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)
-                //BallPulseFooter(context)
-                ClassicsFooter(context)
+                BallPulseFooter(context)
+                //ClassicsFooter(context)
             }
         }
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        i("App", "trim")
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
             uiHidden = true
             Glide.get(this).clearMemory()

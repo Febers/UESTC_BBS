@@ -6,24 +6,28 @@
 
 package com.febers.uestc_bbs.module.post.presenter
 
-import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BasePresenter
-import com.febers.uestc_bbs.base.BaseView
-import com.febers.uestc_bbs.base.ITEM_ORDER_POSITIVE
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.entity.ReplySendResultBean
 
 interface PostContract {
 
     interface Model {
         fun postDetailService(postId: Int, page: Int, authorId: Int, order: Int)
-        fun postReplyService()
+        fun postReplyService(tid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>)
     }
 
     interface View: BaseView {
-        fun showPost(event: BaseEvent<PostDetailBean>)
+        fun showPostDetail(event: BaseEvent<PostDetailBean>)
+        fun showPostReplyResult(event: BaseEvent<ReplySendResultBean>)
     }
+
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
-        abstract fun postRequest(postId: Int, page: Int, authorId: Int = 0, order: Int = ITEM_ORDER_POSITIVE)
-        abstract fun postResult(event: BaseEvent<PostDetailBean>)
+        abstract fun postDetailRequest(postId: Int, page: Int, authorId: Int = 0, order: Int = ITEM_ORDER_POSITIVE)
+        abstract fun postDetailResult(event: BaseEvent<PostDetailBean>)
+
+        abstract fun postReplyRequest(tid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>)
+        abstract fun postReplyResult(event: BaseEvent<ReplySendResultBean>)
+
     }
 }

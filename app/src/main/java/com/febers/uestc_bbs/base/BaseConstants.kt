@@ -7,6 +7,10 @@ const val HAVE_NEXT_PAGE = 1
 const val POST_FAVORED = 1
 const val POST_NO_FAVORED = 0
 const val POST_IS_VOTE = 1
+const val REPLY_QUOTA = 1
+const val REPLY_NO_QUOTA = 0
+const val USER_ANONYMOUS = 1
+const val USER_NO_ANONYMOUS = 0
 const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
 const val SERVICE_RESPONSE_NULL = "服务器响应为空"
 
@@ -37,7 +41,8 @@ const val USER_IT_SELF = "user_it_self"
 const val USER_ID = "uid"
 const val USER_NAME = "user_name"
 
-const val ITEM_AUTHOR_ONLY = 0
+const val ONLY_AUTHOR = 0
+const val NO_ONLY_AUTHOR = 1
 const val ITEM_ORDER_POSITIVE = 1
 const val ITEM_WEB_POST = 2
 const val ITEM_COPY_URL = 3
@@ -51,3 +56,6 @@ const val URL = "url"
 
 const val SP_USER_ID = "user_uid"
 const val SP_THEME_CODE = "theme_code"
+
+const val COMMON_PAGE_SIZE = 30
+const val FIRST_PAGE = 1
