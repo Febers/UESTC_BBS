@@ -9,6 +9,7 @@ package com.febers.uestc_bbs.module.post.presenter
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
+import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
@@ -44,7 +45,7 @@ class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(vie
         postModel.postVoteService(pollItemId)
     }
 
-    override fun postVoteResult(event: BaseEvent<String>) {
+    override fun postVoteResult(event: BaseEvent<PostVoteResultBean>) {
         view.showVoteResult(event)
     }
 }

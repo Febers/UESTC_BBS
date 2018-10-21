@@ -20,7 +20,7 @@ const val VOTE_TYPE_SINGLE = 1
 const val VOTE_STATUS_VALUABLE = 2
 class VoteViewHelper(private val linearLayout: LinearLayout, private val pollInfo: PostDetailBean.TopicBean.PollInfoBean) {
 
-    private val data: List<PostDetailBean.TopicBean.PollInfoBean.PollItemListBean> = pollInfo.poll_item_list!!
+    private val data: MutableList<PostDetailBean.TopicBean.PollInfoBean.PollItemListBean> = ArrayList()
     private lateinit var buttonClickListener: VoteButtonClickListener
     private lateinit var voteItemAdapter: VoteItemAdapter
     private val pollIds: MutableList<Int> = ArrayList()
@@ -29,6 +29,7 @@ class VoteViewHelper(private val linearLayout: LinearLayout, private val pollInf
     private var currentChoosePosition = -1
 
     fun create() {
+        data.addAll(pollInfo.poll_item_list!!)
         singleSelected = pollInfo.type == VOTE_TYPE_SINGLE
         val recyclerView: RecyclerView = RecyclerView(context).apply {
             layoutManager = LinearLayoutManager(context)

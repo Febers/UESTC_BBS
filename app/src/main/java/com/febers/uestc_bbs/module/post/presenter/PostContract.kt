@@ -9,6 +9,7 @@ package com.febers.uestc_bbs.module.post.presenter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
+import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 
 interface PostContract {
@@ -24,7 +25,7 @@ interface PostContract {
         fun showPostDetail(event: BaseEvent<PostDetailBean>)
         fun showPostReplyResult(event: BaseEvent<ReplySendResultBean>)
         fun showPostFavResult(event: BaseEvent<PostFavResultBean>)
-        fun showVoteResult(event: BaseEvent<String>)
+        fun showVoteResult(event: BaseEvent<PostVoteResultBean>)
     }
 
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
@@ -38,6 +39,6 @@ interface PostContract {
         abstract fun postFavResult(event: BaseEvent<PostFavResultBean>)
 
         abstract fun postVoteRequest(pollItemId: List<Int>)
-        abstract fun postVoteResult(event: BaseEvent<String>)
+        abstract fun postVoteResult(event: BaseEvent<PostVoteResultBean>)
     }
 }

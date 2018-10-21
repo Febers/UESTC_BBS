@@ -10,6 +10,7 @@ import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
+import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.module.post.presenter.PostContract
 import retrofit2.Call
@@ -142,14 +143,24 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
 
     private fun postVote(pollItemId: List<Int>) {
         getRetrofit().create(PostInterface::class.java)
-                .postVote(tid = mPostId, options = pollItemId.toString())
-                .enqueue(object : Callback<String> {
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-
+                //将list.toString之后前后的[]删去
+                .postVote(tid = mPostId, options = pollItemId.toString().replace("[","").replace("]",""))
+                .enqueue(object : Callback<PostVoteResultBean> {
+                    override fun onFailure(call: Call<PostVoteResultBean>, t: Throwable) {
+                        postPresenter.errorResult(SERVICE_RESPONSE_ERROR)
                     }
 
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-
+                    override fun onResponse(call: Call<PostVoteResultBean>, response: Response<PostVoteResultBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            postPresenter.errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            postPresenter.errorResult(result.head?.errInfo.toString())
+                            return
+                        }
+                        postPresenter.postVoteResult(BaseEvent(BaseCode.SUCCESS, result))
                     }
                 })
     }

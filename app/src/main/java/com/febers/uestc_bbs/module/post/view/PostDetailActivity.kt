@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
+import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.presenter.PostContract
@@ -40,6 +41,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private lateinit var postPresenter: PostContract.Presenter
     private lateinit var replyItemAdapter: PostReplyItemAdapter
     private lateinit var contentViewHelper: ContentViewHelper
+    private lateinit var voteViewHelper: VoteViewHelper
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var replyBottomSheet: PostReplyBottomSheet? = null
     private var tempReplyBean: PostDetailBean.ListBean? = null
@@ -190,7 +192,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
      */
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
         pollInfo ?: return
-        val voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
+        voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
         voteViewHelper.create()
         voteViewHelper.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
             override fun click(pollItemIds: List<Int>) {
@@ -200,7 +202,8 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     }
 
     @UiThread
-    override fun showVoteResult(event: BaseEvent<String>) {
+    override fun showVoteResult(event: BaseEvent<PostVoteResultBean>) {
+        showToast(event.data.errcode.toString())
         refresh_layout_post_detail.autoRefresh()
     }
 

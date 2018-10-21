@@ -1,8 +1,8 @@
 package com.febers.uestc_bbs.module.user.view
 
 import android.content.Intent
+import android.support.annotation.UiThread
 import android.support.v7.widget.Toolbar
-import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
 import com.febers.uestc_bbs.MyApplication
@@ -13,6 +13,7 @@ import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
+import com.febers.uestc_bbs.module.user.view.bottom_sheet.UserDetailBottomSheet
 import com.febers.uestc_bbs.utils.GenderUtils
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
@@ -45,7 +46,6 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     }
 
     override fun initView() {
-        i("User", userId.toString())
         userPresenter = UserPresenterImpl(this)
         refresh_layout_user_detail.apply {
             autoRefresh()
@@ -54,6 +54,7 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         }
         if (userItSelf) {
             userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
+            userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
         }
     }
 
@@ -106,6 +107,7 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
         return arrayListOf(item1, item2, item3, item4, item5)
     }
 
+    @UiThread
     override fun showError(msg: String) {
         showToast(msg)
         refresh_layout_user_detail?.finishRefresh(false)

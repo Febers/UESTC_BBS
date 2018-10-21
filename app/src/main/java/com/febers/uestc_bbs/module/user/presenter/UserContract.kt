@@ -21,6 +21,7 @@ interface UserContract {
     abstract class Presenter(view: BaseView): BasePresenter<BaseView>(view) {
         abstract fun userPostRequest(uid: Int, type: String, page: Int)
         abstract fun userPostResult(event: BaseEvent<UserPostBean>)
+
         abstract fun userDetailRequest(uid: Int)
         abstract fun userDetailResult(event: BaseEvent<UserDetailBean>)
     }

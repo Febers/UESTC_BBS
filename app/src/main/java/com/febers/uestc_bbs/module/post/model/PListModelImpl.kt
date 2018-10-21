@@ -94,7 +94,6 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
 
     private fun getSavedPList() {
         if (mPage != FIRST_PAGE.toString() || mFid.toInt() >= 0) return
-        i("PList", "page:$mPage")
         PostStore.getPostList(mFid).apply {
             if (this.list != null) {
                 pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))

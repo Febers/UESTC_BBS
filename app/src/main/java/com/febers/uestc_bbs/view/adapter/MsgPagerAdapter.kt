@@ -18,7 +18,7 @@ class MsgPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
 
     private val titles = arrayOf(getString(R.string.post_reply_message),
             getString(R.string.private_message),
-            getString(R.string.at_message),
+            "@"+getString(R.string.at_message),
             getString(R.string.system_message))
 
     override fun getItem(position: Int): Fragment {

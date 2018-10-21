@@ -30,7 +30,7 @@
     <string name="post_reply_message">帖子回复</string>
     <string name="private_message">私信</string>
     <string name="system_message">系统通知</string>
-    <string name="at_message">at</string>
+    <string name="at_message">我</string>
 
     <string name="my_start_post">我的帖子</string>
     <string name="my_reply_post">我的回复</string>

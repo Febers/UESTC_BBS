@@ -32,7 +32,7 @@
     <string name="post_reply_message">reply</string>
     <string name="private_message">pm</string>
     <string name="system_message">system</string>
-    <string name="at_message">at</string>
+    <string name="at_message">Me</string>
 
     <string name="my_start_post">Start Post</string>
     <string name="my_reply_post">Reply Post</string>
