@@ -11,12 +11,6 @@ object ApiUtils {
     const val BBS_BASE_URL = "http://bbs.uestc.edu.cn/"
     /**
      * 登录、注销。
-        type 'login'（默认值）或 'logout'。
-        username
-        password
-        mobile （用于手机验证登录，我们用不到，下同）
-        code
-        isValidation
      */
     const val BBS_LOGIN_URL = "mobcent/app/web/index.php?r=user/login"
 
@@ -55,12 +49,6 @@ object ApiUtils {
 
     /**
         获取用户发布的帖子
-        mUid
-        page
-        accessToken
-        accessSecret
-        sdkVersion
-        apphash
      */
     const val BBS_USER_START_URL = "mobcent/app/web/index.php?r=user/topiclist&type=topic"
 
@@ -70,10 +58,9 @@ object ApiUtils {
 
     /**
      * 获取用户详细信息
-     * uid 用户id
      */
-
     const val BBS_USER_INFO_URL = "mobcent/app/web/index.php?r=user/userinfo"
+
     /**
      * 获取版块列表。
         fid 可选。获取指定版块的子版块。
@@ -163,6 +150,11 @@ object ApiUtils {
     const val BBS_SEND_ATTACHMENTEX_URL = "mobcent/app/web/index.php?r=forum/sendattachmentex"
 
     /**
+     * 收藏帖子
+     */
+    const val BBS_POST_FAVORITE_URL = "mobcent/app/web/index.php?r=user/userfavorite"
+
+    /**
      * 投票。
         tid
         options 投票选项，逗号隔开。
@@ -173,7 +165,7 @@ object ApiUtils {
         pollItemId
         totalNum
      */
-    const val BBS_VOTE_URL = "mobcent/app/web/index.php?r=forum/sendattachmentex"
+    const val BBS_VOTE_URL = "mobcent/app/web/index.php?r=forum/vote"
 
 
     /**

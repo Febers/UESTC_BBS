@@ -9,10 +9,12 @@ package com.febers.uestc_bbs.module.post.view.bottom_sheet
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
+import android.util.Log.i
 import android.view.View
 import android.view.WindowManager
 import com.febers.uestc_bbs.base.REPLY_NO_QUOTA
 import com.febers.uestc_bbs.base.REPLY_QUOTA
+import com.febers.uestc_bbs.utils.KeyboardUtils
 import kotlinx.android.synthetic.main.layout_bottom_sheet_reply.*
 
 class PostReplyBottomSheet(context: Context, style: Int, private val listener: PostReplySendListener):
@@ -20,6 +22,7 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
 
     private var topicId: Int = 0
     private var toUid: Int = 0
+    private var lastToUid = toUid
     private var toUName: String = ""
     private var isQuote: Int = REPLY_NO_QUOTA
     private var replyId: Int = 0
@@ -43,6 +46,9 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
             }
             listener.onReplySend(toUid = toUid, isQuote = isQuote, replyId = replyId, contents = *arrayOf(0 to stContent))
         }
+        setOnCancelListener {
+            edit_view_post_reply.clearFocus()
+        }
     }
 
     fun showWithData(topicId: Int, toUId: Int, replyId: Int, toUName: String) {
@@ -50,7 +56,16 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
         this.toUid = toUId
         this.replyId = replyId
         this.toUName = toUName
-        text_view_post_reply_to_name.text = this.toUName
+        text_view_post_reply_to_name.text = toUName
+        if (lastToUid != toUId) {
+            edit_view_post_reply.text.clear()
+            lastToUid = toUid
+        }
+        show()
+    }
+
+    override fun show() {
         super.show()
+        edit_view_post_reply.requestFocus()
     }
 }

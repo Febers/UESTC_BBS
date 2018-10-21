@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.post.model
 
+import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.utils.ApiUtils
@@ -24,4 +25,13 @@ interface PostInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_TOPIC_ADMIN_URL)
     fun postReply(@Field("act")act: String = "reply", @Field("json")json: String): Call<ReplySendResultBean>
+
+    @FormUrlEncoded
+    @POST(ApiUtils.BBS_POST_FAVORITE_URL)
+    fun postFavorite(@Field("action")action: String, @Field("id")id: String,
+                     @Field("idType")idType: String = "tid"): Call<PostFavResultBean>
+
+    @FormUrlEncoded
+    @POST(ApiUtils.BBS_VOTE_URL)
+    fun postVote(@Field("tid")tid: String, @Field("options")options: String): Call<String>
 }

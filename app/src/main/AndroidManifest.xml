@@ -41,7 +41,9 @@
             android:exported="false" />
 
         <activity android:name=".module.user.view.UserEditActivity" />
-        <activity android:name=".module.more.ImageActivity" />
+        <activity android:name=".module.more.ImageActivity"
+            android:theme="@style/ImageViewerTheme"/>
+
         <activity android:name=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -63,8 +63,8 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
             return
         }
         mUserSimple.name = loginResultBean.userName
-                mUserSimple.uid = loginResultBean.uid
-                mUserSimple.title = loginResultBean.userTitle
+        mUserSimple.uid = loginResultBean.uid
+        mUserSimple.title = loginResultBean.userTitle
         mUserSimple.gender = loginResultBean.gender
         mUserSimple.token = loginResultBean.token
         mUserSimple.secrete = loginResultBean.secret

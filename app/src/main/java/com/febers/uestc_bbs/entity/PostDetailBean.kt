@@ -144,8 +144,8 @@ class PostDetailBean {
              * deadline : 1567438321
              * is_visible : 1
              * voters : 688
-             * type : 1
-             * poll_status : 2
+             * type : 1 //1应该是单选
+             * poll_status : 2  //1为已经投过票
              * poll_id : [0]
              * poll_item_list : [{"name":"狗眼要被亮瞎了，极度反感","poll_item_id":13339,"total_num":226,"percent":"32.85%"},{"name":"反感","poll_item_id":13340,"total_num":88,"percent":"12.79%"},{"name":"喜欢","poll_item_id":13341,"total_num":80,"percent":"11.63%"},{"name":"很喜欢","poll_item_id":13342,"total_num":96,"percent":"13.95%"},{"name":"无所谓，酱油通道","poll_item_id":13343,"total_num":198,"percent":"28.78%"}]
              */
@@ -170,6 +170,7 @@ class PostDetailBean {
                 var poll_item_id: Int = 0
                 var total_num: Int = 0
                 var percent: String? = null
+                var isSelectd: Int = 0
             }
         }
 

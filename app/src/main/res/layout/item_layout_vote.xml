@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <CheckBox
+        android:id="@+id/check_box_vote_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/text_view_vote_item_des"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="?attr/textColorFirst"
+                android:textSize="@dimen/text_size_normal"
+                android:text="@string/app_name"/>
+            <TextView
+                android:id="@+id/text_view_vote_item_result"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:textSize="@dimen/text_size_small"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="20%(20)"/>
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar_vote_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:progress="10"/>
+    </LinearLayout>
+
+</LinearLayout>

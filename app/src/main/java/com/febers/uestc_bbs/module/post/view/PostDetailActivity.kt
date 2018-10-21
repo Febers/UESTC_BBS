@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
+import android.support.annotation.MainThread
 import android.support.annotation.UiThread
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.DividerItemDecoration
@@ -16,6 +17,7 @@ import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.presenter.PostContract
@@ -25,11 +27,11 @@ import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
-import com.febers.uestc_bbs.view.helper.ContentViewHelper
-import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
+import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
 class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
@@ -37,9 +39,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private var replyList: MutableList<PostDetailBean.ListBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
     private lateinit var replyItemAdapter: PostReplyItemAdapter
+    private lateinit var contentViewHelper: ContentViewHelper
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var replyBottomSheet: PostReplyBottomSheet? = null
     private var tempReplyBean: PostDetailBean.ListBean? = null
+    private val delFavoritePost = "delfavorite"
+    private val favoritePost = "favorite"
     private var topicName = "楼主"  //楼主名称
     private var replyCount = 0
     private var authorId = 0
@@ -48,11 +53,9 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private var page = 1
     private var postOrder = POST_POSITIVE_ORDER
     private var isFavorite: Int = POST_NO_FAVORED
-        set(value) {
-            field = value
-            onFavoriteChange(field)
-        }
     private var drawFinish = false
+
+    ////////////////////////////////初始化////////////////////////////////
 
     override fun setView(): Int = R.layout.activity_post_detail
     override fun setToolbar(): Toolbar? =toolbar_post_detail
@@ -106,6 +109,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         postPresenter.postDetailRequest(postId, page, authorId, order)
     }
 
+    ////////////////////////////////主贴////////////////////////////////
     /**
      * 接收来自presenter的消息，绘制帖子视图
      * 首先如果不是第一页，只添加主贴视图
@@ -127,20 +131,16 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
-        topicId = event.data.topic!!.user_id ?: topicId //倒叙查看中其值可能为null
-        topicName = event.data.topic!!.user_nick_name ?: topicName
-        replyCount = event.data.topic!!.replies
+        topicId = event.data.topic?.user_id ?: topicId //倒叙查看中其值可能为null
+        topicName = event.data.topic?.user_nick_name ?: topicName
+        replyCount = event.data.topic?.replies ?: replyCount
         //结束绘制
         drawFinish = true
         fab_post_detail?.setOnClickListener {
             getReplyBottomSheet().showWithData(topicId = topicId, toUId = topicId,
                     replyId = event.data.topic!!.reply_posts_id, toUName = topicName)
         }
-        refresh_layout_post_detail?.apply {
-            finishLoadMore(true)
-            finishRefresh(true)
-            setEnableLoadMore(true)
-        }
+        refresh_layout_post_detail?.successFinish()
     }
 
     /**
@@ -162,7 +162,8 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         text_view_post_detail_author_title?.text = event.data.topic?.userTitle
         text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
         //主贴图文视图的绘制
-        ContentViewHelper.create(linear_layout_detail_content, event.data.topic?.content)
+        contentViewHelper = ContentViewHelper(linear_layout_detail_content, event.data.topic?.content!!)
+        contentViewHelper.create()
         fillImageView()
         //由于只有第一页时才绘制主贴内容，相当于刷新，所以清空评论列表
         replyList.clear()
@@ -170,6 +171,16 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
     }
 
+    //调用ImageLoader预加载的图片填充到view中
+    private fun fillImageView() {
+        contentViewHelper.getImageUrls().forEachIndexed { index, s ->
+            contentViewHelper.getImageViews()[index].apply {
+                ImageLoader.usePreload(context = context, url = contentViewHelper.getImageUrls()[index], imageView = this)
+            }
+        }
+    }
+
+    ////////////////////////////////投票////////////////////////////////
     /**
      * 绘制投票的界面
      * 包括用户未投票的，由RadioGroup和Button组成的界面
@@ -179,33 +190,21 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
      */
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
         pollInfo ?: return
-        pollInfo.poll_item_list?.forEach {
-            val radioButton = RadioButton(this).apply {
-                layoutParams = RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, 50).apply {
-                    setMargins(0, 0, 0 , 0)
-                }
-                text = it.name
+        val voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
+        voteViewHelper.create()
+        voteViewHelper.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
+            override fun click(pollItemIds: List<Int>) {
+                postPresenter.postVoteRequest(pollItemIds)
             }
-        }
-        //如果投票仍有效并且用户未曾投票，Button的text显示相应的文字
-        button_post_vote.apply {
-            //text = ""
-            visibility = View.VISIBLE
-            setOnClickListener {
-
-            }
-        }
+        })
     }
 
-    //调用ImageLoader预加载的图片填充到view中
-    private fun fillImageView() {
-        ContentViewHelper.getImageUrls().forEachIndexed { index, s ->
-            ContentViewHelper.getImageViews()[index].apply {
-                ImageLoader.usePreload(context = context, url = ContentViewHelper.getImageUrls()[index], imageView = this)
-            }
-        }
+    @UiThread
+    override fun showVoteResult(event: BaseEvent<String>) {
+        refresh_layout_post_detail.autoRefresh()
     }
 
+    ////////////////////////////////收藏////////////////////////////////
     private fun initFavStatus() {
         image_view_post_fav?.let { it ->
             it.visibility = View.VISIBLE
@@ -216,38 +215,80 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
             }
             it.setOnClickListener {
                 if (isFavorite == POST_FAVORED) {
-                    image_view_post_fav.setImageResource(R.drawable.ic_star_gray_24dp)
                     isFavorite = POST_NO_FAVORED
+                    onFavoriteChange(POST_NO_FAVORED)
                     return@setOnClickListener
                 }
                 if (isFavorite == POST_NO_FAVORED){
-                    image_view_post_fav.setImageResource(R.drawable.ic_star_color_24dp)
                     isFavorite = POST_FAVORED
+                    onFavoriteChange(POST_FAVORED)
                 }
             }
         }
     }
 
+    //进行收藏状态改变的后台处理
+    //不使用全局的isFavorite，防止频繁点击时逻辑跟不上
     private fun onFavoriteChange(isFav: Int) {
-        //进行收藏状态的改变处理
+        postPresenter.postFavRequest(action = if (isFav == POST_FAVORED) favoritePost else delFavoritePost)
     }
 
+    override fun showPostFavResult(event: BaseEvent<PostFavResultBean>) {
+        runOnUiThread {
+            showToast(event.data.errcode.toString())
+            if (event.code == BaseCode.SUCCESS) {
+                if (isFavorite == POST_FAVORED) image_view_post_fav.setImageResource(R.drawable.ic_star_color_24dp)
+                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.ic_star_gray_24dp)
+            }
+        }
+    }
+
+    ////////////////////////////////回复////////////////////////////////
     /**
      * 发送消息成功之后的回调
      * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
      * 否则加载下一页(?)
      */
-    @UiThread
     override fun showPostReplyResult(event: BaseEvent<ReplySendResultBean>) {
-        showToast(event.data.head?.errInfo.toString())
-        if (replyCount > COMMON_PAGE_SIZE && tempReplyBean != null) {
-            replyList.add(tempReplyBean!!)
-            replyItemAdapter.notifyDataSetChanged()
-        } else {
-            refresh_layout_post_detail?.autoLoadMore()
+        runOnUiThread {
+            showToast(event.data.head?.errInfo.toString())
+            showToast("回复成功")
+            if (replyCount < COMMON_PAGE_SIZE && tempReplyBean != null) {
+                i("Post", tempReplyBean!!.userTitle)
+                replyList.add(tempReplyBean!!)
+                replyItemAdapter.notifyDataSetChanged()
+                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
+            } else {
+                i("Post", "load")
+                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
+                refresh_layout_post_detail?.autoLoadMore()
+            }
+            replyBottomSheet?.hide()
         }
     }
 
+    /**
+     * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
+     * 然后发送消息
+     */
+    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+        tempReplyBean = PostDetailBean.ListBean().apply {
+            reply_content = listOf(PostDetailBean.ContentBean().apply {
+                type = contents[0].first
+                infor = contents[0].second
+            })
+            reply_id = 0
+            reply_name = MyApplication.getUser().name
+            icon = MyApplication.getUser().avatar
+            userTitle = MyApplication.getUser().title
+            posts_date = System.currentTimeMillis().toString()
+            position = replyCount + 2 //adapter中会减1，因为服务器默认主贴为1楼
+        }
+        postPresenter.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
+        replyCount++
+    }
+
+    ////////////////////////////////底部菜单////////////////////////////////
     override fun onOptionItemSelect(position: Int) {
         if (position == ONLY_AUTHOR) { //只看楼主
             authorId = if (authorId == topicId) {
@@ -265,35 +306,6 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
             }
             refresh_layout_post_detail.autoRefresh()
         }
-    }
-
-    /**
-     * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
-     * 然后发送消息
-     */
-    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
-        tempReplyBean = PostDetailBean.ListBean().apply {
-            reply_content = listOf(PostDetailBean.ContentBean().apply {
-                type = contents[0].first
-                infor = contents[0].second
-            })
-            //reply_id = MyApplication.getUser().uid
-            reply_name = MyApplication.getUser().name
-            icon = MyApplication.getUser().avatar
-            title = MyApplication.getUser().title
-            posts_date = System.currentTimeMillis().toString()
-            level = replyCount + 1
-        }
-        postPresenter.postReplyRequest(tid = postId, isQuote = isQuote, replyId = replyId, contents = *contents)
-    }
-
-    override fun showError(msg: String) {
-        showToast(msg)
-        refresh_layout_post_detail?.apply {
-            finishRefresh(false)
-            finishLoadMore(false)
-        }
-        drawFinish = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -318,5 +330,12 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
             replyBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_reply)
         }
         return replyBottomSheet!!
+    }
+
+    ////////////////////////////////错误////////////////////////////////
+    override fun showError(msg: String) {
+        showToast(msg)
+        refresh_layout_post_detail?.failFinish()
+        drawFinish = true
     }
 }

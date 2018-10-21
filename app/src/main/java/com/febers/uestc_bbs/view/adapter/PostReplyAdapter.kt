@@ -23,20 +23,20 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
     override fun convert(p0: ViewHolder?, p1: PostDetailBean.ListBean?, p2: Int) {
         p0?.setText(R.id.text_view_post_reply_author, p1?.reply_name)
         p0?.setText(R.id.text_view_post_reply_date, TimeUtils.stampChange(p1?.posts_date))
-        p0?.setText(R.id.text_view_post_reply_content, p1?.userTitle)
+        p0?.setText(R.id.text_view_post_reply_user_title, p1?.userTitle)
         p0?.setText(R.id.text_view_post_reply_floor, "#"+(p1?.position?.minus(1)))
-
-        ContentViewHelper.create(linearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply), contents = p1?.reply_content)
-        if (p1?.is_quote == REPLY_QUOTA) {
+        val contentViewHelper = ContentViewHelper(linearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, mContents = p1?.reply_content!!)
+        contentViewHelper.create()
+        if (p1.is_quote == REPLY_QUOTA) {
             p0?.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
             p0?.setText(R.id.text_view_post_reply_quota, p1.quote_content?.multiLineSpaces())
         }
-        ImageLoader.load(context, p1?.icon, p0?.getView(R.id.image_view_post_reply_author_avatar))
+        ImageLoader.load(context, p1.icon, p0?.getView(R.id.image_view_post_reply_author_avatar))
 
         //将Helper中预加载的图片填充到view中
-        ContentViewHelper.getImageUrls().forEachIndexed { index, s ->
-            ContentViewHelper.getImageViews()[index].apply {
-                ImageLoader.usePreload(context = context, url = ContentViewHelper.getImageUrls()[index], imageView = this)
+        contentViewHelper.getImageUrls().forEachIndexed { index, s ->
+            contentViewHelper.getImageViews()[index].apply {
+                ImageLoader.usePreload(context = context, url = contentViewHelper.getImageUrls()[index], imageView = this)
             }
         }
     }

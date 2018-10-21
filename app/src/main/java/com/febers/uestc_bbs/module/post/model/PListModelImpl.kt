@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.post.model
 
+import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.PostStore
 import com.febers.uestc_bbs.entity.PostListBean
@@ -92,7 +93,8 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
     }
 
     private fun getSavedPList() {
-        if (mPage != FIRST_PAGE.toString() && mFid.toInt() >= 0) return
+        if (mPage != FIRST_PAGE.toString() || mFid.toInt() >= 0) return
+        i("PList", "page:$mPage")
         PostStore.getPostList(mFid).apply {
             if (this.list != null) {
                 pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))

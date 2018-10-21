@@ -67,7 +67,8 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(page, true)
             }
             setOnLoadMoreListener {
-                getPost(++page, true)
+                page++
+                getPost(page, true)
             }
         }
         postListAdapter.notifyDataSetChanged()
@@ -75,7 +76,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     private fun getPost(page: Int, refresh: Boolean) {
         refresh_layout_post_fragment.setNoMoreData(false)
-        pListPresenter.pListRequest(fid = mFid!!, page = page, refresh = refresh)
+        pListPresenter.pListRequest(fid = mFid, page = page, refresh = refresh)
     }
 
     @UiThread

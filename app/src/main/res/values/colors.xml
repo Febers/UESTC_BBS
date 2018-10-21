@@ -24,6 +24,7 @@
     <color name="color_purple_gay">#673ab7</color>
     <color name="color_blue_zhihu">#2196f3</color>
     <color name="color_gray_didiao">#607d8b</color>
+    <color name="color_black">#000000</color>
 
     <color name="transparent">#00000000</color>
     <!--日间模式-->

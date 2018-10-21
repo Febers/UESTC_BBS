@@ -77,7 +77,7 @@ object ViewClickUtils {
 
     fun clickToUserDetail(context: Context?, uid: Int?) {
         context ?: return
-        uid ?: return
+        if (uid == 0 || uid == null) return
         context.startActivity(Intent(context, UserDetailActivity::class.java).apply {
             putExtra(USER_IT_SELF, false)
             putExtra(USER_ID, uid)
@@ -87,7 +87,7 @@ object ViewClickUtils {
 
     fun clickToPostDetail(context: Context?, fid: Int?) {
         context ?: return
-        fid ?: return
+        if (fid == 0 || fid == null) return
         context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
             putExtra(FID, fid)
         })
@@ -95,17 +95,17 @@ object ViewClickUtils {
 
     fun clickToPrivateMsg(context: Context?, uid: Int?, userName: String?) {
         context ?: return
-        uid ?: return
         userName ?: return
+        if (uid == 0 ||uid == null) return
         context.startActivity(Intent(context, PMDetailActivity::class.java).apply {
             putExtra(USER_ID, uid)
             putExtra(USER_NAME, userName)
         })
     }
 
-    fun clickToPostEdit(context: Context?, fid: Int?) {
+    fun clickToPostEdit(context: Context?, fid: Int) {
         context ?:return
-        fid ?: return
+        if (fid == 0) return
         context.startActivity(Intent(context, PostEditActivity::class.java).apply {
             putExtra(FID, fid)
         })

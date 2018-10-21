@@ -13,6 +13,7 @@ const val MY_THEME_TEAL = 4
 const val MY_THEME_PURPLE = 5
 const val MY_THEME_BLUE = 6
 const val MY_THEME_GRAY = 7
+const val MY_THEME_WHITE = 8
 
 object ThemeUtils {
     fun getTheme() : Int{
@@ -26,6 +27,7 @@ object ThemeUtils {
             MY_THEME_PURPLE -> R.style.PurpleTheme
             MY_THEME_BLUE -> R.style.BlueTheme
             MY_THEME_GRAY -> R.style.GrayTheme
+            MY_THEME_WHITE -> R.style.WhiteTheme
             else -> R.style.BlueTheme
         }
     }

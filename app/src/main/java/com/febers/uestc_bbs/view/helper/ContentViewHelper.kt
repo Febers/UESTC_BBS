@@ -70,14 +70,13 @@ const val CONTENT_TYPE_URL = 4
 const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
-object ContentViewHelper {
-
-    private lateinit var mContents: List<PostDetailBean.ContentBean>
+class ContentViewHelper(private val linearLayout: LinearLayout, private val mContents: List<PostDetailBean.ContentBean>) {
     private var imageUrlList: MutableList<String> = ArrayList()
     private var imageViewList: MutableList<ImageView> = ArrayList()
-    private lateinit var mStringBuilder: StringBuilder
+    private var mStringBuilder: StringBuilder = StringBuilder()
     private val IMAGE_VIEW_MARGIN = 25
     private var idCount = 0
+    private val context = linearLayout.context
     /**
      * 当添加图片视图的时候，如果立即使用Glide加载图片，
      * 会造成用户滑动时的卡顿，因此，保存imageView和相应的url
@@ -87,16 +86,11 @@ object ContentViewHelper {
     fun getImageUrls() = imageUrlList
     fun getImageViews() = imageViewList
 
-    fun create(linearLayout: LinearLayout?, contents: List<PostDetailBean.ContentBean>?) {
-        if (contents == null || linearLayout == null) {
-            return
-        }
+    fun create() {
         imageUrlList.clear()
         imageViewList.clear()
-        mContents = contents
-        mStringBuilder = StringBuilder()
         linearLayout.removeAllViews()
-        cycleDrawView(linearLayout, mStringBuilder, position = 0)
+        cycleDrawView(mStringBuilder, position = 0)
     }
 
     /**
@@ -104,23 +98,23 @@ object ContentViewHelper {
      * 当遇到text内容，添加进stringBuilder
      * 遇到image，结束一次绘制，继续开始下一次绘制
      */
-    private fun cycleDrawView(linearLayout: LinearLayout, stringBuilder: StringBuilder, position: Int) {
+    private fun cycleDrawView(stringBuilder: StringBuilder, position: Int) {
         fun drawTextView() {
-            val textView = getTextView(linearLayout.context)
+            val textView = getTextView()
             ImageTextHelper.setImageText(textView, stringBuilder.toString())
             linearLayout.addView(textView)
         }
         fun drawImageView() {
             drawTextView()
-            val imageView = getImageView(linearLayout.context, mContents[position].originalInfo.toString())
+            val imageView = getImageView(mContents[position].originalInfo.toString())
             linearLayout.addView(imageView)
-            ImageLoader.preload(linearLayout.context, mContents[position].originalInfo)
+            ImageLoader.preload(context, mContents[position].originalInfo)
             imageViewList.add(imageView)
             imageUrlList.add(mContents[position].originalInfo.toString())
         }
         //当遍历结束之后之后，绘制stringBuilder的内容
         if (position >= mContents.size) {
-            val textView = getTextView(linearLayout.context)
+            val textView = getTextView()
             ImageTextHelper.setImageText(textView, stringBuilder.toString())
             linearLayout.addView(textView)
             return
@@ -129,33 +123,33 @@ object ContentViewHelper {
         when(mContents[position].type) {
             CONTENT_TYPE_TEXT -> {
                 stringBuilder.append(emotionTransform(mContents[position].infor).encodeSpaces())
-                cycleDrawView(linearLayout, stringBuilder, position + 1)
+                cycleDrawView(stringBuilder, position + 1)
             }
             CONTENT_TYPE_URL -> {
                 stringBuilder
                     .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
-                cycleDrawView(linearLayout, stringBuilder, position + 1)
+                cycleDrawView(stringBuilder, position + 1)
             }
             CONTENT_TYPE_IMG -> {
                 drawImageView()
-                cycleDrawView(linearLayout, StringBuilder(), position + 1)
+                cycleDrawView(StringBuilder(), position + 1)
             }
             CONTENT_TYPE_FILE -> {
                 if (mContents[position].infor?.unMatchImageUrl()!!) {
                     stringBuilder
                             .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
                 }
-                cycleDrawView(linearLayout, stringBuilder, position + 1)
+                cycleDrawView(stringBuilder, position + 1)
             }
             else -> {
                 stringBuilder.append(mContents[position].infor)
-                cycleDrawView(linearLayout, stringBuilder, position + 1)
+                cycleDrawView(stringBuilder, position + 1)
             }
         }
     }
 
     //创建TextView
-    private fun getTextView(context: Context): TextView = TextView(context).apply {
+    private fun getTextView(): TextView = TextView(context).apply {
         setLineSpacing(1.0f, 1.3f)
         setTextColor(Color.parseColor("#DD000000"))
         textSize = 16f
@@ -166,8 +160,8 @@ object ContentViewHelper {
     }
 
     //创建ImageView
-    private fun getImageView(ctx: Context, url: String): ImageView {
-        val imageView = ImageView(ctx).apply {
+    private fun getImageView(url: String): ImageView {
+        val imageView = ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             layoutParams = ViewGroup
                     .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

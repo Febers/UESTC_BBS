@@ -8,6 +8,7 @@ package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.ReplySendResultBean
 import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
@@ -23,11 +24,27 @@ class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(vie
         view.showPostDetail(event)
     }
 
-    override fun postReplyRequest(tid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
-        postModel.postReplyService(tid, isQuote, replyId, *contents)
+    override fun postReplyRequest(isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+        postModel.postReplyService(isQuote, replyId, *contents)
     }
 
     override fun postReplyResult(event: BaseEvent<ReplySendResultBean>) {
         view.showPostReplyResult(event)
+    }
+
+    override fun postFavRequest(action: String) {
+        postModel.postFavService(action)
+    }
+
+    override fun postFavResult(event: BaseEvent<PostFavResultBean>) {
+        view.showPostFavResult(event)
+    }
+
+    override fun postVoteRequest(pollItemId: List<Int>) {
+        postModel.postVoteService(pollItemId)
+    }
+
+    override fun postVoteResult(event: BaseEvent<String>) {
+        view.showVoteResult(event)
     }
 }

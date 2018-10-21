@@ -41,7 +41,7 @@
             app:layout_constraintStart_toEndOf="@+id/image_view_post_reply_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_post_reply_author_avatar" />
         <TextView
-            android:id="@+id/text_view_post_reply_content"
+            android:id="@+id/text_view_post_reply_user_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
