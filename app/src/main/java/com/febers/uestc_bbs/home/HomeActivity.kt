@@ -6,9 +6,9 @@
 
 package com.febers.uestc_bbs.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 import android.util.Log.i
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
@@ -17,9 +17,9 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.ThemeItemBean
-import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
 import com.febers.uestc_bbs.module.service.HeartMsgService
-import com.febers.uestc_bbs.utils.AttrUtils
+import com.febers.uestc_bbs.module.theme.AppColor
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
@@ -57,15 +57,17 @@ class HomeActivity: BaseActivity() {
                 add(3, findFragment(HomeFourthContainer::class.java))
             }
         }
-        bottom_navigation_home.manageFloatingActionButtonBehavior(fab_home)
         bottom_navigation_home.apply {
             addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_windmill_gray))
             addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
             addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
             addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
             titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
-            accentColor = AttrUtils.getColor(this@HomeActivity, R.attr.colorAccent)
+            accentColor = ThemeHelper.getBottomNavigationColorAccent()
+            defaultBackgroundColor = ThemeHelper.getColor(AppColor.COLOR_BACKGROUND)
+            manageFloatingActionButtonBehavior(fab_home)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
+            ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)
         }
         fab_home.setOnClickListener {
             ViewClickUtils.clickToPostEdit(this@HomeActivity, 0) }
@@ -73,7 +75,7 @@ class HomeActivity: BaseActivity() {
         startService()
     }
 
-
+    @SuppressLint("RestrictedApi")
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
         if (position == 2) {
             bottom_navigation_home.setNotification("", 2)

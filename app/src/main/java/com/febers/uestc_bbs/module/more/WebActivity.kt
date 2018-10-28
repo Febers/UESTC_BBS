@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.module.more
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log.i
 import com.febers.uestc_bbs.R

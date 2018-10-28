@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="?attr/textColorFirst"
+                android:textColor="?attr/text_color_first"
                 android:textSize="@dimen/text_size_normal"
                 android:text="@string/app_name"/>
             <TextView

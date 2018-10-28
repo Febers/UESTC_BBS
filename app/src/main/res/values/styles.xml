@@ -6,21 +6,47 @@
 
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:windowBackground">@color/color_white</item>-->
-        <item name="textColorFirst">@color/textColorFirst_Day</item>
-        <item name="textColorSecond">@color/textColorSecond_Day</item>
-        <item name="textColorThird">@color/textColorThird_Day</item>
-        <item name="background_first">@color/backgroundFirst_Day</item>
-        <item name="background_second">@color/backgroundSecond_Day</item>
+    <style name="DefaultThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_blue_zhihu</item>
+        <item name="colorAccent">@color/color_blue_zhihu</item>
+        <item name="app_color_primary">@color/color_blue_zhihu</item>
+        <item name="app_color_accent">@color/color_blue_zhihu</item>
+
+        <item name="text_color_first">@color/textColorFirst_Day</item>
+        <item name="text_color_second">@color/textColorSecond_Day</item>
+        <item name="text_color_third">@color/textColorThird_Day</item>
+
+        <item name="background_first">@color/color_white</item>
+        <item name="background_second">@color/color_gray_light</item>
+
+        <item name="refresh_layout_color_accent">@color/color_white</item>
+        <item name="android:textColorPrimary">@color/color_black</item>
+        <item name="android:textColorSecondary">@color/color_gray</item>
         <item name="android:windowIsTranslucent">true</item> <!-- 让activity不闪屏 -->
         <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
     </style>
+
+    <style name="DefaultThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/color_black</item>
+        <item name="colorAccent">@color/color_black</item>
+
+        <item name="app_color_primary">@color/color_black</item>
+        <item name="app_color_accent">@color/color_black</item>
+
+        <item name="text_color_first">@color/color_white</item>
+        <item name="text_color_second">@color/color_gray_light</item>
+        <item name="text_color_third">@color/color_gray</item>
+
+        <item name="background_first">@color/color_black</item>
+        <item name="background_second">@color/color_gray</item>
+
+        <item name="refresh_layout_color_accent">@color/color_white</item>
+        <item name="android:textColorPrimary">@color/color_white</item>
+        <item name="android:textColorSecondary">@color/color_gray_light</item>
+        <item name="android:windowIsTranslucent">true</item> <!-- 让activity不闪屏 -->
+        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
+    </style>
+
 
     <style name="MyWindowAnimTheme" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/bottom_to_top_in</item>
@@ -29,7 +55,7 @@
         <item name="android:activityCloseExitAnimation">@anim/top_to_bottom_out</item>
     </style>
 
-    <style name="ImageViewerTheme" parent="DefaultTheme">
+    <style name="ImageViewerTheme" parent="DefaultThemeLight">
         <item name="android:windowAnimationStyle">@style/ImageViewerAnim</item>
     </style>
 
@@ -40,69 +66,6 @@
         <item name="android:activityCloseExitAnimation">@anim/scale_out_to_center</item>
     </style>
 
-    <style name="WhiteTheme" parent="Theme.Design.Light.NoActionBar">
-        <item name="colorPrimary">#eeeeee</item>
-        <item name="colorPrimaryDark">#e0e0e0</item>
-        <item name="colorAccent">#bdbdbd</item>
-        <item name="android:tabWidgetStyle">@style/TabStyleLight</item>
-        <item name="android:widgetLayout">@style/TabStyleLight</item>
-    </style>
-
-    <style name="GreenTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_green_kuan</item>
-        <item name="colorPrimaryDark">@color/color_green_kuan</item>
-        <item name="colorAccent">@color/color_green_kuan</item>
-    </style>
-
-    <style name="RedTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_red_yima</item>
-        <item name="colorPrimaryDark">@color/color_red_yima</item>
-        <item name="colorAccent">@color/color_red_yima</item>
-    </style>
-
-    <style name="PinkTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_pink_bili</item>
-        <item name="colorPrimaryDark">@color/color_pink_bili</item>
-        <item name="colorAccent">@color/color_pink_bili</item>
-    </style>
-
-    <style name="IndigoTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_indigo_wodi</item>
-        <item name="colorPrimaryDark">@color/color_indigo_wodi</item>
-        <item name="colorAccent">@color/color_indigo_wodi</item>
-    </style>
-
-    <style name="TealTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_teal_shuiya</item>
-        <item name="colorPrimaryDark">@color/color_teal_shuiya</item>
-        <item name="colorAccent">@color/color_teal_shuiya</item>
-    </style>
-
-    <style name="PurpleTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_purple_gay</item>
-        <item name="colorPrimaryDark">@color/color_purple_gay</item>
-        <item name="colorAccent">@color/color_purple_gay</item>
-    </style>
-
-    <style name="BlueTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_blue_zhihu</item>
-        <item name="colorPrimaryDark">@color/color_blue_zhihu</item>
-        <item name="colorAccent">@color/color_blue_zhihu</item>
-    </style>
-
-    <style name="GrayTheme" parent="DefaultTheme">
-        <item name="colorPrimary">@color/color_gray_didiao</item>
-        <item name="colorPrimaryDark">@color/color_gray_didiao</item>
-        <item name="colorAccent">@color/color_gray_didiao</item>
-    </style>
-
-    <style name="TabStyleLight" parent="Widget.Design.TabLayout">
-        <item name="tabSelectedTextColor">@color/color_black</item>
-    </style>
-
-    <style name="PopThemeLight">
-        <item name="android:colorBackground">@color/color_white</item>
-    </style>
 
     <style name="PinkBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="colorPrimary">@color/color_pink_bili</item>
@@ -110,7 +73,7 @@
         <item name="colorAccent">@color/color_pink_bili</item>
     </style>
 
-    <style name="myTransparent" parent="DefaultTheme">
+    <style name="myTransparent" parent="DefaultThemeLight">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -119,20 +82,4 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <!--夜晚主题-->
-    <!--参考:https://github.com/tyzlmjj/AndroidUI/tree/master/ChangeTheme-->
-    <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <!--ActionBar背景  -->
-    <item name="colorPrimary">@color/topbar_Background_Night</item>
-    <item name="toolbar_Menu_Text_Color">@color/toolbar_Menu_Text_Color_Night</item>
-    <item name="toolbar_Text_Color">@color/toolbar_Text_Color_Night</item>
-    <!--页面背景-->
-    <item name="android:windowBackground">@color/background_Night</item>
-    <!--主页item背景色-->
-    <item name="background_first">@color/backgroundFirst_Night</item>
-    <!--三种文字颜色-->
-    <item name="textColorFirst">@color/textColorFirst_Night</item>
-    <item name="textColorSecond">@color/textColorSecond_Night</item>
-    <item name="textColorThird">@color/textColorThird_Night</item>
-    </style>
 </resources>

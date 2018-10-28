@@ -1,15 +1,8 @@
 package com.febers.uestc_bbs.view.custom;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.text.style.ImageSpan;
-
-import java.lang.ref.WeakReference;
 
 /**
  * 图片垂直居中显示

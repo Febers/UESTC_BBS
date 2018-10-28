@@ -7,8 +7,8 @@
 package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
-import android.support.v4.util.ArrayMap
-import android.support.v7.app.AppCompatActivity
+import androidx.collection.ArrayMap
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.SimpleAdapter

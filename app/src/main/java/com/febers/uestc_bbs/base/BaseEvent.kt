@@ -16,8 +16,6 @@ enum class BaseCode {
     SUCCESS, SUCCESS_END, FAILURE, LOCAL, UPDATE, TIME_OUT
 }
 
-data class PostEvent(var code: BaseCode, var tid: String)
-
 data class MsgEvent(var code: BaseCode, var count: Int)
 
 data class TabReselectedEvent(var code: BaseCode, var position: Int)

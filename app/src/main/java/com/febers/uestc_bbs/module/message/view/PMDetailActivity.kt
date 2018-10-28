@@ -1,8 +1,6 @@
 package com.febers.uestc_bbs.module.message.view
 
-import android.support.annotation.UiThread
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.util.Log.i
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_private_detail.*
  * 通过mvp模式获取历史消息
  * 通过service实时更新
  */
-class PMDetailActivity : BaseSwipeActivity(), MessageContract.PMView {
+class PMDetailActivity : BaseActivity(), MessageContract.PMView {
 
     private val pmList: MutableList<PmListBean.MsgListBean> = ArrayList()
     private lateinit var pmPresenter: MessageContract.PMPresenter

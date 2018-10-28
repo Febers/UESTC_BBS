@@ -7,10 +7,10 @@
 package com.febers.uestc_bbs.view.custom
 
 import android.content.Context
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.util.AttributeSet
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.ViewCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
 import android.view.View
 
 

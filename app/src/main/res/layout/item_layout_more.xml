@@ -30,13 +30,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="我的帖子"
-        android:textColor="?attr/textColorFirst"
+        android:textColor="?attr/text_color_first"
         android:textSize="@dimen/text_size_big"
         android:layout_marginLeft="20dp"/>
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_weight="0.5"
-        android:padding="5dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_arrow_right_white_24dp"/>
+
+    <TextView
+        android:id="@+id/text_view_more_item_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="@dimen/text_size_small"
+        android:padding="2dp"
+        android:text="夜间模式"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_more_item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"/>
 </LinearLayout>

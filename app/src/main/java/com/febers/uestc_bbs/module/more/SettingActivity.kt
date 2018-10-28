@@ -1,15 +1,14 @@
 package com.febers.uestc_bbs.module.more
 
-import android.support.v7.widget.Toolbar
-import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseSwipeActivity
+import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.utils.ImageCacheUtils
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import kotlinx.android.synthetic.main.activity_setting.*
 
-class SettingActivity : BaseSwipeActivity() {
+class SettingActivity : BaseActivity() {
 
     private var items1: MutableList<SettingItemBean> = ArrayList()
     private var items2: MutableList<SettingItemBean> = ArrayList()

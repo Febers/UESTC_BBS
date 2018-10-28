@@ -12,21 +12,19 @@
     android:id="@+id/refresh_layout_post_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:srlAccentColor="@color/color_white"
-    app:srlPrimaryColor="?attr/colorPrimary"
     app:srlEnableNestedScrolling="false"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view_plist_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_subpost_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false">
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.NestedScrollView>
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

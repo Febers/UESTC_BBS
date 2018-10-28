@@ -41,3 +41,5 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+# for Aesthetic
+-keep class android.support.design.widget.** { *; }

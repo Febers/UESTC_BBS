@@ -1,18 +1,15 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
-import android.support.annotation.MainThread
-import android.support.annotation.UiThread
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.annotation.UiThread
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -28,14 +25,13 @@ import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.utils.ImageLoader
-import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
 
-class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
+class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean> = ArrayList()
     private lateinit var postPresenter: PostContract.Presenter
@@ -48,6 +44,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     private val delFavoritePost = "delfavorite"
     private val favoritePost = "favorite"
     private var topicName = "楼主"  //楼主名称
+    private var topicReplyId = 0
     private var replyCount = 0
     private var authorId = 0
     private var topicId = 0 //楼主id
@@ -76,8 +73,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
         }
 
         refresh_layout_post_detail.apply {
-            setEnableLoadMore(false)
-            autoRefresh()
+            initAttrAndBehavior()
             setOnRefreshListener {
                 drawFinish = false
                 page = 1
@@ -134,15 +130,16 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
         topicId = event.data.topic?.user_id ?: topicId //倒叙查看中其值可能为null
+        topicReplyId = event.data.topic?.reply_posts_id ?: topicReplyId
         topicName = event.data.topic?.user_nick_name ?: topicName
         replyCount = event.data.topic?.replies ?: replyCount
         //结束绘制
         drawFinish = true
         fab_post_detail?.setOnClickListener {
             getReplyBottomSheet().showWithData(topicId = topicId, toUId = topicId,
-                    replyId = event.data.topic!!.reply_posts_id, toUName = topicName)
+                    replyId = topicReplyId, toUName = topicName)
         }
-        refresh_layout_post_detail?.successFinish()
+        refresh_layout_post_detail?.finishSuccess()
     }
 
     /**
@@ -338,7 +335,7 @@ class PostDetailActivity : BaseSwipeActivity(), PostContract.View, PostOptionCli
     ////////////////////////////////错误////////////////////////////////
     override fun showError(msg: String) {
         showToast(msg)
-        refresh_layout_post_detail?.failFinish()
+        refresh_layout_post_detail?.finishFail()
         drawFinish = true
     }
 }

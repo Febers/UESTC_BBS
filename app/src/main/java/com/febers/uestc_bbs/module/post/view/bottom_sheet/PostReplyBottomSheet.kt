@@ -8,13 +8,11 @@ package com.febers.uestc_bbs.module.post.view.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
-import android.util.Log.i
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.View
 import android.view.WindowManager
 import com.febers.uestc_bbs.base.REPLY_NO_QUOTA
 import com.febers.uestc_bbs.base.REPLY_QUOTA
-import com.febers.uestc_bbs.utils.KeyboardUtils
 import kotlinx.android.synthetic.main.layout_bottom_sheet_reply.*
 
 class PostReplyBottomSheet(context: Context, style: Int, private val listener: PostReplySendListener):

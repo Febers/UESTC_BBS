@@ -69,7 +69,7 @@ public class ImageTextHelper {
             for(URLSpan url : urls){
                 MyUrlSpan myUrlSpan = new MyUrlSpan(url.getURL(), context);
                 style.setSpan(myUrlSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ForegroundColorSpan colorSpan = new ForegroundColorSpan(AttrUtils.INSTANCE.getColor(tv.getContext(), R.attr.colorAccent));
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(AttrUtils.INSTANCE.getColor(tv.getContext(), R.attr.app_color_accent));
                 style.setSpan(colorSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             for(ImageSpan url : imgs){

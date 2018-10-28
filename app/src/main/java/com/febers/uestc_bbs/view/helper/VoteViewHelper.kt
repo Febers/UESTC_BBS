@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.view.helper
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button

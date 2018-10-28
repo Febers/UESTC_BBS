@@ -1,10 +1,11 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.annotation.UiThread
+import com.google.android.material.appbar.AppBarLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -15,10 +16,15 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import com.febers.uestc_bbs.module.theme.AppColor
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
+import com.febers.uestc_bbs.view.helper.finishFail
+import com.febers.uestc_bbs.view.helper.finishSuccess
+import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list.*
 
 class PListFragment: BaseSwipeFragment(), PListContract.View {
@@ -48,6 +54,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postList)
         coo_layout_post_list_fragment.title = title
+        coo_layout_post_list_fragment.setBackgroundColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
     }
@@ -64,11 +71,10 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         }
         recyclerview_post_list.apply {
             adapter = postListAdapter
-            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL)) }
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL)) }
 
         refresh_layout_post_list.apply {
-            setEnableLoadMore(false)
-            autoRefresh()
+            initAttrAndBehavior()
             setOnRefreshListener {
                 page = 1
                 getPost(page, true) }
@@ -87,11 +93,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     @UiThread
     override fun showPList(event: BaseEvent<PostListBean>) {
-        refresh_layout_post_list?.apply {
-            finishRefresh()
-            finishLoadMore()
-            setEnableLoadMore(true)
-        }
+        refresh_layout_post_list?.finishSuccess()
         //顶部文字
         text_view_post_list_today_num.text = getString(R.string.block_today_num) + ": " +event.data.forumInfo?.td_posts_num
         text_view_post_list_all_num.text = getString(R.string.block_all_num) + ": " + event.data.forumInfo?.posts_total_num
@@ -141,7 +143,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
      * 网上收缩时，逐渐减小
      */
     private fun onAppbarLayoutOffsetChange() {
-        app_bar_post_list.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+        app_bar_post_list.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             when {
                 verticalOffset == 0 -> {
                     //CollapsingToolBar展开
@@ -156,15 +158,12 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                     linear_layout_post_list_header.visibility = View.GONE
                 }
             }
-        }
+        })
     }
 
     override fun showError(msg: String) {
         showToast(msg)
-        refresh_layout_post_list?.apply {
-            finishRefresh(false)
-            finishLoadMore(false)
-        }
+        refresh_layout_post_list?.finishFail()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_setting"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/setting">
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -37,14 +37,14 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
-                android:textColor="?attr/colorPrimary"/>
-            <android.support.v7.widget.RecyclerView
+                android:textColor="?colorPrimary"/>
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager">
-            </android.support.v7.widget.RecyclerView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <View
                 android:layout_width="match_parent"
@@ -59,14 +59,14 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="@dimen/text_size_normal"
-                android:textColor="?attr/colorPrimary"/>
-            <android.support.v7.widget.RecyclerView
+                android:textColor="?colorPrimary"/>
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager">
-            </android.support.v7.widget.RecyclerView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <View
                 android:layout_width="match_parent"
@@ -80,16 +80,16 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textColor="?attr/colorPrimary"/>
-            <android.support.v7.widget.RecyclerView
+                android:textColor="?colorPrimary"/>
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager">
-            </android.support.v7.widget.RecyclerView>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

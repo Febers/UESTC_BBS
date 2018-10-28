@@ -8,11 +8,11 @@ import com.febers.uestc_bbs.base.BaseActivity
 
 class SplashActivity : BaseActivity() {
 
+    override fun enableThemeHelper(): Boolean = false
+
     override fun setView(): Int {
         return R.layout.activity_splash
     }
-
-    override fun hideStatusBar(): Boolean = true
 
     override fun initView() {
         Handler().postDelayed({
@@ -22,3 +22,4 @@ class SplashActivity : BaseActivity() {
         }, 800)
     }
 }
+

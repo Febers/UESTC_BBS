@@ -1,8 +1,7 @@
 package com.febers.uestc_bbs.view.helper
 
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.NestedScrollView
-import android.util.Log.i
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.core.widget.NestedScrollView
 
 object FABBehaviorHelper {
 

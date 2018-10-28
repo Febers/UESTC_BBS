@@ -7,10 +7,9 @@
 package com.febers.uestc_bbs.base
 
 import android.os.Bundle
-import android.support.annotation.FloatRange
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.util.Log.i
+import androidx.annotation.FloatRange
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.R

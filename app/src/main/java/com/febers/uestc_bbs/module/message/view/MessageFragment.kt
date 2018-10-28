@@ -7,18 +7,22 @@
 package com.febers.uestc_bbs.module.message.view
 
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.UiThread
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.message.presenter.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPrivateMsg
 import com.febers.uestc_bbs.view.adapter.*
+import com.febers.uestc_bbs.view.helper.finishFail
+import com.febers.uestc_bbs.view.helper.finishSuccess
+import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_message.*
 import org.greenrobot.eventbus.EventBus
@@ -84,7 +88,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_sub_message.apply {
-            setEnableLoadMore(false)
+            initAttrAndBehavior()
             setOnRefreshListener {
                 page = 1
                 getMsg(page)
@@ -93,6 +97,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 getMsg(++page)
             }
         }
+        ThemeHelper.subscribeOnThemeChange(refresh_layout_sub_message)
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
@@ -107,23 +112,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     @UiThread
     override fun <M : MsgBaseBean> showMessage(event: BaseEvent<M>) {
         loadFinish = true
-//        if (event.code == BaseCode.FAILURE) {
-//            try {
-//                showToast(""+(event.data as MsgReplyBean).errcode)
-//            } catch (e: Exception) {
-//                showToast(""+(event.data as MsgPrivateBean).errcode)
-//            }
-//            refresh_layout_sub_message?.apply {
-//                finishRefresh(false)
-//                finishLoadMore(false)
-//                return
-//            }
-//        }
-        refresh_layout_sub_message?.apply {
-            finishRefresh(true)
-            finishLoadMore(true)
-            setEnableLoadMore(true)
-        }
+        refresh_layout_sub_message?.finishSuccess()
         val msgBean = event.data
         when(mMsgType) {
             MSG_TYPE_REPLY -> {
@@ -170,10 +159,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
 
     override fun showError(msg: String) {
         showToast(msg)
-        refresh_layout_sub_message?.apply {
-            finishRefresh(false)
-            finishLoadMore(false)
-        }
+        refresh_layout_sub_message?.finishFail()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

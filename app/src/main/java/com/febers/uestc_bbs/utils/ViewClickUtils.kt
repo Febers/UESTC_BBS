@@ -5,22 +5,20 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
+import androidx.core.app.ActivityOptionsCompat
 import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.module.login.model.LoginContext
 import com.febers.uestc_bbs.module.more.ImageActivity
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
-import com.febers.uestc_bbs.module.more.WebActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
-import org.greenrobot.eventbus.EventBus
 
 object ViewClickUtils {
 
     fun linkClick(url: String, context: Context) {
-        i("Link Change", url)
         if (url.endsWith(".gif")) {
             return
         }
@@ -31,9 +29,9 @@ object ViewClickUtils {
             return
         }
         if (url.contains("http://bbs.stuhome.net/forum.php?mod=viewthread&tid")) {
-                i("Link Change", url.removeRange(0, url.lastIndexOf("tid=")+4))
-                EventBus.getDefault().post(PostEvent(BaseCode.SUCCESS, url.removeRange(0, url.lastIndexOf("tid=")+4)))
-                return
+            i("Link Change", url.removeRange(0, url.lastIndexOf("tid=")+4))
+            clickToPostDetail(context, url.removeRange(0, url.lastIndexOf("tid=")+4).toInt())
+            return
         }
         val uri = Uri.parse(url)
         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
@@ -44,7 +42,6 @@ object ViewClickUtils {
         context ?: return
         clickToImageViewer(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
     }
-
 
     /**
      * 打开ImageViewer，目前调用一个Activity进行展示，待改进
@@ -78,6 +75,7 @@ object ViewClickUtils {
     fun clickToUserDetail(context: Context?, uid: Int?) {
         context ?: return
         if (uid == 0 || uid == null) return
+        if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, UserDetailActivity::class.java).apply {
             putExtra(USER_IT_SELF, false)
             putExtra(USER_ID, uid)
@@ -88,6 +86,7 @@ object ViewClickUtils {
     fun clickToPostDetail(context: Context?, fid: Int?) {
         context ?: return
         if (fid == 0 || fid == null) return
+        if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
             putExtra(FID, fid)
         })
@@ -97,6 +96,7 @@ object ViewClickUtils {
         context ?: return
         userName ?: return
         if (uid == 0 ||uid == null) return
+        if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PMDetailActivity::class.java).apply {
             putExtra(USER_ID, uid)
             putExtra(USER_NAME, userName)
@@ -106,6 +106,7 @@ object ViewClickUtils {
     fun clickToPostEdit(context: Context?, fid: Int) {
         context ?:return
         if (fid == 0) return
+        if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostEditActivity::class.java).apply {
             putExtra(FID, fid)
         })

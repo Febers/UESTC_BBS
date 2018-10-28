@@ -8,12 +8,11 @@ package com.febers.uestc_bbs.base
 
 
 import android.os.Bundle
-import android.support.annotation.Nullable
-import android.support.annotation.UiThread
+import androidx.annotation.Nullable
+import androidx.annotation.UiThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.view.custom.SupportFragment
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast

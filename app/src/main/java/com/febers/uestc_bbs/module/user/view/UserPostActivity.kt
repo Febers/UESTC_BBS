@@ -1,21 +1,22 @@
 package com.febers.uestc_bbs.module.user.view
 
-import android.content.Intent
-import android.support.annotation.UiThread
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.annotation.UiThread
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.UserPostBean
-import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.UserPostAdapter
+import com.febers.uestc_bbs.view.helper.finishFail
+import com.febers.uestc_bbs.view.helper.finishSuccess
+import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.activity_user_post.*
 
-class UserPostActivity: BaseSwipeActivity(), UserContract.View {
+class UserPostActivity: BaseActivity(), UserContract.View {
 
     private val userPostList: MutableList<UserPostBean.ListBean> = ArrayList()
     private lateinit var userPListPresenter: UserContract.Presenter
@@ -47,11 +48,10 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
         recyclerview_user_post.apply {
             adapter = userPListAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_user_post.apply {
-            setEnableLoadMore(false)
-            autoRefresh()
+            initAttrAndBehavior()
             setOnRefreshListener {
                 page = 1
                 getUserPost()
@@ -76,11 +76,7 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
             }
             return
         }
-        refresh_layout_user_post?.apply {
-            finishRefresh(true)
-            finishLoadMore(true)
-            setEnableLoadMore(true)
-        }
+        refresh_layout_user_post?.finishSuccess()
         if (page == 1) {
             userPListAdapter.setNewData(event.data.list)
             return
@@ -105,9 +101,6 @@ class UserPostActivity: BaseSwipeActivity(), UserContract.View {
 
     override fun showError(msg: String) {
         showToast(msg)
-        refresh_layout_user_post?.apply {
-            finishRefresh(false)
-            finishLoadMore(false)
-        }
+        refresh_layout_user_post?.finishFail()
     }
 }

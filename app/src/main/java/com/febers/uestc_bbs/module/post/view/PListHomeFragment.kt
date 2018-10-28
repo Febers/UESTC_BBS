@@ -7,9 +7,9 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.UiThread
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,11 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.presenter.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.view.helper.finishFail
+import com.febers.uestc_bbs.view.helper.finishSuccess
+import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -57,11 +61,10 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         recyclerview_subpost_fragment.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postListAdapter
-            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_post_fragment.apply {
-            setEnableLoadMore(false)
-            autoRefresh()
+            initAttrAndBehavior()
             setOnRefreshListener {
                 page = 1
                 getPost(page, true)
@@ -71,6 +74,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(page, true)
             }
         }
+        ThemeHelper.subscribeOnThemeChange(refresh_layout_post_fragment)
         postListAdapter.notifyDataSetChanged()
     }
 
@@ -88,11 +92,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             }
             return
         }
-        refresh_layout_post_fragment?.apply {
-            finishRefresh(true)
-            finishLoadMore(true)
-            setEnableLoadMore(true)
-        }
+        refresh_layout_post_fragment?.finishSuccess()
         if (page == 1) {
             postListAdapter.setNewData(event.data.list)
             return
@@ -106,10 +106,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     override fun showError(msg: String) {
         showToast(msg)
-        refresh_layout_post_fragment?.apply {
-            finishRefresh(false)
-            finishLoadMore(false)
-        }
+        refresh_layout_post_fragment?.finishFail()
     }
 
     companion object {

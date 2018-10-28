@@ -2,7 +2,7 @@ package com.febers.uestc_bbs.utils
 
 import android.app.Activity
 import android.content.Context
-import android.support.v7.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 

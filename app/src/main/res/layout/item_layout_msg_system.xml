@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:foreground="?android:attr/selectableItemBackground">
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -31,7 +31,7 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:text="作者"
-            android:textColor="?attr/textColorSecond"
+            android:textColor="?attr/text_color_second"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/image_view_msg_system_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_msg_system_author_avatar" />
@@ -50,7 +50,7 @@
             的内容通知的内容通知的内容通知的内容"
             android:textIsSelectable="true"
             android:textSize="@dimen/text_size_normal"
-            android:textColor="?attr/textColorFirst"
+            android:textColor="?attr/text_color_first"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/text_view_msg_system_date"
             app:layout_constraintHorizontal_bias="0.809"
@@ -77,6 +77,6 @@
             app:layout_constraintTop_toTopOf="@+id/text_view_msg_system_author"
             app:layout_constraintVertical_bias="1.0" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

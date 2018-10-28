@@ -5,12 +5,12 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.Arrays;
 import java.util.List;
@@ -161,8 +161,8 @@ public class PermissionUtils {
     private void executePermissionsRequest(@NonNull Object object, @NonNull String[] perms, int requestCode) {
         if (object instanceof android.app.Activity) {
             ActivityCompat.requestPermissions((Activity) object, perms, requestCode);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).requestPermissions(perms, requestCode);
+        } else if (object instanceof Fragment) {
+            ((Fragment) object).requestPermissions(perms, requestCode);
         } else if (object instanceof android.app.Fragment) {
             ((android.app.Fragment) object).requestPermissions(perms, requestCode);
         }
@@ -178,7 +178,7 @@ public class PermissionUtils {
         }
 
         boolean isActivity = object instanceof android.app.Activity;
-        boolean isSupportFragment = object instanceof android.support.v4.app.Fragment;
+        boolean isSupportFragment = object instanceof Fragment;
         boolean isAppFragment = object instanceof android.app.Fragment;
         if (!(isSupportFragment || isActivity || (isAppFragment && isNeedRequest()))) {
             if (isAppFragment) {
@@ -195,8 +195,8 @@ public class PermissionUtils {
     private static Activity getActivity(@NonNull Object object) {
         if (object instanceof Activity) {
             return ((Activity) object);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            return ((android.support.v4.app.Fragment) object).getActivity();
+        } else if (object instanceof Fragment) {
+            return ((Fragment) object).getActivity();
         } else if (object instanceof android.app.Fragment) {
             return ((android.app.Fragment) object).getActivity();
         } else {

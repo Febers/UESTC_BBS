@@ -9,9 +9,11 @@
 package com.febers.uestc_bbs.view.custom
 
 import android.os.Bundle
-import android.support.annotation.DrawableRes
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
+import com.afollestad.aesthetic.Aesthetic
+import com.febers.uestc_bbs.R
 
 import me.yokeyword.fragmentation.ExtraTransaction
 import me.yokeyword.fragmentation.ISupportActivity
@@ -26,7 +28,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
  */
 abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
 
-    internal val mDelegate = SupportActivityDelegate(this)
+    private val mDelegate = SupportActivityDelegate(this)
 
     /**
      * 得到位于栈顶Fragment
@@ -46,9 +48,22 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
         return mDelegate.extraTransaction()
     }
 
+    protected open fun enableThemeHelper(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (enableThemeHelper()) Aesthetic.attach(this)
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        if (enableThemeHelper()) Aesthetic.resume(this)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        if (enableThemeHelper()) Aesthetic.pause(this)
+        super.onPause()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

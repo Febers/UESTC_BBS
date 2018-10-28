@@ -1,11 +1,11 @@
 package com.febers.uestc_bbs.module.post.view.edit
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseSwipeActivity
+import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.module.more.BlockFragment
 
-class PostEditActivity : BaseSwipeActivity() {
+class PostEditActivity : BaseActivity() {
 
     private var fid = 0
 

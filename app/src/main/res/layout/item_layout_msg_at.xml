@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:text="作者"
-            android:textColor="?attr/textColorFirst"
+            android:textColor="?attr/text_color_first"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/image_view_msg_at_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_msg_at_author_avatar" />
@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="@+id/text_view_msg_at_author"
             app:layout_constraintVertical_bias="1.0" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/linear_layout_msg_at_quota"
@@ -73,7 +73,7 @@
             android:lineSpacingMultiplier="1.1"
             android:textSize="@dimen/text_size_normal"
             android:padding="4dp"
-            android:textColor="?attr/textColorSecond"
+            android:textColor="?attr/text_color_second"
             android:text="某人 发表于 2018-8-16 16:25
             帖子内容帖子内容帖子内容帖子内容帖子内容"/>
     </LinearLayout>
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_normal"
-            android:textColor="?attr/textColorFirst"
+            android:textColor="?attr/text_color_first"
             android:text="at你的人的内容内容"/>
     </LinearLayout>
 

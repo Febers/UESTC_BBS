@@ -6,8 +6,7 @@
 
 package com.febers.uestc_bbs.base
 
-import android.support.annotation.UiThread
-import com.febers.uestc_bbs.view.custom.CustomProgressDialog
+import androidx.annotation.UiThread
 
 /**
  * View公共接口

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".module.more.ImageActivity"
-    android:background="#000000">
+    android:background="#000000"
+    android:tag=":aesthetic_ignore">
     <com.febers.uestc_bbs.view.custom.PinchImageView
         android:id="@+id/image_view_image_activity"
         android:layout_width="match_parent"

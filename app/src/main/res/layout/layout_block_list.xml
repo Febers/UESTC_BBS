@@ -13,7 +13,7 @@
         android:textSize="14dp"
         android:gravity="center_vertical"
         android:layout_margin="4dp"
-        android:textColor="?attr/textColorSecond"
+        android:textColor="?attr/text_color_second"
         android:visibility="gone"/>
     <com.febers.uestc_bbs.view.custom.CustomGridView
         android:id="@+id/grid_view_campus"
@@ -30,7 +30,7 @@
         android:textSize="14dp"
         android:gravity="center_vertical"
         android:layout_margin="4dp"
-        android:textColor="?attr/textColorSecond"
+        android:textColor="?attr/text_color_second"
         android:visibility="gone"/>
     <com.febers.uestc_bbs.view.custom.CustomGridView
         android:id="@+id/grid_view_tech"
@@ -47,7 +47,7 @@
         android:textSize="14dp"
         android:gravity="center_vertical"
         android:layout_margin="4dp"
-        android:textColor="?attr/textColorSecond"
+        android:textColor="?attr/text_color_second"
         android:visibility="gone"/>
     <com.febers.uestc_bbs.view.custom.CustomGridView
         android:id="@+id/grid_view_play"
@@ -64,7 +64,7 @@
         android:textSize="14dp"
         android:gravity="center_vertical"
         android:layout_margin="4dp"
-        android:textColor="?attr/textColorSecond"
+        android:textColor="?attr/text_color_second"
         android:visibility="gone"/>
     <com.febers.uestc_bbs.view.custom.CustomGridView
         android:id="@+id/grid_view_market"
@@ -81,7 +81,7 @@
         android:textSize="14dp"
         android:gravity="center_vertical"
         android:layout_margin="4dp"
-        android:textColor="?attr/textColorSecond"
+        android:textColor="?attr/text_color_second"
         android:visibility="gone"/>
     <com.febers.uestc_bbs.view.custom.CustomGridView
         android:id="@+id/grid_view_manager"

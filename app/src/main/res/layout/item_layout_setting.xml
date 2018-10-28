@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="清理缓存"
-            android:textColor="?attr/textColorFirst"
+            android:textColor="?attr/text_color_first"
             android:textSize="@dimen/text_size_big"/>
         <TextView
             android:id="@+id/text_view_item_setting_second"
@@ -26,7 +26,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="5dp"
             android:text="清理缓存"
-            android:textColor="?attr/textColorSecond"
+            android:textColor="?attr/text_color_second"
             android:textSize="@dimen/text_size_small"/>
     </LinearLayout>
 

@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;

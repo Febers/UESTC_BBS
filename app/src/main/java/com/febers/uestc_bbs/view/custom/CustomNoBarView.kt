@@ -1,10 +1,10 @@
 package com.febers.uestc_bbs.view.custom
 
 import android.content.Context
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.design.widget.TabLayout
-import android.support.v7.widget.Toolbar
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.tabs.TabLayout
+import androidx.appcompat.widget.Toolbar
 import android.util.AttributeSet
 import com.febers.uestc_bbs.utils.StatusBarUtils
 

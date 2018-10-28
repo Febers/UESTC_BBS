@@ -22,6 +22,6 @@
         android:textSize="@dimen/text_size_normal"
         android:textStyle="bold"
         android:layout_marginStart="13dp"
-        android:textColor="?attr/textColorSecond"
+        android:textColor="?attr/text_color_second"
         android:layout_gravity="center_vertical"/>
 </LinearLayout>

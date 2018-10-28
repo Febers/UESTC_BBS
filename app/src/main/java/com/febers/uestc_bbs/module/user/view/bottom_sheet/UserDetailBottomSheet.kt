@@ -1,10 +1,8 @@
 package com.febers.uestc_bbs.module.user.view.bottom_sheet
 
 import android.app.Activity
-import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.utils.ImageLoader
 import kotlinx.android.synthetic.main.layout_bottom_sheet_user_detail.*

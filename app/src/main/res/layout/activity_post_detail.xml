@@ -12,7 +12,7 @@
 以上的设置会拦截所有子view的点击事件，
 改成android:focusableInTouchMode="true"即可
 -->
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     android:id="@+id/coo_layout_post_activity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,31 +22,29 @@
     android:orientation="vertical"
     android:focusableInTouchMode="true">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_post_detail"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/post_detail">
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableNestedScrolling="false"
-        app:srlAccentColor="@color/color_white"
-        app:srlPrimaryColor="?attr/colorPrimary">
+        app:srlEnableNestedScrolling="false">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageview,否则无法绘制-->
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view_post_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -68,10 +66,10 @@
                         android:text=""
                         android:textStyle="bold"
                         android:textSize="@dimen/text_size_super_big"
-                        android:textColor="?attr/textColorFirst"
+                        android:textColor="?attr/text_color_first"
                         android:layout_margin="10dp"/>
                 </LinearLayout>
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
@@ -95,7 +93,7 @@
                         android:layout_marginStart="8dp"
                         android:maxLines="1"
                         android:text=""
-                        android:textColor="?attr/textColorFirst"
+                        android:textColor="?attr/text_color_first"
                         android:textSize="@dimen/text_size_normal"
                         app:layout_constraintStart_toEndOf="@+id/image_view_post_detail_author_avatar"
                         app:layout_constraintTop_toTopOf="@+id/image_view_post_detail_author_avatar" />
@@ -143,7 +141,7 @@
                         app:layout_constraintVertical_bias="0.263"
                         app:srcCompat="@mipmap/ic_star_grey"
                         android:visibility="gone"/>
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:id="@+id/linear_layout_detail_content"
@@ -165,18 +163,18 @@
                     android:background="?attr/background_second">
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_post_detail_replies"
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
                     android:nestedScrollingEnabled="false"
                     android:layout_height="match_parent">
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_post_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -185,4 +183,4 @@
         app:pressedTranslationZ="8dp"
         android:layout_margin="@dimen/fab_margin_right"
         android:layout_gravity="end|bottom"/>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

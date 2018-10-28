@@ -1,32 +1,38 @@
 package com.febers.uestc_bbs.module.user.view
 
 import android.content.Intent
-import android.support.annotation.UiThread
-import android.support.v7.widget.Toolbar
+import android.graphics.Color
+import android.os.Build
+import androidx.annotation.UiThread
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
+import com.afollestad.aesthetic.Aesthetic
 import com.febers.uestc_bbs.MyApplication
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
+import com.febers.uestc_bbs.module.theme.AppColor
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.module.user.view.bottom_sheet.UserDetailBottomSheet
-import com.febers.uestc_bbs.utils.GenderUtils
-import com.febers.uestc_bbs.utils.ImageLoader
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.utils.*
+import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
+import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.activity_user_detail.*
 
-class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
+class UserDetailActivity : BaseActivity(), UserContract.View {
 
     private lateinit var userBottomSheet: UserDetailBottomSheet
     private lateinit var userPresenter: UserContract.Presenter
     private var userItSelf = false
     private var userId: Int = 0
 
-    override fun hideStatusBar(): Boolean = true
+    override fun enableThemeHelper(): Boolean = false
 
     override fun setMenu(): Int? {
         if (userItSelf) {
@@ -46,16 +52,21 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     }
 
     override fun initView() {
+        collapsing_toolbar_layout_detail.apply {
+            setStatusBarScrimColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+            setContentScrimColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+            setCollapsedTitleTextColor(ThemeHelper.getRefreshTextColor())
+        }
         userPresenter = UserPresenterImpl(this)
         refresh_layout_user_detail.apply {
-            autoRefresh()
-            setEnableLoadMore(false)
+            initAttrAndBehavior()
             setOnRefreshListener { getUserDetail() }
         }
         if (userItSelf) {
             userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
             userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
         }
+        image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
     }
 
     private fun getUserDetail() {
@@ -65,9 +76,9 @@ class UserDetailActivity : BaseSwipeActivity(), UserContract.View {
     override fun showUserDetail(event: BaseEvent<UserDetailBean>) {
         recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data))
         collapsing_toolbar_layout_detail?.title = event.data.name
-        ImageLoader.load(this, event.data.icon, image_view_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
-        ImageLoader.load(this, event.data.icon, image_view_detail_avatar, placeImage = null, isCircle = true, noCache = true)
-        image_view_detail_avatar.setOnClickListener {
+        ImageLoader.load(this, event.data.icon, image_view_user_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
+        ImageLoader.load(this, event.data.icon, image_view_user_detail_avatar, placeImage = null, isCircle = true, noCache = true)
+        image_view_user_detail_avatar.setOnClickListener {
             ViewClickUtils.clickToImageViewerByUid(uid = userId, context = this)
         }
         refresh_layout_user_detail?.finishRefresh()

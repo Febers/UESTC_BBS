@@ -76,11 +76,14 @@ object ImageLoader {
      * @param imageView  加载图片的ImageView 控件
      */
     fun usePreload(context: Context?, url: String?, imageView: ImageView?) {
-        Glide.with(context).load(url)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(R.mipmap.image_placeholder_400200)
-                .error(R.mipmap.image_error_400200)
-                .into(imageView)
+        try {
+            Glide.with(context).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.mipmap.image_placeholder_400200)
+                    .error(R.mipmap.image_error_400200)
+                    .into(imageView)
+        } catch (e: Exception) {
+        }
     }
 
     fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget,

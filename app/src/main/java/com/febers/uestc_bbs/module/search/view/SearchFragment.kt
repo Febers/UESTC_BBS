@@ -2,11 +2,11 @@ package com.febers.uestc_bbs.module.search.view
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.support.annotation.UiThread
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.Toolbar
+import androidx.annotation.UiThread
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -54,7 +54,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
         recyclerview_search.apply {
             adapter = searchAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_search.apply {
             setEnableRefresh(false)
