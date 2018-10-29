@@ -2,7 +2,7 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/color_blue_zhihu"/>
+    <solid android:color="@color/color_blue"/>
     <size android:height="100dp"
         android:width="100dp" />
     <corners

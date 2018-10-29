@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.view.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.message.view.MessageFragment
@@ -40,6 +40,6 @@ class MsgPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
     }
 
     private fun getString(stringId: Int): String {
-        return MyApplication.context().getString(stringId)
+        return MyApp.context().getString(stringId)
     }
 }

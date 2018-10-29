@@ -7,7 +7,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import android.util.Log.i
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.MsgHeartBean
@@ -51,7 +51,7 @@ class HeartMsgService : Service() {
         super.onCreate()
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         //注意Android8上，当应用运行在后台时，启动服务，会报IllegalStateException
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApplication.appUiHidden()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApp.appUiHidden()) {
             startForeground(Int.MAX_VALUE, createNotification(title = "后台运行中", content = "", msgType = "", count = 0))
         }
         if (!EventBus.getDefault().isRegistered(this)) {

@@ -52,7 +52,7 @@ public class ImageTextHelper {
         tv.setTextIsSelectable(true);
         tv.setText(htmlStr);
 
-        //tv.setMovementMethod(LinkMovementMethod.getInstance());
+        //tv.setMovementMethod(LinkMovementMethod.newInstance());
         //换成下面的方法，否则超链接设置失效
         tv.setAutoLinkMask(Linkify.WEB_URLS|Linkify.EMAIL_ADDRESSES);
 

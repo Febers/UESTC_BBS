@@ -4,6 +4,7 @@ import android.util.Log.i
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
+import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlinx.android.synthetic.main.activity_theme.*
 
 class ThemeActivity : BaseActivity() {
@@ -25,9 +26,13 @@ class ThemeActivity : BaseActivity() {
             setNewCenterColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
             setOnColorChangedListener {
                 btn_choose_theme.setTextColor(it)
-                i("theme:", it.toString())
                 colorValue = it
             }
+        }
+        var colorDark by PreferenceUtils(this, COLOR_PRIMARY_DARK, true)
+        check_box_theme_color_dark.isChecked = colorDark
+        check_box_theme_color_dark.setOnCheckedChangeListener { compoundButton, b ->
+            colorDark = b
         }
         btn_choose_theme.setOnClickListener {
             reChooseTheme(colorValue)
@@ -35,7 +40,7 @@ class ThemeActivity : BaseActivity() {
     }
 
     private fun reChooseTheme(colorPrimary: Int) {
-        ThemeHelper.setTheme(colorPrimary, colorPrimary)
+        ThemeHelper.setTheme(this, colorPrimary, colorPrimary)
         color_picker.oldCenterColor = colorPrimary
     }
 }

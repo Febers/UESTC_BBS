@@ -4,14 +4,14 @@ import android.os.Looper
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 
 import java.io.File
 import java.math.BigDecimal
 
 object ImageCacheUtils {
 
-    private val imageCacheDir = MyApplication.context().cacheDir.toString() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
+    private val imageCacheDir = MyApp.context().cacheDir.toString() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
 
     // 获取Glide磁盘缓存大小
     val cacheSize: String
@@ -34,10 +34,10 @@ object ImageCacheUtils {
         return try {
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 Thread(Runnable {
-                    Glide.get(MyApplication.context()).clearDiskCache()
+                    Glide.get(MyApp.context()).clearDiskCache()
                 }).start()
             } else {
-                Glide.get(MyApplication.context()).clearDiskCache()
+                Glide.get(MyApp.context()).clearDiskCache()
             }
             true
         } catch (e: Exception) {
@@ -51,7 +51,7 @@ object ImageCacheUtils {
     fun clearCacheMemory(): Boolean {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) { //只能在主线程执行
-                Glide.get(MyApplication.context()).clearMemory()
+                Glide.get(MyApp.context()).clearMemory()
                 return true
             }
         } catch (e: Exception) {

@@ -64,8 +64,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
-        android:padding="6dp"
-        android:background="@color/color_gray_light">
+        android:padding="6dp">
         <TextView
             android:id="@+id/text_view_msg_at_quota"
             android:layout_width="match_parent"

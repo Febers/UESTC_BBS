@@ -6,8 +6,7 @@
 
 package com.febers.uestc_bbs.module.login.model
 
-import com.febers.uestc_bbs.MyApplication
-import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.LoginResultBean
@@ -23,7 +22,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
     private val mUserSimple: UserSimpleBean = UserSimpleBean()
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
-    private val mContext = MyApplication.context()
+    private val mContext = MyApp.context()
 
     override fun loginService(userName: String, userPw: String) {
         mUserName = userName

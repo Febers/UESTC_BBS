@@ -11,7 +11,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_setting"
+            android:id="@+id/toolbar_about"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -29,29 +29,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/text_view_setting_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/setting"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="?colorPrimary"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_setting_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="?attr/background_second"/>
-            <TextView
-                android:id="@+id/text_view_setting_2"
+                android:id="@+id/text_view_about_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/version"
@@ -61,7 +39,7 @@
                 android:textSize="@dimen/text_size_normal"
                 android:textColor="?colorPrimary"/>
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_setting_2"
+                android:id="@+id/recyclerview_about_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
@@ -73,7 +51,7 @@
                 android:layout_height="2dp"
                 android:background="?attr/background_second"/>
             <TextView
-                android:id="@+id/text_view_setting_3"
+                android:id="@+id/text_view_about_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/open_source"
@@ -82,7 +60,7 @@
                 android:layout_marginBottom="5dp"
                 android:textColor="?colorPrimary"/>
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_setting_3"
+                android:id="@+id/recyclerview_about_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"

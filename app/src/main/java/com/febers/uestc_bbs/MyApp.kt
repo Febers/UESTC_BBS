@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.base.SP_USER_ID
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserSimpleBean
+import com.febers.uestc_bbs.module.setting.REFRESH_HEADER_CODE
+import com.febers.uestc_bbs.module.setting.RefreshViewHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -23,7 +25,7 @@ import com.scwang.smartrefresh.layout.footer.FalsifyFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 
-class MyApplication: Application() {
+class MyApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -41,8 +43,11 @@ class MyApplication: Application() {
         fun appUiHidden() = this.uiHidden
 
         init {
+
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-                ClassicsHeader(context)
+                val styleCode by PreferenceUtils(context, REFRESH_HEADER_CODE, 0)
+                val helper = RefreshViewHelper(context)
+                helper.getHeader(styleCode)
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)

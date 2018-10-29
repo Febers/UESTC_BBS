@@ -64,8 +64,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
-        android:padding="6dp"
-        android:background="@color/color_gray_light">
+        android:padding="6dp">
         <TextView
             android:id="@+id/text_view_msg_reply_quota"
             android:layout_width="match_parent"
@@ -77,6 +76,7 @@
             android:text="我 发表于 2018-8-16 16:25
 
 这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容"/>
+        <include layout="@layout/layout_quota_divide_line" />
     </LinearLayout>
 
     <LinearLayout

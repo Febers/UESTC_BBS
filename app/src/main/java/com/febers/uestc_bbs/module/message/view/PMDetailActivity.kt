@@ -2,7 +2,7 @@ package com.febers.uestc_bbs.module.message.view
 
 import androidx.appcompat.widget.Toolbar
 import android.util.Log.i
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PMDetailBean
@@ -44,7 +44,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     override fun initView() {
         toolbar_private_detail.title = userName
         pmPresenter = PMDetailPresenterImpl(this)
-        pmAdapter = PMDetailAdapter(this, pmList, MyApplication.getUser().uid.toInt(), PMTimeUtils())
+        pmAdapter = PMDetailAdapter(this, pmList, MyApp.getUser().uid.toInt(), PMTimeUtils())
         recyclerview_private_detail.apply {
             adapter = pmAdapter
         }
@@ -88,7 +88,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         pmPresenter.pmSendRequest(stContent, "text")
         edit_view_pm.text.clear()
         pmList.add(PmListBean.MsgListBean().apply {
-            sender = MyApplication.getUser().uid
+            sender = MyApp.getUser().uid
             content = stContent
             type = "text"
             time = System.currentTimeMillis().toString()

@@ -1,12 +1,14 @@
 package com.febers.uestc_bbs.module.theme
 
+import android.content.Context
 import android.graphics.Color
 import android.view.View
 import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.utils.ColorUtils
+import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import kotlin.math.absoluteValue
 
 enum class AppColor{
     COLOR_PRIMARY,
@@ -14,32 +16,38 @@ enum class AppColor{
     COLOR_BACKGROUND
 }
 
+const val COLOR_PRIMARY_DARK = "color_primary_dark"
+
 object ThemeHelper {
 
-    private const val whiteColorBoundaryValue = 1000000
+    private const val LLCP = "last_light_color_primary"
+    private const val darkInterval = -200
+
     private val themeChangeSubscribers: MutableList<View> = ArrayList()
 
-    fun defaultTheme() {
-        setTheme(Color.parseColor("#db4437"), Color.parseColor("#db4437"))
-    }
-
-    fun dayAndNightThemeChange() {
-        if (Aesthetic.get().isDark.blockingFirst()) {
+    fun dayAndNightThemeChange(context: Context) {
+        if (isDarkTheme()) {
+            val lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
+            val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
             Aesthetic.config {
                 activityTheme(R.style.DefaultThemeLight)
                 isDark(false)
-                colorPrimaryRes(R.color.color_blue_zhihu)
-                colorAccentRes(R.color.color_blue_zhihu)
-                attributeRes(R.attr.app_color_primary, R.color.color_blue_zhihu)
+                colorPrimary(lastColorPrimary)
+                colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
+                colorAccent(lastColorPrimary)
+                attribute(R.attr.app_color_primary, lastColorPrimary)
                 colorWindowBackgroundRes(R.color.color_white)
                 colorStatusBarAuto()
             }
         } else {
+            var lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
+            lastColorPrimary = getColor(AppColor.COLOR_PRIMARY)
             Aesthetic.config {
                 activityTheme(R.style.DefaultThemeDark)
                 isDark(true)
                 colorPrimaryRes(R.color.color_black)
-                colorAccentRes(R.color.color_black)
+                colorAccentRes(R.color.color_gray_light)
+                colorPrimaryDarkRes(R.color.color_black)
                 colorWindowBackgroundRes(R.color.color_black)
                 attributeRes(R.attr.app_color_primary, R.color.color_black)
                 colorStatusBarAuto()
@@ -47,11 +55,12 @@ object ThemeHelper {
         }
     }
 
-    fun setTheme(colorPrimary: Int, colorAccent: Int) {
+    fun setTheme(context: Context, colorPrimary: Int, colorAccent: Int) {
+        val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
         Aesthetic.config {
             colorPrimary(colorPrimary)
             colorAccent(colorAccent)
-            colorPrimaryDark(colorPrimary)
+            colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(colorPrimary) else colorPrimary)
             lightStatusBarMode()
             attribute(R.attr.app_color_primary, colorPrimary, true)
             attribute(R.attr.app_color_accent, colorAccent, true)
@@ -83,11 +92,15 @@ object ThemeHelper {
         }
     }
 
-    fun getRefreshTextColor(): Int = if (getColor(AppColor.COLOR_PRIMARY).absoluteValue < whiteColorBoundaryValue)
+    fun isDarkTheme(): Boolean = Aesthetic.get().isDark.blockingFirst()
+
+    fun getTextColorPrimary(): Int = Aesthetic.get().textColorPrimary().blockingFirst()
+
+    fun getRefreshTextColor(): Int = if (ColorUtils.isLightColor(getColor(AppColor.COLOR_PRIMARY)))
         Color.GRAY
     else Color.WHITE
 
-    fun getBottomNavigationColorAccent(): Int = if (getColor(AppColor.COLOR_PRIMARY).absoluteValue < whiteColorBoundaryValue)
+    fun getBottomNavigationColorAccent(): Int = if (ColorUtils.isLightColor(getColor(AppColor.COLOR_PRIMARY)))
         Color.BLACK
     else getColor(AppColor.COLOR_ACCENT)
 }

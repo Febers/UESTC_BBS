@@ -23,6 +23,7 @@ class MoreItemAdapter(context: Context, data: List<MoreItemBean>, isLoadMore: Bo
         p0?.setBgResource(R.id.item_more_image_view, p1!!.itemIcon)
         if (p1!!.showSwitch) {
             p0?.getView<SwitchCompat>(R.id.switch_more_item)?.visibility = View.VISIBLE
+            p0?.getView<SwitchCompat>(R.id.switch_more_item)?.isChecked = p1.isCheck
             p0?.getView<TextView>(R.id.text_view_more_item_night)?.visibility = View.VISIBLE
         }
     }

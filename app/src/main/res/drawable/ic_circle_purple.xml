@@ -2,7 +2,7 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <solid android:color="@color/color_purple_gay"/>
+    <solid android:color="@color/color_purple"/>
     <size android:height="100dp"
         android:width="100dp" />
     <corners

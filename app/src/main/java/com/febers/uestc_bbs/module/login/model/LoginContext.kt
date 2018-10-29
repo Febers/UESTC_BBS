@@ -2,7 +2,7 @@ package com.febers.uestc_bbs.module.login.model
 
 import android.content.Context
 import android.content.Intent
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 
 /**
@@ -10,7 +10,7 @@ import com.febers.uestc_bbs.module.login.view.LoginActivity
  */
 object LoginContext {
     fun userState(ctx: Context): Boolean {
-        val userValid = MyApplication.getUser().valid
+        val userValid = MyApp.getUser().valid
         return if (userValid) true
         else {
             ctx.startActivity(Intent(ctx, LoginActivity::class.java))

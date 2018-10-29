@@ -31,7 +31,6 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:text="作者"
-            android:textColor="?attr/text_color_second"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/image_view_msg_system_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_msg_system_author_avatar" />
@@ -50,7 +49,7 @@
             的内容通知的内容通知的内容通知的内容"
             android:textIsSelectable="true"
             android:textSize="@dimen/text_size_normal"
-            android:textColor="?attr/text_color_first"
+            android:textColor="?android:textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/text_view_msg_system_date"
             app:layout_constraintHorizontal_bias="0.809"

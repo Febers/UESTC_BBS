@@ -16,8 +16,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.afollestad.aesthetic.Aesthetic
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
@@ -151,8 +153,8 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
     //创建TextView
     private fun getTextView(): TextView = TextView(context).apply {
         setLineSpacing(1.0f, 1.3f)
-        setTextColor(Color.parseColor("#DD000000"))
         textSize = 16f
+        setTextColor(ThemeHelper.getTextColorPrimary())
         linksClickable = true
         setTextIsSelectable(true)
         layoutParams = ViewGroup

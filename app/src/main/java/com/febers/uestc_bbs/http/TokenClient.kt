@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.http
 
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import okhttp3.*
 import java.util.concurrent.TimeUnit
 
@@ -18,8 +18,8 @@ class TokenInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originRequest: Request = chain.request()
         val modifiedUrl: HttpUrl = originRequest.url().newBuilder()
-                .addQueryParameter("accessToken", MyApplication.getUser().token)
-                .addQueryParameter("accessSecret", MyApplication.getUser().secrete)
+                .addQueryParameter("accessToken", MyApp.getUser().token)
+                .addQueryParameter("accessSecret", MyApp.getUser().secrete)
                 .build()
         val newRequest: Request = originRequest.newBuilder().url(modifiedUrl).build()
         return chain.proceed(newRequest)

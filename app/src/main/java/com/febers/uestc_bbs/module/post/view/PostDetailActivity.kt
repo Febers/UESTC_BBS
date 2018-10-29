@@ -10,7 +10,7 @@ import android.util.Log
 import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
@@ -278,9 +278,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 infor = contents[0].second
             })
             reply_id = 0
-            reply_name = MyApplication.getUser().name
-            icon = MyApplication.getUser().avatar
-            userTitle = MyApplication.getUser().title
+            reply_name = MyApp.getUser().name
+            icon = MyApp.getUser().avatar
+            userTitle = MyApp.getUser().title
             posts_date = System.currentTimeMillis().toString()
             position = replyCount + 2 //adapter中会减1，因为服务器默认主贴为1楼
         }

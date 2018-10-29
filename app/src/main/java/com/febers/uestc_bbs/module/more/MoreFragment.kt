@@ -15,13 +15,14 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import com.bumptech.glide.Glide
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.search.view.SearchFragment
+import com.febers.uestc_bbs.module.setting.SettingFragment
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
@@ -46,6 +47,7 @@ class MoreFragment: BaseFragment() {
 
     private val THEME_ITEM = 0
     private val SETTING_ITEM = 1
+    private val ABOUT_ITEM = 2
 
     private lateinit var userSimple: UserSimpleBean
     private lateinit var mParentFragment: BaseFragment
@@ -58,7 +60,7 @@ class MoreFragment: BaseFragment() {
 
     override fun initView() {
         initMenu()
-        userSimple = MyApplication.getUser()
+        userSimple = MyApp.getUser()
         mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
 
@@ -67,19 +69,20 @@ class MoreFragment: BaseFragment() {
         more_fragment_recyclerview_1.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = moreItemAdapter1
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
 
         val moreItemAdapter2 = MoreItemAdapter(context!!, initMoreItem2(), false).apply {
             setOnItemClickListener { p0, p1, p2 -> itemClick(view = THIRD_ITEM_VIEW, position = p2) }
             setOnItemChildClickListener(R.id.switch_more_item) {
-                viewHolder, moreItemBean, i ->  ThemeHelper.dayAndNightThemeChange()
+                viewHolder, moreItemBean, i ->
+                //moreItemBean.isCheck = !moreItemBean.isCheck
+                //notifyItemChanged(i)
+                ThemeHelper.dayAndNightThemeChange(context!!)
             }
         }
         more_fragment_recyclerview_2.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = moreItemAdapter2
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
 
         if (userSimple.valid) {
@@ -92,18 +95,19 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
-        val item1 = MoreItemBean(getString(R.string.my_start_post), R.mipmap.ic_write_blue)
-        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.mipmap.ic_message_red)
-        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.mipmap.ic_star_blue)
+        val item1 = MoreItemBean(getString(R.string.my_start_post), R.drawable.ic_edit_blue_24dp)
+        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.ic_reply_red_24dp)
+        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.ic_star_border_teal_24dp)
         val item4 = MoreItemBean("", R.mipmap.ic_friend_blue)
         val item5 = MoreItemBean("", R.mipmap.ic_search_blue)
         return listOf(item1, item2, item3)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.mipmap.ic_theme_purple, showSwitch = true)
+        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.ic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
         val item2 = MoreItemBean(getString(R.string.setting), R.mipmap.ic_setting_gray)
-        return listOf(item1, item2)
+        val item3 = MoreItemBean("关于", R.drawable.ic_emot_blue_24dp)
+        return listOf(item1, item2, item3)
     }
 
 
@@ -156,8 +160,11 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SETTING_ITEM) {
-                startActivity(Intent(activity, SettingActivity::class.java))
+                mParentFragment.start(SettingFragment.newInstance(showBottomBarOnDestroy = true))
                 return
+            }
+            if (position == ABOUT_ITEM) {
+                mParentFragment.start(AboutFragment.newInstance(showBottomBarOnDestroy = true))
             }
         }
     }

@@ -7,10 +7,10 @@
 <resources>
 
     <style name="DefaultThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_blue_zhihu</item>
-        <item name="colorAccent">@color/color_blue_zhihu</item>
-        <item name="app_color_primary">@color/color_blue_zhihu</item>
-        <item name="app_color_accent">@color/color_blue_zhihu</item>
+        <item name="colorPrimary">@color/color_gray_light</item>
+        <item name="colorAccent">@color/color_gray</item>
+        <item name="app_color_primary">@color/color_gray_light</item>
+        <item name="app_color_accent">@color/color_gray</item>
 
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>
@@ -20,8 +20,8 @@
         <item name="background_second">@color/color_gray_light</item>
 
         <item name="refresh_layout_color_accent">@color/color_white</item>
-        <item name="android:textColorPrimary">@color/color_black</item>
-        <item name="android:textColorSecondary">@color/color_gray</item>
+        <item name="android:textColorPrimary">@color/textColorFirst_Day</item>
+        <item name="android:textColorSecondary">@color/textColorSecond_Day</item>
         <item name="android:windowIsTranslucent">true</item> <!-- 让activity不闪屏 -->
         <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
     </style>
@@ -66,11 +66,10 @@
         <item name="android:activityCloseExitAnimation">@anim/scale_out_to_center</item>
     </style>
 
-
     <style name="PinkBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/color_pink_bili</item>
-        <item name="colorPrimaryDark">@color/color_pink_bili</item>
-        <item name="colorAccent">@color/color_pink_bili</item>
+        <item name="colorPrimary">@color/color_pink</item>
+        <item name="colorPrimaryDark">@color/color_pink</item>
+        <item name="colorAccent">@color/color_pink</item>
     </style>
 
     <style name="myTransparent" parent="DefaultThemeLight">

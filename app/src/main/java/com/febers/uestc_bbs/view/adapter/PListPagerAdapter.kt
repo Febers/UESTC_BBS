@@ -9,15 +9,13 @@ package com.febers.uestc_bbs.view.adapter
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.HOME_POSTS_HOT
 import com.febers.uestc_bbs.base.HOME_POSTS_REPLY
 import com.febers.uestc_bbs.base.HOME_POSTS_NEW
 import com.febers.uestc_bbs.module.post.view.PListHomeFragment
 
-class PListPagerAdapter: FragmentPagerAdapter {
-
-    constructor(fragmentManager: FragmentManager): super(fragmentManager)
+class PListPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     private val titles = arrayOf(getString(R.string.new_post), getString(R.string.new_reply), getString(R.string.hot_article))
 
@@ -39,6 +37,6 @@ class PListPagerAdapter: FragmentPagerAdapter {
     }
 
     private fun getString(stringId: Int): String {
-        return MyApplication.context().getString(stringId)
+        return MyApp.context().getString(stringId)
     }
 }

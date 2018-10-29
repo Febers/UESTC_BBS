@@ -1,15 +1,11 @@
 package com.febers.uestc_bbs.module.user.view
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
-import com.afollestad.aesthetic.Aesthetic
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
 import com.febers.uestc_bbs.base.*
@@ -22,7 +18,6 @@ import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.module.user.view.bottom_sheet.UserDetailBottomSheet
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
-import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.activity_user_detail.*
 
 class UserDetailActivity : BaseActivity(), UserContract.View {
@@ -42,8 +37,10 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     }
 
     override fun setView(): Int {
+        if (ThemeHelper.isDarkTheme()) setTheme(R.style.DefaultThemeDark)
+        else setTheme(R.style.DefaultThemeLight)
         userId = intent.getIntExtra(USER_ID, 0)
-        if (userId == MyApplication.getUser().uid) userItSelf = true
+        if (userId == MyApp.getUser().uid) userItSelf = true
         return R.layout.activity_user_detail
     }
 

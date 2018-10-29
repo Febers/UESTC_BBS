@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.dao
 
 import android.content.Context
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.google.gson.Gson
@@ -48,5 +48,5 @@ object PostStore {
         }
     }
 
-    private fun context(): Context = MyApplication.context()
+    private fun context(): Context = MyApp.context()
 }

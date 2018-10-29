@@ -20,4 +20,12 @@
 
     <!--在GlideImageGetter中使用-->
     <item name="drawable_callback_tag" type="id" />
+
+    <!--自定义指示器-->
+    <declare-styleable name="IndicatorView">
+        <attr name="radius" format="dimension" /><!--圆角度数-->
+        <attr name="background_color" format="color" /> <!--底色-->
+        <attr name="selected_color" format="color" /><!--指示器颜色-->
+    </declare-styleable>
+
 </resources>

@@ -21,6 +21,7 @@
         android:layout_gravity="center"
         android:text="收藏"
         android:textSize="@dimen/text_size_big"
+        android:textColor="?text_color_first"
         android:layout_marginLeft="20dp"/>
 
 </LinearLayout>

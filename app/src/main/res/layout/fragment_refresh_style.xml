@@ -2,9 +2,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="?attr/background_second">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_theme"
@@ -13,41 +14,44 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_theme"
+            android:id="@+id/toolbar_refresh_style"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="选择主题">
+            app:title="选择刷新控件">
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    
-    <com.larswerkman.holocolorpicker.ColorPicker
-        android:id="@+id/color_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        app:color_center_radius="80dp"/>
-    <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/color_picker_sv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_refresh_style"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="?attr/background_first">
+    </androidx.viewpager.widget.ViewPager>
+    <com.febers.uestc_bbs.view.custom.IndicatorView
+        android:id="@+id/indicator_refresh_style"
+        android:layout_width="80dp"
+        android:layout_height="6dp"
+        app:radius="3dp"
+        android:layout_marginTop="8dp"
+        app:background_color="@color/color_white"
+        app:selected_color="?colorPrimary"
         android:layout_gravity="center"/>
 
-    <CheckBox
-        android:id="@+id/check_box_theme_color_dark"
+    <Button
+        android:id="@+id/btn_choose_refresh_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="colorPrimaryDark效果"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textColor="?android:textColorSecondary"/>
-    <Button
-        android:id="@+id/btn_choose_theme"
+        android:text="选择"/>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:textSize="@dimen/text_size_big"
-        android:text="确定"/>
+        android:textColor="?android:textColorSecondary"
+        android:text="重启应用后生效"/>
 </LinearLayout>

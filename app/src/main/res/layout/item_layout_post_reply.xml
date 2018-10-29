@@ -94,18 +94,19 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="5dp"
         android:padding="6dp"
-        android:visibility="gone"
-        android:background="@color/color_gray_light">
+        android:visibility="gone">
         <TextView
             android:id="@+id/text_view_post_reply_quota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
             android:textSize="14dp"
-            android:textColor="?attr/text_color_second"
+            android:textColor="?android:textColorSecondary"
             android:text="某个人 发表于 2018-8-16 16:25
 
 这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容"/>
+
+        <include layout="@layout/layout_quota_divide_line" />
     </LinearLayout>
 
     <LinearLayout

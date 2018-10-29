@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.base
 
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
@@ -19,7 +19,7 @@ open class BaseModel {
     protected var mType: String = ""
     protected var mTopOrder: String = "1"   //默认返回本版置顶帖
 
-    protected fun getUser(): UserSimpleBean = MyApplication.getUser()
+    protected fun getUser(): UserSimpleBean = MyApp.getUser()
 
     protected fun getRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(ApiUtils.BBS_BASE_URL)

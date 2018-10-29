@@ -7,7 +7,7 @@
 package com.febers.uestc_bbs.dao
 
 import android.content.Context
-import com.febers.uestc_bbs.MyApplication
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.google.gson.Gson
@@ -43,5 +43,5 @@ object UserStore {
         }
     }
 
-    private fun context(): Context = MyApplication.context()
+    private fun context(): Context = MyApp.context()
 }
