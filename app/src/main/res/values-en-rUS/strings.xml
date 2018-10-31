@@ -44,6 +44,7 @@
     <string name="user_friends">Friend</string>
     <string name="theme_style">Theme Style</string>
 
+    <string name="setting_and_account">Account And Setting</string>
     <string name="setting">Setting</string>
     <string name="choose_theme">Theme</string>
     <string name="choose_block">Choose Block</string>

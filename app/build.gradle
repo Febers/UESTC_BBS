@@ -33,7 +33,6 @@ dependencies {
     implementation 'com.github.Othershe:RecyclerViewAdapter:1.2.5'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.afollestad:aesthetic:1.0.0-beta03'
-    implementation 'com.larswerkman:HoloColorPicker:1.5'
     implementation 'com.github.dss886:Android-EmotionInputDetector:v0.2.0'
     implementation files('lib/glide-3.7.0.jar')
 }

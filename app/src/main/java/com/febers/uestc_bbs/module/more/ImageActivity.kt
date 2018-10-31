@@ -2,7 +2,6 @@ package com.febers.uestc_bbs.module.more
 
 import android.Manifest
 import android.app.ProgressDialog
-import android.content.Context
 import android.net.Uri
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.febers.uestc_bbs.R
@@ -12,19 +11,11 @@ import com.febers.uestc_bbs.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_image.*
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.os.Build
-import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log.i
-import android.view.View
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.base.BaseActivity
 import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.toast
 
 
 class ImageActivity : BaseActivity() {
@@ -201,6 +192,6 @@ class ImageActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        FileUtils.viewDestroy()
+        FileUtils.onImageViewDestroy()
     }
 }

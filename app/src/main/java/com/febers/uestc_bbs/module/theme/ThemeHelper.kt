@@ -22,6 +22,7 @@ object ThemeHelper {
 
     private const val LLCP = "last_light_color_primary"
     private const val darkInterval = -200
+    private val blueIntValue = Color.parseColor("#2196f3")
 
     private val themeChangeSubscribers: MutableList<View> = ArrayList()
 
@@ -40,19 +41,23 @@ object ThemeHelper {
                 colorStatusBarAuto()
             }
         } else {
-            var lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
+            var lastColorPrimary by PreferenceUtils(context, LLCP, -2201331)
             lastColorPrimary = getColor(AppColor.COLOR_PRIMARY)
             Aesthetic.config {
                 activityTheme(R.style.DefaultThemeDark)
                 isDark(true)
-                colorPrimaryRes(R.color.color_black)
+                colorPrimaryRes(R.color.color_black_tint)
                 colorAccentRes(R.color.color_gray_light)
-                colorPrimaryDarkRes(R.color.color_black)
-                colorWindowBackgroundRes(R.color.color_black)
-                attributeRes(R.attr.app_color_primary, R.color.color_black)
+                colorPrimaryDarkRes(R.color.color_black_tint)
+                colorWindowBackgroundRes(R.color.color_black_tint)
+                attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
                 colorStatusBarAuto()
             }
         }
+    }
+
+    fun setTheme(context: Context) {
+        setTheme(context, blueIntValue, blueIntValue)
     }
 
     fun setTheme(context: Context, colorPrimary: Int, colorAccent: Int) {

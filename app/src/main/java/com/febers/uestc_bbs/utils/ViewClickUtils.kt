@@ -74,7 +74,7 @@ object ViewClickUtils {
 
     fun clickToUserDetail(context: Context?, uid: Int?) {
         context ?: return
-        if (uid == 0 || uid == null) return
+        if (uid == null) return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, UserDetailActivity::class.java).apply {
             putExtra(USER_IT_SELF, false)

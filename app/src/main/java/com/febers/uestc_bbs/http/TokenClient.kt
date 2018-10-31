@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.http
 
+import android.util.Log.i
 import com.febers.uestc_bbs.MyApp
 import okhttp3.*
 import java.util.concurrent.TimeUnit
@@ -23,6 +24,5 @@ class TokenInterceptor: Interceptor {
                 .build()
         val newRequest: Request = originRequest.newBuilder().url(modifiedUrl).build()
         return chain.proceed(newRequest)
-
     }
 }

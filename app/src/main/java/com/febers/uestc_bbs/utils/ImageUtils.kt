@@ -26,7 +26,8 @@ object ImageLoader {
              placeImage: Int? = R.mipmap.ic_default_avatar,
              isCircle: Boolean = true,
              isBlur: Boolean = false,
-             noCache: Boolean = false) {
+             noCache: Boolean = false,
+             clickToViewer: Boolean = true) {
         try {
             Glide.with(context).load(url)
                     .apply {
@@ -49,8 +50,10 @@ object ImageLoader {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        imageView?.setOnClickListener {
-            ViewClickUtils.clickToImageViewer(url, context)
+        if (clickToViewer) {
+            imageView?.setOnClickListener {
+                ViewClickUtils.clickToImageViewer(url, context)
+            }
         }
     }
 

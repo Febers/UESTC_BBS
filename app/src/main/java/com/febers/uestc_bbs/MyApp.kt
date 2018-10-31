@@ -11,7 +11,6 @@ import android.content.ComponentCallbacks2
 import android.content.Context
 import android.util.Log.i
 import com.bumptech.glide.Glide
-import com.febers.uestc_bbs.base.SP_USER_ID
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.setting.REFRESH_HEADER_CODE
@@ -20,9 +19,6 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.scwang.smartrefresh.layout.footer.FalsifyFooter
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 
 
 class MyApp: Application() {
@@ -36,10 +32,8 @@ class MyApp: Application() {
         private var context: Context by Delegates.notNull()
         private var uiHidden: Boolean = false
         fun context() = context
-        fun getUser(): UserSimpleBean {
-            val uid by PreferenceUtils(context, SP_USER_ID, 0)
-            return UserStore.get(uid)
-        }
+        fun getUser(): UserSimpleBean = UserStore.getNowUser()
+
         fun appUiHidden() = this.uiHidden
 
         init {

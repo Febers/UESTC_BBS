@@ -16,7 +16,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
@@ -100,11 +99,6 @@ class HomeActivity: BaseActivity() {
 
     private fun onTabReselected(position: Int) {
         EventBus.getDefault().post(TabReselectedEvent(BaseCode.SUCCESS, position))
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onThemeChange(event: BaseEvent<ThemeItemBean>) {
-        recreate()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

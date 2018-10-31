@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/setting">
+            app:title="@string/setting_and_account">
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,14 +28,49 @@
             android:orientation="vertical"
             android:padding="5dp">
 
+            <TextView
+                android:id="@+id/text_view_setting_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="账户列表"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="@dimen/text_size_normal"
+                android:textColor="?colorPrimary"/>
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_setting_1"
+                android:id="@+id/recyclerview_setting_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
+            <Button
+                android:id="@+id/btn_setting_add_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="添加用户"/>
+
+            <TextView
+                android:id="@+id/text_view_setting_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="@dimen/text_size_normal"
+                android:textColor="?colorPrimary"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_setting_option"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
             </androidx.recyclerview.widget.RecyclerView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

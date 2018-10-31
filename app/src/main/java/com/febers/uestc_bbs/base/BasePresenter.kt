@@ -6,6 +6,8 @@
 
 package com.febers.uestc_bbs.base
 
+import android.util.Log
+
 abstract class BasePresenter<V : BaseView>(protected var mView: V?) {
 
     open fun detachView() {

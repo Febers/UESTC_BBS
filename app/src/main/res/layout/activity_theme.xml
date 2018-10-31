@@ -21,14 +21,14 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     
-    <com.larswerkman.holocolorpicker.ColorPicker
+    <com.febers.uestc_bbs.view.color_picker.ColorPicker
         android:id="@+id/color_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         app:color_center_radius="80dp"/>
-    <com.larswerkman.holocolorpicker.SVBar
+    <com.febers.uestc_bbs.view.color_picker.SVBar
         android:id="@+id/color_picker_sv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

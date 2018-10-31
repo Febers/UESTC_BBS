@@ -8,9 +8,7 @@ package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.util.Log.i
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -26,6 +24,7 @@ import com.febers.uestc_bbs.module.setting.SettingFragment
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.helper.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_more.*
@@ -75,8 +74,6 @@ class MoreFragment: BaseFragment() {
             setOnItemClickListener { p0, p1, p2 -> itemClick(view = THIRD_ITEM_VIEW, position = p2) }
             setOnItemChildClickListener(R.id.switch_more_item) {
                 viewHolder, moreItemBean, i ->
-                //moreItemBean.isCheck = !moreItemBean.isCheck
-                //notifyItemChanged(i)
                 ThemeHelper.dayAndNightThemeChange(context!!)
             }
         }
@@ -84,14 +81,12 @@ class MoreFragment: BaseFragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = moreItemAdapter2
         }
-
+        initUserDetail()
         if (userSimple.valid) {
             text_view_fragment_user_name.text = userSimple.name
             text_view_fragment_user_title.text = userSimple.title
         }
-        Glide.with(context).load(userSimple.avatar).transform(GlideCircleTransform(context))
-                .placeholder(R.mipmap.ic_default_avatar)
-                .into(image_view_fragment_user_avatar)
+        ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar, clickToViewer = false)
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
@@ -105,21 +100,27 @@ class MoreFragment: BaseFragment() {
 
     private fun initMoreItem2(): List<MoreItemBean> {
         val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.ic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
-        val item2 = MoreItemBean(getString(R.string.setting), R.mipmap.ic_setting_gray)
+        val item2 = MoreItemBean(getString(R.string.setting_and_account), R.mipmap.ic_setting_gray)
         val item3 = MoreItemBean("关于", R.drawable.ic_emot_blue_24dp)
         return listOf(item1, item2, item3)
     }
 
+    private fun initUserDetail() {
+        text_view_fragment_user_name.text = "未登录"
+        text_view_fragment_user_title.text = " "
+        ImageLoader.load(context!!, "", image_view_fragment_user_avatar,clickToViewer = false)
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
-        i("MORE", "")
-        text_view_fragment_user_name.text = event.data.name
-        text_view_fragment_user_title.text = event.data.title
-        Glide.with(context).load(userSimple.avatar).placeholder(R.drawable.ic_person_white_24dp)
-                .transform(GlideCircleTransform(context))
-                .into(image_view_fragment_user_avatar)
-        userSimple = event.data
+        if (event.code == BaseCode.SUCCESS) {
+            text_view_fragment_user_name.text = event.data.name
+            text_view_fragment_user_title.text = event.data.title
+            ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar)
+            userSimple = event.data
+        } else {
+            initUserDetail()
+        }
     }
 
     private fun itemClick(view: Int, position: Int) {

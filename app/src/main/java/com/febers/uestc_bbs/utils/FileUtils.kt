@@ -1,14 +1,16 @@
 package com.febers.uestc_bbs.utils
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.util.Log.i
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.io.*
+import java.lang.StringBuilder
+import java.nio.charset.Charset
+
 
 object FileUtils {
 
@@ -29,7 +31,7 @@ object FileUtils {
                     throw IOException()
                 }
             }
-            imgFile = File("$appImageDir${getFileName()}.png")
+            imgFile = File("$appImageDir${getImageFileName()}.png")
             val fos: FileOutputStream = FileOutputStream(imgFile)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
             fos.flush()
@@ -56,7 +58,7 @@ object FileUtils {
                     throw IOException()
                 }
             }
-            imgFile = File("$appImageDir${getFileName()}.gif")
+            imgFile = File("$appImageDir${getImageFileName()}.gif")
             val fos: FileOutputStream = FileOutputStream(imgFile)
             fos.write(gifByte, 0, gifByte.size)
             fos.flush()
@@ -68,18 +70,37 @@ object FileUtils {
         }
     }
 
-    private fun getFileName(): String {
+    private fun getImageFileName(): String {
         val now: Calendar = GregorianCalendar()
         val simpleDate: SimpleDateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
         return simpleDate.format(now.time)
     }
 
-    fun viewDestroy() {
-        i("File", "onD")
+    fun onImageViewDestroy() {
         if (fileForShare) {
             if (imgFile.exists()) {
                 imgFile.delete()
             }
         }
+    }
+
+    fun getAssetsString(context: Context, fileName: String): String {
+        try {
+            val inputReader = InputStreamReader(
+                    context.assets.open(fileName))
+            val bufReader = BufferedReader(inputReader)
+            val result = StringBuilder()
+            var line: String? = null
+            do {
+                line?.let {
+                    result.append(it)
+                }
+                line = bufReader.readLine()
+            } while (line != null)
+            return result.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return "error"
     }
 }

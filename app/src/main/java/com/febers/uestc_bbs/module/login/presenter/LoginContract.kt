@@ -20,7 +20,7 @@ interface LoginContract {
     interface View: BaseView {
         fun loginResult(event: BaseEvent<UserSimpleBean>)
     }
-    abstract class Presenter(view: BaseView): BasePresenter<BaseView>(mView = view) {
+    abstract class Presenter(view: LoginContract.View): BasePresenter<LoginContract.View>(mView = view) {
         abstract fun loginRequest(userName: String, userPw: String)
         abstract fun loginResult(event: BaseEvent<UserSimpleBean>)
     }

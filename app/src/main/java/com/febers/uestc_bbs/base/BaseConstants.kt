@@ -36,7 +36,6 @@ const val USER_START_POST = "-9"
 const val USER_REPLY_POST = "-10"
 const val USER_FAV_POST = "-11"
 
-const val SP_USERS = "users"
 const val USER_IT_SELF = "user_it_self"
 const val USER_ID = "uid"
 const val USER_NAME = "user_name"
@@ -54,8 +53,9 @@ const val POST_NEGATIVE_ORDER = 1
 const val IMAGE_URL = "image_url"
 const val URL = "url"
 
-const val SP_USER_ID = "user_uid"
-const val SP_THEME_CODE = "theme_code"
+const val SP_USERS = "users"
+const val SP_NOW_UID = "now_uid"
+const val SP_USER_IDS = "user_ids"
 
 const val COMMON_PAGE_SIZE = 30
 const val FIRST_PAGE = 1

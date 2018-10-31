@@ -6,6 +6,7 @@
 
 package com.febers.uestc_bbs.module.login.model
 
+import android.util.Log.i
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.UserStore
@@ -22,7 +23,6 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
     private val mUserSimple: UserSimpleBean = UserSimpleBean()
     private lateinit var mUserName: String
     private lateinit var mUserPw: String
-    private val mContext = MyApp.context()
 
     override fun loginService(userName: String, userPw: String) {
         mUserName = userName
@@ -73,10 +73,8 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
         mUserSimple.groupId = loginResultBean.groupid
         mUserSimple.mobile = loginResultBean.mobile
         mUserSimple.valid = true
-
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
-        var uid by PreferenceUtils(mContext, SP_USER_ID, 0)
-        uid = loginResultBean.uid
-        UserStore.save(uid, mUserSimple)
+
+        UserStore.add(loginResultBean.uid, mUserSimple)
     }
 }

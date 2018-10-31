@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import com.afollestad.aesthetic.Aesthetic
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 
 import me.yokeyword.fragmentation.ExtraTransaction
 import me.yokeyword.fragmentation.ISupportActivity
@@ -51,7 +52,10 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
     protected open fun enableThemeHelper(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (enableThemeHelper()) Aesthetic.attach(this)
+        if (enableThemeHelper()){
+            Aesthetic.attach(this)
+            ThemeHelper.setTheme(this)
+        }
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
     }

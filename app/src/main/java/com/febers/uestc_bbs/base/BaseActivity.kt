@@ -12,6 +12,7 @@ import org.jetbrains.anko.toast
 import org.greenrobot.eventbus.EventBus
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
+import com.afollestad.aesthetic.Aesthetic
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.view.custom.SupportActivity
@@ -61,6 +62,10 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         runOnUiThread {
             toast(msg)
         }
+    }
+
+    override fun showError(msg: String) {
+        showToast(msg)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

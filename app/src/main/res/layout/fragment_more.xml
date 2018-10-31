@@ -89,8 +89,7 @@
                 android:id="@+id/more_fragment_recyclerview_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="?attr/background_first">
+                android:layout_marginTop="10dp">
             </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -100,6 +99,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="@dimen/bottom_navigation_height">
             </androidx.recyclerview.widget.RecyclerView>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

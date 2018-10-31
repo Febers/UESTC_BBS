@@ -12,8 +12,9 @@ import com.febers.uestc_bbs.module.post.model.PListModelImpl
 
 class PListPresenterImpl(var view: PListContract.View) : PListContract.Presenter(view) {
 
+    private val topicMode: PListContract.Model = PListModelImpl(this)
+
     override fun pListRequest(fid: Int, page: Int, refresh: Boolean) {
-        val topicMode: PListContract.Model = PListModelImpl(this)
         topicMode.pListService(fid, page, refresh)
     }
 

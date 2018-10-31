@@ -9,7 +9,7 @@ import com.febers.uestc_bbs.MyApp
 import java.io.File
 import java.math.BigDecimal
 
-object ImageCacheUtils {
+object CacheUtils {
 
     private val imageCacheDir = MyApp.context().cacheDir.toString() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
 

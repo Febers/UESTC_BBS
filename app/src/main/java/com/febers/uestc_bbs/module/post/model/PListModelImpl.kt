@@ -17,6 +17,8 @@ import retrofit2.Response
 
 class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
 
+    private var savedPListGot = false
+
     override fun pListService(fid: Int, page: Int, refresh: Boolean) {
         mFid = fid.toString()
         mPage = page.toString()
@@ -93,11 +95,12 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
     }
 
     private fun getSavedPList() {
-        if (mPage != FIRST_PAGE.toString() || mFid.toInt() >= 0) return
+        if (mPage != FIRST_PAGE.toString() || mFid.toInt() >= 0 || savedPListGot) return
         PostStore.getPostList(mFid).apply {
             if (this.list != null) {
                 pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))
             }
         }
+        savedPListGot = true
     }
 }

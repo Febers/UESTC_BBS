@@ -179,7 +179,7 @@ public class BlurTransformation extends BitmapTransformation {
         }
     }
     /**
-     * A method to get a unique identifier for this particular transformation that can be used as part of a cache key.
+     * A method to getNowUser a unique identifier for this particular transformation that can be used as part of a cache key.
      * The fully qualified class name for this class is appropriate if written out, but getClass().getName() is not
      * because the name may be changed by proguard.
      * <p/>

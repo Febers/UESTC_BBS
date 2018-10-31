@@ -22,8 +22,8 @@ class ThemeActivity : BaseActivity() {
     override fun initView() {
         color_picker.apply {
             addSVBar(color_picker_sv)
-            oldCenterColor = ThemeHelper.getColor(AppColor.COLOR_PRIMARY)
-            setNewCenterColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+            color = colorValue
+            oldCenterColor = colorValue
             setOnColorChangedListener {
                 btn_choose_theme.setTextColor(it)
                 colorValue = it

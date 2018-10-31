@@ -7,10 +7,11 @@
 <resources>
 
     <style name="DefaultThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_gray_light</item>
-        <item name="colorAccent">@color/color_gray</item>
-        <item name="app_color_primary">@color/color_gray_light</item>
-        <item name="app_color_accent">@color/color_gray</item>
+        <item name="colorPrimary">@color/color_blue</item>
+        <item name="colorAccent">@color/color_blue</item>
+        <item name="colorPrimaryDark">@color/color_blue</item>
+        <item name="app_color_primary">@color/color_blue</item>
+        <item name="app_color_accent">@color/color_blue</item>
 
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>
@@ -27,17 +28,17 @@
     </style>
 
     <style name="DefaultThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/color_black</item>
-        <item name="colorAccent">@color/color_black</item>
-
-        <item name="app_color_primary">@color/color_black</item>
-        <item name="app_color_accent">@color/color_black</item>
+        <item name="colorPrimary">@color/color_black_tint</item>
+        <item name="colorAccent">@color/color_black_tint</item>
+        <item name="colorPrimaryDark">@color/color_black_tint</item>
+        <item name="app_color_primary">@color/color_black_tint</item>
+        <item name="app_color_accent">@color/color_black_tint</item>
 
         <item name="text_color_first">@color/color_white</item>
         <item name="text_color_second">@color/color_gray_light</item>
         <item name="text_color_third">@color/color_gray</item>
 
-        <item name="background_first">@color/color_black</item>
+        <item name="background_first">@color/color_black_tint</item>
         <item name="background_second">@color/color_gray</item>
 
         <item name="refresh_layout_color_accent">@color/color_white</item>
@@ -60,10 +61,10 @@
     </style>
 
     <style name="ImageViewerAnim" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/scale_in_from_center</item>
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
         <item name="android:activityOpenExitAnimation">@anim/do_nothing_anim</item>
         <item name="android:activityCloseEnterAnimation">@anim/do_nothing_anim</item>
-        <item name="android:activityCloseExitAnimation">@anim/scale_out_to_center</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
     </style>
 
     <style name="PinkBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">

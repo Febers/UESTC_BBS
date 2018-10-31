@@ -64,7 +64,6 @@ public class CircleImageView extends AppCompatImageView {
         matrix.setScale(mScale, mScale);
         bitmapShader.setLocalMatrix(matrix);
 
-
         mPaint.setShader(bitmapShader);
 
         //画圆形，指定好中心点坐标、半径、画笔
