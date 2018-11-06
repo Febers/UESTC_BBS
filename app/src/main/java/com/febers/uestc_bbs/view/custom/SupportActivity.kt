@@ -54,7 +54,9 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (enableThemeHelper()){
             Aesthetic.attach(this)
-            ThemeHelper.setTheme(this)
+            if (Aesthetic.isFirstTime) {
+                ThemeHelper.setTheme(this)
+            }
         }
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)

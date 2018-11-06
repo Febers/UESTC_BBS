@@ -39,6 +39,9 @@ const val USER_FAV_POST = "-11"
 const val USER_IT_SELF = "user_it_self"
 const val USER_ID = "uid"
 const val USER_NAME = "user_name"
+const val USER_SIGN = "sign"
+const val USER_GENDER = "gender"
+const val USER_AVATAR = "avatar"
 
 const val ONLY_AUTHOR = 0
 const val NO_ONLY_AUTHOR = 1

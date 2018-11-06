@@ -46,6 +46,9 @@ object ApiUtils {
         newPassword
      */
     const val BBS_UPDATE_USER_INFO_URL = "mobcent/app/web/index.php?r=user/updateuserinfo"
+    const val BBS_UPDATE_USER_SIGN_URL = "mobcent/app/web/index.php?r=user/updateusersign"
+    const val BBS_UPDATE_USER_GENDER_URL = "mobcent/app/web/index.php?r=user/updateusergender"
+    const val BBS_UPDATE_USER_AVATAR_URL = "mobcent/app/web/index.php?r=user/updateuseravatar"
 
     /**
         获取用户发布的帖子

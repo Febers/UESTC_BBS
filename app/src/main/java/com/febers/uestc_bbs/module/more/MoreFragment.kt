@@ -7,18 +7,19 @@
 package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
+import android.util.Log.i
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
+import com.febers.uestc_bbs.module.login.model.LoginContext
 import com.febers.uestc_bbs.module.search.view.SearchFragment
 import com.febers.uestc_bbs.module.setting.SettingFragment
 import com.febers.uestc_bbs.module.theme.ThemeActivity
@@ -26,7 +27,6 @@ import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.view.helper.GlideCircleTransform
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -85,8 +85,8 @@ class MoreFragment: BaseFragment() {
         if (userSimple.valid) {
             text_view_fragment_user_name.text = userSimple.name
             text_view_fragment_user_title.text = userSimple.title
+            ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar, clickToViewer = false)
         }
-        ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar, clickToViewer = false)
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
@@ -108,7 +108,7 @@ class MoreFragment: BaseFragment() {
     private fun initUserDetail() {
         text_view_fragment_user_name.text = "未登录"
         text_view_fragment_user_title.text = " "
-        ImageLoader.load(context!!, "", image_view_fragment_user_avatar,clickToViewer = false)
+        ImageLoader.loadResource(context, R.mipmap.ic_default_avatar, image_view_fragment_user_avatar, isCircle = true)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -116,7 +116,8 @@ class MoreFragment: BaseFragment() {
         if (event.code == BaseCode.SUCCESS) {
             text_view_fragment_user_name.text = event.data.name
             text_view_fragment_user_title.text = event.data.title
-            ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar)
+            i("More", "after login, avatar url :" + userSimple.avatar)
+            ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar, clickToViewer = false)
             userSimple = event.data
         } else {
             initUserDetail()
@@ -129,6 +130,7 @@ class MoreFragment: BaseFragment() {
             return
         }
         if (view == SECOND_ITEM_VIEW) {
+            if (!LoginContext.userState(context!!)) return
             if (position == USER_POST_ITEM) {
                 startActivity(Intent(activity, UserPostActivity::class.java).apply {
                     putExtra(USER_ID, userSimple.uid)
@@ -182,7 +184,7 @@ class MoreFragment: BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_search_more_fragment) {
+        if (item?.itemId == R.id.menu_item_search_more_fragment && LoginContext.userState(context!!)) {
             mParentFragment.start(SearchFragment.newInstance(true))
         }
         return super.onOptionsItemSelected(item)

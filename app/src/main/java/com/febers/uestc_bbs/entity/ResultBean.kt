@@ -129,3 +129,25 @@ class PostVoteResultBean {
         var totalNum: Int = 0
     }
 }
+
+class UserUpdateResultBean {
+    var rs: Int = 0
+    var errcode: String? = null
+    var head: HeadBean? = null
+    var body: BodyBean? = null
+
+    class HeadBean {
+        var errCode: String? = null
+        var errInfo: String? = null
+        var version: String? = null
+        var alert: Int = 0
+    }
+
+    class BodyBean {
+        var externInfo: ExternInfoBean? = null
+
+        class ExternInfoBean {
+            var padding: String? = null
+        }
+    }
+}

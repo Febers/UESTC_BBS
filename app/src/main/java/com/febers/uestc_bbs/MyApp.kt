@@ -13,8 +13,8 @@ import android.util.Log.i
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.UserSimpleBean
-import com.febers.uestc_bbs.module.setting.REFRESH_HEADER_CODE
-import com.febers.uestc_bbs.module.setting.RefreshViewHelper
+import com.febers.uestc_bbs.module.setting.refresh_style.REFRESH_HEADER_CODE
+import com.febers.uestc_bbs.module.setting.refresh_style.RefreshViewHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -30,11 +30,9 @@ class MyApp: Application() {
 
     companion object {
         private var context: Context by Delegates.notNull()
-        private var uiHidden: Boolean = false
+        var uiHidden: Boolean = false
         fun context() = context
         fun getUser(): UserSimpleBean = UserStore.getNowUser()
-
-        fun appUiHidden() = this.uiHidden
 
         init {
 
@@ -46,7 +44,6 @@ class MyApp: Application() {
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)
                 BallPulseFooter(context)
-                //ClassicsFooter(context)
             }
         }
     }
@@ -60,9 +57,10 @@ class MyApp: Application() {
         Glide.get(this).trimMemory(level)
     }
 
+
+
     override fun onLowMemory() {
         super.onLowMemory()
-        i("App", "low")
         Glide.get(this).clearMemory()
     }
 }

@@ -72,7 +72,7 @@
             android:lineSpacingMultiplier="1.1"
             android:textSize="@dimen/text_size_normal"
             android:padding="4dp"
-            android:textColor="?attr/text_color_second"
+            android:textColor="?android:textColorSecondary"
             android:text="我 发表于 2018-8-16 16:25
 
 这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容"/>

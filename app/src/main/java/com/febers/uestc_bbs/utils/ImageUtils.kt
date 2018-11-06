@@ -5,10 +5,13 @@ import android.widget.ImageView
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
+import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.view.helper.BlurTransformation
-import com.febers.uestc_bbs.view.helper.GlideCircleTransform
 import com.febers.uestc_bbs.view.helper.GlideImageGetter
+import jp.wasabeef.glide.transformations.BlurTransformation
 
 object ImageLoader {
 
@@ -29,13 +32,13 @@ object ImageLoader {
              noCache: Boolean = false,
              clickToViewer: Boolean = true) {
         try {
-            Glide.with(context).load(url)
+            GlideApp.with(context!!).load(url)
                     .apply {
                         if (isCircle) {
-                            this.transform(GlideCircleTransform(context))
+                            this.apply(RequestOptions.bitmapTransform(CircleCrop()))
                         }
                         if (isBlur) {
-                            this.transform(BlurTransformation(context))
+                            this.apply(RequestOptions.bitmapTransform(BlurTransformation()))
                         }
                         if (noCache) {
                             this.diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -44,9 +47,9 @@ object ImageLoader {
                             this.placeholder(placeImage)
                         }
                         this.error(R.mipmap.image_error_200200)
-                        this.crossFade()
                     }
-                    .into(imageView)
+                    .transition(withCrossFade())
+                    .into(imageView!!)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -57,6 +60,15 @@ object ImageLoader {
         }
     }
 
+    fun loadResource(context: Context?, resourceId: Int, imageView: ImageView?, isCircle: Boolean) {
+        GlideApp.with(context!!).load(resourceId)
+                .apply {
+                    if (isCircle) {
+                        this.apply(RequestOptions.bitmapTransform(CircleCrop()))
+                    }
+                }
+                .into(imageView!!)
+    }
     /**
      * 预加载图片，防止边绘制ImageView边加载图片，边滑动时的卡顿问题
      * @param context Context
@@ -64,7 +76,9 @@ object ImageLoader {
      */
     fun preload(context: Context?, url: String?) {
         try {
-            Glide.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).preload()
+            GlideApp.with(context!!).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .preload()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -80,31 +94,34 @@ object ImageLoader {
      */
     fun usePreload(context: Context?, url: String?, imageView: ImageView?) {
         try {
-            Glide.with(context).load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            GlideApp.with(context!!).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(R.mipmap.image_placeholder_400200)
                     .error(R.mipmap.image_error_400200)
-                    .into(imageView)
+                    .transition(withCrossFade())
+                    .into(imageView!!)
         } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    fun loadViewTarget(context: Context?, url: String?, viewTarget: GlideImageGetter.ImageGetterViewTarget,
+    fun loadViewTarget(context: Context?,
+                       url: String?,
+                       viewTarget: GlideImageGetter.ImageGetterViewTarget,
                        noCache: Boolean) {
         try {
-            Glide.with(context).load(url)
+            GlideApp.with(context!!).load(url)
                     .apply {
                         if (noCache) {
                             diskCacheStrategy(DiskCacheStrategy.NONE)
                         }
                     }
                     .error(R.mipmap.ic_place_holder_grey)
-                    .crossFade().into(viewTarget)
+                    .into(viewTarget)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        viewTarget.view.setOnClickListener {
-            //ViewClickUtils.clickToImageViewer(url, context)
-        }
     }
 }
+
+

@@ -2,21 +2,24 @@ package com.febers.uestc_bbs.view.helper;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.febers.uestc_bbs.R;
 import com.febers.uestc_bbs.utils.ImageLoader;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
@@ -37,7 +40,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         if (prev == null) return;
 
         for (ImageGetterViewTarget target : prev.mTargets) {
-            Glide.clear(target);
+            Glide.with(mContext).clear(target);
         }
     }
 
@@ -72,7 +75,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     }
 
-    public class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
+    public class ImageGetterViewTarget extends ViewTarget<TextView, Drawable> {
 
         private final GlideUrlDrawable mDrawable;
 
@@ -95,7 +98,7 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         }
 
         @Override
-        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
             Rect rect;
             if (resource.getIntrinsicWidth() > 100) {
                 float width;
@@ -120,10 +123,11 @@ public class  GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
             mDrawable.setBounds(rect);
             mDrawable.setDrawable(resource);
 
-            if (resource.isAnimated()) {
+            if (resource instanceof Animatable) {
                 mDrawable.setCallback(get(getView()));
-                resource.setLoopCount(GlideDrawable.LOOP_FOREVER);
-                resource.start();
+                ((Animatable) resource).start();
+//                resource.setLoopCount(GlideDrawable.LOOP_FOREVER);
+//                resource.start();
             }
 
             getView().setText(getView().getText());

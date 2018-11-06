@@ -3,8 +3,8 @@ package com.febers.uestc_bbs.view.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.febers.uestc_bbs.module.setting.HEAD_COUNT
-import com.febers.uestc_bbs.module.setting.RefreshStyleItemView
+import com.febers.uestc_bbs.module.setting.refresh_style.HEAD_COUNT
+import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleItemView
 
 class RefreshStyleAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 

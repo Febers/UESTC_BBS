@@ -2,11 +2,13 @@ package com.febers.uestc_bbs.module.user.model
 
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean
+import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.utils.ApiUtils
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
+import java.io.File
 
 interface UserInterface {
     @FormUrlEncoded
@@ -27,4 +29,16 @@ interface UserInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_USER_INFO_URL)
     fun getUserDetail(@Field("userId")userId: String) : Call<UserDetailBean>
+
+    @FormUrlEncoded
+    @POST(ApiUtils.BBS_UPDATE_USER_SIGN_URL)
+    fun updateUserSign(@Field("sign")sign: String) : Call<UserUpdateResultBean>
+
+    @FormUrlEncoded
+    @POST(ApiUtils.BBS_UPDATE_USER_GENDER_URL)
+    fun updateUserGender(@Field("gender")gender: String) : Call<UserUpdateResultBean>
+
+    @Multipart
+    @POST(ApiUtils.BBS_UPDATE_USER_AVATAR_URL)
+    fun updateUserAvatar(@Part(""""file" + "\";filename=\"" + "avatar.png"""")avatar: RequestBody) : Call<UserUpdateResultBean>
 }

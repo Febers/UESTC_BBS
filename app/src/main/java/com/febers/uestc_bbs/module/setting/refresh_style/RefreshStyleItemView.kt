@@ -1,6 +1,7 @@
-package com.febers.uestc_bbs.module.setting
+package com.febers.uestc_bbs.module.setting.refresh_style
 
 import android.os.Bundle
+import android.util.Log.i
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
@@ -28,7 +29,7 @@ class RefreshStyleItemView: BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(position: Int): RefreshStyleItemView= RefreshStyleItemView().apply {
+        fun newInstance(position: Int): RefreshStyleItemView = RefreshStyleItemView().apply {
             arguments = Bundle().apply {
                 putInt(HEAD_POSITION, position)
             }

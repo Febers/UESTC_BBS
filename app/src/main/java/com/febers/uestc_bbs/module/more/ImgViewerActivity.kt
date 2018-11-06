@@ -18,7 +18,7 @@ import com.febers.uestc_bbs.base.BaseActivity
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
-class ImageActivity : BaseActivity() {
+class ImgViewerActivity : BaseActivity() {
 
     private lateinit var permissionUtils: PermissionUtils
     private lateinit var progressDialog: ProgressDialog
@@ -72,8 +72,8 @@ class ImageActivity : BaseActivity() {
 
     private fun tryLoadImageAsGif(): Boolean {
         try {
-            gifDrawable = Glide.with(this).load(url).asGif().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
-            gifBytes = gifDrawable?.data
+            gifDrawable = Glide.with(this).asGif().load(url).into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
+            gifBytes = gifDrawable?.buffer?.array()
             gifBytes ?: return false
             runOnUiThread {
                 i("Image", "gif")
@@ -89,7 +89,9 @@ class ImageActivity : BaseActivity() {
 
     private fun tryLoadImage(): Boolean {
         try {
-            imageBitmap = Glide.with(this).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
+            val futureTarget = Glide.with(this).asBitmap().load(url).submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+            imageBitmap = futureTarget.get()
+            //imageBitmap = Glide.with(this).asBitmap().load(url).into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
             runOnUiThread {
                 image_view_image_activity?.apply {
                     i("Image", "img")

@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
+import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -16,6 +17,8 @@ import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import kotlinx.android.synthetic.main.dialog_open_projects.*
 import kotlinx.android.synthetic.main.fragment_about.*
+import org.jetbrains.anko.browse
+import org.jetbrains.anko.email
 
 class AboutFragment: BaseSwipeFragment() {
 
@@ -37,7 +40,11 @@ class AboutFragment: BaseSwipeFragment() {
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
 
-        settingAdapter1 = SettingAdapter(context!!, items1)
+        settingAdapter1 = SettingAdapter(context!!, items1).apply {
+            setOnItemClickListener { viewHolder, settingItemBean, i ->
+                onFirstGroupItemClick(i)
+            }
+        }
         recyclerview_about_1.adapter = settingAdapter1
 
         settingAdapter2 = SettingAdapter(context!!, items2).apply {
@@ -70,17 +77,28 @@ class AboutFragment: BaseSwipeFragment() {
         return arrayListOf(item1, item2)
     }
 
-    private fun onSecondGroupItemClick(position: Int) {
+    private fun onFirstGroupItemClick(position: Int) {
         when(position) {
             0 -> {
 
             }
             1 -> {
-                openSourceProjectsDialog.show()
-                openSourceProjectsDialog.setContentView(getOpenSourceProjects())
+
             }
             2 -> {
+                context?.email(getString(R.string.developer_email))
+            }
+        }
+    }
 
+    private fun onSecondGroupItemClick(position: Int) {
+        when(position) {
+            0 -> {
+                context?.browse(getString(R.string.app_project_url))
+            }
+            1 -> {
+                openSourceProjectsDialog.show()
+                openSourceProjectsDialog.setContentView(getOpenSourceProjects())
             }
         }
     }
@@ -90,7 +108,7 @@ class AboutFragment: BaseSwipeFragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_open_source)
         val btn = view.findViewById<Button>(R.id.btn_dialog_open_prj_enter)
         btn.setOnClickListener {
-            openSourceProjectsDialog.hide()
+            openSourceProjectsDialog.dismiss()
         }
         recyclerView.adapter = projectAdapter
         return view
@@ -104,9 +122,11 @@ class AboutFragment: BaseSwipeFragment() {
             ProjectItemBean("EventBus", "greenrobot", ""),
             ProjectItemBean("Fragmentation", "YoKeyword", ""),
             ProjectItemBean("glide", "bumptech", ""),
+            ProjectItemBean("glide-transformations", "wasabeef", ""),
             ProjectItemBean("HoloColorPicker", "LarsWerkman", ""),
             ProjectItemBean("RecyclerViewAdapter", "SheHuan", ""),
             ProjectItemBean("retrofit", "square", "")
+
     )
 
     companion object {

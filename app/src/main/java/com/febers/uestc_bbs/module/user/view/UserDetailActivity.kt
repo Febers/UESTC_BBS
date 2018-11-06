@@ -1,5 +1,7 @@
 package com.febers.uestc_bbs.module.user.view
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
@@ -20,6 +22,8 @@ import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.activity_user_detail.*
 
+const val REQUEST_CODE_IMG = 1024
+
 class UserDetailActivity : BaseActivity(), UserContract.View {
 
     private lateinit var userBottomSheet: UserDetailBottomSheet
@@ -37,8 +41,6 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     }
 
     override fun setView(): Int {
-        if (ThemeHelper.isDarkTheme()) setTheme(R.style.DefaultThemeDark)
-        else setTheme(R.style.DefaultThemeLight)
         userId = intent.getIntExtra(USER_ID, 0)
         if (userId == MyApp.getUser().uid) userItSelf = true
         return R.layout.activity_user_detail
@@ -70,13 +72,15 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         userPresenter.userDetailRequest(userId)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun showUserDetail(event: BaseEvent<UserDetailBean>) {
         recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data))
         collapsing_toolbar_layout_detail?.title = event.data.name
-        ImageLoader.load(this, event.data.icon, image_view_user_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true)
-        ImageLoader.load(this, event.data.icon, image_view_user_detail_avatar, placeImage = null, isCircle = true, noCache = true)
+        ImageLoader.load(this, event.data.icon, image_view_user_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true, clickToViewer = false)
+        ImageLoader.load(this, event.data.icon, image_view_user_detail_avatar, placeImage = null, isCircle = true, noCache = true, clickToViewer = false)
         image_view_user_detail_avatar.setOnClickListener {
-            ViewClickUtils.clickToImageViewerByUid(uid = userId, context = this)
+            //ViewClickUtils.clickToImageViewerByUid(uid = userId, context = this)
+            chooseAvatar()
         }
         refresh_layout_user_detail?.finishRefresh()
         if (userItSelf) return
@@ -127,4 +131,16 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun chooseAvatar() {
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+
+        }
+    }
+
 }

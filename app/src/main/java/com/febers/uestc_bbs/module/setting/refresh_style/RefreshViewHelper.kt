@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.setting
+package com.febers.uestc_bbs.module.setting.refresh_style
 
 import android.content.Context
 import com.scwang.smartrefresh.header.*
@@ -20,15 +20,6 @@ const val HEAD_BEZIER_RADAR = 6
 const val HEAD_COUNT = 7
 
 class RefreshViewHelper(val context: Context) {
-
-    private val headers: Map<Int, RefreshHeader> =
-            mapOf(  HEAD_CLASSIC       to ClassicsHeader(context),
-                    HEAD_DELIVERY      to DeliveryHeader(context),
-                    HEAD_MATERIAL      to MaterialHeader(context),
-                    HEAD_TAURUS        to TaurusHeader(context),
-                    HEAD_BEZIER_CIRCLE to BezierCircleHeader(context),
-                    HEAD_WATER_DROP    to WaterDropHeader(context),
-                    HEAD_BEZIER_RADAR  to BezierRadarHeader(context))
 
     fun getHeader(position: Int): RefreshHeader {
         return when(position) {

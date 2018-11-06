@@ -4,10 +4,14 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.PostStore
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean
+import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.user.presenter.UserContract
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(), UserContract.Model {
 
@@ -16,12 +20,17 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
         mPage = page.toString()
         mType = type
         Thread(Runnable { getUserPost() }).start()
-        //Thread(Runnable { getSavedPList() }).start()
     }
 
     override fun userDetailService(uid: Int) {
         mUid = uid.toString()
         Thread(Runnable { getUserDetail() }).start()
+    }
+
+    override fun <T> userUpdateService(type: String, newValue: T, oldValue: T?) {
+        Thread{
+            userUpdate(type, newValue, oldValue)
+        }.start()
     }
 
     private fun getUserPost() {
@@ -43,7 +52,6 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                 presenter.userPostResult(BaseEvent(
                         if (userPostBean.has_next != HAVE_NEXT_PAGE)BaseCode.SUCCESS_END
                         else BaseCode.SUCCESS, userPostBean))
-                //if (mPage == FIRST_PAGE) PostStore.saveUserPList(mFid, userPListBean)
             }
         })
     }
@@ -71,6 +79,55 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                 })
     }
 
+    private fun <T> userUpdate(type: String, newValue: T, oldValue: T?) {
+        when(type) {
+            USER_SIGN -> {
+                if (newValue is String) {
+                    getRetrofit().create(UserInterface::class.java)
+                            .updateUserSign(sign = newValue)
+                            .enqueue(object : Callback<UserUpdateResultBean> {
+                                override fun onFailure(call: Call<UserUpdateResultBean>, t: Throwable) {
+
+                                }
+
+                                override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>) {
+
+                                }
+                            })
+                }
+            }
+            USER_GENDER -> {
+                if (newValue is String)
+                getRetrofit().create(UserInterface::class.java)
+                        .updateUserGender(gender = newValue)
+                        .enqueue(object : Callback<UserUpdateResultBean> {
+                            override fun onFailure(call: Call<UserUpdateResultBean>, t: Throwable) {
+
+                            }
+
+                            override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>) {
+
+                            }
+                        })
+            }
+            USER_AVATAR -> {
+                if (newValue is File) {
+                    val avatarBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), newValue)
+                    getRetrofit().create(UserInterface::class.java)
+                            .updateUserAvatar(avatar = avatarBody)
+                            .enqueue(object : Callback<UserUpdateResultBean> {
+                                override fun onFailure(call: Call<UserUpdateResultBean>, t: Throwable) {
+
+                                }
+
+                                override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>) {
+
+                                }
+                            })
+                }
+            }
+        }
+    }
 
     private fun getUserPListCall(): Call<UserPostBean> {
         val userPostRequest = getRetrofit().create(UserInterface::class.java)
@@ -98,15 +155,6 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                         uid = mUid,
                         page = mPage,
                         pageSize = COMMON_PAGE_SIZE.toString())
-            }
-        }
-    }
-
-    private fun getSavedPList() {
-        if (mPage != FIRST_PAGE.toString()) return
-        PostStore.getUserPList(mFid).apply {
-            if (this.list != null) {
-                presenter.userPostResult(BaseEvent(BaseCode.LOCAL, this))
             }
         }
     }

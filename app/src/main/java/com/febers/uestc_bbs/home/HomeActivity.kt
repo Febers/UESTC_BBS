@@ -37,6 +37,7 @@ class HomeActivity: BaseActivity() {
         return R.layout.activity_home
     }
 
+    @SuppressLint("RestrictedApi")
     override fun initView() {
         val firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
         if (firstFragment == null) {
@@ -118,6 +119,7 @@ class HomeActivity: BaseActivity() {
         showHideFragment(mFragments[2])
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onResume() {
         super.onResume()
         i("Home", "onResume")

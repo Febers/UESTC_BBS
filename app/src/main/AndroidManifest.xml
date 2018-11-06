@@ -18,8 +18,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/DefaultThemeLight"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        android:theme="@style/AppThemeLight"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:replace="android:theme">
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan">
@@ -43,7 +44,7 @@
 
         <activity android:name=".module.user.view.UserEditActivity" />
         <activity
-            android:name=".module.more.ImageActivity"
+            android:name=".module.more.ImgViewerActivity"
             android:theme="@style/ImageViewerTheme" />
         <activity android:name=".home.SplashActivity">
             <intent-filter>

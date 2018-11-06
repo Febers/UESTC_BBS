@@ -8,6 +8,7 @@
     <string name="app_name">i河畔</string>
     <string name="developer_name">Febers</string>
     <string name="developer_email">febers418@qq.com</string>
+    <string name="app_project_url" translatable="false">https://github.com/Febers/UESTC_BBS</string>
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="version">版本</string>
     <string name="version_value">v1.0</string>

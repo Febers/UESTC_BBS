@@ -10,7 +10,7 @@ import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.login.model.LoginContext
-import com.febers.uestc_bbs.module.more.ImageActivity
+import com.febers.uestc_bbs.module.more.ImgViewerActivity
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
@@ -60,12 +60,12 @@ object ViewClickUtils {
             if (context is Activity)
                 bundle = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
-            context.startActivity(Intent(context, ImageActivity::class.java).apply {
+            context.startActivity(Intent(context, ImgViewerActivity::class.java).apply {
                 putExtra(IMAGE_URL, url)
             }, bundle)
             (context as Activity).overridePendingTransition(0, 0)
         } else {
-            context.startActivity(Intent(context, ImageActivity::class.java).apply {
+            context.startActivity(Intent(context, ImgViewerActivity::class.java).apply {
                 putExtra(IMAGE_URL, url)
             })
         }
@@ -105,7 +105,6 @@ object ViewClickUtils {
 
     fun clickToPostEdit(context: Context?, fid: Int) {
         context ?:return
-        if (fid == 0) return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostEditActivity::class.java).apply {
             putExtra(FID, fid)

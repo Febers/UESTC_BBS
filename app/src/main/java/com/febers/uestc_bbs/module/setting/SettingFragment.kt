@@ -2,13 +2,10 @@ package com.febers.uestc_bbs.module.setting
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.EventLog
-import android.util.Log
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
@@ -16,13 +13,13 @@ import com.febers.uestc_bbs.base.BaseSwipeFragment
 import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
 import com.febers.uestc_bbs.dao.UserStore
 import com.febers.uestc_bbs.entity.SettingItemBean
-import com.febers.uestc_bbs.entity.UserItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginActivity
+import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.utils.CacheUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_setting.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.runOnUiThread
@@ -57,12 +54,13 @@ class SettingFragment : BaseSwipeFragment() {
         settingAdapter = SettingAdapter(context!!, options).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 when(i) {
-                    0 -> {start(RefreshStyleFragment.newInstance())}
-                    1 -> {
+                    0 -> { start(RefreshStyleFragment.newInstance()) }
+                    1 -> clearCache()
+                    2 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
                     }
-                    2 -> clearCache()
+
                     3 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
@@ -114,7 +112,7 @@ class SettingFragment : BaseSwipeFragment() {
         Thread {
             cacheItem.tip = CacheUtils.cacheSize
             context?.runOnUiThread {
-                settingAdapter.notifyItemChanged(2)
+                settingAdapter.notifyItemChanged(1)
             }
         }.start()
     }

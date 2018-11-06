@@ -14,6 +14,7 @@ import android.widget.AdapterView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.module.login.model.LoginContext
 import com.febers.uestc_bbs.module.post.view.PListFragment
 import com.febers.uestc_bbs.module.post.view.edit.PostEditFragment
 import com.febers.uestc_bbs.utils.BlockUtils
@@ -183,6 +184,7 @@ class BlockFragment: BaseFragment() {
                     .newInstance(fid = BlockUtils.getBlockIdByPosition(group, position)))
 
         } else {
+            if (!LoginContext.userState(context!!)) return
             //mParentFragment = parentFragment as BaseFragment
             start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
                     title = when(group) {

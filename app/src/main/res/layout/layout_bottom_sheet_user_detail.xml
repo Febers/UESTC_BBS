@@ -52,7 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提交"
-            android:textColor="?attr/app_color_primary"
             android:background="@null"
             android:foreground="?android:attr/selectableItemBackground"
             android:layout_alignParentEnd="true"/>

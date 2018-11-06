@@ -31,7 +31,7 @@ object ThemeHelper {
             val lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
             val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
             Aesthetic.config {
-                activityTheme(R.style.DefaultThemeLight)
+                activityTheme(R.style.AppThemeLight)
                 isDark(false)
                 colorPrimary(lastColorPrimary)
                 colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
@@ -44,7 +44,7 @@ object ThemeHelper {
             var lastColorPrimary by PreferenceUtils(context, LLCP, -2201331)
             lastColorPrimary = getColor(AppColor.COLOR_PRIMARY)
             Aesthetic.config {
-                activityTheme(R.style.DefaultThemeDark)
+                activityTheme(R.style.AppThemeDark)
                 isDark(true)
                 colorPrimaryRes(R.color.color_black_tint)
                 colorAccentRes(R.color.color_gray_light)

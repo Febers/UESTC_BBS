@@ -12,6 +12,8 @@ import com.febers.uestc_bbs.entity.OptionItemBean
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import kotlinx.android.synthetic.main.layout_bottom_sheet_option.*
+import org.jetbrains.anko.browse
+import org.jetbrains.anko.share
 import org.jetbrains.anko.toast
 
 class PostOptionBottomSheet(context: Context, style: Int,
@@ -48,7 +50,8 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 itemClickListenerPost.onOptionItemSelect(ITEM_ORDER_POSITIVE)
             }
             if (i == ITEM_WEB_POST) {
-                ViewClickUtils.clickToAppWeb(context, postId.pidToWebUrl())
+                context.browse(postId.pidToWebUrl(), true)
+                //ViewClickUtils.clickToAppWeb(context, postId.pidToWebUrl())
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -57,11 +60,12 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 context.toast("复制链接成功")
             }
             if (i == ITEM_SHARE_POST) {
-                val intent = Intent(Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    putExtra(Intent.EXTRA_TEXT, "$postTitle\n${postId.pidToWebUrl()}\n来自清水河畔客户端 i河畔")
-                }
-                context.startActivity(Intent.createChooser(intent, "分享帖子"))
+                context.share("$postTitle\n${postId.pidToWebUrl()}\n来自清水河畔客户端 i河畔")
+//                val intent = Intent(Intent.ACTION_SEND).apply {
+//                    type = "text/plain"
+//                    putExtra(Intent.EXTRA_TEXT, "$postTitle\n${postId.pidToWebUrl()}\n来自清水河畔客户端 i河畔")
+//                }
+//                context.startActivity(Intent.createChooser(intent, "分享帖子"))
             }
             dismiss()
         }

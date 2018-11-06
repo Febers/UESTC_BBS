@@ -6,12 +6,12 @@
 
 <resources>
 
-    <style name="DefaultThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_blue</item>
-        <item name="colorAccent">@color/color_blue</item>
-        <item name="colorPrimaryDark">@color/color_blue</item>
-        <item name="app_color_primary">@color/color_blue</item>
-        <item name="app_color_accent">@color/color_blue</item>
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_gray</item>
+        <item name="colorAccent">@color/color_gray_deeper</item>
+        <item name="colorPrimaryDark">@color/color_gray_deeper</item>
+        <item name="app_color_primary">@color/color_gray</item>
+        <item name="app_color_accent">@color/color_gray_deeper</item>
 
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>
@@ -27,10 +27,10 @@
         <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
     </style>
 
-    <style name="DefaultThemeDark" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/color_black_tint</item>
         <item name="colorAccent">@color/color_black_tint</item>
-        <item name="colorPrimaryDark">@color/color_black_tint</item>
+        <item name="colorPrimaryDark">@color/color_gray_deeper</item>
         <item name="app_color_primary">@color/color_black_tint</item>
         <item name="app_color_accent">@color/color_black_tint</item>
 
@@ -56,7 +56,7 @@
         <item name="android:activityCloseExitAnimation">@anim/top_to_bottom_out</item>
     </style>
 
-    <style name="ImageViewerTheme" parent="DefaultThemeLight">
+    <style name="ImageViewerTheme" parent="AppThemeLight">
         <item name="android:windowAnimationStyle">@style/ImageViewerAnim</item>
     </style>
 
@@ -73,7 +73,7 @@
         <item name="colorAccent">@color/color_pink</item>
     </style>
 
-    <style name="myTransparent" parent="DefaultThemeLight">
+    <style name="myTransparent" parent="AppThemeLight">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsTranslucent">true</item>

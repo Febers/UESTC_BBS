@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.more.ImageActivity"
+    tools:context=".module.more.ImgViewerActivity"
     android:background="#000000"
     android:tag=":aesthetic_ignore">
     <com.febers.uestc_bbs.view.custom.PinchImageView
