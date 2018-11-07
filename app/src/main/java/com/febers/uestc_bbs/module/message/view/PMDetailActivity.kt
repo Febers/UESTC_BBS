@@ -33,7 +33,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
             softInputStatusChange()
         }
 
-    override fun setToolbar(): Toolbar? =toolbar_private_detail
+    override fun setToolbar(): Toolbar? = toolbar_private_detail
 
     override fun setView(): Int {
         uid = intent.getIntExtra(USER_ID, 0)

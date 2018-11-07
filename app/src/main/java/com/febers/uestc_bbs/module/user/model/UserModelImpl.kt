@@ -1,12 +1,13 @@
 package com.febers.uestc_bbs.module.user.model
 
+import android.util.Log.i
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.dao.PostStore
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -87,11 +88,20 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                             .updateUserSign(sign = newValue)
                             .enqueue(object : Callback<UserUpdateResultBean> {
                                 override fun onFailure(call: Call<UserUpdateResultBean>, t: Throwable) {
-
+                                    presenter.errorResult(t.toString())
                                 }
 
                                 override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>) {
-
+                                    val resultBean = response?.body()
+                                    if (resultBean == null) {
+                                        presenter.errorResult(SERVICE_RESPONSE_NULL)
+                                        return
+                                    }
+                                    if (resultBean.rs != REQUEST_SUCCESS_RS) {
+                                        presenter.errorResult(resultBean.head?.errInfo.toString())
+                                        return
+                                    }
+                                    presenter.userUpdateResult(BaseEvent(BaseCode.SUCCESS, resultBean))
                                 }
                             })
                 }
@@ -112,16 +122,21 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
             }
             USER_AVATAR -> {
                 if (newValue is File) {
-                    val avatarBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), newValue)
+                    val avatarBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), newValue)
+                    val avatarPart: MultipartBody.Part = MultipartBody.Part.createFormData("userAvatar", newValue.name, avatarBody)
+
                     getRetrofit().create(UserInterface::class.java)
-                            .updateUserAvatar(avatar = avatarBody)
+                            .updateUserAvatar(avatar = avatarPart)
                             .enqueue(object : Callback<UserUpdateResultBean> {
                                 override fun onFailure(call: Call<UserUpdateResultBean>, t: Throwable) {
-
+                                    i("Uri fail: ", t.toString())
                                 }
 
-                                override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>) {
-
+                                override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>?) {
+                                    if (response != null)
+                                        i("Uri response: ", response.body()?.head?.errInfo)
+                                    else
+                                        i("Uri response: ", "res is null")
                                 }
                             })
                 }

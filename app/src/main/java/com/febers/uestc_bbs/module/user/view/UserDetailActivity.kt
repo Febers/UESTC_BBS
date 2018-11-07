@@ -2,32 +2,46 @@ package com.febers.uestc_bbs.module.user.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
+import android.util.Log.i
+import android.view.LayoutInflater
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
+import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.presenter.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.module.user.view.bottom_sheet.UserDetailBottomSheet
 import com.febers.uestc_bbs.utils.*
+import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_user_detail.*
-
-const val REQUEST_CODE_IMG = 1024
+import kotlinx.android.synthetic.main.dialog_update_sign.*
+import java.io.File
 
 class UserDetailActivity : BaseActivity(), UserContract.View {
 
     private lateinit var userBottomSheet: UserDetailBottomSheet
     private lateinit var userPresenter: UserContract.Presenter
+    private lateinit var signDialog: AlertDialog
+    private lateinit var oldSign: String
     private var userItSelf = false
     private var userId: Int = 0
 
@@ -46,9 +60,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         return R.layout.activity_user_detail
     }
 
-    override fun setToolbar(): Toolbar? {
-        return toolbar_user_detail
-    }
+    override fun setToolbar(): Toolbar? = toolbar_user_detail
 
     override fun initView() {
         collapsing_toolbar_layout_detail.apply {
@@ -66,21 +78,44 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
         }
         image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+        signDialog = AlertDialog.Builder(this@UserDetailActivity).create()
     }
 
     private fun getUserDetail() {
         userPresenter.userDetailRequest(userId)
     }
 
+    /**
+     * 显示用户详情
+     */
     @SuppressLint("RestrictedApi")
     override fun showUserDetail(event: BaseEvent<UserDetailBean>) {
-        recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data))
+        recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data)).apply {
+            setOnItemClickListener { viewHolder, detailItemBean, i ->
+                if (i == 0 && userItSelf) {
+                    signDialog.show()
+                    signDialog.setContentView(getSignDialogView())
+                }
+            }
+        }
         collapsing_toolbar_layout_detail?.title = event.data.name
-        ImageLoader.load(this, event.data.icon, image_view_user_detail_blur_avatar, placeImage = null, isCircle = false, isBlur = true, noCache = true, clickToViewer = false)
-        ImageLoader.load(this, event.data.icon, image_view_user_detail_avatar, placeImage = null, isCircle = true, noCache = true, clickToViewer = false)
+        ImageLoader.load(this, event.data.icon, image_view_user_detail_blur_avatar,
+                placeImage = null,
+                isCircle = false,
+                isBlur = true,
+                noCache = true,
+                clickToViewer = false)
+        ImageLoader.load(this, event.data.icon, image_view_user_detail_avatar,
+                placeImage = null,
+                isCircle = true,
+                noCache = true,
+                clickToViewer = false)
         image_view_user_detail_avatar.setOnClickListener {
-            //ViewClickUtils.clickToImageViewerByUid(uid = userId, context = this)
-            chooseAvatar()
+            if (userItSelf) {
+                chooseAvatar()
+            } else {
+                ViewClickUtils.clickToImageViewerByUid(userId, this@UserDetailActivity)
+            }
         }
         refresh_layout_user_detail?.finishRefresh()
         if (userItSelf) return
@@ -107,7 +142,18 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         }
     }
 
+    /**
+     * 更新资料成功之后刷新页面
+     */
+    @UiThread
+    override fun showUserUpdate(event: BaseEvent<UserUpdateResultBean>) {
+        showToast(event.data.head?.errInfo.toString())
+        signDialog.dismiss()
+        refresh_layout_user_detail.autoRefresh()
+    }
+
     private fun initUserItem(user: UserDetailBean): List<DetailItemBean> {
+        oldSign = if(user.sign.isNullOrEmpty()) "" else user.sign.toString()
         val item1 = DetailItemBean("签名", if(user.sign.isNullOrEmpty()) "签名未设置" else user.sign)
         val item2 = DetailItemBean("性别", GenderUtils.change(user.gender.toString()))
         val item3 = DetailItemBean("等级", user.userTitle)
@@ -119,10 +165,30 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         return arrayListOf(item1, item2, item3, item4, item5)
     }
 
-    @UiThread
+    private fun getSignDialogView(): View {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_update_sign, null)
+        val editText = view.findViewById<EditText>(R.id.edit_text_update_sign)
+        editText.setText(oldSign)
+        val btnEnter = view.findViewById<Button>(R.id.btn_dialog_sign_update_enter)
+        btnEnter.setTextColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+        val btnCancel = view.findViewById<Button>(R.id.btn_dialog_sign_update_cancel)
+        btnCancel.setOnClickListener {
+            signDialog.dismiss()
+        }
+        btnEnter.setOnClickListener {
+            view.findViewById<ProgressBar>(R.id.progress_bar_update_sign).visibility = View.VISIBLE
+            userPresenter.userUpdateRequest(USER_SIGN, editText.text.toString())
+        }
+        return view
+    }
+
     override fun showError(msg: String) {
-        showToast(msg)
-        refresh_layout_user_detail?.finishRefresh(false)
+        runOnUiThread {
+            showToast(msg)
+            findViewById<ProgressBar>(R.id.progress_bar_update_sign)?.visibility = View.GONE
+            progress_bar_update_sign?.visibility = View.GONE
+            refresh_layout_user_detail?.finishFail()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -132,14 +198,26 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * 选择新头像上传至服务器
+     */
     private fun chooseAvatar() {
-
+        PictureSelector.create(this@UserDetailActivity)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
+                .enableCrop(true)
+                .isDragFrame(true)
+                .previewImage(true)
+                .compress(true)
+                .forResult(PictureConfig.CHOOSE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-
+        if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
+            val selectList = PictureSelector.obtainMultipleResult(data)
+            val newAvatarUri = selectList[0].path
+            userPresenter.userUpdateRequest(USER_AVATAR, newValue = File(newAvatarUri))
         }
     }
 

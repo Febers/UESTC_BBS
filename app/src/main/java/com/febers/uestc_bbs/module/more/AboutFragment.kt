@@ -29,9 +29,8 @@ class AboutFragment: BaseSwipeFragment() {
     private lateinit var openSourceProjectsDialog: AlertDialog
     private lateinit var projectAdapter: OpenProjectAdapter
 
-    override fun setToolbar(): Toolbar? {
-        return toolbar_about
-    }
+    override fun setToolbar(): Toolbar? = toolbar_about
+
 
     override fun setContentView(): Int {
         return R.layout.fragment_about
