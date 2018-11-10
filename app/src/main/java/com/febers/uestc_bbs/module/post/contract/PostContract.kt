@@ -4,13 +4,13 @@
  * Last modified 18-8-17 下午8:45.
  */
 
-package com.febers.uestc_bbs.module.post.presenter
+package com.febers.uestc_bbs.module.post.contract
 
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.ReplySendResultBean
+import com.febers.uestc_bbs.entity.PostSendResultBean
 
 interface PostContract {
 
@@ -23,7 +23,7 @@ interface PostContract {
 
     interface View: BaseView {
         fun showPostDetail(event: BaseEvent<PostDetailBean>)
-        fun showPostReplyResult(event: BaseEvent<ReplySendResultBean>)
+        fun showPostReplyResult(event: BaseEvent<PostSendResultBean>)
         fun showPostFavResult(event: BaseEvent<PostFavResultBean>)
         fun showVoteResult(event: BaseEvent<PostVoteResultBean>)
     }
@@ -33,7 +33,7 @@ interface PostContract {
         abstract fun postDetailResult(event: BaseEvent<PostDetailBean>)
 
         abstract fun postReplyRequest(isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>)
-        abstract fun postReplyResult(event: BaseEvent<ReplySendResultBean>)
+        abstract fun postReplyResult(event: BaseEvent<PostSendResultBean>)
 
         abstract fun postFavRequest(action: String)
         abstract fun postFavResult(event: BaseEvent<PostFavResultBean>)

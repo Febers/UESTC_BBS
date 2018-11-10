@@ -82,4 +82,59 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <!--&lt;!&ndash;默认样式 注意* 样式只可修改，不能删除任何一项 否则报错&ndash;&gt;-->
+    <!--<style name="picture.default.style" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--&lt;!&ndash;标题栏背景色&ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/bar_grey</item>-->
+        <!--&lt;!&ndash;状态栏背景色&ndash;&gt;-->
+        <!--<item name="colorPrimaryDark">@color/bar_grey</item>-->
+        <!--&lt;!&ndash;是否改变图片列表界面状态栏字体颜色为黑色&ndash;&gt;-->
+        <!--<item name="picture.statusFontColor">false</item>-->
+        <!--&lt;!&ndash;返回键图标&ndash;&gt;-->
+        <!--<item name="picture.leftBack.icon">@drawable/picture_back</item>-->
+        <!--&lt;!&ndash;标题下拉箭头&ndash;&gt;-->
+        <!--<item name="picture.arrow_down.icon">@drawable/arrow_down</item>-->
+        <!--&lt;!&ndash;标题上拉箭头&ndash;&gt;-->
+        <!--<item name="picture.arrow_up.icon">@drawable/arrow_up</item>-->
+        <!--&lt;!&ndash;标题文字颜色&ndash;&gt;-->
+        <!--<item name="picture.title.textColor">@color/white</item>-->
+        <!--&lt;!&ndash;标题栏右边文字&ndash;&gt;-->
+        <!--<item name="picture.right.textColor">@color/white</item>-->
+        <!--&lt;!&ndash;图片列表勾选样式&ndash;&gt;-->
+        <!--<item name="picture.checked.style">@drawable/checkbox_selector</item>-->
+        <!--&lt;!&ndash;开启图片列表勾选数字模式&ndash;&gt;-->
+        <!--<item name="picture.style.checkNumMode">false</item>-->
+        <!--&lt;!&ndash;选择图片样式0/9&ndash;&gt;-->
+        <!--<item name="picture.style.numComplete">false</item>-->
+        <!--&lt;!&ndash;图片列表底部背景色&ndash;&gt;-->
+        <!--<item name="picture.bottom.bg">@color/color_fa</item>-->
+        <!--&lt;!&ndash;图片列表预览文字颜色&ndash;&gt;-->
+        <!--<item name="picture.preview.textColor">@color/tab_color_true</item>-->
+        <!--&lt;!&ndash;图片列表已完成文字颜色&ndash;&gt;-->
+        <!--<item name="picture.complete.textColor">@color/tab_color_true</item>-->
+        <!--&lt;!&ndash;图片已选数量圆点背景色&ndash;&gt;-->
+        <!--<item name="picture.num.style">@drawable/num_oval</item>-->
+        <!--&lt;!&ndash;预览界面标题文字颜色&ndash;&gt;-->
+        <!--<item name="picture.ac_preview.title.textColor">@color/white</item>-->
+        <!--&lt;!&ndash;预览界面已完成文字颜色&ndash;&gt;-->
+        <!--<item name="picture.ac_preview.complete.textColor">@color/tab_color_true</item>-->
+        <!--&lt;!&ndash;预览界面标题栏背景色&ndash;&gt;-->
+        <!--<item name="picture.ac_preview.title.bg">@color/bar_grey</item>-->
+        <!--&lt;!&ndash;预览界面底部背景色&ndash;&gt;-->
+        <!--<item name="picture.ac_preview.bottom.bg">@color/bar_grey_90</item>-->
+        <!--&lt;!&ndash;预览界面返回箭头&ndash;&gt;-->
+        <!--<item name="picture.preview.leftBack.icon">@drawable/picture_back</item>-->
+        <!--&lt;!&ndash;是否改变预览界面状态栏字体颜色为黑色&ndash;&gt;-->
+        <!--<item name="picture.preview.statusFontColor">false</item>-->
+        <!--&lt;!&ndash;裁剪页面标题背景色&ndash;&gt;-->
+        <!--<item name="picture.crop.toolbar.bg">@color/bar_grey</item>-->
+        <!--&lt;!&ndash;裁剪页面状态栏颜色&ndash;&gt;-->
+        <!--<item name="picture.crop.status.color">@color/bar_grey</item>-->
+        <!--&lt;!&ndash;裁剪页面标题文字颜色&ndash;&gt;-->
+        <!--<item name="picture.crop.title.color">@color/white</item>-->
+        <!--&lt;!&ndash;相册文件夹列表选中图标&ndash;&gt;-->
+        <!--<item name="picture.folder_checked_dot">@drawable/orange_oval</item>-->
+    <!--</style>-->
+
 </resources>

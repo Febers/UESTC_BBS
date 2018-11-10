@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.module.post.model
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.ReplySendResultBean
+import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
 import retrofit2.http.Field
@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface PostInterface {
+
     @FormUrlEncoded
     @POST(ApiUtils.BBS_POST_LIST_URL)
     fun getPostDetail(@Field("topicId")topicId: String, @Field("authorId")authorId: String,
@@ -25,7 +26,7 @@ interface PostInterface {
 
     @FormUrlEncoded
     @POST(ApiUtils.BBS_TOPIC_ADMIN_URL)
-    fun postReply(@Field("act")act: String = "reply", @Field("json")json: String): Call<ReplySendResultBean>
+    fun postReply(@Field("act")act: String = "reply", @Field("json")json: String): Call<PostSendResultBean>
 
     @FormUrlEncoded
     @POST(ApiUtils.BBS_POST_FAVORITE_URL)
@@ -35,4 +36,5 @@ interface PostInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_VOTE_URL)
     fun postVote(@Field("tid")tid: String, @Field("options")options: String): Call<PostVoteResultBean>
+
 }

@@ -19,6 +19,7 @@ import org.jetbrains.anko.toast
 
 const val FID = "mFid"
 const val UID = "mUid"
+const val TITLE = "title"
 const val MSG_TYPE = "mMsgType"
 
 abstract class BaseFragment : SupportFragment(), BaseView {
@@ -26,6 +27,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     protected var mFid: Int = 0
     protected var mUid: Int = 0
     protected var mMsgType: String? = MSG_TYPE_REPLY
+    protected var mTitle: String? = "i河畔"
 
     protected abstract fun setContentView():Int
 
@@ -39,6 +41,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         arguments?.let {
             mFid = it.getInt(FID, 0)
             mUid = it.getInt(UID, 0)
+            mTitle = it.getString(TITLE)
             mMsgType = it.getString(MSG_TYPE)
         }
     }

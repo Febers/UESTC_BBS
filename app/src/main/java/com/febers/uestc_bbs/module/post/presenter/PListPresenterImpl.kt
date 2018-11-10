@@ -8,6 +8,7 @@ package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.PostListBean
+import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.model.PListModelImpl
 
 class PListPresenterImpl(var view: PListContract.View) : PListContract.Presenter(view) {

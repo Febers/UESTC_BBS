@@ -11,8 +11,8 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.ReplySendResultBean
-import com.febers.uestc_bbs.module.post.presenter.PostContract
+import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.module.post.contract.PostContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -120,12 +120,12 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
 //                        }
 //                    }
 //                        """.trimIndent())
-//                .enqueue(object : Callback<ReplySendResultBean> {
-//                    override fun onFailure(call: Call<ReplySendResultBean>, t: Throwable?) {
+//                .enqueue(object : Callback<PostSendResultBean> {
+//                    override fun onFailure(call: Call<PostSendResultBean>, t: Throwable?) {
 //                        postPresenter.errorResult(t.toString())
 //                    }
 //
-//                    override fun onResponse(call: Call<ReplySendResultBean>, response: Response<ReplySendResultBean>?) {
+//                    override fun onResponse(call: Call<PostSendResultBean>, response: Response<PostSendResultBean>?) {
 //                        val replySendResultBean = response?.body()
 //                        if (replySendResultBean == null) {
 //                            postPresenter.errorResult(SERVICE_RESPONSE_NULL)
@@ -138,7 +138,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
 //                        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, replySendResultBean))
 //                    }
 //                })
-        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, ReplySendResultBean()))
+        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, PostSendResultBean()))
     }
 
     private fun postVote(pollItemId: List<Int>) {

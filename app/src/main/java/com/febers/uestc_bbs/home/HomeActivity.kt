@@ -28,6 +28,11 @@ import org.greenrobot.eventbus.ThreadMode
 
 class HomeActivity: BaseActivity() {
 
+    private val PAGE_POSITION_HOME = 0
+    private val PAGE_POSITION_BLOCK = 1
+    private val PAGE_POSITION_MESSAGE = 2
+    private val PAGE_POSITION_MORE = 3
+
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
     private var msgCount = 0
 
@@ -42,19 +47,19 @@ class HomeActivity: BaseActivity() {
         val firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
         if (firstFragment == null) {
             with(mFragments) {
-                add(0, HomeFirstContainer())
-                add(1, HomeSecondContainer())
-                add(2, HomeThirdContainer())
-                add(3, HomeFourthContainer())
+                add(PAGE_POSITION_HOME, HomeFirstContainer())
+                add(PAGE_POSITION_BLOCK, HomeSecondContainer())
+                add(PAGE_POSITION_MESSAGE, HomeThirdContainer())
+                add(PAGE_POSITION_MORE, HomeFourthContainer())
             }
             loadMultipleRootFragment(R.id.activity_home_container, 0,
                     mFragments[0], mFragments[1], mFragments[2], mFragments[3])
         } else {
             with(mFragments) {
-                add(0,firstFragment)
-                add(1, findFragment(HomeSecondContainer::class.java))
-                add(2, findFragment(HomeThirdContainer::class.java))
-                add(3, findFragment(HomeFourthContainer::class.java))
+                add(PAGE_POSITION_HOME,firstFragment)
+                add(PAGE_POSITION_BLOCK, findFragment(HomeSecondContainer::class.java))
+                add(PAGE_POSITION_MESSAGE, findFragment(HomeThirdContainer::class.java))
+                add(PAGE_POSITION_MORE, findFragment(HomeFourthContainer::class.java))
             }
         }
         bottom_navigation_home.apply {
@@ -70,18 +75,23 @@ class HomeActivity: BaseActivity() {
             ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)
         }
         fab_home.setOnClickListener {
-            ViewClickUtils.clickToPostEdit(this@HomeActivity, 0) }
+            ViewClickUtils.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
         fab_home.visibility = View.GONE
         startService()
     }
 
     @SuppressLint("RestrictedApi")
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
-        if (position == 2) {
-            bottom_navigation_home.setNotification("", 2)
+        if (position == PAGE_POSITION_HOME) {
+            fab_home.visibility = View.VISIBLE
+        } else {
+            fab_home.visibility = View.GONE
+        }
+        if (position == PAGE_POSITION_MESSAGE) {
+            bottom_navigation_home.setNotification("", PAGE_POSITION_MESSAGE)
+            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
             msgCount = 0
         }
-        if (position == 0) fab_home.visibility = View.VISIBLE else fab_home.visibility = View.GONE
         if(wasSelected) {
             onTabReselected(position)
             return true
@@ -102,6 +112,10 @@ class HomeActivity: BaseActivity() {
         EventBus.getDefault().post(TabReselectedEvent(BaseCode.SUCCESS, position))
     }
 
+    /**
+     *  当后台Service接收到新消息时，此方法会接受到相应的消息
+     *  接收到一个msgCount的参数，代表未读消息的数目
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReceiveNewMsg(event: MsgEvent) {
         msgCount = event.count

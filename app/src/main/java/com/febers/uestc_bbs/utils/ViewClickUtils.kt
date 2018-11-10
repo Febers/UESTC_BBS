@@ -103,11 +103,12 @@ object ViewClickUtils {
         })
     }
 
-    fun clickToPostEdit(context: Context?, fid: Int) {
+    fun clickToPostEdit(context: Context?, fid: Int, title: String) {
         context ?:return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostEditActivity::class.java).apply {
             putExtra(FID, fid)
+            putExtra(TITLE, title)
         })
     }
 

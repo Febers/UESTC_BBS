@@ -14,7 +14,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostListAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
-import com.febers.uestc_bbs.module.post.presenter.PListContract
+import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
@@ -82,7 +82,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                 getPost(++page, true) }
         }
         fab_post_list.setOnClickListener {
-            ViewClickUtils.clickToPostEdit(context, mFid)
+            ViewClickUtils.clickToPostEdit(context, mFid, title)
         }
     }
 

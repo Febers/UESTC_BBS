@@ -11,6 +11,7 @@ import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -32,6 +33,7 @@ import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import kotlinx.android.synthetic.main.dialog_update_sign.*
 import java.io.File
@@ -49,7 +51,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun setMenu(): Int? {
         if (userItSelf) {
-            return R.menu.menu_user_detail
+            //return R.menu.menu_user_detail
         }
         return null
     }
@@ -150,6 +152,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         showToast(event.data.head?.errInfo.toString())
         signDialog.dismiss()
         refresh_layout_user_detail.autoRefresh()
+        PictureFileUtils.deleteCacheDirFile(this@UserDetailActivity)
     }
 
     private fun initUserItem(user: UserDetailBean): List<DetailItemBean> {
@@ -169,6 +172,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_update_sign, null)
         val editText = view.findViewById<EditText>(R.id.edit_text_update_sign)
         editText.setText(oldSign)
+        //使其可以弹出软键盘
+        signDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         val btnEnter = view.findViewById<Button>(R.id.btn_dialog_sign_update_enter)
         btnEnter.setTextColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
         val btnCancel = view.findViewById<Button>(R.id.btn_dialog_sign_update_cancel)
@@ -188,6 +193,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             findViewById<ProgressBar>(R.id.progress_bar_update_sign)?.visibility = View.GONE
             progress_bar_update_sign?.visibility = View.GONE
             refresh_layout_user_detail?.finishFail()
+            PictureFileUtils.deleteCacheDirFile(this@UserDetailActivity)
         }
     }
 

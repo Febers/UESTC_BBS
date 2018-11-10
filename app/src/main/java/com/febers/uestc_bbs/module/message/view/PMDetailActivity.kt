@@ -27,6 +27,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     private var uid = 0
     private var userName = ""
     private var page = 1
+    private var loopMessageRequest = true
     private var isSoftInputShow: Boolean = false
         set(value) {
             field = value
@@ -48,8 +49,8 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         recyclerview_private_detail.apply {
             adapter = pmAdapter
         }
-        getPmList()
-        btn_pm_send.setOnClickListener { sendPM() }
+        getPmList(startTime = 0)
+        btn_pm_send.setOnClickListener { sendPMDetail() }
         /**
          * 通过监听父布局的高度变化，判断输入法是否弹出
          * 测试未弹出时diff为76，弹出后为827
@@ -60,12 +61,12 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
             i("PM", diffHeight.toString())
             if (diffHeight >= 500) {
                 isSoftInputShow = true
-            }}
-        //开启后台线程轮询消息
+            }
+        }
     }
 
-    private fun getPmList() {
-        pmPresenter.pmSessionRequest(uid = uid, page = page)
+    private fun getPmList(startTime: Long) {
+        pmPresenter.pmSessionRequest(uid = uid, page = page, beginTime = startTime)
     }
 
     /**
@@ -82,7 +83,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         scrollViewScrollToBottom()
     }
 
-    private fun sendPM() {
+    private fun sendPMDetail() {
         val stContent: String = edit_view_pm.text.toString()
         if (stContent.isEmpty()) return
         pmPresenter.pmSendRequest(stContent, "text")
@@ -93,6 +94,10 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
             type = "text"
             time = System.currentTimeMillis().toString()
         })
+        //轮询消息
+        while (loopMessageRequest) {
+            getPmList(startTime = System.currentTimeMillis())
+        }
     }
 
     override fun showPMSendResult(event: BaseEvent<PMSendResultBean>) {
@@ -113,8 +118,14 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     }
 
     override fun showError(msg: String) {
+        loopMessageRequest = false
         runOnUiThread {
             showToast(msg)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        loopMessageRequest = false
     }
 }

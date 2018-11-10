@@ -59,6 +59,7 @@
     <string name="user_password">Password</string>
     <string name="user_name">User Name</string>
     <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
 
     <string name="theme_green">Green</string>
     <string name="theme_red">Red</string>

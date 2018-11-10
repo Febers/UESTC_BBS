@@ -9,8 +9,8 @@ class PMDetailPresenterImpl(val view: MessageContract.PMView): MessageContract.P
 
     private val pmModel: MessageContract.PMModel = PMDetailModelImpl(this)
 
-    override fun pmSessionRequest(uid: Int, page: Int) {
-        pmModel.pmSessionService(uid, page)
+    override fun pmSessionRequest(uid: Int, page: Int, beginTime: Long) {
+        pmModel.pmSessionService(uid, page, beginTime)
     }
 
     override fun pmSendRequest(content: Any, type: String) {

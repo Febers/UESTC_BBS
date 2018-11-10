@@ -6,11 +6,10 @@
 
 package com.febers.uestc_bbs.module.post.model
 
-import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.dao.PostStore
 import com.febers.uestc_bbs.entity.PostListBean
-import com.febers.uestc_bbs.module.post.presenter.PListContract
+import com.febers.uestc_bbs.module.post.contract.PListContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

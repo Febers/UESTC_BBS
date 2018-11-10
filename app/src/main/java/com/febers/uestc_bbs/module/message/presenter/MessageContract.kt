@@ -23,7 +23,7 @@ interface MessageContract {
     }
 
     interface PMModel {
-        fun pmSessionService(uid: Int, page: Int)
+        fun pmSessionService(uid: Int, page: Int, beginTime: Long = 0)
         fun pmSendService(content: Any, type: String)
     }
 
@@ -33,7 +33,7 @@ interface MessageContract {
     }
 
     abstract class PMPresenter(view: MessageContract.PMView): BasePresenter<MessageContract.PMView>(view) {
-        abstract fun pmSessionRequest(uid: Int, page: Int)
+        abstract fun pmSessionRequest(uid: Int, page: Int, beginTime: Long = 0)
         abstract fun pmSessionResult(event: BaseEvent<PMDetailBean>)
         abstract fun pmSendRequest(content: Any, type: String)
         abstract fun pmSendResult(event: BaseEvent<PMSendResultBean>)

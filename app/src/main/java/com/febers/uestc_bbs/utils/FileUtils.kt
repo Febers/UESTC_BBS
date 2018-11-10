@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.utils
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
@@ -174,5 +175,10 @@ object FileUtils {
         }
         return null
     }
+
+    fun getResourceUri(context: Context, id: Int): String = ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+            context.resources.getResourcePackageName(id) + "/" +
+            context.resources.getResourceTypeName(id) + "/" +
+            context.resources.getResourceEntryName(id)
 
 }

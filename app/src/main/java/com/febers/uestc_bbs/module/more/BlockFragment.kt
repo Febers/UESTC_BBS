@@ -55,11 +55,11 @@ class BlockFragment: BaseFragment() {
         text_view_title_manager.visibility = View.VISIBLE
         val from = arrayOf("image", "title")
         val to = intArrayOf(R.id.image_view_forum_list_item, R.id.text_view_forum_list_item)
-        val campusAdapter = SimpleAdapter(context, campusGridList(), R.layout.item_forum_list_grid_view, from, to)
-        val techAdapter = SimpleAdapter(context, techGridList(), R.layout.item_forum_list_grid_view, from, to)
-        val playAdapter = SimpleAdapter(context, playGridList(), R.layout.item_forum_list_grid_view, from, to)
-        val marketAdapter = SimpleAdapter(context, marketGridList(), R.layout.item_forum_list_grid_view, from, to)
-        val manageAdapter = SimpleAdapter(context, manageGridList(), R.layout.item_forum_list_grid_view, from, to)
+        val campusAdapter = SimpleAdapter(context, campusGridList(), R.layout.item_layout_forum_list, from, to)
+        val techAdapter = SimpleAdapter(context, techGridList(), R.layout.item_layout_forum_list, from, to)
+        val playAdapter = SimpleAdapter(context, playGridList(), R.layout.item_layout_forum_list, from, to)
+        val marketAdapter = SimpleAdapter(context, marketGridList(), R.layout.item_layout_forum_list, from, to)
+        val manageAdapter = SimpleAdapter(context, manageGridList(), R.layout.item_layout_forum_list, from, to)
         grid_view_campus.adapter = campusAdapter
         grid_view_tech.adapter = techAdapter
         grid_view_play.adapter = playAdapter
@@ -179,22 +179,21 @@ class BlockFragment: BaseFragment() {
      * @param position 选项在分组中的位置
      */
     private fun onClickGridViewItem(group: Int, position: Int) {
+        val title = when(group) {
+            0 -> campusGridList()[position].values.last().toString()
+            1 -> techGridList()[position].values.last().toString()
+            2 -> playGridList()[position].values.last().toString()
+            3 -> marketGridList()[position].values.last().toString()
+            4 -> manageGridList()[position].values.last().toString()
+            else -> ""
+        }
         if (newPost) {
             startWithPop(PostEditFragment
-                    .newInstance(fid = BlockUtils.getBlockIdByPosition(group, position)))
-
+                    .newInstance(fid = BlockUtils.getBlockIdByPosition(group, position), title = title))
         } else {
             if (!LoginContext.userState(context!!)) return
-            //mParentFragment = parentFragment as BaseFragment
             start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
-                    title = when(group) {
-                        0 -> campusGridList()[position].values.last().toString()
-                        1 -> techGridList()[position].values.last().toString()
-                        2 -> playGridList()[position].values.last().toString()
-                        3 -> marketGridList()[position].values.last().toString()
-                        4 -> manageGridList()[position].values.last().toString()
-                        else -> ""
-                    }, showBottomBarOnDestroy = true))
+                    title = title, showBottomBarOnDestroy = true))
         }
     }
 

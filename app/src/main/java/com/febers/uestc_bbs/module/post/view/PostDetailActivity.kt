@@ -2,11 +2,9 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
 import androidx.annotation.UiThread
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
-import android.util.Log
 import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
@@ -16,9 +14,9 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.ReplySendResultBean
+import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
-import com.febers.uestc_bbs.module.post.presenter.PostContract
+import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListener
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
@@ -89,12 +87,12 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             adapter = replyItemAdapter
         }
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
-        scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            Log.i("PM", "scrollY: $scrollY, oldScrollY: $oldScrollY diff ${oldScrollY - scrollY}")
-            if ((oldScrollY - scrollY) > 1000) {
-                i("PM", "bug scroll")
-            }
-        }
+//        scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+//                i("PD", "scrollY: $scrollY, oldScrollY: $oldScrollY diff ${oldScrollY - scrollY}")
+//            if ((oldScrollY - scrollY) > 1000) {
+//                i("PD", "bug scroll")
+//            }
+//        }
         scroll_view_post_detail.isNestedScrollingEnabled = true
     }
 
@@ -249,7 +247,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
      * 否则加载下一页(?)
      */
-    override fun showPostReplyResult(event: BaseEvent<ReplySendResultBean>) {
+    override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread {
             showToast(event.data.head?.errInfo.toString())
             showToast("回复成功")

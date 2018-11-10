@@ -12,9 +12,11 @@ import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
 import com.febers.uestc_bbs.utils.KeyboardUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.browse
 
 class LoginActivity : BaseActivity(), LoginContract.View {
 
+    private val signUpUrl = "http://bbs.uestc.edu.cn/member.php?mod=register"
     private lateinit var loginPresenter: LoginContract.Presenter
 
     override fun setView(): Int {
@@ -26,6 +28,9 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     override fun initView() {
         loginPresenter = LoginPresenterImpl(this)
         btn_login.setOnClickListener { login() }
+        btn_sign_up.setOnClickListener {
+            browse(signUpUrl, true)
+        }
     }
 
     private fun login() {

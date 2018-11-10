@@ -10,7 +10,8 @@ import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.ReplySendResultBean
+import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
 class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(view) {
@@ -29,7 +30,7 @@ class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(vie
         postModel.postReplyService(isQuote, replyId, *contents)
     }
 
-    override fun postReplyResult(event: BaseEvent<ReplySendResultBean>) {
+    override fun postReplyResult(event: BaseEvent<PostSendResultBean>) {
         view.showPostReplyResult(event)
     }
 

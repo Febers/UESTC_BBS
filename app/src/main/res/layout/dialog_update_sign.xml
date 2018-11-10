@@ -12,22 +12,31 @@
         android:indeterminate="true"
         android:visibility="gone"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更改签名"
+        android:layout_margin="4dp"
+        />
+
     <EditText
         android:id="@+id/edit_text_update_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
         android:paddingTop="20dp"
         android:layout_margin="4dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:layout_margin="1dp">
         <Button
             android:id="@+id/btn_dialog_sign_update_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消"
+            android:visibility="gone"
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_alignParentStart="true"/>
         <Button

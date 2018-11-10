@@ -31,7 +31,7 @@ class PMSendResultBean {
     }
 }
 
-class ReplySendResultBean {
+class PostSendResultBean {
     /**
      * rs : 1
      * errcode : 回复成功

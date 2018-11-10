@@ -30,6 +30,7 @@ const val MSG_TYPE_REPLY = "post"
 const val MSG_TYPE_PRIVATE = "private"
 const val MSG_TYPE_AT = "at"
 const val MSG_TYPE_SYSTEM = "system"
+const val MSG_TYPE_ALL = "all"
 
 const val USER_POST_TYPE = "post_type"
 const val USER_START_POST = "-9"

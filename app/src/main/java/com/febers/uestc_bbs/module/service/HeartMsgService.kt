@@ -46,6 +46,10 @@ class HeartMsgService : Service() {
     private val atChannelName = "acn"
     private val systemChannelId = "sci"
     private val systemChannelName = "scn"
+    private var pmCount = 0
+    private var rmCount = 0
+    private var amCount = 0
+    private var smCount = 0
 
     override fun onCreate() {
         super.onCreate()
@@ -120,13 +124,34 @@ class HeartMsgService : Service() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun getMsgFeedback(event: MsgFeedbackEvent) {
         i("service", "cancel: ${event.type}")
-        notificationManager.cancel(when(event.type) {
-            MSG_TYPE_REPLY -> notificationId_r
-            MSG_TYPE_PRIVATE -> notificationId_p
-            MSG_TYPE_AT -> notificationId_a
-            MSG_TYPE_SYSTEM -> notificationId_s
-            else -> return
-        })
+        notificationManager.cancel(
+                when(event.type) {
+                    MSG_TYPE_REPLY -> {
+                        rmCount = 0
+                        notificationId_r
+                    }
+                    MSG_TYPE_PRIVATE -> {
+                        pmCount = 0
+                        notificationId_p
+                    }
+                    MSG_TYPE_AT -> {
+                        amCount = 0
+                        notificationId_a
+                    }
+                    MSG_TYPE_SYSTEM -> {
+                        smCount = 0
+                        notificationId_s
+                    }
+                    //取消全部
+                    else -> {
+                        rmCount = 0; pmCount = 0; amCount = 0; smCount = 0
+                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_REPLY))
+                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
+                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_SYSTEM))
+                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_AT))
+                        return
+                    }
+                })
     }
 
     /*
@@ -156,21 +181,24 @@ class HeartMsgService : Service() {
                             val heartBean = response.body() ?: return
                             i("service", "response")
                             if (heartBean.rs != 1 || heartBean.body == null) return
-                            if (heartBean.body!!.replyInfo?.count!! > 0) {
+                            if (heartBean.body!!.replyInfo?.count!! > rmCount) {
+                                rmCount = heartBean.body!!.replyInfo?.count!!
                                 createNotification(title = "${heartBean.body?.replyInfo?.count}条新回复",
                                         content = TimeUtils.stampChange(heartBean.body?.replyInfo?.time),
                                         msgType = MSG_TYPE_REPLY,
                                         count = heartBean.body?.replyInfo?.count!! )
                                 showNotification(notificationId_r)
                             }
-                            if (heartBean.body!!.atMeInfo?.count!! > 0) {
+                            if (heartBean.body!!.atMeInfo?.count!! > amCount) {
+                                amCount = heartBean.body!!.atMeInfo?.count!!
                                 createNotification(title = "${heartBean.body?.atMeInfo?.count}条@消息",
                                         content = TimeUtils.stampChange(heartBean.body?.atMeInfo?.time),
                                         msgType = MSG_TYPE_AT,
                                         count = heartBean.body?.atMeInfo?.count!!)
                                 showNotification(notificationId_a)
                             }
-                            if (heartBean.body?.pmInfos?.size!! > 0) {
+                            if (heartBean.body?.pmInfos?.size!! > pmCount) {
+                                pmCount = heartBean.body?.pmInfos?.size!!
                                 if (heartBean.body!!.pmInfos?.size!! > 3) {
                                     createNotification(title = "${heartBean.body!!.pmInfos?.size}条私信",
                                             content = TimeUtils.stampChange(heartBean.body!!.pmInfos!![0].time),

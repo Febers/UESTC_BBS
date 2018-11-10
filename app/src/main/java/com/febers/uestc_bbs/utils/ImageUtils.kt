@@ -3,11 +3,11 @@ package com.febers.uestc_bbs.utils
 import android.content.Context
 import android.widget.ImageView
 
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.helper.GlideImageGetter
@@ -60,7 +60,7 @@ object ImageLoader {
         }
     }
 
-    fun loadResource(context: Context?, resourceId: Int, imageView: ImageView?, isCircle: Boolean) {
+    fun loadResource(context: Context?, resourceId: Int, imageView: ImageView?, isCircle: Boolean = false) {
         GlideApp.with(context!!).load(resourceId)
                 .apply {
                     if (isCircle) {
@@ -69,6 +69,18 @@ object ImageLoader {
                 }
                 .into(imageView!!)
     }
+
+    fun loadResource(context: Context?, path: String, imageView: ImageView?, isCircle: Boolean = false) {
+        GlideApp.with(context!!).load(path)
+                .apply {
+                    if (isCircle) {
+                        this.apply(RequestOptions.bitmapTransform(CircleCrop()))
+                    }
+                }
+                .fitCenter()
+                .into(imageView!!)
+    }
+
     /**
      * 预加载图片，防止边绘制ImageView边加载图片，边滑动时的卡顿问题
      * @param context Context
@@ -94,10 +106,12 @@ object ImageLoader {
      */
     fun usePreload(context: Context?, url: String?, imageView: ImageView?) {
         try {
+            val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL)
             GlideApp.with(context!!).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(R.mipmap.image_placeholder_400200)
                     .error(R.mipmap.image_error_400200)
+                    .apply(sizeOptions)
                     .transition(withCrossFade())
                     .into(imageView!!)
         } catch (e: Exception) {

@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.setting.refresh_style
 
-import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.febers.uestc_bbs.R
@@ -24,9 +23,26 @@ class RefreshStyleFragment: BaseSwipeFragment() {
     override fun initView() {
         setSwipeBackEnable(false)
         var styleCode by PreferenceUtils(context!!, REFRESH_HEADER_CODE, 0)
+
+
+        /*------------------- 初始化监听事件 ----------------------*/
         btn_choose_refresh_style.setOnClickListener {
-            styleCode = view_pager_refresh_style.currentItem
+            if (styleCode != view_pager_refresh_style.currentItem) {
+                styleCode = view_pager_refresh_style.currentItem
+                btn_choose_refresh_style.text = "已选择"
+            }
         }
+
+        fun onViewPagerChange(position: Int) {
+            indicator_refresh_style.setCurIndex(position)
+            if (position != styleCode) {
+                btn_choose_refresh_style.text = "选择"
+            } else {
+                btn_choose_refresh_style.text = "已选择"
+            }
+        }
+        /*-----------------监听事件初始化结束----------------------*/
+
 
         styleAdapter = RefreshStyleAdapter(childFragmentManager)
         view_pager_refresh_style.offscreenPageLimit = 7
@@ -40,9 +56,10 @@ class RefreshStyleFragment: BaseSwipeFragment() {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                indicator_refresh_style.setCurIndex(position)
+                onViewPagerChange(position)
             }
         })
+
     }
 
     companion object {
