@@ -39,8 +39,12 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var replyBottomSheet: PostReplyBottomSheet? = null
     private var tempReplyBean: PostDetailBean.ListBean? = null
+    private var isFavorite: Int = POST_NO_FAVORED
+    private var postOrder = POST_POSITIVE_ORDER
     private val delFavoritePost = "delfavorite"
     private val favoritePost = "favorite"
+    var isInsertReplySimply = false
+    private var drawFinish = false
     private var topicName = "楼主"  //楼主名称
     private var topicReplyId = 0
     private var replyCount = 0
@@ -48,9 +52,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var topicId = 0 //楼主id
     private var postId = 0
     private var page = 1
-    private var postOrder = POST_POSITIVE_ORDER
-    private var isFavorite: Int = POST_NO_FAVORED
-    private var drawFinish = false
+
 
     ////////////////////////////////初始化////////////////////////////////
 
@@ -243,6 +245,35 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     ////////////////////////////////回复////////////////////////////////
     /**
+     * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
+     * 然后发送消息
+     * 此方法创建了一个temReplyBean，其目的是当用户回复的内容足够简单时
+     * 服务器显示回复成功之后直接将其插入至list末尾，因为回复成功之后服务器只会返回很简单的json数据
+     * 而不用再次刷新回复列表，不过其是否有必要，还不确定
+     * 只有在回复的数目够小，且该回复不引用其他回复以及回复不包含图片(目前客户端并不支持这一功能)
+     * isInsertReplySimply 这一变量才为true
+     */
+    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+        if (replyCount < COMMON_PAGE_SIZE -1 && isQuote == REPLY_NO_QUOTA) {
+            tempReplyBean = PostDetailBean.ListBean().apply {
+                reply_content = listOf(PostDetailBean.ContentBean().apply {
+                    type = contents[0].first
+                    infor = contents[0].second
+                })
+                reply_id = 0
+                reply_name = MyApp.getUser().name
+                icon = MyApp.getUser().avatar
+                userTitle = MyApp.getUser().title
+                posts_date = System.currentTimeMillis().toString()
+                position = replyCount + 2 //adapter中会减1，因为服务器默认主贴为1楼
+            }
+            isInsertReplySimply = true
+        }
+        postPresenter.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
+        replyCount++
+    }
+
+    /**
      * 发送消息成功之后的回调
      * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
      * 否则加载下一页(?)
@@ -251,7 +282,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         runOnUiThread {
             showToast(event.data.head?.errInfo.toString())
             showToast("回复成功")
-            if (replyCount < COMMON_PAGE_SIZE && tempReplyBean != null) {
+            if (isInsertReplySimply && tempReplyBean != null) {
                 i("Post", tempReplyBean!!.userTitle)
                 replyList.add(tempReplyBean!!)
                 replyItemAdapter.notifyDataSetChanged()
@@ -263,27 +294,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             }
             replyBottomSheet?.hide()
         }
-    }
-
-    /**
-     * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
-     * 然后发送消息
-     */
-    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
-        tempReplyBean = PostDetailBean.ListBean().apply {
-            reply_content = listOf(PostDetailBean.ContentBean().apply {
-                type = contents[0].first
-                infor = contents[0].second
-            })
-            reply_id = 0
-            reply_name = MyApp.getUser().name
-            icon = MyApp.getUser().avatar
-            userTitle = MyApp.getUser().title
-            posts_date = System.currentTimeMillis().toString()
-            position = replyCount + 2 //adapter中会减1，因为服务器默认主贴为1楼
-        }
-        postPresenter.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
-        replyCount++
     }
 
     ////////////////////////////////底部菜单////////////////////////////////

@@ -7,9 +7,10 @@
 package com.febers.uestc_bbs.module.post.model
 
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.dao.PostStore
+import com.febers.uestc_bbs.io.PostHelper
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
+import com.febers.uestc_bbs.module.post.model.http_interface.PListInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +53,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body))
                 }
                 //保存首页的第一页帖子列表
-                if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0) PostStore.savePostList(mFid, body)
+                if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0) PostHelper.savePostList(mFid, body)
             }
         })
     }
@@ -95,7 +96,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
 
     private fun getSavedPList() {
         if (mPage != FIRST_PAGE.toString() || mFid.toInt() >= 0 || savedPListGot) return
-        PostStore.getPostList(mFid).apply {
+        PostHelper.getPostList(mFid).apply {
             if (this.list != null) {
                 pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))
             }

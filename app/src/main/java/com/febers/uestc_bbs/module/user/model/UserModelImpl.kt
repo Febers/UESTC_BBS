@@ -5,7 +5,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
-import com.febers.uestc_bbs.module.user.presenter.UserContract
+import com.febers.uestc_bbs.module.user.contract.UserContract
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -129,14 +129,20 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                             .updateUserAvatar(avatar = avatarPart)
                             .enqueue(object : Callback<UserUpdateResultBean> {
                                 override fun onFailure(call: Call<UserUpdateResultBean>, t: Throwable) {
-                                    i("Uri fail: ", t.toString())
+                                    presenter.errorResult(t.toString())
                                 }
 
                                 override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>?) {
-                                    if (response != null)
-                                        i("Uri response: ", response.body()?.head?.errInfo)
-                                    else
-                                        i("Uri response: ", "res is null")
+                                    val resultBean = response?.body()
+                                    if (resultBean == null) {
+                                        presenter.errorResult(SERVICE_RESPONSE_NULL)
+                                        return
+                                    }
+                                    if (resultBean.rs != REQUEST_SUCCESS_RS) {
+                                        presenter.errorResult(resultBean.head?.errInfo.toString())
+                                        return
+                                    }
+                                    presenter.userUpdateResult(BaseEvent(BaseCode.SUCCESS, resultBean))
                                 }
                             })
                 }

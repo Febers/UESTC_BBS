@@ -26,6 +26,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
+/**
+ * 后台轮询消息的Service
+ * 当前代码和功能过于冗杂
+ * 有空重构：将显示Notification、
+ * 网络线程以及其他， 划分出去
+ */
 class HeartMsgService : Service() {
 
     private lateinit var notificationManager: NotificationManager

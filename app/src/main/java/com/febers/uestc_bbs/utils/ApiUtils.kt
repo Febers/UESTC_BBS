@@ -331,4 +331,6 @@ object ApiUtils {
         radius 半径，单位为米（默认为 100000）。
      */
     const val BBS_SURROUNDING = "mobcent/app/web/index.php?r=square/surrounding"
+
+    const val BUGLY_APP_ID = "7b30a56c4e"
 }

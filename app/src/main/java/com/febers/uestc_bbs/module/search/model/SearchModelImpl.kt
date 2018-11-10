@@ -2,7 +2,7 @@ package com.febers.uestc_bbs.module.search.model
 
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
-import com.febers.uestc_bbs.module.search.presenter.SearchContrect
+import com.febers.uestc_bbs.module.search.contract.SearchContrect
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -4,7 +4,7 @@
  * Last modified 18-8-17 下午8:46.
  */
 
-package com.febers.uestc_bbs.module.post.model
+package com.febers.uestc_bbs.module.post.model.http_interface
 
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostDetailBean

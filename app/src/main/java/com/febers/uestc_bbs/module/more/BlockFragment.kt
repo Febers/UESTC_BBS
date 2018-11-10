@@ -24,7 +24,6 @@ import java.util.ArrayList
 
 class BlockFragment: BaseFragment() {
 
-    private lateinit var mParentFragment: BaseFragment
     private var newPost: Boolean = false
 
     override fun setContentView(): Int {
@@ -188,12 +187,14 @@ class BlockFragment: BaseFragment() {
             else -> ""
         }
         if (newPost) {
-            startWithPop(PostEditFragment
-                    .newInstance(fid = BlockUtils.getBlockIdByPosition(group, position), title = title))
+            startWithPop(PostEditFragment.newInstance(
+                    fid = BlockUtils.getBlockIdByPosition(group, position), title = title))
         } else {
             if (!LoginContext.userState(context!!)) return
-            start(PListFragment.newInstance(fid = BlockUtils.getBlockIdByPosition(group, position),
-                    title = title, showBottomBarOnDestroy = true))
+            start(PListFragment.newInstance(
+                    fid = BlockUtils.getBlockIdByPosition(group, position),
+                    title = title,
+                    showBottomBarOnDestroy = true))
         }
     }
 

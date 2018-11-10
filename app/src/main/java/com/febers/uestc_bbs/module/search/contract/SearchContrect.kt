@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.search.presenter
+package com.febers.uestc_bbs.module.search.contract
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePresenter

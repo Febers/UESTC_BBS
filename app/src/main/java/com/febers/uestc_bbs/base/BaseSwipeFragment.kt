@@ -41,12 +41,6 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
         return attachToSwipeBack(view!!)
     }
 
-    protected open fun setMenu(): Int? {
-        return null
-    }
-
-    protected abstract fun setToolbar(): Toolbar?
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSwipeDelegate.onCreate(savedInstanceState)
@@ -60,18 +54,6 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
         mSwipeDelegate.onViewCreated(view, savedInstanceState)
         swipeBackLayout.setParallaxOffset(0.0f) // 滑动退出视觉差，默认0.3
         swipeBackLayout.setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
-        //添加toolbar点击返回
-        val activity: AppCompatActivity = getActivity() as AppCompatActivity
-        activity.setSupportActionBar(setToolbar())
-        activity.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-        }
-        setToolbar()?.setNavigationOnClickListener { pop() }
-        if (setMenu()!=null) {
-            setHasOptionsMenu(true)
-            setToolbar()?.inflateMenu(setMenu()!!)
-            setToolbar()?.title = ""
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

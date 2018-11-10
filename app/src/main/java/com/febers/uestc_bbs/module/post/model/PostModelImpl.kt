@@ -13,6 +13,7 @@ import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.module.post.contract.PostContract
+import com.febers.uestc_bbs.module.post.model.http_interface.PostInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +40,6 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
 
     override fun postFavService(action: String) {
         Thread(Runnable {
-            i("Post", "id: $mUid action: $action")
             getRetrofit().create(PostInterface::class.java)
                     .postFavorite(action = action,
                             id = mPostId)
@@ -99,46 +99,45 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
     }
 
     private fun reply(isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
-//        val stContents = StringBuilder()
-//        contents.forEach {
-//            stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
-//        }
-//        stContents.deleteCharAt(stContents.lastIndex)
-//        i("POST", stContents.toString())
-//        getRetrofit().create(PostInterface::class.java)
-//                .postReply(json = """
-//                    {"body":
-//                        {"json":
-//                            {
-//                                "tid":$mPostId,
-//                                "isAnonymous":0,
-//                                "isOnlyAuthor":0,
-//                                "isQuote":$isQuote,
-//                                "replyId":$replyId,
-//                                "content":"[$stContents]"
-//                            }
-//                        }
-//                    }
-//                        """.trimIndent())
-//                .enqueue(object : Callback<PostSendResultBean> {
-//                    override fun onFailure(call: Call<PostSendResultBean>, t: Throwable?) {
-//                        postPresenter.errorResult(t.toString())
-//                    }
-//
-//                    override fun onResponse(call: Call<PostSendResultBean>, response: Response<PostSendResultBean>?) {
-//                        val replySendResultBean = response?.body()
-//                        if (replySendResultBean == null) {
-//                            postPresenter.errorResult(SERVICE_RESPONSE_NULL)
-//                            return
-//                        }
-//                        if (replySendResultBean.rs != REQUEST_SUCCESS_RS) {
-//                            postPresenter.errorResult(replySendResultBean.head?.errInfo.toString())
-//                            return
-//                        }
-//                        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, replySendResultBean))
-//                    }
-//                })
-        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, PostSendResultBean()))
+        val stContents = StringBuilder()
+        contents.forEach {
+            stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
+        }
+        //清除末尾的逗号
+        stContents.deleteCharAt(stContents.lastIndex)
+        getRetrofit().create(PostInterface::class.java)
+                .postReply(json = """
+                    {"body":
+                        {"json":
+                            {
+                                "tid":$mPostId,
+                                "isAnonymous":0,
+                                "isOnlyAuthor":0,
+                                "isQuote":$isQuote,
+                                "replyId":$replyId,
+                                "content":"[$stContents]"
+                            }
+                        }
+                    }
+                        """.trimIndent())
+                .enqueue(object : Callback<PostSendResultBean> {
+                    override fun onFailure(call: Call<PostSendResultBean>, t: Throwable?) {
+                        postPresenter.errorResult(t.toString())
+                    }
+
+                    override fun onResponse(call: Call<PostSendResultBean>, response: Response<PostSendResultBean>?) {
+                        val replySendResultBean = response?.body()
+                        if (replySendResultBean == null) {
+                            postPresenter.errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (replySendResultBean.rs != REQUEST_SUCCESS_RS) {
+                            postPresenter.errorResult(replySendResultBean.head?.errInfo.toString())
+                            return
+                        }
+                        postPresenter.postReplyResult(BaseEvent(BaseCode.SUCCESS, replySendResultBean))
+                    }
+                })
     }
 
     private fun postVote(pollItemId: List<Int>) {

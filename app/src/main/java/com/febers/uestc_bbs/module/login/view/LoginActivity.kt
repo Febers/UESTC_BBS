@@ -7,7 +7,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.UserSimpleBean
-import com.febers.uestc_bbs.module.login.presenter.LoginContract
+import com.febers.uestc_bbs.module.login.contract.LoginContract
 import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
 import com.febers.uestc_bbs.utils.KeyboardUtils
 import kotlinx.android.synthetic.main.activity_login.*

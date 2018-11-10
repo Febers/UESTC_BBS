@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.UserPostBean
-import com.febers.uestc_bbs.module.user.presenter.UserContract
+import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.UserPostAdapter

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.user.presenter
+package com.febers.uestc_bbs.module.user.contract
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePresenter

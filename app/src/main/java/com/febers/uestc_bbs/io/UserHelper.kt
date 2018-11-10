@@ -4,7 +4,7 @@
  * Last modified 18-8-14 下午2:31.
  */
 
-package com.febers.uestc_bbs.dao
+package com.febers.uestc_bbs.io
 
 import android.content.Context
 import com.febers.uestc_bbs.MyApp
@@ -21,7 +21,7 @@ import com.google.gson.Gson
  * 使用的时候将其变成数组
  * 同时sp应该存储当前使用的uid(now_uid)
  */
-object UserStore {
+object UserHelper {
 
     /**
      * 此方法只会在登录成功的时候调用，登录成功之后，保存于User的原始资料
@@ -36,8 +36,7 @@ object UserStore {
         }
         var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
         userIds = "$userIds@$uid"
-        var nowUid by PreferenceUtils(context(), SP_NOW_UID, 0)
-        nowUid = uid
+        setNowUid(uid)
     }
 
     /**
@@ -96,6 +95,7 @@ object UserStore {
 
     /**
      * 删除用户，首先在user_ids清除uid
+     * 如果属于当前用户，则替换当前id
      */
     fun delete(uid: Int) {
         var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
@@ -103,6 +103,9 @@ object UserStore {
         context().getSharedPreferences(SP_USERS, 0).edit().apply {
             putString(uid.toString(), "")
             apply()
+        }
+        if (getNowUid() == uid) {
+            setNowUid(getAllUser().last().uid)
         }
     }
 

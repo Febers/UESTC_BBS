@@ -151,3 +151,54 @@ class UserUpdateResultBean {
         }
     }
 }
+
+class UploadResultBean {
+    /**
+     * rs : 1
+     * errcode :
+     * head : {"errCode":"00000000","errInfo":"调用成功,没有任何错误","version":"2.6.1.7","alert":0}
+     * body : {"externInfo":{"padding":""},"attachment":[{"id":1908538,"urlName":"http://bbs.uestc.edu.cn/data/attachment//forum/201811/10/195302tyzb5bxyhujsh1ub.png"}]}
+     */
+    var rs: Int = 0
+    var errcode: String? = null
+    var head: HeadBean? = null
+    var body: BodyBean? = null
+
+    class HeadBean {
+        var errCode: String? = null
+        var errInfo: String? = null
+        var version: String? = null
+        var alert: Int = 0
+
+        override fun toString(): String {
+            return errCode.toString() + errInfo.toString() + version.toString()
+        }
+    }
+
+    class BodyBean {
+
+        var externInfo: ExternInfoBean? = null
+        var attachment: List<AttachmentBean>? = null
+
+        class ExternInfoBean {
+            var padding: String? = null
+        }
+
+        class AttachmentBean {
+            var id: Int = 0
+            var urlName: String? = null
+
+            override fun toString(): String {
+                return "id:"+id.toString() + ". url:"+urlName
+            }
+        }
+
+        override fun toString(): String {
+            return "size is "+attachment?.size.toString()
+        }
+    }
+
+    override fun toString(): String {
+        return rs.toString() + errcode.toString() + head.toString() + body.toString()
+    }
+}

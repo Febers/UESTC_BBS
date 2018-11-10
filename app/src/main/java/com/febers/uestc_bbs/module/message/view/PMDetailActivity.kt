@@ -8,7 +8,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.entity.PMDetailBean.BodyBean.PmListBean
 import com.febers.uestc_bbs.entity.PMSendResultBean
-import com.febers.uestc_bbs.module.message.presenter.MessageContract
+import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.PMDetailPresenterImpl
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.view.adapter.PMDetailAdapter
@@ -17,17 +17,17 @@ import kotlinx.android.synthetic.main.activity_private_detail.*
 /**
  * 私信消息的详情
  * 通过mvp模式获取历史消息
- * 通过service实时更新
+ * 实时更新界面，获取最新消息(无效)
  */
 class PMDetailActivity : BaseActivity(), MessageContract.PMView {
 
     private val pmList: MutableList<PmListBean.MsgListBean> = ArrayList()
     private lateinit var pmPresenter: MessageContract.PMPresenter
     private lateinit var pmAdapter: PMDetailAdapter
-    private var uid = 0
+    private var isMessageLoopRequest = true
     private var userName = ""
     private var page = 1
-    private var loopMessageRequest = true
+    private var uid = 0
     private var isSoftInputShow: Boolean = false
         set(value) {
             field = value
@@ -45,7 +45,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     override fun initView() {
         toolbar_private_detail.title = userName
         pmPresenter = PMDetailPresenterImpl(this)
-        pmAdapter = PMDetailAdapter(this, pmList, MyApp.getUser().uid.toInt(), PMTimeUtils())
+        pmAdapter = PMDetailAdapter(this, pmList, MyApp.getUser().uid, PMTimeUtils())
         recyclerview_private_detail.apply {
             adapter = pmAdapter
         }
@@ -63,10 +63,28 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
                 isSoftInputShow = true
             }
         }
+        loopReceiveMessage()
     }
 
     private fun getPmList(startTime: Long) {
         pmPresenter.pmSessionRequest(uid = uid, page = page, beginTime = startTime)
+    }
+
+    /**
+     * 通过改变startTime，获取服务器返回的未读消息
+     * 但是经过测试，还是会返回所有的消息
+     * 暂时不用
+     */
+    private fun loopReceiveMessage() {
+        val t = object : Thread() {
+            override fun run() {
+                while (isMessageLoopRequest) {
+                    getPmList(startTime = System.currentTimeMillis())
+                    sleep(3000)
+                }
+            }
+        }
+        //t.start()
     }
 
     /**
@@ -78,7 +96,10 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
      * scroll_view_pm.scrollTo(0, linear_layout_pm_content.measuredHeight) }
      */
     override fun showPMSession(event: BaseEvent<PMDetailBean>) {
-        event.data.body?.pmList?.get(0)?.msgList?.let { pmList.addAll(it) }
+        event.data.body?.pmList?.get(0)?.msgList?.let {
+            i("PM", "size: ${it.size}")
+            pmList.addAll(it)
+        }
         pmAdapter.notifyItemInserted(pmList.size-1)
         scrollViewScrollToBottom()
     }
@@ -94,10 +115,6 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
             type = "text"
             time = System.currentTimeMillis().toString()
         })
-        //轮询消息
-        while (loopMessageRequest) {
-            getPmList(startTime = System.currentTimeMillis())
-        }
     }
 
     override fun showPMSendResult(event: BaseEvent<PMSendResultBean>) {
@@ -118,7 +135,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     }
 
     override fun showError(msg: String) {
-        loopMessageRequest = false
+        isMessageLoopRequest = false
         runOnUiThread {
             showToast(msg)
         }
@@ -126,6 +143,6 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
 
     override fun onDestroy() {
         super.onDestroy()
-        loopMessageRequest = false
+        isMessageLoopRequest = false
     }
 }

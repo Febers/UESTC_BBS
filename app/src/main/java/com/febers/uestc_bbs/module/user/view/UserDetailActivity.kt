@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.util.Log.i
 import android.view.LayoutInflater
 import androidx.annotation.UiThread
@@ -24,7 +23,7 @@ import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.module.user.presenter.UserContract
+import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.module.user.view.bottom_sheet.UserDetailBottomSheet
 import com.febers.uestc_bbs.utils.*
@@ -151,6 +150,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     override fun showUserUpdate(event: BaseEvent<UserUpdateResultBean>) {
         showToast(event.data.head?.errInfo.toString())
         signDialog.dismiss()
+        progress_bar_user_detail?.visibility = View.GONE
         refresh_layout_user_detail.autoRefresh()
         PictureFileUtils.deleteCacheDirFile(this@UserDetailActivity)
     }
@@ -192,6 +192,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             showToast(msg)
             findViewById<ProgressBar>(R.id.progress_bar_update_sign)?.visibility = View.GONE
             progress_bar_update_sign?.visibility = View.GONE
+            progress_bar_user_detail?.visibility = View.GONE
             refresh_layout_user_detail?.finishFail()
             PictureFileUtils.deleteCacheDirFile(this@UserDetailActivity)
         }
@@ -223,6 +224,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
             val selectList = PictureSelector.obtainMultipleResult(data)
             val newAvatarUri = selectList[0].path
+//            i("PE", "path:" + newAvatarUri)
+            progress_bar_user_detail?.visibility = View.VISIBLE
             userPresenter.userUpdateRequest(USER_AVATAR, newValue = File(newAvatarUri))
         }
     }

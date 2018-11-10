@@ -6,14 +6,11 @@
 
 package com.febers.uestc_bbs.module.login.model
 
-import android.util.Log.i
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.dao.UserStore
+import com.febers.uestc_bbs.io.UserHelper
 import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
-import com.febers.uestc_bbs.module.login.presenter.LoginContract
-import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.module.login.contract.LoginContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,6 +72,6 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
         mUserSimple.valid = true
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
 
-        UserStore.add(loginResultBean.uid, mUserSimple)
+        UserHelper.add(loginResultBean.uid, mUserSimple)
     }
 }

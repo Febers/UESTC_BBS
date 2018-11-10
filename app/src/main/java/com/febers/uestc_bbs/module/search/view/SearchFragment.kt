@@ -13,7 +13,7 @@ import android.view.MenuItem
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
-import com.febers.uestc_bbs.module.search.presenter.SearchContrect
+import com.febers.uestc_bbs.module.search.contract.SearchContrect
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
 import com.febers.uestc_bbs.view.adapter.SearchAdapter
 import com.febers.uestc_bbs.utils.ViewClickUtils

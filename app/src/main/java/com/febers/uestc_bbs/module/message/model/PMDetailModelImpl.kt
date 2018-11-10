@@ -1,16 +1,16 @@
 package com.febers.uestc_bbs.module.message.model
 
-import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.entity.PMSendResultBean
-import com.febers.uestc_bbs.module.message.presenter.MessageContract
+import com.febers.uestc_bbs.module.message.contract.MessageContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PMDetailModelImpl(val presenter: MessageContract.PMPresenter):MessageContract.PMModel, BaseModel() {
+class PMDetailModelImpl(val presenter: MessageContract.PMPresenter): MessageContract.PMModel, BaseModel() {
 
+    private var beginTime: Long = 0
 
     override fun pmSessionService(uid: Int, page: Int, beginTime: Long) {
         mUid = uid.toString()
@@ -55,7 +55,7 @@ class PMDetailModelImpl(val presenter: MessageContract.PMPresenter):MessageContr
                             "plid":0,
                             "pmLimit":25,
                             "pmid":0,
-                            "startTime":0,
+                            "startTime":$beginTime,
                             "stopTime":0
                             }]
                         }

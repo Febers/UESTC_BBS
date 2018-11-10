@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
-import com.febers.uestc_bbs.module.message.presenter.MessageContract
+import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail

@@ -8,8 +8,8 @@ package com.febers.uestc_bbs.module.login.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.UserSimpleBean
+import com.febers.uestc_bbs.module.login.contract.LoginContract
 import com.febers.uestc_bbs.module.login.model.LoginModelImpl
-import org.greenrobot.eventbus.EventBus
 
 class LoginPresenterImpl(val view: LoginContract.View): LoginContract.Presenter(view){
 

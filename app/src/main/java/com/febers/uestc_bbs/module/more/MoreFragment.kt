@@ -116,7 +116,6 @@ class MoreFragment: BaseFragment() {
         if (event.code == BaseCode.SUCCESS) {
             text_view_fragment_user_name.text = event.data.name
             text_view_fragment_user_title.text = event.data.title
-            i("More", "after login, avatar url :" + userSimple.avatar)
             ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar, clickToViewer = false)
             userSimple = event.data
         } else {

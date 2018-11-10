@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.module.message.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.MsgBaseBean
+import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.model.MsgModelImpl
 
 class MsgPresenterImpl(val view: MessageContract.View) : MessageContract.Presenter(view) {

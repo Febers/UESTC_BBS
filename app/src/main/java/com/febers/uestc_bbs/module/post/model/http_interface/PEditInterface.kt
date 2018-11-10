@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.model
+package com.febers.uestc_bbs.module.post.model.http_interface
 
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.utils.ApiUtils

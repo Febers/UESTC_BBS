@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.module.search.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.SearchPostBean
+import com.febers.uestc_bbs.module.search.contract.SearchContrect
 import com.febers.uestc_bbs.module.search.model.SearchModelImpl
 
 class SearchPresenterImpl(val view: SearchContrect.View): SearchContrect.Presenter(view) {

@@ -9,12 +9,14 @@ package com.febers.uestc_bbs.base
 
 import android.os.Bundle
 import androidx.annotation.Nullable
-import androidx.annotation.UiThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.view.custom.SupportFragment
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.toast
 
 const val FID = "mFid"
@@ -29,9 +31,13 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     protected var mMsgType: String? = MSG_TYPE_REPLY
     protected var mTitle: String? = "i河畔"
 
-    protected abstract fun setContentView():Int
+    protected abstract fun setContentView(): Int
 
     protected open fun registerEventBus(): Boolean = false
+
+    protected open fun setMenu(): Int? = null
+
+    protected open fun setToolbar(): Toolbar? { return null }
 
     protected open fun initView() {}
 
@@ -58,6 +64,21 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //添加toolbar点击返回
+        val activity: AppCompatActivity = getActivity() as AppCompatActivity
+        activity.setSupportActionBar(setToolbar())
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
+        setToolbar()?.setNavigationOnClickListener { pop() }
+        //添加Menu
+        if (setMenu() != null) {
+            setHasOptionsMenu(true)
+            setToolbar()?.inflateMenu(setMenu()!!)
+            setToolbar()?.title = ""
+        }
+
         initView()
     }
 
@@ -70,8 +91,9 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onDestroy()
     }
 
-    @UiThread
     override fun showToast(msg: String) {
-        context!!.toast(msg)
+        context?.runOnUiThread {
+            toast(msg)
+        }
     }
 }

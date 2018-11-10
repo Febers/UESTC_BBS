@@ -48,6 +48,11 @@
         <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
     </style>
 
+    <style name="UpdateTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
+    </style>
 
     <style name="MyWindowAnimTheme" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/bottom_to_top_in</item>

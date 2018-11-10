@@ -7,7 +7,7 @@ import com.febers.uestc_bbs.entity.PostSendResultBean
 interface PEditContract {
 
     interface Model {
-        fun newPostService(json: String)
+        fun newPostService(fid: Int, title: String, vararg contents: Pair<Int, String>)
     }
 
     interface View: BaseView {
@@ -15,7 +15,7 @@ interface PEditContract {
     }
 
     abstract class Presenter(view: View): BasePresenter<View>(view) {
-        abstract fun newPostRequest(json: String)
+        abstract fun newPostRequest(fid: Int, title: String, vararg contents: Pair<Int, String>)
         abstract fun newPostResult(event: PostSendResultBean)
     }
 }

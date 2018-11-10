@@ -1,12 +1,11 @@
 package com.febers.uestc_bbs.module.message.model
 
-import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.MsgAtBean
 import com.febers.uestc_bbs.entity.MsgPrivateBean
 import com.febers.uestc_bbs.entity.MsgReplyBean
 import com.febers.uestc_bbs.entity.MsgSystemBean
-import com.febers.uestc_bbs.module.message.presenter.MessageContract
+import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import retrofit2.Call

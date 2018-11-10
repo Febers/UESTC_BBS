@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.utils
+package com.febers.uestc_bbs.io
 
 import android.os.Looper
 
@@ -9,7 +9,10 @@ import com.febers.uestc_bbs.MyApp
 import java.io.File
 import java.math.BigDecimal
 
-object CacheUtils {
+/**
+ * 主要是提供清除图片缓存功能
+ */
+object CacheHelper {
 
     private val imageCacheDir = MyApp.context().cacheDir.toString() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
 

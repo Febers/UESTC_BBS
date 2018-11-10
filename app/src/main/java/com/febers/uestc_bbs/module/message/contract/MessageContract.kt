@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.message.presenter
+package com.febers.uestc_bbs.module.message.contract
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BasePresenter
@@ -17,7 +17,7 @@ interface MessageContract {
         fun <M: MsgBaseBean> showMessage(event: BaseEvent<M>)
     }
 
-    abstract class Presenter(view: MessageContract.View): BasePresenter<MessageContract.View>(view) {
+    abstract class Presenter(view: View): BasePresenter<View>(view) {
         abstract fun msgRequest(type: String, page: Int)
         abstract fun <M :MsgBaseBean> msgResult(event: BaseEvent<M>)
     }
@@ -32,7 +32,7 @@ interface MessageContract {
         fun showPMSendResult(event: BaseEvent<PMSendResultBean>)
     }
 
-    abstract class PMPresenter(view: MessageContract.PMView): BasePresenter<MessageContract.PMView>(view) {
+    abstract class PMPresenter(view: PMView): BasePresenter<PMView>(view) {
         abstract fun pmSessionRequest(uid: Int, page: Int, beginTime: Long = 0)
         abstract fun pmSessionResult(event: BaseEvent<PMDetailBean>)
         abstract fun pmSendRequest(content: Any, type: String)

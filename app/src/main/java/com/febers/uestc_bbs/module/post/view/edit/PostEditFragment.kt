@@ -2,8 +2,8 @@ package com.febers.uestc_bbs.module.post.view.edit
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log.i
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import androidx.core.widget.NestedScrollView
@@ -14,13 +14,15 @@ import com.febers.uestc_bbs.base.TITLE
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
-import com.febers.uestc_bbs.utils.FileUtils
+import com.febers.uestc_bbs.io.FileHelper
+import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.fragment_post_edit.*
+import java.io.File
 
 class PostEditFragment: BaseFragment(), PEditContract.View {
 
@@ -34,7 +36,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
     }
 
     override fun initView() {
-        addImagePath = FileUtils.getResourceUri(context!!, R.drawable.ic_add_gray_small)
+        addImagePath = FileHelper.getResourceUri(context!!, R.drawable.ic_add_gray_small)
         imgPaths.add(addImagePath)
         pEditPresenter = PEditPresenterImpl(this)
         initToolbar(); initEmotionButton(); onScrollViewChange()
@@ -59,6 +61,49 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
         }
         btn_post_edit_img.setOnClickListener {
             selectPictures()
+        }
+    }
+
+    //发表帖子
+    private fun sendNewPost() {
+        val fileUploader = FileUploader()
+        fileUploader.uploadToBBSService("image", File("/storage/emulated/0/hupu/games/image/hupuImage/HupuBBS_181109193258-1242822577.png"))
+        //1、获取标题和文本内容
+        //2、获取图片内容
+        val titleString = edit_view_post_title.text.toString()
+        val contentString = edit_view_post_content.text.toString()
+        if (titleString.isEmpty()) edit_view_post_title.error = "请输入标题"
+        if (contentString.isEmpty()) edit_view_post_content.error = "请输入内容"
+        //pEditPresenter.newPostRequest()
+    }
+
+    override fun showNewPostResult(event: PostSendResultBean) {
+
+    }
+
+    private fun selectPictures() {
+        PictureSelector.create(this@PostEditFragment)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(6)
+                .enableCrop(true)
+                .isDragFrame(true)
+                .previewImage(true)
+                .compress(true)
+                .forResult(PictureConfig.CHOOSE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
+            val selectList = PictureSelector.obtainMultipleResult(data)
+            //删除添加图片的占位图片
+            imgPaths.removeAt(imgPaths.size-1)
+            selectList.forEach {
+                imgPaths.add(imgPaths.size, it.cutPath)
+            }
+            //将添加图片的占位图片重新添加
+            imgPaths.add(addImagePath)
+            imgGridViewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -99,40 +144,6 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
             setDisplayHomeAsUpEnabled(true)
         }
         toolbar_post_edit.setNavigationOnClickListener { activity.finish() }
-    }
-
-    private fun selectPictures() {
-        PictureSelector.create(this@PostEditFragment)
-                .openGallery(PictureMimeType.ofImage())
-                .maxSelectNum(6)
-                .enableCrop(true)
-                .isDragFrame(true)
-                .previewImage(true)
-                .compress(true)
-                .forResult(PictureConfig.CHOOSE_REQUEST)
-    }
-
-    private fun sendNewPost() {
-
-    }
-
-    override fun showNewPostResult(event: PostSendResultBean) {
-
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
-            val selectList = PictureSelector.obtainMultipleResult(data)
-            //删除添加图片的占位图片
-            imgPaths.removeAt(imgPaths.size-1)
-            selectList.forEach {
-                imgPaths.add(imgPaths.size, it.cutPath)
-            }
-            //将添加图片的占位图片重新添加
-            imgPaths.add(addImagePath)
-            imgGridViewAdapter.notifyDataSetChanged()
-        }
     }
 
     companion object {

@@ -3,6 +3,7 @@ package com.febers.uestc_bbs.module.message.presenter
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.entity.PMSendResultBean
+import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.model.PMDetailModelImpl
 
 class PMDetailPresenterImpl(val view: MessageContract.PMView): MessageContract.PMPresenter(view) {

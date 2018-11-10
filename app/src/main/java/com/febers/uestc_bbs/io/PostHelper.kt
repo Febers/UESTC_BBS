@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.dao
+package com.febers.uestc_bbs.io
 
 import android.content.Context
 import com.febers.uestc_bbs.MyApp
@@ -6,7 +6,7 @@ import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.google.gson.Gson
 
-object PostStore {
+object PostHelper {
 
     fun savePostList(fid: String, pList: PostListBean) {
         context().getSharedPreferences(fid, 0).edit().apply {

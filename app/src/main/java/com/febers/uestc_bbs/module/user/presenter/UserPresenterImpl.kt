@@ -4,6 +4,7 @@ import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
+import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.model.UserModelImpl
 
 class UserPresenterImpl(var view: UserContract.View): UserContract.Presenter(view) {
