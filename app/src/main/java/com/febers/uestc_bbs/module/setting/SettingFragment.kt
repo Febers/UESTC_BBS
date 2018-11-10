@@ -2,7 +2,6 @@ package com.febers.uestc_bbs.module.setting
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log.i
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -123,7 +122,7 @@ class SettingFragment : BaseSwipeFragment() {
 
     private fun getCache() {
         Thread {
-            cacheItem.tip = CacheHelper.cacheSize
+            cacheItem.tip = CacheHelper.imageCacheSize
             context?.runOnUiThread {
                 settingAdapter.notifyItemChanged(1)
             }

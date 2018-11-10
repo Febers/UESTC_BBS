@@ -17,10 +17,10 @@ object CacheHelper {
     private val imageCacheDir = MyApp.context().cacheDir.toString() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR
 
     // 获取Glide磁盘缓存大小
-    val cacheSize: String
+    val imageCacheSize: String
         get() {
             return try {
-                getFormatSize(getFolderSize(File(imageCacheDir)).toDouble())
+                FileHelper.getFormatSize(getFolderSize(File(imageCacheDir)).toDouble())
             } catch (e: Exception) {
                 e.printStackTrace()
                 "获取失败"
@@ -29,7 +29,7 @@ object CacheHelper {
 
     // 清除Glide磁盘缓存，自己获取缓存文件夹并删除方法
     fun clearCache(): Boolean {
-        return deleteFolderFile(imageCacheDir, true)
+        return FileHelper.deleteFolderFile(imageCacheDir, true)
     }
 
     // 清除图片磁盘缓存，调用Glide自带方法
@@ -71,10 +71,10 @@ object CacheHelper {
             val fileList = file.listFiles()
             for (aFileList in fileList) {
                 size += if (aFileList.isDirectory) {
-                    getFolderSize(aFileList)
-                } else {
-                    aFileList.length()
-                }
+                        getFolderSize(aFileList)
+                    } else {
+                        aFileList.length()
+                    }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -82,56 +82,8 @@ object CacheHelper {
         return size
     }
 
-    // 按目录删除文件夹文件方法
-    private fun deleteFolderFile(filePath: String, deleteThisPath: Boolean): Boolean {
-        try {
-            val file = File(filePath)
-            if (file.isDirectory) {
-                val files = file.listFiles()
-                for (file1 in files) {
-                    deleteFolderFile(file1.absolutePath, true)
-                }
-            }
-            if (deleteThisPath) {
-                if (!file.isDirectory) {
-                    file.delete()
-                } else {
-                    if (file.listFiles().isEmpty()) {
-                        file.delete()
-                    }
-                }
-            }
-            return true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
 
-    }
 
-    // 格式化单位
-    private fun getFormatSize(size: Double): String {
-        val kiloByte = size / 1024
-        if (kiloByte < 1) {
-            return size.toString() + "Byte"
-        }
-        val megaByte = kiloByte / 1024
-        if (megaByte < 1) {
-            val result1 = BigDecimal(java.lang.Double.toString(kiloByte))
-            return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "KB"
-        }
-        val gigaByte = megaByte / 1024
-        if (gigaByte < 1) {
-            val result2 = BigDecimal(java.lang.Double.toString(megaByte))
-            return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "MB"
-        }
-        val teraBytes = gigaByte / 1024
-        if (teraBytes < 1) {
-            val result3 = BigDecimal(java.lang.Double.toString(gigaByte))
-            return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "GB"
-        }
-        val result4 = BigDecimal(teraBytes)
-        return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB"
-    }
+
 
 }
