@@ -29,18 +29,19 @@ class UserPostActivity: BaseActivity(), UserContract.View {
         return toolbar_user_post
     }
 
+
     override fun setView(): Int {
         uid = intent.getIntExtra(USER_ID, 0)
-        type = intent.getStringExtra(USER_POST_TYPE)
+        type = intent.getIntExtra(USER_POST_TYPE, 0)
         return R.layout.activity_user_post
     }
 
     override fun initView() {
         setToolbarTitle()
         userPListPresenter = UserPresenterImpl(this)
-        userPListAdapter = UserPostAdapter(this, userPostList, false).apply {
+        userPListAdapter = UserPostAdapter(this@UserPostActivity, userPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i ->
-                ViewClickUtils.clickToPostDetail(this@UserPostActivity, listBean.topic_id) }
+                ViewClickUtils.clickToPostDetail(context, listBean.topic_id) }
             setOnItemChildClickListener(R.id.image_view_item_user_post_avatar) {
                 viewHolder, listBean, i ->  ViewClickUtils.clickToUserDetail(this@UserPostActivity, listBean.user_id)
             }
@@ -100,7 +101,9 @@ class UserPostActivity: BaseActivity(), UserContract.View {
     }
 
     override fun showError(msg: String) {
-        showToast(msg)
-        refresh_layout_user_post?.finishFail()
+        runOnUiThread {
+            showToast(msg)
+            refresh_layout_user_post?.finishFail()
+        }
     }
 }

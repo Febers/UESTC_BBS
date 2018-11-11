@@ -15,6 +15,7 @@ import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
+import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.dialog_open_projects.*
 import kotlinx.android.synthetic.main.fragment_about.*
 import org.jetbrains.anko.browse
@@ -82,7 +83,7 @@ class AboutFragment: BaseSwipeFragment() {
 
             }
             1 -> {
-
+                Beta.checkUpgrade()
             }
             2 -> {
                 context?.email(getString(R.string.developer_email))
@@ -123,6 +124,7 @@ class AboutFragment: BaseSwipeFragment() {
             ProjectItemBean("glide", "bumptech", ""),
             ProjectItemBean("glide-transformations", "wasabeef", ""),
             ProjectItemBean("HoloColorPicker", "LarsWerkman", ""),
+            ProjectItemBean("PictureSelector", "LuckSiege", ""),
             ProjectItemBean("RecyclerViewAdapter", "SheHuan", ""),
             ProjectItemBean("retrofit", "square", "")
 

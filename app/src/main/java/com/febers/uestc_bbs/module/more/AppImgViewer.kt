@@ -19,9 +19,8 @@ import com.febers.uestc_bbs.io.ImgFileHelper
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
-class ImgViewerActivity : BaseActivity() {
+class AppImgViewer : BaseActivity() {
 
-    private lateinit var permissionUtils: PermissionUtils
     private lateinit var progressDialog: ProgressDialog
     private var gifDrawable: GifDrawable? = null
     private var gifBytes: ByteArray? = null
@@ -29,7 +28,6 @@ class ImgViewerActivity : BaseActivity() {
     private var imageUrl: String? = null
     private var imageUri: Uri? = null
     private var gifUri: Uri? = null
-
 
     override fun enableThemeHelper(): Boolean = false
 
@@ -93,7 +91,6 @@ class ImgViewerActivity : BaseActivity() {
         try {
             val futureTarget = Glide.with(this).asBitmap().load(imageUrl).submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             imageBitmap = futureTarget.get()
-            //imageBitmap = Glide.with(this).asBitmap().load(imageUrl).into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get()
             runOnUiThread {
                 image_view_image_activity?.apply {
                     i("Image", "img")
@@ -114,66 +111,52 @@ class ImgViewerActivity : BaseActivity() {
     }
 
     private fun saveImage() {
-        permissionUtils = PermissionUtils(this)
-        permissionUtils.requestPermissions("请授予权限", object : PermissionUtils.PermissionListener {
-            override fun doAfterGrand(vararg permission: String?) {
-                progressDialog.show()
-                Thread(Runnable {
-                    if (imageBitmap != null) {
-                        imageUri = ImgFileHelper.saveImage(imageBitmap as Bitmap, forShare = false)
-                        if (imageUri != null) {
-                            showToast("保存图片成功")
-                        } else {
-                            showToast("保存图片失败")
-                        }
-                    } else if (gifBytes != null) {
-                        gifUri = ImgFileHelper.saveGif(gifBytes as ByteArray, forShare = false)
-                        if (gifUri != null) {
-                            showToast("保存图片成功")
-                        } else {
-                            showToast("保存图片成功")
-                        }
-                    }
-                    runOnUiThread { progressDialog.hide() }
-                }).start()
+        progressDialog.show()
+        Thread(Runnable {
+            if (imageBitmap != null) {
+                imageUri = ImgFileHelper.saveImage(imageBitmap as Bitmap, forShare = false)
+                if (imageUri != null) {
+                    showToast("保存图片成功")
+                } else {
+                    showToast("保存图片失败")
+                }
+            } else if (gifBytes != null) {
+                gifUri = ImgFileHelper.saveGif(gifBytes as ByteArray, forShare = false)
+                if (gifUri != null) {
+                    showToast("保存图片成功")
+                } else {
+                    showToast("保存图片成功")
+                }
             }
-            override fun doAfterDenied(vararg permission: String?) {
-                showToast("你拒绝了相应的权限")
-            }
-        }, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+            runOnUiThread { progressDialog.hide() }
+        }).start()
     }
 
     private fun shareImage() {
-        permissionUtils = PermissionUtils(this)
-        permissionUtils.requestPermissions("请授予权限", object : PermissionUtils.PermissionListener {
-            override fun doAfterGrand(vararg permission: String?) {
-                progressDialog.show()
-                Thread(Runnable {
-                    if (gifBytes != null) {
-                        //第一次判断，是否已经保存过图片
-                        if (gifUri == null) {
-                            gifUri = ImgFileHelper.saveGif(gifBytes as ByteArray, forShare = true)
-                        }
-                        //再次判断，是否保存失败
-                        if (gifUri == null) {
-                            return@Runnable
-                        }
-                        showShareView(gifUri as Uri)
-                    } else {
-                        if (imageUri == null) {
-                            imageUri = ImgFileHelper.saveImage(imageBitmap as Bitmap, forShare = true)
-                        }
-                        if (imageUri == null) {
-                            return@Runnable
-                        }
-                       showShareView(imageUri as Uri)
-                    }
-                }).start()}
-            override fun doAfterDenied(vararg permission: String?) {
-                showToast("你拒绝了相应的权限")
+        progressDialog.show()
+        Thread(Runnable {
+            if (gifBytes != null) {
+                //第一次判断，是否已经保存过图片
+                if (gifUri == null) {
+                    gifUri = ImgFileHelper.saveGif(gifBytes as ByteArray, forShare = true)
+                }
+                //再次判断，是否保存失败
+                if (gifUri == null) {
+                    return@Runnable
+                }
+                showShareView(gifUri as Uri)
+            } else {
+                if (imageUri == null) {
+                    imageUri = ImgFileHelper.saveImage(imageBitmap as Bitmap, forShare = true)
+                }
+                if (imageUri == null) {
+                    return@Runnable
+                }
+                showShareView(imageUri as Uri)
             }
-        }, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        }).start()
     }
+
 
     /**
      * 显示系统分享页面
@@ -190,9 +173,7 @@ class ImgViewerActivity : BaseActivity() {
         startActivity(shareIntent)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        permissionUtils.handleRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()

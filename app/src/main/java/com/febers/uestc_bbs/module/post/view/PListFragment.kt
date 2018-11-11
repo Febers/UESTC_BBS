@@ -26,6 +26,9 @@ import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.runOnUiThread
 
 class PListFragment: BaseSwipeFragment(), PListContract.View {
 
@@ -36,10 +39,12 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     private lateinit var postListAdapter: PostListAdapter
     private lateinit var itemShowStickyPost: MenuItem
     private var isShowStickyPost = false
-    private var title = "板块名称"
+    private var title: String? = "板块名称"
     private var page: Int = 1
 
     override fun setToolbar(): Toolbar? = toolbar_post_list
+
+    override fun registerEventBus(): Boolean = true
 
     override fun setContentView(): Int {
         arguments?.let {
@@ -82,7 +87,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                 getPost(++page, true) }
         }
         fab_post_list.setOnClickListener {
-            ViewClickUtils.clickToPostEdit(context, mFid, title)
+            ViewClickUtils.clickToPostEdit(context, mFid, title!!)
         }
     }
 
@@ -111,6 +116,17 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             return
         }
         postListAdapter.setLoadMoreData(event.data.list)
+    }
+
+    /**
+     * 接收到新帖发布之后
+     * 刷新界面
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onPostNew(event: BaseEvent<String>) {
+        if (event.code == BaseCode.SUCCESS) {
+            refresh_layout_post_list.autoRefresh()
+        }
     }
 
     /**
@@ -162,8 +178,10 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     }
 
     override fun showError(msg: String) {
-        showToast(msg)
-        refresh_layout_post_list?.finishFail()
+        context?.runOnUiThread {
+            showToast(msg)
+            refresh_layout_post_list?.finishFail()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

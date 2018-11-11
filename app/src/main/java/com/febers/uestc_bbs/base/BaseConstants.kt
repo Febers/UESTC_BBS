@@ -33,9 +33,9 @@ const val MSG_TYPE_SYSTEM = "system"
 const val MSG_TYPE_ALL = "all"
 
 const val USER_POST_TYPE = "post_type"
-const val USER_START_POST = "-9"
-const val USER_REPLY_POST = "-10"
-const val USER_FAV_POST = "-11"
+const val USER_START_POST = -9
+const val USER_REPLY_POST = -10
+const val USER_FAV_POST = -11
 
 const val USER_IT_SELF = "user_it_self"
 const val USER_ID = "uid"

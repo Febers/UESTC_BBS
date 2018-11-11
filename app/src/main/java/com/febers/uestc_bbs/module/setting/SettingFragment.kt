@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.module.setting
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,6 +18,8 @@ import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.io.CacheHelper
+import com.febers.uestc_bbs.io.DownloadHelper
+import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.fragment_setting.*
@@ -24,6 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.runOnUiThread
+import java.io.File
 import java.util.*
 
 class SettingFragment : BaseSwipeFragment() {

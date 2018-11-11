@@ -3,6 +3,7 @@ package com.febers.uestc_bbs.io
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
+import com.febers.uestc_bbs.io.FileHelper.appImageDir
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -10,8 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object ImgFileHelper {
-    private val appDir = Environment.getExternalStorageDirectory().absolutePath + "/uestc_bbs/"
-    private val appImageDir = appDir + "images/"
+
     private var fileForShare: Boolean = false
     private lateinit var imgFile: File
 

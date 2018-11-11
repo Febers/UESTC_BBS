@@ -10,11 +10,14 @@
         android:id="@+id/refresh_layout_style"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:src="@drawable/ic_person_blue_24dp"/>
+            android:gravity="center"
+            android:text="左右滑动选择刷新样式"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="italic"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>
 

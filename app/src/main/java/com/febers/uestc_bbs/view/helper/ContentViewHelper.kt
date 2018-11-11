@@ -11,6 +11,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.util.Log.i
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -78,6 +79,8 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
     private var imageViewList: MutableList<ImageView> = ArrayList()
     private var mStringBuilder: StringBuilder = StringBuilder()
     private val IMAGE_VIEW_MARGIN = 25
+    val IMAGE_VIEW_WIDTH = 1000
+    val IMAGE_VIEW_HEIGHT = 725
     private var idCount = 0
     private val context = linearLayout.context
     /**
@@ -111,6 +114,7 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
             drawTextView()
             val imageView = getImageView(mContents[position].originalInfo.toString())
             linearLayout.addView(imageView)
+            linearLayout.gravity = Gravity.CENTER
             ImageLoader.preload(context, mContents[position].originalInfo)
             imageViewList.add(imageView)
             imageUrlList.add(mContents[position].originalInfo.toString())
@@ -167,8 +171,10 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
     private fun getImageView(url: String): ImageView {
         val imageView = ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
+//            layoutParams = ViewGroup
+//                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams = ViewGroup
-                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    .LayoutParams(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)
         }
         val marginLayoutParams = ViewGroup.MarginLayoutParams(imageView.layoutParams).apply {
             setMargins(IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN) }

@@ -20,6 +20,12 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar_post_edit"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:visibility="gone"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view_post_edit"
         android:layout_width="match_parent"

@@ -106,13 +106,13 @@ object ImageLoader {
      */
     fun usePreload(context: Context?, url: String?, imageView: ImageView?) {
         try {
-            val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL)
+            val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             GlideApp.with(context!!).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(R.mipmap.image_placeholder_400200)
                     .error(R.mipmap.image_error_400200)
                     .apply(sizeOptions)
-                    .transition(withCrossFade())
+                    .centerCrop()
                     .into(imageView!!)
         } catch (e: Exception) {
             e.printStackTrace()

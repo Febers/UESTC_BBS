@@ -10,7 +10,7 @@ import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.login.model.LoginContext
-import com.febers.uestc_bbs.module.more.ImgViewerActivity
+import com.febers.uestc_bbs.module.more.AppImgViewer
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
@@ -60,12 +60,12 @@ object ViewClickUtils {
             if (context is Activity)
                 bundle = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
-            context.startActivity(Intent(context, ImgViewerActivity::class.java).apply {
+            context.startActivity(Intent(context, AppImgViewer::class.java).apply {
                 putExtra(IMAGE_URL, url)
             }, bundle)
             (context as Activity).overridePendingTransition(0, 0)
         } else {
-            context.startActivity(Intent(context, ImgViewerActivity::class.java).apply {
+            context.startActivity(Intent(context, AppImgViewer::class.java).apply {
                 putExtra(IMAGE_URL, url)
             })
         }
@@ -116,7 +116,7 @@ object ViewClickUtils {
         context ?: return
         url ?: return
         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-//        context.startActivity(Intent(context, WebActivity::class.java).apply {
+//        context.startActivity(Intent(context, AppWebViewer::class.java).apply {
 //            putExtra(URL, url)
 //        })
 

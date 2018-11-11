@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- /storage/emulated/0/Download/${applicationId}/.beta/apk-->
+    <!--<external-path name="beta_external_path" path="Download/"/>-->
+    <!--/storage/emulated/0/Android/data/${applicationId}/files/apk/-->
+    <!--<external-path name="beta_external_files_path" path="Android/data/"/>-->
+
+    <!-- /storage/emulated/0/Android/data/${applicationId}/files/apk/-->
+    <external-files-path
+        name="apk_external_path"
+        path="Android/data/"/>
+
+    <!--配置让应用可以访问外置根目录，否则使用时会报 Failed to find configured root ...-->
+    <external-path
+        name="path"
+        path="." />
+</paths>

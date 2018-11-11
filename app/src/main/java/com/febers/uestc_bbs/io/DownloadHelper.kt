@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.io
 
 import android.os.Environment
+import android.util.Log.i
 
 import java.io.File
 import java.io.FileOutputStream
@@ -14,14 +15,16 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-object DownloadHelper {
+class DownloadHelper {
 
     /**
+     * 如果下载的文件为apk，保存在appApkDir
+     * 否则保存在appFileDir
      * @param url 下载连接
      * @param saveDir 储存下载文件的SDCard目录
      * @param listener 下载监听
      */
-    fun download(url: String, saveDir: String, listener: OnDownloadListener) {
+    fun download(url: String, fileName: String, listener: OnDownloadListener) {
 
         val request = Request.Builder().url(url).build()
         val okHttpClient = OkHttpClient()
@@ -37,30 +40,32 @@ object DownloadHelper {
                 var inputStream: InputStream? = null
                 val buf = ByteArray(2048)
                 var len = 0
-                var fos: FileOutputStream? = null
+                var outputStream: FileOutputStream? = null
                 // 储存下载文件的目录
-                val savePath = isExistDir(saveDir)
+                val savePath =
+                        if (fileName.endsWith("apk", true)) isExistDir(FileHelper.appApkDir)
+                        else isExistDir(FileHelper.appFileDir)
                 try {
                     inputStream = response.body()!!.byteStream()
                     val total = response.body()!!.contentLength()
-                    val file = File(savePath, getNameFromUrl(url))
-                    fos = FileOutputStream(file)
+                    val file = File(savePath, fileName)
+                    if (file.exists()) {
+                        file.delete()
+                    }
+                    outputStream = FileOutputStream(file)
                     var sum: Long = 0
+
                     do {
                         len = inputStream.read(buf)
-                        fos.write(buf, 0, len)
+                        if (len == -1) break //最后跳出
+                        outputStream.write(buf, 0, len)
                         sum += len.toLong()
                         val progress = (sum * 1.0f / total * 100).toInt()
                         listener.onDownloading(progress)
                     } while (len != -1)
-//                    while ((len = inputStream!!.read(buf)) != -1) {
-//                        fos.write(buf, 0, len)
-//                        sum += len.toLong()
-//                        val progress = (sum * 1.0f / total * 100).toInt()
-//                        listener.onDownloading(progress)
-//                    }
-                    fos.flush()
-                    listener.onDownloadSuccess()
+
+                    outputStream.flush()
+                    listener.onDownloadSuccess(file)
                 } catch (e: Exception) {
                     listener.onDownloadFailed()
                 } finally {
@@ -69,10 +74,9 @@ object DownloadHelper {
                     } catch (e: IOException) {
                     }
                     try {
-                        fos?.close()
+                        outputStream?.close()
                     } catch (e: IOException) {
                     }
-
                 }
             }
         })
@@ -86,8 +90,7 @@ object DownloadHelper {
      */
     @Throws(IOException::class)
     private fun isExistDir(saveDir: String): String {
-        // 下载位置
-        val downloadFile = File(Environment.getExternalStorageDirectory(), saveDir)
+        val downloadFile = File(saveDir)
         if (!downloadFile.mkdirs()) {
             downloadFile.createNewFile()
         }
@@ -105,20 +108,8 @@ object DownloadHelper {
     }
 
     interface OnDownloadListener {
-        /**
-         * 下载成功
-         */
-        fun onDownloadSuccess()
-
-        /**
-         * @param progress
-         * 下载进度
-         */
+        fun onDownloadSuccess(file: File)
         fun onDownloading(progress: Int)
-
-        /**
-         * 下载失败
-         */
         fun onDownloadFailed()
     }
 }

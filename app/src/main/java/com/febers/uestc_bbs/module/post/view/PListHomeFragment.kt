@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostListAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
+import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
@@ -25,6 +26,7 @@ import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
+import kotlinx.android.synthetic.main.fragment_post_list.*
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -119,6 +121,10 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 }
     }
 
+    /**
+     * 接收用户重复按下tab时的消息
+     * 然后刷新界面
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTabReselceted(event: TabReselectedEvent) {
         if (isSupportVisible && loadFinish && event.position == 0) {
@@ -126,13 +132,18 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             refresh_layout_post_fragment?.autoRefresh()
         }
     }
-    /**
-     * 登录成功,获取数据
-     */
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
 
-//    }
+    /**
+     * 接收到新帖发布之后
+     * 刷新界面
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onPostNew(event: BaseEvent<String>) {
+        if (isSupportVisible && event.code == BaseCode.SUCCESS) {
+            scroll_view_plist_home?.scrollTo(0, 0)
+            refresh_layout_post_list.autoRefresh()
+        }
+    }
 
     private fun setEmptyView() {
         val emptyView: View = LayoutInflater

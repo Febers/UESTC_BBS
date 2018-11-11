@@ -24,6 +24,7 @@ const val UID = "mUid"
 const val TITLE = "title"
 const val MSG_TYPE = "mMsgType"
 
+
 abstract class BaseFragment : SupportFragment(), BaseView {
 
     protected var mFid: Int = 0

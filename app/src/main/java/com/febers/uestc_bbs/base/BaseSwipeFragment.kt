@@ -21,6 +21,7 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
  * 由主Activity创建的一类Fragment
  * 弹出时，隐藏主Activity的bottomBar和toolbar
  * 默认支持滑动返回
+ * 为了应用风格更和谐，暂时取消滑动返回
  * 销毁时又恢复
  */
 const val SHOW_BOTTOM_BAR_ON_DESTROY = "show_bottom_bar"
@@ -44,6 +45,7 @@ abstract class BaseSwipeFragment: BaseFragment(), ISwipeBackFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mSwipeDelegate.onCreate(savedInstanceState)
+        mSwipeDelegate.setSwipeBackEnable(false)
         arguments?.let {
             showBottomBarOnDestroy = it.getBoolean(SHOW_BOTTOM_BAR_ON_DESTROY)
         }

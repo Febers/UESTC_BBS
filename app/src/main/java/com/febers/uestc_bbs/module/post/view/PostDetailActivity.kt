@@ -281,14 +281,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread {
             showToast(event.data.head?.errInfo.toString())
-            showToast("回复成功")
             if (isInsertReplySimply && tempReplyBean != null) {
-                i("Post", tempReplyBean!!.userTitle)
+                //i("Post", tempReplyBean!!.userTitle)
                 replyList.add(tempReplyBean!!)
                 replyItemAdapter.notifyDataSetChanged()
                 scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
             } else {
-                i("Post", "load")
+                //i("Post", "load")
                 scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
                 refresh_layout_post_detail?.autoLoadMore()
             }

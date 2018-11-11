@@ -16,10 +16,10 @@ import java.io.File
 
 class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(), UserContract.Model {
 
-    override fun userPostService(uid: Int, type: String, page: Int) {
+    override fun userPostService(uid: Int, type: Int, page: Int) {
         mUid = uid.toString()
         mPage = page.toString()
-        mType = type
+        mType = type.toString()
         Thread(Runnable { getUserPost() }).start()
     }
 
@@ -34,6 +34,9 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
         }.start()
     }
 
+    /**
+     * 获取用户的发布、回复、收藏的帖子
+     */
     private fun getUserPost() {
         getUserPListCall().enqueue(object : Callback<UserPostBean> {
             override fun onFailure(call: Call<UserPostBean>?, t: Throwable?) {
@@ -57,6 +60,9 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
         })
     }
 
+    /**
+     * 获取用户详情
+     */
     private fun getUserDetail() {
         getRetrofit().create(UserInterface::class.java)
                 .getUserDetail(userId = mUid)
@@ -80,6 +86,12 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                 })
     }
 
+    /**
+     * 更新用户资料，目前服务器对更新头像的请求都回复失败
+     * @param type 类型
+     * @param newValue 新值
+     * @param oldValue 旧值，更新密码的时候会用到
+     */
     private fun <T> userUpdate(type: String, newValue: T, oldValue: T?) {
         when(type) {
             USER_SIGN -> {
@@ -106,6 +118,7 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                             })
                 }
             }
+            //TODO
             USER_GENDER -> {
                 if (newValue is String)
                 getRetrofit().create(UserInterface::class.java)
@@ -152,7 +165,7 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
 
     private fun getUserPListCall(): Call<UserPostBean> {
         val userPostRequest = getRetrofit().create(UserInterface::class.java)
-        return when(mType) {
+        return when(mType.toInt()) {
             USER_START_POST -> {
                 userPostRequest.getUserStartPList(
                         uid = mUid,

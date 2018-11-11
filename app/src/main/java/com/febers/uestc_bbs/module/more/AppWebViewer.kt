@@ -6,7 +6,7 @@ import android.util.Log.i
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.URL
 
-class WebActivity : AppCompatActivity() {
+class AppWebViewer : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -24,6 +24,18 @@
         android:theme="@style/AppThemeLight"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:theme">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.febers.uestc_bbs.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+
         <activity
             android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan">
@@ -46,7 +58,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".module.more.ImgViewerActivity"
+            android:name=".module.more.AppImgViewer"
             android:theme="@style/ImageViewerTheme" />
         <activity android:name=".home.SplashActivity">
             <intent-filter>
@@ -55,7 +67,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.user.view.UserPostActivity" />
-        <activity android:name=".module.more.WebActivity" />
+        <activity android:name=".module.more.AppWebViewer" />
         <activity android:name=".module.login.view.LoginActivity">
         </activity>
         <activity android:name=".module.setting.UpdateActivity"

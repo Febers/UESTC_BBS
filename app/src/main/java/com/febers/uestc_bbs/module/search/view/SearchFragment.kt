@@ -20,7 +20,7 @@ import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
-class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
+class SearchFragment: BaseFragment(), SearchContrect.View {
 
     private val searchPostList: MutableList<SearchPostBean.ListBean> = ArrayList()
     private lateinit var searchPresenter: SearchContrect.Presenter

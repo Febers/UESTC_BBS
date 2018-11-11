@@ -9,7 +9,7 @@ import com.febers.uestc_bbs.module.user.model.UserModelImpl
 
 class UserPresenterImpl(var view: UserContract.View): UserContract.Presenter(view) {
 
-    override fun userPostRequest(uid: Int, type: String, page: Int) {
+    override fun userPostRequest(uid: Int, type: Int, page: Int) {
         val userModel: UserContract.Model = UserModelImpl(this)
         userModel.userPostService(uid, type, page)
     }

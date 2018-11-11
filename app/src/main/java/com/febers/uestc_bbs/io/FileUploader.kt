@@ -2,6 +2,8 @@ package com.febers.uestc_bbs.io
 
 import android.util.Log
 import android.util.Log.i
+import com.febers.uestc_bbs.base.BaseCode
+import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseModel
 import com.febers.uestc_bbs.base.REQUEST_SUCCESS_RS
 import com.febers.uestc_bbs.entity.UploadResultBean
@@ -24,80 +26,44 @@ import java.util.concurrent.TimeUnit
  */
 class FileUploader: BaseModel() {
 
-    private var fileUploadListener: OnFileUploadListener? = null
-
-    fun uploadToBBSService(type: String, imageFile: File) {
+    /**
+     * 将图片上传至河畔服务器
+     * 如果上传成功，应该返回包含两个值的json bean
+     * 第一个 aid 供发帖时调用
+     * 第二个 infor 同样用以发帖
+     * @param imageFile 图片文件
+     */
+    fun uploadPostImageToBBS(imageFile: File, listener: OnFileUploadListener) {
         Thread{
-            uploadFile(file = imageFile)
+            val imageBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+            val imagePart: MultipartBody.Part = MultipartBody.Part.createFormData("uploadFile[]", imageFile.name, imageBody)
 
-//            val imageBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
-//            val imagePart: MultipartBody.Part = MultipartBody.Part.createFormData("uploadFile[]", imageFile.name, imageBody)
-//            getRetrofit().create(UploadToBBSInterface::class.java)
-//                    .uploadImage(params = mapOf("type" to "image", "module" to "forum"),
-//                            image = imagePart)
-//                    .enqueue(object : Callback<UploadResultBean> {
-//                        override fun onFailure(call: Call<UploadResultBean>, t: Throwable) {
+            getRetrofit().create(UploadToBBSInterface::class.java)
+                    .uploadImage(params = mapOf("type" to "image", "module" to "forum"),
+                            image = imagePart)
+                    .enqueue(object : Callback<UploadResultBean> {
+                        override fun onFailure(call: Call<UploadResultBean>, t: Throwable) {
+                            listener.onUploadFail("Upload Image Fail:" + t.toString())
 //                            i("PE", "upload img, fail: " + t.toString())
-//                        }
-//
-//                        override fun onResponse(call: Call<UploadResultBean>, response: Response<UploadResultBean>) {
-//                            i("PE header:", response.headers().toString())
-//                            i("PE mes ", response.message())
-//                            i("PE raw ", response.raw().toString())
-//                            val resultBean = response.body()
-//                            i("PE", resultBean.toString())
-//                            if (resultBean?.rs != REQUEST_SUCCESS_RS) {
+                        }
+
+                        override fun onResponse(call: Call<UploadResultBean>, response: Response<UploadResultBean>) {
+                            val resultBean = response.body()
+                            if (resultBean == null || resultBean.rs != REQUEST_SUCCESS_RS || resultBean.body?.attachment?.size!! == 0) {
+                                listener.onUploadFail("Upload Image Fail:" + resultBean?.head?.errInfo)
 //                                i("PE", "upload img, rs error")
-//                                return
-//                            }
-//                            i("PE", "upload img, raw: " + resultBean.head?.errInfo)
-//                        }
-//                    })
+                                return
+                            }
+                            listener.onUploadSuccess(BaseEvent(BaseCode.SUCCESS, resultBean))
+                        }
+                    })
         }.start()
     }
 
-    /**
-     * 上传文件
-     * @param actionUrl 接口地址
-     * @param paramsMap 参数
-    </T> */
-    private fun uploadFile(file: File) {
-        try {
-            //请求地址
-            val requestUrl = ApiUtils.BBS_BASE_URL + ApiUtils.BBS_SEND_ATTACHMENTEX_URL + "&type=image&module=forum"
-            val body = MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("uploadFile[]", file.name, RequestBody.create(MediaType.parse("image/jpg"), file))
-                    .build()
-            val request = Request.Builder().url(requestUrl).post(body).build()
-            TokenClient.get().newBuilder()
-                    .writeTimeout(50, TimeUnit.SECONDS)
-                    .build()
-                    .newCall(request).enqueue(object : okhttp3.Callback {
-                        override fun onFailure(call: okhttp3.Call, e: IOException) {
-                            i("PE ok ", "fail")
-                        }
-
-                        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                            i("PE ok head ", ":" + response.headers())
-
-                            i("PE ok body ", response.body()?.string())
-                        }
-                    })
-
-
-        } catch (e: Exception) {
-            Log.e("PE fun", e.toString())
-        }
-
-    }
-
-    fun setFileUpdateListener(uploadListener: OnFileUploadListener) {
-        this.fileUploadListener = uploadListener
-    }
 
     interface OnFileUploadListener {
-        fun onFileUploading(progress: Int)
+        fun onUploadFail(msg: String)
+        fun onUploadSuccess(event: BaseEvent<UploadResultBean>)
     }
 }
 
@@ -106,4 +72,5 @@ interface UploadToBBSInterface {
     @Multipart
     @POST(ApiUtils.BBS_SEND_ATTACHMENTEX_URL)
     fun uploadImage(@QueryMap()params: Map<String, String>, @Part()image: MultipartBody.Part) : Call<UploadResultBean>
+
 }
