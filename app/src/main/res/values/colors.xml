@@ -21,7 +21,9 @@
     <color name="color_purple">#673ab7</color>
     <color name="color_blue">#2196f3</color>
     <color name="color_gray_deeper">#607d8b</color>
-    <color name="color_black_tint">#263238</color>
+
+    <color name="color_black_tint2">#2c3848</color>
+    <color name="color_black_tint">#1d2323</color>
 
     <color name="transparent">#00000000</color>
     <color name="textColorFirst_Day">#DD000000</color>

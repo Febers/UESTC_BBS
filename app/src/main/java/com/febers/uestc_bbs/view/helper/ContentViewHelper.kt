@@ -6,10 +6,6 @@
 
 package com.febers.uestc_bbs.view.helper
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
-import android.graphics.Color
 import android.util.Log.i
 import android.view.Gravity
 import android.view.View
@@ -17,10 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.afollestad.aesthetic.Aesthetic
-import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
@@ -161,7 +154,7 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
         textSize = 16f
         setTextColor(ThemeHelper.getTextColorPrimary())
         linksClickable = true
-        setLinkTextColor(ThemeHelper.getColor(AppColor.COLOR_ACCENT))
+        setLinkTextColor(ThemeHelper.getColorAccent())
         setTextIsSelectable(true)
         layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

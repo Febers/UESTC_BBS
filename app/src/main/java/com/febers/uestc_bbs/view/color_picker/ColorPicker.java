@@ -247,7 +247,7 @@ public class ColorPicker extends View {
 	 * 
 	 */
 	public interface OnColorChangedListener {
-		public void onColorChanged(int color);
+		void onColorChanged(int color);
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class ColorPicker extends View {
 	 * 
 	 */
 	public interface OnColorSelectedListener {
-		public void onColorSelected(int color);
+		void onColorSelected(int color);
 	}
 
 	/**
@@ -705,32 +705,6 @@ public class ColorPicker extends View {
 		return mShowCenterOldColor;
 	}
 
-	/**
-	 * Used to change the color of the {@code OpacityBar} used by the
-	 * {@code SVBar} if there is an change in color.
-	 * 
-	 * @param color int of the color used to change the opacity bar color.
-	 */
-	public void changeOpacityBarColor(int color) {
-	}
-
-	/**
-	 * Used to change the color of the {@code SaturationBar}.
-	 * 
-	 * @param color
-	 *            int of the color used to change the opacity bar color.
-	 */
-	public void changeSaturationBarColor(int color) {
-	}
-
-	/**
-	 * Used to change the color of the {@code ValueBar}.
-	 * 
-	 * @param color int of the color used to change the opacity bar color.
-	 */
-	public void changeValueBarColor(int color) {
-	}
-	
 	/**
 	 * Checks if there is an {@code OpacityBar} connected.
 	 *

@@ -2,13 +2,11 @@ package com.febers.uestc_bbs.view.custom
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.utils.ColorUtils
 
 /**
  * 绘制一个带有色彩的圆形View
@@ -28,9 +26,9 @@ class CircleColorView : View {
     private fun init(attrs: AttributeSet?) {
         attrs ?: return
         paint = Paint()
-        val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CircleColorView)
+        //val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CircleColorView)
         //color = typeArray.getColor(R.styleable.CircleColorView_color, Color.BLUE)
-        color = ThemeHelper.getColor(AppColor.COLOR_PRIMARY)
+        color = ColorUtils.toDarkColor(ThemeHelper.getColorAccent())
     }
 
     override fun onDraw(canvas: Canvas?) {

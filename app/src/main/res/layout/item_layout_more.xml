@@ -37,7 +37,7 @@
             android:text="我的帖子"
             android:textColor="?attr/text_color_first"
             android:textSize="@dimen/text_size_big"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginStart="20dp"/>
 
         <TextView
             android:id="@+id/text_view_more_item_night"
@@ -46,7 +46,7 @@
             android:layout_gravity="center"
             android:textSize="@dimen/text_size_small"
             android:padding="2dp"
-            android:text="夜间模式"
+            android:text="@string/night_mode"
             android:visibility="gone"/>
 
         <androidx.appcompat.widget.SwitchCompat

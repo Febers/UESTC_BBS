@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 解决CoordinatorLayout下ViewPager嵌套recyclerview后无法滑动的问题
@@ -26,7 +27,7 @@ public class CustomViewPager extends ViewPager {
     /**
      * 保存position与对于的View
      */
-    private HashMap<Integer, Integer> maps = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> maps = new HashMap<>();
     private boolean scrollble = true;
 
     public CustomViewPager(Context context) {

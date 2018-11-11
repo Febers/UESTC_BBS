@@ -1,8 +1,5 @@
 package com.febers.uestc_bbs.io
 
-import android.os.Environment
-import android.util.Log.i
-
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -21,7 +18,6 @@ class DownloadHelper {
      * 如果下载的文件为apk，保存在appApkDir
      * 否则保存在appFileDir
      * @param url 下载连接
-     * @param saveDir 储存下载文件的SDCard目录
      * @param listener 下载监听
      */
     fun download(url: String, fileName: String, listener: OnDownloadListener) {

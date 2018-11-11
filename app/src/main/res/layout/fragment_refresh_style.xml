@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background_second">
+    android:background="?attr/background_first">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_theme"
@@ -48,11 +48,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:text="选择"/>
+        android:text="@string/choose"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="?android:textColorSecondary"
-        android:text="重启应用后生效"/>
+        android:text="@string/take_effect_after_reboot" />
 </LinearLayout>

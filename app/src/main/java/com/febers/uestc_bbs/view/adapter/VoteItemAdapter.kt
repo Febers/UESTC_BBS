@@ -1,10 +1,8 @@
 package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
-import android.util.Log.i
 import android.widget.CheckBox
 import android.widget.ProgressBar
-import android.widget.RadioButton
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.othershe.baseadapter.ViewHolder

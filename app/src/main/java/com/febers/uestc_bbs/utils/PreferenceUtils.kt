@@ -8,7 +8,6 @@ package com.febers.uestc_bbs.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log.d
 import org.jetbrains.anko.defaultSharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

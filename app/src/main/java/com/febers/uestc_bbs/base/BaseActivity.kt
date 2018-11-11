@@ -12,10 +12,7 @@ import org.jetbrains.anko.toast
 import org.greenrobot.eventbus.EventBus
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
-import com.afollestad.aesthetic.Aesthetic
 import com.febers.uestc_bbs.MyApp
-import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
 

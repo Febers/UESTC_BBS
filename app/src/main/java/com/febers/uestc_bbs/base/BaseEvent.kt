@@ -6,9 +6,6 @@
 
 package com.febers.uestc_bbs.base
 
-import android.view.View
-import android.widget.EditText
-
 
 open class BaseEvent<T>(var code: BaseCode, var data: T)
 

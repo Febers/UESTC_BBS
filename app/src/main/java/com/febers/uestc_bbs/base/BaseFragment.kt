@@ -67,7 +67,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onViewCreated(view, savedInstanceState)
 
         //添加toolbar点击返回
-        val activity: AppCompatActivity = getActivity() as AppCompatActivity
+        val activity: AppCompatActivity = activity as AppCompatActivity
         activity.setSupportActionBar(setToolbar())
         activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

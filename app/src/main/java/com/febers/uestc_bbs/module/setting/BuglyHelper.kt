@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.setting
 
-import android.content.Context
 import android.content.Intent
 import android.os.Process
 import com.febers.uestc_bbs.MyApp

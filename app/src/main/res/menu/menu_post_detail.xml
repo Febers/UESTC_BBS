@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item app:showAsAction="always"
         android:id="@+id/menu_item_post_detail_option"
-        android:title="菜单"
+        android:title="@string/menu"
         android:icon="@drawable/ic_more_horiz_black_24dp">
     </item>
 </menu>

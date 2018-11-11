@@ -14,7 +14,7 @@ object ActivityMgr {
 
     private var activityStack: Stack<Activity> = Stack()
     private val deleteStack = Stack<Activity>()
-    private val maxActivityCount = 10
+    private const val maxActivityCount = 10
 
     /**
      * 获得现在栈内还有多少activity
@@ -149,7 +149,7 @@ object ActivityMgr {
      * 注意此方法 会把自身也finish掉
      */
     fun popAllActivityExceptOne(cls: Class<*>) {
-        val iterator = activityStack!!.iterator()
+        val iterator = activityStack.iterator()
         while (iterator.hasNext()) {
             val activity = iterator.next() as Activity
             if (activity.javaClass != cls && !activity.isFinishing) {

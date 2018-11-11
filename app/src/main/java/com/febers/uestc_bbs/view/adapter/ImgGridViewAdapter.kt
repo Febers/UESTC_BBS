@@ -2,18 +2,14 @@ package com.febers.uestc_bbs.view.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageButton
 import android.widget.ImageView
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.ImageLoader
 
-import android.util.Log.i
 
 class ImgGridViewAdapter(private val context: Context, private val imgPaths: List<String>) : BaseAdapter() {
 

@@ -5,7 +5,6 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
@@ -21,7 +20,7 @@ fun SmartRefreshLayout.finishFail() {
 }
 
 fun SmartRefreshLayout.initAttrAndBehavior() {
-    setPrimaryColors(ThemeHelper.getColor(AppColor.COLOR_PRIMARY), ThemeHelper.getRefreshTextColor())
+    setPrimaryColors(ThemeHelper.getColorPrimary(), ThemeHelper.getRefreshTextColor())
     setEnableLoadMore(false)
     autoRefresh()
 }

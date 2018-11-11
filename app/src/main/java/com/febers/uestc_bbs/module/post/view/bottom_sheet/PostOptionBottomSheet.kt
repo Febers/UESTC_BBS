@@ -3,13 +3,11 @@ package com.febers.uestc_bbs.module.post.view.bottom_sheet
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.OptionItemBean
-import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.PostOptionAdapter
 import kotlinx.android.synthetic.main.layout_bottom_sheet_option.*
 import org.jetbrains.anko.browse

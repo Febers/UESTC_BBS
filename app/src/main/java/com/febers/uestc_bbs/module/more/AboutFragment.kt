@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.more
 
 import android.os.Bundle
-import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -16,7 +15,6 @@ import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.tencent.bugly.beta.Beta
-import kotlinx.android.synthetic.main.dialog_open_projects.*
 import kotlinx.android.synthetic.main.fragment_about.*
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email

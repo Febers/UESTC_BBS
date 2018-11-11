@@ -48,7 +48,7 @@ object FileHelper {
     /*
         与AndroidManifest中的authorities匹配
      */
-    val fileProviderAuthorities = "com.febers.uestc_bbs.fileProvider"
+    const val fileProviderAuthorities = "com.febers.uestc_bbs.fileProvider"
 
     /**
      * 获取Assets文件夹中文件的String值

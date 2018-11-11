@@ -1,24 +1,17 @@
 package com.febers.uestc_bbs.io
 
-import android.util.Log
-import android.util.Log.i
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.BaseModel
 import com.febers.uestc_bbs.base.REQUEST_SUCCESS_RS
 import com.febers.uestc_bbs.entity.UploadResultBean
-import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.google.gson.JsonObject
 import okhttp3.*
-import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.*
 import java.io.File
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 
 /**

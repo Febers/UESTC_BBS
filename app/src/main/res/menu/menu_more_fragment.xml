@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_item_search_more_fragment"
-        android:title="搜索"
+        android:title="@string/search"
         android:icon="@drawable/ic_search_white_24dp"
         app:showAsAction="always"/>
 </menu>

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.util.Log.i
 import android.view.LayoutInflater
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
@@ -21,7 +20,6 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
-import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
@@ -65,8 +63,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun initView() {
         collapsing_toolbar_layout_detail.apply {
-            setStatusBarScrimColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
-            setContentScrimColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+            setStatusBarScrimColor(ThemeHelper.getColorPrimary())
+            setContentScrimColor(ThemeHelper.getColorPrimary())
             setCollapsedTitleTextColor(ThemeHelper.getRefreshTextColor())
         }
         userPresenter = UserPresenterImpl(this)
@@ -78,7 +76,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
             userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
         }
-        image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+        image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColorPrimary())
         signDialog = AlertDialog.Builder(this@UserDetailActivity).create()
     }
 
@@ -113,7 +111,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
                 clickToViewer = false)
         image_view_user_detail_avatar.setOnClickListener {
             if (userItSelf) {
-                chooseAvatar()
+                /**
+                 * 由于上传头像至河畔服务器，均提示修改头像失败，所以改为查看大图
+                 * TODO 选择新头像或者查看大图
+                 */
+                //chooseAvatar()
+                ViewClickUtils.clickToImageViewerByUid(userId, this@UserDetailActivity)
             } else {
                 ViewClickUtils.clickToImageViewerByUid(userId, this@UserDetailActivity)
             }
@@ -175,7 +178,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         //使其可以弹出软键盘
         signDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         val btnEnter = view.findViewById<Button>(R.id.btn_dialog_sign_update_enter)
-        btnEnter.setTextColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+        btnEnter.setTextColor(ThemeHelper.getColorPrimary())
         val btnCancel = view.findViewById<Button>(R.id.btn_dialog_sign_update_cancel)
         btnCancel.setOnClickListener {
             signDialog.dismiss()

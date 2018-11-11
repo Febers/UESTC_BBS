@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -33,7 +32,7 @@
             android:maxLines="1"
             android:text="作者"
             android:textColor="?attr/text_color_first"
-            android:textSize="14dp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/image_view_msg_private_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_msg_private_author_avatar" />
 
@@ -49,7 +48,7 @@
             android:ellipsize="end"
             android:text="私信的内容内容私信的内容内容私信的内容内容私信的内容内容私信的内容内容私信
             的内容内容私信的内容内容"
-            android:textSize="14dp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/text_view_msg_system_date"
             app:layout_constraintHorizontal_bias="0.809"
@@ -66,7 +65,7 @@
             android:layout_marginTop="8dp"
             android:maxLines="1"
             android:text="回复时间"
-            android:textSize="12dp"
+            android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_msg_private_author"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

@@ -13,7 +13,6 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
 import com.afollestad.aesthetic.Aesthetic
-import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 
 import me.yokeyword.fragmentation.ExtraTransaction

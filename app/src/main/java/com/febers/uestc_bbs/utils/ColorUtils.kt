@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.utils
 
 import android.graphics.Color
-import android.util.Log.i
 
 object ColorUtils {
 

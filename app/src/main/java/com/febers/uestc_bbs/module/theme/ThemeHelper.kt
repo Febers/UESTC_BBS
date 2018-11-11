@@ -42,7 +42,7 @@ object ThemeHelper {
             }
         } else {
             var lastColorPrimary by PreferenceUtils(context, LLCP, -2201331)
-            lastColorPrimary = getColor(AppColor.COLOR_PRIMARY)
+            lastColorPrimary = getColorPrimary()
             Aesthetic.config {
                 activityTheme(R.style.AppThemeDark)
                 isDark(true)
@@ -82,6 +82,12 @@ object ThemeHelper {
         }
     }
 
+    fun getColorPrimary(): Int =  Aesthetic.get().colorPrimary().blockingFirst()
+
+    fun getColorAccent(): Int = Aesthetic.get().colorAccent().blockingFirst()
+
+    fun getColorBackground(): Int = Aesthetic.get().colorWindowBackground().blockingFirst()
+
     fun  subscribeOnThemeChange(view: View) {
         themeChangeSubscribers.add(view)
     }
@@ -101,11 +107,11 @@ object ThemeHelper {
 
     fun getTextColorPrimary(): Int = Aesthetic.get().textColorPrimary().blockingFirst()
 
-    fun getRefreshTextColor(): Int = if (ColorUtils.isLightColor(getColor(AppColor.COLOR_PRIMARY)))
+    fun getRefreshTextColor(): Int = if (ColorUtils.isLightColor(getColorPrimary()))
         Color.GRAY
     else Color.WHITE
 
-    fun getBottomNavigationColorAccent(): Int = if (ColorUtils.isLightColor(getColor(AppColor.COLOR_PRIMARY)))
+    fun getBottomNavigationColorAccent(): Int = if (ColorUtils.isLightColor(getColorPrimary()))
         Color.BLACK
-    else getColor(AppColor.COLOR_ACCENT)
+    else getColorAccent()
 }

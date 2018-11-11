@@ -59,7 +59,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postList)
         coo_layout_post_list_fragment.title = title
-        coo_layout_post_list_fragment.setBackgroundColor(ThemeHelper.getColor(AppColor.COLOR_PRIMARY))
+        coo_layout_post_list_fragment.setBackgroundColor(ThemeHelper.getColorPrimary())
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
     }
@@ -92,7 +92,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     }
 
     private fun getPost(page: Int, refresh: Boolean) {
-        refresh_layout_post_list.setNoMoreData(false)
+        refresh_layout_post_list?.setNoMoreData(false)
         pListPresenter.pListRequest(fid = mFid, page = page, refresh = refresh)
     }
 

@@ -89,10 +89,10 @@
                 android:id="@+id/text_view_item_user_post_hits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:gravity="center_vertical"
                 android:text="TextView"
-                android:textSize="13dp"
+                android:textSize="@dimen/text_size_small"
                 tools:text="200" />
         </LinearLayout>
 
@@ -113,10 +113,10 @@
                 android:id="@+id/text_view_item_user_post_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:gravity="center_vertical"
                 android:text="10"
-                android:textSize="13dp" />
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,12 +136,12 @@
                 android:id="@+id/text_view_item_user_post_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="TextView"
-                android:textSize="13dp" />
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     </LinearLayout>
 

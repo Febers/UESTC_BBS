@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.user.model
 
-import android.util.Log.i
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean
@@ -72,7 +71,7 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                     }
 
                     override fun onResponse(call: Call<UserDetailBean>, response: Response<UserDetailBean>) {
-                        val userDetailBean = response?.body()
+                        val userDetailBean = response.body()
                         if (userDetailBean == null) {
                             presenter.errorResult(SERVICE_RESPONSE_NULL)
                             return

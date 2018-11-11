@@ -19,11 +19,11 @@
         android:indeterminate="true"/>
     <TextView
         android:id="@+id/progress_dialog_title"
-        android:text="正在加载"
+        android:text="@string/loading"
         android:layout_width="0dp"
         android:layout_weight="3"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="18dp"
+        android:textSize="@dimen/text_size_big"
         android:layout_margin="15dp"/>
 </LinearLayout>

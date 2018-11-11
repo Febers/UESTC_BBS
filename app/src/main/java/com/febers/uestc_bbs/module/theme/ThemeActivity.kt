@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.theme
 
-import android.util.Log.i
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
@@ -9,7 +8,7 @@ import kotlinx.android.synthetic.main.activity_theme.*
 
 class ThemeActivity : BaseActivity() {
 
-    private var colorValue: Int = ThemeHelper.getColor(AppColor.COLOR_PRIMARY)
+    private var colorValue: Int = ThemeHelper.getColorPrimary()
 
     override fun setView(): Int {
         return R.layout.activity_theme

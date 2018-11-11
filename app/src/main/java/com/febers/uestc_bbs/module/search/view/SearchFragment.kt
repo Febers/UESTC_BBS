@@ -72,7 +72,7 @@ class SearchFragment: BaseFragment(), SearchContrect.View {
 
     @UiThread
     override fun showSearchResult(event: BaseEvent<SearchPostBean>) {
-        progressDialog?.dismiss()
+        progressDialog.dismiss()
         refresh_layout_search?.apply {
             finishRefresh(true)
             finishLoadMore(true)
@@ -101,7 +101,7 @@ class SearchFragment: BaseFragment(), SearchContrect.View {
                 keyword = query!!
                 page = 1
                 hideSoftInput()
-                progressDialog?.show()
+                progressDialog.show()
                 search(keyword, 0)
                 return true
             }

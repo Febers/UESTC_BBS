@@ -5,7 +5,6 @@ import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
-import android.util.Log.i
 import android.view.MenuItem
 import android.view.View
 import com.febers.uestc_bbs.MyApp

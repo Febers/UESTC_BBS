@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
         android:lineSpacingMultiplier="1.2"
-        android:textSize="16dp"
+        android:textSize="@dimen/text_size_big"
         android:text="1、优化界面
 2、修复bug
 3、添加新功能"/>

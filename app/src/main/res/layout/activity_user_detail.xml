@@ -82,7 +82,7 @@
                     android:layout_marginTop="4dp"
                     android:background="?attr/background_first"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
+                    android:focusable="true"
                     android:visibility="gone">
                     <TextView
                         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                         android:layout_marginBottom="10dp"
                         android:textColor="?attr/text_color_first"
                         android:textSize="@dimen/text_size_super_big"
-                        android:text="Ta的发表"/>
+                        android:text="@string/ta_new"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/background_first"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
+                    android:focusable="true"
                     android:visibility="gone">
                     <TextView
                         android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                         android:layout_marginBottom="10dp"
                         android:textColor="?attr/text_color_first"
                         android:textSize="@dimen/text_size_super_big"
-                        android:text="Ta的回复"/>
+                        android:text="@string/ta_reply"/>
                 </LinearLayout>
 
             </LinearLayout>

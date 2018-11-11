@@ -7,7 +7,6 @@
 package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
-import android.util.Log.i
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu

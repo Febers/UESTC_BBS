@@ -7,7 +7,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -63,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="32dp"
-                    android:text="请登录/注册"
+                    android:text="@string/please_login_or_sign_up"
                     android:textSize="@dimen/text_size_super_big"
                     app:layout_constraintEnd_toEndOf="@+id/text_view_fragment_user_title"
                     app:layout_constraintHorizontal_bias="0.0"

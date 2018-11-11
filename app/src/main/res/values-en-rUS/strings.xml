@@ -72,4 +72,26 @@
 
     <string name="post_fav">Favorite</string>
     <string name="post_vote">Vote</string>
+    <string name="pm_content">Content</string>
+    <string name="send">Send</string>
+    <string name="color_primary_dark_effect">colorPrimaryDark Effect</string>
+    <string name="enter">Enter</string>
+    <string name="ta_new">His Post</string>
+    <string name="ta_reply">His Reply</string>
+    <string name="open_projects_using">Open Source Projects Using</string>
+    <string name="loading">Loading</string>
+    <string name="change_sign">Change Sign</string>
+    <string name="cancel">Cancel</string>
+    <string name="please_login_or_sign_up">Login or Sign Up</string>
+    <string name="post_title">Title</string>
+    <string name="post_content">Content</string>
+    <string name="choose">Choose</string>
+    <string name="take_effect_after_reboot">Take effect after reboot</string>
+    <string name="account_list">Accounts</string>
+    <string name="add_user">Add user</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="swipe_to_choose">Swipe to choose style</string>
+    <string name="input_your_reply">reply</string>
+    <string name="search">Search</string>
+    <string name="menu">Menu</string>
 </resources>

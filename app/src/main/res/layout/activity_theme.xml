@@ -38,7 +38,7 @@
         android:id="@+id/check_box_theme_color_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="colorPrimaryDark效果"
+        android:text="@string/color_primary_dark_effect"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:textColor="?android:textColorSecondary"/>
@@ -49,5 +49,5 @@
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:textSize="@dimen/text_size_big"
-        android:text="确定"/>
+        android:text="@string/enter"/>
 </LinearLayout>

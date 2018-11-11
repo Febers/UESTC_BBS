@@ -13,7 +13,6 @@ import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
-import org.w3c.dom.Text
 
 class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmListBean.MsgListBean>,
                       private val userId: Int, private val timeUtils: PMTimeUtils):

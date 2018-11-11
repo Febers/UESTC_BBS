@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.utils
 
-import android.util.Log.i
 
 /**
  * 私信详情页面的时间工具，传入Adapter中

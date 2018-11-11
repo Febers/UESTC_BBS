@@ -13,6 +13,6 @@ object StatusBarUtils {
                 sHeight = context.resources.getDimensionPixelSize(resourceId)
             }
         }
-        return sHeight;
+        return sHeight
     }
 }

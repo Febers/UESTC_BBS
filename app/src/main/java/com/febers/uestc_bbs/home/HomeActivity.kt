@@ -17,7 +17,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.service.HeartMsgService
-import com.febers.uestc_bbs.module.theme.AppColor
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.activity_home.*
@@ -69,7 +68,7 @@ class HomeActivity: BaseActivity() {
             addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
             titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
             accentColor = ThemeHelper.getBottomNavigationColorAccent()
-            defaultBackgroundColor = ThemeHelper.getColor(AppColor.COLOR_BACKGROUND)
+            defaultBackgroundColor = ThemeHelper.getColorBackground()
             manageFloatingActionButtonBehavior(fab_home)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
             ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)

@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.http
 
-import android.util.Log.i
 import com.febers.uestc_bbs.MyApp
 import okhttp3.*
 import java.util.concurrent.TimeUnit

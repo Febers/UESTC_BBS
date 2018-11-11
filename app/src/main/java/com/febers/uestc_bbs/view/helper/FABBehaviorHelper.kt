@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.view.helper
 
-import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.core.widget.NestedScrollView
 

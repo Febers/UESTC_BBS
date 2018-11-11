@@ -9,11 +9,9 @@ import androidx.core.widget.NestedScrollView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostSendResultBean
-import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
 import com.febers.uestc_bbs.io.FileHelper
-import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
 import com.luck.picture.lib.PictureSelector
@@ -23,7 +21,6 @@ import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.fragment_post_edit.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.runOnUiThread
-import java.io.File
 
 class PostEditFragment: BaseFragment(), PEditContract.View {
 
@@ -56,12 +53,10 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
             }
         })
         grid_view_post_img.adapter = imgGridViewAdapter
+        grid_view_post_img.visibility = View.GONE
 
         fab_post_edit.setOnClickListener {
             sendNewPost()
-        }
-        btn_post_edit_img.setOnClickListener {
-            selectPictures()
         }
     }
 

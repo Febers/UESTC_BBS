@@ -15,8 +15,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 
 object ImageLoader {
 
-    private val TAG = "ImageLoader"
-
     /**
      * Glide 加载 拦截异步加载数据时Glide 抛出的异常
      * 通常用于加载头像

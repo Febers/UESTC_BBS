@@ -1,13 +1,10 @@
 package com.febers.uestc_bbs.module.more
 
-import android.Manifest
 import android.app.ProgressDialog
 import android.net.Uri
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URL
-import com.febers.uestc_bbs.io.FileHelper
-import com.febers.uestc_bbs.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_image.*
 import android.content.Intent
 import android.graphics.Bitmap
@@ -45,7 +42,7 @@ class AppImgViewer : BaseActivity() {
      */
     override fun initView() {
         imageUrl ?: return
-        i("Image imageUrl:", imageUrl)
+//        i("Image imageUrl:", imageUrl)
         progressDialog = this.indeterminateProgressDialog("请稍候") {
             setCanceledOnTouchOutside(false)
             show()
@@ -76,7 +73,7 @@ class AppImgViewer : BaseActivity() {
             gifBytes = gifDrawable?.buffer?.array()
             gifBytes ?: return false
             runOnUiThread {
-                i("Image", "gif")
+//                i("Image", "gif")
                 Glide.with(this).load(imageUrl).into(image_view_image_activity)
                 progressDialog.hide()
             }
@@ -93,7 +90,7 @@ class AppImgViewer : BaseActivity() {
             imageBitmap = futureTarget.get()
             runOnUiThread {
                 image_view_image_activity?.apply {
-                    i("Image", "img")
+//                    i("Image", "img")
                     setImageBitmap(imageBitmap)
                     reset()
                     setOnClickListener {

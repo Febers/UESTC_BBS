@@ -44,7 +44,7 @@ class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), 
                     }
 
                     override fun onResponse(call: Call<PostSendResultBean>, response: Response<PostSendResultBean>) {
-                        val resultBean = response?.body()
+                        val resultBean = response.body()
                         if (resultBean == null) {
                             pEditPresenter.errorResult(SERVICE_RESPONSE_NULL)
                             return

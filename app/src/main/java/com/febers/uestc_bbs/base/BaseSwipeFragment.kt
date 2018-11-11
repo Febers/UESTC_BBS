@@ -8,8 +8,6 @@ package com.febers.uestc_bbs.base
 
 import android.os.Bundle
 import androidx.annotation.FloatRange
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.view.*
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.R
