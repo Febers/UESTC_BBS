@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.EventBus
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.MyApp
+import com.febers.uestc_bbs.utils.ToastUtils
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
 
@@ -27,6 +28,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     protected open fun setToolbar(): Toolbar? = null
 
+    protected open fun enableHideStatusBar(): Boolean = true
+
     protected open fun setMenu(): Int? {
         return null
     }
@@ -34,7 +37,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(contentView)
-        if (!enableThemeHelper()) {
+        if (!enableThemeHelper() && enableHideStatusBar()) {
             hideStatusBar()
         }
         setSupportActionBar(setToolbar())
@@ -58,7 +61,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     override fun showToast(msg: String) {
         runOnUiThread {
-            toast(msg)
+            ToastUtils.show(msg)
         }
     }
 

@@ -90,7 +90,7 @@ class AppImgViewer : BaseActivity() {
             imageBitmap = futureTarget.get()
             runOnUiThread {
                 image_view_image_activity?.apply {
-//                    i("Image", "img")
+                    i("Image", "img")
                     setImageBitmap(imageBitmap)
                     reset()
                     setOnClickListener {
@@ -169,8 +169,6 @@ class AppImgViewer : BaseActivity() {
         shareIntent.type = "image/*"
         startActivity(shareIntent)
     }
-
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -25,10 +25,7 @@
         android:gravity="center"
         android:layout_marginBottom="10dp"
         android:text="5.16MB， 2018/8/12"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?background_second"/>
+
     <TextView
         android:id="@+id/text_view_update_detail"
         android:layout_width="match_parent"

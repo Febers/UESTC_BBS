@@ -25,6 +25,7 @@ import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.utils.LogUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
@@ -115,7 +116,7 @@ class MoreFragment: BaseFragment() {
         if (event.code == BaseCode.SUCCESS) {
             text_view_fragment_user_name.text = event.data.name
             text_view_fragment_user_title.text = event.data.title
-            ImageLoader.load(context!!, userSimple.avatar, image_view_fragment_user_avatar, clickToViewer = false)
+            ImageLoader.load(context!!, event.data.avatar, image_view_fragment_user_avatar, clickToViewer = false)
             userSimple = event.data
         } else {
             initUserDetail()

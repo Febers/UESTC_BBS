@@ -66,7 +66,7 @@ android {
         }
         multiDexEnabled true
         multiDexKeepProguard file('multiDexKeep.pro') // keep specific classes using proguard syntax
-        multiDexKeepFile file('multiDexKeep.txt') // keep specific classes
+        //multiDexKeepFile file('multiDexKeep.txt') // keep specific classes
 
     }
     compileOptions {

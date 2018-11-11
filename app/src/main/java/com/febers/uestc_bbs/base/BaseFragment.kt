@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.febers.uestc_bbs.utils.ToastUtils
 import com.febers.uestc_bbs.view.custom.SupportFragment
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.runOnUiThread
@@ -94,7 +95,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     override fun showToast(msg: String) {
         context?.runOnUiThread {
-            toast(msg)
+            ToastUtils.show(msg)
         }
     }
 }

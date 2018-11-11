@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.setting
 import android.view.KeyEvent
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
-import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -18,10 +17,12 @@ import java.io.File
 
 class UpdateActivity: BaseActivity() {
 
-    private var updateDialog: Dialog? = null
+    private var updateDialog: AlertDialog? = null
     private var btnEnter: Button? = null
 
     override fun enableThemeHelper(): Boolean = false
+
+    override fun enableHideStatusBar(): Boolean = false //好像没用
 
     override fun setView(): Int = R.layout.activity_update
 
@@ -53,9 +54,11 @@ class UpdateActivity: BaseActivity() {
             DownloadHelper().download(url = update.downloadUrl!!, fileName = "UESTC_BBS${update.versionName}.apk",
                     listener = object : DownloadHelper.OnDownloadListener {
                         override fun onDownloadSuccess(file: File) {
-                            btnEnter?.text = "安装"
-                            btnEnter?.setOnClickListener {
-                                FileHelper.installApk(this@UpdateActivity, file)
+                            runOnUiThread{
+                                btnEnter?.text = "安装"
+                                btnEnter?.setOnClickListener {
+                                    FileHelper.installApk(this@UpdateActivity, file)
+                                }
                             }
                         }
 

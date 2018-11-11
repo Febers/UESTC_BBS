@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.utils.LogUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
