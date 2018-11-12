@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 
 
 class ImgGridViewAdapter(private val context: Context, private val imgPaths: List<String>) : BaseAdapter() {

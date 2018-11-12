@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.io
+package com.febers.uestc_bbs.module.image
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -10,7 +10,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-object ImgFileHelper {
+object ImageHelper {
 
     private var fileForShare: Boolean = false
     private lateinit var imgFile: File

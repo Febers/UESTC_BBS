@@ -78,7 +78,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         if (setMenu() != null) {
             setHasOptionsMenu(true)
             setToolbar()?.inflateMenu(setMenu()!!)
-            setToolbar()?.title = ""
+//            setToolbar()?.title = ""
         }
 
         initView()

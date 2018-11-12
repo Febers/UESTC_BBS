@@ -21,7 +21,7 @@ import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListene
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
@@ -64,7 +64,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
             setOnItemClickListener { viewHolder, postReplyBean, i ->
-                getReplyBottomSheet().showWithData(topicId = topicId, toUId = postReplyBean.reply_id,
+                getReplyBottomSheet().showWithData(topicId = topicId, toUid = postReplyBean.reply_id,
                         replyId = postReplyBean.reply_posts_id, toUName = postReplyBean.reply_name!!) }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
@@ -135,7 +135,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         //结束绘制
         drawFinish = true
         fab_post_detail?.setOnClickListener {
-            getReplyBottomSheet().showWithData(topicId = topicId, toUId = topicId,
+            getReplyBottomSheet().showWithData(topicId = topicId, toUid = topicId,
                     replyId = topicReplyId, toUName = topicName)
         }
         refresh_layout_post_detail?.finishSuccess()
@@ -276,21 +276,24 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * 发送消息成功之后的回调
      * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
      * 否则加载下一页(?)
+     * ！！效果不好，改为直接加载
      */
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread {
             showToast(event.data.head?.errInfo.toString())
-            if (isInsertReplySimply && tempReplyBean != null) {
-                //i("Post", tempReplyBean!!.userTitle)
-                replyList.add(tempReplyBean!!)
-                replyItemAdapter.notifyDataSetChanged()
-                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
-            } else {
-                //i("Post", "load")
-                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
-                refresh_layout_post_detail?.autoLoadMore()
-            }
-            replyBottomSheet?.hide()
+//            if (isInsertReplySimply && tempReplyBean != null) {
+//                //i("Post", tempReplyBean!!.userTitle)
+//                replyList.add(tempReplyBean!!)
+//                replyItemAdapter.notifyDataSetChanged()
+//                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
+//            } else {
+//                //i("Post", "load")
+//                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
+//                refresh_layout_post_detail?.autoLoadMore()
+//            }
+            scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
+            refresh_layout_post_detail?.autoLoadMore()
+            replyBottomSheet?.finish()
         }
     }
 

@@ -6,6 +6,8 @@ import com.febers.uestc_bbs.base.SERVICE_RESPONSE_NULL
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PEditInterface
+import com.febers.uestc_bbs.utils.LogUtils
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,16 +16,14 @@ import java.lang.StringBuilder
 
 class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), PEditContract.Model {
 
-    override fun newPostService(fid: Int, title: String, vararg contents: Pair<Int, String>) {
-        Thread{ newPost(fid, title, *contents) }.start()
+    override fun newPostService(fid: Int, aid: String, title: String, vararg contents: Pair<Int, String>) {
+        Thread{ newPost(fid, aid, title, *contents) }.start()
     }
 
-    private fun newPost(fid: Int, title: String, vararg contents: Pair<Int, String>) {
+    private fun newPost(fid: Int, aid: String, title: String, vararg contents: Pair<Int, String>) {
         val stContents = StringBuilder()
         contents.forEach {
-            if (it.first == CONTENT_TYPE_TEXT) {
-                stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
-            }
+            stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
         }
         stContents.deleteCharAt(stContents.lastIndex)
         getRetrofit().create(PEditInterface::class.java)
@@ -32,7 +32,14 @@ class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), 
                         {"json":
                             {
                                 "fid":$fid,
-                                "title":$title,
+                                "tid":,
+                                "aid":"$aid",
+                                "isAnonymous":0,
+                                "isOnlyAuthor":0,
+                                "isQuote":0,
+                                "replyId":,
+                                "typeId":,
+                                "title":"$title",
                                 "content":"[$stContents]"
                             }
                         }

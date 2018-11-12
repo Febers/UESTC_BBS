@@ -13,6 +13,14 @@
     android:layout_height="wrap_content"
     android:background="?background_first">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_post_reply"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:indeterminate="true"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:visibility="gone"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

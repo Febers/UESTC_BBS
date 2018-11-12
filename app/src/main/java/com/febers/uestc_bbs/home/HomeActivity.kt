@@ -129,27 +129,20 @@ class HomeActivity: BaseActivity() {
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        i("HOME", "newsInstance")
+        bottom_navigation_home.currentItem = 2
         showHideFragment(mFragments[2])
     }
 
     @SuppressLint("RestrictedApi")
     override fun onResume() {
         super.onResume()
-        i("Home", "onResume")
         if (bottom_navigation_home.currentItem == 0) {
             fab_home.visibility = View.VISIBLE
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        i("Home", "onStop")
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        i("Home", "onDestroy")
         stopService(Intent(this, HeartMsgService::class.java))
     }
 

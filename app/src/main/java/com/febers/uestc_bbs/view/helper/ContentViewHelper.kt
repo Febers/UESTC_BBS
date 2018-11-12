@@ -15,7 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
 

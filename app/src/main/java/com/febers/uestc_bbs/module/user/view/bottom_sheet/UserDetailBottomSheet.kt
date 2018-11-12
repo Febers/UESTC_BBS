@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import kotlinx.android.synthetic.main.layout_bottom_sheet_user_detail.*
 
 class UserDetailBottomSheet(val activity: Activity, style: Int): BottomSheetDialog(activity, style) {

@@ -9,7 +9,7 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostListBean
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter

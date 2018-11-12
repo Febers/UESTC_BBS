@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.more
+package com.febers.uestc_bbs.http
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

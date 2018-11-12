@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.utils
+package com.febers.uestc_bbs.module.image
 
 import android.content.Context
 import android.widget.ImageView
@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.helper.GlideImageGetter
 import jp.wasabeef.glide.transformations.BlurTransformation
 

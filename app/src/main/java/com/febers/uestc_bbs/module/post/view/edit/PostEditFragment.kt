@@ -1,18 +1,24 @@
 package com.febers.uestc_bbs.module.post.view.edit
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.entity.UploadResultBean
+import com.febers.uestc_bbs.io.FileHelper
+import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
-import com.febers.uestc_bbs.io.FileHelper
+import com.febers.uestc_bbs.utils.LogUtils
+import com.febers.uestc_bbs.utils.ToastUtils
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -20,13 +26,20 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.fragment_post_edit.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.runOnUiThread
+import java.io.File
+import java.lang.StringBuilder
+import java.util.*
 
 class PostEditFragment: BaseFragment(), PEditContract.View {
 
     private lateinit var pEditPresenter: PEditContract.Presenter
     private lateinit var imgGridViewAdapter: ImgGridViewAdapter
     private val imgPaths: MutableList<String> = ArrayList()
+
+    private var progressDialog: ProgressDialog? = null
+
     private lateinit var addImagePath: String
 
     override fun setContentView(): Int {
@@ -53,7 +66,6 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
             }
         })
         grid_view_post_img.adapter = imgGridViewAdapter
-        grid_view_post_img.visibility = View.GONE
 
         fab_post_edit.setOnClickListener {
             sendNewPost()
@@ -62,22 +74,64 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
 
     /**
      * 发布新帖子
-     * 由于上传图片至河畔客户端始终无返回值
-     * 暂时不支持图片上传功能
-     * TODO 图片上传
      */
     private fun sendNewPost() {
         val titleString = edit_view_post_title.text.toString()
         val contentString = edit_view_post_content.text.toString()
         if (titleString.isEmpty()) edit_view_post_title.error = "请输入标题"
         if (contentString.isEmpty()) edit_view_post_content.error = "请输入内容"
-        progress_bar_post_edit.visibility = View.VISIBLE
-        pEditPresenter.newPostRequest(fid = mFid, title = titleString, contents = *arrayOf(CONTENT_TYPE_TEXT to contentString))
+        if (progressDialog == null) {
+            progressDialog = context!!.indeterminateProgressDialog("请稍候") {
+                setCanceledOnTouchOutside(false)
+            }
+        }
+        progressDialog?.show()
+        if (imgPaths.size == 1) {
+            pEditPresenter.newPostRequest(fid = mFid, aid = "", title = titleString, contents = *arrayOf(CONTENT_TYPE_TEXT to contentString))
+        } else {
+            sendImagePost(titleString, contentString)
+        }
+    }
+
+    private fun sendImagePost(title: String, content: String) {
+        val needUploadImages: MutableList<String> = ArrayList()
+        needUploadImages.addAll(imgPaths)
+        needUploadImages.remove(addImagePath)
+
+        val aidBuffer = StringBuffer()
+        val contentList: MutableList<Pair<Int, String>> = Collections.synchronizedList(ArrayList())
+        contentList.add(CONTENT_TYPE_TEXT to content)
+        for (path in needUploadImages) {
+            var flag = true
+            var successCount = 0
+            FileUploader().uploadPostImageToBBS(imageFile = File(path), listener = object : FileUploader.OnFileUploadListener {
+                override fun onUploadFail(msg: String) {
+                    flag = false
+                }
+
+                override fun onUploadSuccess(event: BaseEvent<UploadResultBean>) {
+
+                    aidBuffer.append("${event.data.body?.attachment?.first()?.id},")
+                    contentList.add(CONTENT_TYPE_IMG to event.data.body?.attachment?.first()?.urlName.toString())
+                    LogUtils.i("success")
+                    if (++successCount == needUploadImages.size) {
+                        aidBuffer.deleteCharAt(aidBuffer.lastIndex)
+                        LogUtils.i("new size: ${contentList.size}")
+                        pEditPresenter.newPostRequest(fid = mFid, aid = aidBuffer.toString(), title = title, contents = *contentList.toTypedArray())
+                    }
+                }
+            })
+            if (!flag) {
+                ToastUtils.show("失败")
+                break
+            }
+        }
+
     }
 
     override fun showNewPostResult(event: PostSendResultBean) {
         context?.runOnUiThread {
-            progress_bar_post_edit.visibility = View.GONE
+            progressDialog?.dismiss()
             EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, "new post"))
             activity?.finish()
             PictureFileUtils.deleteCacheDirFile(context!!)
@@ -92,6 +146,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
                 .isDragFrame(true)
                 .previewImage(true)
                 .compress(true)
+                .hideBottomControls(false)
                 .forResult(PictureConfig.CHOOSE_REQUEST)
     }
 
@@ -152,7 +207,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
     override fun showError(msg: String) {
         context?.runOnUiThread {
             showToast(msg)
-            progress_bar_post_edit.visibility = View.GONE
+            progressDialog?.dismiss()
             PictureFileUtils.deleteCacheDirFile(context!!)
         }
     }

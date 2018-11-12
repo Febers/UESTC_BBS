@@ -24,8 +24,8 @@ import com.febers.uestc_bbs.module.setting.SettingFragment
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.ImageLoader
-import com.febers.uestc_bbs.utils.LogUtils
+import com.febers.uestc_bbs.module.image.ImageLoader
+import com.febers.uestc_bbs.module.setting.AboutFragment
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
@@ -101,12 +101,12 @@ class MoreFragment: BaseFragment() {
     private fun initMoreItem2(): List<MoreItemBean> {
         val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.ic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
         val item2 = MoreItemBean(getString(R.string.setting_and_account), R.mipmap.ic_setting_gray)
-        val item3 = MoreItemBean("关于", R.drawable.ic_emot_blue_24dp)
+        val item3 = MoreItemBean(getString(R.string.about), R.drawable.ic_emot_blue_24dp)
         return listOf(item1, item2, item3)
     }
 
     private fun initUserDetail() {
-        text_view_fragment_user_name.text = "未登录"
+        text_view_fragment_user_name.text = getString(R.string.please_login_or_sign_up)
         text_view_fragment_user_title.text = " "
         ImageLoader.loadResource(context, R.mipmap.ic_default_avatar, image_view_fragment_user_avatar, isCircle = true)
     }

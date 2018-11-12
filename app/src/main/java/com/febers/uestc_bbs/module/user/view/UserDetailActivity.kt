@@ -20,6 +20,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl

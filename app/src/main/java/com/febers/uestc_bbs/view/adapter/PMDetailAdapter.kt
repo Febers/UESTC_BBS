@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PMDetailBean
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder

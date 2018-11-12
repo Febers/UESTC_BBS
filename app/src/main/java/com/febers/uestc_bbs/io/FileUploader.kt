@@ -28,12 +28,11 @@ class FileUploader: BaseModel() {
      */
     fun uploadPostImageToBBS(imageFile: File, listener: OnFileUploadListener) {
         Thread{
-            val imageBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile)
+            val imageBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), imageFile)
             val imagePart: MultipartBody.Part = MultipartBody.Part.createFormData("uploadFile[]", imageFile.name, imageBody)
 
             getRetrofit().create(UploadToBBSInterface::class.java)
-                    .uploadImage(params = mapOf("type" to "image", "module" to "forum"),
-                            image = imagePart)
+                    .uploadPostImage(image = imagePart)
                     .enqueue(object : Callback<UploadResultBean> {
                         override fun onFailure(call: Call<UploadResultBean>, t: Throwable) {
                             listener.onUploadFail("Upload Image Fail:" + t.toString())
@@ -63,7 +62,7 @@ class FileUploader: BaseModel() {
 interface UploadToBBSInterface {
 
     @Multipart
-    @POST(ApiUtils.BBS_SEND_ATTACHMENTEX_URL)
-    fun uploadImage(@QueryMap()params: Map<String, String>, @Part()image: MultipartBody.Part) : Call<UploadResultBean>
+    @POST(ApiUtils.BBS_SEND_POST_IMAGE_URL)
+    fun uploadPostImage(@Part()image: MultipartBody.Part) : Call<UploadResultBean>
 
 }

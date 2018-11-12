@@ -11,7 +11,7 @@ import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder

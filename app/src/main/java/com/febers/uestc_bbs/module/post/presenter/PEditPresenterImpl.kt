@@ -8,8 +8,8 @@ class PEditPresenterImpl(val view: PEditContract.View): PEditContract.Presenter(
 
     private val pEditModel: PEditContract.Model = PEditModelImpl(this)
 
-    override fun newPostRequest(fid: Int, title: String, vararg contents: Pair<Int, String>) {
-        pEditModel.newPostService(fid, title, *contents)
+    override fun newPostRequest(fid: Int, aid: String, title: String, vararg contents: Pair<Int, String>) {
+        pEditModel.newPostService(fid, aid, title, *contents)
     }
 
     override fun newPostResult(event: PostSendResultBean) {

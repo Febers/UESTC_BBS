@@ -93,4 +93,6 @@
     <string name="input_your_reply">请输入评论内容</string>
     <string name="search">搜索</string>
     <string name="menu">菜单</string>
+    <string name="about">关于</string>
+    <string name="donate_developer">捐赠开发者</string>
 </resources>

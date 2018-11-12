@@ -8,7 +8,7 @@ import com.febers.uestc_bbs.entity.MsgAtBean
 import com.febers.uestc_bbs.entity.MsgPrivateBean
 import com.febers.uestc_bbs.entity.MsgReplyBean
 import com.febers.uestc_bbs.entity.MsgSystemBean
-import com.febers.uestc_bbs.utils.ImageLoader
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter

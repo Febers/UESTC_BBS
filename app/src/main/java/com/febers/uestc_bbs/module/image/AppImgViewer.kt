@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.more
+package com.febers.uestc_bbs.module.image
 
 import android.app.ProgressDialog
 import android.net.Uri
@@ -12,7 +12,6 @@ import android.util.Log.i
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.base.BaseActivity
-import com.febers.uestc_bbs.io.ImgFileHelper
 import org.jetbrains.anko.indeterminateProgressDialog
 
 
@@ -111,14 +110,14 @@ class AppImgViewer : BaseActivity() {
         progressDialog.show()
         Thread(Runnable {
             if (imageBitmap != null) {
-                imageUri = ImgFileHelper.saveImage(imageBitmap as Bitmap, forShare = false)
+                imageUri = ImageHelper.saveImage(imageBitmap as Bitmap, forShare = false)
                 if (imageUri != null) {
                     showToast("保存图片成功")
                 } else {
                     showToast("保存图片失败")
                 }
             } else if (gifBytes != null) {
-                gifUri = ImgFileHelper.saveGif(gifBytes as ByteArray, forShare = false)
+                gifUri = ImageHelper.saveGif(gifBytes as ByteArray, forShare = false)
                 if (gifUri != null) {
                     showToast("保存图片成功")
                 } else {
@@ -135,7 +134,7 @@ class AppImgViewer : BaseActivity() {
             if (gifBytes != null) {
                 //第一次判断，是否已经保存过图片
                 if (gifUri == null) {
-                    gifUri = ImgFileHelper.saveGif(gifBytes as ByteArray, forShare = true)
+                    gifUri = ImageHelper.saveGif(gifBytes as ByteArray, forShare = true)
                 }
                 //再次判断，是否保存失败
                 if (gifUri == null) {
@@ -144,7 +143,7 @@ class AppImgViewer : BaseActivity() {
                 showShareView(gifUri as Uri)
             } else {
                 if (imageUri == null) {
-                    imageUri = ImgFileHelper.saveImage(imageBitmap as Bitmap, forShare = true)
+                    imageUri = ImageHelper.saveImage(imageBitmap as Bitmap, forShare = true)
                 }
                 if (imageUri == null) {
                     return@Runnable
@@ -172,6 +171,6 @@ class AppImgViewer : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        ImgFileHelper.onImageViewDestroy()
+        ImageHelper.onImageViewDestroy()
     }
 }

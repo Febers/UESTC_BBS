@@ -100,8 +100,8 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     override fun showPList(event: BaseEvent<PostListBean>) {
         refresh_layout_post_list?.finishSuccess()
         //顶部文字
-        text_view_post_list_today_num.text = getString(R.string.block_today_num) + ": " +event.data.forumInfo?.td_posts_num
-        text_view_post_list_all_num.text = getString(R.string.block_all_num) + ": " + event.data.forumInfo?.posts_total_num
+        text_view_post_list_today_num?.text = getString(R.string.block_today_num) + ": " +event.data.forumInfo?.td_posts_num
+        text_view_post_list_all_num?.text = getString(R.string.block_all_num) + ": " + event.data.forumInfo?.posts_total_num
         //置顶帖数据
         stickyPostList.clear()
         stickyPostList.addAll(event.data.topTopicList!!)

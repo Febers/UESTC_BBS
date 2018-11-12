@@ -10,31 +10,24 @@ import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.login.model.LoginContext
-import com.febers.uestc_bbs.module.more.AppImgViewer
+import com.febers.uestc_bbs.module.image.AppImgViewer
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
+import org.jetbrains.anko.browse
 
 object ViewClickUtils {
 
+    /**
+     * TODO 点击站内链接时自动跳转，无需打开浏览器
+     */
     fun linkClick(url: String, context: Context) {
+//        i("Link ", url)
         if (url.endsWith(".gif")) {
             return
         }
-        if (url.contains("mailto")) {
-//            val intent = Intent(Intent.ACTION_SENDTO)
-//            intent.data = Uri.parse(url.removeRange(0,  url.lastIndexOf("mailto")))
-//            context.startActivity(intent)
-            return
-        }
-        if (url.contains("http://bbs.stuhome.net/forum.php?mod=viewthread&tid")) {
-            i("Link Change", url.removeRange(0, url.lastIndexOf("tid=")+4))
-            clickToPostDetail(context, url.removeRange(0, url.lastIndexOf("tid=")+4).toInt())
-            return
-        }
-        val uri = Uri.parse(url)
-        context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+        context.browse(url, true)
     }
 
     fun clickToImageViewerByUid(uid: Int?, context: Context?) {

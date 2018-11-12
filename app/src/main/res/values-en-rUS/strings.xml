@@ -94,4 +94,6 @@
     <string name="input_your_reply">reply</string>
     <string name="search">Search</string>
     <string name="menu">Menu</string>
+    <string name="about">About</string>
+    <string name="donate_developer">Donate developer</string>
 </resources>

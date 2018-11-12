@@ -13,7 +13,7 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.utils.ImageLoader;
+import com.febers.uestc_bbs.module.image.ImageLoader;
 
 import java.util.HashSet;
 import java.util.Set;

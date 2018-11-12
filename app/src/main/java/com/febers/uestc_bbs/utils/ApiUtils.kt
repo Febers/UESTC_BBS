@@ -153,6 +153,13 @@ object ApiUtils {
     const val BBS_SEND_ATTACHMENTEX_URL = "mobcent/app/web/index.php?r=forum/sendattachmentex"
 
     /**
+     * 发送帖子图片至服务器
+     * uploadFile[] 图片文件
+     * 服务器会返回一个包含aid和urlName的resultBean
+     */
+    const val BBS_SEND_POST_IMAGE_URL = "mobcent/app/web/index.php?r=forum/sendattachmentex&type=image&module=forum"
+
+    /**
      * 收藏帖子
      */
     const val BBS_POST_FAVORITE_URL = "mobcent/app/web/index.php?r=user/userfavorite"

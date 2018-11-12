@@ -1,8 +1,7 @@
-package com.febers.uestc_bbs.module.more
+package com.febers.uestc_bbs.module.setting
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -12,6 +11,7 @@ import com.febers.uestc_bbs.base.BaseSwipeFragment
 import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
+import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.tencent.bugly.beta.Beta
@@ -30,6 +30,7 @@ class AboutFragment: BaseSwipeFragment() {
 
     override fun setToolbar(): Toolbar? = toolbar_about
 
+    override fun setMenu(): Int? = R.menu.menu_about
 
     override fun setContentView(): Int {
         return R.layout.fragment_about
@@ -127,6 +128,13 @@ class AboutFragment: BaseSwipeFragment() {
             ProjectItemBean("retrofit", "square", "")
 
     )
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.menu_item_donate) {
+            DonateUtils(context!!).donateByAlipay()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     companion object {
         @JvmStatic
