@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:replace="android:theme">
+        tools:replace="android:theme"
+        android:usesCleartextTraffic="true">
 
         <provider
             android:name="androidx.core.content.FileProvider"
