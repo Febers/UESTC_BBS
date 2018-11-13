@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-17 下午8:46.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-17 下午8:46.
- */
-
 package com.febers.uestc_bbs.module.post.model
 
 import com.febers.uestc_bbs.base.*

@@ -117,9 +117,9 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
                  * TODO 选择新头像或者查看大图
                  */
                 //chooseAvatar()
-                ViewClickUtils.clickToImageViewerByUid(userId, this@UserDetailActivity)
+                ViewClickUtils.clickToViewAvatarByUid(userId, this@UserDetailActivity)
             } else {
-                ViewClickUtils.clickToImageViewerByUid(userId, this@UserDetailActivity)
+                ViewClickUtils.clickToViewAvatarByUid(userId, this@UserDetailActivity)
             }
         }
         refresh_layout_user_detail?.finishRefresh()

@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-14 上午4:04.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-14 上午4:04.
- */
-
 package com.febers.uestc_bbs.base
 
 
@@ -18,3 +12,5 @@ data class MsgEvent(var code: BaseCode, var count: Int)
 data class TabReselectedEvent(var code: BaseCode, var position: Int)
 
 data class MsgFeedbackEvent(var code: BaseCode, var type: String)
+
+data class PostNewEvent(var description: String)

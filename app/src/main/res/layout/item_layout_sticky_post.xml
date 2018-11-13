@@ -12,7 +12,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:padding="6dp"
-        android:src="@drawable/ic_sticky_post"/>
+        android:src="@drawable/xic_sticky_post"/>
     <TextView
         android:id="@+id/text_view_item_sticky_post"
         android:layout_width="0dp"

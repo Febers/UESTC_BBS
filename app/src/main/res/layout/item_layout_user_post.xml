@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/ic_default_avatar" />
+        android:src="@drawable/ic_default_avatar" />
 
     <TextView
         android:id="@+id/text_view_item_user_post_title"
@@ -83,7 +82,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                app:srcCompat="@mipmap/ic_eye_small_gray" />
+                android:src="@drawable/ic_eye_small_gray" />
 
             <TextView
                 android:id="@+id/text_view_item_user_post_hits"
@@ -107,7 +106,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                app:srcCompat="@mipmap/ic_reply_small_gray" />
+                android:src="@drawable/ic_reply_small_gray" />
 
             <TextView
                 android:id="@+id/text_view_item_user_post_reply"
@@ -130,7 +129,7 @@
                 android:id="@+id/imageView5"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                app:srcCompat="@mipmap/ic_clock_small_gray" />
+                android:src="@drawable/ic_clock_small_gray" />
 
             <TextView
                 android:id="@+id/text_view_item_user_post_time"

@@ -11,6 +11,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface MessageInterface {
+
     @FormUrlEncoded
     @POST(ApiUtils.BBS_MESSAGE_NOTIFY_LIST)
     fun getReplyAndSystemAndAt(
@@ -28,4 +29,5 @@ interface MessageInterface {
     @FormUrlEncoded
     @POST(ApiUtils.BBS_MESSAGE_PM_ADMIN)
     fun pmSendResult(@Field("json")json: String): Call<PMSendResultBean>
+
 }

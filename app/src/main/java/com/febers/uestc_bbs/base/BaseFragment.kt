@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-16 下午9:38.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-16 下午9:38.
- */
-
 package com.febers.uestc_bbs.base
 
 
@@ -28,20 +22,20 @@ const val MSG_TYPE = "mMsgType"
 
 abstract class BaseFragment : SupportFragment(), BaseView {
 
-    protected var mFid: Int = 0
-    protected var mUid: Int = 0
     protected var mMsgType: String? = MSG_TYPE_REPLY
     protected var mTitle: String? = "i河畔"
-
-    protected abstract fun setContentView(): Int
-
-    protected open fun registerEventBus(): Boolean = false
+    protected var mFid: Int = 0
+    protected var mUid: Int = 0
 
     protected open fun setMenu(): Int? = null
 
-    protected open fun setToolbar(): Toolbar? { return null }
+    protected open fun setToolbar(): Toolbar? = null
+
+    protected open fun registerEventBus(): Boolean = false
 
     protected open fun initView() {}
+
+    protected abstract fun setContentView(): Int
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,9 +72,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         if (setMenu() != null) {
             setHasOptionsMenu(true)
             setToolbar()?.inflateMenu(setMenu()!!)
-//            setToolbar()?.title = ""
         }
-
         initView()
     }
 

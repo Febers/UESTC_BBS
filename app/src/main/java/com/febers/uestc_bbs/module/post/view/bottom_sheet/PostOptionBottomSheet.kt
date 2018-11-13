@@ -73,12 +73,12 @@ class PostOptionBottomSheet(context: Context, style: Int,
     private fun getOptionList(): List<OptionItemBean> {
         return arrayListOf(
                 OptionItemBean(if (authorOnly)"查看所有" else "只看楼主",
-                        if (authorOnly)R.drawable.ic_people_blue_24dp else R.drawable.ic_person_blue_24dp),
+                        if (authorOnly)R.drawable.xic_people_blue_24dp else R.drawable.xic_person_blue_24dp),
                 OptionItemBean(if (orderPositive)"倒序查看" else "正序查看",
-                        if (orderPositive)R.drawable.ic_order_navi_green_24dp else R.drawable.ic_order_posi_green_24dp),
-                OptionItemBean("Web页面", R.drawable.ic_web_purple_24dp),
-                OptionItemBean("复制链接", R.drawable.ic_link_orange_24dp),
-                OptionItemBean("分享", R.drawable.ic_share_blue_24dp))
+                        if (orderPositive)R.drawable.xic_order_navi_green_24dp else R.drawable.xic_order_posi_green_24dp),
+                OptionItemBean("Web页面", R.drawable.xic_web_purple_24dp),
+                OptionItemBean("复制链接", R.drawable.xic_link_orange_24dp),
+                OptionItemBean("分享", R.drawable.xic_share_blue_24dp))
     }
 
     private fun Int.pidToWebUrl() = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=${this}"

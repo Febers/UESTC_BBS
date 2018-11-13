@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-16 下午10:32.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-16 下午10:32.
- */
-
 package com.febers.uestc_bbs.base
 
 import android.os.Bundle

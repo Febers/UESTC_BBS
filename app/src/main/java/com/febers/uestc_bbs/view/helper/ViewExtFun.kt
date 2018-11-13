@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.view.helper
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.view.View

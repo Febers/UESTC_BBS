@@ -28,6 +28,12 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     private var userName = ""
     private var page = 1
     private var uid = 0
+
+    /*
+        输入法是否显示的标志变量
+        如果设置新值，说明输入法状态改变
+        调用softInputStatusChange方法通知视图
+     */
     private var isSoftInputShow: Boolean = false
         set(value) {
             field = value
@@ -51,6 +57,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         }
         getPmList(startTime = 0)
         btn_pm_send.setOnClickListener { sendPMDetail() }
+
         /**
          * 通过监听父布局的高度变化，判断输入法是否弹出
          * 测试未弹出时diff为76，弹出后为827
@@ -58,7 +65,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
          */
         relative_layout_pm.viewTreeObserver.addOnGlobalLayoutListener {
             val diffHeight = relative_layout_pm.rootView.height - relative_layout_pm.height
-            i("PM", diffHeight.toString())
+            //i("PM", diffHeight.toString())
             if (diffHeight >= 500) {
                 isSoftInputShow = true
             }
@@ -130,6 +137,9 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         }
     }
 
+    /**
+     * 将ScrollView滑动至底部
+     */
     private fun scrollViewScrollToBottom() = scroll_view_pm.post {
         scroll_view_pm.scrollTo(0, linear_layout_pm_content.measuredHeight)
     }

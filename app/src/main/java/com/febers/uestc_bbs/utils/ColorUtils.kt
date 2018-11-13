@@ -10,6 +10,14 @@ object ColorUtils {
         val b = Color.blue(color)
     }
 
+    /**
+     * 通过改变HSV(色调、饱和度、明度)中的V(明度)
+     * 将颜色变得更深
+     * 用于改变主题时StatusBar的ColorPrimaryDark效果
+     *
+     * @param color Color的Int值
+     * @return 转换之后的Color
+     */
     fun toDarkColor(color: Int): Int {
         val hsv: FloatArray = FloatArray(3)
         Color.colorToHSV(color, hsv)
@@ -17,6 +25,14 @@ object ColorUtils {
         return Color.HSVToColor(hsv)
     }
 
+    /**
+     * 根据通用的公式判断一个颜色是否为淡色
+     * 用于主题切换时，根据颜色的深浅
+     * 决定text的颜色
+     *
+     * @param color Color的Int值
+     * @return 是否为淡色
+     */
     fun isLightColor(color: Int): Boolean {
         val r = Color.red(color)
         val g = Color.green(color)

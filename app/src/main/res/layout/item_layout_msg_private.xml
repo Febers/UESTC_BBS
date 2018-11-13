@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@mipmap/ic_default_avatar" />
+            android:src="@drawable/ic_default_avatar_circle" />
 
         <TextView
             android:id="@+id/text_view_msg_private_author"
@@ -87,7 +87,7 @@
             app:layout_constraintStart_toEndOf="@+id/text_view_msg_private_author"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_circle_red"
+            app:srcCompat="@drawable/xic_circle_red"
             android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

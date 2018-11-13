@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="normal"
-        android:src="@mipmap/ic_send_white"
+        android:src="@drawable/ic_send_white"
         app:pressedTranslationZ="8dp"
         android:layout_marginEnd="@dimen/fab_margin_right"
         app:layout_anchor="@id/linear_layout_post_edit"
@@ -101,19 +101,19 @@
                 android:id="@+id/btn_post_edit_img"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:background="@mipmap/ic_img_gray"
+                android:background="@drawable/ic_img_gray"
                 android:layout_margin="8dp"/>
             <ImageButton
                 android:id="@+id/btn_post_edit_emotion"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:background="@mipmap/ic_emotion_gray"
+                android:background="@drawable/ic_emotion_gray"
                 android:visibility="gone"
                 android:layout_margin="8dp"/>
             <ImageButton
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:background="@mipmap/ic_at_small_gray"
+                android:background="@drawable/ic_at_small_gray"
                 android:visibility="gone"
                 android:layout_margin="8dp"/>
         </LinearLayout>

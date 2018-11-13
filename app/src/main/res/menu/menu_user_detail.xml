@@ -5,6 +5,6 @@
         android:id="@+id/menu_item_user_edit"
         android:title="@string/edit"
         app:showAsAction="always"
-        android:icon="@mipmap/ic_user_edit_white">
+        android:icon="@drawable/ic_user_edit_white">
     </item>
 </menu>

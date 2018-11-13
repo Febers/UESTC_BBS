@@ -2,13 +2,6 @@ package com.febers.uestc_bbs.entity
 
 class MsgHeartBean {
 
-    /**
-     * rs : 1
-     * errcode :
-     * head : {"errCode":"00000000","errInfo":"调用成功,没有任何错误","version":"2.6.1.7","alert":0}
-     * body : {"externInfo":{"padding":"","heartPeriod":"120000","pmPeriod":"20000"},"replyInfo":{"count":1,"time":"1538750473000"},"atMeInfo":{"count":1,"time":"1538750473000"},"pmInfos":[{"fromUid":214009,"plid":4022360,"pmid":4022360,"time":"1538750459000"}],"friendInfo":{"count":1,"time":"1538750422000"}}
-     */
-
     var rs: Int = 0
     var errcode: String? = null
     var head: HeadBean? = null

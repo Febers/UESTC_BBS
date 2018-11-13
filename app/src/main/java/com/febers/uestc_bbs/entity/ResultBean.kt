@@ -1,12 +1,7 @@
 package com.febers.uestc_bbs.entity
 
 class PMSendResultBean {
-    /**
-     * rs : 1
-     * errcode : 操作成功
-     * head : {"errCode":"0000000","errInfo":"操作成功 ","version":"2.6.1.7","alert":0}
-     * body : {"externInfo":{"padding":""},"plid":4022360,"pmid":4318412,"sendTime":"1539501088000"}
-     */
+
     var rs: Int = 0
     var errcode: String? = null
     var head: HeadBean? = null

@@ -19,13 +19,14 @@ object ImageLoader {
     /**
      * Glide 加载 拦截异步加载数据时Glide 抛出的异常
      * 通常用于加载头像
-     * @param context
+     *
+     * @param context 所有加载图片的方法都拦截了异常，因为Context销毁之后Glide会报错，非常频繁
      * @param url           加载图片的url地址  String
      * @param imageView     加载图片的ImageView 控件
      * @param placeImage 图片加载过程中的本地图片 id
      */
     fun load(context: Context?, url: String?, imageView: ImageView?,
-             placeImage: Int? = R.mipmap.ic_default_avatar,
+             placeImage: Int? = R.drawable.ic_default_avatar_circle,
              isCircle: Boolean = true,
              isBlur: Boolean = false,
              noCache: Boolean = false,
@@ -45,7 +46,7 @@ object ImageLoader {
                         if (placeImage != null) {
                             this.placeholder(placeImage)
                         }
-                        this.error(R.mipmap.image_error_200200)
+                        this.error(R.drawable.image_error_200200)
                     }
                     .transition(withCrossFade())
                     .into(imageView!!)
@@ -59,29 +60,50 @@ object ImageLoader {
         }
     }
 
+    /**
+     * 加载本地资源文件
+     *
+     * @param context
+     * @param resourceId
+     * @param imageView
+     * @param isCircle 是否加载圆形图片，默认false
+     */
     fun loadResource(context: Context?, resourceId: Int, imageView: ImageView?, isCircle: Boolean = false) {
-        GlideApp.with(context!!).load(resourceId)
-                .apply {
-                    if (isCircle) {
-                        this.apply(RequestOptions.bitmapTransform(CircleCrop()))
+        try {
+            GlideApp.with(context!!).load(resourceId)
+                    .apply {
+                        if (isCircle) {
+                            this.apply(RequestOptions.bitmapTransform(CircleCrop()))
+                        }
                     }
-                }
-                .into(imageView!!)
+                    .into(imageView!!)
+        } catch (e: Exception) {}
     }
 
+    /**
+     * 加载本地资源文件
+     *
+     * @param context
+     * @param path
+     * @param imageView
+     * @param isCircle 是否加载圆形图片，默认false
+     */
     fun loadResource(context: Context?, path: String, imageView: ImageView?, isCircle: Boolean = false) {
-        GlideApp.with(context!!).load(path)
-                .apply {
-                    if (isCircle) {
-                        this.apply(RequestOptions.bitmapTransform(CircleCrop()))
+        try {
+            GlideApp.with(context!!).load(path)
+                    .apply {
+                        if (isCircle) {
+                            this.apply(RequestOptions.bitmapTransform(CircleCrop()))
+                        }
                     }
-                }
-                .fitCenter()
-                .into(imageView!!)
+                    .fitCenter()
+                    .into(imageView!!)
+        } catch (e: Exception) {}
     }
 
     /**
      * 预加载图片，防止边绘制ImageView边加载图片，边滑动时的卡顿问题
+     *
      * @param context Context
      * @param url     加载图片的url地址  String
      */
@@ -99,6 +121,7 @@ object ImageLoader {
      * 使用在后台预加载的图片，由于此时视图已经绘制完毕
      * 只需要将Glide加载的图片填充进ImageView即可
      * 通常用于加载帖子中的内容
+     *
      * @param context
      * @param url        加载图片的url地址  String
      * @param imageView  加载图片的ImageView 控件
@@ -108,8 +131,8 @@ object ImageLoader {
             val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             GlideApp.with(context!!).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .placeholder(R.mipmap.image_placeholder_400200)
-                    .error(R.mipmap.image_error_400200)
+                    .placeholder(R.drawable.image_placeholder_400200)
+                    .error(R.drawable.image_error_400200)
                     .apply(sizeOptions)
                     .centerCrop()
                     .into(imageView!!)
@@ -118,6 +141,14 @@ object ImageLoader {
         }
     }
 
+    /**
+     * 此方法在图文视图中被调用，作用是为Target加载网络图片
+     *
+     * @param context
+     * @param url
+     * @param viewTarget
+     * @param noCache
+     */
     fun loadViewTarget(context: Context?,
                        url: String?,
                        viewTarget: GlideImageGetter.ImageGetterViewTarget,
@@ -129,7 +160,7 @@ object ImageLoader {
                             diskCacheStrategy(DiskCacheStrategy.NONE)
                         }
                     }
-                    .error(R.mipmap.ic_place_holder_grey)
+                    .error(R.drawable.ic_place_holder_grey)
                     .into(viewTarget)
         } catch (e: Exception) {
             e.printStackTrace()

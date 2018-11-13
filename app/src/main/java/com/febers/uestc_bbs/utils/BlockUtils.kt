@@ -4,6 +4,14 @@ import com.febers.uestc_bbs.base.*
 
 object BlockUtils {
 
+    /**
+     * 根据BlockFragment中GridView的位置
+     * 获取fid(groupId)的值，用于发帖，或者板块入口参数
+     *
+     * @param group 组别
+     * @param position 每一组中的位置
+     * @return fid
+     */
     fun getBlockIdByPosition(group: Int, position: Int): Int {
         var fid = 25
         if (group == CAMPUS_GROUP) {

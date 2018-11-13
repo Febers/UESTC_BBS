@@ -29,5 +29,5 @@
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_clear_red_24dp" />
+        android:background="@drawable/xic_clear_red_24dp" />
 </LinearLayout>

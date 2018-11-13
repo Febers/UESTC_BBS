@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-18 下午3:09.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-18 下午3:09.
- */
-
 package com.febers.uestc_bbs.view.helper;
 
 import android.graphics.Canvas;

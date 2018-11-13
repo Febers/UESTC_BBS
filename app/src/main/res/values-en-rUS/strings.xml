@@ -7,11 +7,8 @@
 
 <resources>
     <string name="app_name">iBBS</string>
-    <string name="developer_name">Febers</string>
-    <string name="developer_email">febers418@qq.com</string>
     <string name="clear_image_cache">Clear Image Cache</string>
     <string name="version">Version</string>
-    <string name="version_value">v1.0</string>
     <string name="check_update">Check Update</string>
     <string name="feedback_and_other">Feedback Or Other</string>
     <string name="source_code">Source Code</string>
@@ -96,4 +93,15 @@
     <string name="menu">Menu</string>
     <string name="about">About</string>
     <string name="donate_developer">Donate developer</string>
+    <string name="login_success">Login successful</string>
+    <string name="receiving_message_backround">Receiving message background</string>
+    <string name="please_input_title">Please input title</string>
+    <string name="please_input_content">Please input Content</string>
+    <string name="unknwon">Unknown</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="error">Error!</string>
+    <string name="no_alipay_installed">No Alipay installed</string>
+    <string name="about_permission">About Permission</string>
 </resources>

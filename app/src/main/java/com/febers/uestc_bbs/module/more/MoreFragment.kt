@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-17 下午4:13.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-17 下午4:12.
- */
-
 package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
@@ -90,25 +84,25 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
-        val item1 = MoreItemBean(getString(R.string.my_start_post), R.drawable.ic_edit_blue_24dp)
-        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.ic_reply_red_24dp)
-        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.ic_star_border_teal_24dp)
-        val item4 = MoreItemBean("", R.mipmap.ic_friend_blue)
-        val item5 = MoreItemBean("", R.mipmap.ic_search_blue)
+        val item1 = MoreItemBean(getString(R.string.my_start_post), R.drawable.xic_edit_blue_24dp)
+        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
+        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
+        val item4 = MoreItemBean("", R.drawable.xic_person_blue_24dp)
+        val item5 = MoreItemBean("", R.drawable.xic_search_white_24dp)
         return listOf(item1, item2, item3)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.ic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
-        val item2 = MoreItemBean(getString(R.string.setting_and_account), R.mipmap.ic_setting_gray)
-        val item3 = MoreItemBean(getString(R.string.about), R.drawable.ic_emot_blue_24dp)
+        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
+        val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
+        val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
         return listOf(item1, item2, item3)
     }
 
     private fun initUserDetail() {
         text_view_fragment_user_name.text = getString(R.string.please_login_or_sign_up)
         text_view_fragment_user_title.text = " "
-        ImageLoader.loadResource(context, R.mipmap.ic_default_avatar, image_view_fragment_user_avatar, isCircle = true)
+        ImageLoader.loadResource(context, R.drawable.ic_default_avatar_circle, image_view_fragment_user_avatar, isCircle = true)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

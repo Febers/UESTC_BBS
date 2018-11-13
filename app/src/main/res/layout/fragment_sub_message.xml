@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Febers at 18-8-14 上午2:17.
-  ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-8-14 上午2:17.
-  -->
-
 <com.scwang.smartrefresh.layout.SmartRefreshLayout
     android:id="@+id/refresh_layout_sub_message"
     xmlns:android="http://schemas.android.com/apk/res/android"

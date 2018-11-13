@@ -1,15 +1,8 @@
-/*
- * Created by Febers at 18-6-9 上午9:22.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-9 上午9:21.
- */
-
 package com.febers.uestc_bbs.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.core.app.ActivityCompat
-import android.util.Log.i
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
@@ -18,7 +11,6 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.LogUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
@@ -63,7 +55,7 @@ class HomeActivity: BaseActivity() {
             }
         }
         bottom_navigation_home.apply {
-            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.ic_windmill_gray))
+            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.xic_windmill_gray))
             addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
             addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
             addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))

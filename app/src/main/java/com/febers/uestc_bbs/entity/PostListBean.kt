@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.entity
 
 class PostListBean {
+
     var rs: Int = 0
     var errcode: String? = null
     var head: HeadBean? = null

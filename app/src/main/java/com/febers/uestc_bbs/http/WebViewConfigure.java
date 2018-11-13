@@ -1,13 +1,6 @@
-/*
- * Created by Febers 2018.
- * Copyright (c). All rights reserved.
- *
- * Last Modified 18-8-5 下午1:42
- *
- */
-
 package com.febers.uestc_bbs.http;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -63,6 +56,7 @@ public class WebViewConfigure {
             return this;
         }
 
+        @SuppressLint("JavascriptInterface")
         public Builder addJSInterface(Object object, String name) {
             setJSEnable(true);
             webView.addJavascriptInterface(object, name);

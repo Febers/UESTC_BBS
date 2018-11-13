@@ -11,7 +11,7 @@
         android:layout_width="50dp"
         android:layout_height="10dp"
         android:layout_gravity="center"
-        android:background="@drawable/ic_corner_bg_gray"
+        android:background="@drawable/xic_corner_bg_gray"
         android:layout_margin="4dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Febers at 18-8-17 上午2:28.
-  ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-8-17 上午2:28.
-  -->
-
-<LinearLayout 
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-17 上午2:33.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-17 上午2:33.
- */
-
 package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context

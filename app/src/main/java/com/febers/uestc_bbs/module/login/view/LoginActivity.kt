@@ -40,7 +40,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     @UiThread
     override fun loginResult(event: BaseEvent<UserSimpleBean>) {
-        showToast("登录成功")
+        showToast(getString(R.string.login_success))
         progress_bar_login.visibility = View.INVISIBLE
         EventBus.getDefault().post(event)
         KeyboardUtils.closeKeyboard(edit_text_user_pw, this)

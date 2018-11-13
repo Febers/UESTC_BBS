@@ -88,12 +88,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             adapter = replyItemAdapter
         }
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
-//        scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-//                i("PD", "scrollY: $scrollY, oldScrollY: $oldScrollY diff ${oldScrollY - scrollY}")
-//            if ((oldScrollY - scrollY) > 1000) {
-//                i("PD", "bug scroll")
-//            }
-//        }
         scroll_view_post_detail.isNestedScrollingEnabled = true
     }
 
@@ -208,9 +202,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         image_view_post_fav?.let { it ->
             it.visibility = View.VISIBLE
             if (isFavorite == POST_FAVORED) {
-                it.setImageResource(R.drawable.ic_star_color_24dp)
+                it.setImageResource(R.drawable.xic_star_color_24dp)
             } else {
-                it.setImageResource(R.drawable.ic_star_gray_24dp)
+                it.setImageResource(R.drawable.xic_star_gray_24dp)
             }
             it.setOnClickListener {
                 if (isFavorite == POST_FAVORED) {
@@ -236,8 +230,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         runOnUiThread {
             showToast(event.data.errcode.toString())
             if (event.code == BaseCode.SUCCESS) {
-                if (isFavorite == POST_FAVORED) image_view_post_fav.setImageResource(R.drawable.ic_star_color_24dp)
-                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.ic_star_gray_24dp)
+                if (isFavorite == POST_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_color_24dp)
+                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_gray_24dp)
             }
         }
     }
@@ -276,7 +270,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * 发送消息成功之后的回调
      * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
      * 否则加载下一页(?)
-     * ！！效果不好，改为直接加载
+     * ！！效果不好，改为回复成功之后直接刷新界面
      */
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread {
@@ -291,9 +285,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 //                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
 //                refresh_layout_post_detail?.autoLoadMore()
 //            }
-            scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
-            refresh_layout_post_detail?.autoLoadMore()
             replyBottomSheet?.finish()
+            scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
+            refresh_layout_post_detail?.autoRefresh()
         }
     }
 

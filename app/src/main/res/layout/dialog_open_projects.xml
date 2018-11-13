@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_ship_blue"
+        android:src="@drawable/xic_ship_blue"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"/>
 
@@ -19,23 +19,36 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:textSize="@dimen/text_size_super_big"
+        android:textSize="@dimen/text_size_big"
         android:textColor="?android:textColorPrimary"
         android:text="@string/open_projects_using"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_open_source"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btn_dialog_open_prj_enter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter"
-        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_gravity="end"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_open_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
+            <Button
+                android:id="@+id/btn_dialog_open_prj_enter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_gravity="end"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

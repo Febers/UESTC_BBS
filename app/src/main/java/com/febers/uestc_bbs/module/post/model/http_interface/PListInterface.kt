@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-16 下午7:21.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-15 下午9:20.
- */
-
 package com.febers.uestc_bbs.module.post.model.http_interface
 
 import com.febers.uestc_bbs.entity.PostListBean
@@ -12,6 +6,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface PListInterface {
+
     @FormUrlEncoded
     @POST(ApiUtils.BBS_HOME_POST_URL)
     fun hotPosts(@Field("r")r: String, @Field("moduleId")moduleId: String,

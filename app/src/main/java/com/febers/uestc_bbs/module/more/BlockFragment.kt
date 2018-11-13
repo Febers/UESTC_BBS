@@ -22,6 +22,12 @@ import kotlinx.android.synthetic.main.fragment_block_list.*
 import kotlinx.android.synthetic.main.layout_block_list.*
 import java.util.ArrayList
 
+/**
+ * 展示版块列表的Fragment
+ * 其newInstance 方法需要传入newPost参数
+ * 当该参数为true时，说明是用户发帖时需要选择对应的版块
+ * 当为false时，说明是Home四个视图中的一个，作为各版块的入口
+ */
 class BlockFragment: BaseFragment() {
 
     private var newPost: Boolean = false

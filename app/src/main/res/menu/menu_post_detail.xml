@@ -4,6 +4,6 @@
     <item app:showAsAction="always"
         android:id="@+id/menu_item_post_detail_option"
         android:title="@string/menu"
-        android:icon="@drawable/ic_more_horiz_black_24dp">
+        android:icon="@drawable/xic_more_horiz_black_24dp">
     </item>
 </menu>

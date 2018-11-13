@@ -7,6 +7,11 @@ import android.webkit.WebView
 
 object WebViewUtils {
 
+    /**
+     * 安全销毁webView
+     *
+     * @param webView
+     */
     fun destroyWebView(webView: WebView?): Boolean {
         if (webView != null) {
             val parent = webView.parent

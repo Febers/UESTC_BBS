@@ -14,9 +14,7 @@ import java.math.BigDecimal
 import android.content.Intent
 import androidx.core.content.FileProvider
 import android.os.Build
-
-
-
+import java.nio.ByteBuffer
 
 object FileHelper {
 
@@ -25,6 +23,11 @@ object FileHelper {
      */
     val appImageDir: String = Environment.getExternalStorageDirectory().absolutePath + "/UESTC_BBS/"
 
+    /*
+        不再单独使用一个外部文件夹保存图片，直接保存图片到/storage/emulated/0/Android/data/com.febers.uestc_bbs/files/image/
+        因为保存图片之后会将图片插入至系统相册，重复保存没有意义
+     */
+    val appImageDir2: String = MyApp.context().getExternalFilesDir("image").absolutePath
     /*
         目录为/storage/emulated/0/Android/data/com.febers.uestc_bbs/files/apk/，记住跟FileProvide的匹配
         主要用于下载更新的安装包之后利用FileProvider打开
@@ -224,6 +227,11 @@ object FileHelper {
         }
         intent.setDataAndType(uri, "application/vnd.android.package-archive")
         context.startActivity(intent)
+    }
 
+    fun getByteArrayFromByteBuffer(byteBuffer: ByteBuffer): ByteArray {
+        val bytesArray = ByteArray(byteBuffer.remaining())
+        byteBuffer.get(bytesArray, 0, bytesArray.size)
+        return bytesArray
     }
 }

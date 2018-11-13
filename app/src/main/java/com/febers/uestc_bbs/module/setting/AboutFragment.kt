@@ -1,5 +1,7 @@
 package com.febers.uestc_bbs.module.setting
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -27,6 +29,7 @@ class AboutFragment: BaseSwipeFragment() {
     private lateinit var settingAdapter2: SettingAdapter
     private lateinit var openSourceProjectsDialog: AlertDialog
     private lateinit var projectAdapter: OpenProjectAdapter
+    private var permissionDialog: AlertDialog? = null
 
     override fun setToolbar(): Toolbar? = toolbar_about
 
@@ -133,6 +136,17 @@ class AboutFragment: BaseSwipeFragment() {
         if (item?.itemId == R.id.menu_item_donate) {
             DonateUtils(context!!).donateByAlipay()
         }
+        if (item?.itemId == R.id.menu_item_permission) {
+            if (permissionDialog == null) {
+                permissionDialog = AlertDialog.Builder(context!!)
+                        .setTitle(getString(R.string.about_permission))
+                        .setMessage(permissionExplain())
+                        .setPositiveButton(getString(R.string.enter)) { p0, p1 -> }
+                        .create()
+            }
+
+            permissionDialog?.show()
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -144,4 +158,15 @@ class AboutFragment: BaseSwipeFragment() {
             }
         }
     }
+
+    private fun permissionExplain(): String = """
+        为了您的正常使用，本应用需要以下权限:
+            1、网络权限
+
+            2、读写手机存储权限
+                应用需要该权限将图片保存到手机中，保存的图片路径为“/storage/emulated/0/UESTC_BBS”)
+
+            3、更多权限请查看源码页面: https://github.com/Febers/UESTC_BBS/blob/master/app/src/main/AndroidManifest.xml
+
+    """
 }

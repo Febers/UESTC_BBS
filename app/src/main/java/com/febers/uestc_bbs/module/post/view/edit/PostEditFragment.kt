@@ -78,8 +78,8 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
     private fun sendNewPost() {
         val titleString = edit_view_post_title.text.toString()
         val contentString = edit_view_post_content.text.toString()
-        if (titleString.isEmpty()) edit_view_post_title.error = "请输入标题"
-        if (contentString.isEmpty()) edit_view_post_content.error = "请输入内容"
+        if (titleString.isEmpty()) edit_view_post_title.error = getString(R.string.please_input_title)
+        if (contentString.isEmpty()) edit_view_post_content.error = getString(R.string.please_input_content)
         if (progressDialog == null) {
             progressDialog = context!!.indeterminateProgressDialog("请稍候") {
                 setCanceledOnTouchOutside(false)

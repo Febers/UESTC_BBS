@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Febers at 18-8-18 下午2:09.
-  ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-8-18 下午2:09.
-  -->
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@mipmap/ic_default_avatar" />
+            android:src="@drawable/ic_default_avatar_circle"/>
         <TextView
             android:id="@+id/text_view_post_reply_author"
             android:layout_width="0dp"

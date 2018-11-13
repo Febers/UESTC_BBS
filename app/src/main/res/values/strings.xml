@@ -5,25 +5,40 @@
   -->
 
 <resources>
+    <!--About界面String-->
     <string name="app_name">i河畔</string>
-    <string name="developer_name">Febers</string>
-    <string name="developer_email">febers418@qq.com</string>
+    <string name="developer_name" translatable="false">Febers</string>
+    <string name="developer_email" translatable="false">febers418@qq.com</string>
     <string name="app_project_url" translatable="false">https://github.com/Febers/UESTC_BBS</string>
-    <string name="clear_image_cache">清除图片缓存</string>
     <string name="version">版本</string>
-    <string name="version_value">v1.0</string>
+    <string name="version_value" translatable="false">v1.0.1</string>
     <string name="check_update">检查更新</string>
     <string name="feedback_and_other">反馈、建议及其他</string>
     <string name="source_code">源代码</string>
     <string name="open_source">开源</string>
     <string name="open_source_project">开源项目</string>
     <string name="open_source_license">开源协议</string>
+    <string name="about">关于</string>
+    <string name="donate_developer">捐赠开发者</string>
+    <string name="open_projects_using">本项目所使用的开源项目</string>
 
+    <!--登录界面String-->
+    <string name="user_password">密码</string>
+    <string name="user_name">用户名</string>
+    <string name="login">登录</string>
+    <string name="sign_up">注册</string>
+    <string name="login_success">登录成功</string>
+
+    <!--Home界面String-->
     <string name="home_page">首页</string>
     <string name="forum_list_page">版块</string>
     <string name="message_page">消息</string>
     <string name="more_page">更多</string>
+    <string name="user_friends">好友</string>
+    <string name="please_login_or_sign_up">请登录/注册</string>
+    <string name="search">搜索</string>
 
+    <!--Post界面String-->
     <string name="new_post">最新发表</string>
     <string name="new_reply">最新回复</string>
     <string name="hot_article">热门帖子</string>
@@ -32,22 +47,36 @@
     <string name="private_message">私信</string>
     <string name="system_message">系统通知</string>
     <string name="at_message">我</string>
+    <string name="input_your_reply">请输入评论内容</string>
+    <string name="post_content">内容</string>
+    <string name="post_title">标题</string>
+    <string name="post_fav">收藏</string>
+    <string name="post_vote">投票</string>
+    <string name="please_input_title">请输入标题</string>
+    <string name="please_input_content">请输入内容</string>
+    <string name="edit">编辑</string>
 
+
+    <!--User界面String-->
     <string name="my_start_post">我的帖子</string>
     <string name="my_reply_post">我的回复</string>
     <string name="my_fav_post">我的收藏</string>
 
     <string name="user_post">发表</string>
     <string name="user_reply">回复</string>
+    <string name="ta_new">Ta的发表</string>
+    <string name="ta_reply">Ta的回复</string>
     <string name="user_favorite">收藏</string>
-    <string name="user_friends">好友</string>
-    <string name="theme_style">主题风格</string>
+    <string name="change_sign">更改签名</string>
 
+
+    <!--Setting界面String-->
     <string name="setting_and_account">账户与设置</string>
     <string name="setting">设置</string>
     <string name="choose_theme">选择主题</string>
     <string name="choose_block">选择板块</string>
-    <string name="edit">编辑</string>
+    <string name="clear_image_cache">清除图片缓存</string>
+    <string name="swipe_to_choose">左右滑动选择刷新样式</string>
 
     <string name="block_today_num">今日帖子</string>
     <string name="block_all_num">总帖子</string>
@@ -55,11 +84,12 @@
 
     <string name="account_detail">账户信息</string>
     <string name="no_login">未登录</string>
-    <string name="user_password">密码</string>
-    <string name="user_name">用户名</string>
-    <string name="login">登录</string>
-    <string name="sign_up">注册</string>
+    <string name="take_effect_after_reboot">重启应用后生效</string>
+    <string name="account_list">账户列表</string>
+    <string name="add_user">添加用户</string>
 
+
+    <!--Theme界面String-->
     <string name="theme_green">酷安绿</string>
     <string name="theme_red">姨妈红</string>
     <string name="theme_pink">哔哩粉</string>
@@ -67,32 +97,26 @@
     <string name="theme_teal">水鸭青</string>
     <string name="theme_purple">激情紫</string>
     <string name="theme_blue">知乎蓝</string>
-    <string name="theme_gray">低调灰</string>
-
-    <string name="post_fav">收藏</string>
-    <string name="post_vote">投票</string>
-    <string name="pm_content">私信内容</string>
-    <string name="send">发送</string>
-    <string name="color_primary_dark_effect">colorPrimaryDark效果</string>
-    <string name="enter">确定</string>
-    <string name="ta_new">Ta的发表</string>
-    <string name="ta_reply">Ta的回复</string>
-    <string name="open_projects_using">本项目所使用的开源项目</string>
-    <string name="loading">正在加载</string>
-    <string name="change_sign">更改签名</string>
-    <string name="cancel">取消</string>
-    <string name="please_login_or_sign_up">请登录/注册</string>
-    <string name="post_title">标题</string>
-    <string name="post_content">内容</string>
-    <string name="choose">选择</string>
-    <string name="take_effect_after_reboot">重启应用后生效</string>
-    <string name="account_list">账户列表</string>
-    <string name="add_user">添加用户</string>
     <string name="night_mode">夜间模式</string>
-    <string name="swipe_to_choose">左右滑动选择刷新样式</string>
-    <string name="input_your_reply">请输入评论内容</string>
-    <string name="search">搜索</string>
+    <string name="theme_gray">低调灰</string>
+    <string name="theme_style">主题风格</string>
+    <string name="color_primary_dark_effect">colorPrimaryDark效果</string>
+
+
+    <!--通用-->
+    <string name="enter">确定</string>
+    <string name="send">发送</string>
+    <string name="loading">正在加载</string>
+    <string name="choose">选择</string>
+    <string name="cancel">取消</string>
     <string name="menu">菜单</string>
-    <string name="about">关于</string>
-    <string name="donate_developer">捐赠开发者</string>
+    <string name="pm_content">私信内容</string>
+    <string name="receiving_message_backround">后台接收消息中</string>
+    <string name="unknwon">未知</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="thank_you">感谢您的捐赠!</string>
+    <string name="error">捐赠出错啦</string>
+    <string name="no_alipay_installed">您尚未安装支付宝</string>
+    <string name="about_permission">权限说明</string>
 </resources>

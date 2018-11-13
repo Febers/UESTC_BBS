@@ -101,7 +101,7 @@
         android:id="@+id/fab_post_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_write_white"
+        android:src="@drawable/ic_write_white"
         app:fabSize="normal"
         app:borderWidth="0dp"
         app:pressedTranslationZ="8dp"

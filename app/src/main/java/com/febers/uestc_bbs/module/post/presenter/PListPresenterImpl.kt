@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-6-13 下午5:48.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-13 下午5:48.
- */
-
 package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent

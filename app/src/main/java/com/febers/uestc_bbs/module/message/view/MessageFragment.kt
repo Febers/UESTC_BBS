@@ -50,6 +50,9 @@ class MessageFragment : BaseFragment(), MessageContract.View {
         return R.layout.fragment_sub_message
     }
 
+    /**
+     * 根据mMsgType，确定当前视图应该展示哪一种消息
+     */
     override fun initView() {
         messagePresenter = MsgPresenterImpl(this)
         when(mMsgType) {
@@ -162,6 +165,10 @@ class MessageFragment : BaseFragment(), MessageContract.View {
         refresh_layout_sub_message?.finishFail()
     }
 
+    /**
+     * 接收BottomNavigation的二次点击事件
+     * 当当前页面正在显示的时候，刷新
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTabReselected(event: TabReselectedEvent) {
         if (isSupportVisible && loadFinish && event.position == 2) {
@@ -169,6 +176,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             refresh_layout_sub_message?.autoRefresh()
         }
     }
+
     companion object {
         @JvmStatic
         fun newInstance(type: String) =

@@ -1,11 +1,3 @@
-/*
- * Created by Febers 2018.
- * Copyright (c). All rights reserved.
- *
- * Last Modified 18-9-3 下午10:50
- *
- */
-
 package com.febers.uestc_bbs.view.custom
 
 import android.app.Activity

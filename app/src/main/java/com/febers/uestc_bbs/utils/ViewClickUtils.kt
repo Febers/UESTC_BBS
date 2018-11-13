@@ -6,11 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
-import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.login.model.LoginContext
-import com.febers.uestc_bbs.module.image.AppImgViewer
+import com.febers.uestc_bbs.module.image.ImageViewer
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
@@ -30,7 +29,13 @@ object ViewClickUtils {
         context.browse(url, true)
     }
 
-    fun clickToImageViewerByUid(uid: Int?, context: Context?) {
+    /**
+     * 通过uid查看头像大图
+     *
+     * @param uid 用户id
+     * @param context
+     */
+    fun clickToViewAvatarByUid(uid: Int?, context: Context?) {
         uid ?: return
         context ?: return
         clickToImageViewer(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
@@ -42,6 +47,7 @@ object ViewClickUtils {
      * @param context
      * @param transitionView 进行页面共享的view
      * @param transitionViewName 进行页面共享的view的name
+     *
      * 页面共享的文章见:https://blog.csdn.net/sinat_31057219/article/details/78095038
      * 目前没有进行相应的调用
      */
@@ -53,18 +59,23 @@ object ViewClickUtils {
             if (context is Activity)
                 bundle = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
-            context.startActivity(Intent(context, AppImgViewer::class.java).apply {
+            context.startActivity(Intent(context, ImageViewer::class.java).apply {
                 putExtra(IMAGE_URL, url)
             }, bundle)
             (context as Activity).overridePendingTransition(0, 0)
         } else {
-            context.startActivity(Intent(context, AppImgViewer::class.java).apply {
+            context.startActivity(Intent(context, ImageViewer::class.java).apply {
                 putExtra(IMAGE_URL, url)
             })
         }
     }
 
-
+    /**
+     * 查看用户详情
+     *
+     * @param context
+     * @param uid 用户id
+     */
     fun clickToUserDetail(context: Context?, uid: Int?) {
         context ?: return
         if (uid == null) return
@@ -76,6 +87,12 @@ object ViewClickUtils {
 
     }
 
+    /**
+     * 查看帖子详情
+     *
+     * @param context
+     * @param fid 帖子id
+     */
     fun clickToPostDetail(context: Context?, fid: Int?) {
         context ?: return
         if (fid == 0 || fid == null) return
@@ -85,6 +102,13 @@ object ViewClickUtils {
         })
     }
 
+    /**
+     * 查看私信内容
+     *
+     * @param context
+     * @param uid
+     * @param userName
+     */
     fun clickToPrivateMsg(context: Context?, uid: Int?, userName: String?) {
         context ?: return
         userName ?: return
@@ -96,6 +120,12 @@ object ViewClickUtils {
         })
     }
 
+    /**
+     * 发帖
+     * @param context
+     * @param fid 板块id
+     * @param title 板块标题
+     */
     fun clickToPostEdit(context: Context?, fid: Int, title: String) {
         context ?:return
         if (!LoginContext.userState(context)) return
@@ -105,13 +135,13 @@ object ViewClickUtils {
         })
     }
 
+    /**
+     * 在App内打开web页面
+     * TODO
+     */
     fun clickToAppWeb(context: Context?, url: String?) {
         context ?: return
         url ?: return
         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-//        context.startActivity(Intent(context, AppWebViewer::class.java).apply {
-//            putExtra(URL, url)
-//        })
-
     }
 }

@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Febers at 18-8-17 下午3:17.
-  ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-8-17 下午3:17.
-  -->
-
 <FrameLayout
     android:id="@+id/home_first_container"
     xmlns:android="http://schemas.android.com/apk/res/android"

@@ -61,5 +61,5 @@ const val SP_USERS = "users"
 const val SP_NOW_UID = "now_uid"
 const val SP_USER_IDS = "user_ids"
 
-const val COMMON_PAGE_SIZE = 30
+const val COMMON_PAGE_SIZE = 27
 const val FIRST_PAGE = 1

@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-6-13 下午5:15.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-12 下午8:27.
- */
-
 package com.febers.uestc_bbs.entity
 
 data class LoginResultBean(var rs: Int, var errcode: String,

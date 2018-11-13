@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-6-11 下午5:27.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-10 下午2:14.
- */
-
 package com.febers.uestc_bbs.module.login.model
 
 import com.febers.uestc_bbs.base.*
@@ -58,6 +52,11 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
             loginPresenter.errorResult(loginResultBean.head.errInfo)
             return
         }
+
+        /*
+            保存一个User类，里面有用户的关键信息
+            用于所有跟服务器的交互
+         */
         mUserSimple.name = loginResultBean.userName
         mUserSimple.uid = loginResultBean.uid
         mUserSimple.title = loginResultBean.userTitle
@@ -70,6 +69,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
         mUserSimple.groupId = loginResultBean.groupid
         mUserSimple.mobile = loginResultBean.mobile
         mUserSimple.valid = true
+
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
 
         UserHelper.add(loginResultBean.uid, mUserSimple)

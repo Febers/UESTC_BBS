@@ -7,12 +7,12 @@
         android:id="@+id/image_view_item_post_edit"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@mipmap/ic_default_avatar"/>
+        android:src="@drawable/ic_default_avatar_circle"/>
     <ImageView
         android:id="@+id/btn_img_item_post_edit"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:src="@drawable/ic_clear_red_24dp"
+        android:src="@drawable/xic_clear_red_24dp"
         android:layout_alignTop="@id/image_view_item_post_edit"
         android:layout_alignEnd="@id/image_view_item_post_edit"/>
 </RelativeLayout>

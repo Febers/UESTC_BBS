@@ -7,6 +7,8 @@ import com.febers.uestc_bbs.module.login.view.LoginActivity
 
 /**
  * Login的Context类,用户接口和状态管理类
+ * 当当前用户状态不可用时，通常是未登录时
+ * 跳转至登录界面
  */
 object LoginContext {
     fun userState(ctx: Context): Boolean {

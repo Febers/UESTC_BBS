@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Febers at 18-8-15 下午10:34.
-  ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-8-15 下午10:34.
-  -->
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/ic_default_avatar" />
+        app:srcCompat="@drawable/ic_default_avatar_circle" />
 
     <TextView
         android:id="@+id/text_view_item_post_title"
@@ -114,7 +108,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                app:srcCompat="@mipmap/ic_eye_small_gray" />
+                android:src="@drawable/ic_eye_small_gray"/>
 
             <TextView
                 android:id="@+id/text_view_item_post_hits"
@@ -138,7 +132,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                app:srcCompat="@mipmap/ic_reply_small_gray" />
+                app:srcCompat="@drawable/ic_reply_small_gray"/>
 
             <TextView
                 android:id="@+id/text_view_item_post_reply"
@@ -161,7 +155,7 @@
                 android:id="@+id/imageView5"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                app:srcCompat="@mipmap/ic_clock_small_gray" />
+                app:srcCompat="@drawable/ic_clock_small_gray" />
 
             <TextView
                 android:id="@+id/text_view_item_post_time"

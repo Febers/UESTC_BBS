@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Created by Febers at 18-8-17 下午3:25.
-  ~ Copyright (c). All rights reserved.
-  ~ Last modified 18-8-17 下午3:25.
-  -->
-
 <!--SmartRefreshLayout的app:srlEnableNestedScrolling="false"
     和RecyclerView的android:nestedScrollingEnabled="false"
     非常重要-->

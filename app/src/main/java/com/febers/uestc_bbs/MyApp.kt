@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-6-9 上午9:22.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-9 上午9:21.
- */
-
 package com.febers.uestc_bbs
 
 import android.content.ComponentCallbacks2
@@ -36,6 +30,9 @@ class MyApp: MultiDexApplication() {
         super.onCreate()
         context = applicationContext
 
+        /**
+         * 初始化Bugly
+         */
         val packageName = applicationContext.packageName
         val processName = getProcessName(Process.myPid())
         // 设置是否为上报进程
@@ -64,6 +61,9 @@ class MyApp: MultiDexApplication() {
         fun getUser(): UserSimpleBean = UserHelper.getNowUser()
 
         init {
+            /**
+             * 初始化刷新控件
+             */
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
                 val styleCode by PreferenceUtils(context, REFRESH_HEADER_CODE, 0)
                 val helper = RefreshViewHelper(context)
@@ -76,6 +76,15 @@ class MyApp: MultiDexApplication() {
         }
     }
 
+    /**
+     * 系统根据不同的内存状态回调该线程
+     *
+     * @param level 不同的内存状态
+     * TRIM_MEMORY_COMPLETE：内存不足，并且该进程在后台进程列表最后一个，马上就要被清理
+     * TRIM_MEMORY_MODERATE：内存不足，并且该进程在后台进程列表的中部。
+     * TRIM_MEMORY_BACKGROUND：内存不足，并且该进程是后台进程。
+     * TRIM_MEMORY_UI_HIDDEN：内存不足，并且该进程的UI已经不可见了。
+     */
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
@@ -85,6 +94,10 @@ class MyApp: MultiDexApplication() {
         Glide.get(this).trimMemory(level)
     }
 
+    /**
+     * 在系统内存不足，所有后台程序都被杀死时，
+     * 系统会调用OnLowMemory
+     */
     override fun onLowMemory() {
         super.onLowMemory()
         Glide.get(this).clearMemory()
@@ -96,7 +109,7 @@ class MyApp: MultiDexApplication() {
      * @param pid 进程号
      * @return 进程名
      */
-    fun getProcessName(pid: Int): String? {
+    private fun getProcessName(pid: Int): String? {
         var reader: BufferedReader? = null
         try {
             reader = BufferedReader(FileReader("/proc/$pid/cmdline"))

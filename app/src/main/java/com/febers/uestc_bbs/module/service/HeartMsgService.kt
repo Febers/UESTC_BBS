@@ -62,7 +62,7 @@ class HeartMsgService : Service() {
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         //注意Android8上，当应用运行在后台时，启动服务，会报IllegalStateException
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApp.uiHidden) {
-            startForeground(Int.MAX_VALUE, createNotification(title = "后台运行中", content = "", msgType = "", count = 0))
+            startForeground(Int.MAX_VALUE, createNotification(title = getString(R.string.receiving_message_backround), content = "", msgType = "", count = 0))
         }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
@@ -105,7 +105,7 @@ class HeartMsgService : Service() {
                     .setContentText(content)
                     .setContentIntent(PendingIntent.getActivities(this, requestCode, intents, PendingIntent.FLAG_CANCEL_CURRENT))
                     .setAutoCancel(true)
-                    .setSmallIcon(R.mipmap.ic_default_circle)
+                    .setSmallIcon(R.drawable.ic_default_avatar_circle)
                     .build()
         } else {
             val builder = NotificationCompat.Builder(this, channelId)
@@ -117,7 +117,7 @@ class HeartMsgService : Service() {
                     .setPriority(Notification.PRIORITY_DEFAULT)
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setSmallIcon(R.mipmap.ic_default_circle)
+                    .setSmallIcon(R.drawable.ic_default_avatar_circle)
                     .build()
         }
         return notification
@@ -185,7 +185,6 @@ class HeartMsgService : Service() {
 
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
                             val heartBean = response.body() ?: return
-                            i("service", "response")
                             if (heartBean.rs != 1 || heartBean.body == null) return
                             if (heartBean.body!!.replyInfo?.count!! > rmCount) {
                                 rmCount = heartBean.body!!.replyInfo?.count!!
@@ -235,6 +234,7 @@ class HeartMsgService : Service() {
      * 正常的声明周期中，Service被销毁会回调以下方法
      * 在其中重启服务
      * 但是如果被管家类应用kill，并不会走该方法，无视
+     * !!!禁用重启服务，因为产生的影响未知
      */
     override fun onDestroy() {
         super.onDestroy()

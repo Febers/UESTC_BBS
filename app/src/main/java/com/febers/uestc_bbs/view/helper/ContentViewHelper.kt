@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-18 下午3:08.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-18 下午2:32.
- */
-
 package com.febers.uestc_bbs.view.helper
 
 import android.util.Log.i
@@ -26,10 +20,6 @@ import com.febers.uestc_bbs.utils.encodeSpaces
  * 0：文本（解析链接）；1：图片；3：音频;4:链接;5：附件
  *
 "content": [
-{
-"infor": " 本帖最后由 四条眉毛 于 2018-6-8 14:16 编辑 ",
-"type": 0
-},
 {
 "infor": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
 "type": 1,

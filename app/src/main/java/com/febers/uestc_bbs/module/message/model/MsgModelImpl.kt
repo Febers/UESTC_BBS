@@ -14,6 +14,14 @@ import retrofit2.Response
 
 class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : BaseModel(), MessageContract.Model {
 
+    /**
+     * 提供的获取消息的公共方法
+     * 获取消息的Api有两类，私信消息和非私信消息
+     * 具体的实现，通过后台线程调用私有方法进行，本项目的所有Model类都采用此类方法
+     *
+     * @param type 消息的种类
+     * @param page 消息的page
+     */
     override fun msgService(type: String, page: Int) {
         mType = type
         mPage = page.toString()

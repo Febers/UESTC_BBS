@@ -10,7 +10,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_person_blue_24dp"
+        android:src="@drawable/xic_person_blue_24dp"
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout

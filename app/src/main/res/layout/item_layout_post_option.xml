@@ -12,7 +12,7 @@
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginStart="20dp"
-        android:background="@mipmap/ic_default_avatar"/>
+        android:background="@drawable/ic_default_avatar_circle"/>
 
     <TextView
         android:id="@+id/text_view_item_post_option"
