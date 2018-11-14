@@ -211,4 +211,10 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                     }
                 }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        postList.clear()
+        stickyPostList.clear()
+    }
 }

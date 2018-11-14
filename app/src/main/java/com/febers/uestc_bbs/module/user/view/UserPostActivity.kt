@@ -106,4 +106,9 @@ class UserPostActivity: BaseActivity(), UserContract.View {
             refresh_layout_user_post?.finishFail()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        userPostList.clear()
+    }
 }

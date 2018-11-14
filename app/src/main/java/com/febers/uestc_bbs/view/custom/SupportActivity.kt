@@ -62,8 +62,8 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
     }
 
     override fun onResume() {
-        if (enableThemeHelper()) Aesthetic.resume(this)
         super.onResume()
+        if (enableThemeHelper()) Aesthetic.resume(this)
     }
 
     override fun onPause() {

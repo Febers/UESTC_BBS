@@ -74,8 +74,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             setOnRefreshListener { getUserDetail() }
         }
         if (userItSelf) {
-            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
-            userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
+//            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
+//            userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
         }
         image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColorPrimary())
         signDialog = AlertDialog.Builder(this@UserDetailActivity).create()
@@ -204,7 +204,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_item_user_edit) {
-            userBottomSheet.show()
+            //userBottomSheet.show()
         }
         return super.onOptionsItemSelected(item)
     }

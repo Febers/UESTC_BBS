@@ -67,8 +67,8 @@ object ThemeHelper {
             colorAccent(colorAccent)
             colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(colorPrimary) else colorPrimary)
             lightStatusBarMode()
-            attribute(R.attr.app_color_primary, colorPrimary, true)
-            attribute(R.attr.app_color_accent, colorAccent, true)
+            attribute(R.attr.app_color_primary, colorPrimary, null, true)
+            attribute(R.attr.app_color_accent, colorAccent, null, true)
             colorStatusBarAuto()
         }
         onThemeChange(colorPrimary, colorAccent)

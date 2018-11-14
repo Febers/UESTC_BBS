@@ -150,4 +150,9 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 .inflate(R.layout.layout_empty, recyclerview_subpost_fragment.parent as ViewGroup, false)
         postListAdapter.setEmptyView(emptyView)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        postSimpleList.clear()
+    }
 }

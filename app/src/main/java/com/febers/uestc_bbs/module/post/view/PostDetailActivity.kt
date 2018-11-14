@@ -1,12 +1,16 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
+import android.os.Build
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.AbsListView
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -22,19 +26,27 @@ import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.module.image.ImageLoader
+import com.febers.uestc_bbs.utils.LogUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
+import kotlin.math.absoluteValue
 
+/**
+ * TODO 此界面设计有重大bug
+ * 加载视图的时候，recyclerview一次性会加载所有的图片请求
+ * 因为无法获知其是否正在显示
+ * 尝试将Recyclerview改为ListView
+ */
 class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
 
-    private var replyList: MutableList<PostDetailBean.ListBean> = ArrayList()
-    private lateinit var postPresenter: PostContract.Presenter
-    private lateinit var replyItemAdapter: PostReplyItemAdapter
-    private lateinit var contentViewHelper: ContentViewHelper
-    private lateinit var voteViewHelper: VoteViewHelper
+    private var replyList: MutableList<PostDetailBean.ListBean>? = ArrayList()
+    private var postPresenter: PostContract.Presenter? = null
+    private var replyItemAdapter: PostReplyItemAdapter? = null
+    private var contentViewHelper: ContentViewHelper? = null
+    private var voteViewHelper: VoteViewHelper? = null
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var replyBottomSheet: PostReplyBottomSheet? = null
     private var tempReplyBean: PostDetailBean.ListBean? = null
@@ -42,7 +54,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var postOrder = POST_POSITIVE_ORDER
     private val delFavoritePost = "delfavorite"
     private val favoritePost = "favorite"
-    var isInsertReplySimply = false
+    private var isInsertReplySimply = false
     private var drawFinish = false
     private var topicName = "楼主"  //楼主名称
     private var topicReplyId = 0
@@ -56,19 +68,20 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     ////////////////////////////////初始化////////////////////////////////
 
     override fun setView(): Int = R.layout.activity_post_detail
-    override fun setToolbar(): Toolbar? =toolbar_post_detail
+    override fun setToolbar(): Toolbar? = toolbar_post_detail
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
     override fun initView() {
         postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
-        replyItemAdapter = PostReplyItemAdapter(this, replyList, false).apply {
+        replyItemAdapter = PostReplyItemAdapter(this, replyList!!, false).apply {
             setOnItemClickListener { viewHolder, postReplyBean, i ->
                 getReplyBottomSheet().showWithData(topicId = topicId, toUid = postReplyBean.reply_id,
                         replyId = postReplyBean.reply_posts_id, toUName = postReplyBean.reply_name!!) }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
             }
+
         }
 
         refresh_layout_post_detail.apply {
@@ -87,7 +100,19 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
         }
-        FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
+
+//        FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
+        scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+
+            replyItemAdapter?.isListScrolling = (scrollY - oldScrollY).absoluteValue >= 30
+
+            if (scrollY - oldScrollY < -3) {
+                fab_post_detail.show()
+            }
+            if (scrollY - oldScrollY > 3) {
+                fab_post_detail.hide()
+            }
+        }
         scroll_view_post_detail.isNestedScrollingEnabled = true
     }
 
@@ -97,7 +122,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      */
     private fun getPost(postId: Int, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
         refresh_layout_post_detail.setNoMoreData(false)
-        postPresenter.postDetailRequest(postId, page, authorId, order)
+        postPresenter?.postDetailRequest(postId, page, authorId, order)
     }
 
     ////////////////////////////////主贴////////////////////////////////
@@ -112,8 +137,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         if (page == 1) {
             drawTopicView(event)
         }
-        replyList.addAll(event.data.list!!)
-        replyItemAdapter.notifyDataSetChanged()
+        replyList?.addAll(event.data.list!!)
+        replyItemAdapter?.notifyDataSetChanged()
         //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
@@ -155,19 +180,19 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
         //主贴图文视图的绘制
         contentViewHelper = ContentViewHelper(linear_layout_detail_content, event.data.topic?.content!!)
-        contentViewHelper.create()
+        contentViewHelper?.create()
         fillImageView()
         //由于只有第一页时才绘制主贴内容，相当于刷新，所以清空评论列表
-        replyList.clear()
+        replyList?.clear()
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
     }
 
     //调用ImageLoader预加载的图片填充到view中
     private fun fillImageView() {
-        contentViewHelper.getImageUrls().forEachIndexed { index, s ->
-            contentViewHelper.getImageViews()[index].apply {
-                ImageLoader.usePreload(context = context, url = contentViewHelper.getImageUrls()[index], imageView = this)
+        contentViewHelper?.getImageUrls()?.forEachIndexed { index, s ->
+            contentViewHelper?.getImageViews()?.get(index).apply {
+                ImageLoader.usePreload(context = this?.context, url = contentViewHelper?.getImageUrls()?.get(index), imageView = this)
             }
         }
     }
@@ -183,10 +208,10 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
         pollInfo ?: return
         voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
-        voteViewHelper.create()
-        voteViewHelper.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
+        voteViewHelper?.create()
+        voteViewHelper?.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
             override fun click(pollItemIds: List<Int>) {
-                postPresenter.postVoteRequest(pollItemIds)
+                postPresenter?.postVoteRequest(pollItemIds)
             }
         })
     }
@@ -223,7 +248,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     //进行收藏状态改变的后台处理
     //不使用全局的isFavorite，防止频繁点击时逻辑跟不上
     private fun onFavoriteChange(isFav: Int) {
-        postPresenter.postFavRequest(action = if (isFav == POST_FAVORED) favoritePost else delFavoritePost)
+        postPresenter?.postFavRequest(action = if (isFav == POST_FAVORED) favoritePost else delFavoritePost)
     }
 
     override fun showPostFavResult(event: BaseEvent<PostFavResultBean>) {
@@ -262,7 +287,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             }
             isInsertReplySimply = true
         }
-        postPresenter.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
+        postPresenter?.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
         replyCount++
     }
 
@@ -340,5 +365,22 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         showToast(msg)
         refresh_layout_post_detail?.finishFail()
         drawFinish = true
+    }
+
+    /**
+     * 在销毁之后尽量回收变量
+     * list的clear方法是遍历所有元素并将它们赋null
+     * 直接对list赋null就行了
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        postPresenter = null
+        replyItemAdapter = null
+        contentViewHelper = null
+        voteViewHelper = null
+        tempReplyBean = null
+        replyList = null
+        optionBottomSheet = null
+        replyBottomSheet = null
     }
 }

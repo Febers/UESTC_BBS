@@ -18,7 +18,7 @@ import java.nio.ByteBuffer
 
 class ImageViewer : BaseActivity() {
 
-    private lateinit var progressDialog: ProgressDialog
+    private var progressDialog: ProgressDialog? = null
     private var gifDrawable: GifDrawable? = null
     private var gifBytes: ByteArray? = null
     private var imageBitmap: Bitmap? = null
@@ -59,7 +59,7 @@ class ImageViewer : BaseActivity() {
                                 overridePendingTransition(0, 0)
                             }
                         }
-                        progressDialog.hide()
+                        progressDialog?.dismiss()
                     }
                 }
             }
@@ -83,7 +83,7 @@ class ImageViewer : BaseActivity() {
 
             runOnUiThread {
                 GlideApp.with(this).asGif().load(imageUrl).into(image_view_image_activity)
-                progressDialog.dismiss()
+                progressDialog?.dismiss()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -105,7 +105,7 @@ class ImageViewer : BaseActivity() {
                         finish()
                     }
                 }
-                progressDialog.dismiss()
+                progressDialog?.dismiss()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -115,7 +115,7 @@ class ImageViewer : BaseActivity() {
     }
 
     private fun saveImage() {
-        progressDialog.show()
+        progressDialog?.show()
         Thread(Runnable {
             if (imageBitmap != null) {
                 imageUri = ImageHelper.saveImage(this@ImageViewer, imageBitmap as Bitmap, forShare = false)
@@ -134,12 +134,12 @@ class ImageViewer : BaseActivity() {
             } else {
                 showToast("保存失败")
             }
-            runOnUiThread { progressDialog.hide() }
+            runOnUiThread { progressDialog?.dismiss() }
         }).start()
     }
 
     private fun shareImage() {
-        progressDialog.show()
+        progressDialog?.show()
         Thread(Runnable {
             if (gifBytes != null) {
                 //第一次判断，是否已经保存过图片
@@ -174,7 +174,7 @@ class ImageViewer : BaseActivity() {
      * @param uri gif或者img的URI
      */
     private fun showShareView(uri: Uri) {
-        runOnUiThread { progressDialog.dismiss() }
+        runOnUiThread { progressDialog?.dismiss() }
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
@@ -184,6 +184,9 @@ class ImageViewer : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        progressDialog = null
+        gifDrawable = null; gifBytes = null; gifUri = null
+        imageBitmap = null; imageUri = null; imageUrl = null
         ImageHelper.onImageViewDestroy()
     }
 }

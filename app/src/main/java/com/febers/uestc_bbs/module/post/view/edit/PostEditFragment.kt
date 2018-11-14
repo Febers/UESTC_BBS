@@ -78,8 +78,14 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
     private fun sendNewPost() {
         val titleString = edit_view_post_title.text.toString()
         val contentString = edit_view_post_content.text.toString()
-        if (titleString.isEmpty()) edit_view_post_title.error = getString(R.string.please_input_title)
-        if (contentString.isEmpty()) edit_view_post_content.error = getString(R.string.please_input_content)
+        if (titleString.isEmpty()) {
+            edit_view_post_title.error = getString(R.string.please_input_title)
+            return
+        }
+        if (contentString.isEmpty()) {
+            edit_view_post_content.error = getString(R.string.please_input_content)
+            return
+        }
         if (progressDialog == null) {
             progressDialog = context!!.indeterminateProgressDialog("请稍候") {
                 setCanceledOnTouchOutside(false)
@@ -113,16 +119,14 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
 
                     aidBuffer.append("${event.data.body?.attachment?.first()?.id},")
                     contentList.add(CONTENT_TYPE_IMG to event.data.body?.attachment?.first()?.urlName.toString())
-                    LogUtils.i("success")
                     if (++successCount == needUploadImages.size) {
                         aidBuffer.deleteCharAt(aidBuffer.lastIndex)
-                        LogUtils.i("new size: ${contentList.size}")
                         pEditPresenter.newPostRequest(fid = mFid, aid = aidBuffer.toString(), title = title, contents = *contentList.toTypedArray())
                     }
                 }
             })
             if (!flag) {
-                ToastUtils.show("失败")
+                ToastUtils.show("上传图片失败")
                 break
             }
         }
@@ -210,6 +214,12 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
             progressDialog?.dismiss()
             PictureFileUtils.deleteCacheDirFile(context!!)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        imgPaths.clear()
+        progressDialog = null
     }
 
     companion object {
