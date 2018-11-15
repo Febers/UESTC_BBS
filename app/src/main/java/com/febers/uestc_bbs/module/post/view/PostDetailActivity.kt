@@ -1,17 +1,15 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.annotation.SuppressLint
-import android.os.Build
+import android.app.Activity
+import android.content.Intent
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.AbsListView
 import androidx.core.widget.NestedScrollView
-import androidx.recyclerview.widget.RecyclerView
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
@@ -26,20 +24,15 @@ import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.utils.LogUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
 import com.febers.uestc_bbs.view.helper.*
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlin.math.absoluteValue
 
-/**
- * TODO 此界面设计有重大bug
- * 加载视图的时候，recyclerview一次性会加载所有的图片请求
- * 因为无法获知其是否正在显示
- * 尝试将Recyclerview改为ListView
- */
 class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean>? = ArrayList()
@@ -49,12 +42,10 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var voteViewHelper: VoteViewHelper? = null
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var replyBottomSheet: PostReplyBottomSheet? = null
-    private var tempReplyBean: PostDetailBean.ListBean? = null
     private var isFavorite: Int = POST_NO_FAVORED
     private var postOrder = POST_POSITIVE_ORDER
     private val delFavoritePost = "delfavorite"
     private val favoritePost = "favorite"
-    private var isInsertReplySimply = false
     private var drawFinish = false
     private var topicName = "楼主"  //楼主名称
     private var topicReplyId = 0
@@ -188,13 +179,15 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
     }
 
-    //调用ImageLoader预加载的图片填充到view中
     private fun fillImageView() {
-        contentViewHelper?.getImageUrls()?.forEachIndexed { index, s ->
-            contentViewHelper?.getImageViews()?.get(index).apply {
-                ImageLoader.usePreload(context = this?.context, url = contentViewHelper?.getImageUrls()?.get(index), imageView = this)
-            }
+        contentViewHelper?.getImageMapList()?.forEach {
+            ImageLoader.load(context = this@PostDetailActivity,
+                    url = it.keys.first(),
+                    imageView = it.values.first(),
+                    placeImage = R.drawable.image_placeholder_400200,
+                    isCircle = false)
         }
+        contentViewHelper = null
     }
 
     ////////////////////////////////投票////////////////////////////////
@@ -214,6 +207,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 postPresenter?.postVoteRequest(pollItemIds)
             }
         })
+        voteViewHelper = null
     }
 
     @UiThread
@@ -265,6 +259,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     /**
      * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
      * 然后发送消息
+     *
+     * 以下方法已废弃
+     *
      * 此方法创建了一个temReplyBean，其目的是当用户回复的内容足够简单时
      * 服务器显示回复成功之后直接将其插入至list末尾，因为回复成功之后服务器只会返回很简单的json数据
      * 而不用再次刷新回复列表，不过其是否有必要，还不确定
@@ -272,21 +269,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * isInsertReplySimply 这一变量才为true
      */
     override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
-        if (replyCount < COMMON_PAGE_SIZE -1 && isQuote == REPLY_NO_QUOTA) {
-            tempReplyBean = PostDetailBean.ListBean().apply {
-                reply_content = listOf(PostDetailBean.ContentBean().apply {
-                    type = contents[0].first
-                    infor = contents[0].second
-                })
-                reply_id = 0
-                reply_name = MyApp.getUser().name
-                icon = MyApp.getUser().avatar
-                userTitle = MyApp.getUser().title
-                posts_date = System.currentTimeMillis().toString()
-                position = replyCount + 2 //adapter中会减1，因为服务器默认主贴为1楼
-            }
-            isInsertReplySimply = true
-        }
         postPresenter?.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
         replyCount++
     }
@@ -300,19 +282,22 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread {
             showToast(event.data.head?.errInfo.toString())
-//            if (isInsertReplySimply && tempReplyBean != null) {
-//                //i("Post", tempReplyBean!!.userTitle)
-//                replyList.add(tempReplyBean!!)
-//                replyItemAdapter.notifyDataSetChanged()
-//                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
-//            } else {
-//                //i("Post", "load")
-//                scroll_view_post_detail.scrollTo(0, linear_layout_post_detail.height)
-//                refresh_layout_post_detail?.autoLoadMore()
-//            }
             replyBottomSheet?.finish()
             scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
             refresh_layout_post_detail?.autoRefresh()
+        }
+    }
+
+    ////////////////////////////////回复图片////////////////////////////////
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
+            val selectList = PictureSelector.obtainMultipleResult(data)
+            val imgPaths: MutableList<String> = ArrayList()
+            selectList.forEach {
+                imgPaths.add(it.cutPath)
+            }
+            replyBottomSheet?.setImagePaths(imgPaths)
         }
     }
 
@@ -336,13 +321,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_post_detail_option && drawFinish) {
-            getOptionBottomSheet().show()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun getOptionBottomSheet(): PostOptionBottomSheet {
         if (optionBottomSheet == null) {
             optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
@@ -358,6 +336,15 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             replyBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_reply)
         }
         return replyBottomSheet!!
+    }
+
+
+    ////////////////////////////////顶部菜单////////////////////////////////
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.menu_item_post_detail_option && drawFinish) {
+            getOptionBottomSheet().show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     ////////////////////////////////错误////////////////////////////////
@@ -376,9 +363,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         super.onDestroy()
         postPresenter = null
         replyItemAdapter = null
-        contentViewHelper = null
-        voteViewHelper = null
-        tempReplyBean = null
         replyList = null
         optionBottomSheet = null
         replyBottomSheet = null

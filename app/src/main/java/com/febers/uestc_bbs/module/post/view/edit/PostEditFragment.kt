@@ -105,7 +105,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
         needUploadImages.remove(addImagePath)
 
         val aidBuffer = StringBuffer()
-        val contentList: MutableList<Pair<Int, String>> = Collections.synchronizedList(ArrayList())
+        val contentList: MutableList<Pair<Int, String>> = ArrayList()
         contentList.add(CONTENT_TYPE_TEXT to content)
         for (path in needUploadImages) {
             var flag = true
@@ -146,7 +146,6 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
         PictureSelector.create(this@PostEditFragment)
                 .openGallery(PictureMimeType.ofImage())
                 .maxSelectNum(6)
-                .enableCrop(true)
                 .isDragFrame(true)
                 .previewImage(true)
                 .compress(true)

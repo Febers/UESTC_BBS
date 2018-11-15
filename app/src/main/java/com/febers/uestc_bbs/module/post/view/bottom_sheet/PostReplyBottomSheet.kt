@@ -29,7 +29,7 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
     private var topicId: Int = 0
     private var toUid: Int = 0
     private var lastToUid = toUid
-
+    private var needSendImages: MutableList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,9 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
         image_view_post_reply_emoji.visibility = View.INVISIBLE
         image_view_post_reply_at.visibility = View.INVISIBLE
 
-        image_view_post_reply_emoji.setOnClickListener {  }
+        image_view_post_reply_emoji.setOnClickListener {
+            //TODO 回帖添加图片
+        }
         /*
             点击发送按钮之后发送消息
             将此后的逻辑交给调用的界面
@@ -89,6 +91,10 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
     override fun show() {
         super.show()
         edit_view_post_reply.requestFocus()
+    }
+
+    fun setImagePaths(imgPaths: List<String>) {
+        needSendImages.addAll(imgPaths)
     }
 
     /**

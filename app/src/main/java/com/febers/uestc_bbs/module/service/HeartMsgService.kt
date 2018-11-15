@@ -89,7 +89,11 @@ class HeartMsgService : Service() {
             else -> otherChannelName
         }
         val intents = arrayOf(Intent(this,
-                if (msgType == MSG_TYPE_PRIVATE && count == 1)PMDetailActivity::class.java else HomeActivity::class.java )
+                if (msgType == MSG_TYPE_PRIVATE && count == 1) {
+                    PMDetailActivity::class.java
+                } else {
+                    HomeActivity::class.java
+                } )
                 .apply {
                     putExtra(USER_ID, uid.toString())
                     putExtra(MSG_TYPE, msgType)
@@ -97,6 +101,7 @@ class HeartMsgService : Service() {
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 })
         EventBus.getDefault().post(MsgEvent(BaseCode.SUCCESS, count))
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(notificationChannel)

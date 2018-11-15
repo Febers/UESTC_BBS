@@ -58,22 +58,18 @@ const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
 class ContentViewHelper(private val linearLayout: LinearLayout, private val mContents: List<PostDetailBean.ContentBean>) {
+
     private var imageUrlList: MutableList<String> = ArrayList()
     private var imageViewList: MutableList<ImageView> = ArrayList()
+    private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
+
     private var mStringBuilder: StringBuilder = StringBuilder()
-    private val IMAGE_VIEW_MARGIN = 25
+    private val IMAGE_VIEW_MARGIN = 20
     val IMAGE_VIEW_WIDTH = 1000
     val IMAGE_VIEW_HEIGHT = 725
-    private var idCount = 0
     private val context = linearLayout.context
-    /**
-     * 当添加图片视图的时候，如果立即使用Glide加载图片，
-     * 会造成用户滑动时的卡顿，因此，保存imageView和相应的url
-     * 当绘制完整个视图之后，在Activity获取以上两个值
-     * 然后加载。这里使用了Glide的preload方法，具体由ImageLoader实现
-     */
-    fun getImageUrls() = imageUrlList
-    fun getImageViews() = imageViewList
+
+    fun getImageMapList() = imageMapList
 
     fun create() {
         imageUrlList.clear()
@@ -98,9 +94,7 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
             val imageView = getImageView(mContents[position].originalInfo.toString())
             linearLayout.addView(imageView)
             linearLayout.gravity = Gravity.CENTER
-            ImageLoader.preload(context, mContents[position].originalInfo)
-            imageViewList.add(imageView)
-            imageUrlList.add(mContents[position].originalInfo.toString())
+            imageMapList?.add(mapOf(mContents[position].originalInfo.toString() to imageView))
         }
         //当遍历结束之后之后，绘制stringBuilder的内容
         if (position >= mContents.size) {
@@ -154,8 +148,6 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
     private fun getImageView(url: String): ImageView {
         val imageView = ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
-//            layoutParams = ViewGroup
-//                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams = ViewGroup
                     .LayoutParams(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)
         }
@@ -163,9 +155,6 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
             setMargins(IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN) }
         return imageView.apply {
             layoutParams = marginLayoutParams
-            setOnClickListener {
-                ViewClickUtils.clickToImageViewer(url = url, context = context)
-            }
         }
     }
 

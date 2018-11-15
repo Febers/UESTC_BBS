@@ -121,6 +121,8 @@ class HomeActivity: BaseActivity() {
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
+
         bottom_navigation_home.currentItem = 2
         showHideFragment(mFragments[2])
     }

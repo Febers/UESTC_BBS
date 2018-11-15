@@ -18,7 +18,6 @@ object ImageLoader {
 
     /**
      * Glide 加载 拦截异步加载数据时Glide 抛出的异常
-     * 通常用于加载头像
      *
      * @param context 所有加载图片的方法都拦截了异常，因为Context销毁之后Glide会报错，非常频繁
      * @param url           加载图片的url地址  String
@@ -104,6 +103,7 @@ object ImageLoader {
     /**
      * 预加载图片，防止边绘制ImageView边加载图片，边滑动时的卡顿问题
      *
+     * @deprecated 愚蠢的方案
      * @param context Context
      * @param url     加载图片的url地址  String
      */
@@ -122,6 +122,7 @@ object ImageLoader {
      * 只需要将Glide加载的图片填充进ImageView即可
      * 通常用于加载帖子中的内容
      *
+     * @deprecated 愚蠢的方案
      * @param context
      * @param url        加载图片的url地址  String
      * @param imageView  加载图片的ImageView 控件
