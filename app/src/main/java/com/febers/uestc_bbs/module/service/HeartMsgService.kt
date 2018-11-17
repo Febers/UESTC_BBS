@@ -61,9 +61,9 @@ class HeartMsgService : Service() {
         super.onCreate()
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         //注意Android8上，当应用运行在后台时，启动服务，会报IllegalStateException
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApp.uiHidden) {
-            startForeground(Int.MAX_VALUE, createNotification(title = getString(R.string.receiving_message_backround), content = "", msgType = "", count = 0))
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApp.uiHidden) {
+//            startForeground(Int.MAX_VALUE, createNotification(title = getString(R.string.receiving_message_backround), content = "", msgType = "", count = 0))
+//        }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
@@ -185,11 +185,10 @@ class HeartMsgService : Service() {
                     .create(HeartMsgInterface::class.java)
                     .getHeartMsg().enqueue(object : Callback<MsgHeartBean> {
                         override fun onFailure(call: Call<MsgHeartBean>, t: Throwable) {
-
                         }
 
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
-                            val heartBean = response.body() ?: return
+                            var heartBean = response.body() ?: return
                             if (heartBean.rs != 1 || heartBean.body == null) return
                             if (heartBean.body!!.replyInfo?.count!! > rmCount) {
                                 rmCount = heartBean.body!!.replyInfo?.count!!
@@ -226,6 +225,7 @@ class HeartMsgService : Service() {
                                     }
                                 }
                             }
+                            System.gc()
                         }
                     })
         }

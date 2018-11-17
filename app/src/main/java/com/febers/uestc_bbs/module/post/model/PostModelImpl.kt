@@ -21,9 +21,9 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         Thread(Runnable { getPost() }).start()
     }
 
-    override fun postReplyService(isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+    override fun postReplyService(isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
         Thread(Runnable {
-            reply(isQuote, replyId, *contents)
+            reply(isQuote, replyId, aid, *contents)
         }).start()
     }
 
@@ -91,7 +91,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         })
     }
 
-    private fun reply(isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
+    private fun reply(isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
         val stContents = StringBuilder()
         contents.forEach {
             stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
@@ -104,6 +104,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                         {"json":
                             {
                                 "tid":$mPostId,
+                                "aid":"$aid",
                                 "isAnonymous":0,
                                 "isOnlyAuthor":0,
                                 "isQuote":$isQuote,

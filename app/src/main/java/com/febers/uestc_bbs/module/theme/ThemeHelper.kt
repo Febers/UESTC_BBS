@@ -21,7 +21,6 @@ const val COLOR_PRIMARY_DARK = "color_primary_dark"
 object ThemeHelper {
 
     private const val LLCP = "last_light_color_primary"
-    private const val darkInterval = -200
     private val blueIntValue = Color.parseColor("#2196f3")
 
     private val themeChangeSubscribers: MutableList<View> = ArrayList()
@@ -37,7 +36,8 @@ object ThemeHelper {
                 colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
                 colorAccent(lastColorPrimary)
                 attribute(R.attr.app_color_primary, lastColorPrimary)
-                colorWindowBackgroundRes(R.color.color_white)
+                colorWindowBackground(res = R.color.color_white)
+                //colorWindowBackgroundRes(R.color.color_white)
                 colorStatusBarAuto()
             }
         } else {
@@ -46,11 +46,16 @@ object ThemeHelper {
             Aesthetic.config {
                 activityTheme(R.style.AppThemeDark)
                 isDark(true)
-                colorPrimaryRes(R.color.color_black_tint)
-                colorAccentRes(R.color.color_gray_light)
-                colorPrimaryDarkRes(R.color.color_black_tint)
-                colorWindowBackgroundRes(R.color.color_black_tint)
-                attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
+                colorPrimary(res = R.color.color_black_tint)
+                //colorPrimaryRes(R.color.color_black_tint)
+                colorAccent(res = R.color.color_gray_light)
+                //colorAccentRes(R.color.color_gray_light)
+                colorPrimaryDark(res = R.color.color_black_tint)
+                //colorPrimaryDarkRes(R.color.color_black_tint)
+                colorWindowBackground(res = R.color.color_black_tint)
+                //colorWindowBackgroundRes(R.color.color_black_tint)
+                attribute(R.attr.app_color_primary, res = R.color.color_black_tint)
+                //attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
                 colorStatusBarAuto()
             }
         }

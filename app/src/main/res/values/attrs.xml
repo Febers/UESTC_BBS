@@ -6,6 +6,7 @@
     <attr name="text_color_first" format="color"/>
     <attr name="text_color_second" format="color"/>
     <attr name="text_color_third" format="color"/>
+    <attr name="text_color_convert" format="color" />
 
     <attr name="background_first" format="color"/>
     <attr name="background_second" format="color"/>

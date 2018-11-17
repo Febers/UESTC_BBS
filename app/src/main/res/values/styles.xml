@@ -10,6 +10,7 @@
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>
         <item name="text_color_third">@color/textColorThird_Day</item>
+        <item name="text_color_convert">@color/color_white</item>
 
         <item name="background_first">@color/color_white</item>
         <item name="background_second">@color/color_gray_light</item>
@@ -31,6 +32,7 @@
         <item name="text_color_first">@color/color_white</item>
         <item name="text_color_second">@color/color_gray_light</item>
         <item name="text_color_third">@color/color_gray</item>
+        <item name="text_color_convert">@color/color_black</item>
 
         <item name="background_first">@color/color_black_tint</item>
         <item name="background_second">@color/color_gray</item>

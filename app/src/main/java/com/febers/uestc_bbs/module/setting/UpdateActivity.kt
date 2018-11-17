@@ -19,7 +19,12 @@ import java.io.File
 class UpdateActivity: BaseActivity() {
 
     private var updateDialog: AlertDialog? = null
+
     private var btnEnter: Button? = null
+    private var btnCancel: Button? = null
+    private var title: TextView? = null
+    private var subTitle: TextView? = null
+    private var detail: TextView? = null
 
     override fun enableThemeHelper(): Boolean = false
 
@@ -78,16 +83,18 @@ class UpdateActivity: BaseActivity() {
 
     private fun getDialogView(update: UpdateBean): View {
         val view = LayoutInflater.from(this@UpdateActivity).inflate(R.layout.dialog_update_app, null)
-        val btnCancel: Button = view.findViewById(R.id.btn_update_cancel)
-        val title: TextView = view.findViewById(R.id.text_view_update_title)
-        val subTitle: TextView = view.findViewById(R.id.text_view_update_sub_title)
-        val detail: TextView = view.findViewById(R.id.text_view_update_detail)
 
-        title.text = "新版本:${update.versionName}"
-        subTitle.text = "大小${update.size}"
-        detail.text = "更新说明:\n $update.body"
-        btnCancel.setOnClickListener { finish() }
+        btnCancel = view.findViewById(R.id.btn_update_cancel)
+        title = view.findViewById(R.id.text_view_update_title)
+        subTitle = view.findViewById(R.id.text_view_update_sub_title)
+        detail = view.findViewById(R.id.text_view_update_detail)
         btnEnter = view.findViewById(R.id.btn_update_enter)
+
+        title?.setText("新版本:${update.versionName}")
+        subTitle?.setText("大小${update.size}")
+        detail?.setText("更新说明:\n ${update.body}")
+        btnCancel?.setOnClickListener { finish() }
+
         return view
     }
 

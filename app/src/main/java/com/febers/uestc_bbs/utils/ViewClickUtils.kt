@@ -21,7 +21,8 @@ object ViewClickUtils {
     /**
      * TODO 点击站内链接时自动跳转，无需打开浏览器
      */
-    fun linkClick(url: String, context: Context) {
+    fun linkClick(url: String,
+                  context: Context) {
 //        i("Link ", url)
         if (url.endsWith(".gif")) {
             return
@@ -35,7 +36,8 @@ object ViewClickUtils {
      * @param uid 用户id
      * @param context
      */
-    fun clickToViewAvatarByUid(uid: Int?, context: Context?) {
+    fun clickToViewAvatarByUid(uid: Int?,
+                               context: Context?) {
         uid ?: return
         context ?: return
         clickToImageViewer(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
@@ -51,7 +53,10 @@ object ViewClickUtils {
      * 页面共享的文章见:https://blog.csdn.net/sinat_31057219/article/details/78095038
      * 目前没有进行相应的调用
      */
-    fun clickToImageViewer(url: String?, context: Context?, transitionView: View? = null, transitionViewName: String? = null) {
+    fun clickToImageViewer(url: String?,
+                           context: Context?,
+                           transitionView: View? = null,
+                           transitionViewName: String? = null) {
         url ?: return
         context ?: return
         var bundle: Bundle? = null
@@ -76,7 +81,8 @@ object ViewClickUtils {
      * @param context
      * @param uid 用户id
      */
-    fun clickToUserDetail(context: Context?, uid: Int?) {
+    fun clickToUserDetail(context: Context?,
+                          uid: Int?) {
         context ?: return
         if (uid == null) return
         if (!LoginContext.userState(context)) return
@@ -93,7 +99,8 @@ object ViewClickUtils {
      * @param context
      * @param fid 帖子id
      */
-    fun clickToPostDetail(context: Context?, fid: Int?) {
+    fun clickToPostDetail(context: Context?,
+                          fid: Int?) {
         context ?: return
         if (fid == 0 || fid == null) return
         if (!LoginContext.userState(context)) return
@@ -109,7 +116,9 @@ object ViewClickUtils {
      * @param uid
      * @param userName
      */
-    fun clickToPrivateMsg(context: Context?, uid: Int?, userName: String?) {
+    fun clickToPrivateMsg(context: Context?,
+                          uid: Int?,
+                          userName: String?) {
         context ?: return
         userName ?: return
         if (uid == 0 ||uid == null) return
@@ -126,7 +135,9 @@ object ViewClickUtils {
      * @param fid 板块id
      * @param title 板块标题
      */
-    fun clickToPostEdit(context: Context?, fid: Int, title: String) {
+    fun clickToPostEdit(context: Context?,
+                        fid: Int,
+                        title: String) {
         context ?:return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostEditActivity::class.java).apply {
@@ -135,11 +146,19 @@ object ViewClickUtils {
         })
     }
 
+    fun clickToPostReply(context: Context?,
+                         replyId: Int?,
+                         replyName: Int?,
+                         replySimpleDescription: String) {
+
+    }
+
     /**
      * 在App内打开web页面
      * TODO
      */
-    fun clickToAppWeb(context: Context?, url: String?) {
+    fun clickToAppWeb(context: Context?,
+                      url: String?) {
         context ?: return
         url ?: return
         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))

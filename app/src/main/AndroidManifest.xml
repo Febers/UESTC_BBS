@@ -25,7 +25,8 @@
         android:theme="@style/AppThemeLight"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:theme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:largeHeap="true">
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -74,6 +75,7 @@
         </activity>
         <activity android:name=".module.setting.UpdateActivity"
             android:theme="@style/UpdateTheme"/>
+        <activity android:name=".module.post.view.edit.PostReplyActivity" />
 
     </application>
 </manifest>

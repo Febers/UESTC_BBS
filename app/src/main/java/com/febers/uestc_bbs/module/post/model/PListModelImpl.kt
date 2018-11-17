@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.post.model
 
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.entity.BoardListBean_
 import com.febers.uestc_bbs.io.PostHelper
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
@@ -13,7 +14,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
 
     private var savedPListGot = false
 
-    override fun pListService(fid: Int, page: Int, refresh: Boolean) {
+    override fun pListService(fid: Int, page: Int) {
         mFid = fid.toString()
         mPage = page.toString()
 
@@ -23,6 +24,13 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
         Thread(Runnable {
             getPList()
         }).start()
+    }
+
+    override fun boardListService(fid: Int) {
+        mFid = fid.toString()
+        Thread {
+            getBoardList()
+        }.start()
     }
 
     private fun getPList() {
@@ -50,6 +58,29 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                 if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0) PostHelper.savePostList(mFid, body)
             }
         })
+    }
+
+    private fun getBoardList() {
+        getRetrofit().create(PListInterface::class.java)
+                .boardList(fid = mFid)
+                .enqueue(object : Callback<BoardListBean_> {
+                    override fun onFailure(call: Call<BoardListBean_>, t: Throwable) {
+                        pListPresenter.errorResult("获取子版块失败")
+                    }
+
+                    override fun onResponse(call: Call<BoardListBean_>?, response: Response<BoardListBean_>?) {
+                        val body = response?.body()
+                        if (body == null) {
+                            pListPresenter.errorResult("获取子版块失败")
+                            return
+                        }
+                        if (body.rs != REQUEST_SUCCESS_RS) {
+                            pListPresenter.errorResult(body.head?.errInfo.toString())
+                            return
+                        }
+                        pListPresenter.boardListResult(BaseEvent(BaseCode.SUCCESS, body))
+                    }
+                })
     }
 
     private fun getCall(): Call<PostListBean>{
@@ -85,7 +116,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                 sortby = "new",
                 filterType = "sortid",
                 isImageList = "false",
-                topOrdere = mTopOrder)
+                topOrder = mTopOrder)
     }
 
     private fun getSavedPList() {

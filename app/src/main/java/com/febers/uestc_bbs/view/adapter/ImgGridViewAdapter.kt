@@ -10,8 +10,14 @@ import android.widget.ImageView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.image.ImageLoader
 
-
-class ImgGridViewAdapter(private val context: Context, private val imgPaths: List<String>) : BaseAdapter() {
+/**
+ * @param context
+ * @param imgPaths
+ * @param forReply 是否是在回复帖子时调用
+ *
+ */
+class ImgGridViewAdapter(private val context: Context, private val imgPaths: List<String>,
+                         private val forReply: Boolean = false) : BaseAdapter() {
 
     private var imageClickListener: OnImageClickListener? = null
 
@@ -45,11 +51,12 @@ class ImgGridViewAdapter(private val context: Context, private val imgPaths: Lis
             imageClickListener?.onImageClick(i)
         }
 
-        if (i == imgPaths.size - 1) {
+        if (i == imgPaths.size - 1 && !forReply) {
             holder.btnDelete!!.visibility = View.GONE
         } else {
             holder.btnDelete!!.visibility = View.VISIBLE
         }
+
         /*
          * 点击图片上的删除按钮之后
          * 回调接口的监听器，通知图片已删除

@@ -10,14 +10,16 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostListAdapter
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.entity.BoardListBean_
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.module.theme.AppColor
-import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
@@ -29,15 +31,20 @@ import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.runOnUiThread
+import java.lang.IndexOutOfBoundsException
 
 class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     private val stickyPostList: MutableList<PostListBean.TopTopicListBean> = ArrayList()
     private val postList: MutableList<PostListBean.ListBean> = ArrayList()
+    private val boardNames: MutableList<String> = ArrayList()
+    private val boardIds: MutableList<Int> = ArrayList()
     private lateinit var pListPresenter: PListContract.Presenter
     private var stickyPostAdapter: StickyPostAdapter? = null
-    private lateinit var postListAdapter: PostListAdapter
-    private lateinit var itemShowStickyPost: MenuItem
+    private var boardSpinnerAdapter: ArrayAdapter<String>? = null
+    private var boardSpinner: Spinner? = null
+    private var postListAdapter: PostListAdapter? = null
+    private var itemShowStickyPost: MenuItem? = null
     private var isShowStickyPost = false
     private var title: String? = "板块名称"
     private var page: Int = 1
@@ -56,17 +63,44 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     override fun initView() {
         setHasOptionsMenu(true)
         toolbar_post_list.inflateMenu(R.menu.menu_post_list)
+        toolbar_post_list.title = ""
+
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postList)
-        coo_layout_post_list_fragment.title = title
-        coo_layout_post_list_fragment.setBackgroundColor(ThemeHelper.getColorPrimary())
+
+//        coo_layout_post_list_fragment.title = title
+//        coo_layout_post_list_fragment.isTitleEnabled = false
+//        coo_layout_post_list_fragment.setBackgroundColor(ThemeHelper.getColorPrimary())
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
+
+        pListPresenter.pListRequest(fid = mFid, page = page)
+        pListPresenter.boardListRequest(mFid)
+
+        boardNames.add(title.toString())
+        boardIds.add(mFid)
+        boardSpinnerAdapter = ArrayAdapter(context!!,
+                R.layout.item_layout_spinner,
+                R.id.text_view_item_spinner,
+                boardNames).apply {
+            setDropDownViewResource(R.layout.item_layout_spinner_dropdown)
+        }
+        boardSpinner = Spinner(toolbar_post_list.context).apply {
+            adapter = boardSpinnerAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    mFid = boardIds[position]
+                    refresh_layout_post_list.autoRefresh()
+                }
+            }
+        }
+        toolbar_post_list.addView(boardSpinner, 0)
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        postListAdapter.apply {
+        postListAdapter?.apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
                 clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id)
             }
@@ -82,40 +116,54 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             initAttrAndBehavior()
             setOnRefreshListener {
                 page = 1
-                getPost(page, true) }
+                getPost(page) }
             setOnLoadMoreListener {
-                getPost(++page, true) }
+                getPost(++page) }
         }
         fab_post_list.setOnClickListener {
             ViewClickUtils.clickToPostEdit(context, mFid, title!!)
         }
     }
 
-    private fun getPost(page: Int, refresh: Boolean) {
+    private fun getPost(page: Int) {
         refresh_layout_post_list?.setNoMoreData(false)
-        pListPresenter.pListRequest(fid = mFid, page = page, refresh = refresh)
+        pListPresenter.pListRequest(fid = mFid, page = page)
     }
 
     @UiThread
     override fun showPList(event: BaseEvent<PostListBean>) {
         refresh_layout_post_list?.finishSuccess()
-        //顶部文字
-        text_view_post_list_today_num?.text = getString(R.string.block_today_num) + ": " +event.data.forumInfo?.td_posts_num
-        text_view_post_list_all_num?.text = getString(R.string.block_all_num) + ": " + event.data.forumInfo?.posts_total_num
         //置顶帖数据
         stickyPostList.clear()
         stickyPostList.addAll(event.data.topTopicList!!)
         if (stickyPostAdapter != null) (stickyPostAdapter as StickyPostAdapter).notifyDataSetChanged()
 
         if (page == 1) {
-            postListAdapter.setNewData(event.data.list)
+            postListAdapter?.setNewData(event.data.list)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_list?.finishLoadMoreWithNoMoreData()
             return
         }
-        postListAdapter.setLoadMoreData(event.data.list)
+        postListAdapter?.setLoadMoreData(event.data.list)
+    }
+
+    /**
+     * 进入总的版块之后，后台获取该板块下的所有子版块，并创建一个spinner显示
+     *
+     */
+    @UiThread
+    override fun showBoardList(event: BaseEvent<BoardListBean_>) {
+        try {
+            event.data.list?.get(0)?.board_list?.forEach {
+                boardNames.add(it.board_name.toString())
+                boardIds.add(it.board_id)
+            }
+            boardSpinnerAdapter?.notifyDataSetChanged()
+        } catch (e: IndexOutOfBoundsException) {
+        }
+
     }
 
     /**
@@ -123,7 +171,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
      * 刷新界面
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onPostNew(event: BaseEvent<String>) {
+    fun onPostNew(event: BaseEvent<PostNewEvent>) {
         if (event.code == BaseCode.SUCCESS) {
             refresh_layout_post_list.autoRefresh()
         }
@@ -161,18 +209,22 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     private fun onAppbarLayoutOffsetChange() {
         app_bar_post_list.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             when {
-                verticalOffset == 0 -> {
-                    //CollapsingToolBar展开
-                }
-                Math.abs(verticalOffset) >= app_bar_post_list.totalScrollRange -> {
-                    //CollapsingToolBar折叠
-                }
-                Math.abs(verticalOffset) <= 150 -> {
-                    linear_layout_post_list_header.visibility = View.VISIBLE
-                }
-                Math.abs(verticalOffset) >= 150 -> {
-                    linear_layout_post_list_header.visibility = View.GONE
-                }
+//                verticalOffset == 0 -> {
+//                    //CollapsingToolBar展开
+//                }
+//                Math.abs(verticalOffset) >= app_bar_post_list.totalScrollRange -> {
+//                    //CollapsingToolBar折叠
+//                }
+//                Math.abs(verticalOffset) <= 150 -> {
+//                    text_view_post_list_all_num.visibility = View.VISIBLE
+//                    text_view_post_list_today_num.visibility = View.VISIBLE
+//                    //linear_layout_post_list_header.visibility = View.VISIBLE
+//                }
+//                Math.abs(verticalOffset) >= 150 -> {
+//                    text_view_post_list_all_num.visibility = View.INVISIBLE
+//                    text_view_post_list_today_num.visibility = View.INVISIBLE
+                    //linear_layout_post_list_header.visibility = View.GONE
+//                }
             }
         })
     }
@@ -193,8 +245,8 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.menu_item_post_list_sticky) {
             showOrHideStickyPost()
-            if (!isShowStickyPost) itemShowStickyPost.title = "隐藏置顶帖"
-            if (isShowStickyPost) itemShowStickyPost.title = "显示置顶帖"
+            if (!isShowStickyPost) itemShowStickyPost?.title = "隐藏置顶帖"
+            if (isShowStickyPost) itemShowStickyPost?.title = "显示置顶帖"
             isShowStickyPost = !isShowStickyPost
         }
         return super.onOptionsItemSelected(item)

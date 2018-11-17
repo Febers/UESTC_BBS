@@ -5,13 +5,13 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/image_view_item_post_edit"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/image_item_width"
+        android:layout_height="@dimen/image_item_width"
         android:src="@drawable/ic_default_avatar_circle"/>
     <ImageView
         android:id="@+id/btn_img_item_post_edit"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="@dimen/image_delete_item_width"
+        android:layout_height="@dimen/image_delete_item_width"
         android:src="@drawable/xic_clear_red_24dp"
         android:layout_alignTop="@id/image_view_item_post_edit"
         android:layout_alignEnd="@id/image_view_item_post_edit"/>

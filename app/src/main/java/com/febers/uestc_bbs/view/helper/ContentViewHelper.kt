@@ -64,7 +64,7 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
     private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
 
     private var mStringBuilder: StringBuilder = StringBuilder()
-    private val IMAGE_VIEW_MARGIN = 20
+    private val IMAGE_VIEW_MARGIN = 10
     val IMAGE_VIEW_WIDTH = 1000
     val IMAGE_VIEW_HEIGHT = 725
     private val context = linearLayout.context

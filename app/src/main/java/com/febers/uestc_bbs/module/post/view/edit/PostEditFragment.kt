@@ -136,7 +136,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
     override fun showNewPostResult(event: PostSendResultBean) {
         context?.runOnUiThread {
             progressDialog?.dismiss()
-            EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, "new post"))
+            EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, PostNewEvent("success")))
             activity?.finish()
             PictureFileUtils.deleteCacheDirFile(context!!)
         }
@@ -147,9 +147,9 @@ class PostEditFragment: BaseFragment(), PEditContract.View {
                 .openGallery(PictureMimeType.ofImage())
                 .maxSelectNum(6)
                 .isDragFrame(true)
+                .enableCrop(true)
                 .previewImage(true)
                 .compress(true)
-                .hideBottomControls(false)
                 .forResult(PictureConfig.CHOOSE_REQUEST)
     }
 

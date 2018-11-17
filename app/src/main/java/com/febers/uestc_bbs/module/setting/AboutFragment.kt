@@ -116,7 +116,6 @@ class AboutFragment: BaseSwipeFragment() {
         return view
     }
 
-
     private fun initOpenProjectData(): List<ProjectItemBean> = arrayListOf(
             ProjectItemBean("aesthetic", "afollestad", ""),
             ProjectItemBean("ahbottomnavigation", "aurelhubert", ""),
@@ -127,6 +126,7 @@ class AboutFragment: BaseSwipeFragment() {
             ProjectItemBean("glide-transformations", "wasabeef", ""),
             ProjectItemBean("HoloColorPicker", "LarsWerkman", ""),
             ProjectItemBean("PictureSelector", "LuckSiege", ""),
+            ProjectItemBean("PinchImageView", "boycy815", ""),
             ProjectItemBean("RecyclerViewAdapter", "SheHuan", ""),
             ProjectItemBean("retrofit", "square", "")
 

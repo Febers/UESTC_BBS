@@ -60,6 +60,38 @@ object ImageLoader {
     }
 
     /**
+     * 通常用于加载帖子里的图片
+     *
+     * @param context 所有加载图片的方法都拦截了异常，因为Context销毁之后Glide会报错，非常频繁
+     * @param url           加载图片的url地址  String
+     * @param imageView     加载图片的ImageView 控件
+     */
+    fun loadForContent(context: Context?, url: String?, imageView: ImageView?,
+             placeImage: Int? = R.drawable.image_placeholder_400200,
+             clickToViewer: Boolean = true) {
+        val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+        try {
+            GlideApp.with(context!!).load(url)
+                    .apply {
+                        if (placeImage != null) {
+                            this.placeholder(placeImage)
+                        }
+                    }
+                    .error(R.drawable.image_error_400200)
+                    .apply(sizeOptions)
+                    .fitCenter()
+                    .into(imageView!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        if (clickToViewer) {
+            imageView?.setOnClickListener {
+                ViewClickUtils.clickToImageViewer(url, context)
+            }
+        }
+    }
+
+    /**
      * 加载本地资源文件
      *
      * @param context

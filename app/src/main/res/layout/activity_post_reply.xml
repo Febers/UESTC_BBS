@@ -4,19 +4,29 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="回复"/>
+        app:elevation="0dp">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_post_reply"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <EditText
-            android:id="@+id/edit_view_post_reply"
+            android:id="@+id/edit_view_post_reply_activity"
             android:inputType="textMultiLine"
             android:layout_width="0dp"
             android:layout_weight="6"
@@ -26,7 +36,7 @@
             android:layout_margin="5dp"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/btn_post_reply"
+            android:id="@+id/btn_post_reply_activity"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="40dp"
@@ -36,10 +46,10 @@
             android:text="@string/send"/>
     </LinearLayout>
 
-    <com.febers.uestc_bbs.view.custom.CustomGridView
+    <GridView
         android:id="@+id/grid_view_post_reply_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.febers.uestc_bbs.view.custom.CustomGridView>
+    </GridView>
 
 </LinearLayout>

@@ -33,11 +33,9 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         ImageLoader.load(context, p1.icon, p0?.getView(R.id.image_view_post_reply_author_avatar))
 
         contentViewHelper?.getImageMapList()?.forEach {
-            ImageLoader.load(context = context,
+            ImageLoader.loadForContent(context = context,
                     url = it.keys.first(),
-                    placeImage = R.drawable.image_placeholder_400200,
-                    imageView = it.values.first(),
-                    isCircle = false)
+                    imageView = it.values.first())
         }
         contentViewHelper = null
     }

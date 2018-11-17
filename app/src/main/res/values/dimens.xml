@@ -15,4 +15,7 @@
     <dimen name="text_size_big">16sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+    <dimen name="image_delete_item_width">20dp</dimen>
+    <dimen name="image_item_width">80dp</dimen>
+    <dimen name="common_pb_height">10dp</dimen>
 </resources>

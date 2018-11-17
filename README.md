@@ -9,7 +9,7 @@
 ![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_3.png)
 
 ## 三、开源协议
-Apache License V2.0
+Apache License 2.0
 
 
 

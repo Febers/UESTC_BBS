@@ -27,6 +27,7 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
+import com.febers.uestc_bbs.view.custom.PostReplyDialog
 import com.febers.uestc_bbs.view.helper.*
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -66,13 +67,14 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!, false).apply {
-            setOnItemClickListener { viewHolder, postReplyBean, i ->
-                getReplyBottomSheet().showWithData(topicId = topicId, toUid = postReplyBean.reply_id,
-                        replyId = postReplyBean.reply_posts_id, toUName = postReplyBean.reply_name!!) }
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
             }
-
+            setOnItemChildClickListener(R.id.image_view_post_reply_reply) {
+                viewHolder, postReplyBean, i ->
+                getReplyBottomSheet().showWithData(topicId = topicId, toUid = postReplyBean.reply_id,
+                        replyId = postReplyBean.reply_posts_id, toUName = postReplyBean.reply_name!!)
+            }
         }
 
         refresh_layout_post_detail.apply {
@@ -181,11 +183,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     private fun fillImageView() {
         contentViewHelper?.getImageMapList()?.forEach {
-            ImageLoader.load(context = this@PostDetailActivity,
+            ImageLoader.loadForContent(context = this@PostDetailActivity,
                     url = it.keys.first(),
-                    imageView = it.values.first(),
-                    placeImage = R.drawable.image_placeholder_400200,
-                    isCircle = false)
+                    imageView = it.values.first())
         }
         contentViewHelper = null
     }
@@ -268,8 +268,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * 只有在回复的数目够小，且该回复不引用其他回复以及回复不包含图片(目前客户端并不支持这一功能)
      * isInsertReplySimply 这一变量才为true
      */
-    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, vararg contents: Pair<Int, String>) {
-        postPresenter?.postReplyRequest(isQuote = isQuote, replyId = replyId, contents = *contents)
+    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
+        postPresenter?.postReplyRequest(isQuote = isQuote, replyId = replyId, aid = aid, contents = *contents)
         replyCount++
     }
 
@@ -332,8 +332,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     private fun getReplyBottomSheet(): PostReplyBottomSheet {
         if (replyBottomSheet == null) {
-            replyBottomSheet = PostReplyBottomSheet(this, R.style.PinkBottomSheetTheme, this)
+            replyBottomSheet = PostReplyBottomSheet(this@PostDetailActivity, R.style.PinkBottomSheetTheme, this)
             replyBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_reply)
+            replyBottomSheet!!.delegate.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.setBackgroundColor(resources.getColor(android.R.color.transparent))
         }
         return replyBottomSheet!!
     }

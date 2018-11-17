@@ -10,11 +10,19 @@
     <ProgressBar
         android:id="@+id/progress_bar_post_reply"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="@dimen/common_pb_height"
         android:indeterminate="true"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:visibility="gone"/>
 
+    <com.febers.uestc_bbs.view.custom.CustomGridView
+        android:id="@+id/grid_view_post_reply_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:numColumns="4">
+
+    </com.febers.uestc_bbs.view.custom.CustomGridView>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="8dp"
             android:text="回复"
             android:textSize="@dimen/text_size_big"
@@ -63,7 +71,7 @@
             app:layout_constraintHorizontal_bias="0.989"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"/>
 
         <ImageView
             android:id="@+id/image_view_post_reply_emoji"

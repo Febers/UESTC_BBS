@@ -6,22 +6,34 @@
 
 package com.febers.uestc_bbs.module.post.view.bottom_sheet
 
-import android.content.Context
+import android.app.Activity
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.View
 import android.view.WindowManager
+import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.REPLY_NO_QUOTA
 import com.febers.uestc_bbs.base.REPLY_QUOTA
+import com.febers.uestc_bbs.entity.UploadResultBean
+import com.febers.uestc_bbs.io.FileUploader
+import com.febers.uestc_bbs.utils.ToastUtils
+import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.layout_bottom_sheet_reply.*
+import java.io.File
+import java.lang.StringBuilder
 
 /**
  * 帖子详情界面，回复的底部弹出框
  * 发送消息按钮之后之后显示progress
  *
  */
-class PostReplyBottomSheet(context: Context, style: Int, private val listener: PostReplySendListener):
-        BottomSheetDialog(context, style) {
+class PostReplyBottomSheet(val activity: Activity, style: Int, private val listener: PostReplySendListener):
+        BottomSheetDialog(activity, style) {
 
     private var isQuote: Int = REPLY_NO_QUOTA
     private var toUName: String = ""
@@ -29,18 +41,27 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
     private var topicId: Int = 0
     private var toUid: Int = 0
     private var lastToUid = toUid
-    private var needSendImages: MutableList<String> = ArrayList()
+
+    private var imgGridViewAdapter: ImgGridViewAdapter? = null
+
+    private var needUploadImages: MutableList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-        image_view_post_reply_picture.visibility = View.INVISIBLE
-        image_view_post_reply_emoji.visibility = View.INVISIBLE
-        image_view_post_reply_at.visibility = View.INVISIBLE
+        image_view_post_reply_emoji.visibility = View.GONE
+        image_view_post_reply_at.visibility = View.GONE
 
-        image_view_post_reply_emoji.setOnClickListener {
-            //TODO 回帖添加图片
+        image_view_post_reply_picture.setOnClickListener {
+            PictureSelector.create(activity)
+                    .openGallery(PictureMimeType.ofImage())
+                    .maxSelectNum(1)
+                    .isDragFrame(true)
+                    .enableCrop(true)
+                    .previewImage(true)
+                    .compress(true)
+                    .forResult(PictureConfig.CHOOSE_REQUEST)
         }
         /*
             点击发送按钮之后发送消息
@@ -54,11 +75,46 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
             } else {
                 REPLY_QUOTA
             }
-            progress_bar_post_reply.visibility = View.VISIBLE
-            listener.onReplySend(toUid = toUid, isQuote = isQuote, replyId = replyId, contents = *arrayOf(0 to stContent))
+            sendReply(stContent)
         }
+
         setOnCancelListener {
             edit_view_post_reply.clearFocus()
+        }
+    }
+
+    private fun sendReply(stContent: String) {
+        progress_bar_post_reply.visibility = View.VISIBLE
+        val aidBuffer = StringBuilder()
+        val contentList: MutableList<Pair<Int, String>> = java.util.ArrayList()
+        contentList.add(CONTENT_TYPE_TEXT to stContent)
+        for (path in needUploadImages) {
+            var flag = true
+            var successCount = 0
+            FileUploader().uploadPostImageToBBS(imageFile = File(path), listener = object : FileUploader.OnFileUploadListener {
+                override fun onUploadFail(msg: String) {
+                    flag = false
+                }
+
+                override fun onUploadSuccess(event: BaseEvent<UploadResultBean>) {
+
+                    aidBuffer.append("${event.data.body?.attachment?.first()?.id},")
+                    contentList.add(CONTENT_TYPE_IMG to event.data.body?.attachment?.first()?.urlName.toString())
+                    if (++successCount == needUploadImages.size) {
+                        aidBuffer.deleteCharAt(aidBuffer.lastIndex)
+                        listener.onReplySend(toUid = toUid,
+                                isQuote = isQuote,
+                                replyId = replyId,
+                                aid = aidBuffer.toString(),
+                                contents = *contentList.toTypedArray())
+                    }
+                }
+            })
+            if (!flag) {
+                ToastUtils.show("上传图片失败")
+                progress_bar_post_reply.visibility = View.GONE
+                break
+            }
         }
     }
 
@@ -79,6 +135,8 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
         text_view_post_reply_to_name.text = this.toUName
         if (lastToUid != toUid) {
             edit_view_post_reply.text.clear()
+            needUploadImages.clear()
+            imgGridViewAdapter?.notifyDataSetChanged()
             lastToUid = this.toUid
         }
         show()
@@ -94,7 +152,22 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
     }
 
     fun setImagePaths(imgPaths: List<String>) {
-        needSendImages.addAll(imgPaths)
+        needUploadImages.addAll(imgPaths)
+
+        if (imgGridViewAdapter == null) {
+            imgGridViewAdapter = ImgGridViewAdapter(context = activity, imgPaths = needUploadImages, forReply = true)
+        }
+        grid_view_post_reply_img.adapter = imgGridViewAdapter
+        imgGridViewAdapter?.setImageClickListener(object : ImgGridViewAdapter.OnImageClickListener {
+            override fun onImageClick(position: Int) {
+
+            }
+
+            override fun onImageDeleteClick(position: Int) {
+                needUploadImages.removeAt(position)
+                imgGridViewAdapter?.notifyDataSetChanged()
+            }
+        })
     }
 
     /**
@@ -105,4 +178,6 @@ class PostReplyBottomSheet(context: Context, style: Int, private val listener: P
         super.hide()
         progress_bar_post_reply.visibility = View.GONE
     }
+
+
 }
