@@ -59,8 +59,6 @@ const val DIVIDE_HEIGHT = 20
 
 class ContentViewHelper(private val linearLayout: LinearLayout, private val mContents: List<PostDetailBean.ContentBean>) {
 
-    private var imageUrlList: MutableList<String> = ArrayList()
-    private var imageViewList: MutableList<ImageView> = ArrayList()
     private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
 
     private var mStringBuilder: StringBuilder = StringBuilder()
@@ -72,8 +70,6 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
     fun getImageMapList() = imageMapList
 
     fun create() {
-        imageUrlList.clear()
-        imageViewList.clear()
         linearLayout.removeAllViews()
         cycleDrawView(mStringBuilder, position = 0)
     }
@@ -134,7 +130,7 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
 
     //创建TextView
     private fun getTextView(): TextView = TextView(context).apply {
-        setLineSpacing(1.0f, 1.3f)
+        setLineSpacing(1.0f, 1.2f)
         textSize = 16f
         setTextColor(ThemeHelper.getTextColorPrimary())
         linksClickable = true
@@ -162,9 +158,9 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
      * 将content.infor中的表情gif图片变成超链接，
      * 然后交给{@link #ImageTextHelper.setImageText(TextView tv, String html)} 处理
      * raw比如:
-     * ...你好啊[mobcent_phiz=http://bbs.uestc.edu.cn/static/image/smiley/too/1.gif]...
+     * ...你好啊[mobcent_phiz=http://bbs.uestc.edu.cn/static/image/smiley/first/1.gif]...
      * 转换成:
-     * <img src="http://bbs.uestc.edu.cn/static/image/smiley/too/1.gif">
+     * <img src="http://bbs.uestc.edu.cn/static/image/smiley/first/1.gif">
      */
     private fun emotionTransform(raw: String?, lastBegin: Int = 0): String{
         if (raw == null) {

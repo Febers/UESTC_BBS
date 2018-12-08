@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-8-20 上午12:37.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-20 上午12:37.
- */
-
 package com.febers.uestc_bbs.module.post.view.bottom_sheet
 
 import android.app.Activity
@@ -17,6 +11,7 @@ import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.utils.ToastUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -88,6 +83,14 @@ class PostReplyBottomSheet(val activity: Activity, style: Int, private val liste
         val aidBuffer = StringBuilder()
         val contentList: MutableList<Pair<Int, String>> = java.util.ArrayList()
         contentList.add(CONTENT_TYPE_TEXT to stContent)
+        if (needUploadImages.size == 0) {
+            listener.onReplySend(toUid = toUid,
+                    isQuote = isQuote,
+                    replyId = replyId,
+                    aid = aidBuffer.toString(),
+                    contents = *contentList.toTypedArray())
+            return
+        }
         for (path in needUploadImages) {
             var flag = true
             var successCount = 0
@@ -175,7 +178,7 @@ class PostReplyBottomSheet(val activity: Activity, style: Int, private val liste
      * 隐藏底部框和进度条
      */
     fun finish() {
-        super.hide()
+        super.dismiss()
         progress_bar_post_reply.visibility = View.GONE
     }
 

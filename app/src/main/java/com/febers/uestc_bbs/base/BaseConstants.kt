@@ -11,6 +11,8 @@ const val REPLY_QUOTA = 1
 const val REPLY_NO_QUOTA = 0
 const val USER_ANONYMOUS = 1
 const val USER_NO_ANONYMOUS = 0
+const val ONLY_AUTHOR_VIEW_REPLY = 1
+const val NO_ONLY_AUTHOR_VIEW_REPLY = 0
 const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
 const val SERVICE_RESPONSE_NULL = "服务器响应为空"
 
@@ -44,8 +46,8 @@ const val USER_SIGN = "sign"
 const val USER_GENDER = "gender"
 const val USER_AVATAR = "avatar"
 
-const val ONLY_AUTHOR = 0
-const val NO_ONLY_AUTHOR = 1
+const val ONLY_AUTHOR_REPLY = 0
+const val NO_ONLY_AUTHOR_REPLY = 1
 const val ITEM_ORDER_POSITIVE = 1
 const val ITEM_WEB_POST = 2
 const val ITEM_COPY_URL = 3

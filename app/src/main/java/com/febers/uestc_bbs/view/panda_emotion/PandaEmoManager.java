@@ -1,13 +1,15 @@
-package com.febers.uestc_bbs.view.emoticonlib;
+package com.febers.uestc_bbs.view.panda_emotion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.view.emoticonlib.listeners.IImageLoader;
-import com.febers.uestc_bbs.view.emoticonlib.view.PandaEmoView;
+import com.febers.uestc_bbs.view.panda_emotion.listeners.IImageLoader;
+import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 import static com.febers.uestc_bbs.utils.LogUtilsKt.log;
@@ -27,6 +29,7 @@ public class PandaEmoManager {
     private String EMOT_DIR = "face"; // assets 中默认表情文件夹
     private String SOURCE_DIR = "source_default"; // assets 中默认图片资源文件夹名称，父目录为 EMOT_DIR
     private String STICKER_PATH = null; //默认路径在 /data/data/包名/files/sticker 下
+
     private String STICKER_PATH2 = "face";
 
     private int MAX_GIF_PERVIEW = 5; // 单个 TextView 最多显示的 Gif 个数

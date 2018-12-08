@@ -54,9 +54,6 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     override fun registerEventBus(): Boolean = true
 
     override fun setContentView(): Int {
-        arguments?.let {
-            title = it.getString("title")
-        }
         return R.layout.fragment_post_list
     }
 
@@ -77,6 +74,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         pListPresenter.pListRequest(fid = mFid, page = page)
         pListPresenter.boardListRequest(mFid)
 
+        title = mTitle
         boardNames.add(title.toString())
         boardIds.add(mFid)
         boardSpinnerAdapter = ArrayAdapter(context!!,
@@ -258,7 +256,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
                 PListFragment().apply {
                     arguments = Bundle().apply {
                         putInt(FID, fid)
-                        putString("title", title)
+                        putString(TITLE, title)
                         putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
                     }
                 }

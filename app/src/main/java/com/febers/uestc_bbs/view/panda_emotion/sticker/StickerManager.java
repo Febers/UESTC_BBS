@@ -1,9 +1,9 @@
-package com.febers.uestc_bbs.view.emoticonlib.sticker;
+package com.febers.uestc_bbs.view.panda_emotion.sticker;
 
 import android.util.Xml;
 
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
-import com.febers.uestc_bbs.view.emoticonlib.utils.ZipUtils;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.utils.ZipUtils;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -56,6 +56,7 @@ public class StickerManager {
         stickerCategories.clear();
         stickerCategoryMap.clear();
         File stickerDir = new File(PandaEmoManager.getInstance().getStickerPath());
+
         if (stickerDir.exists()) {
             File[] files = stickerDir.listFiles();// 列出 stickers 目录下的所有文件夹（每一个文件夹是一组表情包）
             if (files != null) {
@@ -65,10 +66,7 @@ public class StickerManager {
                         String name = file.getName();
                         StickerCategory category;
                         if (stickerOrderNames.size() > 0) { // 如果忘记设置 stickers 顺序 list 则底部栏随机显示
-                            category = new StickerCategory(name, stickerOrderNames.inde
-
-
-                                    xOf(name));
+                            category = new StickerCategory(name, stickerOrderNames.indexOf(name));
                         } else {
                             if (name.equals(selfSticker)) {
                                 category = new StickerCategory(name, 0);

@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
-        tools:replace="android:theme"
+        tools:replace="android:theme, label"
         android:usesCleartextTraffic="true"
         android:largeHeap="true">
 
@@ -62,7 +62,8 @@
 
         <activity
             android:name=".module.image.ImageViewer"
-            android:theme="@style/ImageViewerTheme" />
+            android:theme="@style/ImageViewerTheme"
+            android:launchMode="singleInstance"/>
         <activity android:name=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,7 +76,8 @@
         </activity>
         <activity android:name=".module.setting.UpdateActivity"
             android:theme="@style/UpdateTheme"/>
-        <activity android:name=".module.post.view.edit.PostReplyActivity" />
+        <activity android:name=".module.post.view.edit.PostReplyActivity"
+            android:windowSoftInputMode="adjustResize"/>
 
     </application>
 </manifest>

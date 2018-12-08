@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.sticker;
+package com.febers.uestc_bbs.view.panda_emotion.sticker;
 
 import android.content.Context;
 import android.view.View;
@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
-import com.febers.uestc_bbs.view.emoticonlib.utils.EmoticonUtils;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.utils.EmoticonUtils;
 
 
 /**

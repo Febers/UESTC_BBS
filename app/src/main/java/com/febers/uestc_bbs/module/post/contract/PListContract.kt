@@ -14,7 +14,7 @@ interface PListContract {
     }
 
     interface View : BaseView {
-        fun showPList(event: BaseEvent<PostListBean>)
+        fun showPList(event: BaseEvent<PostListBean>){}
         fun showBoardList(event: BaseEvent<BoardListBean_>){}
     }
 

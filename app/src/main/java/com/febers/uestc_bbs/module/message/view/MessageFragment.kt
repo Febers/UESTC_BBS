@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPrivateMsg
@@ -63,6 +64,16 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 setOnItemChildClickListener(R.id.image_view_msg_reply_author_avatar) {
                     p0: ViewHolder?, p1: MsgReplyBean.ListBean?, p2: Int ->
                     clickToUserDetail(context, p1?.user_id)}
+                setOnItemChildClickListener(R.id.image_view_msg_post_reply) {
+                    viewHolder, listBean, i ->
+                    ViewClickUtils.clickToPostReply(context = activity,
+                            toUserId = listBean.user_id,
+                            toUserName = listBean.reply_nick_name,
+                            postId = listBean.topic_id,
+                            replyId = listBean.reply_remind_id,
+                            isQuota = true,
+                            replySimpleDescription = listBean.reply_content.toString())
+                }
             }
             MSG_TYPE_PRIVATE -> msgAdapter = MsgPrivateAdapter(context!!, privateList, false).apply {
                 recyclerview_sub_message.adapter = this

@@ -85,6 +85,11 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onDestroy()
     }
 
+    override fun onStop() {
+        super.onStop()
+        hideSoftInput()
+    }
+
     override fun showToast(msg: String) {
         context?.runOnUiThread {
             ToastUtils.show(msg)

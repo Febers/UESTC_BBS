@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.view;
+package com.febers.uestc_bbs.view.panda_emotion.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -12,19 +12,21 @@ import android.widget.RelativeLayout;
 
 
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoTranslator;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.EmoticonManager;
-import com.febers.uestc_bbs.view.emoticonlib.listeners.IEmoticonMenuClickListener;
-import com.febers.uestc_bbs.view.emoticonlib.listeners.IStickerSelectedListener;
-import com.febers.uestc_bbs.view.emoticonlib.sticker.StickerCategory;
-import com.febers.uestc_bbs.view.emoticonlib.sticker.StickerManager;
-import com.febers.uestc_bbs.view.emoticonlib.utils.EmoticonUtils;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoTranslator;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.EmoticonManager;
+import com.febers.uestc_bbs.view.panda_emotion.listeners.IEmoticonMenuClickListener;
+import com.febers.uestc_bbs.view.panda_emotion.listeners.IStickerSelectedListener;
+import com.febers.uestc_bbs.view.panda_emotion.sticker.StickerCategory;
+import com.febers.uestc_bbs.view.panda_emotion.sticker.StickerManager;
+import com.febers.uestc_bbs.view.panda_emotion.utils.EmoticonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.viewpager.widget.ViewPager;
+
+import static com.febers.uestc_bbs.utils.LogUtilsKt.log;
 
 
 /**
@@ -75,6 +77,13 @@ public class PandaEmoView extends RelativeLayout {
         }
     }
 
+    /**
+     * 在View的绘制过程中该方法会调用至少两次
+     * 参考 https://www.jianshu.com/p/733c7e9fb284
+     *
+     * @param widthMeasureSpec
+     * @param heightMeasureSpec
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -105,11 +114,16 @@ public class PandaEmoView extends RelativeLayout {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
 
-        if (specMode == MeasureSpec.EXACTLY) { // 精确模式直接显示真实 Size
+        if (specMode == MeasureSpec.EXACTLY) {
+            // 父布局直接指定大小精确模式直接显示真实 Size
             result = specSize;
-        } else { //非精确模式时显示默认 Size 如果是限制类型则显示默认值和限制值中较小的一个
-            result = EmoticonUtils.dp2px(mContext, 200);
+        } else {
+            //非精确模式时显示默认 Size 如果是限制类型则显示默认值和限制值中较小的一个
+            //result = EmoticonUtils.dp2px(mContext, 200);
+            result = EmoticonUtils.dp2px(mContext, 300);
+            //log("height, now result:" + result);
             if (specMode == MeasureSpec.AT_MOST) {
+                //父布局指定最大
                 result = Math.min(result, specSize);
             }
         }

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.emoticons.gif;
+package com.febers.uestc_bbs.view.panda_emotion.emoticons.gif;
 
 
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.EmoticonManager;
-import com.febers.uestc_bbs.view.emoticonlib.utils.EmoticonUtils;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.EmoticonManager;
+import com.febers.uestc_bbs.view.panda_emotion.utils.EmoticonUtils;
 
 
 public class EmojiAdapter extends BaseAdapter {
@@ -64,7 +64,7 @@ public class EmojiAdapter extends BaseAdapter {
         if (position == PandaEmoManager.getInstance().getEmojiPerPage()|| index == count) {
             emojiThumb.setBackgroundResource(
                     //R.drawable.ic_emoji_del
-                    R.drawable.ic_default_avatar_circle
+                    R.drawable.ic_delete_gray
             );
         } else if (index < count) {
             emojiThumb.setBackground(EmoticonManager.getInstance().getDisplayDrawable(mContext, index));

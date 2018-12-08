@@ -12,6 +12,7 @@ import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.io.FileHelper
+import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.nio.ByteBuffer
 

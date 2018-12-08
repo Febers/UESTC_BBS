@@ -7,12 +7,12 @@
     android:background="@color/white"
     android:orientation="vertical">
     <!--表情内容 ViewPager-->
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpEmoticon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/trans"/>
+        android:background="@color/transparent"/>
     <!--页码指示器-->
     <LinearLayout
         android:id="@+id/llIndicator"
@@ -20,26 +20,28 @@
         android:layout_height="12dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:orientation="horizontal"/>
     <!--底部tab-->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_gray_light"/>
+        android:background="@color/color_gray_light"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        <com.pandaq.emoticonlib.view.EmotionTab
+        <com.febers.uestc_bbs.view.panda_emotion.view.EmotionTab
             android:id="@+id/tabAdd"
             android:layout_width="@dimen/bottom_tab_width"
             android:layout_height="@dimen/bottom_tab_height"
-            android:background="@drawable/tab_background"
-            app:iconSrc="@drawable/ic_tab_add"/>
+            android:background="@drawable/xbg_emotion_tab"
+            app:iconSrc="@drawable/ic_add_gray_small"/>
         <!--表情设置Tab-->
         <HorizontalScrollView
             android:layout_width="match_parent"

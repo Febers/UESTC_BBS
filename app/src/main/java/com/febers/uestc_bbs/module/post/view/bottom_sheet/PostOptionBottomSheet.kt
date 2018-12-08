@@ -33,12 +33,12 @@ class PostOptionBottomSheet(context: Context, style: Int,
         optionList.addAll(getOptionList())
         optionItemAdapter = PostOptionAdapter(context, optionList)
         optionItemAdapter.setOnItemClickListener { viewHolder, optionItemBean, i ->
-            if (i == ONLY_AUTHOR) {
+            if (i == ONLY_AUTHOR_REPLY) {
                 authorOnly = !authorOnly
                 optionList.clear()
                 optionList.addAll(getOptionList())
                 optionItemAdapter.notifyDataSetChanged()
-                itemClickListenerPost.onOptionItemSelect(ONLY_AUTHOR)
+                itemClickListenerPost.onOptionItemSelect(ONLY_AUTHOR_REPLY)
             }
             if (i == ITEM_ORDER_POSITIVE) {
                 orderPositive = !orderPositive

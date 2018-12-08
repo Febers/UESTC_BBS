@@ -6,6 +6,7 @@ import com.febers.uestc_bbs.io.PostHelper
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PListInterface
+import com.febers.uestc_bbs.utils.log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,6 +43,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             override fun onResponse(call: Call<PostListBean>?, response: Response<PostListBean>?) {
                 val body = response?.body()
                 if (body == null) {
+                    log("服务器无响应：body == null")
                     pListPresenter.errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }
@@ -55,7 +57,9 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS, body))
                 }
                 //保存首页的第一页帖子列表
-                if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0) PostHelper.savePostList(mFid, body)
+                if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0)
+                    //PostHelper.savePostListToSp(mFid, body)
+                    PostHelper.savePostListToFile(mFid, body)
             }
         })
     }
@@ -121,7 +125,8 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
 
     private fun getSavedPList() {
         if (mPage != FIRST_PAGE.toString() || mFid.toInt() >= 0 || savedPListGot) return
-        PostHelper.getPostList(mFid).apply {
+        PostHelper.getPostListByFile(mFid).apply {
+            log("PLIST"+this.list?.size.toString())
             if (this.list != null) {
                 pListPresenter.pListResult(BaseEvent(BaseCode.LOCAL, this))
             }

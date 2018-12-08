@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib;
+package com.febers.uestc_bbs.view.panda_emotion;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,11 +9,11 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
 
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.EmoticonManager;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.gif.AnimatedGifDrawable;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.gif.AnimatedImageSpan;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.gif.GifRunnable;
-import com.febers.uestc_bbs.view.emoticonlib.utils.EmoticonUtils;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.EmoticonManager;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.gif.AnimatedGifDrawable;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.gif.AnimatedImageSpan;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.gif.GifRunnable;
+import com.febers.uestc_bbs.view.panda_emotion.utils.EmoticonUtils;
 
 import java.util.HashSet;
 import java.util.regex.Matcher;

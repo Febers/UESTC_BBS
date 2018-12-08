@@ -1,10 +1,10 @@
-package com.febers.uestc_bbs.view.emoticonlib.view;
+package com.febers.uestc_bbs.view.panda_emotion.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
-import com.febers.uestc_bbs.view.emoticonlib.KeyBoardManager;
+import com.febers.uestc_bbs.view.panda_emotion.KeyBoardManager;
 
 import androidx.appcompat.widget.AppCompatEditText;
 

@@ -7,6 +7,7 @@ import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PostInterface
+import com.febers.uestc_bbs.utils.log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,9 +22,9 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         Thread(Runnable { getPost() }).start()
     }
 
-    override fun postReplyService(isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
+    override fun postReplyService(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
         Thread(Runnable {
-            reply(isQuote, replyId, aid, *contents)
+            reply(postId, isQuota, replyId, aid, *contents)
         }).start()
     }
 
@@ -91,7 +92,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         })
     }
 
-    private fun reply(isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
+    private fun reply(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
         val stContents = StringBuilder()
         contents.forEach {
             stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
@@ -103,17 +104,17 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                     {"body":
                         {"json":
                             {
-                                "tid":$mPostId,
+                                "tid":$postId,
                                 "aid":"$aid",
                                 "isAnonymous":0,
                                 "isOnlyAuthor":0,
-                                "isQuote":$isQuote,
+                                "isQuote":$isQuota,
                                 "replyId":$replyId,
                                 "content":"[$stContents]"
                             }
                         }
                     }
-                        """.trimIndent())
+                        """)
                 .enqueue(object : Callback<PostSendResultBean> {
                     override fun onFailure(call: Call<PostSendResultBean>, t: Throwable?) {
                         postPresenter.errorResult(t.toString())

@@ -56,13 +56,34 @@
                 android:id="@+id/text_view_about_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/open_source"
+                android:text="@string/developer"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textColor="?colorPrimary"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_about_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/background_second"/>
+            <TextView
+                android:id="@+id/text_view_about_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/open_source"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="?colorPrimary"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_about_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"

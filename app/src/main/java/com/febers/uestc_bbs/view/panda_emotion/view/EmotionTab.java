@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.view;
+package com.febers.uestc_bbs.view.panda_emotion.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.febers.uestc_bbs.R;
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
 
 
 /**

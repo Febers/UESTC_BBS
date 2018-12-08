@@ -116,6 +116,8 @@ object ThemeHelper {
         Color.GRAY
     else Color.WHITE
 
+    //fun getPMLeftTextColor(): Int = if (isDarkTheme()) Color.GRAY else Color.WHITE
+
     fun getBottomNavigationColorAccent(): Int = if (ColorUtils.isLightColor(getColorPrimary()))
         Color.BLACK
     else getColorAccent()

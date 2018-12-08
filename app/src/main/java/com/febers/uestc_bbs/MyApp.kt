@@ -14,8 +14,11 @@ import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import androidx.multidex.MultiDexApplication
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.setting.UpdateActivity
 import com.febers.uestc_bbs.utils.ApiUtils
+import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
 import com.tencent.bugly.beta.upgrade.UpgradeListener
@@ -60,11 +63,46 @@ class MyApp: MultiDexApplication() {
             }
         }
         Bugly.init(context, ApiUtils.BUGLY_APP_ID, false)
+
+        PandaEmoManager.Builder()
+                .with(context) // 传递 Context
+                .configFileName("first.xml")// 配置文件名称
+                .emoticonDir("face") // asset 下存放表情的目录路径（asset——> configFileName 之间的路径,结尾不带斜杠）
+                .sourceDir("first") // 存放 emoji 表情资源文件夹路径（emoticonDir 图片资源之间的路径,结尾不带斜杠）
+                .showAddTab(false)//tab栏是否显示添加按钮
+                .showStickers(false)//tab栏是否显示贴图切换按键
+                .showSetTab(false)//tab栏是否显示设置按钮
+                .defaultBounds(30)//emoji 表情显示出来的宽高
+                .cacheSize(1024)//加载资源到内存时 LruCache 缓存大小
+                .defaultTabIcon(R.drawable.xic_emot_blue_24dp)//emoji表情Tab栏图标
+                .emojiColumn(4)//单页显示表情的列数
+                .emojiRow(3)//单页显示表情的行数
+                .stickerRow(4)//单页显示贴图表情的行数
+                .stickerColumn(4)//单页显示贴图表情的列数
+                .maxCustomStickers(30)//允许添加的收藏表情数
+                .imageLoader { path, imageView ->
+                    ImageLoader.load(context = context,
+                            url = path,
+                            imageView = imageView,
+                            isCircle = false)
+                }
+                .build()
     }
 
     companion object {
         private var context: Context by Delegates.notNull()
         var uiHidden: Boolean = false
+        /*
+            为了处理表情键盘的返回键逻辑而设置的标志变量
+            在#KeyBoardManager的showEmotionLayout中设置为true，
+            在调用表情键盘的Activity拦截返回键事件的方法中设置为false
+         */
+        var emotionViewVisible = false
+            set(value) {
+                field = value
+                log("change new value is $value")
+            }
+
         fun context() = context
         fun getUser(): UserSimpleBean = UserHelper.getNowUser()
 

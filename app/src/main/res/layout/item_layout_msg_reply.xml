@@ -95,4 +95,11 @@
             android:text="这是回复内容内容内容这是回复内容内容内容这是回复内容内容内容这是引回复内容内容内容这是引用的回复内容内容内容"/>
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/image_view_msg_post_reply"
+        android:layout_width="24dp"
+        android:layout_height="22dp"
+        android:src="@drawable/xic_more_horiz_gray_24dp"
+        android:layout_gravity="end"
+        android:layout_margin="12dp"/>
 </LinearLayout>

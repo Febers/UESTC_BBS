@@ -1,7 +1,5 @@
 package com.febers.uestc_bbs.module.setting
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -13,7 +11,9 @@ import com.febers.uestc_bbs.base.BaseSwipeFragment
 import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
+import com.febers.uestc_bbs.io.UserHelper
 import com.febers.uestc_bbs.utils.DonateUtils
+import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.tencent.bugly.beta.Beta
@@ -25,8 +25,10 @@ class AboutFragment: BaseSwipeFragment() {
 
     private var items1: MutableList<SettingItemBean> = ArrayList()
     private var items2: MutableList<SettingItemBean> = ArrayList()
+    private var items3: MutableList<SettingItemBean> = ArrayList()
     private lateinit var settingAdapter1: SettingAdapter
     private lateinit var settingAdapter2: SettingAdapter
+    private lateinit var settingAdapter3: SettingAdapter
     private lateinit var openSourceProjectsDialog: AlertDialog
     private lateinit var projectAdapter: OpenProjectAdapter
     private var permissionDialog: AlertDialog? = null
@@ -56,24 +58,42 @@ class AboutFragment: BaseSwipeFragment() {
         }
         recyclerview_about_2.adapter = settingAdapter2
 
+        settingAdapter3 = SettingAdapter(context!!, items3).apply {
+            setOnItemClickListener { viewHolder, settingItemBean, i ->
+                onThirdGroupItemClick(i)
+            }
+        }
+        recyclerview_about_3.adapter = settingAdapter3
+
         items1.addAll(initSettingData1())
         settingAdapter1.notifyDataSetChanged()
         items2.addAll(initSettingData2())
         settingAdapter2.notifyDataSetChanged()
+        items3.addAll(initSettingData3())
+        settingAdapter3.notifyDataSetChanged()
 
         openSourceProjectsDialog = AlertDialog.Builder(context!!)
                 .create()
-        projectAdapter = OpenProjectAdapter(context!!, initOpenProjectData())
+        projectAdapter = OpenProjectAdapter(context!!, initOpenProjectData()).apply {
+            setOnItemClickListener { viewHolder, projectItemBean, i ->
+                context.browse(url = "https://github.com/" + projectItemBean.author + "/" + projectItemBean.name)
+            }
+        }
     }
 
     private fun initSettingData1(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.version), getString(R.string.version_value))
-        val item2 = SettingItemBean(getString(R.string.feedback_and_other), getString(R.string.developer_email))
-        val item3 = SettingItemBean(getString(R.string.check_update), getString(R.string.check_update))
-        return arrayListOf(item1, item3, item2)
+        val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.check_update))
+        return arrayListOf(item1, item2)
     }
 
     private fun initSettingData2(): List<SettingItemBean> {
+        val item1 = SettingItemBean(getString(R.string.developer), getString(R.string.developer_name))
+        val item2 = SettingItemBean(getString(R.string.feedback_and_other), getString(R.string.developer_email))
+        return arrayListOf(item1, item2)
+    }
+
+    private fun initSettingData3(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.source_code), "")
         val item2 = SettingItemBean(getString(R.string.open_source_project), "")
         return arrayListOf(item1, item2)
@@ -87,13 +107,21 @@ class AboutFragment: BaseSwipeFragment() {
             1 -> {
                 Beta.checkUpgrade()
             }
-            2 -> {
+        }
+    }
+
+    private fun onSecondGroupItemClick(position: Int) {
+        when(position) {
+            0 -> {
+                ViewClickUtils.clickToUserDetail(context = context, uid = UserHelper.getNowUid())
+            }
+            1 -> {
                 context?.email(getString(R.string.developer_email))
             }
         }
     }
 
-    private fun onSecondGroupItemClick(position: Int) {
+    private fun onThirdGroupItemClick(position: Int) {
         when(position) {
             0 -> {
                 context?.browse(getString(R.string.app_project_url))
@@ -125,6 +153,7 @@ class AboutFragment: BaseSwipeFragment() {
             ProjectItemBean("glide", "bumptech", ""),
             ProjectItemBean("glide-transformations", "wasabeef", ""),
             ProjectItemBean("HoloColorPicker", "LarsWerkman", ""),
+            ProjectItemBean("PandaEmoView", "PandaQAQ", ""),
             ProjectItemBean("PictureSelector", "LuckSiege", ""),
             ProjectItemBean("PinchImageView", "boycy815", ""),
             ProjectItemBean("RecyclerViewAdapter", "SheHuan", ""),

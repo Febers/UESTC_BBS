@@ -1,5 +1,7 @@
 package com.febers.uestc_bbs.module.post.view
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -24,19 +26,21 @@ import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.module.image.ImageLoader
+import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
+import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
-import com.febers.uestc_bbs.view.custom.PostReplyDialog
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
-import com.luck.picture.lib.PictureSelector
-import com.luck.picture.lib.config.PictureConfig
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlin.math.absoluteValue
 
 class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean>? = ArrayList()
+    private var showReplyCountBottomAnimatorSet: AnimatorSet? = null
+    private var hideReplyCountBottomAnimatorSet: AnimatorSet? = null
     private var postPresenter: PostContract.Presenter? = null
     private var replyItemAdapter: PostReplyItemAdapter? = null
     private var contentViewHelper: ContentViewHelper? = null
@@ -48,11 +52,11 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private val delFavoritePost = "delfavorite"
     private val favoritePost = "favorite"
     private var drawFinish = false
-    private var topicName = "楼主"  //楼主名称
+    private var topicUserName = "楼主"  //楼主名称
     private var topicReplyId = 0
     private var replyCount = 0
     private var authorId = 0
-    private var topicId = 0 //楼主id
+    private var topicUserId = 0 //楼主id
     private var postId = 0
     private var page = 1
 
@@ -72,8 +76,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             }
             setOnItemChildClickListener(R.id.image_view_post_reply_reply) {
                 viewHolder, postReplyBean, i ->
-                getReplyBottomSheet().showWithData(topicId = topicId, toUid = postReplyBean.reply_id,
-                        replyId = postReplyBean.reply_posts_id, toUName = postReplyBean.reply_name!!)
+                ViewClickUtils.clickToPostReply(context = this@PostDetailActivity,
+                        toUserId = postReplyBean.reply_id,
+                        toUserName = postReplyBean.reply_name,
+                        postId = postId,
+                        replyId = postReplyBean.reply_posts_id,
+                        isQuota = true,
+                        replySimpleDescription = postReplyBean.reply_content?.get(0)?.infor.toString())
             }
         }
 
@@ -96,14 +105,14 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
 //        FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
         scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-
             replyItemAdapter?.isListScrolling = (scrollY - oldScrollY).absoluteValue >= 30
-
-            if (scrollY - oldScrollY < -3) {
-                fab_post_detail.show()
+            if (scrollY - oldScrollY < -10) {
+                //fab_post_detail.show()
+                showReplyCountBottom()
             }
-            if (scrollY - oldScrollY > 3) {
-                fab_post_detail.hide()
+            if (scrollY - oldScrollY > 10) {
+                //fab_post_detail.hide()
+                hideReplyCountBottom()
             }
         }
         scroll_view_post_detail.isNestedScrollingEnabled = true
@@ -140,15 +149,25 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
             drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
         }
-        topicId = event.data.topic?.user_id ?: topicId //倒叙查看中其值可能为null
+        topicUserId = event.data.topic?.user_id ?: topicUserId //倒叙查看中其值可能为null
         topicReplyId = event.data.topic?.reply_posts_id ?: topicReplyId
-        topicName = event.data.topic?.user_nick_name ?: topicName
+        topicUserName = event.data.topic?.user_nick_name ?: topicUserName
         replyCount = event.data.topic?.replies ?: replyCount
         //结束绘制
         drawFinish = true
-        fab_post_detail?.setOnClickListener {
-            getReplyBottomSheet().showWithData(topicId = topicId, toUid = topicId,
-                    replyId = topicReplyId, toUName = topicName)
+//        fab_post_detail?.setOnClickListener {
+//            getReplyBottomSheet().showWithData(topicId = topicUserId, toUid = topicUserId,
+//                    replyId = topicReplyId, toUName = topicUserName)
+//        }
+        //底部显示评论个数的bottom，以代替fab
+        text_view_post_reply_count.text = "${replyCount}条回复"
+        linear_layout_post_reply_count.setOnClickListener {
+            ViewClickUtils.clickToPostReply(context = this@PostDetailActivity,
+                    toUserId = topicUserId,
+                    toUserName = topicUserName,
+                    postId = postId,
+                    replyId = topicReplyId, isQuota = false,
+                    replySimpleDescription = event.data.topic?.content?.get(0)?.infor.toString())
         }
         refresh_layout_post_detail?.finishSuccess()
     }
@@ -269,8 +288,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * isInsertReplySimply 这一变量才为true
      */
     override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        postPresenter?.postReplyRequest(isQuote = isQuote, replyId = replyId, aid = aid, contents = *contents)
-        replyCount++
+        //postPresenter?.postReplyRequest(isQuota = isQuote, replyId = replyId, aid = aid, contents = *contents)
+        //replyCount++
     }
 
     /**
@@ -280,34 +299,37 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * ！！效果不好，改为回复成功之后直接刷新界面
      */
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
-        runOnUiThread {
-            showToast(event.data.head?.errInfo.toString())
-            replyBottomSheet?.finish()
-            scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
-            refresh_layout_post_detail?.autoRefresh()
-        }
+//        runOnUiThread {
+//            showToast(event.data.head?.errInfo.toString())
+//            replyBottomSheet?.finish()
+//            scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
+//            refresh_layout_post_detail?.autoRefresh()
+//        }
     }
 
-    ////////////////////////////////回复图片////////////////////////////////
+    ////////////////////////////////回复的结果////////////////////////////////
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
-            val selectList = PictureSelector.obtainMultipleResult(data)
-            val imgPaths: MutableList<String> = ArrayList()
-            selectList.forEach {
-                imgPaths.add(it.cutPath)
+        //launchMode会影响该功能的实现
+        if (requestCode == POST_REPLY_RESULT_CODE) {
+            val result = data?.getBooleanExtra(POST_REPLY_RESULT, false)
+            log("result:"+result.toString())
+            result ?: return
+            if (result) {
+                scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
+                refresh_layout_post_detail?.autoRefresh()
+                replyCount++
             }
-            replyBottomSheet?.setImagePaths(imgPaths)
         }
     }
 
     ////////////////////////////////底部菜单////////////////////////////////
     override fun onOptionItemSelect(position: Int) {
-        if (position == ONLY_AUTHOR) { //只看楼主
-            authorId = if (authorId == topicId) {
+        if (position == ONLY_AUTHOR_REPLY) { //只看楼主
+            authorId = if (authorId == topicUserId) {
                 0
             } else {
-                topicId
+                topicUserId
             }
             refresh_layout_post_detail.autoRefresh()
         }
@@ -339,6 +361,26 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         return replyBottomSheet!!
     }
 
+    private fun showReplyCountBottom() {
+        if (linear_layout_post_reply_count.visibility == View.VISIBLE) return
+        linear_layout_post_reply_count.visibility = View.VISIBLE
+        if (showReplyCountBottomAnimatorSet == null) {
+            showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(this@PostDetailActivity, R.animator.scroll_show_fab) as AnimatorSet
+            (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
+        }
+        (showReplyCountBottomAnimatorSet as AnimatorSet).start()
+        //ObjectAnimator.ofFloat(linear_layout_post_reply_count, "translationY", 0f, 500f).setDuration(1000).start()
+    }
+
+    private fun hideReplyCountBottom() {
+        if (linear_layout_post_reply_count.visibility == View.INVISIBLE) return
+        if (hideReplyCountBottomAnimatorSet == null) {
+            hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(this@PostDetailActivity, R.animator.scroll_show_fab) as AnimatorSet
+            (hideReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
+        }
+        (hideReplyCountBottomAnimatorSet as AnimatorSet).start()
+        linear_layout_post_reply_count.visibility = View.INVISIBLE
+    }
 
     ////////////////////////////////顶部菜单////////////////////////////////
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

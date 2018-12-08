@@ -44,12 +44,19 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         return R.layout.item_layout_post_reply
     }
 
+    /**
+     * 在上一个版本中，为了实现用户滑动时不加载图片，设置了一个标志位
+     * 当用户滑动的时候，停止所有图片加载
+     * 从实际体验来看，没有必要，而且当用户回帖之后，会刷新当前页面
+     * 此时也相当于滑动，调用终止加载之后，已加载出的图片也会调用占位图
+     * 除非可以获取refresh的状态，所以暂时停止此功能
+     */
     var isListScrolling: Boolean = false
-        set(value) {
-            field = value
-            if (field) GlideApp.with(context).pauseRequests()
-            else GlideApp.with(context).resumeRequests()
-        }
+//        set(value) {
+//            field = value
+//            if (field) GlideApp.with(context).pauseRequests()
+//            else GlideApp.with(context).resumeRequests()
+//        }
 
     //将引用的回复中的前缀跟内容分得更开
     private fun String.multiLineSpaces(): String = replace("\n", "\n\n")

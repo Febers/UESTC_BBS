@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Catalog Title="images">
-    <Emoticon File="too_1" Tag="[233]"/>
-    <Emoticon File="too_2" Tag="[234]"/>
-    <Emoticon File="too_3" Tag="[235]"/>
-    <Emoticon File="too_4" Tag="[236]"/>
-    <Emoticon File="too_1" Tag="[23]"/>
-    <Emoticon File="too_2" Tag="[24]"/>
-    <Emoticon File="too_3" Tag="[25]"/>
-    <Emoticon File="too_4" Tag="[26]"/>
-    <Emoticon File="too_3" Tag="[24]"/>
-    <Emoticon File="too_4" Tag="[2333]"/>
+<Catalog Title="first">
+    <Emoticon File="a1146" Tag="[a:1146]"/>
+    <Emoticon File="a1168" Tag="[a:1168]"/>
+    <Emoticon File="a1169" Tag="[a:1169]"/>
+    <Emoticon File="a1170" Tag="[a:1170]"/>
+    <!--<Emoticon File="a1171" Tag="[a:1171]"/>-->
+    <!--<Emoticon File="a1178" Tag="[a:1178]"/>-->
+    <!--<Emoticon File="a1179" Tag="[a:1179]"/>-->
+    <Emoticon File="a1191" Tag="[a:1191]"/>
+    <Emoticon File="a1192" Tag="[a:1192]"/>
+    <Emoticon File="a1193" Tag="[a:1193]"/>
+    <Emoticon File="a1196" Tag="[a:1196]"/>
+
+    <Emoticon File="s11" Tag="[s:11]"/>
+    <Emoticon File="s19" Tag="[s:19]"/>
+    <Emoticon File="s20" Tag="[s:20]"/>
+    <Emoticon File="s27" Tag="[s:27]"/>
+    <!--<Emoticon File="s40" Tag="[s:40]"/>-->
+    <!--<Emoticon File="s45" Tag="[s:45]"/>-->
+    <Emoticon File="s50" Tag="[s:50]"/>
+    <Emoticon File="s57" Tag="[s:57]"/>
+    <!--<Emoticon File="s58" Tag="[s:58]"/>-->
+    <Emoticon File="s74" Tag="[s:74]"/>
+    <!--<Emoticon File="s93" Tag="[s:93]"/>-->
+    <!--<Emoticon File="s103" Tag="[s:103]"/>-->
+    <Emoticon File="s110" Tag="[s:110]"/>
+    <Emoticon File="s286" Tag="[s:286]"/>
+    <Emoticon File="s287" Tag="[s:287]"/>
+    <Emoticon File="s641" Tag="[s:641]"/>
+    <Emoticon File="s666" Tag="[s:666]"/>
+    <Emoticon File="s703" Tag="[s:703]"/>
+    <Emoticon File="s778" Tag="[s:778]"/>
 </Catalog>

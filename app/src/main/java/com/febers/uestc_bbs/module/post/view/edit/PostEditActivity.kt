@@ -1,10 +1,13 @@
 package com.febers.uestc_bbs.module.post.view.edit
 
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.TITLE
 import com.febers.uestc_bbs.module.more.BlockFragment
+import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoTranslator
 
 class PostEditActivity : BaseActivity() {
 
@@ -26,4 +29,30 @@ class PostEditActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 如果表情键盘正在显示，拦截返回键事件
+     * 但是还要将emotionViewVisible的状态更新
+     * 否则将处理逻辑交给上层
+     */
+    override fun onBackPressed() {
+        if (!MyApp.emotionViewVisible) {
+            super.onBackPressed()
+        }
+        MyApp.emotionViewVisible = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        PandaEmoTranslator.getInstance().resumeGif(localClassName)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        PandaEmoTranslator.getInstance().pauseGif()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        PandaEmoTranslator.getInstance().clearGif(localClassName)
+    }
 }

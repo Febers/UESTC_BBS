@@ -177,5 +177,22 @@
         android:src="@drawable/ic_write_white"
         app:pressedTranslationZ="8dp"
         android:layout_margin="@dimen/fab_margin_right"
-        android:layout_gravity="end|bottom"/>
+        android:layout_gravity="end|bottom"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_post_reply_count"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="?attr/background_second"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/text_view_post_reply_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:text="0条回复"/>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

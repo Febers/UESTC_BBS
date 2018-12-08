@@ -9,11 +9,12 @@ import android.widget.ImageView
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.image.ImageLoader
+import com.luck.picture.lib.entity.LocalMedia
 
 /**
  * @param context
  * @param imgPaths
- * @param forReply 是否是在回复帖子时调用
+ * @param forReply 是否是在回复帖子时调用，已废弃
  *
  */
 class ImgGridViewAdapter(private val context: Context, private val imgPaths: List<String>,
@@ -51,11 +52,11 @@ class ImgGridViewAdapter(private val context: Context, private val imgPaths: Lis
             imageClickListener?.onImageClick(i)
         }
 
-        if (i == imgPaths.size - 1 && !forReply) {
-            holder.btnDelete!!.visibility = View.GONE
-        } else {
-            holder.btnDelete!!.visibility = View.VISIBLE
-        }
+//        if (i == imgPaths.size - 1 && !forReply) {
+//            holder.btnDelete!!.visibility = View.GONE
+//        } else {
+//            holder.btnDelete!!.visibility = View.VISIBLE
+//        }
 
         /*
          * 点击图片上的删除按钮之后

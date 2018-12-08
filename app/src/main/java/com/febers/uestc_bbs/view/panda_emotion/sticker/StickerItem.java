@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.sticker;
+package com.febers.uestc_bbs.view.panda_emotion.sticker;
 
 public class StickerItem {
     private String sourcePath;

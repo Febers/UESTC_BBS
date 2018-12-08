@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.view;
+package com.febers.uestc_bbs.view.panda_emotion.view;
 
 import android.content.Context;
 import android.text.Editable;
@@ -13,20 +13,22 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoTranslator;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.EmoticonManager;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.gif.EmojiAdapter;
-import com.febers.uestc_bbs.view.emoticonlib.listeners.IStickerSelectedListener;
-import com.febers.uestc_bbs.view.emoticonlib.sticker.StickerAdapter;
-import com.febers.uestc_bbs.view.emoticonlib.sticker.StickerCategory;
-import com.febers.uestc_bbs.view.emoticonlib.sticker.StickerItem;
-import com.febers.uestc_bbs.view.emoticonlib.sticker.StickerManager;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoTranslator;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.EmoticonManager;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.gif.EmojiAdapter;
+import com.febers.uestc_bbs.view.panda_emotion.listeners.IStickerSelectedListener;
+import com.febers.uestc_bbs.view.panda_emotion.sticker.StickerAdapter;
+import com.febers.uestc_bbs.view.panda_emotion.sticker.StickerCategory;
+import com.febers.uestc_bbs.view.panda_emotion.sticker.StickerItem;
+import com.febers.uestc_bbs.view.panda_emotion.sticker.StickerManager;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import static com.febers.uestc_bbs.utils.LogUtilsKt.log;
 
 
 /**

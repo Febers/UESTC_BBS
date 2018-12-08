@@ -89,11 +89,12 @@ class HeartMsgService : Service() {
             else -> otherChannelName
         }
         val intents = arrayOf(Intent(this,
-                if (msgType == MSG_TYPE_PRIVATE && count == 1) {
-                    PMDetailActivity::class.java
-                } else {
+//                if (msgType == MSG_TYPE_PRIVATE && count == 1) {
+//                    PMDetailActivity::class.java
+//                } else {
                     HomeActivity::class.java
-                } )
+//                }
+                )
                 .apply {
                     putExtra(USER_ID, uid.toString())
                     putExtra(MSG_TYPE, msgType)
@@ -134,7 +135,7 @@ class HeartMsgService : Service() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun getMsgFeedback(event: MsgFeedbackEvent) {
-        i("service", "cancel: ${event.type}")
+//        i("service", "cancel: ${event.type}")
         notificationManager.cancel(
                 when(event.type) {
                     MSG_TYPE_REPLY -> {

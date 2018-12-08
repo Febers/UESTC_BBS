@@ -7,6 +7,7 @@ import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.base.SP_USER_IDS
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
 
 /**
@@ -99,7 +100,11 @@ object UserHelper {
             apply()
         }
         if (getNowUid() == uid) {
-            setNowUid(getAllUser().last().uid)
+            if (getAllUser().isNotEmpty()) {
+                setNowUid(getAllUser().last().uid)
+            } else {
+                setNowUid(0)
+            }
         }
     }
 

@@ -1,24 +1,29 @@
-package com.febers.uestc_bbs.view.emoticonlib;
+package com.febers.uestc_bbs.view.panda_emotion;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
-import com.febers.uestc_bbs.view.emoticonlib.listeners.OnMultiFixClickListener;
-import com.febers.uestc_bbs.view.emoticonlib.utils.EmoticonUtils;
-import com.febers.uestc_bbs.view.emoticonlib.view.PandaEmoEditText;
-import com.febers.uestc_bbs.view.emoticonlib.view.PandaEmoView;
+import com.febers.uestc_bbs.MyApp;
+import com.febers.uestc_bbs.view.panda_emotion.listeners.OnMultiFixClickListener;
+import com.febers.uestc_bbs.view.panda_emotion.utils.EmoticonUtils;
+import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoEditText;
+import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView;
+
+import java.lang.reflect.Method;
 
 
 /**
@@ -214,12 +219,14 @@ public class KeyBoardManager {
         params.height = getKeyBoardHeight();
         mEmotionView.setVisibility(View.VISIBLE);
         mEmotionView.setLayoutParams(params);
+        //@Febers 添加
+        MyApp.Companion.setEmotionViewVisible(true);
     }
 
     /**
      * 隐藏表情布局
      *
-     * @param showSoftInput 是否显示软件盘
+     * @param showSoftInput 是否显示软键盘
      */
     private void hideEmotionLayout(final boolean showSoftInput) {
         if (showSoftInput) {
@@ -260,7 +267,9 @@ public class KeyBoardManager {
         //计算软件盘的高度
         int softInputHeight = screenHeight - r.bottom;
         // When SDK Level >= 20 (Android L), the softInputHeight will contain the height of softButtonsBar (if has)
-        softInputHeight = softInputHeight - getSoftButtonsBarHeight();
+
+        //Febers 将下面一行代码注释掉
+        //softInputHeight = softInputHeight - getSoftButtonsBarHeight();
         if (softInputHeight < 0) {
             Log.w("PandaQ", "EmotionKeyboard--Warning: value of softInputHeight is below zero!");
         }
@@ -297,6 +306,19 @@ public class KeyBoardManager {
      */
     public boolean isInputViewShow() {
         return inputViewShow;
+    }
+
+    /**
+     * 设置 inputViewShow 这一变量的值
+     * 否则在按返回键的时候，本类中的inputViewShow无法正确的变化
+     * 会导致回退逻辑的错误
+     *
+     * @param  inputViewShow 外部设置的inputViewShow的值
+     *
+     * @Febers 1018-12-8
+     */
+    public void setInputViewShow(Boolean inputViewShow) {
+        this.inputViewShow = inputViewShow;
     }
 
     /**

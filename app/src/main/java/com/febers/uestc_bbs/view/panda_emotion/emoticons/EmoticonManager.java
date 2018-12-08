@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.emoticons;
+package com.febers.uestc_bbs.view.panda_emotion.emoticons;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -13,9 +13,9 @@ import android.util.DisplayMetrics;
 import android.util.LruCache;
 import android.util.Xml;
 
-import com.febers.uestc_bbs.view.emoticonlib.PandaEmoManager;
-import com.febers.uestc_bbs.view.emoticonlib.emoticons.gif.AnimatedGifDrawable;
-import com.febers.uestc_bbs.view.emoticonlib.utils.EmoticonUtils;
+import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager;
+import com.febers.uestc_bbs.view.panda_emotion.emoticons.gif.AnimatedGifDrawable;
+import com.febers.uestc_bbs.view.panda_emotion.utils.EmoticonUtils;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

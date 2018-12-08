@@ -12,8 +12,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view_plist_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_subpost_fragment"
             android:layout_width="match_parent"

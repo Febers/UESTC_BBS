@@ -12,7 +12,7 @@
         android:id="@+id/btn_img_item_post_edit"
         android:layout_width="@dimen/image_delete_item_width"
         android:layout_height="@dimen/image_delete_item_width"
-        android:src="@drawable/xic_clear_red_24dp"
+        android:src="@drawable/ic_delete_photo"
         android:layout_alignTop="@id/image_view_item_post_edit"
         android:layout_alignEnd="@id/image_view_item_post_edit"/>
 </RelativeLayout>

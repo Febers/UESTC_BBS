@@ -104,7 +104,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
      */
     override fun showPMSession(event: BaseEvent<PMDetailBean>) {
         event.data.body?.pmList?.get(0)?.msgList?.let {
-            i("PM", "size: ${it.size}")
+            //i("PM", "size: ${it.size}")
             pmList.addAll(it)
         }
         pmAdapter.notifyItemInserted(pmList.size-1)

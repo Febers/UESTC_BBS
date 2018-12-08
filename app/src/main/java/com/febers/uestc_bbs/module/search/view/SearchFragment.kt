@@ -83,7 +83,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_search.finishLoadMoreWithNoMoreData()
+            refresh_layout_search?.finishLoadMoreWithNoMoreData()
         }
         searchAdapter.setLoadMoreData(event.data.list)
     }

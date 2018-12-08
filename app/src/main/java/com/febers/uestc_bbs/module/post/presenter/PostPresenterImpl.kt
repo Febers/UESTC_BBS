@@ -20,8 +20,8 @@ class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(vie
         view.showPostDetail(event)
     }
 
-    override fun postReplyRequest(isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        postModel.postReplyService(isQuote, replyId, aid, *contents)
+    override fun postReplyRequest(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
+        postModel.postReplyService(postId, isQuota, replyId, aid, *contents)
     }
 
     override fun postReplyResult(event: BaseEvent<PostSendResultBean>) {

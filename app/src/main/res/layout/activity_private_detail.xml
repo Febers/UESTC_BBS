@@ -74,8 +74,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"
-                android:background="@drawable/xic_corner_bg_gray"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:textColor="?attr/app_color_accent"
                 android:text="@string/send"/>
         </LinearLayout>

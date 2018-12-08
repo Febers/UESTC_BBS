@@ -16,11 +16,11 @@ import java.lang.StringBuilder
 
 class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), PEditContract.Model {
 
-    override fun newPostService(fid: Int, aid: String, title: String, vararg contents: Pair<Int, String>) {
-        Thread{ newPost(fid, aid, title, *contents) }.start()
+    override fun newPostService(fid: Int, aid: String, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
+        Thread{ newPost(fid, aid, title, anonymous, onlyAuthor, *contents) }.start()
     }
 
-    private fun newPost(fid: Int, aid: String, title: String, vararg contents: Pair<Int, String>) {
+    private fun newPost(fid: Int, aid: String, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
         val stContents = StringBuilder()
         contents.forEach {
             stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
@@ -34,8 +34,8 @@ class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), 
                                 "fid":$fid,
                                 "tid":,
                                 "aid":"$aid",
-                                "isAnonymous":0,
-                                "isOnlyAuthor":0,
+                                "isAnonymous":$anonymous,
+                                "isOnlyAuthor":$onlyAuthor,
                                 "isQuote":0,
                                 "replyId":,
                                 "typeId":,
@@ -44,7 +44,7 @@ class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), 
                             }
                         }
                     }
-                """.trimIndent())
+                """)
                 .enqueue(object : Callback<PostSendResultBean> {
                     override fun onFailure(call: Call<PostSendResultBean>, t: Throwable) {
                         pEditPresenter.errorResult(t.toString())

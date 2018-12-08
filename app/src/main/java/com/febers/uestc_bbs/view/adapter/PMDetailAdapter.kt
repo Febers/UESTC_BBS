@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.module.image.ImageLoader
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
@@ -32,6 +33,7 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                 rightLayout.addView(textView)
                 leftLayout.visibility = View.GONE
             } else {
+                textView.setTextColor(Color.DKGRAY)
                 leftLayout.addView(textView)
                 rightLayout.visibility = View.GONE
             }

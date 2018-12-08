@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.utils;
+package com.febers.uestc_bbs.view.panda_emotion.utils;
 
 import android.content.Context;
 import android.os.Environment;

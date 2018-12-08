@@ -1,11 +1,12 @@
 <resources>
     <!--About界面String-->
     <string name="app_name">i河畔</string>
+    <string name="developer">开发者</string>
     <string name="developer_name" translatable="false">Febers</string>
     <string name="developer_email" translatable="false">febers418@qq.com</string>
     <string name="app_project_url" translatable="false">https://github.com/Febers/UESTC_BBS</string>
     <string name="version">版本</string>
-    <string name="version_value" translatable="false">v1.0.3</string>
+    <string name="version_value" translatable="false">v1.2.0</string>
     <string name="check_update">检查更新</string>
     <string name="feedback_and_other">反馈、建议及其他</string>
     <string name="source_code">源代码</string>
@@ -41,7 +42,7 @@
     <string name="private_message">私信</string>
     <string name="system_message">系统通知</string>
     <string name="at_message">我</string>
-    <string name="input_your_reply">请输入评论内容</string>
+    <string name="input_your_reply">请输入内容</string>
     <string name="post_content">内容</string>
     <string name="post_title">标题</string>
     <string name="post_fav">收藏</string>
@@ -113,4 +114,19 @@
     <string name="error">捐赠出错啦</string>
     <string name="no_alipay_installed">您尚未安装支付宝</string>
     <string name="about_permission">权限说明</string>
+
+    <!--PandaEmoView-->
+    <string name="tabicon">tabIcon</string>
+
+    <string name="select_album">所有图片</string>
+    <string name="pictures">图片</string>
+    <string name="all_pictures">全部图片</string>
+    <string name="make_dir_fail">创建文件失败！</string>
+
+    <string name="content_to_request_permission">保证应用正常运行，请授予必要权限！</string>
+    <string name="attention">提示</string>
+    <string name="ok">好的~</string>
+    <string name="manage">管理</string>
+    <string name="delete">删除</string>
+    <string name="use">使用</string>
 </resources>

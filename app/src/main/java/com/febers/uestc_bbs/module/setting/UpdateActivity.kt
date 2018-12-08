@@ -75,7 +75,10 @@ class UpdateActivity: BaseActivity() {
                         }
 
                         override fun onDownloadFailed() {
-                            btnEnter?.text = "下载失败"
+                            runOnUiThread {
+                                btnEnter?.text = "下载失败"
+                                showToast("很抱歉，下载失败。请前往河畔帖子或者github下载")
+                            }
                         }
                     })
         }

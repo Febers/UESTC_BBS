@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.emoticons.gif;
+package com.febers.uestc_bbs.view.panda_emotion.emoticons.gif;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;

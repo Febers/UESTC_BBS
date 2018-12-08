@@ -8,8 +8,8 @@ object TokenClient {
 
     fun get(): OkHttpClient =
             OkHttpClient.Builder().addInterceptor(TokenInterceptor())
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
                     //.cookieJar(MyCookiesManager())
                     .build()
 }

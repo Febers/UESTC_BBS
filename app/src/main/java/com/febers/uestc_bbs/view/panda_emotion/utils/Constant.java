@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.emoticonlib.utils;
+package com.febers.uestc_bbs.view.panda_emotion.utils;
 
 /**
  * Created by huxinyu on 2017/11/23 0023.

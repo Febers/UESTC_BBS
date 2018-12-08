@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.module.login.model.LoginContext
 import com.febers.uestc_bbs.module.image.ImageViewer
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
-import com.febers.uestc_bbs.module.post.view.edit.PostEditActivity
+import com.febers.uestc_bbs.module.post.view.edit.*
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import org.jetbrains.anko.browse
 
@@ -138,7 +138,7 @@ object ViewClickUtils {
     fun clickToPostEdit(context: Context?,
                         fid: Int,
                         title: String) {
-        context ?:return
+        context ?: return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostEditActivity::class.java).apply {
             putExtra(FID, fid)
@@ -146,16 +146,41 @@ object ViewClickUtils {
         })
     }
 
-    fun clickToPostReply(context: Context?,
-                         replyId: Int?,
-                         replyName: Int?,
+    /**
+     * 点击回复之后打开回复的Activity
+     *一般由帖子详情界面调用或者帖子回复消息界面调用
+     *
+     * @param context
+     * @param toUserId 所要回复的用户的id
+     * @param toUserName
+     * @param replyId
+     * @param isQuota 是否引用回复
+     * @param replySimpleDescription 需要回复的内容的简略说明，
+     * 如果回复主贴，则提取主贴的一部分字符串(纯图片帖子的话, 即为“[图片]”)
+     * 如果回复的是回帖，那么回复的是原评论内容的简略
+     */
+    fun clickToPostReply(context: Activity?,
+                         toUserId: Int,
+                         toUserName: String?,
+                         postId:Int,
+                         replyId: Int,
+                         isQuota: Boolean?,
                          replySimpleDescription: String) {
-
+        context ?: return
+        toUserName ?: return
+        context.startActivityForResult(Intent(context, PostReplyActivity::class.java).apply {
+            putExtra(USER_ID, toUserId)
+            putExtra(USER_NAME, toUserName)
+            putExtra(POST_ID, postId)
+            putExtra(POST_REPLY_ID, replyId)
+            putExtra(POST_REPLY_IS_QUOTA, isQuota)
+            putExtra(POST_REPLY_DESCRIPTION, replySimpleDescription.getStringSimplified())
+        }, POST_REPLY_RESULT_CODE)
     }
 
     /**
-     * 在App内打开web页面
-     * TODO
+     * TODO 在App内打开web页面
+     *
      */
     fun clickToAppWeb(context: Context?,
                       url: String?) {

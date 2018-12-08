@@ -7,6 +7,7 @@ import org.greenrobot.eventbus.EventBus
 import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.MyApp
+import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.utils.ToastUtils
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
