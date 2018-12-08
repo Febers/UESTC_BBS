@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <!--表情内容 ViewPager-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpEmoticon"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/trans"/>
+    <!--页码指示器-->
+    <LinearLayout
+        android:id="@+id/llIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"/>
+    <!--底部tab-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray_light"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.pandaq.emoticonlib.view.EmotionTab
+            android:id="@+id/tabAdd"
+            android:layout_width="@dimen/bottom_tab_width"
+            android:layout_height="@dimen/bottom_tab_height"
+            android:background="@drawable/tab_background"
+            app:iconSrc="@drawable/ic_tab_add"/>
+        <!--表情设置Tab-->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/llTabContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+</LinearLayout>
