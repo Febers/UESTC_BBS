@@ -61,15 +61,14 @@
         android:orientation="vertical"
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
-        android:padding="6dp">
+        android:layout_marginBottom="4dp"
+        android:padding="4dp">
         <TextView
             android:id="@+id/text_view_msg_reply_quota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
             android:textSize="@dimen/text_size_normal"
-            android:padding="4dp"
             android:textColor="?android:textColorSecondary"
             android:text="我 发表于 2018-8-16 16:25
 
@@ -101,5 +100,5 @@
         android:layout_height="22dp"
         android:src="@drawable/xic_more_horiz_gray_24dp"
         android:layout_gravity="end"
-        android:layout_margin="12dp"/>
+        android:layout_marginEnd="12dp"/>
 </LinearLayout>

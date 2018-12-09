@@ -1,23 +1,66 @@
 # i河畔(UESTC_BBS)
+![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/ic_launcher.png)
 
 ## 关于
-电子科技大学官方论坛“清水河畔”(http://bbs.uestc.edu.cn/forum.php)的Android开源客户端，主要使用Kotlin开发。项目整体使用Mvp架构+Retrfit+Glide完成，如有建议或疑问可联系开发者:febers418@qq.com。
+
+电子科技大学官方论坛“清水河畔”(http://bbs.uestc.edu.cn/forum.php) 的Android开源客户端，主要使用Kotlin开发。项目整体使用Mvp架构+Retrfit+Glide完成，如有建议或疑问可联系开发者:febers418@qq.com。
+
+### 功能列表
+
+- [x] 登录、看帖、发帖、回复、私信等基本功能。
+- [x] 图片保存、发帖添加图片附件。
+- [x] 查看用户收藏、回复的帖子。
+- [x] 任意颜色主题切换。
+- [x] 多用户切换。
+- [x] 河畔表情包。
+- [x] 帖子搜索。
+- [ ] 应用内打开web界面
+- [ ] 等等
 
 ## 实现细节
+
 ### Mvp架构
-本项目的整体包结构如下图，其中module包下有各功能模块。
+本项目的整体包结构如下，其中module包下有各功能模块。
+```
+-base //包含项目的所有基类，包括baseActivity、BaseModel等
 
-![](http://febers.tech/wp-content/uploads/2018/11/1.png)
+-entity	//包含所有的JavaBean类，大多为解析服务器返回的json的数据类
 
-选取登录模块介绍，由下图可看到，login包下有四个子包——contract、model、presenter和view。其中，contract(契约)包放置定义该功能模块Mvp三方的行为和对象的契约类LoginContract。
+-home	//主界面包
 
-![](http://febers.tech/wp-content/uploads/2018/11/2.png)
+-http	//网络工具包
 
+-io	 //文件保存读取包
+
+-module  //项目功能模块包
+
+-utils	//项目工具包
+
+-view	//跟视图绘制有关的所有类
+
+-GlideModule.kt  //Glide的Model
+
+-MyApp.kt  //自定义Application类
+```
+比如在登录模块中，可以看到，login包下有四个子包——contract、model、presenter和view。其中，contract(契约)包放置定义该功能模块Mvp三方的行为和对象的契约类LoginContract。
+```
+-contract	//包含模块契约类，联系M-V-P三者
+
+-model	//事务具体类，包括数据的存取
+
+-presenter	//Presenter类，充当M和V之间的桥梁
+
+-view  //包含所有的视图
+```
+
+### 功能实现方法
+表情包功能魔改了[PandaEmoView](https://github.com/PandaQAQ/PandaEmoView)，界面整体的框架布局使用了[Fragmentation](https://github.com/YoKeyword/Fragmentation)，图片加载使用[Glide](https://github.com/bumptech/glide)库，主题换肤功能的则使用了[aesthetic](https://github.com/afollestad/aesthetic)，其他开源库可打开应用内的 关于-开源项目 查看。
 
 你可在源码中阅读注释获取更多细节。
 
 
 ## 使用截图
+
 ![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_1.png)
 ![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_2.png)
 ![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_3.png)

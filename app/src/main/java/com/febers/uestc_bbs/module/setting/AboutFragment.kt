@@ -88,7 +88,7 @@ class AboutFragment: BaseSwipeFragment() {
     }
 
     private fun initSettingData2(): List<SettingItemBean> {
-        val item1 = SettingItemBean(getString(R.string.developer), getString(R.string.developer_name))
+        val item1 = SettingItemBean(getString(R.string.developer_name), "点击查看开发者河畔账号")
         val item2 = SettingItemBean(getString(R.string.feedback_and_other), getString(R.string.developer_email))
         return arrayListOf(item1, item2)
     }
@@ -113,7 +113,7 @@ class AboutFragment: BaseSwipeFragment() {
     private fun onSecondGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                ViewClickUtils.clickToUserDetail(context = context, uid = UserHelper.getNowUid())
+                ViewClickUtils.clickToUserDetail(context = context, uid = 196486)
             }
             1 -> {
                 context?.email(getString(R.string.developer_email))
@@ -193,7 +193,7 @@ class AboutFragment: BaseSwipeFragment() {
             1、网络权限
 
             2、读写手机存储权限
-                应用需要该权限将图片保存到手机中，保存的图片路径为“/storage/emulated/0/UESTC_BBS”)
+                应用需要该权限将图片、缓存的帖子列表等数据保存到手机中，其中保存的图片路径为“/storage/emulated/0/UESTC_BBS”
 
             3、更多权限请查看源码页面: https://github.com/Febers/UESTC_BBS/blob/master/app/src/main/AndroidManifest.xml
 

@@ -69,7 +69,6 @@
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
             android:textSize="@dimen/text_size_normal"
-            android:padding="4dp"
             android:textColor="?attr/text_color_second"
             android:text="某人 发表于 2018-8-16 16:25
             帖子内容帖子内容帖子内容帖子内容帖子内容"/>
