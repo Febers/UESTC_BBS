@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.fragment_msg_pager.*
 
 class MsgPagerFragment: BaseFragment() {
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_msg_pager
     }
 

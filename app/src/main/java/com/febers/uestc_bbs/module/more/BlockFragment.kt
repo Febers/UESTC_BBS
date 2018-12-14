@@ -1,11 +1,6 @@
-/*
- * Created by Febers at 18-8-17 下午4:11.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-17 上午1:59.
- */
-
 package com.febers.uestc_bbs.module.more
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.collection.ArrayMap
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +27,7 @@ class BlockFragment: BaseFragment() {
 
     private var newPost: Boolean = false
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         arguments?.let {
             newPost = it.getBoolean(NEW_POST)
         }
@@ -197,10 +192,14 @@ class BlockFragment: BaseFragment() {
                     fid = BlockUtils.getBlockIdByPosition(group, position), title = title))
         } else {
             if (!LoginContext.userState(context!!)) return
-            start(PListFragment.newInstance(
-                    fid = BlockUtils.getBlockIdByPosition(group, position),
-                    title = title,
-                    showBottomBarOnDestroy = true))
+            startActivity(Intent(context, PListFragment::class.java).apply {
+                putExtra(FID, BlockUtils.getBlockIdByPosition(group, position))
+                putExtra(TITLE, title)
+            })
+//            start(PListFragment.newInstance(
+//                    fid = BlockUtils.getBlockIdByPosition(group, position),
+//                    title = title,
+//                    showBottomBarOnDestroy = true))
         }
     }
 

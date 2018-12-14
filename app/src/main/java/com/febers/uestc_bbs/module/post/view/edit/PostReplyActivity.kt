@@ -13,8 +13,6 @@ import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.utils.ToastUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -26,6 +24,7 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.tools.PictureFileUtils
 import java.io.File
 import java.lang.StringBuilder
 import java.util.ArrayList
@@ -181,7 +180,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
                 }
             })
             if (!flag) {
-                ToastUtils.show("上传图片失败")
+                showError("上传图片失败")
                 progress_bar_reply_activity.visibility = View.GONE
                 break
             }
@@ -196,7 +195,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread{
             progress_bar_reply_activity.visibility = View.GONE
-            showToast(event.data.head?.errInfo.toString())
+            showHint(event.data.head?.errInfo.toString())
             setResult(POST_REPLY_RESULT_CODE, Intent().apply {
                     putExtra(POST_REPLY_RESULT, true)
                 })
@@ -217,7 +216,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
 
     override fun showError(msg: String) {
         runOnUiThread{
-            showToast(msg)
+            showHint(msg)
             progress_bar_reply_activity?.visibility = View.GONE
         }
     }
@@ -259,6 +258,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
+        PictureFileUtils.deleteCacheDirFile(this@PostReplyActivity)
         PandaEmoTranslator.getInstance().clearGif(localClassName)
     }
 }

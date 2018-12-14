@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.fragment_post_pager.*
 
 
 class PListPagerFragment : BaseFragment() {
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_post_pager
     }
 

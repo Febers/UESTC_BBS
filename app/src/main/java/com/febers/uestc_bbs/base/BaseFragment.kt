@@ -8,18 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.febers.uestc_bbs.utils.ToastUtils
+import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.view.custom.SupportFragment
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.toast
 
 const val FID = "mFid"
 const val UID = "mUid"
 const val TITLE = "title"
 const val MSG_TYPE = "mMsgType"
 
-
+/**
+ * Fragment的基类
+ *
+ */
 abstract class BaseFragment : SupportFragment(), BaseView {
 
     protected var mMsgType: String? = MSG_TYPE_REPLY
@@ -35,7 +37,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     protected open fun initView() {}
 
-    protected abstract fun setContentView(): Int
+    protected abstract fun setView(): Int
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(setContentView(), container, false)
+        val view: View = inflater.inflate(setView(), container, false)
         if (registerEventBus()) {
             if(!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
@@ -65,6 +67,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         val activity: AppCompatActivity = activity as AppCompatActivity
         activity.setSupportActionBar(setToolbar())
         activity.supportActionBar?.apply {
+            title = ""
             setDisplayHomeAsUpEnabled(true)
         }
         setToolbar()?.setNavigationOnClickListener { pop() }
@@ -90,9 +93,35 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         hideSoftInput()
     }
 
-    override fun showToast(msg: String) {
+    override fun showHint(msg: String) {
         context?.runOnUiThread {
-            ToastUtils.show(msg)
+            HintUtils.show(activity, msg)
         }
     }
 }
+
+/*
+ *
+ *        ┌─┐       ┌─┐
+ *   ┌──┘ ┴───────┘ ┴──┐
+ *   │                 │
+ *   │       ───       │
+ *   │  ─┬┘       └┬─  │
+ *   │                 │
+ *   │       ─┴─       │
+ *   │                 │
+ *   └───┐         ┌───┘
+ *       │         │
+ *       │         │
+ *       │         │
+ *       │         └──────────────┐
+ *       │                        │
+ *       │                        ├─┐
+ *       │                        ┌─┘
+ *       │                        │
+ *       └─┐  ┐  ┌───────┬──┐  ┌──┘
+ *         │ ─┤ ─┤       │ ─┤ ─┤
+ *         └──┴──┘       └──┴──┘
+ *                神兽保佑
+ *               代码无BUG!
+ */

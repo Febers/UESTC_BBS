@@ -44,11 +44,11 @@
 ```
 比如在登录模块中，可以看到，login包下有四个子包——contract、model、presenter和view。其中，contract(契约)包放置定义该功能模块Mvp三方的行为和对象的契约类LoginContract。
 ```
--contract	//包含模块契约类，联系M-V-P三者
+-contract  //包含模块契约类，联系M-V-P三者
 
 -model	//事务具体类，包括数据的存取
 
--presenter	//Presenter类，充当M和V之间的桥梁
+-presenter  //Presenter类，充当M和V之间的桥梁
 
 -view  //包含所有的视图
 ```
@@ -81,14 +81,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
-
-
-
-
-
-
-
-
-

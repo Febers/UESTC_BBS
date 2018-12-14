@@ -22,7 +22,7 @@ public class AnimatedGifDrawable extends AnimationDrawable {
     public AnimatedGifDrawable(InputStream source, int bounds) {
         GifDecoder decoder = new GifDecoder();
         decoder.read(source);
-        // Iterate through the gif frames, add each as animation frame
+        // Iterate through the gif frames, addUser each as animation frame
         for (int i = 0; i < decoder.getFrameCount(); i++) {
             Bitmap bitmap = decoder.getFrame(i);
             BitmapDrawable drawable = new BitmapDrawable(bitmap);

@@ -65,3 +65,7 @@ const val SP_USER_IDS = "user_ids"
 
 const val COMMON_PAGE_SIZE = 27
 const val FIRST_PAGE = 1
+
+const val HINT_WAY = "hint_way"
+const val HINT_BY_TOAST = 0
+const val HINT_BY_SNACK_BAR = 1

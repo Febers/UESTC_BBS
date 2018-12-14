@@ -27,6 +27,21 @@ import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
 
+/////////////////////////////////////////////////////////////////////////////
+
+//		　　　　 　　！！！！！
+//		　　　　　　 \\ - - //
+//		　　　　　　 (-● ●-)
+//		　　　　　　　\ (_) /
+//		　　　　　　　 \ u /
+//		┏oOOo-━━━━━━━━━━━┓
+//		┃　　　　　　　　　┃
+//		┃　　UESTC_BBS   ┃
+//		┃   @Febers     ┃
+//		┃　　　　　　　　 ┃
+//		┗━━━━━━━━━━-oOOo┛
+
+/////////////////////////////////////////////////////////////////////////////
 class MyApp: MultiDexApplication() {
 
     override fun onCreate() {
@@ -64,6 +79,9 @@ class MyApp: MultiDexApplication() {
         }
         Bugly.init(context, ApiUtils.BUGLY_APP_ID, false)
 
+        /**
+         * 初始化表情包界面
+         */
         PandaEmoManager.Builder()
                 .with(context) // 传递 Context
                 .configFileName("first.xml")// 配置文件名称

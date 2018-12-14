@@ -7,7 +7,7 @@ import com.febers.uestc_bbs.module.post.view.PListPagerFragment
 
 class HomeFirstContainer : BaseFragment() {
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.container_home_first
     }
 
@@ -18,3 +18,26 @@ class HomeFirstContainer : BaseFragment() {
         }
     }
 }
+
+/**
+* 程序出Bug了？
+* 　　　∩∩
+* 　　（´･ω･）
+* 　 ＿|　⊃／(＿＿_
+* 　／ └-(＿＿＿／
+* 　￣￣￣￣￣￣￣
+* 算了反正不是我写的
+* 　　 ⊂⌒／ヽ-、＿
+* 　／⊂_/＿＿＿＿ ／
+* 　￣￣￣￣￣￣￣
+* 不对，好像都是我写的
+* 　　　∩∩
+* 　　（´･ω･）
+* 　 ＿|　⊃／(＿＿_
+* 　／ └-(＿＿＿／
+* 　￣￣￣￣￣￣￣
+* 算了反正改了一个又出三个
+* 　　 ⊂⌒／ヽ-、＿
+* 　／⊂_/＿＿＿＿ ／
+* 　￣￣￣￣￣￣￣
+ */

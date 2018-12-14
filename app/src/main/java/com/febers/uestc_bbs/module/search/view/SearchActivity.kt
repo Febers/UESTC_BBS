@@ -1,54 +1,47 @@
 package com.febers.uestc_bbs.module.search.view
 
 import android.app.ProgressDialog
-import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
 import com.febers.uestc_bbs.module.search.contract.SearchContrect
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
+import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.view.adapter.SearchAdapter
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
-class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
+class SearchActivity: BaseActivity(), SearchContrect.View {
 
     private val searchPostList: MutableList<SearchPostBean.ListBean> = ArrayList()
     private lateinit var searchPresenter: SearchContrect.Presenter
-    private lateinit var progressDialog: ProgressDialog
+    private var progressDialog: ProgressDialog? = null
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchView: SearchView
     private var menuItem: MenuItem? = null
     private var keyword = ""
     private var page: Int = 1
 
+    override fun setView(): Int {
+        return R.layout.fragment_search
+    }
+
     override fun setToolbar(): Toolbar? {
         return toolbar_search
     }
 
-    override fun setMenu(): Int? {
-        return R.menu.menu_search_fragment
-    }
-
-    override fun setContentView(): Int {
-        return R.layout.fragment_search
-    }
-
     override fun initView() {
-        progressDialog = context!!.indeterminateProgressDialog("搜索中") {
-            setCanceledOnTouchOutside(false)
-        }.apply { hide() }
+        toolbar_search.title = getString(R.string.search)
         searchPresenter = SearchPresenterImpl(this)
-        searchAdapter = SearchAdapter(context!!, searchPostList, false).apply {
+        searchAdapter = SearchAdapter(context, searchPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onItemClick(listBean) }
         }
         recyclerview_search.apply {
@@ -65,6 +58,12 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
         }
     }
 
+    override fun afterCreated() {
+        progressDialog = indeterminateProgressDialog("搜索中") {
+            setCanceledOnTouchOutside(false)
+        }.apply { hide() }
+    }
+
     private fun search(keyword: String, page: Int) {
         refresh_layout_search.setNoMoreData(false)
         searchPresenter.searchRequest(keyword, page)
@@ -72,7 +71,7 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
 
     @UiThread
     override fun showSearchResult(event: BaseEvent<SearchPostBean>) {
-        progressDialog.dismiss()
+        progressDialog?.dismiss()
         refresh_layout_search?.apply {
             finishRefresh(true)
             finishLoadMore(true)
@@ -88,8 +87,8 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
         searchAdapter.setLoadMoreData(event.data.list)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_search_fragment, menu)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_search_fragment, menu)
         menuItem = menu?.findItem(R.id.menu_item_search_search_fragment)
         menuItem?.isChecked = true
         searchView = menuItem?.actionView as SearchView
@@ -100,8 +99,8 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
                 }
                 keyword = query!!
                 page = 1
-                hideSoftInput()
-                progressDialog.show()
+                KeyboardUtils.closeKeyboard(searchView, context)
+                progressDialog?.show()
                 search(keyword, 0)
                 return true
             }
@@ -110,34 +109,38 @@ class SearchFragment: BaseSwipeFragment(), SearchContrect.View {
             }
         }
         searchView.apply {
-            isIconified = false
+            //isIconified = false
             queryHint = "搜索内容"
             setOnQueryTextListener(listener)
         }
+        return super.onCreateOptionsMenu(menu)
     }
 
+
     private fun onItemClick(item: SearchPostBean.ListBean) {
-        hideSoftInput()
+        KeyboardUtils.closeKeyboard(searchView, context)
         searchView.clearFocus()
         val tid = item.topic_id
         ViewClickUtils.clickToPostDetail(context, tid)
     }
 
     override fun showError(msg: String) {
-        showToast(msg)
+        showHint(msg)
+        progressDialog?.dismiss()
         refresh_layout_search?.apply {
             finishRefresh(false)
             finishLoadMore(false)
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(showBottomBarOnDestroy: Boolean) =
-                SearchFragment().apply {
-                    arguments = Bundle().apply {
-                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-                    }
-                }
+    /**
+     * 在销毁的时候必须使progressDialog为空，否则报
+     * android.view.WindowLeaked 错误
+     *
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        progressDialog?.dismiss()
+        progressDialog = null
     }
 }

@@ -72,6 +72,6 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
 
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
 
-        UserHelper.add(loginResultBean.uid, mUserSimple)
+        UserHelper.addUser(loginResultBean.uid, mUserSimple)
     }
 }

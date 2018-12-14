@@ -42,12 +42,12 @@ import com.febers.uestc_bbs.R;
  * 
  * <p>
  * Use {@link #getColor()} to retrieve the selected color. <br>
- * Use {@link #addSVBar(SVBar)} to add a Saturation/Value Bar. <br>
+ * Use {@link #addSVBar(SVBar)} to addUser a Saturation/Value Bar. <br>
  * </p>
  */
 public class ColorPicker extends View {
 	/*
-	 * Constants used to add/restore the instance state.
+	 * Constants used to addUser/restore the instance state.
 	 */
 	private static final String STATE_PARENT = "parent";
 	private static final String STATE_ANGLE = "angle";

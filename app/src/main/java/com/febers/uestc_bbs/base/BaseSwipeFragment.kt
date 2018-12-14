@@ -11,10 +11,11 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
 
 /**
  * 由主Activity创建的一类Fragment
- * 弹出时，隐藏主Activity的bottomBar和toolbar
- * 默认支持滑动返回
- * 为了应用风格更和谐，暂时取消滑动返回
- * 销毁时又恢复
+ * 弹出时，隐藏主Activity的bottomBar和toolbar, 销毁时又恢复
+ * 默认支持滑动返回,为了应用风格更和谐，暂时取消滑动返回
+ * 因为使用了主题库aesthetic之后，没法设置background为透明
+ * 暂时未解决该问题
+ *
  */
 const val SHOW_BOTTOM_BAR_ON_DESTROY = "show_bottom_bar"
 

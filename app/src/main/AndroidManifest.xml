@@ -78,6 +78,10 @@
             android:theme="@style/UpdateTheme"/>
         <activity android:name=".module.post.view.edit.PostReplyActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".module.search.view.SearchActivity" />
+        <activity android:name=".module.setting.AboutActivity" />
+        <activity android:name=".module.post.view.PListFragment" />
+        <activity android:name=".module.setting.SettingActivity" />
 
     </application>
 </manifest>

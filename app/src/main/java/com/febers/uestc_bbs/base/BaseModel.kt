@@ -1,7 +1,5 @@
 package com.febers.uestc_bbs.base
 
-import com.febers.uestc_bbs.MyApp
-import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Retrofit
@@ -25,3 +23,19 @@ open class BaseModel {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 }
+
+/**
+ *  * ░░░░░░░░░░░░░░░░░░░░░░░░▄░░
+ * ░░░░░░░░░▐█░░░░░░░░░░░▄▀▒▌░
+ * ░░░░░░░░▐▀▒█░░░░░░░░▄▀▒▒▒▐
+ * ░░░░░░░▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐
+ * ░░░░░▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐
+ * ░░░▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌
+ * ░░▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒
+ * ░░▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐
+ * ░▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄
+ * ░▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒
+ * ▀▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒
+ * 单身狗就这样默默地看着你，一句话也不说。
+ *
+ */

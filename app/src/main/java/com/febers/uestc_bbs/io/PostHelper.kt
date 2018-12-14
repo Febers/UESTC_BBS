@@ -16,6 +16,9 @@ import java.lang.StringBuilder
  */
 object PostHelper {
 
+    /**
+     * @deprecated 占用内存
+     */
     fun savePostListToSp(fid: String, pList: PostListBean) {
         context().getSharedPreferences(fid, 0).edit().apply {
             val json = Gson().toJson(pList)
@@ -24,25 +27,9 @@ object PostHelper {
         }
     }
 
-    fun savePostListToFile(fid: String, pList: PostListBean) {
-        try {
-            val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$fid.txt")
-            fileWriter.flush()
-            fileWriter.write(Gson().toJson(pList))
-            fileWriter.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    fun saveUserPListToSp(fid: String, post: UserPostBean) {
-        context().getSharedPreferences(fid, 0).edit().apply {
-            val json = Gson().toJson(post)
-            putString(fid, json)
-            apply()
-        }
-    }
-
+    /**
+     * @deprecated 占用内存
+     */
     fun getPostListBySp(fid: String): PostListBean {
         try {
             with(context().getSharedPreferences(fid, 0)) {
@@ -55,6 +42,29 @@ object PostHelper {
         }
     }
 
+    /**
+     * 保存帖子列表至手机内存，由于是使用了FileProvider，所以这里其实是不需要存储权限的
+     *
+     * @param fid 用作文件的名称
+     * @param pList class类
+     */
+    fun savePostListToFile(fid: String, pList: PostListBean) {
+        try {
+            val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$fid.txt")
+            fileWriter.flush()
+            fileWriter.write(Gson().toJson(pList))
+            fileWriter.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    /**
+     * 从文件中还原帖子列表，实际上还原的是包含帖子列表的bean类
+     *
+     * @param fid 用于寻找文件
+     * @return bean
+     */
     fun getPostListByFile(fid: String): PostListBean {
         return try {
             val result = StringBuilder()
@@ -63,6 +73,7 @@ object PostHelper {
             while (fileReader.read(charArray) != -1) {
                 result.append(charArray)
             }
+            if (result.isEmpty()) PostListBean()
             Gson().fromJson(result.toString(), PostListBean::class.java)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -70,6 +81,21 @@ object PostHelper {
         }
     }
 
+    /**
+     * 保存用户的收藏、发表的帖子列表，由于这几个页面服务器响应很快，没必要本地缓存
+     * @deprecated 占用内存,没必要
+     */
+    fun saveUserPListToSp(fid: String, post: UserPostBean) {
+        context().getSharedPreferences(fid, 0).edit().apply {
+            val json = Gson().toJson(post)
+            putString(fid, json)
+            apply()
+        }
+    }
+
+    /**
+     * @deprecated 占用内存
+     */
     fun getUserPListBySp(fid: String): UserPostBean {
         try {
             with(context().getSharedPreferences(fid, 0)) {

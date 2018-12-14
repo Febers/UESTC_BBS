@@ -36,6 +36,7 @@ class UpdateActivity: BaseActivity() {
         var upgradeInfo: UpgradeInfo? = null
         //服务器不稳定时，无法检测到更新，重复一次
         for (i in 0..1) {
+            //Beta.checkUpgrade()
             upgradeInfo = Beta.getUpgradeInfo()
             if (upgradeInfo != null) {
                 break
@@ -77,7 +78,7 @@ class UpdateActivity: BaseActivity() {
                         override fun onDownloadFailed() {
                             runOnUiThread {
                                 btnEnter?.text = "下载失败"
-                                showToast("很抱歉，下载失败。请前往河畔帖子或者github下载")
+                                showHint("很抱歉，下载失败。请前往河畔帖子或者github下载")
                             }
                         }
                     })

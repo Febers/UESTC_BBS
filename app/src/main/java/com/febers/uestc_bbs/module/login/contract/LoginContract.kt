@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-6-11 下午5:27.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-10 下午1:49.
- */
-
 package com.febers.uestc_bbs.module.login.contract
 
 import com.febers.uestc_bbs.base.BaseEvent
@@ -51,6 +45,7 @@ interface LoginContract {
         /**
          * 登录请求，实现类内部应该调用新建一个具体的model，并调用其XXService方法
          * 他们的参数应该是一致的
+         *
          * @param userName 用户名称
          * @param userPw 用户密码
          */
@@ -58,6 +53,7 @@ interface LoginContract {
 
         /**
          * 登录的结果，实现类应该调用view.showXX
+         *
          * @param event 传递消息的类
          */
         abstract fun loginResult(event: BaseEvent<UserSimpleBean>)

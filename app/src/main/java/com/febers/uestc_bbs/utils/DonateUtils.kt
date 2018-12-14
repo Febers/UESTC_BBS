@@ -18,18 +18,18 @@ class DonateUtils(private val context: Context) {
                 "clientVersion=3.7.0.0718&qrcode=https%3A%2F%2Fqr.alipay.com/a6x02751i2trlsrltv6ji64%3F_s" +
                 "%3Dweb-other&_t=1472443966571#Intent;" +
                 "scheme=alipayqr;package=com.eg.android.AlipayGphone;end"
-        ToastUtils.show(context.getString(R.string.thank_you))
+        HintUtils.show(context.getString(R.string.thank_you))
         if (hasInstalledAlipayClient()) {
             try {
                 val intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
                 context.startActivity(intent)
             } catch (e: URISyntaxException) {
                 e.printStackTrace()
-                ToastUtils.show(context.getString(R.string.error))
+                HintUtils.show(context.getString(R.string.error))
             }
 
         } else {
-            ToastUtils.show(context.getString(R.string.no_alipay_installed))
+            HintUtils.show(context.getString(R.string.no_alipay_installed))
         }
     }
 

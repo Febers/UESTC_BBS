@@ -10,8 +10,7 @@ import com.febers.uestc_bbs.base.REPLY_NO_QUOTA
 import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
-import com.febers.uestc_bbs.utils.ToastUtils
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -114,7 +113,7 @@ class PostReplyBottomSheet(val activity: Activity, style: Int, private val liste
                 }
             })
             if (!flag) {
-                ToastUtils.show("上传图片失败")
+                HintUtils.show("上传图片失败")
                 progress_bar_post_reply.visibility = View.GONE
                 break
             }

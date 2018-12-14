@@ -1,19 +1,12 @@
 package com.febers.uestc_bbs.utils
 
-import android.util.Log
-import android.util.Log.i
-
-object LogUtils {
-
-    fun i(message: String) {
-        i("UESTC", message)
-    }
-
-    fun i(tag: String, message: String) {
-        Log.i(tag, message)
-    }
-}
+import android.util.Log.e
 
 fun log(message: String) {
-    LogUtils.i(message)
+    log("UESTC", message)
 }
+
+fun log(tag: String, message: String) {
+    e(tag, message)
+}
+

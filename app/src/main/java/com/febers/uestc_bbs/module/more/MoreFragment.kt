@@ -13,13 +13,13 @@ import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.model.LoginContext
-import com.febers.uestc_bbs.module.search.view.SearchFragment
-import com.febers.uestc_bbs.module.setting.SettingFragment
+import com.febers.uestc_bbs.module.search.view.SearchActivity
+import com.febers.uestc_bbs.module.setting.SettingActivity
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.module.setting.AboutFragment
+import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
@@ -47,7 +47,7 @@ class MoreFragment: BaseFragment() {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_more
     }
 
@@ -146,7 +146,7 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SEARCH_ITEM) {
-                mParentFragment.start(SearchFragment.newInstance(true))
+                startActivity(Intent(activity, SearchActivity::class.java))
                 return
             }
         }
@@ -156,11 +156,11 @@ class MoreFragment: BaseFragment() {
                 return
             }
             if (position == SETTING_ITEM) {
-                mParentFragment.start(SettingFragment.newInstance(showBottomBarOnDestroy = true))
+                startActivity(Intent(activity, SettingActivity::class.java))
                 return
             }
             if (position == ABOUT_ITEM) {
-                mParentFragment.start(AboutFragment.newInstance(showBottomBarOnDestroy = true))
+                startActivity(Intent(activity, AboutActivity::class.java))
             }
         }
     }
@@ -178,7 +178,7 @@ class MoreFragment: BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_item_search_more_fragment && LoginContext.userState(context!!)) {
-            mParentFragment.start(SearchFragment.newInstance(true))
+            startActivity(Intent(activity, SearchActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

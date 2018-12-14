@@ -56,13 +56,13 @@ android {
         applicationId "com.febers.uestc_bbs"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.1.0"
+        versionCode 7
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        ndk {
+        ndk {
             //设置支持的SO库架构
             //abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-//        }
+        }
         multiDexEnabled true
         multiDexKeepProguard file('multiDexKeep.pro') // keep specific classes using proguard syntax
         //multiDexKeepFile file('multiDexKeep.txt') // keep specific classes

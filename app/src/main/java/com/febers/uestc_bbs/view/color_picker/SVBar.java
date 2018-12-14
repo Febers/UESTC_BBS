@@ -36,7 +36,7 @@ import com.febers.uestc_bbs.R;
 public class SVBar extends View {
 
 	/*
-	 * Constants used to add/restore the instance state.
+	 * Constants used to addUser/restore the instance state.
 	 */
 	private static final String STATE_PARENT = "parent";
 	private static final String STATE_COLOR = "color";

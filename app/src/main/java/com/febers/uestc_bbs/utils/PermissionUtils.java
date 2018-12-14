@@ -212,7 +212,6 @@ public class PermissionUtils {
         new AlertDialog.Builder(getActivity(mContext))
                 .setMessage(message)
                 .setPositiveButton("确认", okListener)
-                .setNegativeButton("取消", null)
                 .create()
                 .show();
     }

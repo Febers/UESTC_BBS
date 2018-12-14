@@ -26,10 +26,11 @@ class SplashActivity : BaseActivity() {
                         start()
                     }
                     override fun doAfterDenied(vararg permission: String?) {
-                        showToast("你拒绝的相应的权限,将无法正常使用应用")
+                        showHint("你拒绝的相应的权限,将无法正常使用应用")
                         start()
                     }
                 }, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+
     }
 
     private fun start() {
@@ -44,4 +45,29 @@ class SplashActivity : BaseActivity() {
         permissionUtils.handleRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////
+
+//	                               _(\_/)
+//	                             ,((((^`\
+//	                             ((((  (6 \
+//	                          ,((((( ,    \
+//	       ,,,_              ,(((((  /"._  ,`,
+//	      ((((\\ ,...       ,((((   /    `-.-'
+//	      )))  ;'    `"'"'""((((   (我是代马
+//	    (((  /            (((      \
+//	      )) |                      |
+//	     ((  |        .       '     |
+//	     ))  \     _ '      `t   ,.')
+//	     (   |   y;- -,-""'"-.\   \/
+//	    )   / ./  ) /         `\  \
+//	        |./   ( (           / /'
+//	        ||     \\          //'|
+//	        ||      \\       _//'||
+//	        ||       ))     |_/  ||
+//	        \_\     |_/          ||
+//	        `'"                  \_\
+//	                             `'"
+
+/////////////////////////////////////////////////////////////////////////////
 

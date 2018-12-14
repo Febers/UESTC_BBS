@@ -33,7 +33,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.runOnUiThread
 import java.lang.IndexOutOfBoundsException
 
-class PListFragment: BaseSwipeFragment(), PListContract.View {
+class PListFragment: BaseActivity(), PListContract.View {
 
     private val stickyPostList: MutableList<PostListBean.TopTopicListBean> = ArrayList()
     private val postList: MutableList<PostListBean.ListBean> = ArrayList()
@@ -47,18 +47,21 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
     private var itemShowStickyPost: MenuItem? = null
     private var isShowStickyPost = false
     private var title: String? = "板块名称"
+    private var mFid: Int = 0
     private var page: Int = 1
 
     override fun setToolbar(): Toolbar? = toolbar_post_list
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
+        mFid = intent.getIntExtra(FID, 0)
+        title = intent.getStringExtra(TITLE)
         return R.layout.fragment_post_list
     }
 
     override fun initView() {
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
         toolbar_post_list.inflateMenu(R.menu.menu_post_list)
         toolbar_post_list.title = ""
 
@@ -74,7 +77,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         pListPresenter.pListRequest(fid = mFid, page = page)
         pListPresenter.boardListRequest(mFid)
 
-        title = mTitle
+//        title = mTitle
         boardNames.add(title.toString())
         boardIds.add(mFid)
         boardSpinnerAdapter = ArrayAdapter(context!!,
@@ -94,10 +97,7 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
             }
         }
         toolbar_post_list.addView(boardSpinner, 0)
-    }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
         postListAdapter?.apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
                 clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id)
@@ -229,16 +229,16 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
 
     override fun showError(msg: String) {
         context?.runOnUiThread {
-            showToast(msg)
+            showHint(msg)
             refresh_layout_post_list?.finishFail()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_post_list, menu)
-        if (menu != null) itemShowStickyPost = menu.findItem(R.id.menu_item_post_list_sticky)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+//        inflater?.inflate(R.menu.menu_post_list, menu)
+//        if (menu != null) itemShowStickyPost = menu.findItem(R.id.menu_item_post_list_sticky)
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.menu_item_post_list_sticky) {
@@ -250,17 +250,17 @@ class PListFragment: BaseSwipeFragment(), PListContract.View {
         return super.onOptionsItemSelected(item)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(fid: Int, title: String, showBottomBarOnDestroy: Boolean) =
-                PListFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(FID, fid)
-                        putString(TITLE, title)
-                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-                    }
-                }
-    }
+//    companion object {
+//        @JvmStatic
+//        fun newInstance(fid: Int, title: String, showBottomBarOnDestroy: Boolean) =
+//                PListFragment().apply {
+//                    arguments = Bundle().apply {
+//                        putInt(FID, fid)
+//                        putString(TITLE, title)
+//                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
+//                    }
+//                }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

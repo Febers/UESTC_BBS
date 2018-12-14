@@ -47,7 +47,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_sub_message
     }
 
@@ -172,7 +172,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     }
 
     override fun showError(msg: String) {
-        showToast(msg)
+        showHint(msg)
         refresh_layout_sub_message?.finishFail()
     }
 

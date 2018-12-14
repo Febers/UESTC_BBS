@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.post.view
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -103,19 +102,15 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             adapter = replyItemAdapter
         }
 
-//        FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_detail, fab_post_detail)
         scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             replyItemAdapter?.isListScrolling = (scrollY - oldScrollY).absoluteValue >= 30
             if (scrollY - oldScrollY < -10) {
-                //fab_post_detail.show()
                 showReplyCountBottom()
             }
             if (scrollY - oldScrollY > 10) {
-                //fab_post_detail.hide()
                 hideReplyCountBottom()
             }
         }
-        scroll_view_post_detail.isNestedScrollingEnabled = true
     }
 
     /*
@@ -231,7 +226,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     @UiThread
     override fun showVoteResult(event: BaseEvent<PostVoteResultBean>) {
-        showToast(event.data.errcode.toString())
+        showHint(event.data.errcode.toString())
         refresh_layout_post_detail.autoRefresh()
     }
 
@@ -266,7 +261,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     override fun showPostFavResult(event: BaseEvent<PostFavResultBean>) {
         runOnUiThread {
-            showToast(event.data.errcode.toString())
+            showHint(event.data.errcode.toString())
             if (event.code == BaseCode.SUCCESS) {
                 if (isFavorite == POST_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_color_24dp)
                 if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_gray_24dp)
@@ -300,7 +295,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      */
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
 //        runOnUiThread {
-//            showToast(event.data.head?.errInfo.toString())
+//            showHint(event.data.head?.errInfo.toString())
 //            replyBottomSheet?.finish()
 //            scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
 //            refresh_layout_post_detail?.autoRefresh()
@@ -392,7 +387,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     ////////////////////////////////错误////////////////////////////////
     override fun showError(msg: String) {
-        showToast(msg)
+        showHint(msg)
         refresh_layout_post_detail?.finishFail()
         drawFinish = true
     }

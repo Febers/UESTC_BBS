@@ -102,7 +102,7 @@ class UserPostActivity: BaseActivity(), UserContract.View {
 
     override fun showError(msg: String) {
         runOnUiThread {
-            showToast(msg)
+            showHint(msg)
             refresh_layout_user_post?.finishFail()
         }
     }

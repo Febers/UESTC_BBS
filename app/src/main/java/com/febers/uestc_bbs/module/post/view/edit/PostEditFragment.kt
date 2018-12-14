@@ -11,7 +11,6 @@ import android.widget.Spinner
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.BoardListBean_
@@ -22,7 +21,6 @@ import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.utils.ToastUtils
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -61,7 +59,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     private var progressDialog: ProgressDialog? = null
     private lateinit var keyboardManager: KeyBoardManager
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_post_edit
     }
 
@@ -238,7 +236,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                         }
                     })
             if (!flag) {
-                ToastUtils.show("上传图片失败")
+                showError("上传图片失败")
                 break
             }
         }
@@ -292,14 +290,14 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 
     override fun showError(msg: String) {
         context?.runOnUiThread {
-            showToast(msg)
+            showHint(msg)
             progressDialog?.dismiss()
-            PictureFileUtils.deleteCacheDirFile(context!!)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        PictureFileUtils.deleteCacheDirFile(context!!)
         selectedImagePaths.clear()
         progressDialog = null
     }

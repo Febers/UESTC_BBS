@@ -6,12 +6,14 @@ import androidx.core.app.ActivityCompat
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
+import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.utils.log
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -74,6 +76,12 @@ class HomeActivity: BaseActivity() {
 
     @SuppressLint("RestrictedApi")
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
+        log("isSelected")
+        if(wasSelected) {
+            onTabReselected(position)
+            return true
+        }
+        showHideFragment(mFragments[position])
         if (position == PAGE_POSITION_HOME) {
             fab_home.visibility = View.VISIBLE
         } else {
@@ -84,11 +92,6 @@ class HomeActivity: BaseActivity() {
             EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
             msgCount = 0
         }
-        if(wasSelected) {
-            onTabReselected(position)
-            return true
-        }
-        showHideFragment(mFragments[position])
         return true
     }
 
@@ -141,6 +144,7 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun startService() {
+        if (!MyApp.getUser().valid) return
         val intent = Intent(this, HeartMsgService::class.java)
         startService(intent)
     }

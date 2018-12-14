@@ -45,7 +45,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_post_list_home
     }
 
@@ -106,7 +106,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     }
 
     override fun showError(msg: String) {
-        showToast(msg)
+        showHint(msg)
         refresh_layout_post_fragment?.finishFail()
     }
 

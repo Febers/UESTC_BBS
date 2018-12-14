@@ -75,7 +75,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         }
         if (userItSelf) {
 //            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
-//            userBottomSheet.setContentView(R.layout.layout_bottom_sheet_user_detail)
+//            userBottomSheet.setView(R.layout.layout_bottom_sheet_user_detail)
         }
         image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColorPrimary())
         signDialog = AlertDialog.Builder(this@UserDetailActivity).create()
@@ -152,7 +152,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
      */
     @UiThread
     override fun showUserUpdate(event: BaseEvent<UserUpdateResultBean>) {
-        showToast(event.data.head?.errInfo.toString())
+        showHint(event.data.head?.errInfo.toString())
         signDialog.dismiss()
         progress_bar_user_detail?.visibility = View.GONE
         refresh_layout_user_detail.autoRefresh()
@@ -193,7 +193,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun showError(msg: String) {
         runOnUiThread {
-            showToast(msg)
+            showHint(msg)
             findViewById<ProgressBar>(R.id.progress_bar_update_sign)?.visibility = View.GONE
             progress_bar_update_sign?.visibility = View.GONE
             progress_bar_user_detail?.visibility = View.GONE

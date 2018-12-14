@@ -6,9 +6,6 @@ import com.febers.uestc_bbs.base.SERVICE_RESPONSE_NULL
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PEditInterface
-import com.febers.uestc_bbs.utils.LogUtils
-import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
-import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

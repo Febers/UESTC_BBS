@@ -7,8 +7,11 @@ import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.base.SP_USER_IDS
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.lang.StringBuilder
 
 /**
  * 当用户登录的时候，获取sp中user_uid的字符串
@@ -19,26 +22,62 @@ import com.google.gson.Gson
 object UserHelper {
 
     /**
-     * 此方法只会在登录成功的时候调用，登录成功之后，保存于User的原始资料
+     * 此方法只会在登录成功的时候调用，登录成功之后，保存User的原始资料
      * 然后添加新的uid到user_ids的字符串中，然后将uid设置为nowUId
+     *
+     * @param uid 用户id
+     * @param userSimple 自定义的简单userBean
      */
-    fun add(uid: Int, userSimple: UserSimpleBean) {
-        context().getSharedPreferences(SP_USERS, 0).edit().apply {
-            val gson = Gson()
-            val json: String = gson.toJson(userSimple)
-            putString(uid.toString(), json)
-            apply()
-        }
+    fun addUser(uid: Int, userSimple: UserSimpleBean) {
+//        context().getSharedPreferences(SP_USERS, 0).edit().apply {
+//            val gson = Gson()
+//            val json: String = gson.toJson(userSimple)
+//            putString(uid.toString(), json)
+//            apply()
+//        }
+        addUserToFile(uid, userSimple)
         var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
         userIds = "$userIds@$uid"
         setNowUid(uid)
     }
 
     /**
+     * 删除用户，首先在user_ids清除uid
+     * 如果属于当前用户，则替换当前id
+     *
+     * @param uid 需要删除的用户的id
+     */
+    fun deleteUser(uid: Int) {
+        var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
+        userIds = userIds.replace("@$uid", "")
+//        context().getSharedPreferences(SP_USERS, 0).edit().apply {
+//            putString(uid.toString(), "")
+//            apply()
+//        }
+        deleteUserInFile(uid)
+        if (getNowUid() == uid) {
+            if (getAllUser().isNotEmpty()) {
+                setNowUid(getAllUser().last().uid)
+            } else {
+                setNowUid(0)
+            }
+        }
+    }
+
+    fun deleteUserInFile(uid: Int) {
+        try {
+            val file = File(FileHelper.appFileDir+"/$uid")
+            file.delete()
+        } catch (e: Exception) {
+        }
+    }
+
+    /**
      * 获取当前正在使用的User，一般由App初始化时调用
      */
     fun  getNowUser(): UserSimpleBean {
-        return getUser(getNowUid())
+        //return getUserBySp(getNowUid())
+        return getUserbyFile(getNowUid())
     }
 
     fun getNowUid(): Int {
@@ -54,17 +93,48 @@ object UserHelper {
     /**
      * 通过uid获取用户，调用的地方有: 设置界面根据获取的uid数组，一个一个获取uid
      * 然后通过uid一个一个获取有效用户列表
+     *
+     * @param uid 用户id
+     * @deprecated
      */
-    fun getUser(uid: Int) : UserSimpleBean {
+    fun getUserBySp(uid: Int): UserSimpleBean {
         try {
             with(context().getSharedPreferences(SP_USERS, 0)) {
                 val gson = Gson()
                 val json: String? = this.getString(uid.toString(), "")
+                if (json.isNullOrEmpty()) return UserSimpleBean()
                 return gson.fromJson(json, UserSimpleBean::class.java)
             }
         } catch (e: Exception) {
             e.printStackTrace()
             return UserSimpleBean()
+        }
+    }
+
+    fun addUserToFile(uid: Int, userSimple: UserSimpleBean) {
+        try {
+            val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$uid")
+            fileWriter.write(Gson().toJson(userSimple))
+            fileWriter.flush()
+            fileWriter.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getUserbyFile(uid: Int): UserSimpleBean {
+        return try {
+            val result = StringBuilder()
+            val fileReader: FileReader = FileReader(FileHelper.appFileDir+"/$uid")
+            val charArray: CharArray = CharArray(1)
+            while (fileReader.read(charArray) != -1) {
+                result.append(charArray)
+            }
+            if (result.isEmpty()) UserSimpleBean()
+            Gson().fromJson(result.toString(), UserSimpleBean::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            UserSimpleBean()
         }
     }
 
@@ -79,7 +149,8 @@ object UserHelper {
             val uidList = userIds.removePrefix("@").split("@")
             val userList: MutableList<UserSimpleBean> = ArrayList(uidList.size)
             uidList.forEach {
-                userList.add(getUser(it.toInt()))
+                //userList.addUser(getUserBySp(it.toInt()))
+                userList.add(getUserbyFile(it.toInt()))
             }
             return userList
         } catch (e: Exception) {
@@ -88,25 +159,6 @@ object UserHelper {
         return emptyList()
     }
 
-    /**
-     * 删除用户，首先在user_ids清除uid
-     * 如果属于当前用户，则替换当前id
-     */
-    fun delete(uid: Int) {
-        var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
-        userIds = userIds.replace("@$uid", "")
-        context().getSharedPreferences(SP_USERS, 0).edit().apply {
-            putString(uid.toString(), "")
-            apply()
-        }
-        if (getNowUid() == uid) {
-            if (getAllUser().isNotEmpty()) {
-                setNowUid(getAllUser().last().uid)
-            } else {
-                setNowUid(0)
-            }
-        }
-    }
 
     private fun context(): Context = MyApp.context()
 }

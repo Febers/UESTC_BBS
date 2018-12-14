@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.message.view
 
 import androidx.appcompat.widget.Toolbar
-import android.util.Log.i
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -147,7 +146,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     override fun showError(msg: String) {
         isMessageLoopRequest = false
         runOnUiThread {
-            showToast(msg)
+            showHint(msg)
         }
     }
 

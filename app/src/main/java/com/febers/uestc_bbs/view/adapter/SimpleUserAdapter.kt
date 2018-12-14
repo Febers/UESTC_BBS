@@ -18,7 +18,6 @@ class SimpleUserAdapter(val context: Context, val data: MutableList<UserSimpleBe
     }
 
     override fun convert(p0: ViewHolder?, p1: UserSimpleBean?, p2: Int) {
-        i("Set adapter ", p2.toString())
         p0?.setText(R.id.text_view_user_item_name, p1?.name)
         if (p1?.uid == UserHelper.getNowUid()) {
             p0?.getView<CircleColorView>(R.id.color_view_user_now)?.visibility = View.VISIBLE
@@ -26,6 +25,4 @@ class SimpleUserAdapter(val context: Context, val data: MutableList<UserSimpleBe
             p0?.getView<CircleColorView>(R.id.color_view_user_now)?.visibility = View.INVISIBLE
         }
     }
-
-
 }

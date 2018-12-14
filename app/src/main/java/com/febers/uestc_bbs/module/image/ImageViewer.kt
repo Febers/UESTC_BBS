@@ -12,7 +12,6 @@ import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.io.FileHelper
-import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.nio.ByteBuffer
 
@@ -121,19 +120,19 @@ class ImageViewer : BaseActivity() {
             if (imageBitmap != null) {
                 imageUri = ImageHelper.saveImage(this@ImageViewer, imageBitmap as Bitmap, forShare = false)
                 if (imageUri != null) {
-                    showToast("保存图片成功")
+                    showHint("保存图片成功")
                 } else {
-                    showToast("保存图片失败")
+                    showHint("保存图片失败")
                 }
             } else if (gifBytes != null) {
                 gifUri = ImageHelper.saveGif(this@ImageViewer, gifBytes as ByteArray, forShare = false)
                 if (gifUri != null) {
-                    showToast("保存gif成功")
+                    showHint("保存gif成功")
                 } else {
-                    showToast("保存gif失败")
+                    showHint("保存gif失败")
                 }
             } else {
-                showToast("保存失败")
+                showHint("保存失败")
             }
             runOnUiThread { progressDialog?.dismiss() }
         }).start()
@@ -185,6 +184,7 @@ class ImageViewer : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        progressDialog?.dismiss()
         progressDialog = null
         gifDrawable = null; gifBytes = null; gifUri = null
         imageBitmap = null; imageUri = null; imageUrl = null

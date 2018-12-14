@@ -7,11 +7,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseSwipeFragment
-import com.febers.uestc_bbs.base.SHOW_BOTTOM_BAR_ON_DESTROY
+import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
-import com.febers.uestc_bbs.io.UserHelper
 import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
@@ -21,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_about.*
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 
-class AboutFragment: BaseSwipeFragment() {
+class AboutActivity: BaseActivity() {
 
     private var items1: MutableList<SettingItemBean> = ArrayList()
     private var items2: MutableList<SettingItemBean> = ArrayList()
@@ -37,28 +35,26 @@ class AboutFragment: BaseSwipeFragment() {
 
     override fun setMenu(): Int? = R.menu.menu_about
 
-    override fun setContentView(): Int {
+    override fun setView(): Int {
         return R.layout.fragment_about
     }
 
-    override fun onLazyInitView(savedInstanceState: Bundle?) {
-        super.onLazyInitView(savedInstanceState)
-
-        settingAdapter1 = SettingAdapter(context!!, items1).apply {
+    override fun initView() {
+        settingAdapter1 = SettingAdapter(context, items1).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onFirstGroupItemClick(i)
             }
         }
         recyclerview_about_1.adapter = settingAdapter1
 
-        settingAdapter2 = SettingAdapter(context!!, items2).apply {
+        settingAdapter2 = SettingAdapter(context, items2).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onSecondGroupItemClick(i)
             }
         }
         recyclerview_about_2.adapter = settingAdapter2
 
-        settingAdapter3 = SettingAdapter(context!!, items3).apply {
+        settingAdapter3 = SettingAdapter(context, items3).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onThirdGroupItemClick(i)
             }
@@ -72,9 +68,9 @@ class AboutFragment: BaseSwipeFragment() {
         items3.addAll(initSettingData3())
         settingAdapter3.notifyDataSetChanged()
 
-        openSourceProjectsDialog = AlertDialog.Builder(context!!)
+        openSourceProjectsDialog = AlertDialog.Builder(context)
                 .create()
-        projectAdapter = OpenProjectAdapter(context!!, initOpenProjectData()).apply {
+        projectAdapter = OpenProjectAdapter(context, initOpenProjectData()).apply {
             setOnItemClickListener { viewHolder, projectItemBean, i ->
                 context.browse(url = "https://github.com/" + projectItemBean.author + "/" + projectItemBean.name)
             }
@@ -163,11 +159,11 @@ class AboutFragment: BaseSwipeFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_item_donate) {
-            DonateUtils(context!!).donateByAlipay()
+            DonateUtils(context).donateByAlipay()
         }
         if (item?.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
-                permissionDialog = AlertDialog.Builder(context!!)
+                permissionDialog = AlertDialog.Builder(context)
                         .setTitle(getString(R.string.about_permission))
                         .setMessage(permissionExplain())
                         .setPositiveButton(getString(R.string.enter)) { p0, p1 -> }
@@ -177,15 +173,6 @@ class AboutFragment: BaseSwipeFragment() {
             permissionDialog?.show()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(showBottomBarOnDestroy: Boolean): AboutFragment = AboutFragment().apply {
-            arguments = Bundle().apply {
-                putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-            }
-        }
     }
 
     private fun permissionExplain(): String = """
