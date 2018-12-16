@@ -1,9 +1,3 @@
-/*
- * Created by Febers at 18-6-13 下午5:48.
- * Copyright (c). All rights reserved.
- * Last modified 18-6-13 下午5:48.
- */
-
 package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
@@ -25,7 +19,6 @@ import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
-import kotlinx.android.synthetic.main.fragment_post_list.*
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -64,7 +57,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             adapter = postListAdapter
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
-        refresh_layout_post_fragment.apply {
+        refresh_layout_post_list_home.apply {
             initAttrAndBehavior()
             setOnRefreshListener {
                 page = 1
@@ -75,12 +68,12 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(page)
             }
         }
-        ThemeHelper.subscribeOnThemeChange(refresh_layout_post_fragment)
+        ThemeHelper.subscribeOnThemeChange(refresh_layout_post_list_home)
         postListAdapter.notifyDataSetChanged()
     }
 
     private fun getPost(page: Int) {
-        refresh_layout_post_fragment.setNoMoreData(false)
+        refresh_layout_post_list_home.setNoMoreData(false)
         pListPresenter.pListRequest(fid = mFid, page = page)
     }
 
@@ -93,13 +86,13 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             }
             return
         }
-        refresh_layout_post_fragment?.finishSuccess()
+        refresh_layout_post_list_home?.finishSuccess()
         if (page == 1) {
             postListAdapter.setNewData(event.data.list)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_post_fragment?.finishLoadMoreWithNoMoreData()
+            refresh_layout_post_list_home?.finishLoadMoreWithNoMoreData()
             return
         }
         postListAdapter.setLoadMoreData(event.data.list)
@@ -107,7 +100,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     override fun showError(msg: String) {
         showHint(msg)
-        refresh_layout_post_fragment?.finishFail()
+        refresh_layout_post_list_home?.finishFail()
     }
 
     companion object {
@@ -128,7 +121,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     fun onTabReselceted(event: TabReselectedEvent) {
         if (isSupportVisible && loadFinish && event.position == 0) {
             scroll_view_plist_home?.scrollTo(0, 0)
-            refresh_layout_post_fragment?.autoRefresh()
+            refresh_layout_post_list_home?.autoRefresh()
         }
     }
 
@@ -140,7 +133,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     fun onPostNew(event: BaseEvent<String>) {
         if (isSupportVisible && event.code == BaseCode.SUCCESS) {
             scroll_view_plist_home?.scrollTo(0, 0)
-            refresh_layout_post_list.autoRefresh()
+            refresh_layout_post_list_home.autoRefresh()
         }
     }
 

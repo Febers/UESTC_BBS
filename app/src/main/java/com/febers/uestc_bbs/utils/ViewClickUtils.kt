@@ -19,7 +19,13 @@ import org.jetbrains.anko.browse
 object ViewClickUtils {
 
     /**
-     * TODO 点击站内链接时自动跳转，无需打开浏览器
+     * 根据url，判断用户是否在打开一个帖子界面或者河畔用户界面
+     * 帖子的url形式:
+     * http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1661409
+     * http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1456557&page=1#pid25591902
+     *
+     * 板块的url：
+     * http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=174
      */
     fun linkClick(url: String,
                   context: Context) {

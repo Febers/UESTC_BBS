@@ -3,7 +3,7 @@
     和RecyclerView的android:nestedScrollingEnabled="false"
     非常重要-->
 <com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:id="@+id/refresh_layout_post_fragment"
+    android:id="@+id/refresh_layout_post_list_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:srlEnableNestedScrolling="false"

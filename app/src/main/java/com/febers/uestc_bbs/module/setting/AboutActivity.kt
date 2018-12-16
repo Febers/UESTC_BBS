@@ -33,6 +33,8 @@ class AboutActivity: BaseActivity() {
 
     override fun setToolbar(): Toolbar? = toolbar_about
 
+    override fun setTitle(): String? = getString(R.string.about)
+
     override fun setMenu(): Int? = R.menu.menu_about
 
     override fun setView(): Int {

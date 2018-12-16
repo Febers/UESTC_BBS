@@ -5,11 +5,11 @@
         android:id="@+id/menu_item_donate"
         android:title="@string/donate_developer"
         android:icon="@drawable/xic_person_white_24dp"
-        app:showAsAction="never"/>
+        android:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_item_permission"
         android:title="@string/about_permission"
         android:icon="@drawable/ic_setting_gray"
-        app:showAsAction="never"/>
+        android:showAsAction="never"/>
 </menu>

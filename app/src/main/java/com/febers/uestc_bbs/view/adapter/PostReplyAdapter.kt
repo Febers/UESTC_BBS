@@ -12,9 +12,8 @@ import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, isLoadMore: Boolean):
-        CommonBaseAdapter<PostDetailBean.ListBean>(context, data, isLoadMore) {
-
+class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>):
+        CommonBaseAdapter<PostDetailBean.ListBean>(context, data, false) {
 
 
     override fun convert(p0: ViewHolder?, p1: PostDetailBean.ListBean?, p2: Int) {

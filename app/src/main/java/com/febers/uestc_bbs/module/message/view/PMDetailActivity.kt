@@ -11,6 +11,8 @@ import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.PMDetailPresenterImpl
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.view.adapter.PMDetailAdapter
+import com.febers.uestc_bbs.view.panda_emotion.KeyBoardManager
+import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView
 import kotlinx.android.synthetic.main.activity_private_detail.*
 
 /**
@@ -28,6 +30,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     private var page = 1
     private var uid = 0
 
+    private lateinit var keyboardManager: KeyBoardManager
     /*
         输入法是否显示的标志变量
         如果设置新值，说明输入法状态改变
@@ -62,14 +65,29 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
          * 测试未弹出时diff为76，弹出后为827
          * 参考 https://blog.csdn.net/adayabetter/article/details/78819183
          */
-        relative_layout_pm.viewTreeObserver.addOnGlobalLayoutListener {
-            val diffHeight = relative_layout_pm.rootView.height - relative_layout_pm.height
+        content_layout_pm_detail.viewTreeObserver.addOnGlobalLayoutListener {
+            val diffHeight = content_layout_pm_detail.rootView.height - content_layout_pm_detail.height
             //i("PM", diffHeight.toString())
             if (diffHeight >= 500) {
                 isSoftInputShow = true
             }
         }
         loopReceiveMessage()
+        initEmotionView()
+    }
+
+    private fun initEmotionView() {
+        (emotion_view_pm_detail as PandaEmoView).attachEditText(edit_view_pm)
+        keyboardManager = KeyBoardManager.with(context)
+                .bindToEmotionButton(btn_emotion_pm_detail)
+                .setEmotionView(emotion_view_pm_detail as PandaEmoView)
+                .bindToLockContent(content_layout_pm_detail)
+                .setOnInputListener {
+                    //当it为true时输入法弹出
+                }
+                .setOnEmotionButtonOnClickListener {
+                    false
+                }
     }
 
     private fun getPmList(startTime: Long) {
@@ -111,10 +129,10 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     }
 
     private fun sendPMDetail() {
-        val stContent: String = edit_view_pm.text.toString()
+        val stContent: String = edit_view_pm?.text.toString()
         if (stContent.isEmpty()) return
         pmPresenter.pmSendRequest(stContent, "text")
-        edit_view_pm.text.clear()
+        edit_view_pm.text?.clear()
         pmList.add(PmListBean.MsgListBean().apply {
             sender = MyApp.getUser().uid
             content = stContent

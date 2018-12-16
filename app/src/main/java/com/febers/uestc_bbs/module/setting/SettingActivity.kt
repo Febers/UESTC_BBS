@@ -32,7 +32,7 @@ class SettingActivity : BaseActivity() {
     private lateinit var simpleUserAdapter: SimpleUserAdapter
     private lateinit var settingAdapter: SettingAdapter
     private lateinit var cacheItem: SettingItemBean
-    private var refreshsStyleView: RefreshStyleFragment? = null
+    private var refreshStyleView: RefreshStyleFragment? = null
 
     private var hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
 
@@ -41,6 +41,8 @@ class SettingActivity : BaseActivity() {
     }
 
     override fun setToolbar(): Toolbar? = toolbar_setting
+
+    override fun setTitle(): String? = getString(R.string.setting_and_account)
 
     override fun registerEventBus(): Boolean = true
 
@@ -58,11 +60,11 @@ class SettingActivity : BaseActivity() {
                 when(i) {
                     0 -> { onHintMethodChange() }
                     1 -> {
-                        if (refreshsStyleView == null) {
-                            refreshsStyleView = RefreshStyleFragment()
+                        if (refreshStyleView == null) {
+                            refreshStyleView = RefreshStyleFragment()
                         }
 
-                        refreshsStyleView?.show(supportFragmentManager, "style")
+                        refreshStyleView?.show(supportFragmentManager, "style")
                     }
                     2 -> { clearCache() }
                     3 -> {

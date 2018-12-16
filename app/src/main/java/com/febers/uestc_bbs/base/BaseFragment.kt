@@ -33,6 +33,8 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     protected open fun setToolbar(): Toolbar? = null
 
+    protected open fun setTitle(): String? = null
+
     protected open fun registerEventBus(): Boolean = false
 
     protected open fun initView() {}
@@ -71,6 +73,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
             setDisplayHomeAsUpEnabled(true)
         }
         setToolbar()?.setNavigationOnClickListener { pop() }
+        setTitle()?.apply { setToolbar()?.title = this }
         //添加Menu
         if (setMenu() != null) {
             setHasOptionsMenu(true)

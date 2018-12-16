@@ -5,5 +5,5 @@
         android:id="@+id/menu_item_search_more_fragment"
         android:title="@string/search"
         android:icon="@drawable/xic_search_white_24dp"
-        app:showAsAction="always"/>
+        android:showAsAction="always"/>
 </menu>

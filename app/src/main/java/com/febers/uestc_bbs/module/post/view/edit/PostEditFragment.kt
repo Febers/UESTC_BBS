@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.post.view.edit
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.UiThread
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -36,8 +36,7 @@ import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.runOnUiThread
 import java.io.File
-import java.lang.IndexOutOfBoundsException
-import java.util.*
+
 
 class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 
@@ -59,9 +58,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     private var progressDialog: ProgressDialog? = null
     private lateinit var keyboardManager: KeyBoardManager
 
-    override fun setView(): Int {
-        return R.layout.fragment_post_edit
-    }
+    override fun setView(): Int = R.layout.fragment_post_edit
 
     //override fun setToolbar(): Toolbar? = toolbar_post_edit
 

@@ -15,9 +15,20 @@ import com.othershe.baseadapter.ViewHolder
  * 投票贴的视图绘制，投票状态有两种：可投和不可投
  * 当可以投票的时候，为Button设置点击监听，在Activity中将投票选项发送给服务器
  * 采用RecyclerView的方式绘制投票List，动态添加进LinearLayout中
+ *
+ * 对于投票按钮，其是否可以点击取决于poll_status这一数值
+ * 其具体含义包括：
+ * 1：已投票
+ * 2：可以投票
+ * 3：没有权限
+ * 4：投票已结束
  */
 const val VOTE_TYPE_SINGLE = 1
-const val VOTE_STATUS_VALUABLE = 2
+const val POLL_STATUS_VOTED = 1
+const val POLL_STATUS_AVAILABLE = 2
+const val POLL_STATUS_DENY = 3
+const val POLL_STATUS_FINISHED = 4
+
 class VoteViewHelper(private val linearLayout: LinearLayout, private val pollInfo: PostDetailBean.TopicBean.PollInfoBean) {
 
     private val data: MutableList<PostDetailBean.TopicBean.PollInfoBean.PollItemListBean> = ArrayList()
@@ -38,7 +49,16 @@ class VoteViewHelper(private val linearLayout: LinearLayout, private val pollInf
             isNestedScrollingEnabled = false
         }
 
-        val canVote: Boolean = pollInfo.poll_status == VOTE_STATUS_VALUABLE
+        val canVote: Boolean = pollInfo.poll_status == POLL_STATUS_AVAILABLE
+        val btnVoteText =
+                when {
+                    pollInfo.poll_status == POLL_STATUS_VOTED -> "投票已结束"
+                    pollInfo.poll_status == POLL_STATUS_AVAILABLE -> "投票"
+                    pollInfo.poll_status == POLL_STATUS_DENY -> "没有投票权限"
+                    pollInfo.poll_status == POLL_STATUS_FINISHED -> "投票已结束"
+                    else -> "无法投票"
+                }
+
         voteItemAdapter = VoteItemAdapter(context, data, canVote).apply {
             setOnItemChildClickListener(R.id.check_box_vote_item) {
                 viewHolder, pollItemListBean, i -> setOnItemOrChildClickListener(viewHolder, pollItemListBean, i) }
@@ -51,7 +71,7 @@ class VoteViewHelper(private val linearLayout: LinearLayout, private val pollInf
         linearLayout.addView(recyclerView)
 
         val button = Button(context).apply {
-            text = "投票"
+            text = btnVoteText
             isEnabled = canVote
             setOnClickListener {
                 buttonClickListener.click(pollIds)

@@ -87,6 +87,10 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
         searchAdapter.setLoadMoreData(event.data.list)
     }
 
+    /**
+     * 将toolbar和searchView结合起来
+     * 实际是将后者作为一个menuItem
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_search_fragment, menu)
         menuItem = menu?.findItem(R.id.menu_item_search_search_fragment)
@@ -109,11 +113,11 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
             }
         }
         searchView.apply {
-            //isIconified = false
+            isIconified = false
             queryHint = "搜索内容"
             setOnQueryTextListener(listener)
         }
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
 

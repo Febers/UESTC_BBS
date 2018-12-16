@@ -8,10 +8,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PMDetailBean
+import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
+import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
+import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
@@ -26,15 +30,38 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
         val leftLayout: LinearLayout = p0?.getView(R.id.linear_layout_pm_left)!!
         val rightLayout: LinearLayout = p0.getView(R.id.linear_layout_pm_right)!!
         if (p1?.type == "text") {
-            val textView = TextView(context)
-            textView.text = p1.content
             if (userId == p1.sender) {
-                textView.setTextColor(Color.WHITE)
-                rightLayout.addView(textView)
+                //支持表情包的显示
+                val contentViewHelper: ContentViewHelper? = ContentViewHelper(
+                        linearLayout = rightLayout,
+                        mContents = listOf(PostDetailBean.ContentBean().apply {
+                            infor = p1.content
+                            type = CONTENT_TYPE_TEXT
+                        }),
+                        mTextColor = Color.WHITE
+                )
+                contentViewHelper?.create()
+                contentViewHelper?.getImageMapList()?.forEach {
+                    ImageLoader.loadForContent(context = context,
+                            url = it.keys.first(),
+                            imageView = it.values.first())
+                }
                 leftLayout.visibility = View.GONE
             } else {
-                textView.setTextColor(Color.DKGRAY)
-                leftLayout.addView(textView)
+                val contentViewHelper: ContentViewHelper? = ContentViewHelper(
+                        linearLayout = leftLayout,
+                        mContents = listOf(PostDetailBean.ContentBean().apply {
+                            infor = p1.content
+                            type = CONTENT_TYPE_TEXT
+                        }),
+                        mTextColor = Color.DKGRAY
+                )
+                contentViewHelper?.create()
+                contentViewHelper?.getImageMapList()?.forEach {
+                    ImageLoader.loadForContent(context = context,
+                            url = it.keys.first(),
+                            imageView = it.values.first())
+                }
                 rightLayout.visibility = View.GONE
             }
         }

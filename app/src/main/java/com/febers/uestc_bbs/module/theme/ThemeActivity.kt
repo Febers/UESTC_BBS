@@ -14,9 +14,9 @@ class ThemeActivity : BaseActivity() {
         return R.layout.activity_theme
     }
 
-    override fun setToolbar(): Toolbar? {
-        return toolbar_theme
-    }
+    override fun setToolbar(): Toolbar? = toolbar_theme
+
+    override fun setTitle(): String? = getString(R.string.choose_theme)
 
     override fun initView() {
         color_picker.apply {

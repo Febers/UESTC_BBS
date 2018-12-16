@@ -19,13 +19,11 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         mPage = page.toString()
         mAuthorId = authorId.toString()
         mOrder = order.toString()
-        Thread(Runnable { getPost() }).start()
+        Thread{ getPost() }.start()
     }
 
     override fun postReplyService(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        Thread(Runnable {
-            reply(postId, isQuota, replyId, aid, *contents)
-        }).start()
+        Thread{ reply(postId, isQuota, replyId, aid, *contents) }.start()
     }
 
     override fun postVoteService(pollItemId: List<Int>) {
@@ -76,7 +74,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
             override fun onResponse(call: Call<PostDetailBean>?, response: Response<PostDetailBean>?) {
                 val postResultBean = response?.body()
                 if (postResultBean == null) {
-                    postPresenter.errorResult(SERVICE_RESPONSE_NULL)
+                    postPresenter.errorResult(SERVICE_RESPONSE_NULL + "请点击右上角菜单->访问Web页面 查看")
                     return
                 }
                 if (postResultBean.rs != REQUEST_SUCCESS_RS) {

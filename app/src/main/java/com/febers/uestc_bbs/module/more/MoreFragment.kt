@@ -1,11 +1,15 @@
 package com.febers.uestc_bbs.module.more
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.view.*
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -19,8 +23,11 @@ import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.image.ImageLoader
+import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.utils.log
+import kotlinx.android.synthetic.main.dialog_navigation.*
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -38,12 +45,20 @@ class MoreFragment: BaseFragment() {
     private val USER_FRIEND_ITEM = 3
     private val SEARCH_ITEM = 4
 
-    private val THEME_ITEM = 0
-    private val SETTING_ITEM = 1
-    private val ABOUT_ITEM = 2
+    private val NAVIGATION_ITEM = 0
+    private val THEME_ITEM = 1
+    private val SETTING_ITEM = 2
+    private val ABOUT_ITEM = 3
 
     private lateinit var userSimple: UserSimpleBean
     private lateinit var mParentFragment: BaseFragment
+
+    private var navigationDialog: AlertDialog? = null
+    private var tvNaviLostAndFound: LinearLayout? = null
+    private var tvNaviSchoolBus: LinearLayout? = null
+    private var tvNaviCalendar: LinearLayout? = null
+    private var tvNaviNewer: LinearLayout? = null
+    private var btnNaviEnter: Button? = null
 
     override fun registerEventBus(): Boolean = true
 
@@ -87,16 +102,17 @@ class MoreFragment: BaseFragment() {
         val item1 = MoreItemBean(getString(R.string.my_start_post), R.drawable.xic_edit_blue_24dp)
         val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
         val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
-        val item4 = MoreItemBean("", R.drawable.xic_person_blue_24dp)
-        val item5 = MoreItemBean("", R.drawable.xic_search_white_24dp)
+//        val item4 = MoreItemBean("", R.drawable.xic_person_blue_24dp)
+//        val item5 = MoreItemBean("", R.drawable.xic_search_white_24dp)
         return listOf(item1, item2, item3)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
+        val item4 = MoreItemBean("河畔导航", R.drawable.xic_navigation_blue_24dp)
         val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
         val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
         val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
-        return listOf(item1, item2, item3)
+        return listOf(item4, item1, item2, item3)
     }
 
     private fun initUserDetail() {
@@ -151,6 +167,10 @@ class MoreFragment: BaseFragment() {
             }
         }
         if (view == THIRD_ITEM_VIEW) {
+            if (position == NAVIGATION_ITEM) {
+                showNavigationDialog()
+                return
+            }
             if (position == THEME_ITEM) {
                 startActivity(Intent(activity, ThemeActivity::class.java))
                 return
@@ -181,5 +201,46 @@ class MoreFragment: BaseFragment() {
             startActivity(Intent(activity, SearchActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
+    }
+    
+    private fun showNavigationDialog() {
+        if (navigationDialog == null) {
+            navigationDialog = AlertDialog.Builder(context!!)
+                    .create()
+        }
+        navigationDialog?.show()
+        navigationDialog?.setContentView(getNavigationDialog())
+        tvNaviLostAndFound?.setOnClickListener {
+            startActivity(Intent(context, PListActivity::class.java).apply {
+                putExtra(FID, 305)
+                putExtra(TITLE, "失物招领")
+            })
+            navigationDialog?.dismiss()
+        }
+        tvNaviSchoolBus?.setOnClickListener {
+            ViewClickUtils.clickToPostDetail(context, 1430861)
+            navigationDialog?.dismiss()
+        }
+        tvNaviCalendar?.setOnClickListener {
+            ViewClickUtils.clickToPostDetail(context, 1493930)
+            navigationDialog?.dismiss()
+        }
+        tvNaviNewer?.setOnClickListener {
+            ViewClickUtils.clickToPostDetail(context, 1456557)
+            navigationDialog?.dismiss()
+        }
+        btnNaviEnter?.setOnClickListener {
+            navigationDialog?.dismiss()
+        }
+    }
+
+    private fun getNavigationDialog(): View {
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_navigation, null)
+        tvNaviLostAndFound = view.findViewById(R.id.navigation_lost_and_found)
+        tvNaviSchoolBus = view.findViewById(R.id.navigation_school_bus)
+        tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
+        tvNaviNewer = view.findViewById(R.id.navigation_newer)
+        btnNaviEnter = view.findViewById(R.id.navigation_enter)
+        return view
     }
 }

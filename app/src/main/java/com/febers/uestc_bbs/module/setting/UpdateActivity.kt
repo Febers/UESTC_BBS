@@ -51,7 +51,7 @@ class UpdateActivity: BaseActivity() {
         update.downloadUrl = upgradeInfo.apkUrl
 
         if (updateDialog == null) {
-            updateDialog = AlertDialog.Builder(this@UpdateActivity).create()
+            updateDialog = AlertDialog.Builder(context).create()
         }
 
         updateDialog?.show()

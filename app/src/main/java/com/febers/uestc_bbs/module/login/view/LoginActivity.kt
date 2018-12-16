@@ -25,6 +25,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun setToolbar(): Toolbar? = toolbar_login
 
+    override fun setTitle(): String? = getString(R.string.login)
+
     override fun initView() {
         loginPresenter = LoginPresenterImpl(this)
         btn_login.setOnClickListener { login() }

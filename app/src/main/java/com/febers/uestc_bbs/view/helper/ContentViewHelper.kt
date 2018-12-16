@@ -57,14 +57,17 @@ const val CONTENT_TYPE_URL = 4
 const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
-class ContentViewHelper(private val linearLayout: LinearLayout, private val mContents: List<PostDetailBean.ContentBean>) {
+class ContentViewHelper(
+        private val linearLayout: LinearLayout,
+        private val mContents: List<PostDetailBean.ContentBean>,
+        private val mTextColor: Int? = null) {
 
     private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
 
     private var mStringBuilder: StringBuilder = StringBuilder()
     private val IMAGE_VIEW_MARGIN = 10
-    val IMAGE_VIEW_WIDTH = 1000
-    val IMAGE_VIEW_HEIGHT = 725
+    private val IMAGE_VIEW_WIDTH = 1000
+    private val IMAGE_VIEW_HEIGHT = 725
     private val context = linearLayout.context
 
     fun getImageMapList() = imageMapList
@@ -133,6 +136,9 @@ class ContentViewHelper(private val linearLayout: LinearLayout, private val mCon
         setLineSpacing(1.0f, 1.2f)
         textSize = 16f
         setTextColor(ThemeHelper.getTextColorPrimary())
+        mTextColor?.apply {
+            setTextColor(this)
+        }
         linksClickable = true
         setLinkTextColor(ThemeHelper.getColorAccent())
         setTextIsSelectable(true)

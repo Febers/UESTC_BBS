@@ -33,7 +33,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.runOnUiThread
 import java.lang.IndexOutOfBoundsException
 
-class PListFragment: BaseActivity(), PListContract.View {
+class PListActivity: BaseActivity(), PListContract.View {
 
     private val stickyPostList: MutableList<PostListBean.TopTopicListBean> = ArrayList()
     private val postList: MutableList<PostListBean.ListBean> = ArrayList()
@@ -253,7 +253,7 @@ class PListFragment: BaseActivity(), PListContract.View {
 //    companion object {
 //        @JvmStatic
 //        fun newInstance(fid: Int, title: String, showBottomBarOnDestroy: Boolean) =
-//                PListFragment().apply {
+//                PListActivity().apply {
 //                    arguments = Bundle().apply {
 //                        putInt(FID, fid)
 //                        putString(TITLE, title)

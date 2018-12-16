@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/relative_layout_pm"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".module.message.view.PMDetailActivity">
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_pm"
+    <RelativeLayout
+        android:id="@+id/content_layout_pm_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_private_detail"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_pm"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="私信详情">
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_private_detail"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="私信详情">
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view_pm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_bar_pm"
-            android:layout_marginBottom="60dp">
+            android:layout_marginBottom="94dp">
             <LinearLayout
                 android:id="@+id/linear_layout_pm_content"
                 android:layout_width="match_parent"
@@ -45,38 +49,71 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_pm_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="?attr/background_first"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?attr/background_second" />
         <LinearLayout
+            android:id="@+id/linear_layout_pm_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/edit_view_pm"
-                android:inputType="textMultiLine"
-                android:layout_width="0dp"
-                android:layout_weight="6"
-                android:hint="@string/pm_content"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/btn_pm_send"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="40dp"
-                android:textColor="?attr/app_color_accent"
-                android:text="@string/send"/>
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginEnd="8dp">
+                <ImageView
+                    android:id="@+id/btn_emotion_pm_detail"
+                    android:layout_width="@dimen/emotion_button_width_normal"
+                    android:layout_height="@dimen/emotion_button_width_normal"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/bottom_navigation_notification_padding"
+                    android:src="@drawable/ic_emotion_gray"/>
+                <ImageView
+                    android:id="@+id/btn_pm_detail_picture"
+                    android:layout_width="@dimen/emotion_button_width_normal"
+                    android:layout_height="@dimen/emotion_button_width_normal"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/bottom_navigation_notification_padding"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_img_gray"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+                <com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoEditText
+                    android:id="@+id/edit_view_pm"
+                    android:inputType="textMultiLine"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:hint="@string/pm_content"
+                    android:layout_margin="5dp"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/btn_pm_send"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:textColor="?attr/app_color_accent"
+                    android:text="@string/send"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/emotion_layout_pm_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView
+            android:id="@+id/emotion_view_pm_detail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+</LinearLayout>
+

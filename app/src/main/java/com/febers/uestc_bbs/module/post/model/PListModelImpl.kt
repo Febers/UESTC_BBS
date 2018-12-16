@@ -29,9 +29,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
 
     override fun boardListService(fid: Int) {
         mFid = fid.toString()
-        Thread {
-            getBoardList()
-        }.start()
+        Thread { getBoardList() }.start()
     }
 
     private fun getPList() {
@@ -43,7 +41,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             override fun onResponse(call: Call<PostListBean>?, response: Response<PostListBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    log("服务器无响应：body == null")
+                    log("服务器无响应：body == null and fid is $mFid")
                     pListPresenter.errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }

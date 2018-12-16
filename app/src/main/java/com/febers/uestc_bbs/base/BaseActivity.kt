@@ -7,7 +7,6 @@ import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.utils.HintUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
 
@@ -26,6 +25,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     protected open fun setMenu(): Int? = null
 
     protected open fun setToolbar(): Toolbar? = null
+
+    protected open fun setTitle(): String? = null
 
     protected open fun enableHideStatusBar(): Boolean = true
 
@@ -47,6 +48,9 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         supportActionBar?.apply {
             title = ""
             setDisplayHomeAsUpEnabled(true)
+        }
+        setTitle()?.apply {
+            setToolbar()?.title = this
         }
         if (setMenu() != null) {
             setToolbar()!!.inflateMenu(setMenu()!!)

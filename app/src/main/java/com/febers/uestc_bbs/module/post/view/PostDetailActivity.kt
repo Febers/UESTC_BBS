@@ -69,7 +69,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun initView() {
         postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
-        replyItemAdapter = PostReplyItemAdapter(this, replyList!!, false).apply {
+        replyItemAdapter = PostReplyItemAdapter(this, replyList!!).apply {
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
             }
@@ -103,7 +103,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
 
         scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            replyItemAdapter?.isListScrolling = (scrollY - oldScrollY).absoluteValue >= 30
             if (scrollY - oldScrollY < -10) {
                 showReplyCountBottom()
             }

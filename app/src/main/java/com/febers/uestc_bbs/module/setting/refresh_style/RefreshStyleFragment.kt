@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.view.adapter.RefreshStyleAdapter
 import com.febers.uestc_bbs.view.custom.IndicatorView
@@ -18,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class RefreshStyleFragment: BottomSheetDialogFragment() {
 
     private lateinit var styleAdapter: RefreshStyleAdapter
+    private lateinit var tvTitle: TextView
     private lateinit var  btnChooseStyle: Button
     private lateinit var viewPager: ViewPager
     private lateinit var indicator: IndicatorView
@@ -25,6 +28,7 @@ class RefreshStyleFragment: BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_refresh_style, container)
 
+        tvTitle = view.findViewById(R.id.text_view_choose_refresh)
         btnChooseStyle = view.findViewById(R.id.btn_choose_refresh_style)
         viewPager = view.findViewById(R.id.view_pager_refresh_style)
         indicator = view.findViewById(R.id.indicator_refresh_style)
@@ -49,6 +53,9 @@ class RefreshStyleFragment: BottomSheetDialogFragment() {
 
 
     private fun initView() {
+        tvTitle.setBackgroundColor(ThemeHelper.getColorPrimary())
+        tvTitle.setTextColor(ThemeHelper.getRefreshTextColor())
+
         var styleCode by PreferenceUtils(context!!, REFRESH_HEADER_CODE, 0)
         btnChooseStyle.text = "已选择"
 
