@@ -15,7 +15,7 @@ import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
@@ -47,9 +47,9 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postSimpleList).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
-                ViewClickUtils.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id) }
+                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id) }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
-                viewHolder, simplePostBean, i -> ViewClickUtils.clickToUserDetail(context, simplePostBean.user_id)
+                viewHolder, simplePostBean, i -> ClickContext.clickToUserDetail(context, simplePostBean.user_id)
             }
             setEmptyView(getEmptyViewForRecyclerView(recyclerview_subpost_fragment))
         }

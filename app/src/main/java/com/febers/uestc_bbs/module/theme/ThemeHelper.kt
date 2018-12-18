@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
@@ -17,6 +18,7 @@ enum class AppColor{
 }
 
 const val COLOR_PRIMARY_DARK = "color_primary_dark"
+const val MY_COLOR_PRIMARY = "my_color_primary"
 
 object ThemeHelper {
 
@@ -40,6 +42,7 @@ object ThemeHelper {
                 //colorWindowBackgroundRes(R.color.color_white)
                 colorStatusBarAuto()
             }
+            setColorPrimaryToSp(lastColorPrimary)
         } else {
             var lastColorPrimary by PreferenceUtils(context, LLCP, -2201331)
             lastColorPrimary = getColorPrimary()
@@ -58,6 +61,7 @@ object ThemeHelper {
                 //attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
                 colorStatusBarAuto()
             }
+            setColorPrimaryToSp(Color.parseColor("#1d2323"))
         }
     }
 
@@ -76,6 +80,7 @@ object ThemeHelper {
             attribute(R.attr.app_color_accent, colorAccent, null, true)
             colorStatusBarAuto()
         }
+        setColorPrimaryToSp(colorPrimary)
         onThemeChange(colorPrimary, colorAccent)
     }
 
@@ -88,6 +93,24 @@ object ThemeHelper {
     }
 
     fun getColorPrimary(): Int =  Aesthetic.get().colorPrimary().blockingFirst()
+
+    /**
+     * 保存的colorPrimary，用于闪屏
+     */
+    fun getColorPrimaryBySp(): Int {
+        val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
+        return colorPrimary
+    }
+
+    /**
+     * 每次更换主题的时候记得更新此值
+     *
+     * @param color
+     */
+    fun setColorPrimaryToSp(color: Int) {
+        var colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
+        colorPrimary = color
+    }
 
     fun getColorAccent(): Int = Aesthetic.get().colorAccent().blockingFirst()
 

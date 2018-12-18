@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.utils
+package com.febers.uestc_bbs.module.context
 
 import android.app.Activity
 import android.content.Context
@@ -8,15 +8,16 @@ import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
 import android.view.View
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.module.login.model.LoginContext
 import com.febers.uestc_bbs.module.image.ImageViewer
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.*
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
+import com.febers.uestc_bbs.utils.getStringSimplified
+import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.browse
 
-object ViewClickUtils {
+object ClickContext {
 
     /**
      * 根据url，判断用户是否在打开一个帖子界面或者河畔用户界面
@@ -24,16 +25,71 @@ object ViewClickUtils {
      * http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1661409
      * http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=1456557&page=1#pid25591902
      *
+     * 用户的url(第三个暂时不解析，不仅少见，而且需要通过name获取id)：
+     * http://bbs.uestc.edu.cn/home.php?mod=space&uid=110170
+     * http://bbs.stuhome.net/u.php?action=show&uid=6359
+     * http://bbs.uestc.edu.cn/home.php?mod=space&username=cq365423762
+     *
      * 板块的url：
      * http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=174
      */
     fun linkClick(url: String,
                   context: Context) {
-//        i("Link ", url)
+        log("Link ", url)
         if (url.endsWith(".gif")) {
             return
         }
-        context.browse(url, true)
+        //如果是外链，直接通过浏览器打开，无需浪费时间判断
+        if (url.contains("bbs.uestc.edu.cn") || url.contains("bbs.stuhome.net")) {
+            clickInApp(url, context)
+        } else {
+            context.browse(url, true)
+        }
+    }
+
+    private fun clickInApp(url: String,
+                           context: Context)  {
+        try {
+            //以下为帖子
+            if (url.contains("mod=viewthread&tid=")) {
+                val start = url.indexOf("mod=viewthread&tid=") + "mod=viewthread&tid=".length
+                val end = url.indexOf("&page", start)
+                val postId =
+                        if (end == -1) {
+                            url.substring(start, url.length)
+                        } else {
+                            url.substring(start, end+1)
+                        }
+                log("is post $postId")
+                clickToPostDetail(context, postId.toInt())
+                return
+            }
+            //以下为用户
+            if (url.contains("mod=space&uid=")) {
+                val start = url.indexOf("mod=space&uid=") + "mod=space&uid=".length
+                val tid = url.substring(start, url.length)
+                log("user 1 $tid")
+                clickToUserDetail(context, tid.toInt())
+                return
+            }
+            if (url.contains("action=show&uid=")) {
+                val start = url.indexOf("action=show&uid=") + "action=show&uid=".length
+                val tid = url.substring(start, url.length)
+                log("user 2 $tid")
+                clickToUserDetail(context, tid.toInt())
+                return
+            }
+            //以下为板块,TODO
+//        if (url.contains("forum.php?mod=forumdisplay&fid=")) {
+//            val start = url.indexOf("forum.php?mod=forumdisplay&fid=")
+//            val fid = url.substring(start, url.length)
+//            return
+//        }
+            context.browse(url, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            context.browse(url, true)
+        }
     }
 
     /**

@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_item_user_edit"
-        android:title="@string/edit"
-        app:showAsAction="always"
+        android:id="@+id/menu_item_user_detail_web"
+        android:title="web页面"
+        app:showAsAction="never"
         android:icon="@drawable/ic_user_edit_white">
     </item>
+    <!--<item-->
+        <!--android:id="@+id/menu_item_user_edit"-->
+        <!--android:title="@string/edit"-->
+        <!--app:showAsAction="always"-->
+        <!--android:icon="@drawable/ic_user_edit_white">-->
+    <!--</item>-->
 </menu>

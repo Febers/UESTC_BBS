@@ -65,6 +65,7 @@ public class KeyBoardManager {
     /**
      * 绑定编辑框
      */
+    @SuppressLint("ClickableViewAccessibility")
     private KeyBoardManager bindToEditText(final PandaEmoEditText editText) {
         mEditText = editText;
         mEditText.setKeyBoardManager(sKeyBoardManager);
@@ -88,7 +89,7 @@ public class KeyBoardManager {
                 return false;
             }
         });
-        // 监听返回物理按键，不用 onBackpressed 因为软键盘弹出时返回键不会走 onBackpressed
+        // 监听返回物理按键，不用 onBackPressed 因为软键盘弹出时返回键不会走 onBackPressed
         mEditText.setBackPressedListener(new PandaEmoEditText.IBackPressedListener() {
             @Override
             public void backPressed() {

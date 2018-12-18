@@ -16,6 +16,6 @@ class OpenProjectAdapter(val context: Context, data: List<ProjectItemBean>):
     override fun convert(p0: ViewHolder?, p1: ProjectItemBean?, p2: Int) {
         p0?.setText(R.id.text_view_item_open_source_name, p1?.name)
         p0?.setText(R.id.text_view_item_open_source_author, p1?.author)
-        p0?.setText(R.id.text_view_item_open_source_des, p1?.des)
+//        p0?.setText(R.id.text_view_item_open_source_des, p1?.des)
     }
 }

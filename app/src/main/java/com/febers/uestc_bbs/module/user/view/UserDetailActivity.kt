@@ -20,6 +20,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.contract.UserContract
@@ -34,6 +35,7 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import kotlinx.android.synthetic.main.dialog_update_sign.*
+import org.jetbrains.anko.browse
 import java.io.File
 
 class UserDetailActivity : BaseActivity(), UserContract.View {
@@ -47,12 +49,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun enableThemeHelper(): Boolean = false
 
-    override fun setMenu(): Int? {
-        if (userItSelf) {
-            //return R.menu.menu_user_detail
-        }
-        return null
-    }
+    override fun setMenu(): Int? =  R.menu.menu_user_detail
 
     override fun setView(): Int {
         userId = intent.getIntExtra(USER_ID, 0)
@@ -117,9 +114,9 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
                  * TODO 选择新头像或者查看大图
                  */
                 //chooseAvatar()
-                ViewClickUtils.clickToViewAvatarByUid(userId, this@UserDetailActivity)
+                ClickContext.clickToViewAvatarByUid(userId, this@UserDetailActivity)
             } else {
-                ViewClickUtils.clickToViewAvatarByUid(userId, this@UserDetailActivity)
+                ClickContext.clickToViewAvatarByUid(userId, this@UserDetailActivity)
             }
         }
         refresh_layout_user_detail?.finishRefresh()
@@ -127,7 +124,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
-            it.setOnClickListener { ViewClickUtils.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
+            it.setOnClickListener { ClickContext.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
         }
         linear_layout_user_post_start?.apply {
             visibility = View.VISIBLE
@@ -203,8 +200,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_user_edit) {
-            //userBottomSheet.show()
+        if (item?.itemId == R.id.menu_item_user_detail_web) {
+            browse("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
         }
         return super.onOptionsItemSelected(item)
     }

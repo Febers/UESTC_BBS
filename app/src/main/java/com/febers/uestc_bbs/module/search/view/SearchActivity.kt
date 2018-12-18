@@ -15,7 +15,7 @@ import com.febers.uestc_bbs.module.search.contract.SearchContrect
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
 import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.view.adapter.SearchAdapter
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.module.context.ClickContext
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
@@ -126,7 +126,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
         KeyboardUtils.closeKeyboard(searchView, context)
         searchView.clearFocus()
         val tid = item.topic_id
-        ViewClickUtils.clickToPostDetail(context, tid)
+        ClickContext.clickToPostDetail(context, tid)
     }
 
     override fun showError(msg: String) {

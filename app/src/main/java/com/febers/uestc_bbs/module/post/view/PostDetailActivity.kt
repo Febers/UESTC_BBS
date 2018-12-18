@@ -28,12 +28,11 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
+import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
-import kotlin.math.absoluteValue
 
 class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
 
@@ -66,7 +65,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun setToolbar(): Toolbar? = toolbar_post_detail
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
-    override fun initView() {
+    override fun afterCreated() {
         postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!).apply {
@@ -75,7 +74,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             }
             setOnItemChildClickListener(R.id.image_view_post_reply_reply) {
                 viewHolder, postReplyBean, i ->
-                ViewClickUtils.clickToPostReply(context = this@PostDetailActivity,
+                ClickContext.clickToPostReply(context = this@PostDetailActivity,
                         toUserId = postReplyBean.reply_id,
                         toUserName = postReplyBean.reply_name,
                         postId = postId,
@@ -104,12 +103,18 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
         scroll_view_post_detail.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (scrollY - oldScrollY < -10) {
-                showReplyCountBottom()
+                showReplyCountBottomAndFAB()
             }
             if (scrollY - oldScrollY > 10) {
-                hideReplyCountBottom()
+                hideReplyCountBottomAndFAB()
             }
         }
+        fab_post_detail.setOnClickListener {
+            scroll_view_post_detail.scrollTo(0, 0)
+        }
+    }
+
+    override fun initView() {
     }
 
     /*
@@ -156,7 +161,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         //底部显示评论个数的bottom，以代替fab
         text_view_post_reply_count.text = "${replyCount}条回复"
         linear_layout_post_reply_count.setOnClickListener {
-            ViewClickUtils.clickToPostReply(context = this@PostDetailActivity,
+            ClickContext.clickToPostReply(context = this@PostDetailActivity,
                     toUserId = topicUserId,
                     toUserName = topicUserName,
                     postId = postId,
@@ -174,7 +179,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         image_view_post_detail_author_avatar?.let { it ->
             it.visibility = View.VISIBLE
             ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
-            it.setOnClickListener { ViewClickUtils.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id) }
+            it.setOnClickListener { ClickContext.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id) }
         }
         //收藏图标的相应设置
         isFavorite = event.data.topic?.is_favor!!
@@ -242,11 +247,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 if (isFavorite == POST_FAVORED) {
                     isFavorite = POST_NO_FAVORED
                     onFavoriteChange(POST_NO_FAVORED)
+                    showHint("正在取消收藏")
                     return@setOnClickListener
                 }
                 if (isFavorite == POST_NO_FAVORED){
                     isFavorite = POST_FAVORED
                     onFavoriteChange(POST_FAVORED)
+                    showHint("正在收藏")
                 }
             }
         }
@@ -355,7 +362,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         return replyBottomSheet!!
     }
 
-    private fun showReplyCountBottom() {
+    private fun showReplyCountBottomAndFAB() {
         if (linear_layout_post_reply_count.visibility == View.VISIBLE) return
         linear_layout_post_reply_count.visibility = View.VISIBLE
         if (showReplyCountBottomAnimatorSet == null) {
@@ -363,10 +370,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
         }
         (showReplyCountBottomAnimatorSet as AnimatorSet).start()
+        if (!fab_post_detail.isShown) {
+            fab_post_detail.show()
+        }
         //ObjectAnimator.ofFloat(linear_layout_post_reply_count, "translationY", 0f, 500f).setDuration(1000).start()
     }
 
-    private fun hideReplyCountBottom() {
+    private fun hideReplyCountBottomAndFAB() {
         if (linear_layout_post_reply_count.visibility == View.INVISIBLE) return
         if (hideReplyCountBottomAnimatorSet == null) {
             hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(this@PostDetailActivity, R.animator.scroll_show_fab) as AnimatorSet
@@ -374,6 +384,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
         (hideReplyCountBottomAnimatorSet as AnimatorSet).start()
         linear_layout_post_reply_count.visibility = View.INVISIBLE
+        if (fab_post_detail.isShown) {
+            fab_post_detail.hide()
+        }
     }
 
     ////////////////////////////////顶部菜单////////////////////////////////

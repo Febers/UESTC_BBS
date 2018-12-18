@@ -12,13 +12,13 @@
     android:foreground="?android:attr/selectableItemBackground">
     <ImageView
         android:id="@+id/image_view_icon_item"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
         android:padding="6dp"
         android:src="@drawable/lic_red_circle"/>
     <ImageView
         android:id="@+id/image_view_icon_chosen_item"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:src="@drawable/xic_circle_red" />
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:src="@drawable/xic_circle_gray" />
 </LinearLayout>

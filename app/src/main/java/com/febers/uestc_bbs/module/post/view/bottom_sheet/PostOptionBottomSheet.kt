@@ -49,7 +49,7 @@ class PostOptionBottomSheet(context: Context, style: Int,
             }
             if (i == ITEM_WEB_POST) {
                 context.browse(postId.pidToWebUrl(), true)
-                //ViewClickUtils.clickToAppWeb(context, postId.pidToWebUrl())
+                //ClickContext.clickToAppWeb(context, postId.pidToWebUrl())
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

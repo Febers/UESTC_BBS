@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.DonateUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.tencent.bugly.beta.Beta
@@ -86,32 +86,33 @@ class AboutActivity: BaseActivity() {
 
     private fun initSettingData1(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.version), getString(R.string.version_value))
-        val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.check_update))
+        val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.version_value))
         val item3 = SettingItemBean("更新日志", "查看更新日志")
-        return arrayListOf(item1, item2, item3)
+        return arrayListOf(item2, item3)
     }
 
     private fun initSettingData2(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.developer_name), "点击查看开发者河畔账号")
         val item2 = SettingItemBean(getString(R.string.feedback_and_other), getString(R.string.developer_email))
-        return arrayListOf(item1, item2)
+        val item3 = SettingItemBean("捐赠", "请开发者喝一杯可乐 ๑乛v乛๑")
+        return arrayListOf(item1, item2, item3)
     }
 
     private fun initSettingData3(): List<SettingItemBean> {
-        val item1 = SettingItemBean(getString(R.string.source_code), "点击查看项目源码")
+        val item1 = SettingItemBean(getString(R.string.source_code), "Apache License 2.0")
         val item2 = SettingItemBean(getString(R.string.open_source_project), "查看本项目所使用到的开源项目")
         return arrayListOf(item1, item2)
     }
 
     private fun onFirstGroupItemClick(position: Int) {
         when(position) {
+//            0 -> {
+//
+//            }
             0 -> {
-
-            }
-            1 -> {
                 Beta.checkUpgrade()
             }
-            2 -> {
+            1 -> {
                 if (updateLogDialog == null) {
                     updateLogDialog = AlertDialog.Builder(context)
                             .setTitle("更新日志")
@@ -129,10 +130,13 @@ class AboutActivity: BaseActivity() {
     private fun onSecondGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                ViewClickUtils.clickToUserDetail(context = context, uid = 196486)
+                ClickContext.clickToUserDetail(context = context, uid = 196486)
             }
             1 -> {
                 context.email(getString(R.string.developer_email))
+            }
+            2 -> {
+                DonateUtils(context).donateByAlipay()
             }
         }
     }
@@ -178,14 +182,13 @@ class AboutActivity: BaseActivity() {
     )
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_donate) {
-            DonateUtils(context).donateByAlipay()
-        }
+//        if (item?.itemId == R.id.menu_item_donate) {
+//            DonateUtils(context).donateByAlipay()
+//        }
         if (item?.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
                 permissionDialog = AlertDialog.Builder(context)
-                        .setTitle(getString(R.string.about_permission))
-                        .setMessage(permissionExplain())
+                        .setMessage(Html.fromHtml(FileHelper.getAssetsString(context, "permission_explain.html")))
                         .setPositiveButton(getString(R.string.enter)) { p0, p1 -> }
                         .create()
             }

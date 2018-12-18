@@ -38,7 +38,7 @@
         <com.febers.uestc_bbs.view.custom.InterceptTouchLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="30dp"
             android:orientation="vertical">
             <GridView
                 android:id="@+id/grid_view_choose_icon"

@@ -10,7 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.view.helper.GlideImageGetter
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -54,7 +54,7 @@ object ImageLoader {
         }
         if (clickToViewer) {
             imageView?.setOnClickListener {
-                ViewClickUtils.clickToImageViewer(url, context)
+                ClickContext.clickToImageViewer(url, context)
             }
         }
     }
@@ -86,7 +86,7 @@ object ImageLoader {
         }
         if (clickToViewer) {
             imageView?.setOnClickListener {
-                ViewClickUtils.clickToImageViewer(url, context)
+                ClickContext.clickToImageViewer(url, context)
             }
         }
     }

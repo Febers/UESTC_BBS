@@ -29,11 +29,11 @@ import java.io.IOException
 
 /////////////////////////////////////////////////////////////////////////////
 
-//		　　　　 　　！！！！！
+//		　　　　
 //		　　　　　　 \\ - - //
-//		　　　　　　 (-● ●-)
-//		　　　　　　　\ (_) /
-//		　　　　　　　 \ u /
+//		　　　　　　 (-●  ●- )
+//		　　　　　　　\  _  /
+//		　　　　　　　 \  /
 //		┏oOOo-━━━━━━━━━━━┓
 //		┃　　　　　　　　　┃
 //		┃　　UESTC_BBS   ┃
@@ -116,10 +116,10 @@ class MyApp: MultiDexApplication() {
             在调用表情键盘的Activity拦截返回键事件的方法中设置为false
          */
         var emotionViewVisible = false
-            set(value) {
-                field = value
-                log("change new value is $value")
-            }
+//            set(value) {
+//                field = value
+//                log("change new value is $value")
+//            }
 
         fun context() = context
         fun getUser(): UserSimpleBean = UserHelper.getNowUser()

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.febers.uestc_bbs.R;
 import com.febers.uestc_bbs.utils.AttrUtils;
-import com.febers.uestc_bbs.utils.ViewClickUtils;
+import com.febers.uestc_bbs.module.context.ClickContext;
 
 
 import static android.util.Log.i;
@@ -94,7 +94,7 @@ public class ImageTextHelper {
 
         @Override
         public void onClick(View widget) {
-            ViewClickUtils.INSTANCE.linkClick(mUrl, mContext);
+            ClickContext.INSTANCE.linkClick(mUrl, mContext);
         }
     }
 }

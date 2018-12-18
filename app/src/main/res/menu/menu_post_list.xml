@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_item_post_list_web"
+        app:showAsAction="never"
+        android:icon="@drawable/xic_web_purple_24dp"
+        android:title="web页面"/>
+    <item
         android:id="@+id/menu_item_post_list_sticky"
         app:showAsAction="never"
         android:icon="@drawable/ic_message_gray"

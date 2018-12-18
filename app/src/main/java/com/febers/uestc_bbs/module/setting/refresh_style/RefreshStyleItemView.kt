@@ -30,18 +30,8 @@ class RefreshStyleItemView: Fragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        log("isV change $isVisibleToUser")
         if (isInit && isVisibleToUser) {
             refresh_layout_style.autoRefresh()
-        }
-    }
-
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        log("hide change $hidden")
-        if (!hidden) {
-
         }
     }
 

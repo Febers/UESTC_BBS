@@ -17,8 +17,8 @@ import com.febers.uestc_bbs.entity.BoardListBean_
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
+import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import com.febers.uestc_bbs.view.helper.finishFail
@@ -27,6 +27,7 @@ import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.browse
 import java.lang.IndexOutOfBoundsException
 
 class PListActivity: BaseActivity(), PListContract.View {
@@ -97,7 +98,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                 clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id)
             }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
-                viewHolder, simplePListBean, i -> ViewClickUtils.clickToUserDetail(context, simplePListBean.user_id)
+                viewHolder, simplePListBean, i -> ClickContext.clickToUserDetail(context, simplePListBean.user_id)
             }
             setEmptyView(getEmptyViewForRecyclerView(recyclerview_post_list))
         }
@@ -114,7 +115,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                 getPost(++page) }
         }
         fab_post_list.setOnClickListener {
-            ViewClickUtils.clickToPostEdit(context, mFid, title!!)
+            ClickContext.clickToPostEdit(context, mFid, title!!)
         }
     }
 
@@ -181,7 +182,7 @@ class PListActivity: BaseActivity(), PListContract.View {
             if (stickyPostAdapter == null) {
                 stickyPostAdapter = StickyPostAdapter(context!!, stickyPostList).apply {
                     setOnItemClickListener { viewHolder, topTopicListBean, i ->
-                        ViewClickUtils.clickToPostDetail(context, topTopicListBean.id)
+                        ClickContext.clickToPostDetail(context, topTopicListBean.id)
                     }
                 }
             }
@@ -223,7 +224,7 @@ class PListActivity: BaseActivity(), PListContract.View {
     }
 
     override fun showError(msg: String) {
-        context?.runOnUiThread {
+        context.runOnUiThread {
             showHint(msg)
             refresh_layout_post_list?.finishFail()
         }
@@ -241,6 +242,9 @@ class PListActivity: BaseActivity(), PListContract.View {
             if (!isShowStickyPost) itemShowStickyPost?.title = "隐藏置顶帖"
             if (isShowStickyPost) itemShowStickyPost?.title = "显示置顶帖"
             isShowStickyPost = !isShowStickyPost
+        }
+        if (item?.itemId == R.id.menu_item_post_list_web) {
+            browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
         }
         return super.onOptionsItemSelected(item)
     }

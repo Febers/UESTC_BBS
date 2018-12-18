@@ -12,8 +12,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.module.context.ClickContext
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -69,7 +68,7 @@ class HomeActivity: BaseActivity() {
             ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)
         }
         fab_home.setOnClickListener {
-            ViewClickUtils.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
+            ClickContext.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
         fab_home.visibility = View.GONE
         startService()
     }

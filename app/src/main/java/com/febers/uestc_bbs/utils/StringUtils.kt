@@ -8,3 +8,4 @@ fun String.getStringSimplified(): String =
         if (this.length <= 100) this
         else this.substring(0, 99)+"..."
 
+

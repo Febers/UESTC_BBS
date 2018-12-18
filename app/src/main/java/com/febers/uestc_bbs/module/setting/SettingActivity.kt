@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.io.CacheHelper
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.fragment_setting.*
@@ -48,6 +49,13 @@ class SettingActivity : BaseActivity() {
     override fun registerEventBus(): Boolean = true
 
     override fun initView() {
+    }
+
+    override fun afterCreated() {
+        init()
+    }
+
+    private fun init() {
         simpleUserAdapter = SimpleUserAdapter(context, users).apply {
             setOnItemClickListener { viewHolder, userItemBean, i ->
                 changeUser(userItemBean)
@@ -81,6 +89,7 @@ class SettingActivity : BaseActivity() {
         recyclerview_setting_option.adapter = settingAdapter
 
         users.addAll(UserHelper.getAllUser())
+        log("size is ${users.size}")
         simpleUserAdapter.notifyDataSetChanged()
 
         options.addAll(initSettingData())

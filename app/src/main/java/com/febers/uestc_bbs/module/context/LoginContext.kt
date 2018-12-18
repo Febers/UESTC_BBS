@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.login.model
+package com.febers.uestc_bbs.module.context
 
 import android.content.Context
 import android.content.Intent

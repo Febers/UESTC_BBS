@@ -29,15 +29,15 @@ object UserHelper {
      * @param userSimple 自定义的简单userBean
      */
     fun addUser(uid: Int, userSimple: UserSimpleBean) {
-//        context().getSharedPreferences(SP_USERS, 0).edit().apply {
-//            val gson = Gson()
-//            val json: String = gson.toJson(userSimple)
-//            putString(uid.toString(), json)
-//            apply()
-//        }
         addUserToFile(uid, userSimple)
         var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
-        userIds = "$userIds@$uid"
+        /*
+            ！！！从v1.1.1到1.1.2过渡时，由于无法读取之前版本的sp用户信息，默认没有任何登录状态，但是记录uid的sp读取不变
+            下面的if就是防止这一过渡过程中重复添加uid的问题，该问题会造成设置界面读取出两个相同的账户
+         */
+        if (!userIds.contains(uid.toString())) {
+            userIds = "$userIds@$uid"
+        }
         setNowUid(uid)
     }
 
@@ -50,10 +50,6 @@ object UserHelper {
     fun deleteUser(uid: Int) {
         var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
         userIds = userIds.replace("@$uid", "")
-//        context().getSharedPreferences(SP_USERS, 0).edit().apply {
-//            putString(uid.toString(), "")
-//            apply()
-//        }
         deleteUserInFile(uid)
         if (getNowUid() == uid) {
             if (getAllUser().isNotEmpty()) {
@@ -149,7 +145,6 @@ object UserHelper {
             val uidList = userIds.removePrefix("@").split("@")
             val userList: MutableList<UserSimpleBean> = ArrayList(uidList.size)
             uidList.forEach {
-                //userList.addUser(getUserBySp(it.toInt()))
                 userList.add(getUserbyFile(it.toInt()))
             }
             return userList

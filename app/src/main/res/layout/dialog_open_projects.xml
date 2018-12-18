@@ -3,29 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp">
-
+    android:layout_height="match_parent">
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/xic_ship_blue"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:textSize="@dimen/text_size_big"
+        android:padding="24dp"
+        android:textSize="@dimen/text_size_super_big"
         android:textColor="?android:textColorPrimary"
         android:text="@string/open_projects_using"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="380dp">
+        android:layout_height="400dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +32,6 @@
                 android:id="@+id/recyclerview_open_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
             </androidx.recyclerview.widget.RecyclerView>

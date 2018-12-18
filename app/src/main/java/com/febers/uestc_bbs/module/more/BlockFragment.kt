@@ -6,11 +6,10 @@ import androidx.collection.ArrayMap
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
-import android.widget.GridView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.module.login.model.LoginContext
+import com.febers.uestc_bbs.module.context.LoginContext
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditFragment
 import com.febers.uestc_bbs.utils.BlockUtils

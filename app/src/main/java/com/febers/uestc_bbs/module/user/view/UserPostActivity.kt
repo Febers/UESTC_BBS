@@ -9,7 +9,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.view.adapter.UserPostAdapter
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
@@ -41,9 +41,9 @@ class UserPostActivity: BaseActivity(), UserContract.View {
         userPListPresenter = UserPresenterImpl(this)
         userPListAdapter = UserPostAdapter(this@UserPostActivity, userPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i ->
-                ViewClickUtils.clickToPostDetail(context, listBean.topic_id) }
+                ClickContext.clickToPostDetail(context, listBean.topic_id) }
             setOnItemChildClickListener(R.id.image_view_item_user_post_avatar) {
-                viewHolder, listBean, i ->  ViewClickUtils.clickToUserDetail(this@UserPostActivity, listBean.user_id)
+                viewHolder, listBean, i ->  ClickContext.clickToUserDetail(this@UserPostActivity, listBean.user_id)
             }
             setEmptyView(getEmptyViewForRecyclerView(recyclerview_user_post))
         }

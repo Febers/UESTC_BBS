@@ -13,7 +13,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
-import com.febers.uestc_bbs.module.login.model.LoginContext
+import com.febers.uestc_bbs.module.context.LoginContext
 import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.module.setting.SettingActivity
 import com.febers.uestc_bbs.module.theme.ThemeActivity
@@ -22,7 +22,7 @@ import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
-import com.febers.uestc_bbs.utils.ViewClickUtils
+import com.febers.uestc_bbs.module.context.ClickContext
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -130,7 +130,7 @@ class MoreFragment: BaseFragment() {
 
     private fun itemClick(view: Int, position: Int) {
         if (view == FIRST_ITEM_VIEW) {
-            ViewClickUtils.clickToUserDetail(context, userSimple.uid)
+            ClickContext.clickToUserDetail(context, userSimple.uid)
             return
         }
         if (view == SECOND_ITEM_VIEW) {
@@ -213,15 +213,15 @@ class MoreFragment: BaseFragment() {
             navigationDialog?.dismiss()
         }
         tvNaviSchoolBus?.setOnClickListener {
-            ViewClickUtils.clickToPostDetail(context, 1430861)
+            ClickContext.clickToPostDetail(context, 1430861)
             navigationDialog?.dismiss()
         }
         tvNaviCalendar?.setOnClickListener {
-            ViewClickUtils.clickToPostDetail(context, 1493930)
+            ClickContext.clickToPostDetail(context, 1493930)
             navigationDialog?.dismiss()
         }
         tvNaviNewer?.setOnClickListener {
-            ViewClickUtils.clickToPostDetail(context, 1456557)
+            ClickContext.clickToPostDetail(context, 1456557)
             navigationDialog?.dismiss()
         }
         btnNaviEnter?.setOnClickListener {

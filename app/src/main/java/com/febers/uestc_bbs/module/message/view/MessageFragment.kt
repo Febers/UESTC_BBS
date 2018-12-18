@@ -16,10 +16,10 @@ import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPostDetail
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToUserDetail
-import com.febers.uestc_bbs.utils.ViewClickUtils.clickToPrivateMsg
+import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
+import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
+import com.febers.uestc_bbs.module.context.ClickContext.clickToPrivateMsg
 import com.febers.uestc_bbs.view.adapter.*
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
@@ -66,7 +66,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                     clickToUserDetail(context, p1?.user_id)}
                 setOnItemChildClickListener(R.id.image_view_msg_post_reply) {
                     viewHolder, listBean, i ->
-                    ViewClickUtils.clickToPostReply(context = activity,
+                    ClickContext.clickToPostReply(context = activity,
                             toUserId = listBean.user_id,
                             toUserName = listBean.reply_nick_name,
                             postId = listBean.topic_id,
@@ -74,6 +74,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                             isQuota = true,
                             replySimpleDescription = listBean.reply_content.toString())
                 }
+                setEmptyView(getEmptyViewForRecyclerView(recyclerview_sub_message))
             }
             MSG_TYPE_PRIVATE -> msgAdapter = MsgPrivateAdapter(context!!, privateList, false).apply {
                 recyclerview_sub_message.adapter = this
@@ -84,6 +85,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 setOnItemChildClickListener(R.id.image_view_msg_private_author_avatar) {
                     viewHolder, listBean, i -> clickToUserDetail(activity, listBean.toUserId)
                 }
+                setEmptyView(getEmptyViewForRecyclerView(recyclerview_sub_message))
             }
             MSG_TYPE_AT -> msgAdapter = MsgAtAdapter(context!!, atList, false).apply {
                 recyclerview_sub_message.adapter = this
@@ -92,9 +94,11 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 setOnItemChildClickListener(R.id.image_view_msg_at_author_avatar) {
                     viewHolder, listBean, i -> clickToUserDetail(activity, listBean.user_id)
                 }
+                setEmptyView(getEmptyViewForRecyclerView(recyclerview_sub_message))
             }
             MSG_TYPE_SYSTEM -> msgAdapter = MsgSystemAdapter(context!!, systemList, false).apply {
                 recyclerview_sub_message.adapter = this
+                setEmptyView(getEmptyViewForRecyclerView(recyclerview_sub_message))
             }
         }
         recyclerview_sub_message.apply {
