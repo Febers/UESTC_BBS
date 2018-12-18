@@ -32,8 +32,6 @@ class RefreshStyleFragment: BottomSheetDialogFragment() {
         btnChooseStyle = view.findViewById(R.id.btn_choose_refresh_style)
         viewPager = view.findViewById(R.id.view_pager_refresh_style)
         indicator = view.findViewById(R.id.indicator_refresh_style)
-
-        initView()
         return view
     }
 
@@ -49,8 +47,8 @@ class RefreshStyleFragment: BottomSheetDialogFragment() {
             val behavior = BottomSheetBehavior.from(bottomSheet)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+        initView()
     }
-
 
     private fun initView() {
         tvTitle.setBackgroundColor(ThemeHelper.getColorPrimary())

@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
+import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.view.custom.SupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -81,6 +83,11 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         }
         initView()
     }
+
+    protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =
+            LayoutInflater
+                    .from(context)
+                    .inflate(R.layout.layout_empty_view, recyclerView.parent as ViewGroup, false)
 
     override fun onDestroy() {
         mDelegate.onDestroy()

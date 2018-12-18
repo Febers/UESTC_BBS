@@ -9,7 +9,6 @@ import android.widget.ImageView
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.luck.picture.lib.entity.LocalMedia
 
 /**
  * @param context
@@ -35,17 +34,17 @@ class ImgGridViewAdapter(private val context: Context, private val imgPaths: Lis
     }
 
     override fun getView(i: Int, view: View?, viewGroup: ViewGroup): View {
-        var view = view
+        var itemView = view
         val holder: ViewHolder
-        if (view == null || view.tag == null) {
+        if (itemView == null || itemView.tag == null) {
             val inflater = (context as Activity).layoutInflater
-            view = inflater.inflate(R.layout.item_layout_post_img, null)
+            itemView = inflater.inflate(R.layout.item_layout_post_img, null)
             holder = ViewHolder()
-            holder.btnDelete = view!!.findViewById(R.id.btn_img_item_post_edit)
-            holder.image = view.findViewById(R.id.image_view_item_post_edit)
-            view.tag = holder
+            holder.btnDelete = itemView!!.findViewById(R.id.btn_img_item_post_edit)
+            holder.image = itemView.findViewById(R.id.image_view_item_post_edit)
+            itemView.tag = holder
         } else {
-            holder = view.tag as ViewHolder
+            holder = itemView.tag as ViewHolder
         }
         ImageLoader.loadResource(context, imgPaths[i], holder.image, false)
         holder.image?.setOnClickListener { v ->
@@ -65,7 +64,7 @@ class ImgGridViewAdapter(private val context: Context, private val imgPaths: Lis
         holder.btnDelete!!.setOnClickListener { v ->
             imageClickListener?.onImageDeleteClick(i)
         }
-        return view
+        return itemView
     }
 
     internal inner class ViewHolder {

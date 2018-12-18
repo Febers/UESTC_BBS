@@ -43,6 +43,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
         searchPresenter = SearchPresenterImpl(this)
         searchAdapter = SearchAdapter(context, searchPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onItemClick(listBean) }
+            setEmptyView(getEmptyViewForRecyclerView(recyclerview_search))
         }
         recyclerview_search.apply {
             adapter = searchAdapter

@@ -6,6 +6,7 @@ import androidx.collection.ArrayMap
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
+import android.widget.GridView
 import android.widget.SimpleAdapter
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*

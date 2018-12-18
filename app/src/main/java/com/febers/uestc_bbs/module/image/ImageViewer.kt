@@ -8,11 +8,13 @@ import com.febers.uestc_bbs.base.IMAGE_URL
 import kotlinx.android.synthetic.main.activity_image.*
 import android.content.Intent
 import android.graphics.Bitmap
+import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.io.FileHelper
 import org.jetbrains.anko.indeterminateProgressDialog
+import java.io.File
 import java.nio.ByteBuffer
 
 
@@ -75,6 +77,7 @@ class ImageViewer : BaseActivity() {
                     .load(imageUrl)
                     .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .get()
+
             //此时gifDrawable的类型为GifDrawable
             val gifBuffer: ByteBuffer? = gifDrawable?.buffer
 
@@ -125,7 +128,7 @@ class ImageViewer : BaseActivity() {
                     showHint("保存图片失败")
                 }
             } else if (gifBytes != null) {
-                gifUri = ImageHelper.saveGif(this@ImageViewer, gifBytes as ByteArray, forShare = false)
+                gifUri = ImageHelper.saveGif(context, imageUrl, false)
                 if (gifUri != null) {
                     showHint("保存gif成功")
                 } else {
@@ -144,7 +147,7 @@ class ImageViewer : BaseActivity() {
             if (gifBytes != null) {
                 //第一次判断，是否已经保存过图片
                 if (gifUri == null) {
-                    gifUri = ImageHelper.saveGif(this@ImageViewer, gifBytes as ByteArray, forShare = true)
+                    gifUri = ImageHelper.saveGif(context, imageUrl, true)
                 }
                 //再次判断，是否保存失败
                 if (gifUri == null) {

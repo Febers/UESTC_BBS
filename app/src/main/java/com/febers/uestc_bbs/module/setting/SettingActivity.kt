@@ -33,6 +33,7 @@ class SettingActivity : BaseActivity() {
     private lateinit var settingAdapter: SettingAdapter
     private lateinit var cacheItem: SettingItemBean
     private var refreshStyleView: RefreshStyleFragment? = null
+    private var iconChooseView: IconFragment? = null
 
     private var hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
 
@@ -63,18 +64,15 @@ class SettingActivity : BaseActivity() {
                         if (refreshStyleView == null) {
                             refreshStyleView = RefreshStyleFragment()
                         }
-
                         refreshStyleView?.show(supportFragmentManager, "style")
                     }
-                    2 -> { clearCache() }
-                    3 -> {
-                        val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
-                        checkBox.isChecked = !checkBox.isChecked
+                    2 -> {
+                        if (iconChooseView == null) {
+                            iconChooseView = IconFragment()
+                        }
+                        iconChooseView?.show(supportFragmentManager, "icon")
                     }
-                    4 -> {
-                        val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
-                        checkBox.isChecked = !checkBox.isChecked
-                    }
+                    3 -> { clearCache() }
                 }
             }
         }
@@ -97,10 +95,11 @@ class SettingActivity : BaseActivity() {
     private fun initSettingData(): List<SettingItemBean> {
         val item0 = SettingItemBean("提示", "设置消息提示的样式")
         val item1 = SettingItemBean("刷新控件", "设置刷新控件样式")
+        val item2 = SettingItemBean("图标", "选择应用在启动器中显示的图标样式")
         cacheItem = SettingItemBean(getString(R.string.clear_image_cache), "...")
-        val item3 = SettingItemBean("后台接收消息", "除非强制退出，否则将一直发送心跳包查询消息", showCheck = true, checked = false)
-        val item4 = SettingItemBean("缓存首页帖子", "保存首页的第一页帖子数据", showCheck = true, checked = true)
-        return arrayListOf(item0, item1, cacheItem)
+//        val item3 = SettingItemBean("后台接收消息", "除非强制退出，否则将一直发送心跳包查询消息", showCheck = true, checked = false)
+//        val item4 = SettingItemBean("缓存首页帖子", "保存首页的第一页帖子数据", showCheck = true, checked = true)
+        return arrayListOf(item0, item1, item2, cacheItem)
     }
 
     /**
@@ -140,6 +139,10 @@ class SettingActivity : BaseActivity() {
         }
     }
 
+    private fun onChangeIconClick() {
+
+    }
+
     /*
         添加用户成功之后重新获取账户列表,
         但是它可以在此Fragment内被触发，这个诡异的现象我浪费了一个多小时才弄明白
@@ -156,7 +159,7 @@ class SettingActivity : BaseActivity() {
     private fun getCache() {
         Thread {
             cacheItem.tip = CacheHelper.imageCacheSize
-            context?.runOnUiThread {
+            runOnUiThread {
                 settingAdapter.notifyItemChanged(1)
             }
         }.start()

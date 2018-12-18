@@ -55,8 +55,6 @@ object FileHelper {
 
     /**
      * 获取Assets文件夹中文件的String值
-     * 原先在其中放置了开源相关的html文件用于展示
-     * 后来由于效果不好，就采用了RecyclerView
      *
      * @param context
      * @param fileName 直接使用文件名(包含后缀)

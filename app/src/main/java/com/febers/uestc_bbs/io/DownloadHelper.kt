@@ -20,7 +20,10 @@ class DownloadHelper {
      * @param url 下载连接
      * @param listener 下载监听
      */
-    fun download(url: String, fileName: String, listener: OnDownloadListener) {
+    fun download(url: String,
+                 fileName: String,
+                 filePath: String? = null,
+                 listener: OnDownloadListener) {
 
         val request = Request.Builder().url(url).build()
         val okHttpClient = OkHttpClient()
@@ -38,9 +41,12 @@ class DownloadHelper {
                 var len = 0
                 var outputStream: FileOutputStream? = null
                 // 储存下载文件的目录
-                val savePath =
+                var savePath =
                         if (fileName.endsWith("apk", true)) isExistDir(FileHelper.appApkDir)
                         else isExistDir(FileHelper.appFileDir)
+                filePath?.apply {
+                    savePath = this
+                }
                 try {
                     inputStream = response.body()!!.byteStream()
                     val total = response.body()!!.contentLength()

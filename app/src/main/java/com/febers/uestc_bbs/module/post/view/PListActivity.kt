@@ -1,13 +1,10 @@
 package com.febers.uestc_bbs.module.post.view
 
-import android.os.Bundle
 import androidx.annotation.UiThread
 import com.google.android.material.appbar.AppBarLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -30,7 +27,6 @@ import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.runOnUiThread
 import java.lang.IndexOutOfBoundsException
 
 class PListActivity: BaseActivity(), PListContract.View {
@@ -52,6 +48,8 @@ class PListActivity: BaseActivity(), PListContract.View {
 
     override fun setToolbar(): Toolbar? = toolbar_post_list
 
+    override fun setMenu(): Int? = R.menu.menu_post_list
+
     override fun registerEventBus(): Boolean = true
 
     override fun setView(): Int {
@@ -68,16 +66,12 @@ class PListActivity: BaseActivity(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postList)
 
-//        coo_layout_post_list_fragment.title = title
-//        coo_layout_post_list_fragment.isTitleEnabled = false
-//        coo_layout_post_list_fragment.setBackgroundColor(ThemeHelper.getColorPrimary())
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
 
         pListPresenter.pListRequest(fid = mFid, page = page)
         pListPresenter.boardListRequest(mFid)
 
-//        title = mTitle
         boardNames.add(title.toString())
         boardIds.add(mFid)
         boardSpinnerAdapter = ArrayAdapter(context!!,
@@ -105,6 +99,7 @@ class PListActivity: BaseActivity(), PListContract.View {
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
                 viewHolder, simplePListBean, i -> ViewClickUtils.clickToUserDetail(context, simplePListBean.user_id)
             }
+            setEmptyView(getEmptyViewForRecyclerView(recyclerview_post_list))
         }
         recyclerview_post_list.apply {
             adapter = postListAdapter

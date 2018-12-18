@@ -51,6 +51,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
                 viewHolder, simplePostBean, i -> ViewClickUtils.clickToUserDetail(context, simplePostBean.user_id)
             }
+            setEmptyView(getEmptyViewForRecyclerView(recyclerview_subpost_fragment))
         }
         recyclerview_subpost_fragment.apply {
             layoutManager = LinearLayoutManager(context)
@@ -140,7 +141,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     private fun setEmptyView() {
         val emptyView: View = LayoutInflater
                 .from(context!!)
-                .inflate(R.layout.layout_empty, recyclerview_subpost_fragment.parent as ViewGroup, false)
+                .inflate(R.layout.layout_empty_view, recyclerview_subpost_fragment.parent as ViewGroup, false)
         postListAdapter.setEmptyView(emptyView)
     }
 

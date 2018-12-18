@@ -12,4 +12,6 @@ data class ProjectItemBean(var name: String, var author: String, var des: String
 
 data class UserItemBean(var name: String, var isNow: Boolean)
 
+data class IconItemBean(var image: Int, var isChoose: Boolean)
+
 

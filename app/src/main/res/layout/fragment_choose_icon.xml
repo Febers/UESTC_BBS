@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:id="@+id/text_view_choose_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择图标"
+            android:textColor="?text_color_first"
+            android:textSize="@dimen/text_size_big"
+            android:layout_centerInParent="true"/>
+        <Button
+            android:id="@+id/btn_choose_icon_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="?text_color_first"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/text_size_small"
+            android:text="选择图标之后,稍等片刻更改才会生效"/>
+    </RelativeLayout>
+
+
+        <com.febers.uestc_bbs.view.custom.InterceptTouchLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+            <GridView
+                android:id="@+id/grid_view_choose_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="2">
+            </GridView>
+        </com.febers.uestc_bbs.view.custom.InterceptTouchLayout>
+
+</LinearLayout>

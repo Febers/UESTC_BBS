@@ -1,12 +1,9 @@
 package com.febers.uestc_bbs.module.more
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.view.*
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.app.AlertDialog
@@ -26,8 +23,6 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.utils.ViewClickUtils
-import com.febers.uestc_bbs.utils.log
-import kotlinx.android.synthetic.main.dialog_navigation.*
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

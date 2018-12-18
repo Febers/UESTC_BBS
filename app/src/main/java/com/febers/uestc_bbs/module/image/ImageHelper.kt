@@ -6,13 +6,12 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import com.febers.uestc_bbs.io.DownloadHelper
 import com.febers.uestc_bbs.io.FileHelper.appImageDir
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.CountDownLatch
 
 object ImageHelper {
 
@@ -53,6 +52,7 @@ object ImageHelper {
 
     /**
      * 保存gif格式的图片
+     * @deprecated 保存之后无法读取为gif
      */
     fun saveGif(context: Context, gifByte: ByteArray?, forShare: Boolean): Uri? {
         fileForShare = forShare
@@ -82,6 +82,51 @@ object ImageHelper {
             e.printStackTrace()
             return null
         }
+    }
+
+    /**
+     * 保存gif图片，原来的保存之后无法读取为gif
+     * 典型的头像链接为:http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=171264&size=big
+     * 由于调用的DownloadHelper的download方法使用了回调接口，无法在回调方法直接返回，使用CountDownLatch
+     * 使并发变成阻塞，相关知识Google
+     *
+     * @param context
+     * @param gifUrl
+     * @param forShare
+     */
+    fun saveGif(context: Context, gifUrl: String?, forShare: Boolean): Uri? {
+        fileForShare = forShare
+        if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) { //内存未挂载
+            return null
+        }
+        if (gifUrl == null) {
+            return null
+        }
+        val countDownLatch: CountDownLatch = CountDownLatch(1)
+        try {
+            DownloadHelper().download(url = gifUrl, fileName = getImageFileName() + ".gif", filePath = appImageDir,
+                    listener = object : DownloadHelper.OnDownloadListener {
+                        override fun onDownloadSuccess(file: File) {
+                            imgFile = file
+                            countDownLatch.countDown()
+                        }
+
+                        override fun onDownloading(progress: Int) {
+                        }
+
+                        override fun onDownloadFailed() {
+                            countDownLatch.countDown()
+                        }
+                    })
+            countDownLatch.await()
+            val uri = Uri.parse(imgFile!!.absolutePath)
+            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
+            return uri
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+
     }
 
 

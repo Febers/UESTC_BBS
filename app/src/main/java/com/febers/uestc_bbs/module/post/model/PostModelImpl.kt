@@ -74,7 +74,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
             override fun onResponse(call: Call<PostDetailBean>?, response: Response<PostDetailBean>?) {
                 val postResultBean = response?.body()
                 if (postResultBean == null) {
-                    postPresenter.errorResult(SERVICE_RESPONSE_NULL + "请点击右上角菜单->访问Web页面 查看")
+                    postPresenter.errorResult("$SERVICE_RESPONSE_NULL,请点击右上角 菜单->访问Web页面 查看该帖子")
                     return
                 }
                 if (postResultBean.rs != REQUEST_SUCCESS_RS) {

@@ -76,7 +76,11 @@ class HomeActivity: BaseActivity() {
 
     @SuppressLint("RestrictedApi")
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
-        log("isSelected")
+        if (position == PAGE_POSITION_MESSAGE) {
+            bottom_navigation_home.setNotification("", PAGE_POSITION_MESSAGE)
+            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
+            msgCount = 0
+        }
         if(wasSelected) {
             onTabReselected(position)
             return true
@@ -86,11 +90,6 @@ class HomeActivity: BaseActivity() {
             fab_home.visibility = View.VISIBLE
         } else {
             fab_home.visibility = View.GONE
-        }
-        if (position == PAGE_POSITION_MESSAGE) {
-            bottom_navigation_home.setNotification("", PAGE_POSITION_MESSAGE)
-            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
-            msgCount = 0
         }
         return true
     }

@@ -1,11 +1,12 @@
 package com.febers.uestc_bbs.base
 
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.*
 import org.greenrobot.eventbus.EventBus
-import android.view.Menu
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
+import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
@@ -62,6 +63,11 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         }
         initView()
     }
+
+    protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =
+            LayoutInflater
+                    .from(this@BaseActivity)
+                    .inflate(R.layout.layout_empty_view, recyclerView.parent as ViewGroup, false)
 
     private var isInitAllView = false
 

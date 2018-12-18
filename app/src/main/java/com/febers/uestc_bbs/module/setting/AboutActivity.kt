@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.module.setting
 
-import android.os.Bundle
+import android.text.Html
 import android.view.*
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -10,6 +10,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
+import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.utils.ViewClickUtils
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
@@ -27,9 +28,10 @@ class AboutActivity: BaseActivity() {
     private lateinit var settingAdapter1: SettingAdapter
     private lateinit var settingAdapter2: SettingAdapter
     private lateinit var settingAdapter3: SettingAdapter
-    private lateinit var openSourceProjectsDialog: AlertDialog
+    private var openSourceProjectsDialog: AlertDialog? = null
     private lateinit var projectAdapter: OpenProjectAdapter
     private var permissionDialog: AlertDialog? = null
+    private var updateLogDialog: AlertDialog? = null
 
     override fun setToolbar(): Toolbar? = toolbar_about
 
@@ -42,6 +44,9 @@ class AboutActivity: BaseActivity() {
     }
 
     override fun initView() {
+    }
+
+    override fun afterCreated() {
         settingAdapter1 = SettingAdapter(context, items1).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onFirstGroupItemClick(i)
@@ -82,7 +87,8 @@ class AboutActivity: BaseActivity() {
     private fun initSettingData1(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.version), getString(R.string.version_value))
         val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.check_update))
-        return arrayListOf(item1, item2)
+        val item3 = SettingItemBean("更新日志", "查看更新日志")
+        return arrayListOf(item1, item2, item3)
     }
 
     private fun initSettingData2(): List<SettingItemBean> {
@@ -92,8 +98,8 @@ class AboutActivity: BaseActivity() {
     }
 
     private fun initSettingData3(): List<SettingItemBean> {
-        val item1 = SettingItemBean(getString(R.string.source_code), "")
-        val item2 = SettingItemBean(getString(R.string.open_source_project), "")
+        val item1 = SettingItemBean(getString(R.string.source_code), "点击查看项目源码")
+        val item2 = SettingItemBean(getString(R.string.open_source_project), "查看本项目所使用到的开源项目")
         return arrayListOf(item1, item2)
     }
 
@@ -105,6 +111,18 @@ class AboutActivity: BaseActivity() {
             1 -> {
                 Beta.checkUpgrade()
             }
+            2 -> {
+                if (updateLogDialog == null) {
+                    updateLogDialog = AlertDialog.Builder(context)
+                            .setTitle("更新日志")
+                            .setMessage(Html.fromHtml(FileHelper.getAssetsString(context, "update_log.html")))
+                            .setPositiveButton("确认") { dialog, which ->
+                                updateLogDialog?.dismiss()
+                            }
+                            .create()
+                }
+                updateLogDialog?.show()
+            }
         }
     }
 
@@ -114,7 +132,7 @@ class AboutActivity: BaseActivity() {
                 ViewClickUtils.clickToUserDetail(context = context, uid = 196486)
             }
             1 -> {
-                context?.email(getString(R.string.developer_email))
+                context.email(getString(R.string.developer_email))
             }
         }
     }
@@ -122,21 +140,21 @@ class AboutActivity: BaseActivity() {
     private fun onThirdGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                context?.browse(getString(R.string.app_project_url))
+                context.browse(getString(R.string.app_project_url))
             }
             1 -> {
-                openSourceProjectsDialog.show()
-                openSourceProjectsDialog.setContentView(getOpenSourceProjects())
+                openSourceProjectsDialog?.show()
+                openSourceProjectsDialog?.setContentView(getOpenSourceProjects())
             }
         }
     }
 
     private fun getOpenSourceProjects(): View {
-        val view = LayoutInflater.from(context!!).inflate(R.layout.dialog_open_projects, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_open_projects, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_open_source)
         val btn = view.findViewById<Button>(R.id.btn_dialog_open_prj_enter)
         btn.setOnClickListener {
-            openSourceProjectsDialog.dismiss()
+            openSourceProjectsDialog?.dismiss()
         }
         recyclerView.adapter = projectAdapter
         return view

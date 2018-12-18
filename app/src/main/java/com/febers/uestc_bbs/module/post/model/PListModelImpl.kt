@@ -41,8 +41,8 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             override fun onResponse(call: Call<PostListBean>?, response: Response<PostListBean>?) {
                 val body = response?.body()
                 if (body == null) {
-                    log("服务器无响应：body == null and fid is $mFid")
-                    pListPresenter.errorResult(SERVICE_RESPONSE_NULL)
+                    //log("服务器无响应：body == null and fid is $mFid")
+                    pListPresenter.errorResult("该版块$SERVICE_RESPONSE_NULL,请您访问网页版河畔")
                     return
                 }
                 if(body.rs != REQUEST_SUCCESS_RS) {

@@ -45,6 +45,7 @@ class UserPostActivity: BaseActivity(), UserContract.View {
             setOnItemChildClickListener(R.id.image_view_item_user_post_avatar) {
                 viewHolder, listBean, i ->  ViewClickUtils.clickToUserDetail(this@UserPostActivity, listBean.user_id)
             }
+            setEmptyView(getEmptyViewForRecyclerView(recyclerview_user_post))
         }
         recyclerview_user_post.apply {
             adapter = userPListAdapter

@@ -51,8 +51,8 @@ object PostHelper {
     fun savePostListToFile(fid: String, pList: PostListBean) {
         try {
             val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$fid.txt")
-            fileWriter.flush()
             fileWriter.write(Gson().toJson(pList))
+            fileWriter.flush()
             fileWriter.close()
         } catch (e: Exception) {
             e.printStackTrace()
