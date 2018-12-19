@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_setting.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 import kotlin.collections.ArrayList
 
 class SettingActivity : BaseActivity() {
@@ -89,7 +90,6 @@ class SettingActivity : BaseActivity() {
         recyclerview_setting_option.adapter = settingAdapter
 
         users.addAll(UserHelper.getAllUser())
-        log("size is ${users.size}")
         simpleUserAdapter.notifyDataSetChanged()
 
         options.addAll(initSettingData())
@@ -112,7 +112,7 @@ class SettingActivity : BaseActivity() {
     }
 
     /**
-     * 进行账户的切换，在Android 9.0的模拟器上，切换之后会重复显示一个当前用户
+     * 进行账户的切换，在Android 8.0的模拟器上，切换之后会重复显示一个当前用户
      * 尚不知道原因是啥，猜测问题出在adapter上，因为users的数据变化没问题
      *
      * @param user 需要切换的用户
@@ -123,14 +123,15 @@ class SettingActivity : BaseActivity() {
         users.clear()
         users.addAll(0, UserHelper.getAllUser())
         simpleUserAdapter.notifyDataSetChanged()
-
         Thread{ EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, user)) }.start()
     }
 
     private fun deleteUser(user: UserSimpleBean, position: Int) {
         UserHelper.deleteUser(user.uid)
+        users.removeAt(position)
         simpleUserAdapter.remove(position)
         simpleUserAdapter.notifyDataSetChanged()
+
         if(!UserHelper.getAllUser().isEmpty()) {
             EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, UserHelper.getAllUser().last()))
         } else {
@@ -146,10 +147,6 @@ class SettingActivity : BaseActivity() {
             hintWay = HINT_BY_TOAST
             HintUtils.show("提示方式已更改")
         }
-    }
-
-    private fun onChangeIconClick() {
-
     }
 
     /*

@@ -24,8 +24,8 @@ import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
-import com.febers.uestc_bbs.view.panda_emotion.KeyBoardManager
-import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView
+import com.febers.uestc_bbs.view.emotion.KeyBoardManager
+import com.febers.uestc_bbs.view.emotion.view.EmotionView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -135,10 +135,10 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
      * 标题输入框应该第一个获得焦点
      */
     private fun initEmotionView() {
-        (emotion_view_post_edit as PandaEmoView).attachEditText(edit_view_post_edit_content)
+        (emotion_view_post_edit as EmotionView).attachEditText(edit_view_post_edit_content)
         keyboardManager = KeyBoardManager.with(activity)
                 .bindToEmotionButton(btn_emotion_post_edit)
-                .setEmotionView(emotion_view_post_edit as PandaEmoView)
+                .setEmotionView(emotion_view_post_edit as EmotionView)
                 .bindToLockContent(content_view_post_edit)
                 .setOnInputListener {
                     //当it为true时输入法弹出

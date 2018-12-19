@@ -17,8 +17,7 @@ import androidx.multidex.MultiDexApplication
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.setting.UpdateActivity
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.panda_emotion.PandaEmoManager
+import com.febers.uestc_bbs.view.emotion.EmotionManager
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
 import com.tencent.bugly.beta.upgrade.UpgradeListener
@@ -82,7 +81,7 @@ class MyApp: MultiDexApplication() {
         /**
          * 初始化表情包界面
          */
-        PandaEmoManager.Builder()
+        EmotionManager.Builder()
                 .with(context) // 传递 Context
                 .configFileName("first.xml")// 配置文件名称
                 .emoticonDir("face") // asset 下存放表情的目录路径（asset——> configFileName 之间的路径,结尾不带斜杠）

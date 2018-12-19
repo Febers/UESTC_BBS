@@ -6,8 +6,7 @@ import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.TITLE
 import com.febers.uestc_bbs.module.more.BlockFragment
-import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.panda_emotion.PandaEmoTranslator
+import com.febers.uestc_bbs.view.emotion.EmotionTranslator
 
 class PostEditActivity : BaseActivity() {
 
@@ -43,16 +42,16 @@ class PostEditActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        PandaEmoTranslator.getInstance().resumeGif(localClassName)
+        EmotionTranslator.getInstance().resumeGif(localClassName)
     }
 
     override fun onPause() {
         super.onPause()
-        PandaEmoTranslator.getInstance().pauseGif()
+        EmotionTranslator.getInstance().pauseGif()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        PandaEmoTranslator.getInstance().clearGif(localClassName)
+        EmotionTranslator.getInstance().clearGif(localClassName)
     }
 }

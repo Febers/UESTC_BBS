@@ -154,6 +154,5 @@ object UserHelper {
         return emptyList()
     }
 
-
     private fun context(): Context = MyApp.context()
 }

@@ -16,10 +16,10 @@ import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
-import com.febers.uestc_bbs.view.panda_emotion.KeyBoardManager
-import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView
+import com.febers.uestc_bbs.view.emotion.KeyBoardManager
+import com.febers.uestc_bbs.view.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_post_reply.*
-import com.febers.uestc_bbs.view.panda_emotion.PandaEmoTranslator
+import com.febers.uestc_bbs.view.emotion.EmotionTranslator
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -101,11 +101,11 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
     }
 
     private fun initEmotionView() {
-        (emotion_view_reply as PandaEmoView).attachEditText(edit_view_post_reply_activity)
+        (emotion_view_reply as EmotionView).attachEditText(edit_view_post_reply_activity)
         //TODO 当it为true时输入法弹出,当表情键盘弹出时将图标变成软键盘
         keyboardManager = KeyBoardManager.with(this@PostReplyActivity)
                 .bindToEmotionButton(btn_emotion_post_reply)
-                .setEmotionView(emotion_view_reply as PandaEmoView)
+                .setEmotionView(emotion_view_reply as EmotionView)
                 .bindToLockContent(content_layout_post_reply)
 //                .setOnInputListener {
 //
@@ -248,17 +248,17 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
 
     override fun onResume() {
         super.onResume()
-        PandaEmoTranslator.getInstance().resumeGif(localClassName)
+        EmotionTranslator.getInstance().resumeGif(localClassName)
     }
 
     override fun onPause() {
         super.onPause()
-        PandaEmoTranslator.getInstance().pauseGif()
+        EmotionTranslator.getInstance().pauseGif()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         PictureFileUtils.deleteCacheDirFile(this@PostReplyActivity)
-        PandaEmoTranslator.getInstance().clearGif(localClassName)
+        EmotionTranslator.getInstance().clearGif(localClassName)
     }
 }

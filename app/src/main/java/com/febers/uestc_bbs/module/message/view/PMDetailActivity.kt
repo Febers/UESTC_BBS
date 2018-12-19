@@ -11,8 +11,8 @@ import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.PMDetailPresenterImpl
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.view.adapter.PMDetailAdapter
-import com.febers.uestc_bbs.view.panda_emotion.KeyBoardManager
-import com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView
+import com.febers.uestc_bbs.view.emotion.KeyBoardManager
+import com.febers.uestc_bbs.view.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_private_detail.*
 
 /**
@@ -77,10 +77,10 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     }
 
     private fun initEmotionView() {
-        (emotion_view_pm_detail as PandaEmoView).attachEditText(edit_view_pm)
+        (emotion_view_pm_detail as EmotionView).attachEditText(edit_view_pm)
         keyboardManager = KeyBoardManager.with(context)
                 .bindToEmotionButton(btn_emotion_pm_detail)
-                .setEmotionView(emotion_view_pm_detail as PandaEmoView)
+                .setEmotionView(emotion_view_pm_detail as EmotionView)
                 .bindToLockContent(content_layout_pm_detail)
                 .setOnInputListener {
                     //当it为true时输入法弹出

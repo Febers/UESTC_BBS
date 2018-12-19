@@ -42,7 +42,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                 val body = response?.body()
                 if (body == null) {
                     //log("服务器无响应：body == null and fid is $mFid")
-                    pListPresenter.errorResult("该版块$SERVICE_RESPONSE_NULL,请您访问网页版河畔")
+                    pListPresenter.errorResult("该版块$SERVICE_RESPONSE_NULL,请点击右上角 菜单->访问Web页面 查看")
                     return
                 }
                 if(body.rs != REQUEST_SUCCESS_RS) {

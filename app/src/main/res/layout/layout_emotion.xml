@@ -27,8 +27,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_gray_light"
-        android:visibility="gone"/>
+        android:background="@color/color_gray_light"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <com.febers.uestc_bbs.view.panda_emotion.view.EmotionTab
+        <com.febers.uestc_bbs.view.emotion.view.EmotionTab
             android:id="@+id/tabAdd"
             android:layout_width="@dimen/bottom_tab_width"
             android:layout_height="@dimen/bottom_tab_height"

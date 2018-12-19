@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:orientation="horizontal">
-                <com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoEditText
+                <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
                     android:id="@+id/edit_view_pm"
                     android:inputType="textMultiLine"
                     android:layout_width="0dp"
@@ -108,7 +108,7 @@
         android:id="@+id/emotion_layout_pm_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.febers.uestc_bbs.view.panda_emotion.view.PandaEmoView
+        <com.febers.uestc_bbs.view.emotion.view.EmotionView
             android:id="@+id/emotion_view_pm_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
