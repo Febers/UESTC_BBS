@@ -1,9 +1,7 @@
 # i河畔(UESTC_BBS)
 ![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/ic_launcher.png)
 
-[点我下载](https://github-production-release-asset-2e65be.s3.amazonaws.com/135606653/2209b880-03e4-11e9-8cf6-24c786cfba2b?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181221%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20181221T104602Z&X-Amz-Expires=300&X-Amz-Signature=b68f87d50fefaed587af8a6fecfc9e4045817206ade207db0c87cf87b0f5fc15&X-Amz-SignedHeaders=host&actor_id=26399388&response-content-disposition=attachment%3B%20filename%3DUESTC_BBS.1.1.2.apk&response-content-type=application%2Fvnd.android.package-archive)
-
-[前往release页面](https://github.com/Febers/UESTC_BBS/releases)
+[前往下载页面](https://github.com/Febers/UESTC_BBS/releases)
 
 ## 关于
 
