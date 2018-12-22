@@ -14,7 +14,6 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
 import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
@@ -42,7 +41,8 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                             infor = p1.content
                             type = CONTENT_TYPE_TEXT
                         }),
-                        mTextColor = Color.WHITE
+                        mTextColor = ThemeHelper.getRefreshTextColor(),
+                        mTextLinkColor = ThemeHelper.getRefreshTextColor()
                 )
                 contentViewHelper?.create()
                 contentViewHelper?.getImageMapList()?.forEach {

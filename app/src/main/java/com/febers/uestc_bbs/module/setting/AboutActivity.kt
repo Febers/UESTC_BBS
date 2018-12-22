@@ -87,37 +87,34 @@ class AboutActivity: BaseActivity() {
     private fun initSettingData1(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.version), getString(R.string.version_value))
         val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.version_value))
-        val item3 = SettingItemBean("更新日志", "查看更新日志")
+        val item3 = SettingItemBean(getString(R.string.update_log), getString(R.string.check_update_log))
         return arrayListOf(item2, item3)
     }
 
     private fun initSettingData2(): List<SettingItemBean> {
-        val item1 = SettingItemBean(getString(R.string.developer_name), "点击查看开发者河畔账号")
+        val item1 = SettingItemBean(getString(R.string.developer_name), getString(R.string.click_to_developer_bbs_account))
         val item2 = SettingItemBean(getString(R.string.feedback_and_other), getString(R.string.developer_email))
-        val item3 = SettingItemBean("捐赠", "请开发者喝一杯可乐 ๑乛v乛๑")
+        val item3 = SettingItemBean(getString(R.string.donate), getString(R.string.treat_the_developer_for_a_coke))
         return arrayListOf(item1, item2, item3)
     }
 
     private fun initSettingData3(): List<SettingItemBean> {
         val item1 = SettingItemBean(getString(R.string.source_code), "Apache License 2.0")
-        val item2 = SettingItemBean(getString(R.string.open_source_project), "查看本项目所使用到的开源项目")
+        val item2 = SettingItemBean(getString(R.string.open_source_project), getString(R.string.click_to_the_open_source_projects_using))
         return arrayListOf(item1, item2)
     }
 
     private fun onFirstGroupItemClick(position: Int) {
         when(position) {
-//            0 -> {
-//
-//            }
             0 -> {
                 Beta.checkUpgrade()
             }
             1 -> {
                 if (updateLogDialog == null) {
                     updateLogDialog = AlertDialog.Builder(context)
-                            .setTitle("更新日志")
+                            .setTitle(getString(R.string.update_log))
                             .setMessage(Html.fromHtml(FileHelper.getAssetsString(context, "update_log.html")))
-                            .setPositiveButton("确认") { dialog, which ->
+                            .setPositiveButton(getString(R.string.confirm)) { dialog, which ->
                                 updateLogDialog?.dismiss()
                             }
                             .create()
@@ -189,7 +186,7 @@ class AboutActivity: BaseActivity() {
             if (permissionDialog == null) {
                 permissionDialog = AlertDialog.Builder(context)
                         .setMessage(Html.fromHtml(FileHelper.getAssetsString(context, "permission_explain.html")))
-                        .setPositiveButton(getString(R.string.enter)) { p0, p1 -> }
+                        .setPositiveButton(getString(R.string.confirm)) { p0, p1 -> }
                         .create()
             }
 
@@ -197,15 +194,4 @@ class AboutActivity: BaseActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    private fun permissionExplain(): String = """
-        为了您的正常使用，本应用需要以下权限:
-            1、网络权限
-
-            2、读写手机存储权限
-                应用需要该权限将图片、缓存的帖子列表等数据保存到手机中，其中保存的图片路径为“/storage/emulated/0/UESTC_BBS”
-
-            3、更多权限请查看源码页面: https://github.com/Febers/UESTC_BBS/blob/master/app/src/main/AndroidManifest.xml
-
-    """
 }

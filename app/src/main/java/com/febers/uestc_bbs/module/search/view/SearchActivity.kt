@@ -60,7 +60,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
     }
 
     override fun afterCreated() {
-        progressDialog = indeterminateProgressDialog("搜索中") {
+        progressDialog = indeterminateProgressDialog(getString(R.string.searching)) {
             setCanceledOnTouchOutside(false)
         }.apply { hide() }
     }
@@ -115,7 +115,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
         }
         searchView.apply {
             isIconified = false
-            queryHint = "搜索内容"
+            queryHint = context.getString(R.string.search_content)
             setOnQueryTextListener(listener)
         }
         return true

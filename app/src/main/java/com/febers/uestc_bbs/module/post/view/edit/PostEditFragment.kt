@@ -22,7 +22,6 @@ import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -153,7 +152,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         val activity: AppCompatActivity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar_post_edit)
         activity.supportActionBar?.apply {
-            title = "编辑"
+            title = ""
             setDisplayHomeAsUpEnabled(true)
         }
         toolbar_post_edit.setNavigationOnClickListener { activity.finish() }
@@ -203,10 +202,10 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         }
         if (selectedImagePaths.size >= 9) {
             AlertDialog.Builder(context!!)
-                    .setMessage("你要发布的帖子含有较多的图片，上传图片可能需要较长的时间")
-                    .setTitle("提示")
-                    .setPositiveButton("确认发布") { dialog, which -> sendNewPost(stTitle, stContent) }
-                    .setNegativeButton("重新编辑") {dialog, which ->
+                    .setMessage(getString(R.string.too_many_pictures))
+                    .setTitle(getString(R.string.hint))
+                    .setPositiveButton(R.string.confirm) { dialog, which -> sendNewPost(stTitle, stContent) }
+                    .setNegativeButton(getString(R.string.re_edit)) { dialog, which ->
                         return@setNegativeButton
                     }
                     .show()
@@ -223,7 +222,8 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         }
         progressDialog?.show()
         if (selectedImagePaths.isEmpty()) {
-            pEditPresenter.newPostRequest(fid = mFid, aid = "", typeId = 0,
+            pEditPresenter.newPostRequest(fid = mFid, aid = "",
+                    typeId = classificationId,
                     title = stTitle,
                     anonymous = isAnonymous, onlyAuthor = isOnlyAuthor,
                     contents = *arrayOf(CONTENT_TYPE_TEXT to stContent))
@@ -253,7 +253,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                                 pEditPresenter.newPostRequest(fid = mFid,
                                         aid = aidBuffer.toString(),
                                         title = title,
-                                        typeId = 0,
+                                        typeId = classificationId,
                                         anonymous = isAnonymous,
                                         onlyAuthor = isOnlyAuthor,
                                         contents = *contentList.toTypedArray())
@@ -292,7 +292,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     override fun showNewPostResult(event: PostSendResultBean) {
         context?.runOnUiThread {
             progressDialog?.dismiss()
-            EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, PostNewEvent("success")))
+            EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, PostNewEvent("")))
             activity?.finish()
             PictureFileUtils.deleteCacheDirFile(context!!)
         }

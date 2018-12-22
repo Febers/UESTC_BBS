@@ -22,7 +22,6 @@ import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListener
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplyBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
@@ -44,7 +43,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var contentViewHelper: ContentViewHelper? = null
     private var voteViewHelper: VoteViewHelper? = null
     private var optionBottomSheet: PostOptionBottomSheet? = null
-    private var replyBottomSheet: PostReplyBottomSheet? = null
     private var isFavorite: Int = POST_NO_FAVORED
     private var postOrder = POST_POSITIVE_ORDER
     private val delFavoritePost = "delfavorite"
@@ -159,7 +157,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 //                    replyId = topicReplyId, toUName = topicUserName)
 //        }
         //底部显示评论个数的bottom，以代替fab
-        text_view_post_reply_count.text = "${replyCount}条回复"
+        text_view_post_reply_count.text = "$replyCount" + getString(R.string.replies)
         linear_layout_post_reply_count.setOnClickListener {
             ClickContext.clickToPostReply(context = this@PostDetailActivity,
                     toUserId = topicUserId,
@@ -247,13 +245,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 if (isFavorite == POST_FAVORED) {
                     isFavorite = POST_NO_FAVORED
                     onFavoriteChange(POST_NO_FAVORED)
-                    showHint("正在取消收藏")
+                    showHint(getString(R.string.cancel_collect))
                     return@setOnClickListener
                 }
                 if (isFavorite == POST_NO_FAVORED){
                     isFavorite = POST_FAVORED
                     onFavoriteChange(POST_FAVORED)
-                    showHint("正在收藏")
+                    showHint(getString(R.string.collecting))
                 }
             }
         }
@@ -348,18 +346,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         if (optionBottomSheet == null) {
             optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
                     itemClickListenerPost = this, postId = postId)
-            optionBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_option)
+            optionBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_post_option)
         }
         return optionBottomSheet!!
-    }
-
-    private fun getReplyBottomSheet(): PostReplyBottomSheet {
-        if (replyBottomSheet == null) {
-            replyBottomSheet = PostReplyBottomSheet(this@PostDetailActivity, R.style.PinkBottomSheetTheme, this)
-            replyBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_reply)
-            replyBottomSheet!!.delegate.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.setBackgroundColor(resources.getColor(android.R.color.transparent))
-        }
-        return replyBottomSheet!!
     }
 
     private fun showReplyCountBottomAndFAB() {
@@ -415,6 +404,5 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         replyItemAdapter = null
         replyList = null
         optionBottomSheet = null
-        replyBottomSheet = null
     }
 }

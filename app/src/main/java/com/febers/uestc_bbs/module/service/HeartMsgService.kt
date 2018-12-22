@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.service
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.febers.uestc_bbs.MyApp
@@ -34,8 +33,8 @@ class HeartMsgService : Service() {
     private var msgThread: Thread? = null
     private var flag: Boolean = true
 
-    private val notificationId_p = 970418; private val notificationId_r = 970419
-    private val notificationId_a = 970420; private val notificationId_s = 970421
+    private val pNotificationId = 970418; private val rNotificationId = 970419
+    private val aNotificationId = 970420; private val sNotificationId = 970421
     private val privateChannelId = "pci"; private val privateChannelName = "pcn"
     private val otherChannelId = "other"; private val otherChannelName = "other"
     private val replyChannelId = "rci"; private val replyChannelName = "rcn"
@@ -102,33 +101,26 @@ class HeartMsgService : Service() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMsgFeedback(event: MsgFeedbackEvent) {
 //        i("service", "cancel: ${event.type}")
-        notificationHelper?.cancelNotification(
-                when(event.type) {
-                    MSG_TYPE_REPLY -> {
-                        rmCount = 0
-                        notificationId_r
-                    }
-                    MSG_TYPE_PRIVATE -> {
-                        pmCount = 0
-                        notificationId_p
-                    }
-                    MSG_TYPE_AT -> {
-                        amCount = 0
-                        notificationId_a
-                    }
-                    MSG_TYPE_SYSTEM -> {
-                        smCount = 0
-                        notificationId_s
-                    }
-                    else -> {   //取消全部
-                        rmCount = 0; pmCount = 0; amCount = 0; smCount = 0
-                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_REPLY))
-                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
-                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_SYSTEM))
-                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_AT))
-                        return
-                    }
-                })
+        log("service and type ${event.type}")
+        when(event.type) {
+            MSG_TYPE_REPLY -> {
+                rmCount = 0
+                notificationHelper?.cancelNotification(rNotificationId)
+            }
+            MSG_TYPE_PRIVATE -> {
+                pmCount = 0
+                notificationHelper?.cancelNotification(pNotificationId)
+            }
+            MSG_TYPE_AT -> {
+                amCount = 0
+                notificationHelper?.cancelNotification(aNotificationId)
+                aNotificationId
+            }
+            MSG_TYPE_SYSTEM -> {
+                smCount = 0
+                notificationHelper?.cancelNotification(sNotificationId)
+            }
+        }
     }
 
     /*
@@ -159,27 +151,29 @@ class HeartMsgService : Service() {
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
                             val heartBean = response.body() ?: return
                             if (heartBean.rs != 1 || heartBean.body == null) return
+                            log("私信数量:${heartBean.body?.pmInfos?.size!!}")
+                            log("pmCount is $pmCount")
                             if (heartBean.body!!.replyInfo?.count!! > rmCount) {
                                 rmCount = heartBean.body!!.replyInfo?.count!!
-                                showMsgNotification(title = "${heartBean.body?.replyInfo?.count}条新回复",
+                                showMsgNotification(title = "您有${heartBean.body?.replyInfo?.count}条新回复",
                                         content = TimeUtils.stampChange(heartBean.body?.replyInfo?.time),
-                                        notificationId = notificationId_r,
+                                        notificationId = rNotificationId,
                                         msgType = MSG_TYPE_REPLY,
                                         count = heartBean.body?.replyInfo?.count!! )
                             }
                             if (heartBean.body!!.atMeInfo?.count!! > amCount) {
                                 amCount = heartBean.body!!.atMeInfo?.count!!
-                                showMsgNotification(title = "${heartBean.body?.atMeInfo?.count}条@消息",
+                                showMsgNotification(title = "您有${heartBean.body?.atMeInfo?.count}条@消息",
                                         content = TimeUtils.stampChange(heartBean.body?.atMeInfo?.time),
-                                        notificationId = notificationId_r,
+                                        notificationId = rNotificationId,
                                         msgType = MSG_TYPE_AT,
                                         count = heartBean.body?.atMeInfo?.count!!)
                             }
                             if (heartBean.body?.pmInfos?.size!! > pmCount) {
                                 pmCount = heartBean.body?.pmInfos?.size!!
-                                showMsgNotification(title = "${heartBean.body!!.pmInfos?.size}条私信",
+                                showMsgNotification(title = "您有${heartBean.body!!.pmInfos?.size}条私信",
                                         content = TimeUtils.stampChange(heartBean.body!!.pmInfos!![0].time),
-                                        notificationId = notificationId_r,
+                                        notificationId = rNotificationId,
                                         msgType = MSG_TYPE_PRIVATE,
                                         count = heartBean.body!!.pmInfos?.size!!)
                             }

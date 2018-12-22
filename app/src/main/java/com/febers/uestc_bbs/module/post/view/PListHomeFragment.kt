@@ -131,7 +131,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
      * 刷新界面
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onPostNew(event: BaseEvent<String>) {
+    fun onPostNew(event: BaseEvent<PostNewEvent>) {
         if (isSupportVisible && event.code == BaseCode.SUCCESS) {
             scroll_view_plist_home?.scrollTo(0, 0)
             refresh_layout_post_list_home.autoRefresh()

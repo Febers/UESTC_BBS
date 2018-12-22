@@ -14,6 +14,7 @@ import com.febers.uestc_bbs.view.adapter.PMDetailAdapter
 import com.febers.uestc_bbs.view.emotion.KeyBoardManager
 import com.febers.uestc_bbs.view.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_private_detail.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * 私信消息的详情
@@ -51,6 +52,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
     }
 
     override fun initView() {
+        EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
         toolbar_private_detail.title = userName
         pmPresenter = PMDetailPresenterImpl(this)
         pmAdapter = PMDetailAdapter(this, pmList, MyApp.getUser().uid, PMTimeUtils())

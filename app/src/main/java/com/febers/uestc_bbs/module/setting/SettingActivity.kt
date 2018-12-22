@@ -107,10 +107,10 @@ class SettingActivity : BaseActivity() {
 
 
     private fun initSettingData(): List<SettingItemBean> {
-        val item0 = SettingItemBean("提示", "设置消息提示的样式")
-        val item1 = SettingItemBean("图标", "选择应用在启动器中显示的图标样式")
-        val item2 = SettingItemBean("刷新控件", "设置刷新控件样式")
-        val item3 = SettingItemBean("免打扰", "暂停后台轮询消息,您可手动刷新界面更新消息", showCheck = true, checked = !loopReceiveMsg)
+        val item0 = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
+        val item1 = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
+        val item2 = SettingItemBean(getString(R.string.refresh_style), getString(R.string.choose_refresh_style))
+        val item3 = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
         return arrayListOf(item0, item1, item2, item3, cacheItem)
     }
@@ -146,10 +146,10 @@ class SettingActivity : BaseActivity() {
     private fun onHintMethodChange() {
         if (hintWay == HINT_BY_TOAST) {
             hintWay = HINT_BY_SNACK_BAR
-            HintUtils.show(context, "提示方式已更改")
+            HintUtils.show(context, getString(R.string.hint_way_changed))
         } else if (hintWay == HINT_BY_SNACK_BAR) {
             hintWay = HINT_BY_TOAST
-            HintUtils.show("提示方式已更改")
+            HintUtils.show(getString(R.string.hint_way_changed))
         }
     }
 
@@ -186,7 +186,7 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun clearCache() {
-        showHint("清除中")
+        showHint(getString(R.string.cleaning))
         Thread{
             CacheHelper.clearCache()
             getCache()

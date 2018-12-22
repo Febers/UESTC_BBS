@@ -12,7 +12,7 @@
             android:id="@+id/text_view_choose_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择图标"
+            android:text="@string/choose_icon"
             android:textColor="?text_color_first"
             android:textSize="@dimen/text_size_big"
             android:layout_centerInParent="true"/>
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="确认"
+            android:text="@string/confirm"
             android:textColor="?text_color_first"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_alignParentEnd="true"/>
@@ -31,7 +31,7 @@
             android:gravity="center_horizontal"
             android:layout_alignParentBottom="true"
             android:textSize="@dimen/text_size_small"
-            android:text="选择图标之后,稍等片刻更改才会生效"/>
+            android:text="@string/wait_a_moment_for_the_change_to_take_effect"/>
     </RelativeLayout>
 
 

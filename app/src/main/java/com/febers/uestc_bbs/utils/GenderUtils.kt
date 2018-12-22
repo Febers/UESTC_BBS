@@ -10,7 +10,7 @@ object GenderUtils {
      */
     fun change(raw: String?): String {
         raw ?: return ""
-        if (raw == "0") return MyApp.context().getString(R.string.unknwon)
+        if (raw == "0") return MyApp.context().getString(R.string.unknown)
         if (raw == "1") return MyApp.context().getString(R.string.man)
         if (raw == "2") return MyApp.context().getString(R.string.woman)
         return raw

@@ -103,7 +103,7 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
-        val item4 = MoreItemBean("河畔导航", R.drawable.xic_navigation_blue_24dp)
+        val item4 = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
         val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
         val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
         val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
@@ -234,40 +234,8 @@ class MoreFragment: BaseFragment() {
         tvNaviLostAndFound = view.findViewById(R.id.navigation_lost_and_found)
         tvNaviSchoolBus = view.findViewById(R.id.navigation_school_bus)
         tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
-        tvNaviNewer = view.findViewById(R.id.navigation_newer)
+        tvNaviNewer = view.findViewById(R.id.navigation_novice)
         btnNaviEnter = view.findViewById(R.id.navigation_enter)
         return view
-    }
-
-    private fun getNavigationDialog(): AlertDialog {
-        return AlertDialog.Builder(context!!)
-                .setTitle("河畔导航")
-                .setPositiveButton("确定") {
-                    dialog, which -> dialog.dismiss()
-                }
-                .setItems(arrayOf("    失物招领", "    校车时刻表", "    校历", "    新手导航")) { dialog, which ->
-                    when(which) {
-                        0 -> {
-                            startActivity(Intent(context, PListActivity::class.java).apply {
-                                putExtra(FID, 305)
-                                putExtra(TITLE, "失物招领")
-                            })
-                            dialog.dismiss()
-                        }
-                        1 -> {
-                            ClickContext.clickToPostDetail(context, 1430861)
-                            dialog.dismiss()
-                        }
-                        2 -> {
-                            ClickContext.clickToPostDetail(context, 1493930)
-                            dialog.dismiss()
-                        }
-                        3 -> {
-                            ClickContext.clickToPostDetail(context, 1456557)
-                            dialog.dismiss()
-                        }
-                    }
-                }
-                .create()
     }
 }

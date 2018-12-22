@@ -49,5 +49,5 @@
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:textSize="@dimen/text_size_big"
-        android:text="@string/enter"/>
+        android:text="@string/confirm"/>
 </LinearLayout>

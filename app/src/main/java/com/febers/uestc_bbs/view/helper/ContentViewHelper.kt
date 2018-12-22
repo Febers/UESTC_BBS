@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.view.helper
 
-import android.util.Log.i
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,8 @@ const val DIVIDE_HEIGHT = 20
 class ContentViewHelper(
         private val linearLayout: LinearLayout,
         private val mContents: List<PostDetailBean.ContentBean>,
-        private val mTextColor: Int? = null) {
+        private val mTextColor: Int? = null,
+        private val mTextLinkColor: Int? = null) {
 
     private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
 
@@ -53,7 +53,7 @@ class ContentViewHelper(
     private fun cycleDrawView(stringBuilder: StringBuilder, position: Int) {
         fun drawTextView() {
             val textView = getTextView()
-            ImageTextHelper.setImageText(textView, stringBuilder.toString())
+            ImageTextHelper.setImageText(textView, stringBuilder.toString(), mTextLinkColor)
             linearLayout.addView(textView)
         }
         fun drawImageView() {
@@ -104,8 +104,11 @@ class ContentViewHelper(
         setLineSpacing(1.0f, 1.2f)
         textSize = 16f
         setTextColor(ThemeHelper.getTextColorPrimary())
-        mTextColor?.apply {
-            setTextColor(this)
+        mTextColor?.let {
+            setTextColor(it)
+        }
+        mTextLinkColor?.let {
+            setLinkTextColor(it)
         }
         linksClickable = true
         setLinkTextColor(ThemeHelper.getColorAccent())
@@ -153,7 +156,6 @@ class ContentViewHelper(
             val imgString = """<img src="$rawUrlString">"""
             newContent = raw.replace(rawFormatString, imgString)
         } catch (e:Exception) {
-            i("Utils", "$e")
             return newContent
         }
         return emotionTransform(newContent, begin)

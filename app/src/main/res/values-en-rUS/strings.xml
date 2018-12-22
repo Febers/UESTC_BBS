@@ -16,9 +16,9 @@
     <string name="message_page">Message</string>
     <string name="more_page">More</string>
 
-    <string name="new_post">New Start</string>
-    <string name="new_reply">New Reply</string>
-    <string name="hot_article">Hot</string>
+    <string name="new_post">Latest Post</string>
+    <string name="new_reply">Latest Reply</string>
+    <string name="hot_article">Hot Post</string>
     <string name="post_detail">Post Detail</string>
 
     <string name="post_reply_message">reply</string>
@@ -26,8 +26,8 @@
     <string name="system_message">system</string>
     <string name="at_message">Me</string>
 
-    <string name="my_start_post">Start Post</string>
-    <string name="my_reply_post">Reply Post</string>
+    <string name="my_start_post">Your Post</string>
+    <string name="my_reply_post">Your Reply</string>
     <string name="my_fav_post">Favorite Post</string>
 
     <string name="user_post">Post</string>
@@ -42,12 +42,12 @@
     <string name="choose_block">Choose Block</string>
     <string name="edit">Edit</string>
 
-    <string name="block_today_num">Today Posts Num</string>
+    <string name="block_today_num">Today Post Num</string>
     <string name="block_all_num">All Post Num</string>
     <string name="show_sticky_post">Show Sticky Posts</string>
 
     <string name="account_detail">Account Detail</string>
-    <string name="no_login">No Login</string>
+    <string name="no_login">Not Logged In</string>
     <string name="user_password">Password</string>
     <string name="user_name">User Name</string>
     <string name="login">Login</string>
@@ -67,7 +67,7 @@
     <string name="pm_content">Content</string>
     <string name="send">Send</string>
     <string name="color_primary_dark_effect">colorPrimaryDark Effect</string>
-    <string name="enter">Enter</string>
+    <string name="confirm">Confirm</string>
     <string name="ta_new">His Post</string>
     <string name="ta_reply">His Reply</string>
     <string name="open_projects_using">Open Source Projects Using</string>
@@ -89,10 +89,10 @@
     <string name="about">About</string>
     <string name="donate_developer">Donate developer</string>
     <string name="login_success">Login successful</string>
-    <string name="receiving_message_backround">Receiving message background</string>
+    <string name="receiving_message_background">Receiving message background</string>
     <string name="please_input_title">Please input title</string>
     <string name="please_input_content">Please input Content</string>
-    <string name="unknwon">Unknown</string>
+    <string name="unknown">Unknown</string>
     <string name="man">Man</string>
     <string name="woman">Woman</string>
     <string name="thank_you">Thank you!</string>
@@ -100,19 +100,60 @@
     <string name="no_alipay_installed">No Alipay installed</string>
     <string name="about_permission">About Permission</string>
 
-
     <!--PandaEmoView-->
     <string name="tabicon">tabIcon</string>
 
-    <string name="select_album">所有图片</string>
-    <string name="pictures">图片</string>
-    <string name="all_pictures">全部图片</string>
-    <string name="make_dir_fail">创建文件失败！</string>
+    <string name="select_album">Select Album</string>
+    <string name="pictures">Pictures</string>
+    <string name="all_pictures">All Pictures</string>
+    <string name="make_dir_fail">Failed to create file</string>
 
-    <string name="content_to_request_permission">保证应用正常运行，请授予必要权限！</string>
-    <string name="attention">提示</string>
-    <string name="ok">好的~</string>
-    <string name="manage">管理</string>
-    <string name="delete">删除</string>
-    <string name="use">使用</string>
+    <string name="content_to_request_permission">Please grant the necessary permissions!</string>
+    <string name="attention">Attention</string>
+    <string name="ok">OK</string>
+    <string name="manage">Manage</string>
+    <string name="delete">Delete</string>
+    <string name="use">User</string>
+    <string name="hint">Hint</string>
+    <string name="set_hint_style">Choose the way of hint</string>
+    <string name="icon">Icon</string>
+    <string name="icon_style_in_launcher">Choose the icon style in launcher</string>
+    <string name="refresh_style">Refresh Style</string>
+    <string name="choose_refresh_style">Choose refresh style</string>
+    <string name="no_disturbing">No Disturbing</string>
+    <string name="no_disturbing_explain">Suspend background polling messages, do it manually</string>
+    <string name="hint_way_changed">The way of hint changed</string>
+    <string name="cleaning">cleaning</string>
+    <string name="update_log">Update Log</string>
+    <string name="check_update_log">Click to update log</string>
+    <string name="donate">Donate</string>
+    <string name="treat_the_developer_for_a_coke">Treat the developer for a coke ๑乛v乛๑</string>
+    <string name="click_to_the_open_source_projects_using">Click to the open source projects using</string>
+    <string name="click_to_developer_bbs_account">Click to the developer BBS account</string>
+    <string name="bbs_navigation">BBS Navigation</string>
+    <string name="lost_and_found">Lost And Found</string>
+    <string name="school_bus_timetable">School Bus Timetable</string>
+    <string name="school_calender">School Calender</string>
+    <string name="novice_navigation">Novice Navigation</string>
+    <string name="choose_icon">Choose icon</string>
+    <string name="wait_a_moment_for_the_change_to_take_effect">After choosing icon, wait a moment for the change to take effect</string>
+    <string name="have_chosen">Have chosen</string>
+    <string name="classification">Classification</string>
+    <string name="block_detail">Block Detail</string>
+    <string name="too_many_pictures">Too many pictures, You will have to wait a long time</string>
+    <string name="re_edit">Re edit</string>
+    <string name="search_content">Search content</string>
+    <string name="searching">Searching</string>
+    <string name="web_page">Web Page</string>
+    <string name="view_all">View All Replies</string>
+    <string name="view_only_author">View Only Author</string>
+    <string name="reverse_view">Reverse Order</string>
+    <string name="positive_order_view">Positive Order</string>
+    <string name="copy_url">Copy Url</string>
+    <string name="share">Share</string>
+    <string name="replies">Replies</string>
+    <string name="copy_url_successfully">Copy Url Successfully</string>
+    <string name="cancel_collect">Cancel Collect</string>
+    <string name="collecting">Collecting</string>
+    <string name="hide_sticky_post">Hide Sticky Post</string>
 </resources>

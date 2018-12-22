@@ -23,7 +23,6 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
-import com.febers.uestc_bbs.module.user.view.bottom_sheet.UserDetailBottomSheet
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
@@ -38,7 +37,6 @@ import java.io.File
 
 class UserDetailActivity : BaseActivity(), UserContract.View {
 
-    private lateinit var userBottomSheet: UserDetailBottomSheet
     private lateinit var userPresenter: UserContract.Presenter
     private var signDialog: Dialog? = null
     private lateinit var oldSign: String

@@ -5,17 +5,17 @@
         android:id="@+id/menu_item_post_list_classification"
         app:showAsAction="ifRoom"
         android:icon="@drawable/xic_classification_white_24dp"
-        android:title="标签" />
+        android:title="@string/classification" />
     <item
         android:id="@+id/menu_item_post_list_web"
         app:showAsAction="never"
         android:icon="@drawable/xic_web_purple_24dp"
-        android:title="web页面"/>
+        android:title="@string/web_page"/>
     <item
         android:id="@+id/menu_item_post_list_about"
         app:showAsAction="never"
         android:icon="@drawable/xic_share_white_24dp"
-        android:title="板块信息" />
+        android:title="@string/block_detail" />
     <item
         android:id="@+id/menu_item_post_list_sticky"
         app:showAsAction="never"

@@ -21,13 +21,12 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
-import kotlinx.android.synthetic.main.fragment_post_list.*
+import kotlinx.android.synthetic.main.activity_post_list.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.browse
@@ -69,7 +68,7 @@ class PListActivity: BaseActivity(), PListContract.View {
     override fun setView(): Int {
         mFid = intent.getIntExtra(FID, 0)
         title = intent.getStringExtra(TITLE)
-        return R.layout.fragment_post_list
+        return R.layout.activity_post_list
     }
 
     override fun initView() {
@@ -160,7 +159,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                     classificationIdList.add(it.classificationType_id)
                 }
                 classificationDialog = AlertDialog.Builder(context)
-                        .setTitle("分类列表")
+                        .setTitle(getString(R.string.classification))
                         .setItems(classificationNameList.toTypedArray()) { dialog, which ->
                             classificationId = classificationIdList[which]
                             page = 1
@@ -169,13 +168,13 @@ class PListActivity: BaseActivity(), PListContract.View {
                 //帖子详情
                 if (boardDetailDialog == null) {
                     boardDetailDialog = AlertDialog.Builder(context)
-                            .setTitle("板块信息")
+                            .setTitle(getString(R.string.block_detail))
                             .setMessage("""
 版块id: ${event.data.forumInfo?.id}
 今日帖子: ${event.data.forumInfo?.td_posts_num}
 总帖子: ${event.data.forumInfo?.posts_total_num}
                             """)
-                            .setPositiveButton("确定"){dialog, which -> dialog.dismiss() }
+                            .setPositiveButton(getString(R.string.confirm)){ dialog, which -> dialog.dismiss() }
                             .create()
                 }
             }
@@ -212,6 +211,7 @@ class PListActivity: BaseActivity(), PListContract.View {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onPostNew(event: BaseEvent<PostNewEvent>) {
         if (event.code == BaseCode.SUCCESS) {
+            refresh_layout_post_list.scrollTo(0, 0)
             refresh_layout_post_list.autoRefresh()
         }
     }
@@ -279,8 +279,8 @@ class PListActivity: BaseActivity(), PListContract.View {
         when(item?.itemId) {
             R.id.menu_item_post_list_sticky -> {
                 showOrHideStickyPost()
-                if (!isShowStickyPost) itemShowStickyPost?.title = "隐藏置顶帖"
-                if (isShowStickyPost) itemShowStickyPost?.title = "显示置顶帖"
+                if (!isShowStickyPost) itemShowStickyPost?.title = getString(R.string.hide_sticky_post)
+                if (isShowStickyPost) itemShowStickyPost?.title = getString(R.string.show_sticky_post)
                 isShowStickyPost = !isShowStickyPost
             }
             R.id.menu_item_post_list_web -> {

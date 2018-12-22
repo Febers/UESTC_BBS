@@ -16,15 +16,29 @@ class NotificationHelper {
     private var notification: Notification? = null
     private var requestCode = 0
 
+    /**
+     * 显示通知
+     * 注意的是高版本的通知显示有所不同
+     *
+     * @param context
+     * @param title
+     * @param content
+     * @param channelId
+     * @param channelName
+     * @param notificationId
+     * @param intents
+     * @param autoCancel
+     * @param smallIcon
+     */
     fun show(context: Context,
-                        title: String,
-                        content: String,
-                        channelId: String,
-                        channelName: String,
-                        notificationId: Int,
-                        intents: Array<Intent>,
-                        autoCancel: Boolean = true,
-                        smallIcon: Int = R.drawable.ic_default_avatar_circle) {
+             title: String,
+             content: String,
+             channelId: String,
+             channelName: String,
+             notificationId: Int,
+             intents: Array<Intent>,
+             autoCancel: Boolean = true,
+             smallIcon: Int = R.drawable.ic_default_avatar_circle) {
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

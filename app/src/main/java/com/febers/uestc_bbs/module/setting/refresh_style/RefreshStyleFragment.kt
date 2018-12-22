@@ -55,22 +55,22 @@ class RefreshStyleFragment: BottomSheetDialogFragment() {
 //        tvTitle.setTextColor(ThemeHelper.getRefreshTextColor())
 
         var styleCode by PreferenceUtils(context!!, REFRESH_HEADER_CODE, 0)
-        btnChooseStyle.text = "已选择"
+        btnChooseStyle.text = getString(R.string.have_chosen)
 
         /*------------------- 初始化监听事件 ----------------------*/
         btnChooseStyle.setOnClickListener {
             if (styleCode != viewPager.currentItem) {
                 styleCode = viewPager.currentItem
-                btnChooseStyle.text = "已选择"
+                btnChooseStyle.text = getString(R.string.have_chosen)
             }
         }
 
         fun onViewPagerChange(position: Int) {
             indicator.setCurIndex(position)
             if (position != styleCode) {
-                btnChooseStyle.text = "选择"
+                btnChooseStyle.text = getString(R.string.choose)
             } else {
-                btnChooseStyle.text = "已选择"
+                btnChooseStyle.text = getString(R.string.have_chosen)
             }
         }
         /*-----------------监听事件初始化结束----------------------*/

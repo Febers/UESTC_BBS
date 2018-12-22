@@ -37,7 +37,7 @@ class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), 
                                 "isOnlyAuthor":$onlyAuthor,
                                 "isQuote":0,
                                 "replyId":,
-                                "typeId":,
+                                "typeId":$typeId,
                                 "title":"$title",
                                 "content":"[$stContents]"
                             }

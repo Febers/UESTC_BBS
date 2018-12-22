@@ -82,7 +82,30 @@
     <string name="take_effect_after_reboot">重启应用后生效</string>
     <string name="account_list">账户列表</string>
     <string name="add_user">添加用户</string>
+    <string name="hint">提示</string>
+    <string name="set_hint_style">设置消息提示的样式</string>
+    <string name="icon">图标</string>
+    <string name="choose_icon">选择图标</string>
+    <string name="wait_a_moment_for_the_change_to_take_effect">选择图标之后,稍等片刻更改才会生效</string>
+    <string name="icon_style_in_launcher">选择应用在启动器中显示的图标样式</string>
+    <string name="refresh_style">刷新控件</string>
+    <string name="choose_refresh_style">设置刷新控件样式</string>
+    <string name="no_disturbing">免打扰</string>
+    <string name="no_disturbing_explain">暂停后台轮询消息,您可手动刷新界面更新消息</string>
+    <string name="hint_way_changed">提示方式已更改</string>
+    <string name="cleaning">清除中</string>
 
+    <!--About界面-->
+    <string name="thank_you">感谢您的捐赠!</string>
+    <string name="error">捐赠出错啦</string>
+    <string name="no_alipay_installed">您尚未安装支付宝</string>
+    <string name="about_permission">权限说明</string>
+    <string name="update_log">更新日志</string>
+    <string name="check_update_log">查看更新日志</string>
+    <string name="donate">捐赠</string>
+    <string name="treat_the_developer_for_a_coke">请开发者喝一杯可乐 ๑乛v乛๑</string>
+    <string name="click_to_the_open_source_projects_using">查看本项目所使用到的开源项目</string>
+    <string name="click_to_developer_bbs_account">点击查看开发者河畔账号</string>
 
     <!--Theme界面String-->
     <string name="theme_green">酷安绿</string>
@@ -99,21 +122,24 @@
 
 
     <!--通用-->
-    <string name="enter">确定</string>
+    <string name="confirm">确定</string>
     <string name="send">发送</string>
     <string name="loading">正在加载</string>
     <string name="choose">选择</string>
     <string name="cancel">取消</string>
     <string name="menu">菜单</string>
     <string name="pm_content">私信内容</string>
-    <string name="receiving_message_backround">后台接收消息中</string>
-    <string name="unknwon">未知</string>
+    <string name="receiving_message_background">后台接收消息中</string>
+    <string name="unknown">未知</string>
     <string name="man">男</string>
     <string name="woman">女</string>
-    <string name="thank_you">感谢您的捐赠!</string>
-    <string name="error">捐赠出错啦</string>
-    <string name="no_alipay_installed">您尚未安装支付宝</string>
-    <string name="about_permission">权限说明</string>
+
+    <!--导航-->
+    <string name="bbs_navigation">河畔导航</string>
+    <string name="lost_and_found">失物招领</string>
+    <string name="school_bus_timetable">校车时刻表</string>
+    <string name="school_calender">校历</string>
+    <string name="novice_navigation">新手导航</string>
 
     <!--PandaEmoView-->
     <string name="tabicon">tabIcon</string>
@@ -129,4 +155,24 @@
     <string name="manage">管理</string>
     <string name="delete">删除</string>
     <string name="use">使用</string>
+    <string name="have_chosen">已选择</string>
+    <string name="classification">分类列表</string>
+    <string name="block_detail">板块信息</string>
+    <string name="too_many_pictures">你要发布的帖子含有较多的图片，上传图片可能需要较长的时间</string>
+    <string name="re_edit">重新编辑</string>
+    <string name="search_content">搜索内容</string>
+    <string name="searching">搜索中</string>
+    <string name="web_page">web页面</string>
+    <string name="view_all">查看所有</string>
+    <string name="view_only_author">只看楼主</string>
+    <string name="reverse_view">倒序查看</string>
+    <string name="positive_order_view">正序查看</string>
+    <string name="copy_url">复制链接</string>
+    <string name="share">分享</string>
+    <string name="replies">条回复</string>
+    <string name="copy_url_successfully">复制链接成功</string>
+    <string name="cancel_collect">正在取消收藏</string>
+    <string name="collecting">正在收藏</string>
+    <string name="hide_sticky_post">隐藏置顶帖</string>
+
 </resources>

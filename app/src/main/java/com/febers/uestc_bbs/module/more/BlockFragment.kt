@@ -44,7 +44,7 @@ class BlockFragment: BaseFragment() {
             (activity as AppCompatActivity).setSupportActionBar(toolbar_block_list)
             (activity as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
-                title = "选择板块"
+                title = getString(R.string.choose_block)
             }
             toolbar_block_list.setNavigationOnClickListener { activity?.finish() }
         }

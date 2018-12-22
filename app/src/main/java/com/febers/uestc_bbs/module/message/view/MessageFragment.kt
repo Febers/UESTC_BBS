@@ -1,15 +1,10 @@
-/*
- * Created by Febers at 18-8-14 上午1:46.
- * Copyright (c). All rights reserved.
- * Last modified 18-8-14 上午1:46.
- */
-
 package com.febers.uestc_bbs.module.message.view
 
 import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
@@ -20,6 +15,7 @@ import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPrivateMsg
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.*
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
@@ -47,9 +43,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setView(): Int {
-        return R.layout.fragment_sub_message
-    }
+    override fun setView(): Int = R.layout.fragment_sub_message
 
     /**
      * 根据mMsgType，确定当前视图应该展示哪一种消息
@@ -144,7 +138,6 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             }
             MSG_TYPE_PRIVATE -> {
                 msgBean as MsgPrivateBean
-                EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
                 if (page == 1) {
                     (msgAdapter as MsgPrivateAdapter).setNewData(msgBean.body?.list)
                     return
@@ -178,6 +171,14 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     override fun showError(msg: String) {
         showHint(msg)
         refresh_layout_sub_message?.finishFail()
+    }
+
+    override fun onSupportVisible() {
+        super.onSupportVisible()
+        if (mMsgType != MSG_TYPE_PRIVATE) {
+            log("visible and type is $mMsgType")
+            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, mMsgType!!))
+        }
     }
 
     /**

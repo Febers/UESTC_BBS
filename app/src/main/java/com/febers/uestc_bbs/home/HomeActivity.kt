@@ -32,9 +32,7 @@ class HomeActivity: BaseActivity() {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setView(): Int {
-        return R.layout.activity_home
-    }
+    override fun setView(): Int = R.layout.activity_home
 
     @SuppressLint("RestrictedApi")
     override fun initView() {
@@ -78,7 +76,6 @@ class HomeActivity: BaseActivity() {
     private fun onTabSelected(position: Int, wasSelected: Boolean): Boolean {
         if (position == PAGE_POSITION_MESSAGE) {
             bottom_navigation_home.setNotification("", PAGE_POSITION_MESSAGE)
-            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
             MyApp.msgCount = 0
         }
         if(wasSelected) {

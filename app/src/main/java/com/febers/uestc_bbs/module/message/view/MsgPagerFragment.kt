@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.message.view
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.MsgPagerAdapter
 import kotlinx.android.synthetic.main.fragment_msg_pager.*
 import org.greenrobot.eventbus.EventBus
@@ -25,12 +24,13 @@ class MsgPagerFragment: BaseFragment() {
         tab_layout_message.setupWithViewPager(view_pager_message)
     }
 
-    override fun onSupportVisible() {
-        super.onSupportVisible()
-        if (isSupportVisible && MyApp.msgCount > 0) {
-            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
-        }
-    }
+//    override fun onSupportVisible() {
+//        super.onSupportVisible()
+//        if (isSupportVisible && MyApp.msgCount > 0) {
+//            MyApp.msgCount = 0
+//            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
+//        }
+//    }
 
     /**
      *  当后台Service接收到新消息时，此方法会接受到相应的消息
