@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -29,6 +30,9 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
     override fun convert(p0: ViewHolder?, p1: PMDetailBean.BodyBean.PmListBean.MsgListBean?, p2: Int) {
         val leftLayout: LinearLayout = p0?.getView(R.id.linear_layout_pm_left)!!
         val rightLayout: LinearLayout = p0.getView(R.id.linear_layout_pm_right)!!
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            rightLayout.background.setTint(ThemeHelper.getColorPrimaryBySp())
+        }
         if (p1?.type == "text") {
             if (userId == p1.sender) {
                 //支持表情包的显示

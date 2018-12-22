@@ -34,14 +34,9 @@ class UpdateActivity: BaseActivity() {
 
     override fun initView() {
         var upgradeInfo: UpgradeInfo? = null
-        //服务器不稳定时，无法检测到更新，重复一次
-        for (i in 0..1) {
-            //Beta.checkUpgrade()
-            upgradeInfo = Beta.getUpgradeInfo()
-            if (upgradeInfo != null) {
-                break
-            }
-        }
+        Beta.checkUpgrade()
+        upgradeInfo = Beta.getUpgradeInfo()
+
         upgradeInfo ?: return
 
         val update = UpdateBean()

@@ -16,6 +16,7 @@ open class BaseModel {
     protected var mKeyword: String = ""
     protected var mType: String = ""
     protected var mTopOrder: String = "1"   //默认返回本版置顶帖
+    protected var mPageSize: Int = COMMON_PAGE_SIZE
 
     protected fun getRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(ApiUtils.BBS_BASE_URL)

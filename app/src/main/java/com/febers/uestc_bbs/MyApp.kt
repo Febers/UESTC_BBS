@@ -115,10 +115,8 @@ class MyApp: MultiDexApplication() {
             在调用表情键盘的Activity拦截返回键事件的方法中设置为false
          */
         var emotionViewVisible = false
-//            set(value) {
-//                field = value
-//                log("change new value is $value")
-//            }
+
+        var msgCount = 0
 
         fun context() = context
         fun getUser(): UserSimpleBean = UserHelper.getNowUser()

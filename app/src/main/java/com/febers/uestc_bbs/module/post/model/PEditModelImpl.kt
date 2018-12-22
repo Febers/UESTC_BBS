@@ -6,6 +6,7 @@ import com.febers.uestc_bbs.base.SERVICE_RESPONSE_NULL
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PEditInterface
+import com.febers.uestc_bbs.utils.log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,11 +14,12 @@ import java.lang.StringBuilder
 
 class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), PEditContract.Model {
 
-    override fun newPostService(fid: Int, aid: String, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
-        Thread{ newPost(fid, aid, title, anonymous, onlyAuthor, *contents) }.start()
+    override fun newPostService(fid: Int, aid: String, typeId:Int, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
+        Thread{ newPost(fid, aid, typeId, title, anonymous, onlyAuthor, *contents) }.start()
     }
 
-    private fun newPost(fid: Int, aid: String, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
+    private fun newPost(fid: Int, aid: String, typeId:Int, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
+        log("new post and fid is $fid")
         val stContents = StringBuilder()
         contents.forEach {
             stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")

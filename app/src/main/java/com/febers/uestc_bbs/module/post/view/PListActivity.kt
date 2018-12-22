@@ -1,5 +1,7 @@
 package com.febers.uestc_bbs.module.post.view
 
+import android.app.AlertDialog
+import android.app.Dialog
 import androidx.annotation.UiThread
 import com.google.android.material.appbar.AppBarLayout
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,6 +21,7 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import com.febers.uestc_bbs.view.helper.finishFail
@@ -32,20 +35,30 @@ import java.lang.IndexOutOfBoundsException
 
 class PListActivity: BaseActivity(), PListContract.View {
 
-    private val stickyPostList: MutableList<PostListBean.TopTopicListBean> = ArrayList()
     private val postList: MutableList<PostListBean.ListBean> = ArrayList()
-    private val boardNames: MutableList<String> = ArrayList()
-    private val boardIds: MutableList<Int> = ArrayList()
     private lateinit var pListPresenter: PListContract.Presenter
-    private var stickyPostAdapter: StickyPostAdapter? = null
+    private var postListAdapter: PostListAdapter? = null
+    private var boardDetailDialog: Dialog? = null
+
     private var boardSpinnerAdapter: ArrayAdapter<String>? = null
     private var boardSpinner: Spinner? = null
-    private var postListAdapter: PostListAdapter? = null
+    private val boardNames: MutableList<String> = ArrayList()
+    private val boardIds: MutableList<Int> = ArrayList()
+
+    private val stickyPostList: MutableList<PostListBean.TopTopicListBean> = ArrayList()
+    private var stickyPostAdapter: StickyPostAdapter? = null
     private var itemShowStickyPost: MenuItem? = null
     private var isShowStickyPost = false
+
     private var title: String? = "板块名称"
     private var mFid: Int = 0
     private var page: Int = 1
+
+    private var classificationNameList: MutableList<String> = ArrayList()
+    private var classificationIdList: MutableList<Int> = ArrayList()
+    private var classificationDialog: Dialog? = null
+    private var classificationId: Int = 0
+    private var filterType: String = PLIST_SORT_BY_TYPE
 
     override fun setToolbar(): Toolbar? = toolbar_post_list
 
@@ -60,22 +73,22 @@ class PListActivity: BaseActivity(), PListContract.View {
     }
 
     override fun initView() {
-        //setHasOptionsMenu(true)
         toolbar_post_list.inflateMenu(R.menu.menu_post_list)
         toolbar_post_list.title = ""
+    }
 
+    override fun afterCreated() {
         pListPresenter = PListPresenterImpl(this)
-        postListAdapter = PostListAdapter(context!!, postList)
+        postListAdapter = PostListAdapter(context, postList)
 
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
 
-        pListPresenter.pListRequest(fid = mFid, page = page)
         pListPresenter.boardListRequest(mFid)
 
         boardNames.add(title.toString())
         boardIds.add(mFid)
-        boardSpinnerAdapter = ArrayAdapter(context!!,
+        boardSpinnerAdapter = ArrayAdapter(context,
                 R.layout.item_layout_spinner,
                 R.id.text_view_item_spinner,
                 boardNames).apply {
@@ -88,6 +101,10 @@ class PListActivity: BaseActivity(), PListContract.View {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     mFid = boardIds[position]
                     refresh_layout_post_list.autoRefresh()
+                    classificationNameList.clear()
+                    classificationIdList.clear()
+                    classificationDialog = null
+                    boardDetailDialog = null
                 }
             }
         }
@@ -121,19 +138,47 @@ class PListActivity: BaseActivity(), PListContract.View {
 
     private fun getPost(page: Int) {
         refresh_layout_post_list?.setNoMoreData(false)
-        pListPresenter.pListRequest(fid = mFid, page = page)
+        pListPresenter.pListRequest(fid = mFid, page = page, filterType = filterType, filterId = classificationId)
     }
 
     @UiThread
     override fun showPList(event: BaseEvent<PostListBean>) {
         refresh_layout_post_list?.finishSuccess()
-        //置顶帖数据
-        stickyPostList.clear()
-        stickyPostList.addAll(event.data.topTopicList!!)
-        if (stickyPostAdapter != null) (stickyPostAdapter as StickyPostAdapter).notifyDataSetChanged()
 
         if (page == 1) {
             postListAdapter?.setNewData(event.data.list)
+            //置顶帖数据
+            stickyPostList.clear()
+            stickyPostList.addAll(event.data.topTopicList!!)
+            if (stickyPostAdapter != null) (stickyPostAdapter as StickyPostAdapter).notifyDataSetChanged()
+            //标签数据
+            if (classificationIdList.isEmpty()) {
+                classificationNameList.add("全部")
+                classificationIdList.add(0)
+                event.data.classificationType_list?.forEach {
+                    classificationNameList.add(it.classificationType_name!!)
+                    classificationIdList.add(it.classificationType_id)
+                }
+                classificationDialog = AlertDialog.Builder(context)
+                        .setTitle("分类列表")
+                        .setItems(classificationNameList.toTypedArray()) { dialog, which ->
+                            classificationId = classificationIdList[which]
+                            page = 1
+                            refresh_layout_post_list.autoRefresh()
+                        }.create()
+                //帖子详情
+                if (boardDetailDialog == null) {
+                    boardDetailDialog = AlertDialog.Builder(context)
+                            .setTitle("板块信息")
+                            .setMessage("""
+版块id: ${event.data.forumInfo?.id}
+今日帖子: ${event.data.forumInfo?.td_posts_num}
+总帖子: ${event.data.forumInfo?.posts_total_num}
+                            """)
+                            .setPositiveButton("确定"){dialog, which -> dialog.dismiss() }
+                            .create()
+                }
+            }
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
@@ -230,40 +275,25 @@ class PListActivity: BaseActivity(), PListContract.View {
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-//        inflater?.inflate(R.menu.menu_post_list, menu)
-//        if (menu != null) itemShowStickyPost = menu.findItem(R.id.menu_item_post_list_sticky)
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item?.itemId == R.id.menu_item_post_list_sticky) {
-            showOrHideStickyPost()
-            if (!isShowStickyPost) itemShowStickyPost?.title = "隐藏置顶帖"
-            if (isShowStickyPost) itemShowStickyPost?.title = "显示置顶帖"
-            isShowStickyPost = !isShowStickyPost
+        when(item?.itemId) {
+            R.id.menu_item_post_list_sticky -> {
+                showOrHideStickyPost()
+                if (!isShowStickyPost) itemShowStickyPost?.title = "隐藏置顶帖"
+                if (isShowStickyPost) itemShowStickyPost?.title = "显示置顶帖"
+                isShowStickyPost = !isShowStickyPost
+            }
+            R.id.menu_item_post_list_web -> {
+                browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
+            }
+            R.id.menu_item_post_list_classification -> {
+                classificationDialog?.show()
+            }
+            R.id.menu_item_post_list_about -> {
+                boardDetailDialog?.show()
+            }
         }
-        if (item?.itemId == R.id.menu_item_post_list_web) {
-            browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
-        }
+
         return super.onOptionsItemSelected(item)
-    }
-
-//    companion object {
-//        @JvmStatic
-//        fun newInstance(fid: Int, title: String, showBottomBarOnDestroy: Boolean) =
-//                PListActivity().apply {
-//                    arguments = Bundle().apply {
-//                        putInt(FID, fid)
-//                        putString(TITLE, title)
-//                        putBoolean(SHOW_BOTTOM_BAR_ON_DESTROY, showBottomBarOnDestroy)
-//                    }
-//                }
-//    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        postList.clear()
-        stickyPostList.clear()
     }
 }

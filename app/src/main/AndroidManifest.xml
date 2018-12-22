@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
     <!--用以重启桌面启动器使图标切换更快的生效-->
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <!--<uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>-->
 
     <application
         android:name=".MyApp"

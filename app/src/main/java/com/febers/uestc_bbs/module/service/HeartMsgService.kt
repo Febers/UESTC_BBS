@@ -3,19 +3,15 @@ package com.febers.uestc_bbs.module.service
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
-import androidx.core.app.NotificationCompat
-import android.util.Log.i
 import com.febers.uestc_bbs.MyApp
-import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.MsgHeartBean
 import com.febers.uestc_bbs.home.HomeActivity
 import com.febers.uestc_bbs.http.TokenClient
-import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.utils.TimeUtils
+import com.febers.uestc_bbs.utils.log
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -34,46 +30,44 @@ import retrofit2.http.GET
  */
 class HeartMsgService : Service() {
 
-    private lateinit var notificationManager: NotificationManager
-    private lateinit var notification: Notification
+    private var notificationHelper: NotificationHelper? = null
+    private var msgThread: Thread? = null
+    private var flag: Boolean = true
 
-    private val notificationId_p = 970418
-    private val notificationId_r = 970419
-    private val notificationId_a = 970420
-    private val notificationId_s = 970421
-    private val requestCode = 0
-    private val privateChannelId = "pci"
-    private val privateChannelName = "pcn"
-    private val otherChannelId = "other"
-    private val otherChannelName = "other"
-    private val replyChannelId = "rci"
-    private val replyChannelName = "rcn"
-    private val atChannelId = "aci"
-    private val atChannelName = "acn"
-    private val systemChannelId = "sci"
-    private val systemChannelName = "scn"
-    private var pmCount = 0
-    private var rmCount = 0
-    private var amCount = 0
-    private var smCount = 0
+    private val notificationId_p = 970418; private val notificationId_r = 970419
+    private val notificationId_a = 970420; private val notificationId_s = 970421
+    private val privateChannelId = "pci"; private val privateChannelName = "pcn"
+    private val otherChannelId = "other"; private val otherChannelName = "other"
+    private val replyChannelId = "rci"; private val replyChannelName = "rcn"
+    private val atChannelId = "aci"; private val atChannelName = "acn"
+    private val systemChannelId = "sci"; private val systemChannelName = "scn"
+    private var pmCount = 0; private var rmCount = 0
+    private var amCount = 0; private var smCount = 0
 
-    override fun onCreate() {
-        super.onCreate()
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    /*
+     * 对于Service来说，只有第一次start会调用onCreate
+     * 但是每次都会调用onStartCommand
+     */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (!MyApp.getUser().valid) return super.onStartCommand(intent, flags, startId)
+
         //注意Android8上，当应用运行在后台时，启动服务，会报IllegalStateException
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApp.uiHidden) {
-//            startForeground(Int.MAX_VALUE, createNotification(title = getString(R.string.receiving_message_backround), content = "", msgType = "", count = 0))
+//            startForeground(Int.MAX_VALUE, showNotification(title = getString(R.string.receiving_message_backround), content = "", msgType = "", count = 0))
 //        }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
-        HeartMsgThread().start()
+        flag = true
+        msgThread = HeartMsgThread()
+        msgThread?.start()
+        return super.onStartCommand(intent, flags, startId)
     }
 
     /**
      * 初始化通知栏工具
      */
-    private fun createNotification(title: String, content: String, msgType: String, count: Int, uid: Int = -1): Notification {
+    private fun showMsgNotification(title: String, content: String, notificationId: Int, msgType: String, count: Int, uid: Int = -1) {
         val channelId: String =  when(msgType) {
             MSG_TYPE_REPLY -> replyChannelId
             MSG_TYPE_PRIVATE -> privateChannelId
@@ -88,55 +82,27 @@ class HeartMsgService : Service() {
             MSG_TYPE_SYSTEM -> systemChannelName
             else -> otherChannelName
         }
-        val intents = arrayOf(Intent(this,
-//                if (msgType == MSG_TYPE_PRIVATE && count == 1) {
-//                    PMDetailActivity::class.java
-//                } else {
-                    HomeActivity::class.java
-//                }
-                )
-                .apply {
+        val intents = arrayOf(Intent(this, HomeActivity::class.java).apply {
                     putExtra(USER_ID, uid.toString())
                     putExtra(MSG_TYPE, msgType)
                     putExtra(MSG_COUNT, count)
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 })
-        EventBus.getDefault().post(MsgEvent(BaseCode.SUCCESS, count))
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(notificationChannel)
-            notification = Notification.Builder(this, channelId)
-                    .setContentTitle(title)
-                    .setContentText(content)
-                    .setContentIntent(PendingIntent.getActivities(this, requestCode, intents, PendingIntent.FLAG_CANCEL_CURRENT))
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_default_avatar_circle)
-                    .build()
-        } else {
-            val builder = NotificationCompat.Builder(this, channelId)
-            notification = builder
-                    .setContentTitle(title)
-                    .setContentText(content)
-                    .setContentIntent(PendingIntent.getActivities(this, requestCode, intents, PendingIntent.FLAG_CANCEL_CURRENT))
-                    .setWhen(System.currentTimeMillis())
-                    .setPriority(Notification.PRIORITY_DEFAULT)
-                    .setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setSmallIcon(R.drawable.ic_default_avatar_circle)
-                    .build()
-        }
-        return notification
-    }
-
-    private fun showNotification(id: Int) {
-        notificationManager.notify(id, notification)
+        EventBus.getDefault().post(MsgEvent(BaseCode.SUCCESS, count, msgType))
+        notificationHelper = NotificationHelper()
+        notificationHelper!!.show(context = this,
+                title = title,
+                content = content,
+                channelId = channelId,
+                channelName = channelName,
+                notificationId = notificationId,
+                intents = intents)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun getMsgFeedback(event: MsgFeedbackEvent) {
+    fun onMsgFeedback(event: MsgFeedbackEvent) {
 //        i("service", "cancel: ${event.type}")
-        notificationManager.cancel(
+        notificationHelper?.cancelNotification(
                 when(event.type) {
                     MSG_TYPE_REPLY -> {
                         rmCount = 0
@@ -154,13 +120,12 @@ class HeartMsgService : Service() {
                         smCount = 0
                         notificationId_s
                     }
-                    //取消全部
-                    else -> {
+                    else -> {   //取消全部
                         rmCount = 0; pmCount = 0; amCount = 0; smCount = 0
-                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_REPLY))
-                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
-                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_SYSTEM))
-                        getMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_AT))
+                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_REPLY))
+                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
+                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_SYSTEM))
+                        onMsgFeedback(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_AT))
                         return
                     }
                 })
@@ -171,9 +136,12 @@ class HeartMsgService : Service() {
      */
     inner class HeartMsgThread: Thread() {
         override fun run() {
-            while (true) {
+            while (flag) {
                 getHeartMsg()
-                sleep(6*1000)
+                try {
+                    sleep(6*1000)
+                } catch (e: InterruptedException) {
+                }
             }
         }
 
@@ -189,42 +157,31 @@ class HeartMsgService : Service() {
                         }
 
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
-                            var heartBean = response.body() ?: return
+                            val heartBean = response.body() ?: return
                             if (heartBean.rs != 1 || heartBean.body == null) return
                             if (heartBean.body!!.replyInfo?.count!! > rmCount) {
                                 rmCount = heartBean.body!!.replyInfo?.count!!
-                                createNotification(title = "${heartBean.body?.replyInfo?.count}条新回复",
+                                showMsgNotification(title = "${heartBean.body?.replyInfo?.count}条新回复",
                                         content = TimeUtils.stampChange(heartBean.body?.replyInfo?.time),
+                                        notificationId = notificationId_r,
                                         msgType = MSG_TYPE_REPLY,
                                         count = heartBean.body?.replyInfo?.count!! )
-                                showNotification(notificationId_r)
                             }
                             if (heartBean.body!!.atMeInfo?.count!! > amCount) {
                                 amCount = heartBean.body!!.atMeInfo?.count!!
-                                createNotification(title = "${heartBean.body?.atMeInfo?.count}条@消息",
+                                showMsgNotification(title = "${heartBean.body?.atMeInfo?.count}条@消息",
                                         content = TimeUtils.stampChange(heartBean.body?.atMeInfo?.time),
+                                        notificationId = notificationId_r,
                                         msgType = MSG_TYPE_AT,
                                         count = heartBean.body?.atMeInfo?.count!!)
-                                showNotification(notificationId_a)
                             }
                             if (heartBean.body?.pmInfos?.size!! > pmCount) {
                                 pmCount = heartBean.body?.pmInfos?.size!!
-                                if (heartBean.body!!.pmInfos?.size!! > 3) {
-                                    createNotification(title = "${heartBean.body!!.pmInfos?.size}条私信",
-                                            content = TimeUtils.stampChange(heartBean.body!!.pmInfos!![0].time),
-                                            msgType = MSG_TYPE_PRIVATE,
-                                            count = heartBean.body!!.pmInfos?.size!!)
-                                    showNotification(notificationId_p)
-                                } else {
-                                    heartBean.body!!.pmInfos?.forEach {
-                                        createNotification(title = "来自${it.fromUid}的消息",
-                                                content = TimeUtils.stampChange(it.time) + "之前",
-                                                msgType = MSG_TYPE_PRIVATE,
-                                                count = 1,
-                                                uid = it.fromUid)
-                                        showNotification(notificationId_s)
-                                    }
-                                }
+                                showMsgNotification(title = "${heartBean.body!!.pmInfos?.size}条私信",
+                                        content = TimeUtils.stampChange(heartBean.body!!.pmInfos!![0].time),
+                                        notificationId = notificationId_r,
+                                        msgType = MSG_TYPE_PRIVATE,
+                                        count = heartBean.body!!.pmInfos?.size!!)
                             }
                             System.gc()
                         }
@@ -243,7 +200,10 @@ class HeartMsgService : Service() {
      * !!!禁用重启服务，因为产生的影响未知
      */
     override fun onDestroy() {
+        log("stop service")
         super.onDestroy()
+        flag = false
+        msgThread?.interrupt()
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }

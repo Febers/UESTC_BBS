@@ -204,7 +204,7 @@ class MoreFragment: BaseFragment() {
                     .create()
         }
         navigationDialog?.show()
-        navigationDialog?.setContentView(getNavigationDialog())
+        navigationDialog?.setContentView(getNavigationDialogView())
         tvNaviLostAndFound?.setOnClickListener {
             startActivity(Intent(context, PListActivity::class.java).apply {
                 putExtra(FID, 305)
@@ -229,7 +229,7 @@ class MoreFragment: BaseFragment() {
         }
     }
 
-    private fun getNavigationDialog(): View {
+    private fun getNavigationDialogView(): View {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_navigation, null)
         tvNaviLostAndFound = view.findViewById(R.id.navigation_lost_and_found)
         tvNaviSchoolBus = view.findViewById(R.id.navigation_school_bus)
@@ -237,5 +237,37 @@ class MoreFragment: BaseFragment() {
         tvNaviNewer = view.findViewById(R.id.navigation_newer)
         btnNaviEnter = view.findViewById(R.id.navigation_enter)
         return view
+    }
+
+    private fun getNavigationDialog(): AlertDialog {
+        return AlertDialog.Builder(context!!)
+                .setTitle("河畔导航")
+                .setPositiveButton("确定") {
+                    dialog, which -> dialog.dismiss()
+                }
+                .setItems(arrayOf("    失物招领", "    校车时刻表", "    校历", "    新手导航")) { dialog, which ->
+                    when(which) {
+                        0 -> {
+                            startActivity(Intent(context, PListActivity::class.java).apply {
+                                putExtra(FID, 305)
+                                putExtra(TITLE, "失物招领")
+                            })
+                            dialog.dismiss()
+                        }
+                        1 -> {
+                            ClickContext.clickToPostDetail(context, 1430861)
+                            dialog.dismiss()
+                        }
+                        2 -> {
+                            ClickContext.clickToPostDetail(context, 1493930)
+                            dialog.dismiss()
+                        }
+                        3 -> {
+                            ClickContext.clickToPostDetail(context, 1456557)
+                            dialog.dismiss()
+                        }
+                    }
+                }
+                .create()
     }
 }

@@ -192,6 +192,17 @@ class MessageFragment : BaseFragment(), MessageContract.View {
         }
     }
 
+    /**
+     *  当后台Service接收到新消息时，此方法会接受到相应的消息
+     *  如果正在显示，则刷新界面
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onReceiveNewMsg(event: MsgEvent) {
+        if (userVisibleHint && event.type == mMsgType) {
+            refresh_layout_sub_message?.autoRefresh()
+        }
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(type: String) =

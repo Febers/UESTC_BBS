@@ -2,10 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_item_post_list_classification"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/xic_classification_white_24dp"
+        android:title="标签" />
+    <item
         android:id="@+id/menu_item_post_list_web"
         app:showAsAction="never"
         android:icon="@drawable/xic_web_purple_24dp"
         android:title="web页面"/>
+    <item
+        android:id="@+id/menu_item_post_list_about"
+        app:showAsAction="never"
+        android:icon="@drawable/xic_share_white_24dp"
+        android:title="板块信息" />
     <item
         android:id="@+id/menu_item_post_list_sticky"
         app:showAsAction="never"

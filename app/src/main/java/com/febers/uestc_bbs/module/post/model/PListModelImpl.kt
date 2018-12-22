@@ -14,17 +14,18 @@ import retrofit2.Response
 class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(), PListContract.Model {
 
     private var savedPListGot = false
+    private var filterType = PLIST_SORT_BY_TYPE //默认帖子分类
+    private var filterId = 0
 
-    override fun pListService(fid: Int, page: Int) {
+    override fun pListService(fid: Int, page: Int, pageSize:Int, filterType: String, filterId: Int) {
         mFid = fid.toString()
         mPage = page.toString()
+        mPageSize = pageSize
+        this.filterType = filterType
+        this.filterId = filterId
 
-        Thread(Runnable {
-            getSavedPList()
-        }).start()
-        Thread(Runnable {
-            getPList()
-        }).start()
+        Thread{ getSavedPList() }.start()
+        Thread{ getPList() }.start()
     }
 
     override fun boardListService(fid: Int) {
@@ -92,7 +93,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
                     page = mPage,
-                    pageSize = COMMON_PAGE_SIZE.toString(),
+                    pageSize = mPageSize.toString(),
                     sortby = "new")
         }
         //最新回复
@@ -100,7 +101,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             return pListRequest.newPosts(r = "forum/topiclist",
                     boardId = "0",
                     page = mPage,
-                    pageSize = COMMON_PAGE_SIZE.toString(),
+                    pageSize = mPageSize.toString(),
                     sortby = "all")
         }
         //热门帖子
@@ -108,15 +109,16 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
             return pListRequest.hotPosts(r = "portal/newslist",
                     moduleId = "2",
                     page = mPage,
-                    pageSize = COMMON_PAGE_SIZE.toString())
+                    pageSize = mPageSize.toString())
         }
         //版块里的帖子
         return pListRequest.normalPosts(
                 boardId = mFid,
                 page = mPage,
-                pageSize = COMMON_PAGE_SIZE.toString(),
+                pageSize = mPageSize.toString(),
                 sortby = "new",
-                filterType = "sortid",
+                filterType = filterType,
+                filterId = filterId.toString(),
                 isImageList = "false",
                 topOrder = mTopOrder)
     }

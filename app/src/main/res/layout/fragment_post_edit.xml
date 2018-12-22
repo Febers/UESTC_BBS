@@ -37,6 +37,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <Spinner
+                    android:id="@+id/spinner_post_edit_classification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="12dp">
+                </Spinner>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -55,10 +62,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="end">
+                    android:orientation="horizontal"
+                    android:gravity="end"
+                    android:layout_marginEnd="16dp">
+
                     <ImageView
                         android:id="@+id/btn_emotion_post_edit"
                         android:layout_width="@dimen/emotion_button_width_normal"

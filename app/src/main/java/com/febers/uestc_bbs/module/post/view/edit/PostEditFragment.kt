@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.BoardListBean_
+import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
@@ -21,6 +22,7 @@ import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -55,12 +57,15 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     private var boardSpinnerAdapter: ArrayAdapter<String>? = null
     private var boardSpinner: Spinner? = null
 
+    private val classificationNames: MutableList<String> = ArrayList()
+    private val classificationIds: MutableList<Int> = ArrayList()
+    private var classificationId: Int = 0
+    private var classSpinnerAdapter: ArrayAdapter<String>? = null
+
     private var progressDialog: ProgressDialog? = null
     private lateinit var keyboardManager: KeyBoardManager
 
     override fun setView(): Int = R.layout.fragment_post_edit
-
-    //override fun setToolbar(): Toolbar? = toolbar_post_edit
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
@@ -83,10 +88,34 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     mFid = boardIds[position]
+                    classificationNames.clear()
+                    classificationIds.clear()
+                    classificationNames.add("不选择主题")
+                    classificationIds.add(0)
+                    classSpinnerAdapter?.notifyDataSetChanged()
+                    pListPresenter.pListRequest(fid = mFid, page = 1, pageSize = 0)
                 }
             }
         }
         toolbar_post_edit.addView(boardSpinner, 0)
+
+        classificationNames.add("不选择主题")
+        classificationIds.add(0)
+        classSpinnerAdapter = ArrayAdapter(context!!,
+                R.layout.item_layout_spinner,
+                R.id.text_view_item_spinner,
+                classificationNames).apply {
+            setDropDownViewResource(R.layout.item_layout_spinner_dropdown)
+        }
+        spinner_post_edit_classification.apply {
+            adapter = classSpinnerAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    classificationId = classificationIds[position]
+                }
+            }
+        }
 
         imgGridViewAdapter = ImgGridViewAdapter(context!!, selectedImagePaths)
         imgGridViewAdapter.setImageClickListener(object : ImgGridViewAdapter.OnImageClickListener {
@@ -109,6 +138,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         initEmotionView()
 
         pListPresenter.boardListRequest(mFid)
+        pListPresenter.pListRequest(fid = mFid, page = 1, pageSize = 0)
 
         //匿名功能无法实现
 //        check_box_is_anonymous.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -123,7 +153,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         val activity: AppCompatActivity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar_post_edit)
         activity.supportActionBar?.apply {
-            title = ""
+            title = "编辑"
             setDisplayHomeAsUpEnabled(true)
         }
         toolbar_post_edit.setNavigationOnClickListener { activity.finish() }
@@ -193,7 +223,8 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         }
         progressDialog?.show()
         if (selectedImagePaths.isEmpty()) {
-            pEditPresenter.newPostRequest(fid = mFid, aid = "", title = stTitle,
+            pEditPresenter.newPostRequest(fid = mFid, aid = "", typeId = 0,
+                    title = stTitle,
                     anonymous = isAnonymous, onlyAuthor = isOnlyAuthor,
                     contents = *arrayOf(CONTENT_TYPE_TEXT to stContent))
         } else {
@@ -202,10 +233,6 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     }
 
     private fun sendImagePost(title: String, content: String) {
-        //val needUploadImages: MutableList<String> = ArrayList()
-        //needUploadImages.addAll(selectedImagePaths)
-        //needUploadImages.remove(addImagePath)
-
         val aidBuffer = StringBuffer()
         val contentList: MutableList<Pair<Int, String>> = ArrayList()
         contentList.add(CONTENT_TYPE_TEXT to content)
@@ -226,6 +253,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                                 pEditPresenter.newPostRequest(fid = mFid,
                                         aid = aidBuffer.toString(),
                                         title = title,
+                                        typeId = 0,
                                         anonymous = isAnonymous,
                                         onlyAuthor = isOnlyAuthor,
                                         contents = *contentList.toTypedArray())
@@ -238,6 +266,15 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
             }
         }
 
+    }
+
+    @UiThread
+    override fun showPList(event: BaseEvent<PostListBean>) {
+        event.data.classificationType_list?.forEach {
+            classificationNames.add(it.classificationType_name!!)
+            classificationIds.add(it.classificationType_id)
+        }
+        classSpinnerAdapter?.notifyDataSetChanged()
     }
 
     @UiThread

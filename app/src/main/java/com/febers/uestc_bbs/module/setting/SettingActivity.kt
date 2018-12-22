@@ -13,17 +13,16 @@ import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.io.CacheHelper
+import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.fragment_setting.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SettingActivity : BaseActivity() {
@@ -38,6 +37,7 @@ class SettingActivity : BaseActivity() {
     private var iconChooseView: IconFragment? = null
 
     private var hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
+    private var loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
 
     override fun setView(): Int {
         return R.layout.fragment_setting
@@ -70,18 +70,23 @@ class SettingActivity : BaseActivity() {
                 when(i) {
                     0 -> { onHintMethodChange() }
                     1 -> {
-                        if (refreshStyleView == null) {
-                            refreshStyleView = RefreshStyleFragment()
-                        }
-                        refreshStyleView?.show(supportFragmentManager, "style")
-                    }
-                    2 -> {
                         if (iconChooseView == null) {
                             iconChooseView = IconFragment()
                         }
                         iconChooseView?.show(supportFragmentManager, "icon")
                     }
-                    3 -> { clearCache() }
+                    2 -> {
+                        if (refreshStyleView == null) {
+                            refreshStyleView = RefreshStyleFragment()
+                        }
+                        refreshStyleView?.show(supportFragmentManager, "style")
+                    }
+                    3 -> {
+                        val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
+                        checkBox.isChecked = !checkBox.isChecked
+                        onReceiveMsgChange(!checkBox.isChecked)
+                    }
+                    4 -> { clearCache() }
                 }
             }
         }
@@ -103,12 +108,11 @@ class SettingActivity : BaseActivity() {
 
     private fun initSettingData(): List<SettingItemBean> {
         val item0 = SettingItemBean("提示", "设置消息提示的样式")
-        val item1 = SettingItemBean("刷新控件", "设置刷新控件样式")
-        val item2 = SettingItemBean("图标", "选择应用在启动器中显示的图标样式")
-        cacheItem = SettingItemBean(getString(R.string.clear_image_cache), "...")
-//        val item3 = SettingItemBean("后台接收消息", "除非强制退出，否则将一直发送心跳包查询消息", showCheck = true, checked = false)
-//        val item4 = SettingItemBean("缓存首页帖子", "保存首页的第一页帖子数据", showCheck = true, checked = true)
-        return arrayListOf(item0, item1, item2, cacheItem)
+        val item1 = SettingItemBean("图标", "选择应用在启动器中显示的图标样式")
+        val item2 = SettingItemBean("刷新控件", "设置刷新控件样式")
+        val item3 = SettingItemBean("免打扰", "暂停后台轮询消息,您可手动刷新界面更新消息", showCheck = true, checked = !loopReceiveMsg)
+        cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
+        return arrayListOf(item0, item1, item2, item3, cacheItem)
     }
 
     /**
@@ -149,6 +153,16 @@ class SettingActivity : BaseActivity() {
         }
     }
 
+    private fun onReceiveMsgChange(isLoop: Boolean) {
+        loopReceiveMsg = isLoop
+        val intent = Intent(context, HeartMsgService::class.java)
+        if (loopReceiveMsg) {
+            startService(intent)
+        } else {
+            stopService(intent)
+        }
+    }
+
     /*
         添加用户成功之后重新获取账户列表,
         但是它可以在此Fragment内被触发，这个诡异的现象我浪费了一个多小时才弄明白
@@ -164,7 +178,7 @@ class SettingActivity : BaseActivity() {
 
     private fun getCache() {
         Thread {
-            cacheItem.tip = CacheHelper.imageCacheSize
+            cacheItem.tip = CacheHelper.CacheSize
             runOnUiThread {
                 settingAdapter.notifyItemChanged(1)
             }

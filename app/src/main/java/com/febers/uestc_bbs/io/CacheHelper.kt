@@ -14,7 +14,7 @@ import com.febers.uestc_bbs.io.FileHelper.glideCacheDir
 import java.io.File
 
 /**
- * 主要是提供清除图片缓存功能
+ * 提供清除缓存功能
  */
 object CacheHelper {
 
@@ -22,7 +22,7 @@ object CacheHelper {
      * 获取图片缓存大小
      * 包括Glide的缓存和Android/data/uestc_bbs/cache中的文件
      */
-    val imageCacheSize: String
+    val CacheSize: String
         get() {
             return try {
                 getFormatSize(size = getFolderSize(File(glideCacheDir)).toDouble()
@@ -34,7 +34,7 @@ object CacheHelper {
             }
         }
 
-    // 清除Glide磁盘缓存，自己获取缓存文件夹并删除方法
+    // 清除磁盘缓存，自己获取缓存文件夹并删除方法
     fun clearCache(): Boolean {
         if (deleteFolderFile(glideCacheDir, deleteThisPath = false)
                 && deleteFolderFile(appCacheDir, deleteThisPath = false)

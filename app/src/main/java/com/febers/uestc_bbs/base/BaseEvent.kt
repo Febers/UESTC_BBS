@@ -7,7 +7,7 @@ enum class BaseCode {
     SUCCESS, SUCCESS_END, FAILURE, LOCAL, UPDATE, TIME_OUT
 }
 
-data class MsgEvent(var code: BaseCode, var count: Int)
+data class MsgEvent(var code: BaseCode, var count: Int, var type: String)
 
 data class TabReselectedEvent(var code: BaseCode, var position: Int)
 

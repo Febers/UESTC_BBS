@@ -13,6 +13,8 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -27,7 +29,6 @@ class HomeActivity: BaseActivity() {
     private val PAGE_POSITION_MORE = 3
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
-    private var msgCount = 0
 
     override fun registerEventBus(): Boolean = true
 
@@ -78,7 +79,7 @@ class HomeActivity: BaseActivity() {
         if (position == PAGE_POSITION_MESSAGE) {
             bottom_navigation_home.setNotification("", PAGE_POSITION_MESSAGE)
             EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
-            msgCount = 0
+            MyApp.msgCount = 0
         }
         if(wasSelected) {
             onTabReselected(position)
@@ -111,8 +112,10 @@ class HomeActivity: BaseActivity() {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onReceiveNewMsg(event: MsgEvent) {
-        msgCount = event.count
-        bottom_navigation_home.setNotification(msgCount, 2)
+        if (bottom_navigation_home.currentItem != PAGE_POSITION_MESSAGE) {
+            MyApp.msgCount = event.count
+            bottom_navigation_home.setNotification(MyApp.msgCount, PAGE_POSITION_MESSAGE)
+        }
     }
 
     /**
@@ -124,8 +127,8 @@ class HomeActivity: BaseActivity() {
         super.onNewIntent(intent)
         if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
 
-        bottom_navigation_home.currentItem = 2
-        showHideFragment(mFragments[2])
+        bottom_navigation_home.currentItem = PAGE_POSITION_MESSAGE
+        showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
     }
 
     @SuppressLint("RestrictedApi")
@@ -142,8 +145,10 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun startService() {
-        if (!MyApp.getUser().valid) return
-        val intent = Intent(this, HeartMsgService::class.java)
-        startService(intent)
+        val loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
+        if (loopReceiveMsg) {
+            val intent = Intent(this, HeartMsgService::class.java)
+            startService(intent)
+        }
     }
 }

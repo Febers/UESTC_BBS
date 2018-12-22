@@ -51,8 +51,8 @@ class RefreshStyleFragment: BottomSheetDialogFragment() {
     }
 
     private fun initView() {
-        tvTitle.setBackgroundColor(ThemeHelper.getColorPrimary())
-        tvTitle.setTextColor(ThemeHelper.getRefreshTextColor())
+//        tvTitle.setBackgroundColor(ThemeHelper.getColorPrimary())
+//        tvTitle.setTextColor(ThemeHelper.getRefreshTextColor())
 
         var styleCode by PreferenceUtils(context!!, REFRESH_HEADER_CODE, 0)
         btnChooseStyle.text = "已选择"

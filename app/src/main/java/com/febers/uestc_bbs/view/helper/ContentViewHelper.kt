@@ -17,36 +17,6 @@ import com.febers.uestc_bbs.utils.encodeSpaces
  * type对应的视图类型如下:
  * 0：文本（解析链接）；1：图片；3：音频;4:链接;5：附件
  *
-"content": [
-{
-"infor": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
-"type": 1,
-"originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
-"aid": 1880982
-},
-{
-"infor": "利用课余时间，开发了一个Android端应用“i成电”，应用主页为：",
-"type": 0,
-"originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
-"aid": 1880982
-},
-{
-"infor": "http://app.febers.tech/",
-"type": 4,
-"originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
-"aid": 1880982,
-"url": "http://app.febers.tech/"
-},
-
-{
-"infor": "iuestc_beta2.9.apk",
-"type": 5,
-"originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/222551mkmyz00hkd2bksms.png",
-"aid": 1880984,
-"url": "http://bbs.uestc.edu.cn/forum.php?mod=attachment&aid=MTg4MDk4NXxlNWY3OGE5YnwxNTM0NTM2NTg0fDE5NjQ4NnwxNzE4MTM0",
-"desc": "2.94 MB, 下载次数: 44"
-}
-],
  */
 const val CONTENT_TYPE_TEXT = 0
 const val CONTENT_TYPE_IMG = 1
@@ -162,7 +132,7 @@ class ContentViewHelper(
      * 将content.infor中的表情gif图片变成超链接，
      * 然后交给{@link #ImageTextHelper.setImageText(TextView tv, String html)} 处理
      * raw比如:
-     * ...你好啊[mobcent_phiz=http://bbs.uestc.edu.cn/static/image/smiley/first/1.gif]...
+     * ...[mobcent_phiz=http://bbs.uestc.edu.cn/static/image/smiley/first/1.gif]...
      * 转换成:
      * <img src="http://bbs.uestc.edu.cn/static/image/smiley/first/1.gif">
      */

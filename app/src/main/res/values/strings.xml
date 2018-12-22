@@ -70,7 +70,7 @@
     <string name="setting">设置</string>
     <string name="choose_theme">选择主题</string>
     <string name="choose_block">选择板块</string>
-    <string name="clear_image_cache">清除图片缓存</string>
+    <string name="clear_cache">清除缓存</string>
     <string name="swipe_to_choose">左右滑动选择刷新样式</string>
 
     <string name="block_today_num">今日帖子</string>

@@ -3,13 +3,11 @@ package com.febers.uestc_bbs.module.user.view
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
-import android.view.LayoutInflater
+import android.view.*
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -42,7 +40,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     private lateinit var userBottomSheet: UserDetailBottomSheet
     private lateinit var userPresenter: UserContract.Presenter
-    private lateinit var signDialog: AlertDialog
+    private var signDialog: Dialog? = null
     private lateinit var oldSign: String
     private var userItSelf = false
     private var userId: Int = 0
@@ -90,8 +88,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         recyclerview_user_detail?.adapter = UserDetailAdapter(this, initUserItem(event.data)).apply {
             setOnItemClickListener { viewHolder, detailItemBean, i ->
                 if (i == 0 && userItSelf) {
-                    signDialog.show()
-                    signDialog.setContentView(getSignDialogView())
+                    signDialog?.show()
+                    signDialog?.setContentView(getSignDialogView())
                 }
             }
         }
@@ -150,7 +148,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     @UiThread
     override fun showUserUpdate(event: BaseEvent<UserUpdateResultBean>) {
         showHint(event.data.head?.errInfo.toString())
-        signDialog.dismiss()
+        signDialog?.dismiss()
         progress_bar_user_detail?.visibility = View.GONE
         refresh_layout_user_detail.autoRefresh()
         PictureFileUtils.deleteCacheDirFile(this@UserDetailActivity)
@@ -174,12 +172,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         val editText = view.findViewById<EditText>(R.id.edit_text_update_sign)
         editText.setText(oldSign)
         //使其可以弹出软键盘
-        signDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        signDialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         val btnEnter = view.findViewById<Button>(R.id.btn_dialog_sign_update_enter)
         btnEnter.setTextColor(ThemeHelper.getColorPrimary())
         val btnCancel = view.findViewById<Button>(R.id.btn_dialog_sign_update_cancel)
         btnCancel.setOnClickListener {
-            signDialog.dismiss()
+            signDialog?.dismiss()
         }
         btnEnter.setOnClickListener {
             view.findViewById<ProgressBar>(R.id.progress_bar_update_sign).visibility = View.VISIBLE

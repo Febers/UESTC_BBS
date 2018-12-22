@@ -12,21 +12,23 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="选择刷新控件"
-        android:textSize="@dimen/text_size_big"
+        android:textSize="@dimen/text_size_super_big"
+        android:textColor="?text_color_first"
         android:gravity="center"/>
 
     <com.febers.uestc_bbs.view.custom.InterceptTouchLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager_refresh_style"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             app:elevation="10dp"
             android:background="?attr/background_first">
         </androidx.viewpager.widget.ViewPager>
@@ -46,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
             android:text="@string/choose"/>
         <TextView
             android:layout_width="wrap_content"

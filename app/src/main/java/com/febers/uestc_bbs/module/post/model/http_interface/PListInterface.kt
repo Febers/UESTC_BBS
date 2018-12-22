@@ -25,8 +25,8 @@ interface PListInterface {
     @POST(ApiUtils.BBS_TOPIC_LIST_URL)
     fun normalPosts(@Field("boardId")boardId: String, @Field("page")page: String,
                     @Field("pageSize")pageSize: String, @Field("sortby")sortby: String,
-                    @Field("filterType")filterType: String, @Field("isImageList")isImageList: String,
-                    @Field("topOrder")topOrder: String): Call<PostListBean>
+                    @Field("filterType")filterType: String, @Field("filterId")filterId: String,
+                    @Field("isImageList")isImageList: String, @Field("topOrder")topOrder: String): Call<PostListBean>
 
     @FormUrlEncoded
     @POST(ApiUtils.BBS_FORUM_LIST)

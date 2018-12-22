@@ -51,9 +51,28 @@ class PostDetailBean {
 
     class ContentBean {
         /**
-         * infor : 银杏大道上树下那个破灯，校庆亮几天美观充充面子也就是了，现在还天天亮，每次从银杏大道走都要被晃眼睛，无论是骑车还是走路；求问有没有有同样感受的同学？
-         * 另外觉得这也很费电，除了美观一点作用也没有
-         * type : 0
+         *  infor : 银杏大道上树下那个破灯，校庆亮几天美观充充面子也就是了，现在还天天亮，每次从银杏大道走都要被晃眼睛，无论是骑车还是走路；求问有没有有同样感受的同学？
+         *  另外觉得这也很费电，除了美观一点作用也没有
+         *  type : 0
+         *
+         * "infor": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
+         * "type": 1,
+         * "originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
+         * "aid": 1880982
+         *
+         * "infor": "http://app.febers.tech/",
+         * "type": 4,
+         * "originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/221826jnm65xdo95zxsb2v.png",
+         * "aid": 1880982,
+         * "url": "http://app.febers.tech/"
+         *
+         * "infor": "iuestc_beta2.9.apk",
+         * "type": 5,
+         * "originalInfo": "http://bbs.uestc.edu.cn/data/attachment/forum/201805/28/222551mkmyz00hkd2bksms.png",
+         * "aid": 1880984,
+         * "url": "http://bbs.uestc.edu.cn/forum.php?mod=attachment&aid=MTg4MDk4NXxlNWY3OGE5YnwxNTM0NTM2NTg0fDE5NjQ4NnwxNzE4MTM0",
+         * "desc": "2.94 MB, 下载次数: 44"                                                                                          *
+         *
          */
 
         var infor: String? = null
