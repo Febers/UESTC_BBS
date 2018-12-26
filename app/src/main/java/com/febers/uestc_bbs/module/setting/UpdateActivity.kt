@@ -34,7 +34,6 @@ class UpdateActivity: BaseActivity() {
 
     override fun initView() {
         var upgradeInfo: UpgradeInfo? = null
-        Beta.checkUpgrade()
         upgradeInfo = Beta.getUpgradeInfo()
 
         upgradeInfo ?: return

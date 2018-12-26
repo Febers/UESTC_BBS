@@ -159,12 +159,19 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         //底部显示评论个数的bottom，以代替fab
         text_view_post_reply_count.text = "$replyCount" + getString(R.string.replies)
         linear_layout_post_reply_count.setOnClickListener {
+            val description: String?
+            description = try {
+                event.data.topic?.content?.get(0)?.infor.toString()
+            } catch (e: Exception) {
+                "[主贴内容]"
+            }
             ClickContext.clickToPostReply(context = this@PostDetailActivity,
                     toUserId = topicUserId,
                     toUserName = topicUserName,
                     postId = postId,
-                    replyId = topicReplyId, isQuota = false,
-                    replySimpleDescription = event.data.topic?.content?.get(0)?.infor.toString())
+                    replyId = topicReplyId,
+                    isQuota = false,
+                    replySimpleDescription = description)
         }
         refresh_layout_post_detail?.finishSuccess()
     }
