@@ -100,6 +100,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     mFid = boardIds[position]
                     refresh_layout_post_list.autoRefresh()
+                    classificationId = 0
                     classificationNameList.clear()
                     classificationIdList.clear()
                     classificationDialog = null

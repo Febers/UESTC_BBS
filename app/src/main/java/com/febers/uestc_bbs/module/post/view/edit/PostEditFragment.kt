@@ -235,10 +235,10 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     private fun sendImagePost(title: String, content: String) {
         val aidBuffer = StringBuffer()
         val contentList: MutableList<Pair<Int, String>> = ArrayList()
+        var successCount = 0
         contentList.add(CONTENT_TYPE_TEXT to content)
-        for (path in selectedImagePaths) {
+        for (path in selectedImagePaths.reversed()) {
             var flag = true
-            var successCount = 0
             FileUploader().uploadPostImageToBBS(imageFile = File(path),
                     listener = object : FileUploader.OnFileUploadListener {
                         override fun onUploadFail(msg: String) {
@@ -249,6 +249,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                             aidBuffer.append("${event.data.body?.attachment?.first()?.id},")
                             contentList.add(CONTENT_TYPE_IMG to event.data.body?.attachment?.first()?.urlName.toString())
                             if (++successCount == selectedImagePaths.size) {
+                                context?.runOnUiThread { progressDialog?.setTitle("上传图片成功,正在发表帖子") }
                                 aidBuffer.deleteCharAt(aidBuffer.lastIndex)
                                 pEditPresenter.newPostRequest(fid = mFid,
                                         aid = aidBuffer.toString(),
@@ -259,9 +260,15 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                                         contents = *contentList.toTypedArray())
                             }
                         }
+
+                        override fun onUploading(msg: String) {
+                                context?.runOnUiThread {
+                                    progressDialog?.setTitle("正在上传第${successCount+1}张图片")
+                                }
+                        }
                     })
             if (!flag) {
-                showError("上传图片失败")
+                showError("上传第${successCount+1}张图片时失败,避免上传过大图片,请重试")
                 break
             }
         }

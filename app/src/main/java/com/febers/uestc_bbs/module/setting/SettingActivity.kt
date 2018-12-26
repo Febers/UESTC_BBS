@@ -127,17 +127,16 @@ class SettingActivity : BaseActivity() {
         users.clear()
         users.addAll(0, UserHelper.getAllUser())
         simpleUserAdapter.notifyDataSetChanged()
-        Thread{ EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, user)) }.start()
+        Thread{ EventBus.getDefault().post(BaseEvent(BaseCode.LOCAL, user)) }.start()
     }
 
     private fun deleteUser(user: UserSimpleBean, position: Int) {
         UserHelper.deleteUser(user.uid)
         users.removeAt(position)
-        simpleUserAdapter.remove(position)
         simpleUserAdapter.notifyDataSetChanged()
 
         if(!UserHelper.getAllUser().isEmpty()) {
-            EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, UserHelper.getAllUser().last()))
+            EventBus.getDefault().post(BaseEvent(BaseCode.LOCAL, UserHelper.getAllUser().last()))
         } else {
             EventBus.getDefault().post(BaseEvent(BaseCode.FAILURE, UserSimpleBean()))
         }
@@ -166,6 +165,9 @@ class SettingActivity : BaseActivity() {
     /*
         添加用户成功之后重新获取账户列表,
         但是它可以在此Fragment内被触发，这个诡异的现象我浪费了一个多小时才弄明白
+        珍惜你的时间
+
+        补充：我又一次在这上面浪费了一个星期，可以看到前面的changeUser 方法上的注释就是愚蠢的思考
         珍惜你的时间
      */
     @Subscribe(threadMode = ThreadMode.MAIN)

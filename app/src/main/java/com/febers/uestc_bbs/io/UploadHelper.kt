@@ -28,6 +28,7 @@ class FileUploader: BaseModel() {
      */
     fun uploadPostImageToBBS(imageFile: File, listener: OnFileUploadListener) {
         Thread{
+            listener.onUploading("正在上传")
             val imageBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), imageFile)
             val imagePart: MultipartBody.Part = MultipartBody.Part.createFormData("uploadFile[]", imageFile.name, imageBody)
 
@@ -36,14 +37,12 @@ class FileUploader: BaseModel() {
                     .enqueue(object : Callback<UploadResultBean> {
                         override fun onFailure(call: Call<UploadResultBean>, t: Throwable) {
                             listener.onUploadFail("Upload Image Fail:" + t.toString())
-//                            i("PE", "upload img, fail: " + t.toString())
                         }
 
                         override fun onResponse(call: Call<UploadResultBean>, response: Response<UploadResultBean>) {
                             val resultBean = response.body()
                             if (resultBean == null || resultBean.rs != REQUEST_SUCCESS_RS || resultBean.body?.attachment?.size!! == 0) {
                                 listener.onUploadFail("Upload Image Fail:" + resultBean?.head?.errInfo)
-//                                i("PE", "upload img, rs error")
                                 return
                             }
                             listener.onUploadSuccess(BaseEvent(BaseCode.SUCCESS, resultBean))
@@ -52,10 +51,22 @@ class FileUploader: BaseModel() {
         }.start()
     }
 
+    fun uploadPostImagesToBBS(imageFiles: List<File>, listener: OnFileUploadListener) {
+        Thread{
+            var count = 0
+            imageFiles.forEach {
+                listener.onUploading("正在上传第${count}张图片")
+                uploadPostImageToBBS(it, listener)
+                count ++
+            }
+        }.start()
+    }
+
 
     interface OnFileUploadListener {
         fun onUploadFail(msg: String)
         fun onUploadSuccess(event: BaseEvent<UploadResultBean>)
+        fun onUploading(msg: String)
     }
 }
 

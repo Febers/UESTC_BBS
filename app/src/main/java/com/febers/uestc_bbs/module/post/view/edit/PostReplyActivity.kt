@@ -156,9 +156,9 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
                     contents = *contentList.toTypedArray())
             return
         }
-        for (path in selectedImagePaths) {
+        var successCount = 0
+        for (path in selectedImagePaths.reversed()) {
             var flag = true
-            var successCount = 0
             FileUploader().uploadPostImageToBBS(imageFile = File(path), listener = object : FileUploader.OnFileUploadListener {
                 override fun onUploadFail(msg: String) {
                     flag = false
@@ -178,9 +178,12 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
                                 contents = *contentList.toTypedArray())
                     }
                 }
+
+                override fun onUploading(msg: String) {
+                }
             })
             if (!flag) {
-                showError("上传图片失败")
+                showError("上传第${successCount+1}张图片时失败,避免上传过大图片,请重试")
                 progress_bar_reply_activity.visibility = View.GONE
                 break
             }
