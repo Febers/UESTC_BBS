@@ -15,6 +15,9 @@ import com.febers.uestc_bbs.utils.log
  */
 class InterceptTouchLayout: LinearLayout {
 
+    private var lastX = 0f
+    private var lastY = 0f
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -27,7 +30,29 @@ class InterceptTouchLayout: LinearLayout {
      * @param ev 滑动事件
      */
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        parent.requestDisallowInterceptTouchEvent(true)  //非常重要
+        val x = ev!!.x
+        val y = ev.y
+
+        when(ev.action) {
+            MotionEvent.ACTION_DOWN -> {
+                parent.requestDisallowInterceptTouchEvent(true) //处理此类事件
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val deltaX = x - lastX
+                val deltaY = y - lastY
+//                log("delta y $deltaY")
+//                //deltaY > 0 为下拉，交给父布局
+//                if (deltaY > 0) {
+//                    parent.requestDisallowInterceptTouchEvent(false)    //父布局处理
+//                } else {
+//                    parent.requestDisallowInterceptTouchEvent(true) //处理此类事件
+//                }
+                parent.requestDisallowInterceptTouchEvent(true) //处理此类事件
+            }
+        }
+        lastX = x
+        lastY = y
+          //非常重要
         return super.dispatchTouchEvent(ev)
     }
 

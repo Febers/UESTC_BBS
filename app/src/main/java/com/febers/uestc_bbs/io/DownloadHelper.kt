@@ -71,14 +71,8 @@ class DownloadHelper {
                 } catch (e: Exception) {
                     listener.onDownloadFailed()
                 } finally {
-                    try {
-                        inputStream?.close()
-                    } catch (e: IOException) {
-                    }
-                    try {
-                        outputStream?.close()
-                    } catch (e: IOException) {
-                    }
+                    inputStream?.tryClose()
+                    outputStream?.tryClose()
                 }
             }
         })

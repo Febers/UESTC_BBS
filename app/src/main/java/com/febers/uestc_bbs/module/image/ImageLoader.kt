@@ -1,13 +1,16 @@
 package com.febers.uestc_bbs.module.image
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.widget.ImageView
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.context.ClickContext
@@ -199,6 +202,23 @@ object ImageLoader {
             e.printStackTrace()
         }
     }
+
+    /**
+     * 不加载图片获取网络图片的大小
+     * @param url
+     */
+//    fun getImageWidthAndHeight(context: Context,
+//                               url: String): Array<Int> {
+//        var width = 0
+//        var height= 0
+//        GlideApp.with(context).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+//            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+//                width = resource.width
+//                height = resource.height
+//            }
+//        })
+//        return arrayOf(width, height)
+//    }
 }
 
 

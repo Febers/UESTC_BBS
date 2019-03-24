@@ -7,8 +7,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.encodeSpaces
+import com.febers.uestc_bbs.utils.getWindowWidth
+import com.febers.uestc_bbs.utils.log
 
 
 /**
@@ -33,11 +36,11 @@ class ContentViewHelper(
     private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
 
     private var mStringBuilder: StringBuilder = StringBuilder()
-    private val IMAGE_VIEW_MARGIN = 10
-    private val IMAGE_VIEW_WIDTH = 1000
-    private val IMAGE_VIEW_HEIGHT = 725
+    private val IMAGE_VIEW_MARGIN = 8
+    private val IMAGE_VIEW_WIDTH = getWindowWidth()
+    private val IMAGE_VIEW_HEIGHT = getWindowWidth()
     private val context = linearLayout.context
-
+    private var belowTextView = true    //图片是否在文字下面，如果是，间距拉大
     fun getImageMapList() = imageMapList
 
     fun create() {
@@ -55,6 +58,7 @@ class ContentViewHelper(
             val textView = getTextView()
             ImageTextHelper.setImageText(textView, stringBuilder.toString(), mTextLinkColor)
             linearLayout.addView(textView)
+            belowTextView = true
         }
         fun drawImageView() {
             drawTextView()
@@ -62,6 +66,7 @@ class ContentViewHelper(
             linearLayout.addView(imageView)
             linearLayout.gravity = Gravity.CENTER
             imageMapList?.add(mapOf(mContents[position].originalInfo.toString() to imageView))
+            belowTextView = false
         }
         //当遍历结束之后之后，绘制stringBuilder的内容
         if (position >= mContents.size) {
@@ -119,13 +124,17 @@ class ContentViewHelper(
 
     //创建ImageView
     private fun getImageView(url: String): ImageView {
+
         val imageView = ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             layoutParams = ViewGroup
                     .LayoutParams(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)
         }
         val marginLayoutParams = ViewGroup.MarginLayoutParams(imageView.layoutParams).apply {
-            setMargins(IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN, IMAGE_VIEW_MARGIN) }
+            setMargins(IMAGE_VIEW_MARGIN,
+                    if (belowTextView)  3*IMAGE_VIEW_MARGIN else 0,
+                    IMAGE_VIEW_MARGIN,
+                    0) }
         return imageView.apply {
             layoutParams = marginLayoutParams
         }

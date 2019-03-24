@@ -8,6 +8,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import com.febers.uestc_bbs.io.DownloadHelper
 import com.febers.uestc_bbs.io.FileHelper.appImageDir
+import com.febers.uestc_bbs.io.tryClose
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,7 +74,7 @@ object ImageHelper {
             val fos: FileOutputStream = FileOutputStream(imgFile)
             fos.write(gifByte, 0, gifByte.size)
             fos.flush()
-            fos.close()
+            fos.tryClose()
 
             val uri = Uri.parse(imgFile!!.absolutePath)
             context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))

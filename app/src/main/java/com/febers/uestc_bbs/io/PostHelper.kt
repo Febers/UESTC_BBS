@@ -49,13 +49,14 @@ object PostHelper {
      * @param pList class类
      */
     fun savePostListToFile(fid: String, pList: PostListBean) {
+        val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$fid.txt")
         try {
-            val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$fid.txt")
             fileWriter.write(Gson().toJson(pList))
             fileWriter.flush()
-            fileWriter.close()
         } catch (e: Exception) {
             e.printStackTrace()
+        } finally {
+            fileWriter.tryClose()
         }
     }
 
@@ -66,19 +67,21 @@ object PostHelper {
      * @return bean
      */
     fun getPostListByFile(fid: String): PostListBean {
-        return try {
+        val fileReader: FileReader = FileReader(FileHelper.appFileDir+"/$fid.txt")
+        try {
             val result = StringBuilder()
-            val fileReader: FileReader = FileReader(FileHelper.appFileDir+"/$fid.txt")
             val charArray: CharArray = CharArray(1)
             while (fileReader.read(charArray) != -1) {
                 result.append(charArray)
             }
             if (result.isEmpty()) PostListBean()
-            Gson().fromJson(result.toString(), PostListBean::class.java)
+            return Gson().fromJson(result.toString(), PostListBean::class.java)
         } catch (e: Exception) {
             e.printStackTrace()
-            PostListBean()
+        } finally {
+            fileReader.tryClose()
         }
+        return PostListBean();
     }
 
     /**

@@ -17,6 +17,7 @@ import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.fragment_setting.*
@@ -182,7 +183,7 @@ class SettingActivity : BaseActivity() {
         Thread {
             cacheItem.tip = CacheHelper.CacheSize
             runOnUiThread {
-                settingAdapter.notifyItemChanged(1)
+                settingAdapter.notifyItemChanged(4)
             }
         }.start()
     }

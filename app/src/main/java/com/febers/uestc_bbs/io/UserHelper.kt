@@ -108,30 +108,33 @@ object UserHelper {
     }
 
     fun addUserToFile(uid: Int, userSimple: UserSimpleBean) {
+        val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$uid")
         try {
-            val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$uid")
             fileWriter.write(Gson().toJson(userSimple))
             fileWriter.flush()
-            fileWriter.close()
         } catch (e: Exception) {
             e.printStackTrace()
+        } finally {
+            fileWriter.tryClose()
         }
     }
 
     fun getUserbyFile(uid: Int): UserSimpleBean {
-        return try {
+        val fileReader: FileReader = FileReader(FileHelper.appFileDir+"/$uid")
+        try {
             val result = StringBuilder()
-            val fileReader: FileReader = FileReader(FileHelper.appFileDir+"/$uid")
             val charArray: CharArray = CharArray(1)
             while (fileReader.read(charArray) != -1) {
                 result.append(charArray)
             }
-            if (result.isEmpty()) UserSimpleBean()
-            Gson().fromJson(result.toString(), UserSimpleBean::class.java)
+            if (result.isEmpty()) return UserSimpleBean()
+             return Gson().fromJson(result.toString(), UserSimpleBean::class.java)
         } catch (e: Exception) {
             e.printStackTrace()
-            UserSimpleBean()
+        } finally {
+            fileReader.tryClose()
         }
+        return UserSimpleBean()
     }
 
     /**

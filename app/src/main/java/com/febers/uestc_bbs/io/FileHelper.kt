@@ -61,9 +61,9 @@ object FileHelper {
      * @return string
      */
     fun getAssetsString(context: Context, fileName: String): String {
+        val inputReader = InputStreamReader(
+                context.assets.open(fileName))
         try {
-            val inputReader = InputStreamReader(
-                    context.assets.open(fileName))
             val bufReader = BufferedReader(inputReader)
             val result = StringBuilder()
             var line: String? = null
@@ -73,9 +73,12 @@ object FileHelper {
                 }
                 line = bufReader.readLine()
             } while (line != null)
+
             return result.toString()
         } catch (e: Exception) {
             e.printStackTrace()
+        } finally {
+            inputReader.tryClose()
         }
         return "error"
     }
@@ -97,7 +100,7 @@ object FileHelper {
                 val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
                 path = cursor.getString(columnIndex)
             }
-            cursor.close()
+            cursor.tryClose()
             return File(path)
         } else {
             i("Uri", uri.scheme)
@@ -231,5 +234,12 @@ object FileHelper {
         val bytesArray = ByteArray(byteBuffer.remaining())
         byteBuffer.get(bytesArray, 0, bytesArray.size)
         return bytesArray
+    }
+}
+
+fun Closeable.tryClose() {
+    try {
+        this.close()
+    } catch (e: IOException) {
     }
 }
