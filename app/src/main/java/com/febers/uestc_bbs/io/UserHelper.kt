@@ -7,6 +7,7 @@ import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.base.SP_USER_IDS
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileReader
@@ -108,7 +109,8 @@ object UserHelper {
     }
 
     fun addUserToFile(uid: Int, userSimple: UserSimpleBean) {
-        val fileWriter: FileWriter = FileWriter(FileHelper.appFileDir+"/$uid")
+        val file: File = (FileHelper.appFileDir+"/$uid").checkFileSafely()
+        val fileWriter: FileWriter = FileWriter(file)
         try {
             fileWriter.write(Gson().toJson(userSimple))
             fileWriter.flush()
@@ -120,8 +122,10 @@ object UserHelper {
     }
 
     fun getUserbyFile(uid: Int): UserSimpleBean {
-        val fileReader: FileReader = FileReader(FileHelper.appFileDir+"/$uid")
+        val file: File = (FileHelper.appFileDir+"/$uid").checkFileSafely()
+        var fileReader: FileReader? = null
         try {
+            fileReader = FileReader(file)
             val result = StringBuilder()
             val charArray: CharArray = CharArray(1)
             while (fileReader.read(charArray) != -1) {
@@ -132,7 +136,7 @@ object UserHelper {
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
-            fileReader.tryClose()
+            fileReader?.tryClose()
         }
         return UserSimpleBean()
     }

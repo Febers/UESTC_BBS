@@ -56,7 +56,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         recyclerview_subpost_fragment.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postListAdapter
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_post_list_home.apply {
             initAttrAndBehavior()

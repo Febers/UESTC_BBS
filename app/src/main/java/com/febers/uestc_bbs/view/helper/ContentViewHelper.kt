@@ -3,15 +3,18 @@ package com.febers.uestc_bbs.view.helper
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.getWindowWidth
 import com.febers.uestc_bbs.utils.log
+import org.jetbrains.anko.browse
 
 
 /**
@@ -68,6 +71,10 @@ class ContentViewHelper(
             imageMapList?.add(mapOf(mContents[position].originalInfo.toString() to imageView))
             belowTextView = false
         }
+        fun drawFileView(url: String, title: String) {
+            val button = getFileButton(url, title)
+            linearLayout.addView(button)
+        }
         //当遍历结束之后之后，绘制stringBuilder的内容
         if (position >= mContents.size) {
             val textView = getTextView()
@@ -92,8 +99,9 @@ class ContentViewHelper(
             }
             CONTENT_TYPE_FILE -> {
                 if (mContents[position].infor?.unMatchImageUrl()!!) {
-                    stringBuilder
-                            .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
+//                    stringBuilder
+//                            .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
+                    drawFileView(url = ""+mContents[position].url, title = ""+mContents[position].infor)
                 }
                 cycleDrawView(stringBuilder, position + 1)
             }
@@ -124,7 +132,6 @@ class ContentViewHelper(
 
     //创建ImageView
     private fun getImageView(url: String): ImageView {
-
         val imageView = ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             layoutParams = ViewGroup
@@ -137,6 +144,14 @@ class ContentViewHelper(
                     0) }
         return imageView.apply {
             layoutParams = marginLayoutParams
+        }
+    }
+
+    //创建附件下载的 button
+    private fun getFileButton(url: String, title: String): Button = Button(context).apply {
+        text = "附件：$title"
+        setOnClickListener {
+            context.browse(url, true)
         }
     }
 
@@ -181,6 +196,7 @@ class ContentViewHelper(
         return """<img src=$raw>"""
     }
 
+    //将 url 和对应的 title 转换成html格式
     private fun urlTransform(raw: String?, title: String?): String {
         if (raw == null || title == null) {
             return ""

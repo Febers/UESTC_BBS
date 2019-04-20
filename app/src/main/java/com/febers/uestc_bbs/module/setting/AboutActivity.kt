@@ -172,7 +172,6 @@ class AboutActivity: BaseActivity() {
             ProjectItemBean("HoloColorPicker", "LarsWerkman", ""),
             ProjectItemBean("PandaEmoView", "PandaQAQ", ""),
             ProjectItemBean("PictureSelector", "LuckSiege", ""),
-            ProjectItemBean("PinchImageView", "boycy815", ""),
             ProjectItemBean("RecyclerViewAdapter", "SheHuan", ""),
             ProjectItemBean("retrofit", "square", "")
 

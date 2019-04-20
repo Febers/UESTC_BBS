@@ -134,6 +134,7 @@ object ClickContext {
             context.startActivity(Intent(context, ImageViewer::class.java).apply {
                 putExtra(IMAGE_URL, url)
             })
+            (context as Activity).overridePendingTransition(0, 0)
         }
     }
 

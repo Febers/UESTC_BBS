@@ -24,10 +24,11 @@ class FileUploader: BaseModel() {
      * 如果上传成功，应该返回包含两个值的json bean
      * 第一个 aid 供发帖时调用
      * 第二个 infor 同样用以发帖
+     *
      * @param imageFile 图片文件
      */
     fun uploadPostImageToBBS(imageFile: File, listener: OnFileUploadListener) {
-        Thread{
+        Thread {
             listener.onUploading("正在上传")
             val imageBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), imageFile)
             val imagePart: MultipartBody.Part = MultipartBody.Part.createFormData("uploadFile[]", imageFile.name, imageBody)
@@ -51,14 +52,12 @@ class FileUploader: BaseModel() {
         }.start()
     }
 
+    /**
+     * 批量上传图片到服务器
+     * 待实现
+     */
     fun uploadPostImagesToBBS(imageFiles: List<File>, listener: OnFileUploadListener) {
-        Thread{
-            var count = 0
-            imageFiles.forEach {
-                listener.onUploading("正在上传第${count}张图片")
-                uploadPostImageToBBS(it, listener)
-                count ++
-            }
+        Thread {
         }.start()
     }
 

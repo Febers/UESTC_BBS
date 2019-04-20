@@ -7,7 +7,7 @@
     tools:context=".module.image.ImageViewer"
     android:background="#000000"
     android:tag=":aesthetic_ignore">
-    <com.febers.uestc_bbs.view.custom.PinchImageView
+    <com.luck.picture.lib.photoview.PhotoView
         android:id="@+id/image_view_image_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

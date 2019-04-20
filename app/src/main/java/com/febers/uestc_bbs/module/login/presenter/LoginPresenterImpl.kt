@@ -13,6 +13,6 @@ class LoginPresenterImpl(val view: LoginContract.View): LoginContract.Presenter(
     }
 
     override fun loginResult(event: BaseEvent<UserSimpleBean>) {
-        view.loginResult(event)
+        view.showLoginResult(event)
     }
 }

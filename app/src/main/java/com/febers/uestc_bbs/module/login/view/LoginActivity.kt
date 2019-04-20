@@ -41,7 +41,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     @UiThread
-    override fun loginResult(event: BaseEvent<UserSimpleBean>) {
+    override fun showLoginResult(event: BaseEvent<UserSimpleBean>) {
         showHint(getString(R.string.login_success))
         progress_bar_login.visibility = View.INVISIBLE
         EventBus.getDefault().post(event)

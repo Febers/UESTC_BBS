@@ -39,8 +39,9 @@ interface LoginContract {
          * 登录的结果
          * 一般来说，只有在登录成功之后才调用此方法
          */
-        fun loginResult(event: BaseEvent<UserSimpleBean>)
+        fun showLoginResult(event: BaseEvent<UserSimpleBean>)
     }
+
     abstract class Presenter(view: View): BasePresenter<View>(mView = view) {
         /**
          * 登录请求，实现类内部应该调用新建一个具体的model，并调用其XXService方法

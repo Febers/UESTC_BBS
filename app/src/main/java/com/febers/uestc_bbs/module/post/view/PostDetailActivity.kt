@@ -95,7 +95,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             layoutManager = LinearLayoutManager(this@PostDetailActivity).apply {
                 stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerview不错乱
             }
-            addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
         }
 
@@ -157,11 +157,10 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 //                    replyId = topicReplyId, toUName = topicUserName)
 //        }
         //底部显示评论个数的bottom，以代替fab
-        text_view_post_reply_count.text = "$replyCount" + getString(R.string.replies)
+        text_view_post_reply_count.text = "$replyCount " + getString(R.string.replies)
         linear_layout_post_reply_count.setOnClickListener {
-            val description: String?
-            description = try {
-                event.data.topic?.content?.get(0)?.infor.toString()
+            val description: String = try {
+                event.data.topic?.content?.get(0)?.infor + " "
             } catch (e: Exception) {
                 "[主贴内容]"
             }

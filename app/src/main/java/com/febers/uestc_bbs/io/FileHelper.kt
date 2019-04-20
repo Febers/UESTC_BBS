@@ -243,3 +243,14 @@ fun Closeable.tryClose() {
     } catch (e: IOException) {
     }
 }
+
+fun String.checkFileSafely(): File {
+    val file = File(this)
+    if (!file.exists()) {
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdir()
+        }
+        file.createNewFile()
+    }
+    return file
+}

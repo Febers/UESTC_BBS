@@ -3,19 +3,18 @@ package com.febers.uestc_bbs.module.image
 import android.app.ProgressDialog
 import android.net.Uri
 import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URL
 import kotlinx.android.synthetic.main.activity_image.*
 import android.content.Intent
-import android.graphics.Bitmap
-import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.io.FileHelper
 import org.jetbrains.anko.indeterminateProgressDialog
-import java.io.File
 import java.nio.ByteBuffer
+import android.graphics.*
+import com.febers.uestc_bbs.R
+import com.luck.picture.lib.photoview.PhotoView
 
 
 class ImageViewer : BaseActivity() {
@@ -103,7 +102,7 @@ class ImageViewer : BaseActivity() {
             runOnUiThread {
                 image_view_image_activity?.apply {
                     setImageBitmap(imageBitmap)
-                    reset()
+                    //reset()
                     setOnClickListener {
                         finish()
                     }

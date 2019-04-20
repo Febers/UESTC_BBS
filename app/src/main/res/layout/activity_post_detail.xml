@@ -162,7 +162,6 @@
                     android:id="@+id/recyclerview_post_detail_replies"
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="40dp"
                     android:nestedScrollingEnabled="false"
                     android:layout_height="match_parent">
                 </androidx.recyclerview.widget.RecyclerView>
