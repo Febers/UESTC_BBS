@@ -121,6 +121,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      */
     private fun getPost(postId: Int, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
         refresh_layout_post_detail.setNoMoreData(false)
+        tv_bottom_hint.visibility = View.INVISIBLE
         postPresenter?.postDetailRequest(postId, page, authorId, order)
     }
 
@@ -141,6 +142,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
+            tv_bottom_hint.postDelayed( { tv_bottom_hint.visibility = View.VISIBLE }, 500)
+
         }
         //如果是投票贴
         if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
@@ -204,7 +207,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     }
 
     private fun fillImageView() {
-        contentViewHelper?.getImageMapList()?.forEach {
+        val imageMap = contentViewHelper?.getImageMapList()
+        imageMap ?: return
+        imageMap.forEach {
             ImageLoader.loadForContent(context = this@PostDetailActivity,
                     url = it.keys.first(),
                     imageView = it.values.first())

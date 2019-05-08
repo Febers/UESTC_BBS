@@ -121,7 +121,7 @@ class PListActivity: BaseActivity(), PListContract.View {
         }
         recyclerview_post_list.apply {
             adapter = postListAdapter
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL)) }
+        }
 
         refresh_layout_post_list.apply {
             initAttrAndBehavior()

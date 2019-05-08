@@ -47,5 +47,4 @@
                 android:numColumns="2">
             </GridView>
         </com.febers.uestc_bbs.view.custom.InterceptTouchLayout>
-
 </LinearLayout>

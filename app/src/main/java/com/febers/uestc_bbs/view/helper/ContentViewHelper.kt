@@ -206,6 +206,8 @@ class ContentViewHelper(
 
     private fun String.matchImageUrl(): Boolean = endsWith(".jpg") || endsWith(".png") ||
                 endsWith(".jpeg") || endsWith(".bmp")
+            || endsWith(".JPG") || endsWith(".PNG") ||
+            endsWith(".JPEG") || endsWith(".BMP")
 
 
     private fun String.unMatchImageUrl(): Boolean = !matchImageUrl()

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostListAdapter
@@ -38,9 +39,8 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setView(): Int {
-        return R.layout.fragment_post_list_home
-    }
+    override fun setView(): Int = R.layout.fragment_post_list_home
+
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
@@ -56,7 +56,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         recyclerview_subpost_fragment.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postListAdapter
-            //addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_post_list_home.apply {
             initAttrAndBehavior()

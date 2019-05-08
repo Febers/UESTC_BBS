@@ -42,6 +42,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(contentView)
+        ActivityMgr.putActivity(this)
+
         if (!enableThemeHelper() && enableHideStatusBar()) {
             hideStatusBar()
         }

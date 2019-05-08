@@ -57,7 +57,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
             保存一个User类，里面有用户的关键信息
             用于所有跟服务器的交互
          */
-        mUserSimple.name = loginResultBean.userName
+        mUserSimple.name = loginResultBean.userName + ""
         mUserSimple.uid = loginResultBean.uid
         mUserSimple.title = loginResultBean.userTitle
         mUserSimple.gender = loginResultBean.gender

@@ -87,7 +87,7 @@ class HeartMsgService : Service() {
                     putExtra(MSG_COUNT, count)
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 })
-        EventBus.getDefault().post(MsgEvent(BaseCode.SUCCESS, count, msgType))
+        EventBus.getDefault().postSticky(MsgEvent(BaseCode.SUCCESS, count, msgType))
         notificationHelper = NotificationHelper()
         notificationHelper!!.show(context = this,
                 title = title,
@@ -151,8 +151,8 @@ class HeartMsgService : Service() {
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
                             val heartBean = response.body() ?: return
                             if (heartBean.rs != 1 || heartBean.body == null) return
-                            log("私信数量:${heartBean.body?.pmInfos?.size!!}")
-                            log("pmCount is $pmCount")
+//                            log("私信数量:${heartBean.body?.pmInfos?.size!!}")
+//                            log("pmCount is $pmCount")
                             if (heartBean.body!!.replyInfo?.count!! > rmCount) {
                                 rmCount = heartBean.body!!.replyInfo?.count!!
                                 showMsgNotification(title = "您有${heartBean.body?.replyInfo?.count}条新回复",

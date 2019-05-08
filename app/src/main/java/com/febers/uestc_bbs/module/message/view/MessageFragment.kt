@@ -97,7 +97,6 @@ class MessageFragment : BaseFragment(), MessageContract.View {
         }
         recyclerview_sub_message.apply {
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_sub_message.apply {
             initAttrAndBehavior()

@@ -244,6 +244,7 @@ public class EmotionManager {
 
         public Builder showStickers(boolean showStickers) {
             this.showStickers = showStickers;
+            this.showStickers = false;
             return this;
         }
 

@@ -1,10 +1,13 @@
 package com.febers.uestc_bbs.module.setting
 
+import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.GridView
+import androidx.fragment.app.Fragment
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.IconItemBean
@@ -37,11 +40,6 @@ class IconFragment: BottomSheetDialogFragment() {
         return view
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        log("isVisible: $isVisibleToUser")
-    }
-
     override fun onResume() {
         super.onResume()
         initView()
@@ -51,32 +49,36 @@ class IconFragment: BottomSheetDialogFragment() {
         var iconCode: Int by PreferenceUtils(MyApp.context(), ICON_CODE, 0)
         nowCode = iconCode
         tempCode = nowCode
-
-        val bottomSheet = (dialog as BottomSheetDialog).delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        if (bottomSheet != null) {
-            behavior = BottomSheetBehavior.from(bottomSheet)
-            behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-        iconList.addAll(getIconData())
         if (iconCode > 14) {
             iconCode = 0
             tempCode = 0
         }
-        iconList[nowCode].isChoose = true
-        iconAdapter = IconGridViewAdapter(context!!, iconList,
-                clickListener = object : IconGridViewAdapter.OnItemClickListener {
-                    override fun onClick(position: Int) {
-                        onIconItemClick(position)
-                    }
-                })
-        iconGridView.adapter = iconAdapter
-        btnEnter.setOnClickListener {
-            if (tempCode != iconCode) {
-                IconUtils.changeIcon(iconCode = tempCode, newComponentName = getActivityPath(tempCode), allComponentName = getAllActivityPath())
-                HintUtils.show(activity, "桌面图标更换成功，稍等片刻后生效")
-                behavior?.state = BottomSheetBehavior.STATE_HIDDEN
-            } else {
-                behavior?.state = BottomSheetBehavior.STATE_HIDDEN
+
+        Handler().post {    //耗时操作
+            val bottomSheet = (dialog as BottomSheetDialog).delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            if (bottomSheet != null) {
+                behavior = BottomSheetBehavior.from(bottomSheet)
+                behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+
+            iconList.addAll(getIconData())
+            iconList[nowCode].isChoose = true
+            iconAdapter = IconGridViewAdapter(context!!, iconList,
+                    clickListener = object : IconGridViewAdapter.OnItemClickListener {
+                        override fun onClick(position: Int) {
+                            onIconItemClick(position)
+                        }
+                    })
+            iconGridView.adapter = iconAdapter
+
+            btnEnter.setOnClickListener {
+                if (tempCode != iconCode) {
+                    IconUtils.changeIcon(iconCode = tempCode, newComponentName = getActivityPath(tempCode), allComponentName = getAllActivityPath())
+                    HintUtils.show(activity, "桌面图标更换成功，稍等片刻后生效")
+                    behavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                } else {
+                    behavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                }
             }
         }
     }

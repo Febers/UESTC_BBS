@@ -5,8 +5,10 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Handler
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
+import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -41,8 +43,9 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun start() {
-        Handler().postDelayed({
-            startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+        Handler().postDelayed({ startActivity(Intent(this@SplashActivity,
+                if (MyApp.homeStyle() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
+                else HomeActivity2::class.java))
             overridePendingTransition(0, 0)
             finish()
         }, 800)

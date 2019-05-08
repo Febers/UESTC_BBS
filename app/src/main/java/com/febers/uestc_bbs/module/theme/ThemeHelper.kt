@@ -1,12 +1,17 @@
 package com.febers.uestc_bbs.module.theme
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
 import android.view.View
 import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.DAY_NIGHT_THEME_CHANGE
+import com.febers.uestc_bbs.module.more.ThemeChangeActivity
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -27,7 +32,18 @@ object ThemeHelper {
 
     private val themeChangeSubscribers: MutableList<View> = ArrayList()
 
+    /**
+     * 进行日间主题和夜间主题的切换
+     * 首先打开一个过渡的Activity
+     * 在过渡的Activity中切换到新的主Activity
+     * 主Activity应该知道它是更换主题之后的，所以需要finish之前的主Activity
+     *
+     * @param context
+     */
     fun dayAndNightThemeChange(context: Context) {
+        context.startActivity(Intent(context, ThemeChangeActivity::class.java))
+        (context as Activity).overridePendingTransition(0, 0)
+
         if (isDarkTheme()) {
             val lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
             val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)

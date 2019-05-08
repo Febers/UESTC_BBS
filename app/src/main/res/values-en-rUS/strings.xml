@@ -156,4 +156,5 @@
     <string name="cancel_collect">Cancel Collect</string>
     <string name="collecting">Collecting</string>
     <string name="hide_sticky_post">Hide Sticky Post</string>
+    <string name="bottom_text_hint">--- I have base line ---</string>
 </resources>

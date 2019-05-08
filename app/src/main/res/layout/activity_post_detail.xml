@@ -165,6 +165,15 @@
                     android:nestedScrollingEnabled="false"
                     android:layout_height="match_parent">
                 </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/tv_bottom_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="--- 我是有底线的 ---"
+                    android:gravity="center"
+                    android:visibility="invisible"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
@@ -194,6 +203,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:text="0条回复"/>
+            android:text="@string/replies"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

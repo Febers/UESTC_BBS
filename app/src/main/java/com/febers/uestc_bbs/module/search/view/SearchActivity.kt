@@ -48,7 +48,6 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
         recyclerview_search.apply {
             adapter = searchAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_search.apply {
             setEnableRefresh(false)

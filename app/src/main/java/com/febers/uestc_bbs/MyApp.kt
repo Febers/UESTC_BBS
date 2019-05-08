@@ -14,6 +14,8 @@ import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import androidx.multidex.MultiDexApplication
+import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
+import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.setting.UpdateActivity
 import com.febers.uestc_bbs.utils.ApiUtils
@@ -34,10 +36,10 @@ import java.io.IOException
 //		　　　　　　　\  _  /
 //		　　　　　　　 \  /
 //		┏oOOo-━━━━━━━━━━━┓
-//		┃　　　　　　　　　┃
+//		┃　　　　　　　　　 ┃
 //		┃　　UESTC_BBS   ┃
 //		┃   @Febers     ┃
-//		┃　　　　　　　　 ┃
+//		┃　　　　　　　　  ┃
 //		┗━━━━━━━━━━-oOOo┛
 
 /////////////////////////////////////////////////////////////////////////////
@@ -55,9 +57,14 @@ class MyApp: MultiDexApplication() {
 
         context = applicationContext
 
-        /**
-         * 初始化Bugly
-         */
+        initBugly()
+        initEmotionView()
+    }
+
+    /**
+     * 初始化Bugly
+     */
+    private fun initBugly() {
         val packageName = applicationContext.packageName
         val processName = getProcessName(Process.myPid())
         // 设置是否为上报进程
@@ -77,26 +84,22 @@ class MyApp: MultiDexApplication() {
             }
         }
         Bugly.init(context, ApiUtils.BUGLY_APP_ID, false)
+    }
 
-        /**
-         * 初始化表情包界面
-         */
+    /**
+     * 初始化表情包界面
+     */
+    private fun initEmotionView() {
         EmotionManager.Builder()
                 .with(context) // 传递 Context
                 .configFileName("first.xml")// 配置文件名称
                 .emoticonDir("face") // asset 下存放表情的目录路径（asset——> configFileName 之间的路径,结尾不带斜杠）
                 .sourceDir("first") // 存放 emoji 表情资源文件夹路径（emoticonDir 图片资源之间的路径,结尾不带斜杠）
-                .showAddTab(false)//tab栏是否显示添加按钮
-                .showStickers(false)//tab栏是否显示贴图切换按键
-                .showSetTab(false)//tab栏是否显示设置按钮
                 .defaultBounds(30)//emoji 表情显示出来的宽高
                 .cacheSize(1024)//加载资源到内存时 LruCache 缓存大小
                 .defaultTabIcon(R.drawable.xic_emot_blue_24dp)//emoji表情Tab栏图标
                 .emojiColumn(4)//单页显示表情的列数
                 .emojiRow(3)//单页显示表情的行数
-                .stickerRow(4)//单页显示贴图表情的行数
-                .stickerColumn(4)//单页显示贴图表情的列数
-                .maxCustomStickers(30)//允许添加的收藏表情数
                 .imageLoader { path, imageView ->
                     ImageLoader.load(context = context,
                             url = path,
@@ -120,6 +123,11 @@ class MyApp: MultiDexApplication() {
 
         fun context() = context
         fun getUser(): UserSimpleBean = UserHelper.getNowUser()
+
+        fun homeStyle(): Int {
+            val homeStyle by PreferenceUtils(context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
+            return 1
+        }
 
         init {
             /**

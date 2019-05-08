@@ -2,6 +2,10 @@ package com.febers.uestc_bbs.base
 
 const val DEFAULT_THEME_CODE = 0
 
+const val HOME_VIEW_STYLE = "home_view_style"
+const val HOME_VIEW_STYLE_BOTTOM = 0
+const val HOME_VIEW_STYLE_DRAWER = 1
+
 const val REQUEST_SUCCESS_RS = 1
 const val HAVE_NEXT_PAGE = 1
 const val POST_FAVORED = 1
@@ -15,6 +19,7 @@ const val ONLY_AUTHOR_VIEW_REPLY = 1
 const val NO_ONLY_AUTHOR_VIEW_REPLY = 0
 const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
 const val SERVICE_RESPONSE_NULL = "服务器响应为空"
+const val DAY_NIGHT_THEME_CHANGE = "day_night_theme_change"
 
 const val HOME_POSTS_NEW = -1
 const val HOME_POSTS_REPLY  = -2

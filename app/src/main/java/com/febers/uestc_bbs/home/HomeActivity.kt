@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
@@ -21,12 +22,12 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class HomeActivity: BaseActivity() {
+const val PAGE_POSITION_HOME = 0
+const val PAGE_POSITION_BLOCK = 1
+const val PAGE_POSITION_MESSAGE = 2
+const val PAGE_POSITION_MORE = 3
 
-    private val PAGE_POSITION_HOME = 0
-    private val PAGE_POSITION_BLOCK = 1
-    private val PAGE_POSITION_MESSAGE = 2
-    private val PAGE_POSITION_MORE = 3
+class HomeActivity: BaseActivity() {
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
 
@@ -66,10 +67,19 @@ class HomeActivity: BaseActivity() {
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
             ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)
         }
+        onThemeChanged()
         fab_home.setOnClickListener {
             ClickContext.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
         fab_home.visibility = View.GONE
         startService()
+    }
+
+    private fun onThemeChanged() {
+        val themeChanged: Boolean = intent.getBooleanExtra(DAY_NIGHT_THEME_CHANGE, false)
+        if (themeChanged) {
+            bottom_navigation_home.currentItem = PAGE_POSITION_MORE
+            ActivityMgr.removeAllActivitiesExceptOne(this@HomeActivity)
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -142,6 +152,7 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun startService() {
+//        log("start")
         val loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
         if (loopReceiveMsg) {
             val intent = Intent(this, HeartMsgService::class.java)

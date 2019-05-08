@@ -20,4 +20,4 @@
             android:nestedScrollingEnabled="false">
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.core.widget.NestedScrollView>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

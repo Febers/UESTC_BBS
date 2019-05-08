@@ -1,3 +1,0 @@
-com.tencent.bugly.Bugly.class
-import com.tencent.bugly.beta.Beta.class
-import com.tencent.bugly.crashreport.CrashReport.class

@@ -10,9 +10,7 @@ class ThemeActivity : BaseActivity() {
 
     private var colorValue: Int = ThemeHelper.getColorPrimary()
 
-    override fun setView(): Int {
-        return R.layout.activity_theme
-    }
+    override fun setView(): Int = R.layout.activity_theme
 
     override fun setToolbar(): Toolbar? = toolbar_theme
 
