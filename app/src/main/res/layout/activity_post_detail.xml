@@ -171,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:textSize="@dimen/text_size_small"
-                    android:text="--- 我是有底线的 ---"
+                    android:text="@string/bottom_text_hint"
                     android:gravity="center"
                     android:visibility="invisible"/>
             </LinearLayout>

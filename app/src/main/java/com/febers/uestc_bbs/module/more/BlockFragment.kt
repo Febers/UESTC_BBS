@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.SimpleAdapter
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.context.LoginContext
@@ -32,6 +33,12 @@ class BlockFragment: BaseFragment() {
             newPost = it.getBoolean(NEW_POST)
         }
         return R.layout.fragment_block_list
+    }
+
+    override fun initView() {
+        if (MyApp.homeLayout() == HOME_VIEW_STYLE_DRAWER && !newPost) {
+            toolbar_block_list.visibility = View.GONE
+        }
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {

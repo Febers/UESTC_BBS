@@ -14,3 +14,5 @@ data class TabReselectedEvent(var code: BaseCode, var position: Int)
 data class MsgFeedbackEvent(var code: BaseCode, var type: String)
 
 data class PostNewEvent(var description: String)
+
+data class ThemeChangedEvent(val dayNightChanged: Boolean)

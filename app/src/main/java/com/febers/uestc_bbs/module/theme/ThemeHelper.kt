@@ -4,14 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Bundle
 import android.view.View
 import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.DAY_NIGHT_THEME_CHANGE
-import com.febers.uestc_bbs.module.more.ThemeChangeActivity
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -53,6 +50,8 @@ object ThemeHelper {
                 colorPrimary(lastColorPrimary)
                 colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
                 colorAccent(lastColorPrimary)
+//                colorPrimary(R.attr.app_color_primary, lastColorPrimary)
+//                colorAccent(R.attr.app_color_accent, lastColorPrimary)
                 attribute(R.attr.app_color_primary, lastColorPrimary)
                 colorWindowBackground(res = R.color.color_white)
                 //colorWindowBackgroundRes(R.color.color_white)
@@ -66,11 +65,11 @@ object ThemeHelper {
                 activityTheme(R.style.AppThemeDark)
                 isDark(true)
                 colorPrimary(res = R.color.color_black_tint)
-                //colorPrimaryRes(R.color.color_black_tint)
+//                colorPrimary(R.attr.app_color_primary, R.color.color_gray_light)
                 colorAccent(res = R.color.color_gray_light)
-                //colorAccentRes(R.color.color_gray_light)
+//                colorAccent(R.attr.app_color_accent, R.color.color_gray_light)
                 colorPrimaryDark(res = R.color.color_black_tint)
-                //colorPrimaryDarkRes(R.color.color_black_tint)
+                //colorPrimaryDark(R.attr.app_color_primaryDark, R.color.color_black_tint)
                 colorWindowBackground(res = R.color.color_black_tint)
                 //colorWindowBackgroundRes(R.color.color_black_tint)
                 attribute(R.attr.app_color_primary, res = R.color.color_black_tint)

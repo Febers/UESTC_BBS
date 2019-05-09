@@ -2,9 +2,11 @@ package com.febers.uestc_bbs.home
 
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
-import android.os.Handler
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
@@ -43,12 +45,30 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun start() {
-        Handler().postDelayed({ startActivity(Intent(this@SplashActivity,
-                if (MyApp.homeStyle() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
+        val scaleX = ObjectAnimator.ofFloat(image_view_splash, "scaleX", 0.8f, 1.2f)
+        val scaleY = ObjectAnimator.ofFloat(image_view_splash, "scaleY", 0.8f, 1.2f)
+        scaleX.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) { }
+            override fun onAnimationCancel(animation: Animator?) { }
+            override fun onAnimationStart(animation: Animator?) { }
+            override fun onAnimationEnd(animation: Animator?) {
+                startActivity()
+            }
+        })
+        AnimatorSet().apply {
+            duration = 1000
+            play(scaleX)
+            play(scaleY)
+            start()
+        }
+    }
+
+    private fun startActivity() {
+        startActivity(Intent(this@SplashActivity,
+                if (MyApp.homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
                 else HomeActivity2::class.java))
-            overridePendingTransition(0, 0)
-            finish()
-        }, 800)
+        overridePendingTransition(0, 0)
+        finish()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

@@ -37,6 +37,8 @@ class SettingActivity : BaseActivity() {
     private var refreshStyleView: RefreshStyleFragment? = null
     private var iconChooseView: IconFragment? = null
 
+    private var layoutDescription = "抽屉布局"
+
     private var hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
     private var loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
 
@@ -69,25 +71,26 @@ class SettingActivity : BaseActivity() {
         settingAdapter = SettingAdapter(context, options).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 when(i) {
-                    0 -> { onHintMethodChange() }
-                    1 -> {
+                    0 -> { onHomeLayoutChange() }
+                    1 -> { onHintMethodChange() }
+                    2 -> {
                         if (iconChooseView == null) {
                             iconChooseView = IconFragment()
                         }
                         iconChooseView?.show(supportFragmentManager, "icon")
                     }
-                    2 -> {
+                    3 -> {
                         if (refreshStyleView == null) {
                             refreshStyleView = RefreshStyleFragment()
                         }
                         refreshStyleView?.show(supportFragmentManager, "style")
                     }
-                    3 -> {
+                    4 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
                         onReceiveMsgChange(!checkBox.isChecked)
                     }
-                    4 -> { clearCache() }
+                    5 -> { clearCache() }
                 }
             }
         }
@@ -108,12 +111,13 @@ class SettingActivity : BaseActivity() {
 
 
     private fun initSettingData(): List<SettingItemBean> {
+        val item4 = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout))
         val item0 = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
         val item1 = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
         val item2 = SettingItemBean(getString(R.string.refresh_style), getString(R.string.choose_refresh_style))
         val item3 = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
-        return arrayListOf(item0, item1, item2, item3, cacheItem)
+        return arrayListOf(item4, item0, item1, item2, item3, cacheItem)
     }
 
     /**
@@ -141,6 +145,19 @@ class SettingActivity : BaseActivity() {
         } else {
             EventBus.getDefault().post(BaseEvent(BaseCode.FAILURE, UserSimpleBean()))
         }
+    }
+
+    private fun onHomeLayoutChange() {
+        var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
+
+        homeLayout = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) {
+            layoutDescription = "抽屉布局"
+            HOME_VIEW_STYLE_DRAWER
+        } else {
+            layoutDescription = "底部导航栏布局"
+            HOME_VIEW_STYLE_BOTTOM
+        }
+        showHint("主界面已更改为${layoutDescription}，重启应用生效")
     }
 
     private fun onHintMethodChange() {
@@ -195,4 +212,5 @@ class SettingActivity : BaseActivity() {
             getCache()
         }.start()
     }
+
 }

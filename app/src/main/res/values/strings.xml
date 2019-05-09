@@ -50,7 +50,7 @@
     <string name="please_input_title">请输入标题</string>
     <string name="please_input_content">请输入内容</string>
     <string name="edit">编辑</string>
-    <string name="bottom_text_hint">--- 我是有底线的 ---</string>
+    <string name="bottom_text_hint">--- 已加载全部 ---</string>
 
     <!--User界面String-->
     <string name="my_start_post">我的帖子</string>
@@ -94,6 +94,8 @@
     <string name="no_disturbing_explain">暂停后台轮询消息,您可手动刷新界面更新消息</string>
     <string name="hint_way_changed">提示方式已更改</string>
     <string name="cleaning">清除中</string>
+    <string name="home_layout">主界面布局</string>
+    <string name="choose_home_layout">选择不同的主界面布局</string>
 
     <!--About界面-->
     <string name="thank_you">感谢您的捐赠!</string>
@@ -175,4 +177,6 @@
     <string name="collecting">正在收藏</string>
     <string name="hide_sticky_post">隐藏置顶帖</string>
 
+    <!--防止引用系统默认时找不到该属性-->
+    <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->
 </resources>

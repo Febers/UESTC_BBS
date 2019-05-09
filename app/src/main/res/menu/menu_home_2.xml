@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_item_msg_home_2"
+        android:title="@string/message_page"
+        android:icon="@drawable/xic_forum_white_24dp"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_item_block_home_2"
+        android:title="@string/forum_list_page"
+        android:icon="@drawable/xic_widgets_white_24dp"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/menu_item_search_home_2"
-        android:title="@string/about_permission"
+        android:title="@string/search"
         android:icon="@drawable/xic_search_white_24dp"
         app:showAsAction="always"/>
 </menu>

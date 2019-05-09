@@ -124,9 +124,9 @@ class MyApp: MultiDexApplication() {
         fun context() = context
         fun getUser(): UserSimpleBean = UserHelper.getNowUser()
 
-        fun homeStyle(): Int {
-            val homeStyle by PreferenceUtils(context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
-            return 1
+        fun homeLayout(): Int {
+            val homeLayout by PreferenceUtils(context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
+            return homeLayout
         }
 
         init {

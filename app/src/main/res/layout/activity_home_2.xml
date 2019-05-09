@@ -6,13 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/coo_layout_home_2">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -34,12 +34,30 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </FrameLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_write_white"
+            app:fabSize="normal"
+            app:borderWidth="0dp"
+            app:pressedTranslationZ="8dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="@dimen/fab_margin_right"
+            android:layout_marginBottom="@dimen/fab_margin_right"
+            app:layout_behavior="com.febers.uestc_bbs.view.helper.ScrollAwareFABBehavior"
+            android:visibility="visible"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <include layout="@layout/layout_drawer_home_2"
-
+    <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start" />
+        android:layout_gravity="start">
+
+        <include layout="@layout/layout_drawer_home_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

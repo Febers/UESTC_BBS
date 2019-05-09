@@ -4,6 +4,7 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,7 @@ import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
@@ -249,6 +251,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             it.visibility = View.VISIBLE
             if (isFavorite == POST_FAVORED) {
                 it.setImageResource(R.drawable.xic_star_color_24dp)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    it.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
+                }
             } else {
                 it.setImageResource(R.drawable.xic_star_gray_24dp)
             }
@@ -278,7 +283,12 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         runOnUiThread {
             showHint(event.data.errcode.toString())
             if (event.code == BaseCode.SUCCESS) {
-                if (isFavorite == POST_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_color_24dp)
+                if (isFavorite == POST_FAVORED){
+                    image_view_post_fav.setImageResource(R.drawable.xic_star_color_24dp)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        image_view_post_fav.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
+                    }
+                }
                 if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_gray_24dp)
             }
         }

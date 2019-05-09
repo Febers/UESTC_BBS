@@ -27,23 +27,23 @@ import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+const val FIRST_ITEM_VIEW = -1
+const val SECOND_ITEM_VIEW = 0
+const val THIRD_ITEM_VIEW = 1
+
+const val USER_DETAIL_ITEM = -1
+const val USER_POST_ITEM = 0
+const val USER_REPLY_ITEM = 1
+const val USER_FAV_ITEM = 2
+const val USER_FRIEND_ITEM = 3
+const val SEARCH_ITEM = 4
+
+const val NAVIGATION_ITEM = 0
+const val THEME_ITEM = 1
+const val SETTING_ITEM = 2
+const val ABOUT_ITEM = 3
+
 class MoreFragment: BaseFragment() {
-
-    private val FIRST_ITEM_VIEW = -1
-    private val SECOND_ITEM_VIEW = 0
-    private val THIRD_ITEM_VIEW = 1
-
-    private val USER_DETAIL_ITEM = -1
-    private val USER_POST_ITEM = 0
-    private val USER_REPLY_ITEM = 1
-    private val USER_FAV_ITEM = 2
-    private val USER_FRIEND_ITEM = 3
-    private val SEARCH_ITEM = 4
-
-    private val NAVIGATION_ITEM = 0
-    private val THEME_ITEM = 1
-    private val SETTING_ITEM = 2
-    private val ABOUT_ITEM = 3
 
     private lateinit var userSimple: UserSimpleBean
     private lateinit var mParentFragment: BaseFragment

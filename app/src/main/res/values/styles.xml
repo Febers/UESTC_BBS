@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/color_gray_deeper</item>
         <item name="app_color_primary">@color/color_gray</item>
         <item name="app_color_accent">@color/color_gray_deeper</item>
+        <item name="app_color_primary_dark">@color/color_gray_deeper</item>
 
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>
@@ -28,6 +29,7 @@
         <item name="colorPrimaryDark">@color/color_black_tint</item>
         <item name="app_color_primary">@color/color_black_tint2</item>
         <item name="app_color_accent">@color/color_black_tint2</item>
+        <item name="app_color_primary_dark">@color/color_black_tint</item>
 
         <item name="text_color_first">@color/color_white</item>
         <item name="text_color_second">@color/color_gray_light</item>

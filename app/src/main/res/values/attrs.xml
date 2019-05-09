@@ -2,6 +2,7 @@
 <resources >
     <attr name="app_color_primary" format="color"/>
     <attr name="app_color_accent" format="color"/>
+    <attr name="app_color_primary_dark" format="color"/>
 
     <attr name="text_color_first" format="color"/>
     <attr name="text_color_second" format="color"/>

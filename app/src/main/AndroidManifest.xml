@@ -239,7 +239,7 @@
         <activity android:name=".module.post.view.PListActivity" />
         <activity android:name=".module.setting.SettingActivity">
         </activity>
-        <activity android:name=".module.more.ThemeChangeActivity"
+        <activity android:name=".module.theme.ThemeChangeActivity"
             android:theme="@style/myTransparent"/>
         <activity android:name=".home.HomeActivity2" />
     </application>
