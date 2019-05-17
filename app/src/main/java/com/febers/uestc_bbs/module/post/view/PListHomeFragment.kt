@@ -1,12 +1,10 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
+import android.view.*
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
@@ -17,6 +15,7 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
@@ -40,7 +39,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     override fun registerEventBus(): Boolean = true
 
     override fun setView(): Int = R.layout.fragment_post_list_home
-
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
@@ -113,6 +111,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 }
     }
 
+
     /**
      * 接收用户重复按下tab时的消息
      * 然后刷新界面
@@ -135,13 +134,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             scroll_view_plist_home?.scrollTo(0, 0)
             refresh_layout_post_list_home.autoRefresh()
         }
-    }
-
-    private fun setEmptyView() {
-        val emptyView: View = LayoutInflater
-                .from(context!!)
-                .inflate(R.layout.layout_empty_view, recyclerview_subpost_fragment.parent as ViewGroup, false)
-        postListAdapter.setEmptyView(emptyView)
     }
 
     override fun onDestroy() {

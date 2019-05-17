@@ -2,12 +2,12 @@ package com.febers.uestc_bbs.module.search.model
 
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
-import com.febers.uestc_bbs.module.search.contract.SearchContrect
+import com.febers.uestc_bbs.module.search.contract.SearchContract
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchModelImpl(val searchPresenter: SearchContrect.Presenter): BaseModel(), SearchContrect.Model {
+class SearchModelImpl(val searchPresenter: SearchContract.Presenter): BaseModel(), SearchContract.Model {
 
     override fun searchService(keyword: String, page: Int) {
         mKeyword = keyword

@@ -53,8 +53,7 @@ class IconFragment: BottomSheetDialogFragment() {
             iconCode = 0
             tempCode = 0
         }
-
-        Handler().post {    //耗时操作
+        btnEnter.post {   //耗时操作
             val bottomSheet = (dialog as BottomSheetDialog).delegate.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             if (bottomSheet != null) {
                 behavior = BottomSheetBehavior.from(bottomSheet)

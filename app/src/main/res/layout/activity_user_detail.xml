@@ -83,14 +83,18 @@
                     android:background="?attr/background_first"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:focusable="true"
+                    android:orientation="horizontal"
                     android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/iv_icon_user_post_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="30dp"
+                        android:src="@drawable/xic_edit_blue_24dp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_margin="10dp"
                         android:textColor="?attr/text_color_first"
                         android:textSize="@dimen/text_size_super_big"
                         android:text="@string/ta_new"/>
@@ -103,14 +107,20 @@
                     android:background="?attr/background_first"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:focusable="true"
+                    android:orientation="horizontal"
                     android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/iv_icon_user_post_reply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="30dp"
+                        android:src="@drawable/xic_reply_red_24dp"/>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_margin="10dp"
                         android:textColor="?attr/text_color_first"
                         android:textSize="@dimen/text_size_super_big"
                         android:text="@string/ta_reply"/>

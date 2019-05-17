@@ -68,12 +68,12 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onViewCreated(view, savedInstanceState)
 
         //添加toolbar点击返回
-        val activity: AppCompatActivity = activity as AppCompatActivity
-        activity.setSupportActionBar(setToolbar())
-        activity.supportActionBar?.apply {
-            title = ""
-            setDisplayHomeAsUpEnabled(true)
-        }
+//        val activity: AppCompatActivity = activity as AppCompatActivity
+//        activity.setSupportActionBar(setToolbar())
+//        activity.supportActionBar?.apply {
+//            title = ""
+//            setDisplayHomeAsUpEnabled(true)
+//        }
         setToolbar()?.setNavigationOnClickListener { pop() }
         setTitle()?.apply { setToolbar()?.title = this }
         //添加Menu
@@ -87,7 +87,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =
             LayoutInflater
                     .from(context)
-                    .inflate(R.layout.layout_empty_view, recyclerView.parent as ViewGroup, false)
+                    .inflate(R.layout.layout_server_null, recyclerView.parent as ViewGroup, false)
 
     override fun onDestroy() {
         mDelegate.onDestroy()

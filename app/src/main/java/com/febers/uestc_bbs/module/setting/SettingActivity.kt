@@ -17,10 +17,10 @@ import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.RestartUtils
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
-import kotlinx.android.synthetic.main.fragment_setting.*
+import kotlinx.android.synthetic.main.activity_setting.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -37,14 +37,15 @@ class SettingActivity : BaseActivity() {
     private var refreshStyleView: RefreshStyleFragment? = null
     private var iconChooseView: IconFragment? = null
 
-    private var layoutDescription = "抽屉布局"
+    private var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
+    private lateinit var layoutItem: SettingItemBean
+    private lateinit var layoutDescription: String
 
     private var hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
+
     private var loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
 
-    override fun setView(): Int {
-        return R.layout.fragment_setting
-    }
+    override fun setView(): Int = R.layout.activity_setting
 
     override fun setToolbar(): Toolbar? = toolbar_setting
 
@@ -60,7 +61,10 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun init() {
-        simpleUserAdapter = SimpleUserAdapter(context, users).apply {
+        layoutDescription = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) getString(R.string.home_layout_bottom)
+                            else getString(R.string.home_layout_drawer)
+
+        simpleUserAdapter = SimpleUserAdapter(mContext, users).apply {
             setOnItemClickListener { viewHolder, userItemBean, i ->
                 changeUser(userItemBean)
             }
@@ -68,7 +72,7 @@ class SettingActivity : BaseActivity() {
                 deleteUser(userItemBean, i)
             }
         }
-        settingAdapter = SettingAdapter(context, options).apply {
+        settingAdapter = SettingAdapter(mContext, options).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 when(i) {
                     0 -> { onHomeLayoutChange() }
@@ -95,7 +99,7 @@ class SettingActivity : BaseActivity() {
             }
         }
         recyclerview_setting_users.adapter = simpleUserAdapter
-        recyclerview_setting_users.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+        recyclerview_setting_users.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL))
         recyclerview_setting_option.adapter = settingAdapter
 
         users.addAll(UserHelper.getAllUser())
@@ -104,20 +108,23 @@ class SettingActivity : BaseActivity() {
         options.addAll(initSettingData())
         settingAdapter.notifyDataSetChanged()
         btn_setting_add_user.setOnClickListener {
-            startActivity(Intent(context, LoginActivity::class.java))
+            startActivity(Intent(mContext, LoginActivity::class.java))
         }
         getCache()
+        btn_restart_app.setOnClickListener {
+            RestartUtils.restartApp2()
+        }
     }
 
 
     private fun initSettingData(): List<SettingItemBean> {
-        val item4 = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout))
+        layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription)
         val item0 = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
         val item1 = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
         val item2 = SettingItemBean(getString(R.string.refresh_style), getString(R.string.choose_refresh_style))
         val item3 = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
-        return arrayListOf(item4, item0, item1, item2, item3, cacheItem)
+        return arrayListOf(layoutItem, item0, item1, item2, item3, cacheItem)
     }
 
     /**
@@ -148,22 +155,23 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun onHomeLayoutChange() {
-        var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
-
         homeLayout = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) {
-            layoutDescription = "抽屉布局"
+            layoutDescription = getString(R.string.home_layout_drawer)
             HOME_VIEW_STYLE_DRAWER
         } else {
-            layoutDescription = "底部导航栏布局"
+            layoutDescription = getString(R.string.home_layout_bottom)
             HOME_VIEW_STYLE_BOTTOM
         }
-        showHint("主界面已更改为${layoutDescription}，重启应用生效")
+        showHint("重启应用生效")
+        layoutItem.tip = getString(R.string.choose_home_layout) + layoutDescription
+//        layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription, showCheck = false)
+        settingAdapter.notifyItemChanged(0)
     }
 
     private fun onHintMethodChange() {
         if (hintWay == HINT_BY_TOAST) {
             hintWay = HINT_BY_SNACK_BAR
-            HintUtils.show(context, getString(R.string.hint_way_changed))
+            HintUtils.show(mContext, getString(R.string.hint_way_changed))
         } else if (hintWay == HINT_BY_SNACK_BAR) {
             hintWay = HINT_BY_TOAST
             HintUtils.show(getString(R.string.hint_way_changed))
@@ -172,7 +180,7 @@ class SettingActivity : BaseActivity() {
 
     private fun onReceiveMsgChange(isLoop: Boolean) {
         loopReceiveMsg = isLoop
-        val intent = Intent(context, HeartMsgService::class.java)
+        val intent = Intent(mContext, HeartMsgService::class.java)
         if (loopReceiveMsg) {
             startService(intent)
         } else {

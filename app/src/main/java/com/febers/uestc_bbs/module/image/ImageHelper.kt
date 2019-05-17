@@ -1,14 +1,14 @@
 package com.febers.uestc_bbs.module.image
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
-import android.provider.MediaStore
 import com.febers.uestc_bbs.io.DownloadHelper
 import com.febers.uestc_bbs.io.FileHelper.appImageDir
 import com.febers.uestc_bbs.io.tryClose
+import com.febers.uestc_bbs.utils.log
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,9 +42,8 @@ object ImageHelper {
             fos.flush()
             fos.close()
 
-            val uri = Uri.parse(imgFile!!.absolutePath)
-            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-            return uri
+            insertImageToGallery(context)
+            return Uri.parse(imgFile!!.absolutePath)
         } catch (e: Exception) {
             e.printStackTrace()
             return null
@@ -53,6 +52,7 @@ object ImageHelper {
 
     /**
      * 保存gif格式的图片
+     *
      * @deprecated 保存之后无法读取为gif
      */
     fun saveGif(context: Context, gifByte: ByteArray?, forShare: Boolean): Uri? {
@@ -76,9 +76,8 @@ object ImageHelper {
             fos.flush()
             fos.tryClose()
 
-            val uri = Uri.parse(imgFile!!.absolutePath)
-            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-            return uri
+            insertImageToGallery(context)
+            return Uri.parse(imgFile!!.absolutePath)
         } catch (e: Exception) {
             e.printStackTrace()
             return null
@@ -120,9 +119,9 @@ object ImageHelper {
                         }
                     })
             countDownLatch.await()
-            val uri = Uri.parse(imgFile!!.absolutePath)
-            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-            return uri
+
+            insertImageToGallery(context)
+            return Uri.parse(imgFile!!.absolutePath)
         } catch (e: Exception) {
             e.printStackTrace()
             return null
@@ -142,16 +141,17 @@ object ImageHelper {
 
     /**
      * 保存图片之后插入到系统相册并且通知图库更新
+     * 参考 三种方法，刷新 Android 的 MediaStore！让你保存的图片立即出现在相册里！ - 简书
+     * https://www.jianshu.com/p/bc8b04bffddf
      *
+     * @param context
      */
-    private fun insertImageToGallery(context: Context, file: File) {
-        try {
-            MediaStore.Images.Media.insertImage(context.contentResolver,
-                    file.absolutePath, file.name, null)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
-        context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.absolutePath)))
+    private fun insertImageToGallery(context: Context) {
+//        MediaStore.Images.Media.insertImage(mContext.contentResolver, bitmap, imgFile?.name, null)
+//        val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri)
+//        intent.data = uri
+//        mContext.sendBroadcast(intent)
+        MediaScannerConnection.scanFile(context, arrayOf(imgFile!!.absolutePath), arrayOf("image/jpeg")) { path, uri -> log("save completed")}
     }
 
     /**

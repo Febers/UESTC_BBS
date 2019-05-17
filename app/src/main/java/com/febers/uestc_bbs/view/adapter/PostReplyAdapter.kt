@@ -2,7 +2,6 @@ package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
 import android.view.View
-import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.PostDetailBean
@@ -15,15 +14,21 @@ import com.othershe.baseadapter.base.CommonBaseAdapter
 class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>):
         CommonBaseAdapter<PostDetailBean.ListBean>(context, data, false) {
 
+    private var contentViewHelper: ContentViewHelper? = null
 
     override fun convert(p0: ViewHolder?, p1: PostDetailBean.ListBean?, p2: Int) {
         p0?.setText(R.id.text_view_post_reply_author, p1?.reply_name)
         p0?.setText(R.id.text_view_post_reply_date, TimeUtils.stampChange(p1?.posts_date))
         p0?.setText(R.id.text_view_post_reply_user_title, p1?.userTitle)
         p0?.setText(R.id.text_view_post_reply_floor, "#"+(p1?.position?.minus(1)))
-        var contentViewHelper: ContentViewHelper? = ContentViewHelper(
-                linearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!,
-                mContents = p1?.reply_content!!)
+        if (contentViewHelper == null) {
+            contentViewHelper = ContentViewHelper(
+                    mLinearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!,
+                    mContents = p1?.reply_content!!)
+        } else {
+            contentViewHelper!!.reset(p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, p1?.reply_content!!)
+        }
+
         contentViewHelper?.create()
         if (p1.is_quote == REPLY_QUOTA) {
             p0?.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
@@ -36,7 +41,6 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
                     url = it.keys.first(),
                     imageView = it.values.first())
         }
-        contentViewHelper = null
     }
 
     override fun getItemLayoutId(): Int {
@@ -53,8 +57,8 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
     var isListScrolling: Boolean = false
 //        set(value) {
 //            field = value
-//            if (field) GlideApp.with(context).pauseRequests()
-//            else GlideApp.with(context).resumeRequests()
+//            if (field) GlideApp.with(mContext).pauseRequests()
+//            else GlideApp.with(mContext).resumeRequests()
 //        }
 
     //将引用的回复中的前缀跟内容分得更开

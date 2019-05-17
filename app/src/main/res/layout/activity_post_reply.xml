@@ -36,97 +36,87 @@
             style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
             android:visibility="gone"/>
 
-        <!--主视图-->
-        <ScrollView
+        <!--引用的文字-->
+        <LinearLayout
+            android:id="@+id/linear_layout_reply_quota_activity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--ScrollView内只能有一个直接子控件-->
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="16dp">
+            <TextView
+                android:id="@+id/text_view_reply_quota_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <!--引用的文字-->
-                <LinearLayout
-                    android:id="@+id/linear_layout_reply_quota_activity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="16dp">
-                    <TextView
-                        android:id="@+id/text_view_reply_quota_activity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingMultiplier="1.1"
-                        android:textColor="?android:textColorSecondary"
-                        android:text=""/>
+                android:lineSpacingMultiplier="1.1"
+                android:textColor="?android:textColorSecondary"
+                android:text=""/>
 
-                    <include layout="@layout/layout_quota_divide_line" />
-                </LinearLayout>
+            <include layout="@layout/layout_quota_divide_line" />
+        </LinearLayout>
 
-                <!--表情按钮和图片按钮-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="end"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/btn_emotion_post_reply"
-                        android:layout_width="@dimen/emotion_button_width_normal"
-                        android:layout_height="@dimen/emotion_button_width_normal"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/emotion_button_padding"
-                        android:src="@drawable/ic_emotion_gray"/>
+        <!--表情按钮和图片按钮-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/btn_emotion_post_reply"
+                android:layout_width="@dimen/emotion_button_width_normal"
+                android:layout_height="@dimen/emotion_button_width_normal"
+                android:layout_gravity="center"
+                android:padding="@dimen/emotion_button_padding"
+                android:src="@drawable/ic_emotion_gray"/>
 
-                    <ImageView
-                        android:id="@+id/btn_photo_post_reply"
-                        android:layout_width="@dimen/emotion_button_width_normal"
-                        android:layout_height="@dimen/emotion_button_width_normal"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_img_gray"
-                        android:padding="@dimen/emotion_button_padding"/>
-                </LinearLayout>
-                <!--输入区-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp">
-                    <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
-                        android:id="@+id/edit_view_post_reply_activity"
-                        android:inputType="textMultiLine"
-                        android:layout_width="match_parent"
-                        android:hint="@string/input_your_reply"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:layout_margin="5dp"
-                        android:layout_height="wrap_content"/>
+            <ImageView
+                android:id="@+id/btn_photo_post_reply"
+                android:layout_width="@dimen/emotion_button_width_normal"
+                android:layout_height="@dimen/emotion_button_width_normal"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_img_gray"
+                android:padding="@dimen/emotion_button_padding"/>
+        </LinearLayout>
+        <!--输入区-->
+        <!--图片显示-->
+        <GridView
+            android:id="@+id/grid_view_post_reply_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:numColumns="3">
+        </GridView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+            <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
+                android:id="@+id/edit_view_post_reply_activity"
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:hint="@string/input_your_reply"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"/>
 
-                </LinearLayout>
-                <!--图片显示-->
-                <GridView
-                    android:id="@+id/grid_view_post_reply_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:numColumns="3">
-                </GridView>
+        </LinearLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btn_post_reply_activity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:fabSize="normal"
-                    app:borderWidth="0dp"
-                    android:src="@drawable/ic_send_white"
-                    app:pressedTranslationZ="8dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="@dimen/fab_margin_right" />
-            </LinearLayout>
-        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_post_reply_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            app:borderWidth="0dp"
+            android:src="@drawable/ic_send_white"
+            app:pressedTranslationZ="8dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="@dimen/fab_margin_right"
+            android:layout_marginBottom="@dimen/fab_margin_right"/>
 
     </LinearLayout>
 

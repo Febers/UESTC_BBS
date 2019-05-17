@@ -55,7 +55,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
         toolbar_private_detail.title = userName
         pmPresenter = PMDetailPresenterImpl(this)
-        pmAdapter = PMDetailAdapter(this, pmList, MyApp.getUser().uid, PMTimeUtils())
+        pmAdapter = PMDetailAdapter(this, pmList, MyApp.user().uid, PMTimeUtils())
         recyclerview_private_detail.apply {
             adapter = pmAdapter
         }
@@ -80,7 +80,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
 
     private fun initEmotionView() {
         (emotion_view_pm_detail as EmotionView).attachEditText(edit_view_pm)
-        keyboardManager = KeyBoardManager.with(context)
+        keyboardManager = KeyBoardManager.with(mContext)
                 .bindToEmotionButton(btn_emotion_pm_detail)
                 .setEmotionView(emotion_view_pm_detail as EmotionView)
                 .bindToLockContent(content_layout_pm_detail)
@@ -136,7 +136,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
         pmPresenter.pmSendRequest(stContent, "text")
         edit_view_pm.text?.clear()
         pmList.add(PmListBean.MsgListBean().apply {
-            sender = MyApp.getUser().uid
+            sender = MyApp.user().uid
             content = stContent
             type = "text"
             time = System.currentTimeMillis().toString()

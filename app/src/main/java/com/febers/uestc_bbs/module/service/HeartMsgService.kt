@@ -48,7 +48,7 @@ class HeartMsgService : Service() {
      * 但是每次都会调用onStartCommand
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (!MyApp.getUser().valid) return super.onStartCommand(intent, flags, startId)
+        if (!MyApp.user().valid) return super.onStartCommand(intent, flags, startId)
 
         //注意Android8上，当应用运行在后台时，启动服务，会报IllegalStateException
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && MyApp.uiHidden) {
@@ -81,7 +81,7 @@ class HeartMsgService : Service() {
             MSG_TYPE_SYSTEM -> systemChannelName
             else -> otherChannelName
         }
-        val intents = arrayOf(Intent(this, HomeActivity::class.java).apply {
+        val intents = arrayOf(Intent(this, MyApp.getHomeActivity()).apply {
                     putExtra(USER_ID, uid.toString())
                     putExtra(MSG_TYPE, msgType)
                     putExtra(MSG_COUNT, count)
@@ -101,7 +101,7 @@ class HeartMsgService : Service() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMsgFeedback(event: MsgFeedbackEvent) {
 //        i("service", "cancel: ${event.type}")
-        log("service and type ${event.type}")
+//        log("service and type ${event.type}")
         when(event.type) {
             MSG_TYPE_REPLY -> {
                 rmCount = 0

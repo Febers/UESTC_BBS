@@ -14,7 +14,6 @@ import org.jetbrains.anko.indeterminateProgressDialog
 import java.nio.ByteBuffer
 import android.graphics.*
 import com.febers.uestc_bbs.R
-import com.luck.picture.lib.photoview.PhotoView
 
 
 class ImageViewer : BaseActivity() {
@@ -122,14 +121,14 @@ class ImageViewer : BaseActivity() {
             if (imageBitmap != null) {
                 imageUri = ImageHelper.saveImage(this@ImageViewer, imageBitmap as Bitmap, forShare = false)
                 if (imageUri != null) {
-                    showHint("保存图片成功")
+                    showHint("图片已保存至 /storage/emulated/0/UESTC_BBS")
                 } else {
                     showHint("保存图片失败")
                 }
             } else if (gifBytes != null) {
-                gifUri = ImageHelper.saveGif(context, imageUrl, false)
+                gifUri = ImageHelper.saveGif(mContext, imageUrl, false)
                 if (gifUri != null) {
-                    showHint("保存gif成功")
+                    showHint("GIF 已保存至 /storage/emulated/0/UESTC_BBS")
                 } else {
                     showHint("保存gif失败")
                 }
@@ -146,7 +145,7 @@ class ImageViewer : BaseActivity() {
             if (gifBytes != null) {
                 //第一次判断，是否已经保存过图片
                 if (gifUri == null) {
-                    gifUri = ImageHelper.saveGif(context, imageUrl, true)
+                    gifUri = ImageHelper.saveGif(mContext, imageUrl, true)
                 }
                 //再次判断，是否保存失败
                 if (gifUri == null) {

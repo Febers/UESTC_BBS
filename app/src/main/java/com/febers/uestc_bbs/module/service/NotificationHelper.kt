@@ -38,7 +38,7 @@ class NotificationHelper {
              notificationId: Int,
              intents: Array<Intent>,
              autoCancel: Boolean = true,
-             smallIcon: Int = R.drawable.ic_default_avatar_circle) {
+             smallIcon: Int = R.drawable.xic_ship_white) {
 
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

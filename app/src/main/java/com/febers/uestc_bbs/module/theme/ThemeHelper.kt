@@ -9,6 +9,9 @@ import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
+import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
+import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_DRAWER
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -38,8 +41,11 @@ object ThemeHelper {
      * @param context
      */
     fun dayAndNightThemeChange(context: Context) {
-        context.startActivity(Intent(context, ThemeChangeActivity::class.java))
-        (context as Activity).overridePendingTransition(0, 0)
+//        var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
+//        if (homeLayout == HOME_VIEW_STYLE_DRAWER) {
+//            context.startActivity(Intent(context, ThemeChangeActivity::class.java))
+//            (context as Activity).overridePendingTransition(0, 0)
+//        }
 
         if (isDarkTheme()) {
             val lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)

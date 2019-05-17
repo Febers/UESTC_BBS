@@ -63,7 +63,7 @@ class MoreFragment: BaseFragment() {
 
     override fun initView() {
         initMenu()
-        userSimple = MyApp.getUser()
+        userSimple = MyApp.user()
         mParentFragment = parentFragment as BaseFragment
         more_fragment_header.setOnClickListener { itemClick(FIRST_ITEM_VIEW, USER_DETAIL_ITEM) }
 

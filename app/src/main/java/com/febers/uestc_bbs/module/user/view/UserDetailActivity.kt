@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.os.Build
 import android.view.*
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
@@ -49,7 +51,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun setView(): Int {
         userId = intent.getIntExtra(USER_ID, 0)
-        if (userId == MyApp.getUser().uid) userItSelf = true
+        if (userId == MyApp.user().uid) userItSelf = true
         return R.layout.activity_user_detail
     }
 
@@ -120,6 +122,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
+            it.backgroundTintList = ColorStateList.valueOf(ThemeHelper.getColorAccent())
             it.setOnClickListener { ClickContext.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
         }
         linear_layout_user_post_start?.apply {
@@ -137,6 +140,10 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
                     putExtra(USER_ID, userId)
                     putExtra(USER_POST_TYPE, USER_REPLY_POST) })
             }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            iv_icon_user_post_edit.drawable.setTint(ThemeHelper.getColorAccent())
+            iv_icon_user_post_reply.drawable.setTint(ThemeHelper.getColorAccent())
         }
     }
 

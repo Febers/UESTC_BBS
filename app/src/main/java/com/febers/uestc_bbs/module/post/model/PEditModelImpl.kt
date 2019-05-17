@@ -22,7 +22,8 @@ class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), 
         log("new post and fid is $fid")
         val stContents = StringBuilder()
         contents.forEach {
-            stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
+            val newContent = it.second.replace("\n", """\\n""") //非常重要，解决服务器不识别换行问题
+            stContents.append("""{"type":${it.first},"infor":"$newContent"},""")
         }
         stContents.deleteCharAt(stContents.lastIndex)
         getRetrofit().create(PEditInterface::class.java)

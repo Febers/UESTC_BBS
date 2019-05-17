@@ -175,7 +175,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
     override fun onSupportVisible() {
         super.onSupportVisible()
         if (mMsgType != MSG_TYPE_PRIVATE) {
-            log("visible and type is $mMsgType")
+//            log("visible and type is $mMsgType")
             EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, mMsgType!!))
         }
     }

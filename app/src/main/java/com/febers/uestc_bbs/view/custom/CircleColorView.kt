@@ -14,8 +14,9 @@ import com.febers.uestc_bbs.utils.ColorUtils
 class CircleColorView : View {
 
     private lateinit var paint: Paint
-    private var color: Int = 0
+    private var color: Int = ColorUtils.toDarkColor(ThemeHelper.getColorAccent())
     private var radius: Int = 0
+    private var drawRing: Boolean = false
 
     constructor(context: Context) : super(context) {init(null)}
 
@@ -26,9 +27,16 @@ class CircleColorView : View {
     private fun init(attrs: AttributeSet?) {
         attrs ?: return
         paint = Paint()
-        //val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CircleColorView)
+        //val typeArray = mContext.obtainStyledAttributes(attrs, R.styleable.CircleColorView)
         //color = typeArray.getColor(R.styleable.CircleColorView_color, Color.BLUE)
-        color = ColorUtils.toDarkColor(ThemeHelper.getColorAccent())
+    }
+
+    public fun setColor(color: Int) {
+        this.color = color
+    }
+
+    private fun setDrawRing(drawRing: Boolean) {
+        this.drawRing = drawRing
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -40,7 +48,11 @@ class CircleColorView : View {
 
         paint.style = Paint.Style.FILL
         paint.color = color
-        paint.isAntiAlias = false
+        paint.isAntiAlias = true
         canvas?.drawCircle(c.toFloat(), c.toFloat(), radius.toFloat(), paint)
+
+        if (drawRing) {
+
+        }
     }
 }

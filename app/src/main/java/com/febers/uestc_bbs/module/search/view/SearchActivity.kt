@@ -2,7 +2,6 @@ package com.febers.uestc_bbs.module.search.view
 
 import android.app.ProgressDialog
 import androidx.annotation.UiThread
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -11,18 +10,19 @@ import android.view.MenuItem
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.SearchPostBean
-import com.febers.uestc_bbs.module.search.contract.SearchContrect
+import com.febers.uestc_bbs.module.search.contract.SearchContract
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
 import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.view.adapter.SearchAdapter
 import com.febers.uestc_bbs.module.context.ClickContext
-import kotlinx.android.synthetic.main.fragment_search.*
+import com.febers.uestc_bbs.utils.log
+import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.indeterminateProgressDialog
 
-class SearchActivity: BaseActivity(), SearchContrect.View {
+class SearchActivity: BaseActivity(), SearchContract.View {
 
     private val searchPostList: MutableList<SearchPostBean.ListBean> = ArrayList()
-    private lateinit var searchPresenter: SearchContrect.Presenter
+    private lateinit var searchPresenter: SearchContract.Presenter
     private var progressDialog: ProgressDialog? = null
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchView: SearchView
@@ -30,9 +30,8 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
     private var keyword = ""
     private var page: Int = 1
 
-    override fun setView(): Int {
-        return R.layout.fragment_search
-    }
+    override fun setView(): Int = R.layout.activity_search
+
 
     override fun setToolbar(): Toolbar? {
         return toolbar_search
@@ -41,7 +40,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
     override fun initView() {
         toolbar_search.title = getString(R.string.search)
         searchPresenter = SearchPresenterImpl(this)
-        searchAdapter = SearchAdapter(context, searchPostList, false).apply {
+        searchAdapter = SearchAdapter(mContext, searchPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i -> onItemClick(listBean) }
             setEmptyView(getEmptyViewForRecyclerView(recyclerview_search))
         }
@@ -92,6 +91,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
      * 实际是将后者作为一个menuItem
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        log("search")
         menuInflater.inflate(R.menu.menu_search_fragment, menu)
         menuItem = menu?.findItem(R.id.menu_item_search_search_fragment)
         menuItem?.isChecked = true
@@ -103,7 +103,7 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
                 }
                 keyword = query!!
                 page = 1
-                KeyboardUtils.closeKeyboard(searchView, context)
+                KeyboardUtils.closeKeyboard(searchView, mContext)
                 progressDialog?.show()
                 search(keyword, 0)
                 return true
@@ -122,10 +122,10 @@ class SearchActivity: BaseActivity(), SearchContrect.View {
 
 
     private fun onItemClick(item: SearchPostBean.ListBean) {
-        KeyboardUtils.closeKeyboard(searchView, context)
+        KeyboardUtils.closeKeyboard(searchView, mContext)
         searchView.clearFocus()
         val tid = item.topic_id
-        ClickContext.clickToPostDetail(context, tid)
+        ClickContext.clickToPostDetail(mContext, tid)
     }
 
     override fun showError(msg: String) {

@@ -26,6 +26,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
             </androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -46,8 +47,7 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="@dimen/fab_margin_right"
             android:layout_marginBottom="@dimen/fab_margin_right"
-            app:layout_behavior="com.febers.uestc_bbs.view.helper.ScrollAwareFABBehavior"
-            android:visibility="visible"/>
+            app:layout_behavior="com.febers.uestc_bbs.view.helper.ScrollAwareFABBehavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView

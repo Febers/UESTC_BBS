@@ -95,7 +95,7 @@ public class EmotionViewPagerAdapter extends PagerAdapter {
 //        } else {
 //            StickerCategory category = StickerManager.getInstance().getCategory(StickerManager.getInstance().getStickerCategories().get(mTabPosi - 1).getName());
 //            gridView.setOnItemClickListener(stickerListener);
-//            gridView.setAdapter(new StickerAdapter(context, category, mEmotionLayoutWidth, mEmotionLayoutHeight, position * EmotionManager.getInstance().getStickerPerPage()));
+//            gridView.setAdapter(new StickerAdapter(mContext, category, mEmotionLayoutWidth, mEmotionLayoutHeight, position * EmotionManager.getInstance().getStickerPerPage()));
 //            gridView.setNumColumns(EmotionManager.getInstance().getStickerColumn());
 //        }
 

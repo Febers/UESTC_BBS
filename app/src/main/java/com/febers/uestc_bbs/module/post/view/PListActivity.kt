@@ -4,8 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import androidx.annotation.UiThread
 import com.google.android.material.appbar.AppBarLayout
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
@@ -27,6 +25,7 @@ import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.activity_post_list.*
+import kotlinx.android.synthetic.main.layout_server_null.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.browse
@@ -78,7 +77,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
     override fun afterCreated() {
         pListPresenter = PListPresenterImpl(this)
-        postListAdapter = PostListAdapter(context, postList)
+        postListAdapter = PostListAdapter(mContext, postList)
 
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
@@ -87,7 +86,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
         boardNames.add(title.toString())
         boardIds.add(mFid)
-        boardSpinnerAdapter = ArrayAdapter(context,
+        boardSpinnerAdapter = ArrayAdapter(mContext,
                 R.layout.item_layout_spinner,
                 R.id.text_view_item_spinner,
                 boardNames).apply {
@@ -132,11 +131,12 @@ class PListActivity: BaseActivity(), PListContract.View {
                 getPost(++page) }
         }
         fab_post_list.setOnClickListener {
-            ClickContext.clickToPostEdit(context, mFid, title!!)
+            ClickContext.clickToPostEdit(mContext, mFid, title!!)
         }
     }
 
     private fun getPost(page: Int) {
+        btn_to_web?.visibility = View.INVISIBLE
         refresh_layout_post_list?.setNoMoreData(false)
         pListPresenter.pListRequest(fid = mFid, page = page, filterType = filterType, filterId = classificationId)
     }
@@ -144,7 +144,6 @@ class PListActivity: BaseActivity(), PListContract.View {
     @UiThread
     override fun showPList(event: BaseEvent<PostListBean>) {
         refresh_layout_post_list?.finishSuccess()
-
         if (page == 1) {
             postListAdapter?.setNewData(event.data.list)
             //置顶帖数据
@@ -159,7 +158,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                     classificationNameList.add(it.classificationType_name!!)
                     classificationIdList.add(it.classificationType_id)
                 }
-                classificationDialog = AlertDialog.Builder(context)
+                classificationDialog = AlertDialog.Builder(mContext)
                         .setTitle(getString(R.string.classification))
                         .setItems(classificationNameList.toTypedArray()) { dialog, which ->
                             classificationId = classificationIdList[which]
@@ -168,7 +167,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                         }.create()
                 //帖子详情
                 if (boardDetailDialog == null) {
-                    boardDetailDialog = AlertDialog.Builder(context)
+                    boardDetailDialog = AlertDialog.Builder(mContext)
                             .setTitle(getString(R.string.block_detail))
                             .setMessage("""
 版块id: ${event.data.forumInfo?.id}
@@ -226,7 +225,7 @@ class PListActivity: BaseActivity(), PListContract.View {
         if (stickyPostList.isEmpty()) return
         if (!isShowStickyPost) {
             if (stickyPostAdapter == null) {
-                stickyPostAdapter = StickyPostAdapter(context!!, stickyPostList).apply {
+                stickyPostAdapter = StickyPostAdapter(mContext!!, stickyPostList).apply {
                     setOnItemClickListener { viewHolder, topTopicListBean, i ->
                         ClickContext.clickToPostDetail(context, topTopicListBean.id)
                     }
@@ -270,9 +269,17 @@ class PListActivity: BaseActivity(), PListContract.View {
     }
 
     override fun showError(msg: String) {
-        context.runOnUiThread {
+        mContext.runOnUiThread {
             showHint(msg)
             refresh_layout_post_list?.finishFail()
+            showEmptyView()
+        }
+    }
+
+    private fun showEmptyView() {
+        btn_to_web?.visibility = View.VISIBLE
+        btn_to_web?.setOnClickListener {
+            browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
         }
     }
 

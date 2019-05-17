@@ -67,19 +67,10 @@ class HomeActivity: BaseActivity() {
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
             ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)
         }
-        onThemeChanged()
         fab_home.setOnClickListener {
             ClickContext.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
         fab_home.visibility = View.GONE
         startService()
-    }
-
-    private fun onThemeChanged() {
-        val themeChanged: Boolean = intent.getBooleanExtra(DAY_NIGHT_THEME_CHANGE, false)
-        if (themeChanged) {
-            bottom_navigation_home.currentItem = PAGE_POSITION_MORE
-            ActivityMgr.removeAllActivitiesExceptOne(this@HomeActivity)
-        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -126,14 +117,15 @@ class HomeActivity: BaseActivity() {
     }
 
     /**
-     * Activity通过Intent的FLAG_ACTIVITY_SINGLE_TOP启动时
+     * Activity通过Intent的FLAG_ACTIVITY_SINGLE_TOP启动时，即通过通知打开应用时
      * 生命周期为 onNewIntent -> onResume()
      * 在其中接收Service传过来的数据
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
+        log("onNew2")
 
+        if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
         bottom_navigation_home.currentItem = PAGE_POSITION_MESSAGE
         showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
     }
@@ -152,7 +144,6 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun startService() {
-//        log("start")
         val loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
         if (loopReceiveMsg) {
             val intent = Intent(this, HeartMsgService::class.java)

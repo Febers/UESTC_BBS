@@ -145,7 +145,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
         progress_bar_reply_activity.visibility = View.VISIBLE
 
         val aidBuffer = StringBuilder()
-        val contentList: MutableList<Pair<Int, String>> = java.util.ArrayList()
+        val contentList: MutableList<Pair<Int, String>> = ArrayList()
         contentList.add(CONTENT_TYPE_TEXT to stContent)
         if (selectedImagePaths.isEmpty()) {
             postPresenter.postReplyRequest(

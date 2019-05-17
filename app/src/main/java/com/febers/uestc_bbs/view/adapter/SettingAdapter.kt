@@ -24,6 +24,11 @@ class SettingAdapter(val context: Context, data: List<SettingItemBean>):
                 visibility = View.VISIBLE
                 isChecked = p1.checked
             }
+        } else {
+            (p0?.getView(R.id.check_box_item_setting) as CheckBox).apply {
+                visibility = View.GONE
+                isChecked = p1.checked
+            }
         }
     }
 }

@@ -12,7 +12,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:background="?attr/app_color_primary"
             app:tabSelectedTextColor="@color/color_white"
             app:tabTextColor="@color/color_gray_light"

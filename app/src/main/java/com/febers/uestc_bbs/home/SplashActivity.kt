@@ -9,8 +9,7 @@ import android.content.Intent
 import android.os.Build
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.BaseActivity
-import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -26,9 +25,8 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun initView() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            image_view_splash.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
-            text_view_splash.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        if (intent.getBooleanExtra(RESTART_APP, false)) {
+            ActivityMgr.removeAllActivitiesExceptOne(mContext)
         }
         permissionUtils = PermissionUtils(this)
         permissionUtils
@@ -40,13 +38,18 @@ class SplashActivity : BaseActivity() {
                         showHint("你拒绝的相应的权限,将无法正常使用应用")
                         start()
                     }
-                }, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                }, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
 
     }
 
     private fun start() {
-        val scaleX = ObjectAnimator.ofFloat(image_view_splash, "scaleX", 0.8f, 1.2f)
-        val scaleY = ObjectAnimator.ofFloat(image_view_splash, "scaleY", 0.8f, 1.2f)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            image_view_splash.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
+            text_view_splash.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        }
+
+        val scaleX = ObjectAnimator.ofFloat(image_view_splash, "scaleX", 0.8f, 1.1f)
+        val scaleY = ObjectAnimator.ofFloat(image_view_splash, "scaleY", 0.8f, 1.1f)
         scaleX.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) { }
             override fun onAnimationCancel(animation: Animator?) { }
@@ -56,7 +59,7 @@ class SplashActivity : BaseActivity() {
             }
         })
         AnimatorSet().apply {
-            duration = 1000
+            duration = 900
             play(scaleX)
             play(scaleY)
             start()
@@ -64,7 +67,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun startActivity() {
-        startActivity(Intent(this@SplashActivity,
+        startActivity(Intent(mContext,
                 if (MyApp.homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
                 else HomeActivity2::class.java))
         overridePendingTransition(0, 0)

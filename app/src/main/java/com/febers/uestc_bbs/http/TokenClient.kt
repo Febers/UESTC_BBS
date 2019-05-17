@@ -18,8 +18,8 @@ class TokenInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originRequest: Request = chain.request()
         val modifiedUrl: HttpUrl = originRequest.url().newBuilder()
-                .addQueryParameter("accessToken", MyApp.getUser().token)
-                .addQueryParameter("accessSecret", MyApp.getUser().secrete)
+                .addQueryParameter("accessToken", MyApp.user().token)
+                .addQueryParameter("accessSecret", MyApp.user().secrete)
                 .build()
         val newRequest: Request = originRequest.newBuilder().url(modifiedUrl).build()
         return chain.proceed(newRequest)

@@ -74,7 +74,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
             override fun onResponse(call: Call<PostDetailBean>?, response: Response<PostDetailBean>?) {
                 val postResultBean = response?.body()
                 if (postResultBean == null) {
-                    postPresenter.errorResult("$SERVICE_RESPONSE_NULL,请点击右上角 菜单->访问Web页面 查看该帖子")
+                    postPresenter.errorResult("$SERVICE_RESPONSE_NULL，请访问 Web 页面，查看该帖子")
                     return
                 }
                 if (postResultBean.rs != REQUEST_SUCCESS_RS) {
@@ -93,7 +93,8 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
     private fun reply(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
         val stContents = StringBuilder()
         contents.forEach {
-            stContents.append("""{"type":${it.first},"infor":"${it.second}"},""")
+            val newContent = it.second.replace("\n", """\\n""") //非常重要，解决服务器不识别换行问题
+            stContents.append("""{"type":${it.first},"infor":"$newContent"},""")
         }
         //清除末尾的逗号
         stContents.deleteCharAt(stContents.lastIndex)

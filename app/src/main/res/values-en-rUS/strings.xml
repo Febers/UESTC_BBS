@@ -158,5 +158,7 @@
     <string name="hide_sticky_post">Hide Sticky Post</string>
     <string name="bottom_text_hint">--- Loaded completed ---</string>
     <string name="home_layout">Home Layout</string>
-    <string name="choose_home_layout">Choose different main interface layouts</string>
+    <string name="choose_home_layout">Choose different main interface layouts, now it is </string>
+    <string name="home_layout_drawer">Drawer Layout</string>
+    <string name="home_layout_bottom">Bottom Layout</string>
 </resources>

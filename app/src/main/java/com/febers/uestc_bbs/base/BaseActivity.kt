@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
 
@@ -21,7 +22,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     protected val contentView: Int
         get() = setView()
 
-    protected val context = this@BaseActivity
+    protected val mContext: BaseActivity
+        get() = this@BaseActivity
 
     protected open fun setMenu(): Int? = null
 
@@ -42,7 +44,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(contentView)
-        ActivityMgr.putActivity(this)
+        ActivityMgr.putActivity(mContext)
 
         if (!enableThemeHelper() && enableHideStatusBar()) {
             hideStatusBar()
@@ -68,8 +70,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =
             LayoutInflater
-                    .from(this@BaseActivity)
-                    .inflate(R.layout.layout_empty_view, recyclerView.parent as ViewGroup, false)
+                    .from(mContext)
+                    .inflate(R.layout.layout_server_null, recyclerView.parent as ViewGroup, false)
 
     private var isInitAllView = false
 
@@ -88,7 +90,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     override fun showHint(msg: String) {
         runOnUiThread {
-            HintUtils.show(this@BaseActivity, msg)
+            HintUtils.show(mContext, msg)
         }
     }
 
@@ -97,10 +99,11 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (setMenu()!=null) {
+        log("create menu")
+        if (setMenu() != null) {
             menuInflater.inflate(setMenu()!!, menu)
         }
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

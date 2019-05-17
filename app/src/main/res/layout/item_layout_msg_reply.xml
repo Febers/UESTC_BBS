@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/text_view_msg_reply_author"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:maxLines="1"
@@ -40,17 +40,13 @@
             android:id="@+id/text_view_msg_reply_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="264dp"
+            android:layout_marginStart="16dp"
             android:maxLines="1"
             android:text="回复时间"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_msg_reply_author"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/text_view_msg_reply_author"
-            app:layout_constraintTop_toTopOf="@+id/text_view_msg_reply_author"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="@+id/text_view_msg_reply_author" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

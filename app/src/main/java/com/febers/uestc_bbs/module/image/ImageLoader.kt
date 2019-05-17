@@ -84,6 +84,7 @@ object ImageLoader {
                     .apply(sizeOptions)
                     .fitCenter()
                     .into(imageView!!)
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -136,48 +137,6 @@ object ImageLoader {
     }
 
     /**
-     * 预加载图片，防止边绘制ImageView边加载图片，边滑动时的卡顿问题
-     *
-     * @deprecated 愚蠢的方案
-     * @param context Context
-     * @param url     加载图片的url地址  String
-     */
-    fun preload(context: Context?, url: String?) {
-        try {
-            GlideApp.with(context!!).load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .preload()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * 使用在后台预加载的图片，由于此时视图已经绘制完毕
-     * 只需要将Glide加载的图片填充进ImageView即可
-     * 通常用于加载帖子中的内容
-     *
-     * @deprecated 愚蠢的方案
-     * @param context
-     * @param url        加载图片的url地址  String
-     * @param imageView  加载图片的ImageView 控件
-     */
-    fun usePreload(context: Context?, url: String?, imageView: ImageView?) {
-        try {
-            val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-            GlideApp.with(context!!).load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .placeholder(R.drawable.image_placeholder_400200)
-                    .error(R.drawable.image_error_400200)
-                    .apply(sizeOptions)
-                    .centerCrop()
-                    .into(imageView!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
      * 此方法在图文视图中被调用，作用是为Target加载网络图片
      *
      * @param context
@@ -207,11 +166,11 @@ object ImageLoader {
      * 不加载图片获取网络图片的大小
      * @param url
      */
-//    fun getImageWidthAndHeight(context: Context,
+//    fun getImageWidthAndHeight(mContext: Context,
 //                               url: String): Array<Int> {
 //        var width = 0
 //        var height= 0
-//        GlideApp.with(context).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+//        GlideApp.with(mContext).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
 //            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
 //                width = resource.width
 //                height = resource.height

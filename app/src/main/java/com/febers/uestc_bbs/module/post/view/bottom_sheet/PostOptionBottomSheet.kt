@@ -49,7 +49,7 @@ class PostOptionBottomSheet(context: Context, style: Int,
             }
             if (i == ITEM_WEB_POST) {
                 context.browse(postId.pidToWebUrl(), true)
-                //ClickContext.clickToAppWeb(context, postId.pidToWebUrl())
+                //ClickContext.clickToAppWeb(mContext, postId.pidToWebUrl())
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -63,7 +63,7 @@ class PostOptionBottomSheet(context: Context, style: Int,
 //                    type = "text/plain"
 //                    putExtra(Intent.EXTRA_TEXT, "$postTitle\n${postId.pidToWebUrl()}\n来自清水河畔客户端 i河畔")
 //                }
-//                context.startActivity(Intent.createChooser(intent, "分享帖子"))
+//                mContext.startActivity(Intent.createChooser(intent, "分享帖子"))
             }
             dismiss()
         }
@@ -80,6 +80,6 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 OptionItemBean(context.getString(R.string.copy_url), R.drawable.xic_link_orange_24dp),
                 OptionItemBean(context.getString(R.string.share), R.drawable.xic_share_blue_24dp))
     }
-
-    private fun Int.pidToWebUrl() = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=${this}"
 }
+
+fun Int.pidToWebUrl() = "http://bbs.uestc.edu.cn/forum.php?mod=viewthread&tid=${this}"

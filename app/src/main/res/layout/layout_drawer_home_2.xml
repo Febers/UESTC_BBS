@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?background_first">
 
     <include layout="@layout/layout_header_drawer"
         android:layout_height="@dimen/drawer_header_height"

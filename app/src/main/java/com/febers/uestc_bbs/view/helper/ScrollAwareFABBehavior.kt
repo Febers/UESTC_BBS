@@ -27,9 +27,9 @@ class ScrollAwareFABBehavior(context: Context, attrs: AttributeSet): FloatingAct
     @SuppressLint("RestrictedApi")
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
-        if (dyConsumed > 5 && child.visibility == View.VISIBLE) {
+        if (dyConsumed > 1 && child.visibility == View.VISIBLE) {
             scaleHide(child)
-        } else if (dyConsumed < -5 && child.visibility == View.INVISIBLE) {
+        } else if (dyConsumed < -1 && child.visibility == View.INVISIBLE) {
             scaleShow(child)
         }
     }

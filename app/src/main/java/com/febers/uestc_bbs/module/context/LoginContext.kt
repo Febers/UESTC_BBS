@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.module.login.view.LoginActivity
  */
 object LoginContext {
     fun userState(ctx: Context): Boolean {
-        val userValid = MyApp.getUser().valid
+        val userValid = MyApp.user().valid
         return if (userValid) true
         else {
             ctx.startActivity(Intent(ctx, LoginActivity::class.java))

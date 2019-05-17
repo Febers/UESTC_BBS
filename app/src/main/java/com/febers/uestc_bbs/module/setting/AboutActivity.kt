@@ -47,21 +47,21 @@ class AboutActivity: BaseActivity() {
     }
 
     override fun afterCreated() {
-        settingAdapter1 = SettingAdapter(context, items1).apply {
+        settingAdapter1 = SettingAdapter(mContext, items1).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onFirstGroupItemClick(i)
             }
         }
         recyclerview_about_1.adapter = settingAdapter1
 
-        settingAdapter2 = SettingAdapter(context, items2).apply {
+        settingAdapter2 = SettingAdapter(mContext, items2).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onSecondGroupItemClick(i)
             }
         }
         recyclerview_about_2.adapter = settingAdapter2
 
-        settingAdapter3 = SettingAdapter(context, items3).apply {
+        settingAdapter3 = SettingAdapter(mContext, items3).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onThirdGroupItemClick(i)
             }
@@ -75,9 +75,9 @@ class AboutActivity: BaseActivity() {
         items3.addAll(initSettingData3())
         settingAdapter3.notifyDataSetChanged()
 
-        openSourceProjectsDialog = AlertDialog.Builder(context)
+        openSourceProjectsDialog = AlertDialog.Builder(mContext)
                 .create()
-        projectAdapter = OpenProjectAdapter(context, initOpenProjectData()).apply {
+        projectAdapter = OpenProjectAdapter(mContext, initOpenProjectData()).apply {
             setOnItemClickListener { viewHolder, projectItemBean, i ->
                 context.browse(url = "https://github.com/" + projectItemBean.author + "/" + projectItemBean.name)
             }
@@ -111,9 +111,9 @@ class AboutActivity: BaseActivity() {
             }
             1 -> {
                 if (updateLogDialog == null) {
-                    updateLogDialog = AlertDialog.Builder(context)
+                    updateLogDialog = AlertDialog.Builder(mContext)
                             .setTitle(getString(R.string.update_log))
-                            .setMessage(Html.fromHtml(FileHelper.getAssetsString(context, "update_log.html")))
+                            .setMessage(Html.fromHtml(FileHelper.getAssetsString(mContext, "update_log.html")))
                             .setPositiveButton(getString(R.string.confirm)) { dialog, which ->
                                 updateLogDialog?.dismiss()
                             }
@@ -127,13 +127,13 @@ class AboutActivity: BaseActivity() {
     private fun onSecondGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                ClickContext.clickToUserDetail(context = context, uid = 196486)
+                ClickContext.clickToUserDetail(context = mContext, uid = 196486)
             }
             1 -> {
-                context.email(getString(R.string.developer_email))
+                mContext.email(getString(R.string.developer_email))
             }
             2 -> {
-                DonateUtils(context).donateByAlipay()
+                DonateUtils(mContext).donateByAlipay()
             }
         }
     }
@@ -141,7 +141,7 @@ class AboutActivity: BaseActivity() {
     private fun onThirdGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                context.browse(getString(R.string.app_project_url))
+                mContext.browse(getString(R.string.app_project_url))
             }
             1 -> {
                 openSourceProjectsDialog?.show()
@@ -151,7 +151,7 @@ class AboutActivity: BaseActivity() {
     }
 
     private fun getOpenSourceProjects(): View {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_open_projects, null)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_open_projects, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_open_source)
         val btn = view.findViewById<Button>(R.id.btn_dialog_open_prj_enter)
         btn.setOnClickListener {
@@ -179,12 +179,12 @@ class AboutActivity: BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 //        if (item?.itemId == R.id.menu_item_donate) {
-//            DonateUtils(context).donateByAlipay()
+//            DonateUtils(mContext).donateByAlipay()
 //        }
         if (item?.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
-                permissionDialog = AlertDialog.Builder(context)
-                        .setMessage(Html.fromHtml(FileHelper.getAssetsString(context, "permission_explain.html")))
+                permissionDialog = AlertDialog.Builder(mContext)
+                        .setMessage(Html.fromHtml(FileHelper.getAssetsString(mContext, "permission_explain.html")))
                         .setPositiveButton(getString(R.string.confirm)) { p0, p1 -> }
                         .create()
             }

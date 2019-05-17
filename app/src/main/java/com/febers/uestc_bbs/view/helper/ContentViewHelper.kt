@@ -8,12 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.getWindowWidth
-import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.browse
 
 
@@ -31,8 +28,8 @@ const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
 class ContentViewHelper(
-        private val linearLayout: LinearLayout,
-        private val mContents: List<PostDetailBean.ContentBean>,
+        private var mLinearLayout: LinearLayout?,
+        private var mContents: List<PostDetailBean.ContentBean>,
         private val mTextColor: Int? = null,
         private val mTextLinkColor: Int? = null) {
 
@@ -42,13 +39,22 @@ class ContentViewHelper(
     private val IMAGE_VIEW_MARGIN = 8
     private val IMAGE_VIEW_WIDTH = getWindowWidth()
     private val IMAGE_VIEW_HEIGHT = getWindowWidth()
-    private val context = linearLayout.context
+    private var context = mLinearLayout?.context
     private var belowTextView = true    //图片是否在文字下面，如果是，间距拉大
     fun getImageMapList() = imageMapList
 
     fun create() {
-        linearLayout.removeAllViews()
+        mLinearLayout ?: return
+        mLinearLayout!!.removeAllViews()
         cycleDrawView(mStringBuilder, position = 0)
+    }
+
+    fun reset(linearLayout: LinearLayout, contents: List<PostDetailBean.ContentBean>) {
+        mLinearLayout = linearLayout
+        mContents = contents
+        mStringBuilder.clear()
+        imageMapList?.clear()
+        context = mLinearLayout?.context
     }
 
     /**
@@ -60,26 +66,26 @@ class ContentViewHelper(
         fun drawTextView() {
             val textView = getTextView()
             ImageTextHelper.setImageText(textView, stringBuilder.toString(), mTextLinkColor)
-            linearLayout.addView(textView)
+            mLinearLayout?.addView(textView)
             belowTextView = true
         }
         fun drawImageView() {
             drawTextView()
             val imageView = getImageView(mContents[position].originalInfo.toString())
-            linearLayout.addView(imageView)
-            linearLayout.gravity = Gravity.CENTER
+            mLinearLayout?.addView(imageView)
+            mLinearLayout?.gravity = Gravity.CENTER
             imageMapList?.add(mapOf(mContents[position].originalInfo.toString() to imageView))
             belowTextView = false
         }
         fun drawFileView(url: String, title: String) {
             val button = getFileButton(url, title)
-            linearLayout.addView(button)
+            mLinearLayout?.addView(button)
         }
         //当遍历结束之后之后，绘制stringBuilder的内容
         if (position >= mContents.size) {
             val textView = getTextView()
             ImageTextHelper.setImageText(textView, stringBuilder.toString())
-            linearLayout.addView(textView)
+            mLinearLayout?.addView(textView)
             return
         }
         //根据type选择不同的策略
@@ -90,7 +96,7 @@ class ContentViewHelper(
             }
             CONTENT_TYPE_URL -> {
                 stringBuilder
-                    .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
+                        .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
                 cycleDrawView(stringBuilder, position + 1)
             }
             CONTENT_TYPE_IMG -> {
@@ -205,7 +211,7 @@ class ContentViewHelper(
     }
 
     private fun String.matchImageUrl(): Boolean = endsWith(".jpg") || endsWith(".png") ||
-                endsWith(".jpeg") || endsWith(".bmp")
+            endsWith(".jpeg") || endsWith(".bmp")
             || endsWith(".JPG") || endsWith(".PNG") ||
             endsWith(".JPEG") || endsWith(".BMP")
 

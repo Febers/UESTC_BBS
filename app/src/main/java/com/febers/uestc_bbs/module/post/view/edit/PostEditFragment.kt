@@ -143,9 +143,10 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 //        check_box_is_anonymous.setOnCheckedChangeListener { buttonView, isChecked ->
 //            isAnonymous = if (isChecked) USER_ANONYMOUS else USER_NO_ANONYMOUS }
         check_box_is_anonymous.visibility = View.GONE
-        check_box_is_only_author.setOnCheckedChangeListener { buttonView, isChecked ->
-            isOnlyAuthor = if (isChecked) ONLY_AUTHOR_VIEW_REPLY else NO_ONLY_AUTHOR_VIEW_REPLY
-        }
+//        check_box_is_only_author.setOnCheckedChangeListener { buttonView, isChecked ->
+//            isOnlyAuthor = if (isChecked) ONLY_AUTHOR_VIEW_REPLY else NO_ONLY_AUTHOR_VIEW_REPLY
+//        }
+        check_box_is_only_author.visibility = View.GONE
     }
 
     private fun initToolbar() {

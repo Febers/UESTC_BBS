@@ -5,6 +5,7 @@ const val DEFAULT_THEME_CODE = 0
 const val HOME_VIEW_STYLE = "home_view_style"
 const val HOME_VIEW_STYLE_BOTTOM = 0
 const val HOME_VIEW_STYLE_DRAWER = 1
+const val RESTART_APP = "restart"
 
 const val REQUEST_SUCCESS_RS = 1
 const val HAVE_NEXT_PAGE = 1

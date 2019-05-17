@@ -5,7 +5,7 @@ import com.febers.uestc_bbs.base.BasePresenter
 import com.febers.uestc_bbs.base.BaseView
 import com.febers.uestc_bbs.entity.SearchPostBean
 
-interface SearchContrect {
+interface SearchContract {
 
     interface Model {
         fun searchService(keyword: String, page: Int)

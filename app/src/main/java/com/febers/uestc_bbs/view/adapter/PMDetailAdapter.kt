@@ -36,7 +36,7 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
             if (userId == p1.sender) {
                 //支持表情包的显示
                 val contentViewHelper: ContentViewHelper? = ContentViewHelper(
-                        linearLayout = rightLayout,
+                        mLinearLayout = rightLayout,
                         mContents = listOf(PostDetailBean.ContentBean().apply {
                             infor = p1.content
                             type = CONTENT_TYPE_TEXT
@@ -53,7 +53,7 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                 leftLayout.visibility = View.GONE
             } else {
                 val contentViewHelper: ContentViewHelper? = ContentViewHelper(
-                        linearLayout = leftLayout,
+                        mLinearLayout = leftLayout,
                         mContents = listOf(PostDetailBean.ContentBean().apply {
                             infor = p1.content
                             type = CONTENT_TYPE_TEXT

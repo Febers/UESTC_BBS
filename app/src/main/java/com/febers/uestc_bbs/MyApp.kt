@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs
 
+import android.app.Activity
 import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.Intent
@@ -16,6 +17,8 @@ import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import androidx.multidex.MultiDexApplication
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
+import com.febers.uestc_bbs.home.HomeActivity
+import com.febers.uestc_bbs.home.HomeActivity2
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.setting.UpdateActivity
 import com.febers.uestc_bbs.utils.ApiUtils
@@ -122,12 +125,15 @@ class MyApp: MultiDexApplication() {
         var msgCount = 0
 
         fun context() = context
-        fun getUser(): UserSimpleBean = UserHelper.getNowUser()
+        fun user(): UserSimpleBean = UserHelper.getNowUser()
 
         fun homeLayout(): Int {
             val homeLayout by PreferenceUtils(context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
             return homeLayout
         }
+
+        fun getHomeActivity() = if (homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
+            else HomeActivity2::class.java
 
         init {
             /**

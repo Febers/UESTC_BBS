@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="@dimen/text_size_normal"
         android:textColor="?attr/text_color_second"
@@ -59,7 +59,7 @@
             android:id="@+id/text_view_item_search_post_user"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2.5"
+            android:layout_weight="1.5"
             android:text="用户名"
             android:textSize="@dimen/text_size_small"
             android:textColor="?attr/text_color_second" />
@@ -67,7 +67,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -91,7 +91,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -132,7 +132,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="TextView"
+                android:text="2019`12`12"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     </LinearLayout>

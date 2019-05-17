@@ -16,38 +16,57 @@
             android:id="@+id/toolbar_theme"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="选择主题">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    
-    <com.febers.uestc_bbs.view.color_picker.ColorPicker
-        android:id="@+id/color_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        app:color_center_radius="80dp"/>
-    <com.febers.uestc_bbs.view.color_picker.SVBar
-        android:id="@+id/color_picker_sv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
 
-    <CheckBox
-        android:id="@+id/check_box_theme_color_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/color_primary_dark_effect"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:textColor="?android:textColorSecondary"/>
-    <Button
-        android:id="@+id/btn_choose_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:textSize="@dimen/text_size_big"
-        android:text="@string/confirm"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.febers.uestc_bbs.view.custom.CustomGridView
+                android:id="@+id/grid_view_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="5"
+                android:layout_margin="16dp">
+
+            </com.febers.uestc_bbs.view.custom.CustomGridView>
+
+            <com.febers.uestc_bbs.view.color_picker.ColorPicker
+                android:id="@+id/color_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                app:color_center_radius="80dp"/>
+            <com.febers.uestc_bbs.view.color_picker.SVBar
+                android:id="@+id/color_picker_sv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <CheckBox
+                android:id="@+id/check_box_theme_color_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/color_primary_dark_effect"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:textColor="?android:textColorSecondary"/>
+            <Button
+                android:id="@+id/btn_choose_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:textSize="@dimen/text_size_big"
+                android:text="@string/confirm"/>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

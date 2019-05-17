@@ -38,7 +38,7 @@
             android:id="@+id/text_view_post_reply_user_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:maxLines="1"
             android:text="作者等级"
             android:textSize="@dimen/text_size_small"
@@ -101,6 +101,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="56dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:gravity="end">
         <TextView

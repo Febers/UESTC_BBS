@@ -53,7 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:text="@string/add_user"/>
+                android:text="@string/add_user"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
             <TextView
                 android:id="@+id/text_view_setting_2"
@@ -72,7 +73,16 @@
                 android:layout_marginBottom="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
             </androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/btn_restart_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:text="重启应用"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

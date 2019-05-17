@@ -21,4 +21,11 @@ object ActivityMgr {
             it.value.finish()
         }
     }
+
+    fun removeAllActivities() {
+        activityMap.forEach {
+            activityMap.remove(it.key)
+            it.value.finish()
+        }
+    }
 }

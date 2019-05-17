@@ -5,8 +5,8 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
+import android.view.LayoutInflater
 import androidx.annotation.UiThread
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
@@ -17,25 +17,26 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListener
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostReplySendListener
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.pidToWebUrl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
+import kotlinx.android.synthetic.main.layout_server_null.*
+import org.jetbrains.anko.browse
 
-class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener, PostReplySendListener {
+class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean>? = ArrayList()
     private var showReplyCountBottomAnimatorSet: AnimatorSet? = null
@@ -58,7 +59,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var postId = 0
     private var page = 1
 
-
     ////////////////////////////////初始化////////////////////////////////
 
     override fun setView(): Int = R.layout.activity_post_detail
@@ -70,11 +70,11 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!).apply {
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
-                viewHolder, postReplyBean, i -> clickToUserDetail(this@PostDetailActivity, postReplyBean.reply_id)
+                viewHolder, postReplyBean, i -> clickToUserDetail(mContext, postReplyBean.reply_id)
             }
             setOnItemChildClickListener(R.id.image_view_post_reply_reply) {
                 viewHolder, postReplyBean, i ->
-                ClickContext.clickToPostReply(context = this@PostDetailActivity,
+                ClickContext.clickToPostReply(context = mContext,
                         toUserId = postReplyBean.reply_id,
                         toUserName = postReplyBean.reply_name,
                         postId = postId,
@@ -94,8 +94,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 getPost(postId, ++page) }
         }
         recyclerview_post_detail_replies.apply {
-            layoutManager = LinearLayoutManager(this@PostDetailActivity).apply {
-                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerview不错乱
+            layoutManager = LinearLayoutManager(mContext).apply {
+                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱
             }
             //addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
@@ -157,10 +157,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         replyCount = event.data.topic?.replies ?: replyCount
         //结束绘制
         drawFinish = true
-//        fab_post_detail?.setOnClickListener {
-//            getReplyBottomSheet().showWithData(topicId = topicUserId, toUid = topicUserId,
-//                    replyId = topicReplyId, toUName = topicUserName)
-//        }
         //底部显示评论个数的bottom，以代替fab
         text_view_post_reply_count.text = "$replyCount " + getString(R.string.replies)
         linear_layout_post_reply_count.setOnClickListener {
@@ -169,7 +165,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             } catch (e: Exception) {
                 "[主贴内容]"
             }
-            ClickContext.clickToPostReply(context = this@PostDetailActivity,
+            ClickContext.clickToPostReply(context = mContext,
                     toUserId = topicUserId,
                     toUserName = topicUserName,
                     postId = postId,
@@ -188,10 +184,10 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         image_view_post_detail_author_avatar?.let { it ->
             it.visibility = View.VISIBLE
             ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
-            it.setOnClickListener { ClickContext.clickToUserDetail(this@PostDetailActivity, event.data.topic?.user_id) }
+            it.setOnClickListener { clickToUserDetail(mContext, event.data.topic?.user_id) }
         }
         //收藏图标的相应设置
-        isFavorite = event.data.topic?.is_favor!!
+        isFavorite = event.data.topic?.is_favor ?: POST_NO_FAVORED
         initFavStatus()
         toolbar_post_detail?.title = event.data.forumName
         text_view_post_detail_title?.text = event.data.topic?.title
@@ -212,7 +208,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         val imageMap = contentViewHelper?.getImageMapList()
         imageMap ?: return
         imageMap.forEach {
-            ImageLoader.loadForContent(context = this@PostDetailActivity,
+            ImageLoader.loadForContent(context = mContext,
                     url = it.keys.first(),
                     imageView = it.values.first())
         }
@@ -294,39 +290,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
     }
 
-    ////////////////////////////////回复////////////////////////////////
-    /**
-     * 接收来自bottomSheet的回调，初始化或者重新定义tempReplyBean
-     * 然后发送消息
-     *
-     * 以下方法已废弃
-     *
-     * 此方法创建了一个temReplyBean，其目的是当用户回复的内容足够简单时
-     * 服务器显示回复成功之后直接将其插入至list末尾，因为回复成功之后服务器只会返回很简单的json数据
-     * 而不用再次刷新回复列表，不过其是否有必要，还不确定
-     * 只有在回复的数目够小，且该回复不引用其他回复以及回复不包含图片(目前客户端并不支持这一功能)
-     * isInsertReplySimply 这一变量才为true
-     */
-    override fun onReplySend(toUid: Int, isQuote: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        //postPresenter?.postReplyRequest(isQuota = isQuote, replyId = replyId, aid = aid, contents = *contents)
-        //replyCount++
-    }
-
-    /**
-     * 发送消息成功之后的回调
-     * 如果replyCount（当前帖子的回复书）小于COMMON_PAGE_SIZE,将tempReplyBean添加到列表中
-     * 否则加载下一页(?)
-     * ！！效果不好，改为回复成功之后直接刷新界面
-     */
-    override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
-//        runOnUiThread {
-//            showHint(event.data.head?.errInfo.toString())
-//            replyBottomSheet?.finish()
-//            scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
-//            refresh_layout_post_detail?.autoRefresh()
-//        }
-    }
-
     ////////////////////////////////回复的结果////////////////////////////////
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -365,7 +328,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     private fun getOptionBottomSheet(): PostOptionBottomSheet {
         if (optionBottomSheet == null) {
-            optionBottomSheet = PostOptionBottomSheet(context = this, style = R.style.PinkBottomSheetTheme,
+            optionBottomSheet = PostOptionBottomSheet(context = mContext, style = R.style.PinkBottomSheetTheme,
                     itemClickListenerPost = this, postId = postId)
             optionBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_post_option)
         }
@@ -376,7 +339,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         if (linear_layout_post_reply_count.visibility == View.VISIBLE) return
         linear_layout_post_reply_count.visibility = View.VISIBLE
         if (showReplyCountBottomAnimatorSet == null) {
-            showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(this@PostDetailActivity, R.animator.scroll_show_fab) as AnimatorSet
+            showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
             (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
         }
         (showReplyCountBottomAnimatorSet as AnimatorSet).start()
@@ -389,7 +352,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private fun hideReplyCountBottomAndFAB() {
         if (linear_layout_post_reply_count.visibility == View.INVISIBLE) return
         if (hideReplyCountBottomAnimatorSet == null) {
-            hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(this@PostDetailActivity, R.animator.scroll_show_fab) as AnimatorSet
+            hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
             (hideReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
         }
         (hideReplyCountBottomAnimatorSet as AnimatorSet).start()
@@ -411,7 +374,23 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun showError(msg: String) {
         showHint(msg)
         refresh_layout_post_detail?.finishFail()
+        showEmptyView()
         drawFinish = true
+    }
+
+    ////////////////////////////////服务器响应为null////////////////////////////////
+    private fun showEmptyView() {
+        toolbar_post_detail?.title = getString(R.string.unknown)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.layout_server_null, null)
+        linear_layout_post_detail?.let {
+            it.removeAllViews()
+            it.addView(view)
+            it.visibility = View.VISIBLE
+        }
+        btn_to_web?.visibility = View.VISIBLE
+        btn_to_web?.setOnClickListener {
+            browse(postId.pidToWebUrl(), true)
+        }
     }
 
     /**
