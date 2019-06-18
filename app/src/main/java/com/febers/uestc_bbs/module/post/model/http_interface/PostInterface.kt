@@ -1,9 +1,6 @@
 package com.febers.uestc_bbs.module.post.model.http_interface
 
-import com.febers.uestc_bbs.entity.PostFavResultBean
-import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Call
 import retrofit2.http.Field
@@ -31,4 +28,7 @@ interface PostInterface {
     @POST(ApiUtils.BBS_VOTE_URL)
     fun postVote(@Field("tid")tid: String, @Field("options")options: String): Call<PostVoteResultBean>
 
+    @FormUrlEncoded
+    @POST(ApiUtils.BBS_AT_USER_LIST_URL)
+    fun userAt(@Field("page")page :String, @Field("pageSize")pageSize: String): Call<UserCanAtBean>
 }

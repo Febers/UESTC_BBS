@@ -3,8 +3,6 @@ package com.febers.uestc_bbs.module.setting
 import android.content.Intent
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -15,6 +13,7 @@ import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.io.CacheHelper
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.RestartUtils
@@ -62,7 +61,7 @@ class SettingActivity : BaseActivity() {
 
     private fun init() {
         layoutDescription = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) getString(R.string.home_layout_bottom)
-                            else getString(R.string.home_layout_drawer)
+        else getString(R.string.home_layout_drawer)
 
         simpleUserAdapter = SimpleUserAdapter(mContext, users).apply {
             setOnItemClickListener { viewHolder, userItemBean, i ->
@@ -99,7 +98,6 @@ class SettingActivity : BaseActivity() {
             }
         }
         recyclerview_setting_users.adapter = simpleUserAdapter
-        recyclerview_setting_users.addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL))
         recyclerview_setting_option.adapter = settingAdapter
 
         users.addAll(UserHelper.getAllUser())
@@ -110,10 +108,12 @@ class SettingActivity : BaseActivity() {
         btn_setting_add_user.setOnClickListener {
             startActivity(Intent(mContext, LoginActivity::class.java))
         }
+        btn_setting_add_user.setTextColor(ThemeHelper.getColorPrimaryBySp())
         getCache()
         btn_restart_app.setOnClickListener {
             RestartUtils.restartApp2()
         }
+        btn_restart_app.setTextColor(ThemeHelper.getColorPrimaryBySp())
     }
 
 

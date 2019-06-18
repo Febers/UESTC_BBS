@@ -21,7 +21,7 @@ object ColorUtils {
      * @return 转换之后的Color
      */
     fun toDarkColor(color: Int): Int {
-        val hsv: FloatArray = FloatArray(3)
+        val hsv = FloatArray(3)
         Color.colorToHSV(color, hsv)
         hsv[2] = hsv[2] * 0.9f
         return Color.HSVToColor(hsv)

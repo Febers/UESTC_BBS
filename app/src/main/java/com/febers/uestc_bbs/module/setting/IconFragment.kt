@@ -1,20 +1,16 @@
 package com.febers.uestc_bbs.module.setting
 
-import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
 import android.view.*
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.GridView
-import androidx.fragment.app.Fragment
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.IconItemBean
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.IconUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.IconGridViewAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog

@@ -14,8 +14,6 @@ import android.text.util.Linkify
 import android.view.View
 import android.widget.TextView
 
-import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.utils.AttrUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 
@@ -24,8 +22,6 @@ import com.febers.uestc_bbs.module.theme.ThemeHelper
  * 参考：https://github.com/CentMeng/RichTextView
  */
 object ImageTextHelper {
-
-    private val TAG = "ImageTextHelper"
 
     fun getUrlDrawable(source: String?, textView: TextView): Drawable {
         val imageGetter = GlideImageGetter(textView.context, textView)

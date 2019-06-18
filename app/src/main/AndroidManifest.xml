@@ -242,5 +242,6 @@
         <activity android:name=".module.theme.ThemeChangeActivity"
             android:theme="@style/myTransparent"/>
         <activity android:name=".home.HomeActivity2" />
+        <activity android:name=".http.AppWebViewer" />
     </application>
 </manifest>

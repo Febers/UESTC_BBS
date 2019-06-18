@@ -1,10 +1,7 @@
 package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.entity.PostFavResultBean
-import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.model.PostModelImpl
 
@@ -42,5 +39,13 @@ class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(vie
 
     override fun postVoteResult(event: BaseEvent<PostVoteResultBean>) {
         view.showVoteResult(event)
+    }
+
+    override fun userAtRequest(page: Int) {
+        postModel.userAtService(page)
+    }
+
+    override fun userAtResult(event: BaseEvent<UserCanAtBean>) {
+        view.showUserAtResult(event)
     }
 }

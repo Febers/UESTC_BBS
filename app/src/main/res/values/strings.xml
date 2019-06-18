@@ -178,6 +178,8 @@
     <string name="hide_sticky_post">隐藏置顶帖</string>
     <string name="home_layout_drawer">抽屉布局</string>
     <string name="home_layout_bottom">底部导航栏布局</string>
+    <string name="share_app">分享应用</string>
+    <string name="restart_app">重启应用</string>
 
     <!--防止引用系统默认时找不到该属性-->
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->

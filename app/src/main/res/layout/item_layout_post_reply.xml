@@ -30,7 +30,6 @@
             android:layout_marginStart="8dp"
             android:maxLines="1"
             android:text="作者"
-            android:textColor="?attr/text_color_first"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toEndOf="@+id/image_view_post_reply_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_post_reply_author_avatar" />
@@ -92,6 +91,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp">
     </LinearLayout>
@@ -104,12 +104,12 @@
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:gravity="end">
-        <TextView
+        <com.febers.uestc_bbs.view.custom.TextViewWithBackground
             android:id="@+id/text_view_post_reply_floor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="#1"
+            android:text="1"
             android:textSize="@dimen/text_size_small" />
 
         <ImageView
@@ -120,7 +120,7 @@
             android:focusable="true"
             android:padding="2dp"
             android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/xic_reply_gray" />
+            android:src="@drawable/xic_message_gray" />
     </LinearLayout>
 
 </LinearLayout>

@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|bottom"
-                android:text="重启应用"
+                android:text="@string/restart_app"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
         </LinearLayout>
 

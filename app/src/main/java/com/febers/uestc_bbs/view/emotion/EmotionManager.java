@@ -87,7 +87,7 @@ public class EmotionManager {
     }
 
     private Pattern makePattern() {
-        return Pattern.compile("\\[[^\\[]{1,10}\\]");
+        return Pattern.compile("\\[[^\\[]{1,10}]");
     }
 
     public boolean isShowAddButton() {

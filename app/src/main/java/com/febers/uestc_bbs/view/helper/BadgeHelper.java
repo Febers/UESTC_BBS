@@ -103,6 +103,7 @@ public class BadgeHelper extends View {
 
     /**
      * 设置Margin 可用于做偏移
+     *
      * @param left
      * @param top
      * @param right
@@ -219,6 +220,7 @@ public class BadgeHelper extends View {
 
     /**
      * 是否显示
+     *
      * @param enable
      */
     public void setBadgeEnable(boolean enable) {

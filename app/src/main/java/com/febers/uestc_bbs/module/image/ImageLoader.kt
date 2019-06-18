@@ -1,16 +1,13 @@
 package com.febers.uestc_bbs.module.image
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.widget.ImageView
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.context.ClickContext
@@ -70,8 +67,8 @@ object ImageLoader {
      * @param imageView     加载图片的ImageView 控件
      */
     fun loadForContent(context: Context?, url: String?, imageView: ImageView?,
-             placeImage: Int? = R.drawable.image_placeholder_400200,
-             clickToViewer: Boolean = true) {
+                       placeImage: Int? = R.drawable.xic_placeholder_empty,
+                       clickToViewer: Boolean = true) {
         val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
         try {
             GlideApp.with(context!!).load(url)
@@ -164,6 +161,7 @@ object ImageLoader {
 
     /**
      * 不加载图片获取网络图片的大小
+     *
      * @param url
      */
 //    fun getImageWidthAndHeight(mContext: Context,

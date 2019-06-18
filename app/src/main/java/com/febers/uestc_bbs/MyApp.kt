@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs
 
-import android.app.Activity
 import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.Intent
@@ -133,7 +132,7 @@ class MyApp: MultiDexApplication() {
         }
 
         fun getHomeActivity() = if (homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
-            else HomeActivity2::class.java
+        else HomeActivity2::class.java
 
         init {
             /**
@@ -189,7 +188,7 @@ class MyApp: MultiDexApplication() {
         try {
             reader = BufferedReader(FileReader("/proc/$pid/cmdline"))
             var processName = reader.readLine()
-            if (!processName.isEmpty()) {
+            if (processName.isNotEmpty()) {
                 processName = processName.trim()
             }
             return processName

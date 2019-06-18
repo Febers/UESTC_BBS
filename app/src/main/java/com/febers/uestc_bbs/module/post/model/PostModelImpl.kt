@@ -1,10 +1,7 @@
 package com.febers.uestc_bbs.module.post.model
 
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.entity.PostFavResultBean
-import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PostInterface
 import com.febers.uestc_bbs.utils.log
@@ -28,6 +25,10 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
 
     override fun postVoteService(pollItemId: List<Int>) {
         Thread(Runnable { postVote(pollItemId) }).start()
+    }
+
+    override fun userAtService(page: Int) {
+        Thread { getUsersAt(page) }.start()
     }
 
     override fun postFavService(action: String) {
@@ -154,6 +155,29 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                             return
                         }
                         postPresenter.postVoteResult(BaseEvent(BaseCode.SUCCESS, result))
+                    }
+                })
+    }
+
+    private fun getUsersAt(page: Int) {
+        getRetrofit().create(PostInterface::class.java)
+                .userAt(page = page.toString(), pageSize = COMMON_PAGE_SIZE.toString())
+                .enqueue(object : Callback<UserCanAtBean> {
+                    override fun onFailure(call: Call<UserCanAtBean>, t: Throwable) {
+                        log("err on at $t")
+                    }
+
+                    override fun onResponse(call: Call<UserCanAtBean>, response: Response<UserCanAtBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            postPresenter.errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            postPresenter.errorResult(result.head.errInfo)
+                            return
+                        }
+                        postPresenter.userAtResult(BaseEvent(BaseCode.SUCCESS, result))
                     }
                 })
     }

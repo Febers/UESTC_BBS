@@ -1,11 +1,8 @@
 package com.febers.uestc_bbs.module.post.view
 
 import android.os.Bundle
-import android.view.*
 import androidx.annotation.UiThread
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.view.adapter.PostListAdapter
@@ -15,7 +12,6 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
@@ -45,7 +41,10 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postSimpleList).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
-                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id) }
+                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title)
+//                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title,
+//                        transitionView = viewHolder.getView(R.id.text_view_item_post_title), transitionViewName = "post_title")
+            }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
                 viewHolder, simplePostBean, i -> ClickContext.clickToUserDetail(context, simplePostBean.user_id)
             }
@@ -94,6 +93,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             return
         }
         postListAdapter.setLoadMoreData(event.data.list)
+
     }
 
     override fun showError(msg: String) {
@@ -110,7 +110,6 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                     }
                 }
     }
-
 
     /**
      * 接收用户重复按下tab时的消息

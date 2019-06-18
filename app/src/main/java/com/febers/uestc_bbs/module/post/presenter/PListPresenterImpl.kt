@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.PLIST_SORT_BY_ID
 import com.febers.uestc_bbs.entity.BoardListBean_
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract

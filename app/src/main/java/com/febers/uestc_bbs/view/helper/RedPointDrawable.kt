@@ -20,7 +20,7 @@ class RedPointDrawable(context: Context, private val origin: Drawable) : Drawabl
     init {
         paint.color = if (ColorUtils.colorCompare(ThemeHelper.getColorPrimaryBySp(), Color.RED)) Color.WHITE else Color.RED
         radius = 6
-        gravity = Gravity.LEFT
+        gravity = Gravity.START
     }
 
     fun showRedDrawable(show: Boolean) {
@@ -35,9 +35,9 @@ class RedPointDrawable(context: Context, private val origin: Drawable) : Drawabl
             var cx = bounds.right
             var cy = bounds.top
             // 计算我们的小红点的坐标
-            if (Gravity.LEFT and gravity == Gravity.LEFT) {
+            if (Gravity.START and gravity == Gravity.START) {
                 cx -= radius
-            } else if (Gravity.RIGHT and gravity == Gravity.RIGHT) {
+            } else if (Gravity.END and gravity == Gravity.END) {
                 cx += radius
             }
             if (Gravity.TOP and gravity == Gravity.TOP) {

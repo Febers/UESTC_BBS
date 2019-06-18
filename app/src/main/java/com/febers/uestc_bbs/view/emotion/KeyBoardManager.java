@@ -312,7 +312,6 @@ public class KeyBoardManager {
      *
      * @param  inputViewShow 外部设置的inputViewShow的值
      *
-     * @Febers 1018-12-8
      */
     public void setInputViewShow(Boolean inputViewShow) {
         this.inputViewShow = inputViewShow;

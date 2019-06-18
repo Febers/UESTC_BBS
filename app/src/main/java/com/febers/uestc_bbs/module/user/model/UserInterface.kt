@@ -38,5 +38,5 @@ interface UserInterface {
 
     @Multipart
     @POST(ApiUtils.BBS_UPDATE_USER_AVATAR_URL)
-    fun updateUserAvatar(@Part()avatar: MultipartBody.Part) : Call<UserUpdateResultBean>
+    fun updateUserAvatar(@Part avatar: MultipartBody.Part) : Call<UserUpdateResultBean>
 }

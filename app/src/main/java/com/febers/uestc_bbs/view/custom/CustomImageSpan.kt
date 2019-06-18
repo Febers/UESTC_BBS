@@ -11,7 +11,4 @@ class CustomImageSpan: ImageSpan {
 
     constructor(d: Drawable): super(d)
 
-    override fun getDrawable(): Drawable {
-        return super.getDrawable()
-    }
 }

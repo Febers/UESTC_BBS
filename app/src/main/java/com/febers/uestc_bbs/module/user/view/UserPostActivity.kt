@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.module.user.view
 
 import androidx.annotation.UiThread
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R

@@ -68,7 +68,7 @@
                     android:layout_height="@dimen/emotion_button_width_normal"
                     android:layout_gravity="center_vertical"
                     android:padding="@dimen/bottom_navigation_notification_padding"
-                    android:src="@drawable/ic_emotion_gray"/>
+                    android:src="@drawable/xic_emotion_gray"/>
                 <ImageView
                     android:id="@+id/btn_pm_detail_picture"
                     android:layout_width="@dimen/emotion_button_width_normal"
@@ -76,7 +76,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="@dimen/bottom_navigation_notification_padding"
                     android:visibility="gone"
-                    android:src="@drawable/ic_img_gray"/>
+                    android:src="@drawable/xic_picture_gray"/>
             </LinearLayout>
 
             <LinearLayout

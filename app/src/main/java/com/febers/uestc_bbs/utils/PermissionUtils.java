@@ -82,6 +82,7 @@ public class PermissionUtils {
 
     /**
      * 处理onRequestPermissionsResult
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -110,6 +111,7 @@ public class PermissionUtils {
 
     /**
      * 判断是否具有某权限
+     *
      * @param object
      * @param perms
      * @return
@@ -134,6 +136,7 @@ public class PermissionUtils {
 
     /**
      * 兼容fragment
+     *
      * @param object
      * @param perm
      * @return
@@ -153,6 +156,7 @@ public class PermissionUtils {
 
     /**
      * 执行申请,兼容fragment
+     *
      * @param object
      * @param perms
      * @param requestCode
@@ -170,6 +174,7 @@ public class PermissionUtils {
 
     /**
      * 检查传递Context是否合法
+     *
      * @param object
      */
     private void checkCallingObjectSuitability(@Nullable Object object) {

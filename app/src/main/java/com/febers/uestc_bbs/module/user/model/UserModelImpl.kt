@@ -103,7 +103,7 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
                                 }
 
                                 override fun onResponse(call: Call<UserUpdateResultBean>, response: Response<UserUpdateResultBean>) {
-                                    val resultBean = response?.body()
+                                    val resultBean = response.body()
                                     if (resultBean == null) {
                                         presenter.errorResult(SERVICE_RESPONSE_NULL)
                                         return

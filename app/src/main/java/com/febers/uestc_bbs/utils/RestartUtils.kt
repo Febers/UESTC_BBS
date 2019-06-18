@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.utils
 import android.content.Intent
 
 import com.febers.uestc_bbs.MyApp
-import com.febers.uestc_bbs.base.ActivityMgr
 import com.febers.uestc_bbs.base.RESTART_APP
 import com.febers.uestc_bbs.home.SplashActivity
 

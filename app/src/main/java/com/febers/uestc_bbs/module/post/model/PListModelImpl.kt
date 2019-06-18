@@ -6,7 +6,6 @@ import com.febers.uestc_bbs.io.PostHelper
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PListInterface
-import com.febers.uestc_bbs.utils.log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,7 +56,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                 }
                 //保存首页的第一页帖子列表
                 if (mPage == FIRST_PAGE.toString() && mFid.toInt() < 0)
-                    //PostHelper.savePostListToSp(mFid, body)
+                //PostHelper.savePostListToSp(mFid, body)
                     PostHelper.savePostListToFile(mFid, body)
             }
         })

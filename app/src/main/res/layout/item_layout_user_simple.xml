@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Febers"
+        android:text="@string/developer_name"
         android:layout_margin="14dp"
         android:textSize="@dimen/text_size_super_big"
         android:textColor="?android:textColorPrimary"
@@ -28,6 +28,6 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/xic_clear_red_24dp" />
+        android:layout_margin="14dp"
+        android:background="@drawable/xic_delete_red" />
 </LinearLayout>

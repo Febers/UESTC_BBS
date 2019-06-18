@@ -80,3 +80,5 @@ const val HINT_BY_TOAST = 0
 const val HINT_BY_SNACK_BAR = 1
 
 const val LOOP_RECEIVE_MSG = "loop_receive_msg"
+
+const val QUERY_HISTORY = "query_history"

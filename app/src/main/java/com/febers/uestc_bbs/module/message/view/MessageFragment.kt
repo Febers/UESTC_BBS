@@ -2,9 +2,7 @@ package com.febers.uestc_bbs.module.message.view
 
 import android.os.Bundle
 import androidx.annotation.UiThread
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
@@ -15,7 +13,6 @@ import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPrivateMsg
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.*
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess

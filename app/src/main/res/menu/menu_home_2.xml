@@ -15,5 +15,5 @@
         android:id="@+id/menu_item_search_home_2"
         android:title="@string/search"
         android:icon="@drawable/xic_search_white_24dp"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 </menu>

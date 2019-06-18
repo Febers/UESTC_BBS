@@ -60,22 +60,19 @@ object ClickContext {
                         } else {
                             url.substring(start, end+1)
                         }
-                log("is post $postId")
-                clickToPostDetail(context, postId.toInt())
+                clickToPostDetail(context, postId.toInt(), "")
                 return
             }
             //以下为用户
             if (url.contains("mod=space&uid=")) {
                 val start = url.indexOf("mod=space&uid=") + "mod=space&uid=".length
                 val tid = url.substring(start, url.length)
-                log("user 1 $tid")
                 clickToUserDetail(context, tid.toInt())
                 return
             }
             if (url.contains("action=show&uid=")) {
                 val start = url.indexOf("action=show&uid=") + "action=show&uid=".length
                 val tid = url.substring(start, url.length)
-                log("user 2 $tid")
                 clickToUserDetail(context, tid.toInt())
                 return
             }
@@ -163,13 +160,36 @@ object ClickContext {
      * @param fid 帖子id
      */
     fun clickToPostDetail(context: Context?,
-                          fid: Int?) {
+                          fid: Int?,
+                          postTitle: String? = "") {
         context ?: return
         if (fid == 0 || fid == null) return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
             putExtra(FID, fid)
+            putExtra(POST_TITLE, postTitle)
         })
+    }
+
+    fun clickToPostDetail(context: Context?,
+                          fid: Int?,
+                          postTitle: String?,
+                          transitionView: View? = null,
+                          transitionViewName: String? = null) {
+        context ?: return
+        postTitle ?: return
+        if (fid == 0 || fid == null) return
+        if (!LoginContext.userState(context)) return
+        var bundle: Bundle? = null
+        if (transitionView != null && transitionViewName != null) {
+            if (context is Activity)
+                bundle = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
+            context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
+                putExtra(FID, fid)
+                putExtra(POST_TITLE, postTitle)
+            }, bundle)
+        }
     }
 
     /**
@@ -194,6 +214,7 @@ object ClickContext {
 
     /**
      * 发帖
+     *
      * @param context
      * @param fid 板块id
      * @param title 板块标题
@@ -219,6 +240,7 @@ object ClickContext {
      * @param replyId
      * @param isQuota 是否引用回复
      * @param replySimpleDescription 需要回复的内容的简略说明，
+     *
      * 如果回复主贴，则提取主贴的一部分字符串(纯图片帖子的话, 即为“[图片]”)
      * 如果回复的是回帖，那么回复的是原评论内容的简略
      */

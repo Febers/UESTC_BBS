@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.getWindowWidth
+import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.browse
 
 
@@ -46,7 +47,8 @@ class ContentViewHelper(
     fun create() {
         mLinearLayout ?: return
         mLinearLayout!!.removeAllViews()
-        cycleDrawView(mStringBuilder, position = 0)
+//        cycleDrawView(mStringBuilder, position = 0)
+        cycleDrawView2()
     }
 
     fun reset(linearLayout: LinearLayout, contents: List<PostDetailBean.ContentBean>) {
@@ -114,6 +116,62 @@ class ContentViewHelper(
             else -> {
                 stringBuilder.append(mContents[position].infor)
                 cycleDrawView(stringBuilder, position + 1)
+            }
+        }
+    }
+
+    /**
+     * 不使用递归而是循环的方式绘制帖子内容
+     */
+    private fun cycleDrawView2() {
+        val stringBuilder = StringBuilder()
+
+        fun drawTextView() {
+            val textView = getTextView()
+            ImageTextHelper.setImageText(textView, stringBuilder.toString(), mTextLinkColor)
+            mLinearLayout?.addView(textView)
+            belowTextView = true
+        }
+        fun drawImageView(content: PostDetailBean.ContentBean) {
+            drawTextView()
+            val imageView = getImageView(content.originalInfo.toString())
+            mLinearLayout?.addView(imageView)
+            mLinearLayout?.gravity = Gravity.CENTER
+            imageMapList?.add(mapOf(content.originalInfo.toString() to imageView))
+            belowTextView = false
+        }
+        fun drawFileView(url: String, title: String) {
+            val button = getFileButton(url, title)
+            mLinearLayout?.addView(button)
+        }
+
+        loop@ for ( (position, content) in mContents.withIndex()) {
+            when(content.type) {
+                CONTENT_TYPE_TEXT -> {
+                    stringBuilder.append(emotionTransform(content.infor).encodeSpaces())
+                }
+                CONTENT_TYPE_URL -> {
+                    stringBuilder
+                            .append(" "+urlTransform(raw = content.url, title = content.infor)+" ")
+                }
+                CONTENT_TYPE_IMG -> {
+                    drawImageView(content)
+                    stringBuilder.clear()
+                }
+                CONTENT_TYPE_FILE -> {
+                    if (content.infor?.unMatchImageUrl()!!) {
+                        drawFileView(url = ""+content.url, title = ""+content.infor)
+                    }
+                }
+                else -> {
+                    stringBuilder.append(content.infor)
+                }
+            }
+            //当遍历结束之后之后，绘制stringBuilder的内容
+            if (position == mContents.size-1) {
+                val textView = getTextView()
+                ImageTextHelper.setImageText(textView, stringBuilder.toString())
+                mLinearLayout?.addView(textView)
             }
         }
     }
@@ -213,7 +271,8 @@ class ContentViewHelper(
     private fun String.matchImageUrl(): Boolean = endsWith(".jpg") || endsWith(".png") ||
             endsWith(".jpeg") || endsWith(".bmp")
             || endsWith(".JPG") || endsWith(".PNG") ||
-            endsWith(".JPEG") || endsWith(".BMP")
+            endsWith(".JPEG") || endsWith(".BMP") ||
+            endsWith(".GIF") || endsWith(".gif")
 
 
     private fun String.unMatchImageUrl(): Boolean = !matchImageUrl()

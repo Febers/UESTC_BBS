@@ -63,20 +63,29 @@
             android:layout_marginEnd="16dp"
             android:gravity="end"
             android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_at_post_reply"
+                android:layout_width="@dimen/emotion_button_width_normal"
+                android:layout_height="@dimen/emotion_button_width_normal"
+                android:layout_gravity="center"
+                android:padding="@dimen/emotion_button_padding"
+                android:src="@drawable/xic_at_gray"/>
+
             <ImageView
                 android:id="@+id/btn_emotion_post_reply"
                 android:layout_width="@dimen/emotion_button_width_normal"
                 android:layout_height="@dimen/emotion_button_width_normal"
                 android:layout_gravity="center"
                 android:padding="@dimen/emotion_button_padding"
-                android:src="@drawable/ic_emotion_gray"/>
+                android:src="@drawable/xic_emotion_gray"/>
 
             <ImageView
                 android:id="@+id/btn_photo_post_reply"
                 android:layout_width="@dimen/emotion_button_width_normal"
                 android:layout_height="@dimen/emotion_button_width_normal"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_img_gray"
+                android:src="@drawable/xic_picture_gray"
                 android:padding="@dimen/emotion_button_padding"/>
         </LinearLayout>
         <!--输入区-->

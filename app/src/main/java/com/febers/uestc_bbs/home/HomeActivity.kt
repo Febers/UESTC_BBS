@@ -2,7 +2,6 @@ package com.febers.uestc_bbs.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
@@ -56,10 +55,10 @@ class HomeActivity: BaseActivity() {
             }
         }
         bottom_navigation_home.apply {
-            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.xic_windmill_gray))
-            addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.ic_forum_list_gray))
-            addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.ic_message_gray))
-            addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.ic_more_gray))
+            addItem(AHBottomNavigationItem(getString(R.string.home_page), R.drawable.xic_find_small))
+            addItem(AHBottomNavigationItem(getString(R.string.forum_list_page), R.drawable.xic_location_small))
+            addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.xic_message_small))
+            addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.xic_user_small))
             titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
             accentColor = ThemeHelper.getBottomNavigationColorAccent()
             defaultBackgroundColor = ThemeHelper.getColorBackground()

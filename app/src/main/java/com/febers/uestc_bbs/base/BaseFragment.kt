@@ -6,7 +6,6 @@ import androidx.annotation.Nullable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
@@ -19,6 +18,7 @@ const val FID = "mFid"
 const val UID = "mUid"
 const val TITLE = "title"
 const val MSG_TYPE = "mMsgType"
+const val POST_TITLE = "post_title"
 
 /**
  * Fragment的基类
@@ -54,13 +54,17 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(setView(), container, false)
+    override fun onStart() {
+        super.onStart()
         if (registerEventBus()) {
             if(!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
             }
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view: View = inflater.inflate(setView(), container, false)
         return view
     }
 
@@ -92,14 +96,14 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     override fun onDestroy() {
         mDelegate.onDestroy()
         hideSoftInput()
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this)
-        }
         super.onDestroy()
     }
 
     override fun onStop() {
         super.onStop()
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
         hideSoftInput()
     }
 

@@ -37,7 +37,7 @@ class FileUploader: BaseModel() {
                     .uploadPostImage(image = imagePart)
                     .enqueue(object : Callback<UploadResultBean> {
                         override fun onFailure(call: Call<UploadResultBean>, t: Throwable) {
-                            listener.onUploadFail("Upload Image Fail:" + t.toString())
+                            listener.onUploadFail("Upload Image Fail:$t")
                         }
 
                         override fun onResponse(call: Call<UploadResultBean>, response: Response<UploadResultBean>) {
@@ -73,6 +73,6 @@ interface UploadToBBSInterface {
 
     @Multipart
     @POST(ApiUtils.BBS_SEND_POST_IMAGE_URL)
-    fun uploadPostImage(@Part()image: MultipartBody.Part) : Call<UploadResultBean>
+    fun uploadPostImage(@Part image: MultipartBody.Part) : Call<UploadResultBean>
 
 }

@@ -100,7 +100,7 @@ object IconUtils {
         val resolves = pm.queryIntentActivities(i, 0)
         for (res in resolves) {
             if (res.activityInfo != null) {
-                am!!.killBackgroundProcesses(res.activityInfo.packageName)
+//                am!!.killBackgroundProcesses(res.activityInfo.packageName)
             }
         }
     }

@@ -19,7 +19,6 @@ class UserPostAdapter(val context: Context, data: List<UserPostBean.ListBean>, i
         p0?.setText(R.id.text_view_item_user_post_title, p1?.title)
         p0?.setText(R.id.text_view_item_user_post_content, p1?.subject)
         p0?.setText(R.id.text_view_item_user_post_reply, ""+p1?.replies!!)
-        p0?.setText(R.id.text_view_item_user_post_hits, ""+p1?.hits!!)
         p0?.setText(R.id.text_view_item_user_post_time, TimeUtils.stampChange(p1?.last_reply_date))
         ImageLoader.load(context, p1?.userAvatar, p0?.getView(R.id.image_view_item_user_post_avatar))
     }

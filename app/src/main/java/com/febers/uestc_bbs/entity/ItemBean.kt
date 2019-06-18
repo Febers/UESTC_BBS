@@ -14,4 +14,6 @@ data class UserItemBean(var name: String, var isNow: Boolean)
 
 data class IconItemBean(var image: Int, var isChoose: Boolean)
 
+data class UpdateCheckBean(var hasNewerVersion: Boolean, var newVersionCode: String = "", var newVersionDes: String = "", var newVersionDownloadUrl: String = "")
+
 

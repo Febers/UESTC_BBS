@@ -16,7 +16,7 @@
             android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="snap|scroll|enterAlways"
-            app:title="@string/app_name">
+            app:title="@string/more_page">
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

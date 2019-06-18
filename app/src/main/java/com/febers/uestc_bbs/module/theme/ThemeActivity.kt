@@ -1,6 +1,8 @@
 package com.febers.uestc_bbs.module.theme
 
+import android.annotation.TargetApi
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
@@ -10,10 +12,9 @@ import com.febers.uestc_bbs.base.ThemeChangedEvent
 import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.ThemeGridViewAdapter
 import kotlinx.android.synthetic.main.activity_theme.*
-import org.greenrobot.eventbus.EventBus
 
 class ThemeActivity : BaseActivity() {
 
@@ -50,6 +51,7 @@ class ThemeActivity : BaseActivity() {
         check_box_theme_color_dark.setOnCheckedChangeListener { compoundButton, b ->
             tempColorDark = b
         }
+        btn_choose_theme.setTextColor(ThemeHelper.getColorPrimaryBySp())
         btn_choose_theme.setOnClickListener {
             if (colorValue != tempColorValue || colorDark != tempColorDark) {
                 colorValue = tempColorValue
@@ -103,6 +105,12 @@ class ThemeActivity : BaseActivity() {
         ColorUtils.colorCompare(colorPrimary, Color.RED)
         ThemeHelper.setTheme(this, colorPrimary, colorPrimary)
         color_picker.oldCenterColor = colorPrimary
-        EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, ThemeChangedEvent(dayNightChanged = false)))
+        postEvent(BaseEvent(BaseCode.SUCCESS, ThemeChangedEvent(dayNightChanged = false)))
+        changeDrawableHint()
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun changeDrawableHint() {
+        resources.getDrawable(R.drawable.xic_list_gray, null).setTint(ThemeHelper.getColorPrimaryBySp())
     }
 }

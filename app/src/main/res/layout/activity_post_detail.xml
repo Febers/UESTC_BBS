@@ -2,9 +2,9 @@
 
 <!--android:descendantFocusability="blocksDescendants"
 作用为获取根视图的焦点，以防加载复杂内容时自动滑动
-    beforeDescendants：viewgroup会优先其子类控件而获取到焦点
-    afterDescendants：viewgroup只有当其子类控件不需要获取焦点时才获取焦点
-    blocksDescendants：viewgroup会覆盖子类控件而直接获得焦点
+    beforeDescendants：viewGroup会优先其子类控件而获取到焦点
+    afterDescendants：viewGroup只有当其子类控件不需要获取焦点时才获取焦点
+    blocksDescendants：viewGroup会覆盖子类控件而直接获得焦点
 以上的设置会拦截所有子view的点击事件，
 改成android:focusableInTouchMode="true"即可
 -->
@@ -38,7 +38,7 @@
         android:layout_height="match_parent"
         app:srlEnableNestedScrolling="false">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
-        <!--在绘制其他view时可以动态打开硬件加速，比如imageview,否则无法绘制-->
+        <!--在绘制其他view时可以动态打开硬件加速，比如imageView,否则无法绘制-->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view_post_detail"
             android:layout_width="match_parent"
@@ -61,7 +61,8 @@
                         android:textStyle="bold"
                         android:textSize="@dimen/text_size_super_big"
                         android:textColor="?attr/text_color_first"
-                        android:layout_margin="10dp"/>
+                        android:layout_margin="10dp"
+                        android:transitionName="post_title"/>
                 </LinearLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -124,8 +125,8 @@
 
                     <ImageView
                         android:id="@+id/image_view_post_fav"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="18dp"
                         android:layout_marginBottom="8dp"
@@ -133,7 +134,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.263"
-                        android:src="@drawable/xic_star_color_24dp"
+                        android:src="@drawable/xic_star_fill_color"
                         android:visibility="gone"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -160,7 +161,6 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_post_detail_replies"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
                     android:nestedScrollingEnabled="false"
                     android:layout_height="match_parent">
                 </androidx.recyclerview.widget.RecyclerView>

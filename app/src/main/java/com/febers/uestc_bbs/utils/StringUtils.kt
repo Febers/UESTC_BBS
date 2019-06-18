@@ -5,7 +5,14 @@ fun String.encodeSpaces(): String {
 }
 
 fun String.getStringSimplified(): String =
-        if (this.length <= 100) this
-        else this.substring(0, 99)+"..."
+        if (this.length <= 100) {
+            if (this == "null" || this.isEmpty()) {
+                "[回复内容]"
+            } else {
+                this
+            }
+        } else {
+            this.substring(0, 99)+"..."
+        }
 
 

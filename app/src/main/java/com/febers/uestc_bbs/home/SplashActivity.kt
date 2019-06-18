@@ -44,8 +44,10 @@ class SplashActivity : BaseActivity() {
 
     private fun start() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            image_view_splash.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
-            text_view_splash.setTextColor(ThemeHelper.getColorPrimaryBySp())
+            val colorPrimary = ThemeHelper.getColorPrimaryBySp()
+            image_view_splash.drawable.setTint(colorPrimary)
+            text_view_splash.setTextColor(colorPrimary)
+            image_view_drawable_list.drawable.setTint(colorPrimary)
         }
 
         val scaleX = ObjectAnimator.ofFloat(image_view_splash, "scaleX", 0.8f, 1.1f)

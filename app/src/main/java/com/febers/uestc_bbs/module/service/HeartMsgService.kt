@@ -6,7 +6,6 @@ import android.os.IBinder
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.MsgHeartBean
-import com.febers.uestc_bbs.home.HomeActivity
 import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.utils.TimeUtils

@@ -7,7 +7,6 @@ import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.base.SP_USER_IDS
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileReader

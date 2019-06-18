@@ -1,24 +1,34 @@
 package com.febers.uestc_bbs.module.setting
 
+import android.app.Dialog
 import android.text.Html
 import android.view.*
 import android.widget.Button
+import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
+import com.febers.uestc_bbs.base.BaseCode
+import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.update.github.GithubUpdateHelper
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
-import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.fragment_about.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
+import org.jetbrains.anko.share
 
 class AboutActivity: BaseActivity() {
 
@@ -39,9 +49,9 @@ class AboutActivity: BaseActivity() {
 
     override fun setMenu(): Int? = R.menu.menu_about
 
-    override fun setView(): Int {
-        return R.layout.fragment_about
-    }
+    override fun setView(): Int = R.layout.fragment_about
+
+    override fun registerEventBus(): Boolean = true
 
     override fun initView() {
     }
@@ -82,6 +92,15 @@ class AboutActivity: BaseActivity() {
                 context.browse(url = "https://github.com/" + projectItemBean.author + "/" + projectItemBean.name)
             }
         }
+        btn_share_app.setOnClickListener {
+            share("""
+                欢迎使用清水河畔开源客户端“i河畔”
+                下载地址：https://www.coolapk.com/apk/com.febers.uestc_bbs
+                开源地址：https://github.com/Febers/UESTC_BBS
+
+            """.trimIndent())
+        }
+        btn_share_app.setTextColor(ThemeHelper.getColorPrimaryBySp())
     }
 
     private fun initSettingData1(): List<SettingItemBean> {
@@ -107,7 +126,9 @@ class AboutActivity: BaseActivity() {
     private fun onFirstGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                Beta.checkUpgrade()
+                //Beta.checkUpgrade()
+                GithubUpdateHelper.check()
+                showHint("正在检查更新")
             }
             1 -> {
                 if (updateLogDialog == null) {
@@ -178,9 +199,6 @@ class AboutActivity: BaseActivity() {
     )
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        if (item?.itemId == R.id.menu_item_donate) {
-//            DonateUtils(mContext).donateByAlipay()
-//        }
         if (item?.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
                 permissionDialog = AlertDialog.Builder(mContext)
@@ -192,5 +210,37 @@ class AboutActivity: BaseActivity() {
             permissionDialog?.show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @UiThread
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onCheckUpdateResult(event: BaseEvent<GithubReleaseBean?>) {
+        log("get check result")
+        when(event.code) {
+            BaseCode.FAILURE -> showHint("检查更新失败，请前往开源界面查看最新版本")
+            BaseCode.SUCCESS_END -> showHint("当前已是最新版本")
+            BaseCode.SUCCESS -> { showUpdateDialog(event.data!!) }
+            else -> { }
+        }
+    }
+
+    private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
+        val dialog: Dialog = AlertDialog.Builder(mContext)
+                .setTitle("新版本")
+                .setMessage("这是新版本说明")
+                .setPositiveButton("下载") { dialog, which ->
+                    dialog.dismiss()
+                    showHint("下载中")
+                }
+                .setNeutralButton("酷安下载") { dialog, which ->
+                    dialog.dismiss()
+                    showHint("前往下载")
+                }
+                .setNegativeButton("无视") { dialog, which ->
+                    dialog.dismiss()
+                    showHint("无视")
+                }
+                .create()
+        dialog.show()
     }
 }

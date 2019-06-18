@@ -60,12 +60,23 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         if (setMenu() != null) {
             setToolbar()!!.inflateMenu(setMenu()!!)
         }
+        initView()
+    }
+
+    override fun onStart() {
+        super.onStart()
         if (registerEventBus()) {
             if (!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
             }
         }
-        initView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
     }
 
     protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =
@@ -114,13 +125,6 @@ abstract class BaseActivity : SupportActivity(), BaseView {
             else -> {}
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this)
-        }
     }
 
     override fun onRestart() {

@@ -119,8 +119,8 @@ class MoreFragment: BaseFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
         if (event.code != BaseCode.FAILURE) {
-            text_view_fragment_user_name.text = event.data.name
-            text_view_fragment_user_title.text = event.data.title
+            text_view_fragment_user_name.text = event.data.name + ""
+            text_view_fragment_user_title.text = event.data.title + ""
             ImageLoader.load(context!!, event.data.avatar, image_view_fragment_user_avatar, clickToViewer = false)
             userSimple = event.data
         } else {
@@ -197,7 +197,7 @@ class MoreFragment: BaseFragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-    
+
     private fun showNavigationDialog() {
         if (navigationDialog == null) {
             navigationDialog = AlertDialog.Builder(context!!)

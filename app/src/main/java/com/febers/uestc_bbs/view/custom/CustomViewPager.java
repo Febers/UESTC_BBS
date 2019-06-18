@@ -22,7 +22,6 @@ public class CustomViewPager extends ViewPager {
      * 保存position与对于的View
      */
     private Map<Integer, Integer> maps = new HashMap<>();
-    private boolean scrollble = true;
 
     public CustomViewPager(Context context) {
         super(context);
@@ -85,6 +84,7 @@ public class CustomViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        boolean scrollble = true;
         if (!scrollble) {
             return true;
         }

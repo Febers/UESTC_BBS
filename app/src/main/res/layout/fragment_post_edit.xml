@@ -59,17 +59,24 @@
             android:layout_marginEnd="16dp">
 
             <ImageView
+                android:id="@+id/btn_at_post_edit"
+                android:layout_width="@dimen/emotion_button_width_normal"
+                android:layout_height="@dimen/emotion_button_width_normal"
+                android:padding="@dimen/emotion_button_padding"
+                android:src="@drawable/xic_at_gray" />
+
+            <ImageView
                 android:id="@+id/btn_emotion_post_edit"
                 android:layout_width="@dimen/emotion_button_width_normal"
                 android:layout_height="@dimen/emotion_button_width_normal"
                 android:padding="@dimen/emotion_button_padding"
-                android:src="@drawable/ic_emotion_gray" />
+                android:src="@drawable/xic_emotion_gray" />
             <ImageView
                 android:id="@+id/btn_photo_post_edit"
                 android:padding="@dimen/emotion_button_padding"
                 android:layout_width="@dimen/emotion_button_width_normal"
                 android:layout_height="@dimen/emotion_button_width_normal"
-                android:src="@drawable/ic_img_gray" />
+                android:src="@drawable/xic_picture_gray" />
         </LinearLayout>
 
         <com.febers.uestc_bbs.view.custom.CustomGridView

@@ -1,17 +1,12 @@
 package com.febers.uestc_bbs.module.theme
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
-import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
-import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_DRAWER
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -120,6 +115,7 @@ object ThemeHelper {
      */
     fun getColorPrimaryBySp(): Int {
         val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
+        if (Color.parseColor("#FFFFFF") == colorPrimary) return Color.parseColor("#707070")
         return colorPrimary
     }
 

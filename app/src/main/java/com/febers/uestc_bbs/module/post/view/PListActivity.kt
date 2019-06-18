@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.post.view
 import android.app.AlertDialog
 import android.app.Dialog
 import androidx.annotation.UiThread
-import com.google.android.material.appbar.AppBarLayout
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
@@ -77,7 +76,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
     override fun afterCreated() {
         pListPresenter = PListPresenterImpl(this)
-        postListAdapter = PostListAdapter(mContext, postList)
+        postListAdapter = PostListAdapter(mContext, postList, showBoardName = false)
 
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
@@ -111,7 +110,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
         postListAdapter?.apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
-                clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id)
+                clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title)
             }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
                 viewHolder, simplePListBean, i -> ClickContext.clickToUserDetail(context, simplePListBean.user_id)
@@ -225,7 +224,7 @@ class PListActivity: BaseActivity(), PListContract.View {
         if (stickyPostList.isEmpty()) return
         if (!isShowStickyPost) {
             if (stickyPostAdapter == null) {
-                stickyPostAdapter = StickyPostAdapter(mContext!!, stickyPostList).apply {
+                stickyPostAdapter = StickyPostAdapter(mContext, stickyPostList).apply {
                     setOnItemClickListener { viewHolder, topTopicListBean, i ->
                         ClickContext.clickToPostDetail(context, topTopicListBean.id)
                     }
@@ -246,26 +245,6 @@ class PListActivity: BaseActivity(), PListContract.View {
      * 网上收缩时，逐渐减小
      */
     private fun onAppbarLayoutOffsetChange() {
-        app_bar_post_list.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            when {
-//                verticalOffset == 0 -> {
-//                    //CollapsingToolBar展开
-//                }
-//                Math.abs(verticalOffset) >= app_bar_post_list.totalScrollRange -> {
-//                    //CollapsingToolBar折叠
-//                }
-//                Math.abs(verticalOffset) <= 150 -> {
-//                    text_view_post_list_all_num.visibility = View.VISIBLE
-//                    text_view_post_list_today_num.visibility = View.VISIBLE
-//                    //linear_layout_post_list_header.visibility = View.VISIBLE
-//                }
-//                Math.abs(verticalOffset) >= 150 -> {
-//                    text_view_post_list_all_num.visibility = View.INVISIBLE
-//                    text_view_post_list_today_num.visibility = View.INVISIBLE
-                    //linear_layout_post_list_header.visibility = View.GONE
-//                }
-            }
-        })
     }
 
     override fun showError(msg: String) {

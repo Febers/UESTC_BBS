@@ -184,7 +184,7 @@ class UploadResultBean {
             var urlName: String? = null
 
             override fun toString(): String {
-                return "id:"+id.toString() + ". url:"+urlName
+                return "id:$id. url:$urlName"
             }
         }
 

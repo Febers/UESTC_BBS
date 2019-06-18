@@ -53,10 +53,11 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var drawFinish = false
     private var topicUserName = "楼主"  //楼主名称
     private var topicReplyId = 0
+    private var topicUserId = 0 //楼主id
     private var replyCount = 0
     private var authorId = 0
-    private var topicUserId = 0 //楼主id
     private var postId = 0
+    private var tempDy = 0
     private var page = 1
 
     ////////////////////////////////初始化////////////////////////////////
@@ -66,6 +67,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
     override fun afterCreated() {
+        text_view_post_detail_title.text = intent.getStringExtra(POST_TITLE)
         postId = intent.getIntExtra(FID, 0)
         postPresenter = PostPresenterImpl(this)
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!).apply {
@@ -97,7 +99,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             layoutManager = LinearLayoutManager(mContext).apply {
                 stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱
             }
-            //addItemDecoration(DividerItemDecoration(this@PostDetailActivity, LinearLayoutManager.VERTICAL))
             adapter = replyItemAdapter
         }
 
@@ -107,6 +108,10 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             }
             if (scrollY - oldScrollY > 10) {
                 hideReplyCountBottomAndFAB()
+            }
+            tempDy = tempDy + scrollY - oldScrollY
+            if (tempDy < 418) {
+                fab_post_detail.hide()
             }
         }
         fab_post_detail.setOnClickListener {
@@ -138,19 +143,25 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun showPostDetail(event: BaseEvent<PostDetailBean>) {
         if (page == 1) {
             drawTopicView(event)
+            //如果是投票贴
+            if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
+                drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
+            }
         }
-        replyList?.addAll(event.data.list!!)
-        replyItemAdapter?.notifyDataSetChanged()
+
         //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
             tv_bottom_hint.postDelayed( { tv_bottom_hint.visibility = View.VISIBLE }, 500)
+        }
 
-        }
-        //如果是投票贴
-        if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
-            drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
-        }
+        refresh_layout_post_detail?.finishSuccess()
+//        val start: Int = replyList?.size ?: 0
+//        replyList?.addAll(event.data.list!!)
+//        replyItemAdapter?.notifyItemRangeChanged(start, event.data.list!!.size)
+        //上面注释的代码作用与下面一行类似
+        replyItemAdapter?.setLoadMoreData(event.data.list!!)
+
         topicUserId = event.data.topic?.user_id ?: topicUserId //倒叙查看中其值可能为null
         topicReplyId = event.data.topic?.reply_posts_id ?: topicReplyId
         topicUserName = event.data.topic?.user_nick_name ?: topicUserName
@@ -173,7 +184,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                     isQuota = false,
                     replySimpleDescription = description)
         }
-        refresh_layout_post_detail?.finishSuccess()
+
     }
 
     /**
@@ -246,12 +257,12 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         image_view_post_fav?.let { it ->
             it.visibility = View.VISIBLE
             if (isFavorite == POST_FAVORED) {
-                it.setImageResource(R.drawable.xic_star_color_24dp)
+                it.setImageResource(R.drawable.xic_star_fill_color)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     it.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
                 }
             } else {
-                it.setImageResource(R.drawable.xic_star_gray_24dp)
+                it.setImageResource(R.drawable.xic_star_empty_gray)
             }
             it.setOnClickListener {
                 if (isFavorite == POST_FAVORED) {
@@ -280,12 +291,12 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             showHint(event.data.errcode.toString())
             if (event.code == BaseCode.SUCCESS) {
                 if (isFavorite == POST_FAVORED){
-                    image_view_post_fav.setImageResource(R.drawable.xic_star_color_24dp)
+                    image_view_post_fav.setImageResource(R.drawable.xic_star_fill_color)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         image_view_post_fav.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
                     }
                 }
-                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_gray_24dp)
+                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_empty_gray)
             }
         }
     }

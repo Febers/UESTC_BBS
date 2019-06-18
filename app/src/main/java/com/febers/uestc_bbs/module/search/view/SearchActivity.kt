@@ -98,10 +98,10 @@ class SearchActivity: BaseActivity(), SearchContract.View {
         searchView = menuItem?.actionView as SearchView
         val listener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query.isNullOrEmpty() || query?.trim().isNullOrEmpty()) {
+                if (query.isNullOrEmpty() || query.trim().isEmpty()) {
                     return true
                 }
-                keyword = query!!
+                keyword = query
                 page = 1
                 KeyboardUtils.closeKeyboard(searchView, mContext)
                 progressDialog?.show()

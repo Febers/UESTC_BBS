@@ -1,10 +1,7 @@
 package com.febers.uestc_bbs.module.post.contract
 
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.entity.PostFavResultBean
-import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.entity.PostSendResultBean
+import com.febers.uestc_bbs.entity.*
 
 interface PostContract {
 
@@ -13,6 +10,7 @@ interface PostContract {
         fun postReplyService(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>)
         fun postFavService(action: String)
         fun postVoteService(pollItemId: List<Int>)
+        fun userAtService(page: Int)
     }
 
     interface View: BaseView {
@@ -20,6 +18,7 @@ interface PostContract {
         fun showPostReplyResult(event: BaseEvent<PostSendResultBean>){}
         fun showPostFavResult(event: BaseEvent<PostFavResultBean>){}
         fun showVoteResult(event: BaseEvent<PostVoteResultBean>){}
+        fun showUserAtResult(event: BaseEvent<UserCanAtBean>){}
     }
 
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
@@ -34,5 +33,8 @@ interface PostContract {
 
         abstract fun postVoteRequest(pollItemId: List<Int>)
         abstract fun postVoteResult(event: BaseEvent<PostVoteResultBean>)
+
+        abstract fun userAtRequest(page: Int)
+        abstract fun userAtResult(event: BaseEvent<UserCanAtBean>)
     }
 }

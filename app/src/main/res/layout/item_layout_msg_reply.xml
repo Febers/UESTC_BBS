@@ -92,13 +92,13 @@
 
     <ImageView
         android:id="@+id/image_view_msg_post_reply"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
+        android:layout_width="36dp"
+        android:layout_height="24dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:src="@drawable/xic_reply_gray"
+        android:src="@drawable/xic_message_gray"
         android:layout_gravity="end"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="4dp"/>
+        android:padding="2dp"
+        android:layout_marginEnd="12dp"/>
 </LinearLayout>

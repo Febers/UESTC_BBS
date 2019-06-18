@@ -1,7 +1,6 @@
 package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
-import android.util.Log.i
 import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.io.UserHelper

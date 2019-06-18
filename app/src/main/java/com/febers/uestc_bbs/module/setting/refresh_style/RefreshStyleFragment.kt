@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.view.adapter.RefreshStyleAdapter
 import com.febers.uestc_bbs.view.custom.IndicatorView
