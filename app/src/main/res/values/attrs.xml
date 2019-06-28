@@ -61,4 +61,11 @@
     <declare-styleable name="EmotionTab">
         <attr name="iconSrc" format="reference"/>
     </declare-styleable>
+
+    <!--背景 TextView-->
+    <declare-styleable name="TextViewWithBackground">
+        <attr name="rectRound" format="dimension" />
+        <attr name="rectPadding" format="integer" />
+        <attr name="bgColor" format="color" />
+    </declare-styleable>
 </resources>

@@ -97,7 +97,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
         recyclerview_post_detail_replies.apply {
             layoutManager = LinearLayoutManager(mContext).apply {
-                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱
+//                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱，使用新的绘制方案之后会出现问题
             }
             adapter = replyItemAdapter
         }
@@ -191,7 +191,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * 绘制主贴视图
      */
     private fun drawTopicView(event: BaseEvent<PostDetailBean>) {
-        linear_layout_detail_divide?.visibility = View.VISIBLE
         image_view_post_detail_author_avatar?.let { it ->
             it.visibility = View.VISIBLE
             ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)

@@ -23,6 +23,7 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.utils.log
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -118,11 +119,14 @@ class MoreFragment: BaseFragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
+        //以下无奈的写法是因为，EventBus 会报类型转换错误，当非 UserSimpleBean 类型的 event 被发送时仍然会接受该事件
+        val simpleBean = event.data as? UserSimpleBean
+        simpleBean ?: return
         if (event.code != BaseCode.FAILURE) {
-            text_view_fragment_user_name.text = event.data.name + ""
-            text_view_fragment_user_title.text = event.data.title + ""
-            ImageLoader.load(context!!, event.data.avatar, image_view_fragment_user_avatar, clickToViewer = false)
-            userSimple = event.data
+            text_view_fragment_user_name.text = simpleBean.name + ""
+            text_view_fragment_user_title.text = simpleBean.title + ""
+            ImageLoader.load(context!!, simpleBean.avatar, image_view_fragment_user_avatar, clickToViewer = false)
+            userSimple = simpleBean
         } else {
             initUserDetail()
         }

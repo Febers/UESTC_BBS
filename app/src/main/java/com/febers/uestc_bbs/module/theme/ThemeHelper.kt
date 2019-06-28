@@ -161,4 +161,6 @@ object ThemeHelper {
     fun getBottomNavigationColorAccent(): Int = if (ColorUtils.isLightColor(getColorPrimary()))
         Color.BLACK
     else getColorAccent()
+
+    fun getBackgroundSecond(): Int = if (isDarkTheme()) Color.parseColor("#9e9e9e") else Color.parseColor("#f5f5f5")
 }

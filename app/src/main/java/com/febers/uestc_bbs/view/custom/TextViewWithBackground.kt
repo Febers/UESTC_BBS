@@ -8,31 +8,49 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.TextView
+import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.utils.log
 
 class TextViewWithBackground: TextView {
 
     private var paint: Paint = Paint()
     private lateinit var rectF: RectF
     private var firstPadding = true
+    private var bgColor = Color.parseColor("#f5f5f5")
 
-    constructor(context: Context): super(context)
+    private var rectRound = 0f
+    private var rectPadding = 4
 
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs)
+    constructor(context: Context) :this(context, null)
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+        val typeArray = context.obtainStyledAttributes(attrs, R.styleable.TextViewWithBackground)
+        rectRound = typeArray.getDimension(R.styleable.TextViewWithBackground_rectRound, 0f)
+        rectPadding = typeArray.getInt(R.styleable.TextViewWithBackground_rectPadding, 0)
+        bgColor = typeArray.getColor(R.styleable.TextViewWithBackground_bgColor, bgColor)
+        typeArray.recycle()
+    }
 
     override fun onDraw(canvas: Canvas?) {
         paint.apply {
             isAntiAlias = true //抗锯齿
-            color = Color.parseColor("#f5f5f5")
+            color = bgColor
             style = Paint.Style.FILL
         }
-        if (firstPadding) {
-            setPadding(8, 8, 8, 8)
-            gravity = Gravity.CENTER
-            firstPadding = false
-        }
+        gravity = Gravity.CENTER
+        setPadding(rectPadding*2, rectPadding, rectPadding*2, rectPadding)
+
         rectF = RectF(0f, 0f, measuredWidth + 0f, measuredHeight + 0f)
-        canvas?.drawRoundRect(rectF, 10f, 10f, paint)
-        //canvas?.translate(10f, 0f)
+        canvas?.drawRoundRect(rectF, rectRound, rectRound, paint)
         super.onDraw(canvas)
+    }
+
+    fun setRectRound(round: Float) {
+        rectRound = round
+    }
+
+    fun setRectPadding(padding: Int) {
+        rectPadding = padding
     }
 }

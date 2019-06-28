@@ -11,8 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import com.febers.uestc_bbs.entity.UpdateBean
 import com.febers.uestc_bbs.io.DownloadHelper
 import com.febers.uestc_bbs.io.FileHelper
-import com.tencent.bugly.beta.Beta
-import com.tencent.bugly.beta.UpgradeInfo
 import java.io.File
 
 
@@ -33,50 +31,50 @@ class UpdateActivity: BaseActivity() {
     override fun setView(): Int = R.layout.activity_update
 
     override fun initView() {
-        var upgradeInfo: UpgradeInfo? = null
-        upgradeInfo = Beta.getUpgradeInfo()
-
-        upgradeInfo ?: return
-
-        val update = UpdateBean()
-        update.body = upgradeInfo.newFeature
-        update.size = FileHelper.getFormatSize(upgradeInfo.fileSize.toDouble())
-        update.versionName = upgradeInfo.versionName
-        update.downloadUrl = upgradeInfo.apkUrl
-
-        if (updateDialog == null) {
-            updateDialog = AlertDialog.Builder(mContext).create()
-        }
-
-        updateDialog?.show()
-        updateDialog?.setCanceledOnTouchOutside(false)
-        updateDialog?.setContentView(getDialogView(update))
-        btnEnter?.setOnClickListener {
-            DownloadHelper().download(url = update.downloadUrl!!, fileName = "UESTC_BBS${update.versionName}.apk",
-                    listener = object : DownloadHelper.OnDownloadListener {
-                        override fun onDownloadSuccess(file: File) {
-                            runOnUiThread{
-                                btnEnter?.text = "安装"
-                                btnEnter?.setOnClickListener {
-                                    FileHelper.installApk(this@UpdateActivity, file)
-                                }
-                            }
-                        }
-
-                        override fun onDownloading(progress: Int) {
-                            runOnUiThread{
-                                btnEnter?.text ="$progress%"
-                            }
-                        }
-
-                        override fun onDownloadFailed() {
-                            runOnUiThread {
-                                btnEnter?.text = "下载失败"
-                                showHint("很抱歉，下载失败。请前往河畔帖子或者github下载")
-                            }
-                        }
-                    })
-        }
+//        var upgradeInfo: UpgradeInfo? = null
+//        upgradeInfo = Beta.getUpgradeInfo()
+//
+//        upgradeInfo ?: return
+//
+//        val update = UpdateBean()
+//        update.body = upgradeInfo.newFeature
+//        update.size = FileHelper.getFormatSize(upgradeInfo.fileSize.toDouble())
+//        update.versionName = upgradeInfo.versionName
+//        update.downloadUrl = upgradeInfo.apkUrl
+//
+//        if (updateDialog == null) {
+//            updateDialog = AlertDialog.Builder(mContext).create()
+//        }
+//
+//        updateDialog?.show()
+//        updateDialog?.setCanceledOnTouchOutside(false)
+//        updateDialog?.setContentView(getDialogView(update))
+//        btnEnter?.setOnClickListener {
+//            DownloadHelper().download(url = update.downloadUrl!!, fileName = "UESTC_BBS${update.versionName}.apk",
+//                    listener = object : DownloadHelper.OnDownloadListener {
+//                        override fun onDownloadSuccess(file: File) {
+//                            runOnUiThread{
+//                                btnEnter?.text = "安装"
+//                                btnEnter?.setOnClickListener {
+//                                    FileHelper.installApk(this@UpdateActivity, file)
+//                                }
+//                            }
+//                        }
+//
+//                        override fun onDownloading(progress: Int) {
+//                            runOnUiThread{
+//                                btnEnter?.text ="$progress%"
+//                            }
+//                        }
+//
+//                        override fun onDownloadFailed() {
+//                            runOnUiThread {
+//                                btnEnter?.text = "下载失败"
+//                                showHint("很抱歉，下载失败。请前往河畔帖子或者github下载")
+//                            }
+//                        }
+//                    })
+//        }
     }
 
     private fun getDialogView(update: UpdateBean): View {

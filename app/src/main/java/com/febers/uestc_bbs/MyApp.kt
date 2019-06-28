@@ -23,8 +23,6 @@ import com.febers.uestc_bbs.module.setting.UpdateActivity
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.view.emotion.EmotionManager
 import com.tencent.bugly.Bugly
-import com.tencent.bugly.beta.Beta
-import com.tencent.bugly.beta.upgrade.UpgradeListener
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.BufferedReader
 import java.io.FileReader
@@ -73,18 +71,19 @@ class MyApp: MultiDexApplication() {
         val strategy = CrashReport.UserStrategy(MyApp.context())
         strategy.isUploadProcess = processName == null || processName == packageName
 
-        Beta.autoInit = true
-        Beta.autoCheckUpgrade = true
-        Beta.upgradeListener = UpgradeListener { ret, strategy, isManual, isSilence ->
-            if (strategy != null) {
-                context.startActivity(
-                        Intent().apply {
-                            setClass(context, UpdateActivity::class.java)
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                )
-            }
-        }
+//        Beta.autoInit = true
+        //初步去除 Bugly 更新，改用其他方式
+//        Beta.autoCheckUpgrade = true
+//        Beta.upgradeListener = UpgradeListener { ret, strategy, isManual, isSilence ->
+//            if (strategy != null) {
+//                context.startActivity(
+//                        Intent().apply {
+//                            setClass(context, UpdateActivity::class.java)
+//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                        }
+//                )
+//            }
+//        }
         Bugly.init(context, ApiUtils.BUGLY_APP_ID, false)
     }
 

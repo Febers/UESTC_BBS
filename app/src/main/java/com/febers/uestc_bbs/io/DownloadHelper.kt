@@ -17,6 +17,7 @@ class DownloadHelper {
     /**
      * 如果下载的文件为apk，保存在appApkDir
      * 否则保存在appFileDir
+     *
      * @param url 下载连接
      * @param listener 下载监听
      */
@@ -82,6 +83,7 @@ class DownloadHelper {
      * @param saveDir
      * @return
      * @throws IOException
+     *
      * 判断下载目录是否存在
      */
     @Throws(IOException::class)

@@ -103,7 +103,10 @@
             android:layout_gravity="center_vertical"
             android:text="TextView"
             android:textSize="@dimen/text_size_small"
-            tools:text="板块板块" />
+            tools:text="板块板块"
+            app:rectRound="4dp"
+            app:rectPadding="4"
+            app:bgColor="?attr/background_second"/>
 
         <ImageView
             android:id="@+id/image_view_reply_list"

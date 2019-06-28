@@ -10,9 +10,11 @@ import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.log
 import kotlinx.android.synthetic.main.activity_home.*
@@ -148,5 +150,17 @@ class HomeActivity: BaseActivity() {
             val intent = Intent(this, HeartMsgService::class.java)
             startService(intent)
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onCheckUpdateResult(event: BaseEvent<GithubReleaseBean?>) {
+        if (event.code == BaseCode.SUCCESS) {
+            showUpdateDialog(event.data!!)
+        }
+    }
+
+    private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
+        val dialogHelper = UpdateDialogHelper(mContext)
+        dialogHelper.showGithubUpdateDialog(githubReleaseBean)
     }
 }

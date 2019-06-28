@@ -7,8 +7,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.ProgressBar
+import android.widget.RemoteViews
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.io.DownloadHelper
+import com.febers.uestc_bbs.io.FileHelper
+import org.jetbrains.anko.runOnUiThread
+import java.io.File
 
 class NotificationHelper {
 
@@ -67,7 +75,53 @@ class NotificationHelper {
         notificationManager?.notify(notificationId, notification)
     }
 
-    fun cancelNotification(notificationId: Int){
+    fun cancelNotification(notificationId: Int) {
         notificationManager?.cancel(notificationId)
+    }
+
+
+    fun showDownloadNotification(context: Context,
+                                 channelId: String,
+                                 notificationId: Int,
+                                 url: String,
+                                 fileName: String) {
+
+        notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(channelId, "版本更新", NotificationManager.IMPORTANCE_LOW)    //LOW 则不会每次 notify 都会有声音
+            notificationManager?.createNotificationChannel(notificationChannel)
+        }
+
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, channelId)
+
+        builder.apply {
+            setContentTitle(fileName)
+            setContentText("即将开始")
+            setSmallIcon(R.drawable.xic_ship_blue)
+        }
+        builder.setProgress(100, 0, false)
+        notificationManager?.notify(notificationId, builder.build())
+
+        DownloadHelper().download(url = url, fileName = fileName, listener = object : DownloadHelper.OnDownloadListener {
+            override fun onDownloadSuccess(file: File) {
+                builder.setContentTitle("$fileName 下载完成，安装中")
+                notificationManager?.notify(notificationId, builder.build())
+                FileHelper.installApk(context, file)
+                cancelNotification(notificationId)
+            }
+
+            override fun onDownloading(progress: Int) {
+                builder.setProgress(100, progress, false)
+                builder.setContentText("$progress%")
+                notificationManager?.notify(notificationId, builder.build())
+            }
+
+            override fun onDownloadFailed() {
+                builder.setProgress(100, 0, false)
+                builder.setContentText("下载失败")
+                notificationManager?.notify(notificationId, builder.build())
+            }
+        })
     }
 }

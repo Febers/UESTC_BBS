@@ -43,7 +43,8 @@
             android:id="@+id/scroll_view_post_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layerType="software">
+            android:layerType="software"
+            >
             <LinearLayout
                 android:id="@+id/linear_layout_post_detail"
                 android:layout_width="match_parent"
@@ -146,22 +147,11 @@
                     android:layout_margin="10dp">
                 </LinearLayout>
 
-                <!--在此处一个自定义的View，用以显示投票的结果-->
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_detail_divide"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical"
-                    android:visibility="invisible"
-                    android:background="?attr/background_second">
-                </LinearLayout>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_post_detail_replies"
                     android:layout_width="match_parent"
                     android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
                     android:layout_height="match_parent">
                 </androidx.recyclerview.widget.RecyclerView>
 

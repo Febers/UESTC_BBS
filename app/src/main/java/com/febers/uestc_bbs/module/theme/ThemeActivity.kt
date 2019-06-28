@@ -6,8 +6,6 @@ import android.os.Build
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
-import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.ThemeChangedEvent
 import com.febers.uestc_bbs.entity.ThemeItemBean
 import com.febers.uestc_bbs.utils.ColorUtils
@@ -22,7 +20,6 @@ class ThemeActivity : BaseActivity() {
     private lateinit var themeGridViewAdapter: ThemeGridViewAdapter
 
     private var colorValue: Int = ThemeHelper.getColorPrimary()
-
     private var tempColorValue = colorValue
 
     override fun setView(): Int = R.layout.activity_theme
@@ -51,7 +48,7 @@ class ThemeActivity : BaseActivity() {
         check_box_theme_color_dark.setOnCheckedChangeListener { compoundButton, b ->
             tempColorDark = b
         }
-        btn_choose_theme.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        btn_choose_theme.setTextColor(ThemeHelper.getTextColorPrimary())
         btn_choose_theme.setOnClickListener {
             if (colorValue != tempColorValue || colorDark != tempColorDark) {
                 colorValue = tempColorValue
@@ -105,7 +102,7 @@ class ThemeActivity : BaseActivity() {
         ColorUtils.colorCompare(colorPrimary, Color.RED)
         ThemeHelper.setTheme(this, colorPrimary, colorPrimary)
         color_picker.oldCenterColor = colorPrimary
-        postEvent(BaseEvent(BaseCode.SUCCESS, ThemeChangedEvent(dayNightChanged = false)))
+        postEvent(ThemeChangedEvent(dayNightChanged = false))
         changeDrawableHint()
     }
 
@@ -113,4 +110,19 @@ class ThemeActivity : BaseActivity() {
     private fun changeDrawableHint() {
         resources.getDrawable(R.drawable.xic_list_gray, null).setTint(ThemeHelper.getColorPrimaryBySp())
     }
+
+//    private fun showCustomColorDialog() {
+//        if (colorCustomDialog == null) {
+//            colorCustomDialog = AlertDialog.Builder(mContext).create()
+//        }
+//        colorCustomDialog?.show()
+//        colorCustomDialog?.setContentView(getCustomColorDialogView())
+//    }
+//
+//    private fun getCustomColorDialogView(): View {
+//        val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_custom_color, null)
+//        colorPicker = view.findViewById(R.id.color_picker)
+//        colorSV = view.findViewById(R.id.color_picker_sv)
+//        return view
+//    }
 }

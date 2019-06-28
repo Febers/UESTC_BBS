@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.update.UpdateHelper
 import com.febers.uestc_bbs.utils.PermissionUtils
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -73,6 +74,7 @@ class SplashActivity : BaseActivity() {
                 if (MyApp.homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
                 else HomeActivity2::class.java))
         overridePendingTransition(0, 0)
+        UpdateHelper.check()
         finish()
     }
 

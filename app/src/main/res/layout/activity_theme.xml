@@ -39,7 +39,7 @@
 
             <com.febers.uestc_bbs.view.color_picker.ColorPicker
                 android:id="@+id/color_picker"
-                android:layout_width="wrap_content"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"

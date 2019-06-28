@@ -23,7 +23,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="textColorFirst_Day">#DD000000</color>
-    <color name="textColorSecond_Day">#757575</color>
+    <color name="textColorSecond_Day">#888888</color>
     <color name="textColorThird_Day">#bdbdbd</color>
     <color name="background_Day">#FFFFFF</color>
 

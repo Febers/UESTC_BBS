@@ -12,6 +12,7 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
@@ -117,6 +118,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTabReselceted(event: TabReselectedEvent) {
+        log("get reselected")
         if (isSupportVisible && loadFinish && event.position == 0) {
             scroll_view_plist_home?.scrollTo(0, 0)
             refresh_layout_post_list_home?.autoRefresh()

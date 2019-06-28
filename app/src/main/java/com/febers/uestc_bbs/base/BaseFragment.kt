@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.custom.SupportFragment
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.runOnUiThread
@@ -58,6 +59,7 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onStart()
         if (registerEventBus()) {
             if(!EventBus.getDefault().isRegistered(this)) {
+                log("fragment register ${this.toString()}")
                 EventBus.getDefault().register(this)
             }
         }
@@ -100,11 +102,12 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     }
 
     override fun onStop() {
-        super.onStop()
         if (EventBus.getDefault().isRegistered(this)) {
+            log("fragment unregister ${this.toString()}")
             EventBus.getDefault().unregister(this)
         }
         hideSoftInput()
+        super.onStop()
     }
 
     override fun showHint(msg: String) {

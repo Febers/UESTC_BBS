@@ -10,7 +10,7 @@
     <dimen name="navigation_width">200dp</dimen>
     <dimen name="header_height">180dp</dimen>
 
-    <dimen name="image_size_default_avatar">40dp</dimen>
+    <dimen name="image_size_default_avatar">36dp</dimen>
     <dimen name="text_size_super_big">18sp</dimen>
     <dimen name="text_size_big">16sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>

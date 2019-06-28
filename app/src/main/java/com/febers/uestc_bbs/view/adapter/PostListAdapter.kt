@@ -15,7 +15,6 @@ class PostListAdapter(val context: Context, data: List<PostListBean.ListBean>, v
         CommonBaseAdapter<PostListBean.ListBean>(context, data, false) {
 
 
-
     override fun convert(p0: ViewHolder?, p1: PostListBean.ListBean?, p2: Int) {
         var summary = p1?.subject   //普通帖子
         if (summary == null) {

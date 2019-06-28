@@ -69,20 +69,23 @@
         android:orientation="vertical"
         android:layout_marginStart="56dp"
         android:layout_marginEnd="15dp"
-        android:padding="6dp"
-        android:visibility="gone">
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        android:background="?attr/background_second">
         <TextView
             android:id="@+id/text_view_post_reply_quota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.1"
             android:textSize="@dimen/text_size_normal"
+            android:layout_margin="6dp"
             android:textColor="?android:textColorSecondary"
             android:text="某个人 发表于 2018-8-16 16:25
 
 这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容这是引用的回复内容内容内容"/>
 
-        <include layout="@layout/layout_quota_divide_line" />
+        <!--<include layout="@layout/layout_quota_divide_line" />-->
     </LinearLayout>
 
     <LinearLayout
@@ -110,7 +113,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="1"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_small"
+            app:rectRound="0dp"
+            app:rectPadding="4"
+            app:bgColor="?attr/background_second"/>
 
         <ImageView
             android:id="@+id/image_view_post_reply_reply"

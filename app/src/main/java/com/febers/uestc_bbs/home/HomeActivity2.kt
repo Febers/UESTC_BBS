@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.context.ClickContext
@@ -29,6 +30,7 @@ import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.setting.SettingActivity
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.log
@@ -342,8 +344,20 @@ class HomeActivity2: BaseActivity() {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN) fun onThemeChanged(event: BaseEvent<ThemeChangedEvent>) {
+    @Subscribe(threadMode = ThreadMode.MAIN) fun onThemeChanged(event: ThemeChangedEvent) {
         tv_user_name_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
         tv_user_level_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onCheckUpdateResult(event: BaseEvent<GithubReleaseBean?>) {
+        if (event.code == BaseCode.SUCCESS) {
+            showUpdateDialog(event.data!!)
+        }
+    }
+
+    private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
+        val dialogHelper = UpdateDialogHelper(mContext)
+        dialogHelper.showGithubUpdateDialog(githubReleaseBean)
     }
 }
