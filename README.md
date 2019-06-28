@@ -67,9 +67,10 @@
 
 ## 使用截图
 
-![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_1.png)
-![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_2.png)
-![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/Screenshot_3.png)
+![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/screen0.png)
+![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/screen1.png)
+![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/screen2.png)
+![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/screen3.png)
 
 ## LICENSE
 

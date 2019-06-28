@@ -9,6 +9,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 enum class AppColor{
@@ -77,7 +78,8 @@ object ThemeHelper {
                 //attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
                 colorStatusBarAuto()
             }
-            setColorPrimaryToSp(Color.parseColor("#1d2323"))
+            //setColorPrimaryToSp(Color.parseColor("#1d2323"))
+            setColorPrimaryToSp(Color.parseColor("#707070"))
         }
     }
 
@@ -115,7 +117,7 @@ object ThemeHelper {
      */
     fun getColorPrimaryBySp(): Int {
         val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
-        if (Color.parseColor("#FFFFFF") == colorPrimary) return Color.parseColor("#707070")
+        log("get? $colorPrimary ${R.color.color_black_tint == colorPrimary}")
         return colorPrimary
     }
 

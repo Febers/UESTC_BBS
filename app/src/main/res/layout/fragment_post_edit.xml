@@ -63,7 +63,8 @@
                 android:layout_width="@dimen/emotion_button_width_normal"
                 android:layout_height="@dimen/emotion_button_width_normal"
                 android:padding="@dimen/emotion_button_padding"
-                android:src="@drawable/xic_at_gray" />
+                android:src="@drawable/xic_at_gray"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/btn_emotion_post_edit"

@@ -13,50 +13,15 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
-        <!--<com.google.android.material.appbar.CollapsingToolbarLayout-->
-            <!--android:id="@+id/coo_layout_post_list_fragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--app:title="板块名称"-->
-            <!--app:titleEnabled="false"-->
-            <!--app:expandedTitleMarginStart="0dp"-->
-            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_post_list"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin">
-            </androidx.appcompat.widget.Toolbar>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_post_list"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_collapseMode="pin">
+        </androidx.appcompat.widget.Toolbar>
 
-            <!--<LinearLayout-->
-                <!--android:id="@+id/linear_layout_post_list_header"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="top"-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_marginStart="40dp"-->
-                <!--android:layout_marginTop="50dp"-->
-                <!--android:layout_marginBottom="20dp"-->
-                <!--android:visibility="visible"-->
-                <!--app:layout_collapseMode="parallax">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/text_view_post_list_today_num"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="..."-->
-                    <!--android:textColor="@color/color_white"/>-->
-                <!--<TextView-->
-                    <!--android:id="@+id/text_view_post_list_all_num"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="..."-->
-                    <!--android:textColor="@color/color_white"/>-->
-            <!--</LinearLayout>-->
-
-        <!--</com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -84,10 +49,7 @@
                     android:nestedScrollingEnabled="false"
                     android:visibility="gone">
                 </androidx.recyclerview.widget.RecyclerView>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?attr/background_second"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_post_list"
                     android:layout_width="match_parent"

@@ -156,11 +156,11 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
 
         refresh_layout_post_detail?.finishSuccess()
-//        val start: Int = replyList?.size ?: 0
-//        replyList?.addAll(event.data.list!!)
-//        replyItemAdapter?.notifyItemRangeChanged(start, event.data.list!!.size)
+        val start: Int = replyList?.size ?: 0
+        replyList?.addAll(event.data.list!!)
+        replyItemAdapter?.notifyItemRangeChanged(start, event.data.list!!.size)
         //上面注释的代码作用与下面一行类似
-        replyItemAdapter?.setLoadMoreData(event.data.list!!)
+//        replyItemAdapter?.setLoadMoreData(event.data.list!!)
 
         topicUserId = event.data.topic?.user_id ?: topicUserId //倒叙查看中其值可能为null
         topicReplyId = event.data.topic?.reply_posts_id ?: topicReplyId
