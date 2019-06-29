@@ -59,7 +59,6 @@ abstract class BaseFragment : SupportFragment(), BaseView {
         super.onStart()
         if (registerEventBus()) {
             if(!EventBus.getDefault().isRegistered(this)) {
-                log("fragment register ${this.toString()}")
                 EventBus.getDefault().register(this)
             }
         }
@@ -103,7 +102,6 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     override fun onStop() {
         if (EventBus.getDefault().isRegistered(this)) {
-            log("fragment unregister ${this.toString()}")
             EventBus.getDefault().unregister(this)
         }
         hideSoftInput()

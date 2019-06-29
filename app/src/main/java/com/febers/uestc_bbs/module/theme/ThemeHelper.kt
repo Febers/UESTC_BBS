@@ -12,12 +12,6 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.log
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
-enum class AppColor{
-    COLOR_PRIMARY,
-    COLOR_ACCENT,
-    COLOR_BACKGROUND
-}
-
 const val COLOR_PRIMARY_DARK = "color_primary_dark"
 const val MY_COLOR_PRIMARY = "my_color_primary"
 
@@ -78,8 +72,7 @@ object ThemeHelper {
                 //attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
                 colorStatusBarAuto()
             }
-            //setColorPrimaryToSp(Color.parseColor("#1d2323"))
-            setColorPrimaryToSp(Color.parseColor("#707070"))
+            setColorPrimaryToSp(Color.parseColor("#707070"))    //存储一个灰色值
         }
     }
 
@@ -102,22 +95,16 @@ object ThemeHelper {
         onThemeChange(colorPrimary, colorAccent)
     }
 
-    fun getColor(color: AppColor): Int {
-        return when(color) {
-            AppColor.COLOR_PRIMARY -> Aesthetic.get().colorPrimary().blockingFirst()
-            AppColor.COLOR_ACCENT -> Aesthetic.get().colorAccent().blockingFirst()
-            AppColor.COLOR_BACKGROUND -> Aesthetic.get().colorWindowBackground().blockingFirst()
-        }
-    }
-
     fun getColorPrimary(): Int =  Aesthetic.get().colorPrimary().blockingFirst()
 
     /**
-     * 保存的colorPrimary，用于闪屏
+     * 保存的colorPrimary
+     * 用于闪屏、回复的数目、图标的颜色获取等
+     * 需要注意的是主题色为全白时要返回灰色，否则将与背景同色
      */
     fun getColorPrimaryBySp(): Int {
         val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
-        log("get? $colorPrimary ${R.color.color_black_tint == colorPrimary}")
+        if (colorPrimary == Color.parseColor("#FFFFFF")) return Color.GRAY
         return colorPrimary
     }
 
@@ -126,7 +113,7 @@ object ThemeHelper {
      *
      * @param color
      */
-    fun setColorPrimaryToSp(color: Int) {
+    private fun setColorPrimaryToSp(color: Int) {
         var colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
         colorPrimary = color
     }

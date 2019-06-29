@@ -25,6 +25,10 @@ interface PostInterface {
                      @Field("idType")idType: String = "tid"): Call<PostFavResultBean>
 
     @FormUrlEncoded
+    @POST(ApiUtils.BBS_POST_SUPPORT)
+    fun postSupport(@Field("tid")tid: String, @Field("pid")pid: String): Call<PostSupportResultBean>
+
+    @FormUrlEncoded
     @POST(ApiUtils.BBS_VOTE_URL)
     fun postVote(@Field("tid")tid: String, @Field("options")options: String): Call<PostVoteResultBean>
 

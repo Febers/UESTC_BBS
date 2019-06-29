@@ -33,6 +33,14 @@ class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(vie
         view.showPostFavResult(event)
     }
 
+    override fun postSupportRequest(postId: Int, tid: Int) {
+        postModel.postSupportService(postId, tid)
+    }
+
+    override fun postSupportResult(event: BaseEvent<PostSupportResultBean>) {
+        view.showPostSupportResult(event)
+    }
+
     override fun postVoteRequest(pollItemId: List<Int>) {
         postModel.postVoteService(pollItemId)
     }

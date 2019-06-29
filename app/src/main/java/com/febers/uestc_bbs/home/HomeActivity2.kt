@@ -350,9 +350,9 @@ class HomeActivity2: BaseActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onCheckUpdateResult(event: BaseEvent<GithubReleaseBean?>) {
+    fun onCheckUpdateResult(event: UpdateCheckEvent) {
         if (event.code == BaseCode.SUCCESS) {
-            showUpdateDialog(event.data!!)
+            showUpdateDialog(event.result!!)
         }
     }
 

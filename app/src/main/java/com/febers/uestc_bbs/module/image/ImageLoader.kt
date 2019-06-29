@@ -79,7 +79,7 @@ object ImageLoader {
                     }
                     .error(R.drawable.image_error_400200)
                     .apply(sizeOptions)
-                    .fitCenter()
+                    .centerInside()
                     .into(imageView!!)
 
         } catch (e: Exception) {

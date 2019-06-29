@@ -257,6 +257,13 @@ object ApiUtils {
      */
     const val BBS_TOPIC_RATE_URL = "mobcent/app/web/index.php?r=forum/topicrate"
 
+    /**
+     * 支持。返回 HTML。
+
+    tid
+    pid
+     */
+    const val BBS_POST_SUPPORT = "mobcent/app/web/index.php?r=forum/support&type=post"
 
     /**
      * 查询新提醒数目（每隔一段时间查询）。

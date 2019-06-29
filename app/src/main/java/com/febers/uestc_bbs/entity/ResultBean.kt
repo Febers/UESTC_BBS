@@ -83,6 +83,45 @@ class PostFavResultBean {
     }
 }
 
+class PostSupportResultBean {
+    /**
+     * {
+    "rs": 1,
+    "errcode": "赞 +1",
+    "head": {
+    "errCode": "00000000",
+    "errInfo": "赞 +1",
+    "version": "2.6.1.7",
+    "alert": 1
+    },
+    "body": {
+    "externInfo": {
+    "padding": ""
+    }
+    }
+    }
+     */
+    var rs: Int = 0
+    var errcode: String? = null
+    var head: HeadBean? = null
+    var body: BodyBean? = null
+
+    class HeadBean {
+        var errCode: String? = null
+        var errInfo: String? = null
+        var version: String? = null
+        var alert: Int = 0
+    }
+
+    class BodyBean {
+        var externInfo: ExternInfoBean? = null
+
+        class ExternInfoBean {
+            var padding: String? = null
+        }
+    }
+}
+
 class PostVoteResultBean {
 
     /**

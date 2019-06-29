@@ -147,6 +147,28 @@
                     android:layout_margin="10dp">
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/layout_post_detail_support"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:visibility="invisible"
+                    android:layout_marginBottom="4dp">
+                    <TextView
+                        android:id="@+id/btn_post_detail_support"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:text="@string/support"/>
+                    <TextView
+                        android:id="@+id/btn_post_detail_oppose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:text="@string/oppose"/>
+                </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_post_detail_replies"
                     android:layout_width="match_parent"

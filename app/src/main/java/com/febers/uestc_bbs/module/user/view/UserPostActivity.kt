@@ -40,7 +40,7 @@ class UserPostActivity: BaseActivity(), UserContract.View {
         userPListPresenter = UserPresenterImpl(this)
         userPListAdapter = UserPostAdapter(this@UserPostActivity, userPostList, false).apply {
             setOnItemClickListener { viewHolder, listBean, i ->
-                ClickContext.clickToPostDetail(context, listBean.topic_id) }
+                ClickContext.clickToPostDetail(context, listBean.topic_id, listBean.title) }
             setOnItemChildClickListener(R.id.image_view_item_user_post_avatar) {
                 viewHolder, listBean, i ->  ClickContext.clickToUserDetail(this@UserPostActivity, listBean.user_id)
             }

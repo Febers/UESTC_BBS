@@ -20,6 +20,13 @@ const val ONLY_AUTHOR_VIEW_REPLY = 1
 const val NO_ONLY_AUTHOR_VIEW_REPLY = 0
 const val SERVICE_RESPONSE_ERROR = "服务器响应失败"
 const val SERVICE_RESPONSE_NULL = "服务器响应为空"
+
+const val POST_EXTRAL_PANEL_TYPE_EDIT = "edit"
+const val POST_EXTRAL_PANEL_TYPE_RATE = "rate"
+const val POST_EXTRAL_PANEL_TYPE_DELETE = "删帖"
+const val POST_EXTRAL_PANEL_TYPE_SUPPORT = "support"
+
+
 const val DAY_NIGHT_THEME_CHANGE = "day_night_theme_change"
 
 const val HOME_POSTS_NEW = -1

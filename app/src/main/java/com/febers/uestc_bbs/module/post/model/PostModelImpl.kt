@@ -23,6 +23,10 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         Thread{ reply(postId, isQuota, replyId, aid, *contents) }.start()
     }
 
+    override fun postSupportService(postId: Int, tid: Int) {
+        Thread{ postSupport(postId, tid) }.start()
+    }
+
     override fun postVoteService(pollItemId: List<Int>) {
         Thread(Runnable { postVote(pollItemId) }).start()
     }
@@ -178,6 +182,29 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                             return
                         }
                         postPresenter.userAtResult(BaseEvent(BaseCode.SUCCESS, result))
+                    }
+                })
+    }
+
+    private fun postSupport(postId: Int, tid: Int) {
+        getRetrofit().create(PostInterface::class.java)
+                .postSupport(tid = tid.toString(), pid = postId.toString())
+                .enqueue(object : Callback<PostSupportResultBean> {
+                    override fun onFailure(call: Call<PostSupportResultBean>, t: Throwable) {
+                        postPresenter.postSupportResult(BaseEvent(BaseCode.FAILURE, PostSupportResultBean().apply { errcode = SERVICE_RESPONSE_ERROR }))
+                    }
+
+                    override fun onResponse(call: Call<PostSupportResultBean>, response: Response<PostSupportResultBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            postPresenter.postSupportResult(BaseEvent(BaseCode.LOCAL, PostSupportResultBean().apply { errcode = SERVICE_RESPONSE_NULL }))
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            postPresenter.postSupportResult(BaseEvent(BaseCode.LOCAL, result))
+                            return
+                        }
+                        postPresenter.postSupportResult(BaseEvent(BaseCode.SUCCESS, result))
                     }
                 })
     }

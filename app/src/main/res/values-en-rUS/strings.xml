@@ -156,7 +156,7 @@
     <string name="cancel_collect">Cancel Collect</string>
     <string name="collecting">Collecting</string>
     <string name="hide_sticky_post">Hide Sticky Post</string>
-    <string name="bottom_text_hint">--- Loaded completed ---</string>
+    <string name="bottom_text_hint"> ᕕ( ᐛ )ᕗ </string>
     <string name="home_layout">Home Layout</string>
     <string name="choose_home_layout">Choose different main interface layouts, now it is </string>
     <string name="home_layout_drawer">Drawer Layout</string>
@@ -164,4 +164,6 @@
     <string name="share_app">Share App</string>
     <string name="restart_app">Restart App</string>
     <string name="search_history_clear">Clear</string>
+    <string name="support">👍</string>
+    <string name="oppose">👎</string>
 </resources>

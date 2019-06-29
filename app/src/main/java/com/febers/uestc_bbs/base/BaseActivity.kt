@@ -110,7 +110,6 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        log("create menu")
         if (setMenu() != null) {
             menuInflater.inflate(setMenu()!!, menu)
         }

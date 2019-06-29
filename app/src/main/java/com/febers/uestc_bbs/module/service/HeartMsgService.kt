@@ -193,7 +193,6 @@ class HeartMsgService : Service() {
      * !!!禁用重启服务，因为产生的影响未知
      */
     override fun onDestroy() {
-        log("stop service")
         super.onDestroy()
         flag = false
         msgThread?.interrupt()

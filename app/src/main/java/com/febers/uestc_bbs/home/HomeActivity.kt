@@ -16,7 +16,6 @@ import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -124,7 +123,6 @@ class HomeActivity: BaseActivity() {
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        log("onNew2")
 
         if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
         bottom_navigation_home.currentItem = PAGE_POSITION_MESSAGE
@@ -153,9 +151,9 @@ class HomeActivity: BaseActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onCheckUpdateResult(event: BaseEvent<GithubReleaseBean?>) {
+    fun onCheckUpdateResult(event: UpdateCheckEvent) {
         if (event.code == BaseCode.SUCCESS) {
-            showUpdateDialog(event.data!!)
+            showUpdateDialog(event.result!!)
         }
     }
 

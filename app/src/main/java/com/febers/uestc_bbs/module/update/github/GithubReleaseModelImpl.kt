@@ -4,7 +4,9 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.UpdateCheckEvent
 import com.febers.uestc_bbs.entity.GithubReleaseBean
+import com.febers.uestc_bbs.entity.UpdateCheckBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.utils.postEvent
@@ -36,14 +38,14 @@ class GithubReleaseModelImpl {
                     override fun onResponse(call: Call<GithubReleaseBean>, response: Response<GithubReleaseBean>) {
                         val release = response.body()
                         if (response.code() != 200 || release == null) {
-                            postEvent(BaseEvent(BaseCode.FAILURE, release))
+                            postEvent(UpdateCheckEvent(BaseCode.FAILURE, false))
                             return
                         }
                         if (hasNewVersion(release.tag_name)) {
                             //奇怪的逻辑，手动检查更新时使用SUCCESS_END， 因为此时主 Activity 不应该收到该消息
-                            postEvent(BaseEvent(if (manual) BaseCode.SUCCESS_END else BaseCode.SUCCESS, release))
+                            postEvent(UpdateCheckEvent(if (manual) BaseCode.SUCCESS_END else BaseCode.SUCCESS, true, release))
                         } else {
-                            postEvent(BaseEvent(BaseCode.LOCAL, release))
+                            postEvent(UpdateCheckEvent(BaseCode.LOCAL, false))
                         }
                     }
                 })

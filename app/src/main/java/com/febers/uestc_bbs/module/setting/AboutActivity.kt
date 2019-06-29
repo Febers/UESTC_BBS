@@ -10,6 +10,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.UpdateCheckEvent
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
@@ -216,11 +217,11 @@ class AboutActivity: BaseActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onCheckUpdateResult(event: BaseEvent<GithubReleaseBean?>) {
+    fun onCheckUpdateResult(event: UpdateCheckEvent) {
         when(event.code) {
             BaseCode.FAILURE -> showHint("检查更新失败，请前往开源界面查看最新版本")
             BaseCode.LOCAL -> showHint("当前已是最新版本")
-            BaseCode.SUCCESS_END -> { showUpdateDialog(event.data!!) }
+            BaseCode.SUCCESS_END -> { showUpdateDialog(event.result!!) }
             else -> { }
         }
     }

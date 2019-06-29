@@ -146,7 +146,7 @@ class SearchActivity: BaseActivity(), SearchContract.View {
         KeyboardUtils.closeKeyboard(searchView, mContext)
         searchView.clearFocus()
         val tid = item.topic_id
-        ClickContext.clickToPostDetail(mContext, tid)
+        ClickContext.clickToPostDetail(mContext, tid, item.title)
     }
 
     override fun showError(msg: String) {

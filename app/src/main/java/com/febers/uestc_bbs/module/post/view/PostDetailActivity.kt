@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
+import com.febers.uestc_bbs.entity.PostSupportResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.contract.PostContract
@@ -52,6 +53,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private val favoritePost = "favorite"
     private var drawFinish = false
     private var topicUserName = "楼主"  //楼主名称
+    private var postSupportCount = 0
     private var topicReplyId = 0
     private var topicUserId = 0 //楼主id
     private var replyCount = 0
@@ -142,6 +144,10 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     @UiThread
     override fun showPostDetail(event: BaseEvent<PostDetailBean>) {
         if (page == 1) {
+            //由于只有第一页时才绘制主贴内容，相当于刷新，所以清空评论列表
+            val oldSize = replyList?.size ?: 0
+            replyList?.clear()
+            replyItemAdapter?.notifyItemRangeRemoved(0, oldSize)
             drawTopicView(event)
             //如果是投票贴
             if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
@@ -157,10 +163,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
         refresh_layout_post_detail?.finishSuccess()
         val start: Int = replyList?.size ?: 0
-        replyList?.addAll(event.data.list!!)
-        replyItemAdapter?.notifyItemRangeChanged(start, event.data.list!!.size)
-        //上面注释的代码作用与下面一行类似
-//        replyItemAdapter?.setLoadMoreData(event.data.list!!)
+        replyList?.addAll(event.data.list!!)    //如果是第一页，在 drawTopicView 方法中已清空评论列表
+        val itemCount = if (replyList?.size == null) 0 else replyList!!.size - start
+        replyItemAdapter?.notifyItemRangeInserted(start, itemCount)
 
         topicUserId = event.data.topic?.user_id ?: topicUserId //倒叙查看中其值可能为null
         topicReplyId = event.data.topic?.reply_posts_id ?: topicReplyId
@@ -208,10 +213,26 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         contentViewHelper = ContentViewHelper(linear_layout_detail_content, event.data.topic?.content!!)
         contentViewHelper?.create()
         fillImageView()
-        //由于只有第一页时才绘制主贴内容，相当于刷新，所以清空评论列表
-        replyList?.clear()
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
+
+        //反对与支持
+        val allCount = (event.data.topic as PostDetailBean.TopicBean).zanList?.size ?: 0
+        val supportString = (event.data.topic as PostDetailBean.TopicBean).extraPanel
+                ?.dropWhile { it.type != POST_EXTRAL_PANEL_TYPE_SUPPORT }
+                ?.first()?.extParams?.recommendAdd ?: ""
+        postSupportCount = if (supportString.isEmpty()) 0 else Integer.valueOf(supportString)
+        val opposeCount = allCount - postSupportCount
+        layout_post_detail_support.visibility = View.VISIBLE
+        btn_post_detail_support.apply {
+            setTextColor(ThemeHelper.getColorPrimaryBySp())
+            text = "${getString(R.string.support)} $postSupportCount"
+            setOnClickListener { postPresenter?.postSupportRequest(postId = topicReplyId, tid = postId) }
+        }
+        btn_post_detail_oppose.apply {
+            setTextColor(ThemeHelper.getColorPrimaryBySp())
+            text = "${getString(R.string.oppose)} $opposeCount"
+        }
     }
 
     private fun fillImageView() {
@@ -231,6 +252,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * 包括用户未投票的，由RadioGroup和Button组成的界面
      * 以及自定义的投票结果View
      * 该投票结果View应该由ListView构成
+     *
      * @param pollInfo 投票详数据情
      */
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
@@ -249,6 +271,17 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun showVoteResult(event: BaseEvent<PostVoteResultBean>) {
         showHint(event.data.errcode.toString())
         refresh_layout_post_detail.autoRefresh()
+    }
+
+    ////////////////////////////////支持////////////////////////////////
+    @UiThread
+    override fun showPostSupportResult(event: BaseEvent<PostSupportResultBean>) {
+        if (event.data.errcode?.contains("1") == true) {
+            btn_post_detail_support.text = "${getString(R.string.support)} ${++postSupportCount}"
+            showHint(event.data.errcode!!)
+        } else {
+            showHint(event.data.errcode+"")
+        }
     }
 
     ////////////////////////////////收藏////////////////////////////////
@@ -306,7 +339,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         //launchMode会影响该功能的实现
         if (requestCode == POST_REPLY_RESULT_CODE) {
             val result = data?.getBooleanExtra(POST_REPLY_RESULT, false)
-            log("result:"+result.toString())
             result ?: return
             if (result) {
                 scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
@@ -383,9 +415,11 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     ////////////////////////////////错误////////////////////////////////
     override fun showError(msg: String) {
         showHint(msg)
-        refresh_layout_post_detail?.finishFail()
-        showEmptyView()
-        drawFinish = true
+        if (!drawFinish) {  //此时为主贴请求或者投票（？待改进）出错，切换至空视图
+            refresh_layout_post_detail?.finishFail()
+            showEmptyView()
+            drawFinish = true
+        }
     }
 
     ////////////////////////////////服务器响应为null////////////////////////////////

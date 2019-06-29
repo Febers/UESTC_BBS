@@ -6,7 +6,7 @@
     <string name="developer_email" translatable="false">febers418@qq.com</string>
     <string name="app_project_url" translatable="false">https://github.com/Febers/UESTC_BBS</string>
     <string name="version">版本</string>
-    <string name="version_value" translatable="false">v1.1.5</string>
+    <string name="version_value" translatable="false">v1.1.5.1</string>
     <string name="check_update">检查更新</string>
     <string name="feedback_and_other">反馈、建议及其他</string>
     <string name="source_code">源代码</string>
@@ -50,7 +50,7 @@
     <string name="please_input_title">请输入标题</string>
     <string name="please_input_content">请输入内容</string>
     <string name="edit">编辑</string>
-    <string name="bottom_text_hint">--- 已加载全部 ---</string>
+    <string name="bottom_text_hint"> ᕕ( ᐛ )ᕗ </string>
 
     <!--User界面String-->
     <string name="my_start_post">我的帖子</string>
@@ -181,6 +181,8 @@
     <string name="share_app">分享应用</string>
     <string name="restart_app">重启应用</string>
     <string name="search_history_clear">清空</string>
+    <string name="support">👍</string>
+    <string name="oppose">👎</string>
 
     <!--防止引用系统默认时找不到该属性-->
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->

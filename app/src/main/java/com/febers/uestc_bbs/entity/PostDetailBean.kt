@@ -237,6 +237,8 @@ class PostDetailBean {
                  */
 
                 var beforeAction: String? = null
+                var recommendAdd: String? = null
+                var isHasRecommendAdd: String? = null
             }
         }
 
