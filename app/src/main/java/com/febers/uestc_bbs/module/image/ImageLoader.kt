@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.image
 
+import android.app.Activity
 import android.content.Context
 import android.widget.ImageView
 

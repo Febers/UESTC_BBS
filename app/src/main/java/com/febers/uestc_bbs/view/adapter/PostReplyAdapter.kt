@@ -11,7 +11,7 @@ import com.febers.uestc_bbs.view.helper.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>):
+class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, private val topicUserName: String):
         CommonBaseAdapter<PostDetailBean.ListBean>(context, data, false) {
 
     private var contentViewHelper: ContentViewHelper? = null
@@ -21,6 +21,9 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         p0?.setText(R.id.text_view_post_reply_date, TimeUtils.stampChange(p1?.posts_date))
         p0?.setText(R.id.text_view_post_reply_user_title, p1?.userTitle)
         p0?.setText(R.id.text_view_post_reply_floor, p1?.position?.minus(1).toString())
+        if (topicUserName == p1?.reply_name) {
+            p0?.setVisibility(R.id.iv_post_reply_topic_user, View.VISIBLE)
+        }
         if (contentViewHelper == null) {
             contentViewHelper = ContentViewHelper(
                     mLinearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!,

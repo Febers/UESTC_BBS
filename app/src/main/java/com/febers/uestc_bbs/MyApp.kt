@@ -19,7 +19,6 @@ import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
 import com.febers.uestc_bbs.home.HomeActivity
 import com.febers.uestc_bbs.home.HomeActivity2
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.module.setting.UpdateActivity
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.view.emotion.EmotionManager
 import com.tencent.bugly.Bugly

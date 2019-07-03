@@ -49,5 +49,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/xic_list_gray"/>
+        <ImageView
+            android:id="@+id/image_view_topic_user"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/xic_user_small"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

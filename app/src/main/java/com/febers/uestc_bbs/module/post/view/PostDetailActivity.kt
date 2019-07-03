@@ -29,11 +29,12 @@ import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.pidToWebUrl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
+import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
 import kotlinx.android.synthetic.main.layout_server_null.*
 import org.jetbrains.anko.browse
 
@@ -57,6 +58,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     private var topicReplyId = 0
     private var topicUserId = 0 //楼主id
     private var replyCount = 0
+    private var postTitle = ""
     private var authorId = 0
     private var postId = 0
     private var tempDy = 0
@@ -69,10 +71,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
     override fun afterCreated() {
-        text_view_post_detail_title.text = intent.getStringExtra(POST_TITLE)
+        postTitle = intent.getStringExtra(POST_TITLE) ?: ""
+        topicUserName = intent.getStringExtra(USER_NAME) ?: ""
         postId = intent.getIntExtra(FID, 0)
+        text_view_post_detail_title.text = postTitle
+
         postPresenter = PostPresenterImpl(this)
-        replyItemAdapter = PostReplyItemAdapter(this, replyList!!).apply {
+        replyItemAdapter = PostReplyItemAdapter(this, replyList!!, topicUserName).apply {
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(mContext, postReplyBean.reply_id)
             }
@@ -99,7 +104,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
         recyclerview_post_detail_replies.apply {
             layoutManager = LinearLayoutManager(mContext).apply {
-//                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱，使用新的绘制方案之后会出现问题
+                stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱，使用新的绘制方案之后会出现问题
             }
             adapter = replyItemAdapter
         }
@@ -114,6 +119,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             tempDy = tempDy + scrollY - oldScrollY
             if (tempDy < 418) {
                 fab_post_detail.hide()
+                toolbar_post_detail.subtitle = ""
+            } else {
+                toolbar_post_detail.subtitle = postTitle
             }
         }
         fab_post_detail.setOnClickListener {
@@ -175,7 +183,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         drawFinish = true
         //底部显示评论个数的bottom，以代替fab
         text_view_post_reply_count.text = "$replyCount " + getString(R.string.replies)
-        linear_layout_post_reply_count.setOnClickListener {
+        layout_post_reply_count.setOnClickListener {
             val description: String = try {
                 event.data.topic?.content?.get(0)?.infor + " "
             } catch (e: Exception) {
@@ -204,6 +212,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         //收藏图标的相应设置
         isFavorite = event.data.topic?.is_favor ?: POST_NO_FAVORED
         initFavStatus()
+        postTitle = event.data.topic?.title ?: postTitle
         toolbar_post_detail?.title = event.data.forumName
         text_view_post_detail_title?.text = event.data.topic?.title
         text_view_post_detail_author?.text = event.data.topic?.user_nick_name
@@ -366,6 +375,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             }
             refresh_layout_post_detail.autoRefresh()
         }
+        if (position == ITEM_WEB_POST) {
+            getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
+        }
     }
 
     private fun getOptionBottomSheet(): PostOptionBottomSheet {
@@ -378,27 +390,26 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     }
 
     private fun showReplyCountBottomAndFAB() {
-        if (linear_layout_post_reply_count.visibility == View.VISIBLE) return
-        linear_layout_post_reply_count.visibility = View.VISIBLE
+        if (layout_post_reply_count.visibility == View.VISIBLE) return
+        layout_post_reply_count.visibility = View.VISIBLE
         if (showReplyCountBottomAnimatorSet == null) {
             showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
-            (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
+            (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(layout_post_reply_count)
         }
         (showReplyCountBottomAnimatorSet as AnimatorSet).start()
         if (!fab_post_detail.isShown) {
             fab_post_detail.show()
         }
-        //ObjectAnimator.ofFloat(linear_layout_post_reply_count, "translationY", 0f, 500f).setDuration(1000).start()
     }
 
     private fun hideReplyCountBottomAndFAB() {
-        if (linear_layout_post_reply_count.visibility == View.INVISIBLE) return
+        if (layout_post_reply_count.visibility == View.INVISIBLE) return
         if (hideReplyCountBottomAnimatorSet == null) {
             hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
-            (hideReplyCountBottomAnimatorSet as AnimatorSet).setTarget(linear_layout_post_reply_count)
+            (hideReplyCountBottomAnimatorSet as AnimatorSet).setTarget(layout_post_reply_count)
         }
         (hideReplyCountBottomAnimatorSet as AnimatorSet).start()
-        linear_layout_post_reply_count.visibility = View.INVISIBLE
+        layout_post_reply_count.visibility = View.INVISIBLE
         if (fab_post_detail.isShown) {
             fab_post_detail.hide()
         }
@@ -433,8 +444,17 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
         btn_to_web?.visibility = View.VISIBLE
         btn_to_web?.setOnClickListener {
-            browse(postId.pidToWebUrl(), true)
+            getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
         }
+    }
+
+    private var postWebViewBottomSheet: PostWebViewBottomSheet? = null
+
+    private fun getPostWebViewBottomSheet(): PostWebViewBottomSheet {
+        if (postWebViewBottomSheet == null) {
+            postWebViewBottomSheet = PostWebViewBottomSheet(mContext, R.style.PinkBottomSheetTheme, postId.pidToWebUrl())
+        }
+        return postWebViewBottomSheet!!
     }
 
     /**
@@ -448,5 +468,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         replyItemAdapter = null
         replyList = null
         optionBottomSheet = null
+        postWebViewBottomSheet = null
     }
 }

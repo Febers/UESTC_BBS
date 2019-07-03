@@ -48,22 +48,16 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 itemClickListenerPost.onOptionItemSelect(ITEM_ORDER_POSITIVE)
             }
             if (i == ITEM_WEB_POST) {
-                context.browse(postId.pidToWebUrl(), true)
-                //ClickContext.clickToAppWeb(mContext, postId.pidToWebUrl())
+                itemClickListenerPost.onOptionItemSelect(ITEM_WEB_POST)
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clipData = ClipData.newPlainText("uestc_bbs_clip_data", postId.pidToWebUrl())
-                clipboardManager.primaryClip = clipData
+                clipboardManager.setPrimaryClip(clipData)
                 context.toast(context.getString(R.string.copy_url_successfully))
             }
             if (i == ITEM_SHARE_POST) {
                 context.share("$postTitle\n${postId.pidToWebUrl()}\n来自清水河畔客户端 i河畔")
-//                val intent = Intent(Intent.ACTION_SEND).apply {
-//                    type = "text/plain"
-//                    putExtra(Intent.EXTRA_TEXT, "$postTitle\n${postId.pidToWebUrl()}\n来自清水河畔客户端 i河畔")
-//                }
-//                mContext.startActivity(Intent.createChooser(intent, "分享帖子"))
             }
             dismiss()
         }

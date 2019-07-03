@@ -20,8 +20,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_post_detail"
             android:layout_width="match_parent"
@@ -201,19 +200,5 @@
         android:visibility="gone"
         android:layout_gravity="end|bottom"/>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_post_reply_count"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="?attr/background_second"
-        android:layout_gravity="bottom">
-
-        <TextView
-            android:id="@+id/text_view_post_reply_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:text="@string/replies"/>
-    </LinearLayout>
+        <include layout="@layout/layout_bottom_sheet_post_detail" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

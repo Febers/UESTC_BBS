@@ -17,8 +17,7 @@
         <!--Toolbar-->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
+            android:layout_height="wrap_content">
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_post_reply"
                 android:layout_width="match_parent"
@@ -98,23 +97,27 @@
             android:layout_margin="16dp"
             android:numColumns="3">
         </GridView>
-        <LinearLayout
+
+        <Button
+            android:id="@+id/btn_edit_text_fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:text="全屏编辑"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"/>
+
+        <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
+            android:id="@+id/edit_view_post_reply_activity"
+            android:inputType="textMultiLine"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
-            <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
-                android:id="@+id/edit_view_post_reply_activity"
-                android:inputType="textMultiLine"
-                android:layout_width="match_parent"
-                android:hint="@string/input_your_reply"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
+            android:layout_marginEnd="16dp"
+            android:hint="@string/input_your_reply"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_post_reply_activity"

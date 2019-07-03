@@ -1,5 +1,8 @@
 package com.febers.uestc_bbs.module.setting
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.text.Html
 import android.view.*
 import android.widget.Button
@@ -9,31 +12,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.UpdateCheckEvent
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.ProjectItemBean
 import com.febers.uestc_bbs.entity.SettingItemBean
-import com.febers.uestc_bbs.io.DownloadHelper
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.update.UpdateHelper
-import com.febers.uestc_bbs.module.update.github.GithubUpdateHelper
-import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
-import com.febers.uestc_bbs.view.custom.UpdateDialog
-import kotlinx.android.synthetic.main.fragment_about.*
+import kotlinx.android.synthetic.main.activity_about.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 import org.jetbrains.anko.share
-import java.io.File
 
 class AboutActivity: BaseActivity() {
 
@@ -54,7 +50,7 @@ class AboutActivity: BaseActivity() {
 
     override fun setMenu(): Int? = R.menu.menu_about
 
-    override fun setView(): Int = R.layout.fragment_about
+    override fun setView(): Int = R.layout.activity_about
 
     override fun registerEventBus(): Boolean = true
 
@@ -62,6 +58,10 @@ class AboutActivity: BaseActivity() {
     }
 
     override fun afterCreated() {
+        text_view_about_1.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        text_view_about_2.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        text_view_about_3.setTextColor(ThemeHelper.getColorPrimaryBySp())
+
         settingAdapter1 = SettingAdapter(mContext, items1).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onFirstGroupItemClick(i)

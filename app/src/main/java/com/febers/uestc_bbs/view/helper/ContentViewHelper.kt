@@ -47,7 +47,6 @@ class ContentViewHelper(
     fun create() {
         mLinearLayout ?: return
         mLinearLayout!!.removeAllViews()
-//        cycleDrawView(mStringBuilder, position = 0)
         cycleDrawView2()
     }
 
@@ -57,67 +56,6 @@ class ContentViewHelper(
         mStringBuilder.clear()
         imageMapList?.clear()
         context = mLinearLayout?.context
-    }
-
-    /**
-     * 根据Content的内容，递归地绘制内容
-     * 当遇到text内容，添加进stringBuilder
-     * 遇到image，结束一次绘制，继续开始下一次绘制
-     */
-    private fun cycleDrawView(stringBuilder: StringBuilder, position: Int) {
-        fun drawTextView() {
-            val textView = getTextView()
-            ImageTextHelper.setImageText(textView, stringBuilder.toString(), mTextLinkColor)
-            mLinearLayout?.addView(textView)
-            belowTextView = true
-        }
-        fun drawImageView() {
-            drawTextView()
-            val imageView = getImageView(mContents[position].originalInfo.toString())
-            mLinearLayout?.addView(imageView)
-            mLinearLayout?.gravity = Gravity.CENTER
-            imageMapList?.add(mapOf(mContents[position].originalInfo.toString() to imageView))
-            belowTextView = false
-        }
-        fun drawFileView(url: String, title: String) {
-            val button = getFileButton(url, title)
-            mLinearLayout?.addView(button)
-        }
-        //当遍历结束之后之后，绘制stringBuilder的内容
-        if (position >= mContents.size) {
-            val textView = getTextView()
-            ImageTextHelper.setImageText(textView, stringBuilder.toString())
-            mLinearLayout?.addView(textView)
-            return
-        }
-        //根据type选择不同的策略
-        when(mContents[position].type) {
-            CONTENT_TYPE_TEXT -> {
-                stringBuilder.append(emotionTransform(mContents[position].infor).encodeSpaces())
-                cycleDrawView(stringBuilder, position + 1)
-            }
-            CONTENT_TYPE_URL -> {
-                stringBuilder
-                        .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
-                cycleDrawView(stringBuilder, position + 1)
-            }
-            CONTENT_TYPE_IMG -> {
-                drawImageView()
-                cycleDrawView(StringBuilder(), position + 1)
-            }
-            CONTENT_TYPE_FILE -> {
-                if (mContents[position].infor?.unMatchImageUrl()!!) {
-//                    stringBuilder
-//                            .append(" "+urlTransform(raw = mContents[position].url, title = mContents[position].infor)+" ")
-                    drawFileView(url = ""+mContents[position].url, title = ""+mContents[position].infor)
-                }
-                cycleDrawView(stringBuilder, position + 1)
-            }
-            else -> {
-                stringBuilder.append(mContents[position].infor)
-                cycleDrawView(stringBuilder, position + 1)
-            }
-        }
     }
 
     /**
@@ -188,7 +126,7 @@ class ContentViewHelper(
             setLinkTextColor(it)
         }
         linksClickable = true
-        setLinkTextColor(ThemeHelper.getColorAccent())
+        setLinkTextColor(ThemeHelper.getColorPrimaryBySp())
         setTextIsSelectable(true)
         layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

@@ -68,4 +68,8 @@
         <attr name="rectPadding" format="integer" />
         <attr name="bgColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="BottomSheetLayout">
+        <attr name="collapsedHeight" format="dimension"/>
+    </declare-styleable>
 </resources>

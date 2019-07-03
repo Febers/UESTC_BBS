@@ -16,6 +16,9 @@ import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.postEvent
+import com.febers.uestc_bbs.utils.postSticky
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.EventBus
@@ -71,6 +74,7 @@ class HomeActivity: BaseActivity() {
             ClickContext.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
         fab_home.visibility = View.GONE
         startService()
+        getShortcutMsg()
     }
 
     @SuppressLint("RestrictedApi")
@@ -101,14 +105,14 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun onTabReselected(position: Int) {
-        EventBus.getDefault().post(TabReselectedEvent(BaseCode.SUCCESS, position))
+        postEvent(TabReselectedEvent(BaseCode.SUCCESS, position))
     }
 
     /**
      *  当后台Service接收到新消息时，此方法会接受到相应的消息
      *  接收到一个msgCount的参数，代表未读消息的数目
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceiveNewMsg(event: MsgEvent) {
         if (bottom_navigation_home.currentItem != PAGE_POSITION_MESSAGE) {
             MyApp.msgCount = event.count
@@ -119,14 +123,15 @@ class HomeActivity: BaseActivity() {
     /**
      * Activity通过Intent的FLAG_ACTIVITY_SINGLE_TOP启动时，即通过通知打开应用时
      * 生命周期为 onNewIntent -> onResume()
-     * 在其中接收Service传过来的数据
+     * 在其中接收 Service 或者 shortcut 传过来的数据
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
-        if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
-        bottom_navigation_home.currentItem = PAGE_POSITION_MESSAGE
-        showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
+        if (intent?.getIntExtra(MSG_COUNT, 0) ?:0 > 0) {
+            bottom_navigation_home.currentItem = PAGE_POSITION_MESSAGE
+            showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
+        }
+        getShortcutMsg()
     }
 
     @SuppressLint("RestrictedApi")
@@ -150,10 +155,20 @@ class HomeActivity: BaseActivity() {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onCheckUpdateResult(event: UpdateCheckEvent) {
         if (event.code == BaseCode.SUCCESS) {
             showUpdateDialog(event.result!!)
+        }
+    }
+
+    private fun getShortcutMsg() {
+        if (intent?.getBooleanExtra(SHORTCUT_HOT, false) == true) {
+            postSticky(TabSelectedEvent(position = 2))
+        }
+        if (intent?.getBooleanExtra(SHORTCUT_MSG, false) == true) {
+            bottom_navigation_home.currentItem = PAGE_POSITION_MESSAGE
+            showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
         }
     }
 

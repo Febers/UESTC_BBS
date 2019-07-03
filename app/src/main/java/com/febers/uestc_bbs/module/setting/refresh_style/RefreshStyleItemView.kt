@@ -38,7 +38,7 @@ class RefreshStyleItemView: Fragment() {
         val helper = RefreshViewHelper(context!!)
         refresh_layout_style.apply {
             setRefreshHeader(helper.getHeader(position))
-            setPrimaryColors(ThemeHelper.getColorPrimary(), ThemeHelper.getRefreshTextColor())
+            setPrimaryColors(ThemeHelper.getColorPrimaryBySp(), ThemeHelper.getRefreshTextColor())
             setEnableLoadMore(false)
         }
         isInit = true

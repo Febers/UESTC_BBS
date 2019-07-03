@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.LifecycleRegistry
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -14,6 +13,7 @@ import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -26,6 +26,7 @@ import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.PictureFileUtils
+import kotlinx.android.synthetic.main.activity_post_reply.btn_edit_text_fullscreen
 import java.io.File
 import java.lang.StringBuilder
 import java.util.ArrayList
@@ -53,6 +54,8 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
     private var description: String? = ""
 
     private lateinit var keyboardManager: KeyBoardManager
+
+    private var fullscreenEditView: EditViewFullscreen? = null
 
     override fun setView(): Int {
         intent?.let {
@@ -99,6 +102,12 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
             }
         }
         initEmotionView()
+        btn_edit_text_fullscreen.setOnClickListener {
+            if (fullscreenEditView == null) {
+                fullscreenEditView = EditViewFullscreen(edit_view_post_reply_activity)
+            }
+            fullscreenEditView!!.show(supportFragmentManager, "fullscreen_edit")
+        }
     }
 
     private fun initEmotionView() {
@@ -108,12 +117,6 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
                 .bindToEmotionButton(btn_emotion_post_reply)
                 .setEmotionView(emotion_view_reply as EmotionView)
                 .bindToLockContent(content_layout_post_reply)
-//                .setOnInputListener {
-//
-//                }
-//                .setOnEmotionButtonOnClickListener {
-//                    false
-//                }
     }
 
     private fun beforeSendReply() {
@@ -144,6 +147,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
      */
     private fun sendReply(stContent: String) {
         progress_bar_reply_activity.visibility = View.VISIBLE
+        progress_bar_reply_activity.setBackgroundColor(ThemeHelper.getColorPrimaryBySp())
 
         val aidBuffer = StringBuilder()
         val contentList: MutableList<Pair<Int, String>> = ArrayList()

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.annotation.UiThread
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -34,8 +35,10 @@ import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import kotlinx.android.synthetic.main.activity_home_2.*
+import kotlinx.android.synthetic.main.activity_home_2.fab_home
 import kotlinx.android.synthetic.main.layout_drawer_home_2.*
 import kotlinx.android.synthetic.main.layout_header_drawer.*
 import me.yokeyword.fragmentation.ISupportFragment
@@ -86,6 +89,7 @@ class HomeActivity2: BaseActivity() {
             ClickContext.clickToPostEdit(mContext, fid = 0, title = "") }
         initDrawer()
         startService()
+        getShortcutMsg()
     }
 
     private fun initToolbar() {
@@ -98,7 +102,7 @@ class HomeActivity2: BaseActivity() {
     }
 
     private fun initDrawer() {
-        initDrawerHeader()
+        initDrawerHeader(MyApp.user())
         drawer_header_home.setOnClickListener {
             drawer_layout_home_2.closeDrawers()
             actionAfterDrawerClose = Runnable {
@@ -141,13 +145,13 @@ class HomeActivity2: BaseActivity() {
         })
     }
 
-    private fun initDrawerHeader() {
-        if (MyApp.user().valid) {
-            tv_user_name_drawer_header.text = MyApp.user().name
-            tv_user_level_drawer_header.text = MyApp.user().title
+    private fun initDrawerHeader(user: UserSimpleBean) {
+        if (user.valid) {
+            tv_user_name_drawer_header.text = user.name
+            tv_user_level_drawer_header.text = user.title
             tv_user_name_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
             tv_user_level_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
-            ImageLoader.load(mContext, MyApp.user().avatar, iv_user_avatar_drawer_header, clickToViewer = false)
+            ImageLoader.load(mContext, user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
         } else {
             tv_user_name_drawer_header.text = getString(R.string.please_login_or_sign_up)
             tv_user_level_drawer_header.text = " "
@@ -243,7 +247,6 @@ class HomeActivity2: BaseActivity() {
     }
 
     override fun onBackPressedSupport() {
-        log("stack ${supportFragmentManager.backStackEntryCount}")
         if (pagePositionNow != PAGE_POSITION_HOME) {
             showHideFragment(mFragments[PAGE_POSITION_HOME])
             toolbar_home_2.title = getString(R.string.home_page)
@@ -258,17 +261,24 @@ class HomeActivity2: BaseActivity() {
      *  当后台Service接收到新消息时，此方法会接受到相应的消息
      *  接收到一个msgCount的参数，代表未读消息的数目
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceiveNewMsg(event: MsgEvent) {
-//        log("get new msg ")
         if (pagePositionNow != PAGE_POSITION_MESSAGE) {
             msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_msg_notice_white_24dp)
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
-        initDrawerHeader()
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onUserUpdate(event: UserUpdateEvent) {
+        if (event.user.valid) {
+            tv_user_name_drawer_header.text = event.user.name
+            tv_user_level_drawer_header.text = event.user.title
+            ImageLoader.load(mContext, event.user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
+        } else {
+            tv_user_name_drawer_header.text = getString(R.string.please_login_or_sign_up)
+            tv_user_level_drawer_header.text = " "
+            ImageLoader.loadResource(mContext, R.drawable.ic_default_avatar_circle, iv_user_avatar_drawer_header, isCircle = true)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -286,8 +296,10 @@ class HomeActivity2: BaseActivity() {
      */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (intent?.getIntExtra(MSG_COUNT, 0) == 0) return
-        showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
+        if (intent?.getIntExtra(MSG_COUNT, 0) ?: 0 > 0) {
+            showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
+        }
+        getShortcutMsg()
     }
 
     private fun showNavigationDialog() {
@@ -359,5 +371,14 @@ class HomeActivity2: BaseActivity() {
     private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
         val dialogHelper = UpdateDialogHelper(mContext)
         dialogHelper.showGithubUpdateDialog(githubReleaseBean)
+    }
+
+    private fun getShortcutMsg() {
+        if (intent?.getBooleanExtra(SHORTCUT_HOT, false) == true) {
+            postSticky(TabSelectedEvent(position = 2))
+        }
+        if (intent?.getBooleanExtra(SHORTCUT_MSG, false) == true) {
+            showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
+        }
     }
 }

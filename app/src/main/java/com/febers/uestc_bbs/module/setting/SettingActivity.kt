@@ -14,9 +14,7 @@ import com.febers.uestc_bbs.io.CacheHelper
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.HintUtils
-import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.RestartUtils
+import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.activity_setting.*
@@ -60,6 +58,9 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun init() {
+        text_view_setting_1.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        text_view_setting_2.setTextColor(ThemeHelper.getColorPrimaryBySp())
+
         layoutDescription = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) getString(R.string.home_layout_bottom)
         else getString(R.string.home_layout_drawer)
 
@@ -139,7 +140,9 @@ class SettingActivity : BaseActivity() {
         users.clear()
         users.addAll(0, UserHelper.getAllUser())
         simpleUserAdapter.notifyDataSetChanged()
-        Thread{ EventBus.getDefault().post(BaseEvent(BaseCode.LOCAL, user)) }.start()
+        Thread {
+            postSticky(UserUpdateEvent(BaseCode.LOCAL, user))
+        }.start()
     }
 
     private fun deleteUser(user: UserSimpleBean, position: Int) {
@@ -147,10 +150,10 @@ class SettingActivity : BaseActivity() {
         users.removeAt(position)
         simpleUserAdapter.notifyDataSetChanged()
 
-        if(!UserHelper.getAllUser().isEmpty()) {
-            EventBus.getDefault().post(BaseEvent(BaseCode.LOCAL, UserHelper.getAllUser().last()))
+        if(UserHelper.getAllUser().isNotEmpty()) {
+            postSticky(UserUpdateEvent(BaseCode.LOCAL, UserHelper.getAllUser().last()))
         } else {
-            EventBus.getDefault().post(BaseEvent(BaseCode.FAILURE, UserSimpleBean()))
+            postSticky(UserUpdateEvent(BaseCode.FAILURE, UserSimpleBean()))
         }
     }
 
@@ -196,10 +199,10 @@ class SettingActivity : BaseActivity() {
         补充：我又一次在这上面浪费了一个星期，可以看到前面的changeUser 方法上的注释就是愚蠢的思考
         珍惜你的时间
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onLoginSuccess(event: UserUpdateEvent) {
         if (event.code == BaseCode.SUCCESS) {
-            users.add(event.data)
+            users.add(event.user)
             simpleUserAdapter.notifyDataSetChanged()
         }
     }

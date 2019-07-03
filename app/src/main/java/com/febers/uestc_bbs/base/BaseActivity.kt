@@ -64,19 +64,19 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     }
 
     override fun onStart() {
-        super.onStart()
         if (registerEventBus()) {
             if (!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
             }
         }
+        super.onStart()
     }
 
     override fun onStop() {
-        super.onStop()
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
+        super.onStop()
     }
 
     protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =

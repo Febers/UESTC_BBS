@@ -32,10 +32,12 @@ object HintUtils {
             return
         }
         val hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
-        if (hintWay == HINT_BY_TOAST) {
-            showByToast(msg)
-        } else if (hintWay == HINT_BY_SNACK_BAR) {
-            showBySnackBar(activity.contentView, msg)
+        activity.runOnUiThread {
+            if (hintWay == HINT_BY_TOAST) {
+                showByToast(msg)
+            } else if (hintWay == HINT_BY_SNACK_BAR) {
+                showBySnackBar(activity.contentView, msg)
+            }
         }
     }
 

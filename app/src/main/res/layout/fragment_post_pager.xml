@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,10 +14,7 @@
             android:id="@+id/tab_layout_post"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="?attr/app_color_primary"
-            app:tabSelectedTextColor="@color/color_white"
-            app:tabTextColor="@color/color_gray_light"
-            app:tabIndicatorColor="@color/color_white"/>
+            android:elevation="6dp"/>
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager_post"
             android:layout_width="match_parent"

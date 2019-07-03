@@ -23,16 +23,6 @@ class MsgPagerFragment: BaseFragment() {
         view_pager_message.adapter = messageViewPageAdapter
         view_pager_message.offscreenPageLimit = 4
         tab_layout_message.setupWithViewPager(view_pager_message)
-
-        //废除该工具类的做法，非常不理想
-//        val b = BadgeHelper(mContext)
-//                .setBadgeType(BadgeHelper.Type.TYPE_TEXT)
-//                .setBadgeCenterVertical()
-//                .setBadgeMargins(10,0,0,0)
-//                .setBadgeOverlap(false)
-//
-//        b.bindToTargetView(tab_layout_message, 1)
-//        b.setBadgeNumber(1)
         view_pager_message.setCurrentItem(msgPosition, true)
     }
 
@@ -51,8 +41,6 @@ class MsgPagerFragment: BaseFragment() {
      */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceiveNewMsg(event: MsgEvent) {
-        log("get Sticky and type ${event.type}")
-
         msgPosition = when(event.type) {
             MSG_TYPE_REPLY -> 0
             MSG_TYPE_PRIVATE -> 1
@@ -60,6 +48,6 @@ class MsgPagerFragment: BaseFragment() {
             MSG_TYPE_SYSTEM -> 3
             else -> 0
         }
-
+        view_pager_message.setCurrentItem(msgPosition, true)
     }
 }

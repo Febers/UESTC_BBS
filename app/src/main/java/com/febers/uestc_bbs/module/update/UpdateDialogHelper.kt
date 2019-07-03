@@ -5,7 +5,7 @@ import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.module.service.NotificationHelper
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.view.custom.UpdateDialog
+import com.febers.uestc_bbs.view.dialog.UpdateDialog
 import org.jetbrains.anko.browse
 
 class UpdateDialogHelper(private val context: Context) {
@@ -14,7 +14,8 @@ class UpdateDialogHelper(private val context: Context) {
         val dialog = UpdateDialog(context,
                 title = "新版本：${githubReleaseBean.tag_name}",
                 time = "发布时间：${githubReleaseBean.published_at}",
-                size = "大小：${FileHelper.getFormatSize(0.0+(githubReleaseBean.assets?.get(0)?.size ?: 0))}",
+                size = "大小：${FileHelper.getFormatSize(0.0 + (githubReleaseBean.assets?.get(0)?.size
+                        ?: 0))}",
                 body = """
 更新说明：
 

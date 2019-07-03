@@ -22,6 +22,7 @@ import com.febers.uestc_bbs.module.post.contract.PEditContract
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PEditPresenterImpl
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
+import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -33,7 +34,6 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.fragment_post_edit.*
-import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.runOnUiThread
 import java.io.File
@@ -63,6 +63,8 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 
     private var progressDialog: ProgressDialog? = null
     private lateinit var keyboardManager: KeyBoardManager
+
+    private var fullscreenEditView: EditViewFullscreen? = null
 
     override fun setView(): Int = R.layout.fragment_post_edit
 
@@ -147,6 +149,12 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 //            isOnlyAuthor = if (isChecked) ONLY_AUTHOR_VIEW_REPLY else NO_ONLY_AUTHOR_VIEW_REPLY
 //        }
         check_box_is_only_author.visibility = View.GONE
+        btn_edit_text_fullscreen.setOnClickListener {
+            if (fullscreenEditView == null) {
+                fullscreenEditView = EditViewFullscreen(edit_view_post_edit_content)
+            }
+            fullscreenEditView!!.show(fragmentManager, "fullscreen_edit")
+        }
     }
 
     private fun initToolbar() {
@@ -300,7 +308,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
     override fun showNewPostResult(event: PostSendResultBean) {
         context?.runOnUiThread {
             progressDialog?.dismiss()
-            EventBus.getDefault().post(BaseEvent(BaseCode.SUCCESS, PostNewEvent("")))
+            postEvent(PostNewEvent(BaseCode.SUCCESS))
             activity?.finish()
             PictureFileUtils.deleteCacheDirFile(context!!)
         }

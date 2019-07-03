@@ -56,12 +56,12 @@ abstract class BaseFragment : SupportFragment(), BaseView {
     }
 
     override fun onStart() {
-        super.onStart()
         if (registerEventBus()) {
             if(!EventBus.getDefault().isRegistered(this)) {
                 EventBus.getDefault().register(this)
             }
         }
+        super.onStart()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

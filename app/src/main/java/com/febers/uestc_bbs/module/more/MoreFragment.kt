@@ -117,14 +117,12 @@ class MoreFragment: BaseFragment() {
         ImageLoader.loadResource(context, R.drawable.ic_default_avatar_circle, image_view_fragment_user_avatar, isCircle = true)
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onLoginSuccess(event: BaseEvent<UserSimpleBean>) {
-        //以下无奈的写法是因为，EventBus 会报类型转换错误，当非 UserSimpleBean 类型的 event 被发送时仍然会接受该事件
-        val simpleBean = event.data as? UserSimpleBean
-        simpleBean ?: return
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onUserUpdate(event: UserUpdateEvent) {
+        val simpleBean = event.user
         if (event.code != BaseCode.FAILURE) {
-            text_view_fragment_user_name.text = simpleBean.name + ""
-            text_view_fragment_user_title.text = simpleBean.title + ""
+            text_view_fragment_user_name.text = simpleBean.name
+            text_view_fragment_user_title.text = simpleBean.title
             ImageLoader.load(context!!, simpleBean.avatar, image_view_fragment_user_avatar, clickToViewer = false)
             userSimple = simpleBean
         } else {

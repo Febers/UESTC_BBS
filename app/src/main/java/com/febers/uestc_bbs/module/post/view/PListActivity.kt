@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import com.febers.uestc_bbs.view.helper.finishFail
@@ -110,7 +111,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
         postListAdapter?.apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
-                clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title)
+                clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title, simplePostBean.user_nick_name)
             }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
                 viewHolder, simplePListBean, i -> ClickContext.clickToUserDetail(context, simplePListBean.user_id)
@@ -208,7 +209,7 @@ class PListActivity: BaseActivity(), PListContract.View {
      * 刷新界面
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onPostNew(event: BaseEvent<PostNewEvent>) {
+    fun onPostNew(event: PostNewEvent) {
         if (event.code == BaseCode.SUCCESS) {
             refresh_layout_post_list.scrollTo(0, 0)
             refresh_layout_post_list.autoRefresh()
@@ -258,8 +259,19 @@ class PListActivity: BaseActivity(), PListContract.View {
     private fun showEmptyView() {
         btn_to_web?.visibility = View.VISIBLE
         btn_to_web?.setOnClickListener {
-            browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
+//            browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
+            getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
         }
+    }
+
+    private var postWebViewBottomSheet: PostWebViewBottomSheet? = null
+
+    private fun getPostWebViewBottomSheet(): PostWebViewBottomSheet {
+        if (postWebViewBottomSheet == null) {
+            postWebViewBottomSheet = PostWebViewBottomSheet(mContext, R.style.PinkBottomSheetTheme,
+                    "http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
+        }
+        return postWebViewBottomSheet!!
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

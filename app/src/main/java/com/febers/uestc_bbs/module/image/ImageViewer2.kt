@@ -1,24 +1,26 @@
 package com.febers.uestc_bbs.module.image
 
-import android.app.ProgressDialog
-import android.net.Uri
-import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.febers.uestc_bbs.base.IMAGE_URL
-import kotlinx.android.synthetic.main.image_viewer.*
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Bundle
+import android.view.*
+import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
-import com.febers.uestc_bbs.base.BaseActivity
-import com.febers.uestc_bbs.io.FileHelper
-import org.jetbrains.anko.indeterminateProgressDialog
-import java.nio.ByteBuffer
-import android.graphics.*
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.IMAGE_URL
+import com.febers.uestc_bbs.io.FileHelper
+import com.febers.uestc_bbs.utils.HintUtils
+import org.jetbrains.anko.runOnUiThread
+import java.nio.ByteBuffer
 
+class ImageViewer2: DialogFragment() {
 
-class ImageViewer : BaseActivity() {
-
-    private var progressDialog: ProgressDialog? = null
     private var gifDrawable: GifDrawable? = null
     private var gifBytes: ByteArray? = null
     private var imageBitmap: Bitmap? = null
@@ -26,51 +28,59 @@ class ImageViewer : BaseActivity() {
     private var imageUri: Uri? = null
     private var gifUri: Uri? = null
 
-    //禁用主题设置，因为需要全屏查看图片
-    override fun enableThemeHelper(): Boolean = false
+    private lateinit var imageView: ImageView
+    private lateinit var btnShare: ImageButton
+    private lateinit var btnSave: ImageButton
 
-    override fun setView(): Int {
-        imageUrl = intent.getStringExtra(IMAGE_URL)
-        return R.layout.image_viewer
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.FullScreenDialogStyle)
+
+        imageUrl = arguments?.getString(IMAGE_URL)
     }
 
-    /**
-     * 加载URL对应的图片，支持两种格式
-     * 由于ImageView不支持gif格式，因此采用Glide辅助加载的方式
-     * 首先假设图片是一张gif，将其byte取出，保留下来
-     * 如果没有拦截到异常，说明确实是一张gif图
-     * 如果拦截到异常，说明不是一张gif图片，此时采用正常加载
-     */
-    override fun initView() {
-        imageUrl ?: return
-//        i("Image imageUrl:", imageUrl)
-        progressDialog = this.indeterminateProgressDialog("请稍候") {
-            setCanceledOnTouchOutside(false)
-            show()
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        super.onActivityCreated(savedInstanceState)
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(0x00000000))
+        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        val view = inflater.inflate(R.layout.image_viewer, container, false)
+
+        imageView = view.findViewById(R.id.image_view_image_viewer)
+        btnSave = view.findViewById(R.id.btn_image_viewer_save)
+        btnShare = view.findViewById(R.id.btn_image_viewer_share)
+
+        return view
+    }
+
+    override fun onStart() {
+        super.onStart()
         Thread {
             if (!tryLoadImageAsGif()) {
                 if (!tryLoadImage()) {
-                    runOnUiThread {
-                        image_view_image_viewer?.apply {
+                    context!!.runOnUiThread {
+                        imageView.apply {
                             ImageLoader.loadResource(context, R.drawable.image_error_400200, this)
                             setOnClickListener {
-                                finish()
-                                overridePendingTransition(0, 0)
+                                dismiss()
                             }
                         }
-                        progressDialog?.dismiss()
                     }
                 }
             }
         }.start()
-        btn_image_viewer_save?.setOnClickListener { saveImage() }
-        btn_image_viewer_share?.setOnClickListener { shareImage() }
+        btnSave.setOnClickListener { saveImage() }
+        btnShare.setOnClickListener { shareImage() }
     }
 
     private fun tryLoadImageAsGif(): Boolean {
         try {
-            gifDrawable = GlideApp.with(this)
+            gifDrawable = GlideApp.with(context!!)
                     .asGif()
                     .load(imageUrl)
                     .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
@@ -82,9 +92,8 @@ class ImageViewer : BaseActivity() {
             gifBuffer ?: return false
             gifBytes = FileHelper.getByteArrayFromByteBuffer(gifBuffer)
 
-            runOnUiThread {
-                GlideApp.with(this).asGif().load(imageUrl).into(image_view_image_viewer)
-                progressDialog?.dismiss()
+            context!!.runOnUiThread {
+                GlideApp.with(this).asGif().load(imageUrl).into(imageView)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -95,18 +104,16 @@ class ImageViewer : BaseActivity() {
 
     private fun tryLoadImage(): Boolean {
         try {
-            val futureTarget = GlideApp.with(this).asBitmap().load(imageUrl)
+            val futureTarget = GlideApp.with(context!!).asBitmap().load(imageUrl)
                     .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
             imageBitmap = futureTarget.get()
-            runOnUiThread {
-                image_view_image_viewer?.apply {
+            context!!.runOnUiThread {
+                imageView.apply {
                     setImageBitmap(imageBitmap)
-                    //reset()
                     setOnClickListener {
-                        finish()
+                        dismiss()
                     }
                 }
-                progressDialog?.dismiss()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -116,56 +123,52 @@ class ImageViewer : BaseActivity() {
     }
 
     private fun saveImage() {
-        progressDialog?.show()
-        Thread(Runnable {
+        Thread {
             if (imageBitmap != null) {
-                imageUri = ImageHelper.saveImage(this@ImageViewer, imageBitmap as Bitmap, forShare = false)
+                imageUri = ImageHelper.saveImage(context!!, imageBitmap as Bitmap, forShare = false)
                 if (imageUri != null) {
-                    showHint("图片已保存至 /storage/emulated/0/UESTC_BBS")
+                    HintUtils.show(activity, "图片已保存至 /storage/emulated/0/UESTC_BBS")
                 } else {
-                    showHint("保存图片失败")
+                    HintUtils.show(activity, "保存图片失败")
                 }
             } else if (gifBytes != null) {
-                gifUri = ImageHelper.saveGif(mContext, imageUrl, false)
+                gifUri = ImageHelper.saveGif(context!!, imageUrl, false)
                 if (gifUri != null) {
-                    showHint("GIF 已保存至 /storage/emulated/0/UESTC_BBS")
+                    HintUtils.show(activity, "GIF 已保存至 /storage/emulated/0/UESTC_BBS")
                 } else {
-                    showHint("保存gif失败")
+                    HintUtils.show(activity, "保存gif失败")
                 }
             } else {
-                showHint("保存失败")
+                HintUtils.show(activity, "保存失败")
             }
-            runOnUiThread { progressDialog?.dismiss() }
-        }).start()
+        }.start()
     }
 
     private fun shareImage() {
-        progressDialog?.show()
-        Thread(Runnable {
+        Thread {
             if (gifBytes != null) {
                 //第一次判断，是否已经保存过图片
                 if (gifUri == null) {
-                    gifUri = ImageHelper.saveGif(mContext, imageUrl, true)
+                    gifUri = ImageHelper.saveGif(context!!, imageUrl, true)
                 }
                 //再次判断，是否保存失败
                 if (gifUri == null) {
-                    showError("分享失败")
-                    return@Runnable
+                    HintUtils.show(activity, "分享失败")
+                    return@Thread
                 }
                 showShareView(gifUri as Uri)
             } else {
                 if (imageUri == null) {
-                    imageUri = ImageHelper.saveImage(this@ImageViewer, imageBitmap as Bitmap, forShare = true)
+                    imageUri = ImageHelper.saveImage(context!!, imageBitmap as Bitmap, forShare = true)
                 }
                 if (imageUri == null) {
-                    showError("分享失败")
-                    return@Runnable
+                    HintUtils.show(activity, "分享失败")
+                    return@Thread
                 }
                 showShareView(imageUri as Uri)
             }
-        }).start()
+        }.start()
     }
-
 
     /**
      * 显示系统分享页面
@@ -175,7 +178,6 @@ class ImageViewer : BaseActivity() {
      * @param uri gif或者img的URI
      */
     private fun showShareView(uri: Uri) {
-        runOnUiThread { progressDialog?.dismiss() }
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
@@ -185,8 +187,6 @@ class ImageViewer : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        progressDialog?.dismiss()
-        progressDialog = null
         gifDrawable = null; gifBytes = null; gifUri = null
         imageBitmap = null; imageUri = null; imageUrl = null
         ImageHelper.onImageViewDestroy()

@@ -109,20 +109,6 @@ class ThemeActivity : BaseActivity() {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun changeDrawableHint() {
         resources.getDrawable(R.drawable.xic_list_gray, null).setTint(ThemeHelper.getColorPrimaryBySp())
+        resources.getDrawable(R.drawable.xic_user_small, null).setTint(ThemeHelper.getColorPrimaryBySp())
     }
-
-//    private fun showCustomColorDialog() {
-//        if (colorCustomDialog == null) {
-//            colorCustomDialog = AlertDialog.Builder(mContext).create()
-//        }
-//        colorCustomDialog?.show()
-//        colorCustomDialog?.setContentView(getCustomColorDialogView())
-//    }
-//
-//    private fun getCustomColorDialogView(): View {
-//        val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_custom_color, null)
-//        colorPicker = view.findViewById(R.id.color_picker)
-//        colorSV = view.findViewById(R.id.color_picker_sv)
-//        return view
-//    }
 }

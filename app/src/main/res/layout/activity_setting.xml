@@ -9,8 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_setting"
             android:layout_width="match_parent"
@@ -37,8 +36,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="?colorPrimary"/>
+                android:textSize="@dimen/text_size_normal"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_users"
                 android:layout_width="match_parent"
@@ -64,8 +62,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="?colorPrimary"/>
+                android:textSize="@dimen/text_size_normal"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_setting_option"
                 android:layout_width="match_parent"

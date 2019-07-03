@@ -8,7 +8,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
 import android.view.View
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.module.image.ImageViewer
+import com.febers.uestc_bbs.module.image.ImageViewer2
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.edit.*
@@ -103,36 +103,29 @@ object ClickContext {
     }
 
     /**
-     * 打开ImageViewer，目前调用一个Activity进行展示，待改进
+     * 打开ImageViewer
      * @param url
      * @param context
-     * @param transitionView 进行页面共享的view
-     * @param transitionViewName 进行页面共享的view的name
      *
+     * 全屏 Dialog 文章： https://juejin.im/post/58de0a9a44d904006d04cead
      * 页面共享的文章见:https://blog.csdn.net/sinat_31057219/article/details/78095038
      * 目前没有进行相应的调用
      */
     fun clickToImageViewer(url: String?,
-                           context: Context?,
-                           transitionView: View? = null,
-                           transitionViewName: String? = null) {
+                           context: Context?) {
         url ?: return
         context ?: return
-        var bundle: Bundle? = null
-        if (transitionView != null && transitionViewName != null) {
-            if (context is Activity)
-                bundle = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
-            context.startActivity(Intent(context, ImageViewer::class.java).apply {
-                putExtra(IMAGE_URL, url)
-            }, bundle)
-            (context as Activity).overridePendingTransition(0, 0)
-        } else {
-            context.startActivity(Intent(context, ImageViewer::class.java).apply {
-                putExtra(IMAGE_URL, url)
-            })
-            (context as Activity).overridePendingTransition(0, 0)
+
+        val bundle = Bundle()
+        bundle.putString(IMAGE_URL, url)
+        val imageViewer = ImageViewer2()
+        imageViewer.arguments = bundle
+        try {
+            imageViewer.show((context as BaseActivity).supportFragmentManager, "image")
+        } catch (e: Exception) {
+            log(e.toString())
         }
+        return
     }
 
     /**
@@ -158,16 +151,20 @@ object ClickContext {
      *
      * @param context
      * @param fid 帖子id
+     * @param postTitle 帖子标题
+     * @param userName 楼主名称
      */
     fun clickToPostDetail(context: Context?,
                           fid: Int?,
-                          postTitle: String? = "") {
+                          postTitle: String? = "",
+                          userName: String? = "") {
         context ?: return
         if (fid == 0 || fid == null) return
         if (!LoginContext.userState(context)) return
         context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
             putExtra(FID, fid)
             putExtra(POST_TITLE, postTitle)
+            putExtra(USER_NAME, userName)
         })
     }
 

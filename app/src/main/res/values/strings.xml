@@ -6,7 +6,7 @@
     <string name="developer_email" translatable="false">febers418@qq.com</string>
     <string name="app_project_url" translatable="false">https://github.com/Febers/UESTC_BBS</string>
     <string name="version">版本</string>
-    <string name="version_value" translatable="false">v1.1.5.1</string>
+    <string name="version_value" translatable="false">v1.1.6</string>
     <string name="check_update">检查更新</string>
     <string name="feedback_and_other">反馈、建议及其他</string>
     <string name="source_code">源代码</string>

@@ -3,6 +3,7 @@ package com.febers.uestc_bbs.module.message.view
 import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
@@ -51,7 +52,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             MSG_TYPE_REPLY -> msgAdapter = MsgReplyAdapter(context!!, replyList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, listBean.topic_id) }
+                    clickToPostDetail(context, listBean.topic_id, "", MyApp.user().name) }
                 setOnItemChildClickListener(R.id.image_view_msg_reply_author_avatar) {
                     p0: ViewHolder?, p1: MsgReplyBean.ListBean?, p2: Int ->
                     clickToUserDetail(context, p1?.user_id)}
@@ -81,7 +82,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             MSG_TYPE_AT -> msgAdapter = MsgAtAdapter(context!!, atList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, listBean.topic_id)}
+                    clickToPostDetail(context, listBean.topic_id, "", MyApp.user().name)}
                 setOnItemChildClickListener(R.id.image_view_msg_at_author_avatar) {
                     viewHolder, listBean, i -> clickToUserDetail(activity, listBean.user_id)
                 }

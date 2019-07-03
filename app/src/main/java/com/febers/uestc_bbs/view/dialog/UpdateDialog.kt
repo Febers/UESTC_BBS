@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.custom
+package com.febers.uestc_bbs.view.dialog
 
 import android.content.Context
 import android.view.LayoutInflater

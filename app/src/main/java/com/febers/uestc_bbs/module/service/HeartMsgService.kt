@@ -10,6 +10,7 @@ import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.postSticky
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -86,7 +87,7 @@ class HeartMsgService : Service() {
                     putExtra(MSG_COUNT, count)
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 })
-        EventBus.getDefault().postSticky(MsgEvent(BaseCode.SUCCESS, count, msgType))
+        postSticky(MsgEvent(BaseCode.SUCCESS, count, msgType))
         notificationHelper = NotificationHelper()
         notificationHelper!!.show(context = this,
                 title = title,
@@ -99,8 +100,6 @@ class HeartMsgService : Service() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMsgFeedback(event: MsgFeedbackEvent) {
-//        i("service", "cancel: ${event.type}")
-//        log("service and type ${event.type}")
         when(event.type) {
             MSG_TYPE_REPLY -> {
                 rmCount = 0
@@ -150,8 +149,7 @@ class HeartMsgService : Service() {
                         override fun onResponse(call: Call<MsgHeartBean>, response: Response<MsgHeartBean>) {
                             val heartBean = response.body() ?: return
                             if (heartBean.rs != 1 || heartBean.body == null) return
-//                            log("私信数量:${heartBean.body?.pmInfos?.size!!}")
-//                            log("pmCount is $pmCount")
+
                             if (heartBean.body!!.replyInfo?.count!! > rmCount) {
                                 rmCount = heartBean.body!!.replyInfo?.count!!
                                 showMsgNotification(title = "您有${heartBean.body?.replyInfo?.count}条新回复",

@@ -5,13 +5,15 @@ import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
+import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.UserUpdateEvent
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.contract.LoginContract
 import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
 import com.febers.uestc_bbs.utils.KeyboardUtils
+import com.febers.uestc_bbs.utils.postSticky
 import kotlinx.android.synthetic.main.activity_login.*
-import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.browse
 
 class LoginActivity : BaseActivity(), LoginContract.View {
@@ -44,7 +46,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     override fun showLoginResult(event: BaseEvent<UserSimpleBean>) {
         showHint(getString(R.string.login_success))
         progress_bar_login.visibility = View.INVISIBLE
-        EventBus.getDefault().post(event)
+        postSticky(UserUpdateEvent(BaseCode.SUCCESS, event.data))
         KeyboardUtils.closeKeyboard(edit_text_user_pw, this)
         finish()
     }

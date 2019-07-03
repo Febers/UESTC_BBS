@@ -7,3 +7,7 @@ fun defaultBus(): EventBus = EventBus.getDefault()
 fun postEvent(event: Any?) {
     defaultBus().post(event)
 }
+
+fun postSticky(event: Any?) {
+    defaultBus().postSticky(event)
+}

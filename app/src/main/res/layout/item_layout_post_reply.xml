@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -31,8 +32,10 @@
             android:maxLines="1"
             android:text="作者"
             android:textSize="@dimen/text_size_normal"
+            android:gravity="center"
             app:layout_constraintStart_toEndOf="@+id/image_view_post_reply_author_avatar"
             app:layout_constraintTop_toTopOf="@+id/image_view_post_reply_author_avatar" />
+
         <TextView
             android:id="@+id/text_view_post_reply_user_title"
             android:layout_width="0dp"
@@ -51,13 +54,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:gravity="center"
             android:maxLines="1"
             android:text="回复时间"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_author"
             app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_author"
-            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_author"
+            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_author" />
+
+        <ImageView
+            android:id="@+id/iv_post_reply_topic_user"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/xic_user_small"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.934"
+            app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_date"
+            app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_date"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -67,10 +84,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="54dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
         android:background="?attr/background_second">
         <TextView
@@ -93,16 +109,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="4dp"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="52dp"
         android:layout_marginEnd="15dp">
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="24dp"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="54dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"

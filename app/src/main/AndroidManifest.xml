@@ -203,6 +203,7 @@
 
         <activity
             android:name=".home.HomeActivity"
+            android:theme="@style/AppThemeLight.Home"
             android:windowSoftInputMode="adjustPan">
         </activity>
 
@@ -232,8 +233,6 @@
         <!--<activity android:name=".http.AppWebViewer" />-->
         <activity android:name=".module.login.view.LoginActivity">
         </activity>
-        <activity android:name=".module.setting.UpdateActivity"
-            android:theme="@style/UpdateTheme"/>
         <activity android:name=".module.post.view.edit.PostReplyActivity"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".module.search.view.SearchActivity" />
@@ -241,9 +240,8 @@
         <activity android:name=".module.post.view.PListActivity" />
         <activity android:name=".module.setting.SettingActivity">
         </activity>
-        <activity android:name=".module.theme.ThemeChangeActivity"
-            android:theme="@style/myTransparent"/>
-        <activity android:name=".home.HomeActivity2" />
+        <activity android:name=".home.HomeActivity2"
+            android:theme="@style/AppThemeLight.Home"/>
         <activity android:name=".http.AppWebViewer" />
     </application>
 </manifest>

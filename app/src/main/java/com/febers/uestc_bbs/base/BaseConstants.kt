@@ -7,6 +7,11 @@ const val HOME_VIEW_STYLE_BOTTOM = 0
 const val HOME_VIEW_STYLE_DRAWER = 1
 const val RESTART_APP = "restart"
 
+const val SHORTCUT_INIT = "short_cut_init"
+const val SHORTCUT_HOT = "hot"
+const val SHORTCUT_MSG = "msg"
+const val SHORTCUT_SEARCH = "search"
+
 const val REQUEST_SUCCESS_RS = 1
 const val HAVE_NEXT_PAGE = 1
 const val POST_FAVORED = 1

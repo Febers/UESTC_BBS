@@ -14,7 +14,7 @@ import com.febers.uestc_bbs.utils.ColorUtils
 class CircleColorView : View {
 
     private lateinit var paint: Paint
-    private var color: Int = ColorUtils.toDarkColor(ThemeHelper.getColorAccent())
+    private var color: Int = ColorUtils.toDarkColor(ThemeHelper.getColorAccent())   //默认为该颜色
     private var radius: Int = 0
     private var drawRing: Boolean = false
 
@@ -31,7 +31,7 @@ class CircleColorView : View {
         //color = typeArray.getColor(R.styleable.CircleColorView_color, Color.BLUE)
     }
 
-    public fun setColor(color: Int) {
+    fun setColor(color: Int) {
         this.color = color
     }
 

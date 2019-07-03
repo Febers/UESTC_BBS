@@ -42,7 +42,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         pListPresenter = PListPresenterImpl(this)
         postListAdapter = PostListAdapter(context!!, postSimpleList).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
-                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title)
+                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title, simplePostBean.user_nick_name)
 //                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title,
 //                        transitionView = viewHolder.getView(R.id.text_view_item_post_title), transitionViewName = "post_title")
             }
@@ -130,7 +130,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
      * 刷新界面
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onPostNew(event: BaseEvent<PostNewEvent>) {
+    fun onPostNew(event: PostNewEvent) {
         if (isSupportVisible && event.code == BaseCode.SUCCESS) {
             scroll_view_plist_home?.scrollTo(0, 0)
             refresh_layout_post_list_home.autoRefresh()

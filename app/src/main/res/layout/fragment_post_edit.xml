@@ -15,16 +15,14 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
+            android:layout_height="wrap_content">
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_post_edit"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_scrollFlags="snap|scroll|enterAlways"
-                app:title="编辑">
+                app:layout_scrollFlags="snap|scroll|enterAlways">
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -83,25 +81,29 @@
         <com.febers.uestc_bbs.view.custom.CustomGridView
             android:id="@+id/grid_view_post_img"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:numColumns="3"
             android:layout_margin="16dp">
         </com.febers.uestc_bbs.view.custom.CustomGridView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
-            <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
-                android:id="@+id/edit_view_post_edit_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/post_content"
-                android:lineSpacingMultiplier="1.2"
-                android:textSize="@dimen/text_size_big"/>
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_edit_text_fullscreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:text="全屏编辑"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"/>
 
+        <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
+            android:id="@+id/edit_view_post_edit_content"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/post_content"
+            android:maxLines="3"
+            android:lineSpacingMultiplier="1.2"/>
 
         <CheckBox
             android:id="@+id/check_box_is_anonymous"

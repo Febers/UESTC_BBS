@@ -31,12 +31,6 @@ object ThemeHelper {
      * @param context
      */
     fun dayAndNightThemeChange(context: Context) {
-//        var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
-//        if (homeLayout == HOME_VIEW_STYLE_DRAWER) {
-//            context.startActivity(Intent(context, ThemeChangeActivity::class.java))
-//            (context as Activity).overridePendingTransition(0, 0)
-//        }
-
         if (isDarkTheme()) {
             val lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
             val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
@@ -46,11 +40,8 @@ object ThemeHelper {
                 colorPrimary(lastColorPrimary)
                 colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
                 colorAccent(lastColorPrimary)
-//                colorPrimary(R.attr.app_color_primary, lastColorPrimary)
-//                colorAccent(R.attr.app_color_accent, lastColorPrimary)
                 attribute(R.attr.app_color_primary, lastColorPrimary)
                 colorWindowBackground(res = R.color.color_white)
-                //colorWindowBackgroundRes(R.color.color_white)
                 colorStatusBarAuto()
             }
             setColorPrimaryToSp(lastColorPrimary)
@@ -60,16 +51,11 @@ object ThemeHelper {
             Aesthetic.config {
                 activityTheme(R.style.AppThemeDark)
                 isDark(true)
-                colorPrimary(res = R.color.color_black_tint)
-//                colorPrimary(R.attr.app_color_primary, R.color.color_gray_light)
+                colorPrimary(res = R.color.color_black)
                 colorAccent(res = R.color.color_gray_light)
-//                colorAccent(R.attr.app_color_accent, R.color.color_gray_light)
-                colorPrimaryDark(res = R.color.color_black_tint)
-                //colorPrimaryDark(R.attr.app_color_primaryDark, R.color.color_black_tint)
-                colorWindowBackground(res = R.color.color_black_tint)
-                //colorWindowBackgroundRes(R.color.color_black_tint)
-                attribute(R.attr.app_color_primary, res = R.color.color_black_tint)
-                //attributeRes(R.attr.app_color_primary, R.color.color_black_tint)
+                colorPrimaryDark(res = R.color.color_black)
+                colorWindowBackground(res = R.color.color_black)
+                attribute(R.attr.app_color_primary, res = R.color.color_black)
                 colorStatusBarAuto()
             }
             setColorPrimaryToSp(Color.parseColor("#707070"))    //存储一个灰色值
@@ -84,9 +70,8 @@ object ThemeHelper {
         val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
         Aesthetic.config {
             colorPrimary(colorPrimary)
-            colorAccent(colorAccent)
+            colorAccent(colorPrimary)
             colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(colorPrimary) else colorPrimary)
-            lightStatusBarMode()
             attribute(R.attr.app_color_primary, colorPrimary, null, true)
             attribute(R.attr.app_color_accent, colorAccent, null, true)
             colorStatusBarAuto()
@@ -104,7 +89,7 @@ object ThemeHelper {
      */
     fun getColorPrimaryBySp(): Int {
         val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
-        if (colorPrimary == Color.parseColor("#FFFFFF")) return Color.GRAY
+        if (colorPrimary == Color.WHITE) return Color.GRAY
         return colorPrimary
     }
 
@@ -129,7 +114,11 @@ object ThemeHelper {
     private fun onThemeChange(colorPrimary: Int, colorAccent: Int) {
         themeChangeSubscribers.forEach {
             if (it is SmartRefreshLayout) {
-                it.setPrimaryColors(colorPrimary, getRefreshTextColor())
+                if (isWhiteTheme()) {
+                    it.setPrimaryColors(Color.GRAY, Color.WHITE)
+                } else {
+                    it.setPrimaryColors(colorPrimary, getRefreshTextColor())
+                }
             }
             if (it is AHBottomNavigation) {
                 it.accentColor = getBottomNavigationColorAccent()
@@ -139,17 +128,25 @@ object ThemeHelper {
 
     fun isDarkTheme(): Boolean = Aesthetic.get().isDark.blockingFirst()
 
+    fun isWhiteTheme(): Boolean {
+        val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
+        return colorPrimary == Color.WHITE
+    }
+
     fun getTextColorPrimary(): Int = Aesthetic.get().textColorPrimary().blockingFirst()
 
-    fun getRefreshTextColor(): Int = if (ColorUtils.isLightColor(getColorPrimary()))
-        Color.GRAY
-    else Color.WHITE
+    fun getRefreshTextColor(): Int = when {
+        ColorUtils.isLightColor(getColorPrimary()) -> Color.GRAY
+        else -> Color.WHITE
+    }
 
-    //fun getPMLeftTextColor(): Int = if (isDarkTheme()) Color.GRAY else Color.WHITE
+    fun getTabIndicatorSelectedColor(): Int {
+        val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
+        return if (ColorUtils.isLightColor(colorPrimary))  Color.GRAY else Color.WHITE
+    }
 
     fun getBottomNavigationColorAccent(): Int = if (ColorUtils.isLightColor(getColorPrimary()))
         Color.BLACK
     else getColorAccent()
 
-    fun getBackgroundSecond(): Int = if (isDarkTheme()) Color.parseColor("#9e9e9e") else Color.parseColor("#f5f5f5")
 }
