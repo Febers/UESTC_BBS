@@ -4,15 +4,15 @@ class SearchPostBean {
 
     var rs: Int = 0
     var errcode: String? = null
-    var head: HeadBean? = null
-    var body: BodyBean? = null
+    var head: SearchPostBeanHead? = null
+    var body: SearchPostBeanBody? = null
     var page: Int = 0
     var has_next: Int = 0
     var total_num: Int = 0
     var searchid: Int = 0
-    var list: List<ListBean>? = null
+    var list: List<SearchPostBeanList>? = null
 
-    class HeadBean {
+    class SearchPostBeanHead {
         /**
          * errCode : 00000000
          * errInfo : 调用成功,没有任何错误
@@ -26,7 +26,7 @@ class SearchPostBean {
         var alert: Int = 0
     }
 
-    class BodyBean {
+    class SearchPostBeanBody {
         /**
          * externInfo : {"padding":""}
          */
@@ -42,7 +42,7 @@ class SearchPostBean {
         }
     }
 
-    class ListBean {
+    class SearchPostBeanList {
         /**
          * board_id : 61
          * topic_id : 1734637

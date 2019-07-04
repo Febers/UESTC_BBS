@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
@@ -16,6 +17,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URL
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.HintUtils
+import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.runOnUiThread
 import java.nio.ByteBuffer
 
@@ -58,22 +60,27 @@ class ImageViewer2: DialogFragment() {
         return view
     }
 
+    //加载超大图时会崩溃
     override fun onStart() {
         super.onStart()
-        Thread {
-            if (!tryLoadImageAsGif()) {
-                if (!tryLoadImage()) {
-                    context!!.runOnUiThread {
-                        imageView.apply {
-                            ImageLoader.loadResource(context, R.drawable.image_error_400200, this)
-                            setOnClickListener {
-                                dismiss()
+        try {
+            Thread {
+                if (!tryLoadImageAsGif()) {
+                    if (!tryLoadImage()) {
+                        context!!.runOnUiThread {
+                            imageView.apply {
+                                ImageLoader.loadResource(context, R.drawable.image_error_400200, this)
+                                setOnClickListener {
+                                    dismiss()
+                                }
                             }
                         }
                     }
                 }
-            }
-        }.start()
+            }.start()
+        } catch (e: Exception) {
+            log(e.toString())
+        }
         btnSave.setOnClickListener { saveImage() }
         btnShare.setOnClickListener { shareImage() }
     }

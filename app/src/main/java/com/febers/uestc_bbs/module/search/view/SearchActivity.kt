@@ -26,7 +26,7 @@ import org.jetbrains.anko.indeterminateProgressDialog
 
 class SearchActivity: BaseActivity(), SearchContract.View {
 
-    private val searchPostList: MutableList<SearchPostBean.ListBean> = ArrayList()
+    private val searchPostList: MutableList<SearchPostBean.SearchPostBeanList> = ArrayList()
     private lateinit var searchPresenter: SearchContract.Presenter
     private var progressDialog: ProgressDialog? = null
     private lateinit var searchAdapter: SearchAdapter
@@ -43,6 +43,13 @@ class SearchActivity: BaseActivity(), SearchContract.View {
 
     override fun initView() {
         toolbar_search.title = getString(R.string.search)
+
+//        var pagerFragment: ISupportFragment? = findFragment(SearchPagerFragment::class.java)
+//        if (pagerFragment == null) {
+//            pagerFragment = SearchPagerFragment()
+//        }
+//        loadRootFragment(R.id.container_search_activity, pagerFragment)
+
         searchPresenter = SearchPresenterImpl(this)
 
         searchHistories.addAll(SearchStore.get(mContext))
@@ -78,12 +85,12 @@ class SearchActivity: BaseActivity(), SearchContract.View {
 
     private fun search(keyword: String, page: Int) {
         refresh_layout_search.setNoMoreData(false)
-        searchPresenter.searchRequest(keyword, page)
+        searchPresenter.searchPostRequest(keyword, page)
         SearchStore.save(mContext, keyword, searchHistories)
     }
 
     @UiThread
-    override fun showSearchResult(event: BaseEvent<SearchPostBean>) {
+    override fun showPostSearchResult(event: BaseEvent<SearchPostBean>) {
         progressDialog?.dismiss()
         layout_search_history.visibility = View.GONE
         btn_search_history_clear.visibility = View.GONE
@@ -142,7 +149,7 @@ class SearchActivity: BaseActivity(), SearchContract.View {
     }
 
 
-    private fun onItemClick(item: SearchPostBean.ListBean) {
+    private fun onItemClick(item: SearchPostBean.SearchPostBeanList) {
         KeyboardUtils.closeKeyboard(searchView, mContext)
         searchView.clearFocus()
         val tid = item.topic_id

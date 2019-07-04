@@ -2,17 +2,27 @@ package com.febers.uestc_bbs.module.search.presenter
 
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.entity.SearchPostBean
+import com.febers.uestc_bbs.entity.SearchUserBean
 import com.febers.uestc_bbs.module.search.contract.SearchContract
 import com.febers.uestc_bbs.module.search.model.SearchModelImpl
 
 class SearchPresenterImpl(val view: SearchContract.View): SearchContract.Presenter(view) {
 
-    override fun searchRequest(keyword: String, page: Int) {
+    override fun searchPostRequest(keyword: String, page: Int) {
         val searchModel: SearchContract.Model = SearchModelImpl(this)
-        searchModel.searchService(keyword, page)
+        searchModel.searchPostService(keyword, page)
     }
 
-    override fun searchResult(event: BaseEvent<SearchPostBean>) {
-        view.showSearchResult(event)
+    override fun searchPostResult(event: BaseEvent<SearchPostBean>) {
+        view.showPostSearchResult(event)
+    }
+
+    override fun searchUserRequest(keyword: String, page: Int) {
+        val searchModel: SearchContract.Model = SearchModelImpl(this)
+        searchModel.searchUserService(keyword, page)
+    }
+
+    override fun searchUserResult(event: BaseEvent<SearchUserBean>) {
+        view.showUserSearchResult(event)
     }
 }

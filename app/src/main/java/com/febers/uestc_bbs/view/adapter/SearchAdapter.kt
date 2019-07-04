@@ -7,14 +7,14 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class SearchAdapter(val context: Context, data: List<SearchPostBean.ListBean>, isLoadMore: Boolean):
-        CommonBaseAdapter<SearchPostBean.ListBean>(context, data, isLoadMore) {
+class SearchAdapter(val context: Context, data: List<SearchPostBean.SearchPostBeanList>, isLoadMore: Boolean):
+        CommonBaseAdapter<SearchPostBean.SearchPostBeanList>(context, data, isLoadMore) {
 
     override fun getItemLayoutId(): Int {
         return R.layout.item_layout_post_search
     }
 
-    override fun convert(p0: ViewHolder?, p1: SearchPostBean.ListBean?, p2: Int) {
+    override fun convert(p0: ViewHolder?, p1: SearchPostBean.SearchPostBeanList?, p2: Int) {
         p0?.setText(R.id.text_view_item_search_post_title, p1?.title)
         p0?.setText(R.id.text_view_item_search_post_content, p1?.subject)
         p0?.setText(R.id.text_view_item_search_post_user, p1?.user_nick_name)

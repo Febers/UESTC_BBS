@@ -64,13 +64,6 @@ const val USER_SIGN = "sign"
 const val USER_GENDER = "gender"
 const val USER_AVATAR = "avatar"
 
-const val ONLY_AUTHOR_REPLY = 0
-const val NO_ONLY_AUTHOR_REPLY = 1
-const val ITEM_ORDER_POSITIVE = 1
-const val ITEM_WEB_POST = 2
-const val ITEM_COPY_URL = 3
-const val ITEM_SHARE_POST = 4
-
 const val POST_POSITIVE_ORDER = 0
 const val POST_NEGATIVE_ORDER = 1
 

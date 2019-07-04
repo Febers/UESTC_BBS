@@ -9,18 +9,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorPrimary">
+        android:background="?attr/background_first">
         <Button
             android:id="@+id/btn_close_web_bottom_sheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:text="关闭"/>
         <Button
             android:id="@+id/btn_open_in_browser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:text="浏览器打开"/>
     </RelativeLayout>
 
@@ -36,8 +38,7 @@
         <WebView
             android:id="@+id/web_view_post_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layerType="software">
+            android:layout_height="match_parent">
         </WebView>
     </com.febers.uestc_bbs.view.custom.InterceptTouchLayout>
 

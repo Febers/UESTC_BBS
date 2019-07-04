@@ -19,6 +19,12 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!--<FrameLayout-->
+        <!--android:id="@+id/container_search_activity"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+    <!--</FrameLayout>-->
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout_search"
         android:layout_width="match_parent"

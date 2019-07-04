@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentManager
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.log
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

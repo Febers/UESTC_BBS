@@ -21,22 +21,18 @@ import com.febers.uestc_bbs.entity.PostVoteResultBean
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionClickListener
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostOptionBottomSheet
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.pidToWebUrl
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
 import kotlinx.android.synthetic.main.layout_server_null.*
-import org.jetbrains.anko.browse
 
 class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener {
 

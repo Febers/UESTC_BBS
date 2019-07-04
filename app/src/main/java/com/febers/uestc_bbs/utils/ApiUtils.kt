@@ -133,6 +133,14 @@ object ApiUtils {
     const val BBS_SEARCH_URL = "mobcent/app/web/index.php?r=forum/search"
 
     /**
+     * searchid 默认为0
+     * page
+     * pageSize
+     * keyword
+     */
+    const val BBS_SEARCH_USER_URL = "mobcent/app/web/index.php?r=user/searchuser"
+
+    /**
      * 发送附件的高级版本，可以将图片上传到相册。
     type 'image', 'audio'
     module 'forum', 'album', 'pm'

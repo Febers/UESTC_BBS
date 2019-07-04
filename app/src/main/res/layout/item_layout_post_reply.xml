@@ -66,14 +66,12 @@
             android:id="@+id/iv_post_reply_topic_user"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/xic_user_small"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_post_reply_date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.934"
-            app:layout_constraintStart_toEndOf="@+id/text_view_post_reply_date"
             app:layout_constraintTop_toTopOf="@+id/text_view_post_reply_date"
             app:layout_constraintVertical_bias="1.0" />
 

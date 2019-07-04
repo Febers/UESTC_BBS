@@ -52,7 +52,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             MSG_TYPE_REPLY -> msgAdapter = MsgReplyAdapter(context!!, replyList, false).apply {
                 recyclerview_sub_message.adapter = this
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    clickToPostDetail(context, listBean.topic_id, "", MyApp.user().name) }
+                    clickToPostDetail(context, listBean.topic_id) }
                 setOnItemChildClickListener(R.id.image_view_msg_reply_author_avatar) {
                     p0: ViewHolder?, p1: MsgReplyBean.ListBean?, p2: Int ->
                     clickToUserDetail(context, p1?.user_id)}

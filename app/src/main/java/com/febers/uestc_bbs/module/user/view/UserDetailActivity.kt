@@ -22,6 +22,8 @@ import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.image.ImageLoader
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.pidToWebUrl
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
@@ -202,9 +204,19 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         }
     }
 
+    private var postWebViewBottomSheet: PostWebViewBottomSheet? = null
+
+    private fun getPostWebViewBottomSheet(): PostWebViewBottomSheet {
+        if (postWebViewBottomSheet == null) {
+            postWebViewBottomSheet = PostWebViewBottomSheet(mContext, R.style.PinkBottomSheetTheme, "http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
+        }
+        return postWebViewBottomSheet!!
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_item_user_detail_web) {
-            browse("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
+            //browse("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
+            getPostWebViewBottomSheet().show(supportFragmentManager, "user_web")
         }
         return super.onOptionsItemSelected(item)
     }
@@ -228,7 +240,6 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         if (resultCode == Activity.RESULT_OK && requestCode == PictureConfig.CHOOSE_REQUEST) {
             val selectList = PictureSelector.obtainMultipleResult(data)
             val newAvatarUri = selectList[0].path
-//            i("PE", "path:" + newAvatarUri)
             progress_bar_user_detail?.visibility = View.VISIBLE
             userPresenter.userUpdateRequest(USER_AVATAR, newValue = File(newAvatarUri))
         }

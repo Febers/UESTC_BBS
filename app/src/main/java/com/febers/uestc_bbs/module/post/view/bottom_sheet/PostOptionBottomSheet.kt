@@ -14,6 +14,12 @@ import org.jetbrains.anko.browse
 import org.jetbrains.anko.share
 import org.jetbrains.anko.toast
 
+const val ITEM_WEB_POST = 0
+const val ONLY_AUTHOR_REPLY = 1
+const val ITEM_ORDER_POSITIVE = 2
+const val ITEM_COPY_URL = 3
+const val ITEM_SHARE_POST = 4
+
 class PostOptionBottomSheet(context: Context, style: Int,
                             private val itemClickListenerPost: PostOptionClickListener, private val postId: Int):
         BottomSheetDialog(context, style) {
@@ -33,6 +39,9 @@ class PostOptionBottomSheet(context: Context, style: Int,
         optionList.addAll(getOptionList())
         optionItemAdapter = PostOptionAdapter(context, optionList)
         optionItemAdapter.setOnItemClickListener { viewHolder, optionItemBean, i ->
+            if (i == ITEM_WEB_POST) {
+                itemClickListenerPost.onOptionItemSelect(ITEM_WEB_POST)
+            }
             if (i == ONLY_AUTHOR_REPLY) {
                 authorOnly = !authorOnly
                 optionList.clear()
@@ -46,9 +55,6 @@ class PostOptionBottomSheet(context: Context, style: Int,
                 optionList.addAll(getOptionList())
                 optionItemAdapter.notifyDataSetChanged()
                 itemClickListenerPost.onOptionItemSelect(ITEM_ORDER_POSITIVE)
-            }
-            if (i == ITEM_WEB_POST) {
-                itemClickListenerPost.onOptionItemSelect(ITEM_WEB_POST)
             }
             if (i == ITEM_COPY_URL) {
                 val clipboardManager: ClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -66,11 +72,11 @@ class PostOptionBottomSheet(context: Context, style: Int,
 
     private fun getOptionList(): List<OptionItemBean> {
         return arrayListOf(
+                OptionItemBean(context.getString(R.string.web_page), R.drawable.xic_web_purple_24dp),
                 OptionItemBean(if (authorOnly)context.getString(R.string.view_all) else context.getString(R.string.view_only_author),
                         if (authorOnly)R.drawable.xic_people_blue_24dp else R.drawable.xic_person_blue_24dp),
                 OptionItemBean(if (orderPositive)context.getString(R.string.reverse_view) else context.getString(R.string.positive_order_view),
                         if (orderPositive)R.drawable.xic_order_navi_green_24dp else R.drawable.xic_order_posi_green_24dp),
-                OptionItemBean(context.getString(R.string.web_page), R.drawable.xic_web_purple_24dp),
                 OptionItemBean(context.getString(R.string.copy_url), R.drawable.xic_link_orange_24dp),
                 OptionItemBean(context.getString(R.string.share), R.drawable.xic_share_blue_24dp))
     }
