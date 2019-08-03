@@ -94,6 +94,7 @@ class SettingActivity : BaseActivity() {
         recyclerview_setting_option.adapter = settingAdapter
 
         users.addAll(UserHelper.getAllUser())
+        log("user size ${users.size}")  //加上之后不会出现重复显示的问题
         simpleUserAdapter.notifyDataSetChanged()
 
         options.addAll(initSettingData())

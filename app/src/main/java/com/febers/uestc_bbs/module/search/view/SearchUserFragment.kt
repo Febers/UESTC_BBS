@@ -51,7 +51,6 @@ class SearchUserFragment: BaseFragment(), SearchContract.View {
         refresh_layout_search_user.apply {
             setEnableRefresh(false)
             setEnableAutoLoadMore(false)
-            setEnableOverScrollBounce(false)
             setOnLoadMoreListener { search(keyword, ++page) }
         }
         recycler_view_search_user.apply {
@@ -69,7 +68,7 @@ class SearchUserFragment: BaseFragment(), SearchContract.View {
     }
 
     private fun search(keyword: String, page: Int) {
-        refresh_layout_search_user.setEnableLoadMore(false)
+        refresh_layout_search_user.setNoMoreData(false)
         presenter.searchUserRequest(keyword, page)
     }
 
