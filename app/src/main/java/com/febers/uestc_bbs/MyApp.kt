@@ -19,7 +19,6 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.view.emotion.EmotionManager
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
-import com.squareup.leakcanary.LeakCanary
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.BufferedReader

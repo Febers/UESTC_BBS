@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import androidx.annotation.UiThread
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -34,7 +33,6 @@ import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import kotlinx.android.synthetic.main.activity_home_2.*

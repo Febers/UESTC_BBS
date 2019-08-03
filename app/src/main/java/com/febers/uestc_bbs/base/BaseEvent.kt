@@ -26,3 +26,5 @@ data class UpdateCheckEvent(var code: BaseCode, var hasNewer: Boolean, var resul
 
 data class UserUpdateEvent(var code: BaseCode, var user: UserSimpleBean)
 
+data class SearchSubmitEvent(var type: Int, var keyword: String)
+

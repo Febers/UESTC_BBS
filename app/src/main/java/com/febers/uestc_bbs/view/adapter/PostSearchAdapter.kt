@@ -7,8 +7,8 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
-class SearchAdapter(val context: Context, data: List<SearchPostBean.SearchPostBeanList>, isLoadMore: Boolean):
-        CommonBaseAdapter<SearchPostBean.SearchPostBeanList>(context, data, isLoadMore) {
+class PostSearchAdapter(val context: Context, data: List<SearchPostBean.SearchPostBeanList>):
+        CommonBaseAdapter<SearchPostBean.SearchPostBeanList>(context, data, false) {
 
     override fun getItemLayoutId(): Int {
         return R.layout.item_layout_post_search

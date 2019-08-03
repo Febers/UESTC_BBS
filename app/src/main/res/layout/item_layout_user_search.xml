@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground"
+    android:padding="10dp">
+    <ImageView
+        android:id="@+id/iv_user_avatar_user_search"
+        android:layout_width="@dimen/image_size_default_avatar"
+        android:layout_height="@dimen/image_size_default_avatar"
+        android:src="@drawable/ic_default_avatar"/>
+    <TextView
+        android:id="@+id/tv_user_name_user_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="四条眉毛"
+        android:textSize="@dimen/text_size_big"
+        android:layout_marginStart="20dp"/>
+</LinearLayout>

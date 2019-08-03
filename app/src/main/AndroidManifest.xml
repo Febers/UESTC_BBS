@@ -9,24 +9,23 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- bugly权限 -->
-    <uses-permission android:name="android.permission.READ_LOGS"
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- bugly权限 -->
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
-    <!--用以重启桌面启动器使图标切换更快的生效-->
-    <!--<uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>-->
 
     <application
         android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
-        tools:replace="android:theme, label"
         android:usesCleartextTraffic="true"
-        android:largeHeap="true">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
+        tools:replace="android:theme, label">
+        <activity android:name=".module.search.view.SearchActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -36,145 +35,24 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
-
-        <!--++++++++++++++++++++++++++++默认的启动图标+++++++++++++++++++++++++++++++++++++++++++-->
+        </provider> <!-- ++++++++++++++++++++++++++++默认的启动图标+++++++++++++++++++++++++++++++++++++++++++ -->
         <activity android:name=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--++++++++++++++++++++++++++++自定义的启动图标+++++++++++++++++++++++++++++++++++++++++++-->
-        <!--<activity-alias-->
-            <!--android:name=".icon_blue_square"-->
-            <!--android:enabled="true"-->
-            <!--android:icon="@drawable/lic_blue_square"-->
-            <!--android:label="@string/app_name"-->
-            <!--android:targetActivity=".home.SplashActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity-alias>-->
+
         <activity-alias
-            android:name=".icon_blue_circle"
+            android:name=".icon_gray_circle"
             android:enabled="false"
-            android:icon="@drawable/lic_blue_circle"
+            android:icon="@drawable/lic_gray_circle"
             android:label="@string/app_name"
             android:targetActivity=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_red_square"
-            android:enabled="false"
-            android:icon="@drawable/lic_red_square"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_red_circle"
-            android:enabled="false"
-            android:icon="@drawable/lic_red_circle"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_green_square"
-            android:enabled="false"
-            android:icon="@drawable/lic_green_square"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_green_circle"
-            android:enabled="false"
-            android:icon="@drawable/lic_green_circle"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_pink_square"
-            android:enabled="false"
-            android:icon="@drawable/lic_pink_square"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_pink_circle"
-            android:enabled="false"
-            android:icon="@drawable/lic_pink_circle"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_teal_square"
-            android:enabled="false"
-            android:icon="@drawable/lic_teal_square"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_teal_circle"
-            android:enabled="false"
-            android:icon="@drawable/lic_teal_circle"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_cyan_square"
-            android:enabled="false"
-            android:icon="@drawable/lic_cyan_square"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-        <activity-alias
-            android:name=".icon_cyan_circle"
-            android:enabled="false"
-            android:icon="@drawable/lic_cyan_circle"
-            android:label="@string/app_name"
-            android:targetActivity=".home.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
@@ -186,17 +64,150 @@
             android:targetActivity=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name=".icon_gray_circle"
+            android:name=".icon_cyan_circle"
             android:enabled="false"
-            android:icon="@drawable/lic_gray_circle"
+            android:icon="@drawable/lic_cyan_circle"
             android:label="@string/app_name"
             android:targetActivity=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_cyan_square"
+            android:enabled="false"
+            android:icon="@drawable/lic_cyan_square"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_teal_circle"
+            android:enabled="false"
+            android:icon="@drawable/lic_teal_circle"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_teal_square"
+            android:enabled="false"
+            android:icon="@drawable/lic_teal_square"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_pink_circle"
+            android:enabled="false"
+            android:icon="@drawable/lic_pink_circle"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_pink_square"
+            android:enabled="false"
+            android:icon="@drawable/lic_pink_square"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_green_circle"
+            android:enabled="false"
+            android:icon="@drawable/lic_green_circle"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_green_square"
+            android:enabled="false"
+            android:icon="@drawable/lic_green_square"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_red_circle"
+            android:enabled="false"
+            android:icon="@drawable/lic_red_circle"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".icon_red_square"
+            android:enabled="false"
+            android:icon="@drawable/lic_red_square"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias> <!-- ++++++++++++++++++++++++++++自定义的启动图标+++++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- <activity-alias -->
+        <!-- android:name=".icon_blue_square" -->
+        <!-- android:enabled="true" -->
+        <!-- android:icon="@drawable/lic_blue_square" -->
+        <!-- android:label="@string/app_name" -->
+        <!-- android:targetActivity=".home.SplashActivity"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity-alias> -->
+        <activity-alias
+            android:name=".icon_blue_circle"
+            android:enabled="false"
+            android:icon="@drawable/lic_blue_circle"
+            android:label="@string/app_name"
+            android:targetActivity=".home.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
@@ -204,9 +215,7 @@
         <activity
             android:name=".home.HomeActivity"
             android:theme="@style/AppThemeLight.Home"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".module.user.view.UserDetailActivity" />
         <activity
             android:name=".module.post.view.PostDetailActivity"
@@ -226,22 +235,20 @@
 
         <activity
             android:name=".module.image.ImageViewer"
-            android:theme="@style/ImageViewerTheme"
-            android:launchMode="singleInstance"/>
-
-        <activity android:name=".module.user.view.UserPostActivity" />
-        <!--<activity android:name=".http.AppWebViewer" />-->
-        <activity android:name=".module.login.view.LoginActivity">
-        </activity>
-        <activity android:name=".module.post.view.edit.PostReplyActivity"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".module.search.view.SearchActivity" />
+            android:launchMode="singleInstance"
+            android:theme="@style/ImageViewerTheme" />
+        <activity android:name=".module.user.view.UserPostActivity" /> <!-- <activity android:name=".http.AppWebViewer" /> -->
+        <activity android:name=".module.login.view.LoginActivity"></activity>
+        <activity
+            android:name=".module.post.view.edit.PostReplyActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".module.setting.AboutActivity" />
         <activity android:name=".module.post.view.PListActivity" />
-        <activity android:name=".module.setting.SettingActivity">
-        </activity>
-        <activity android:name=".home.HomeActivity2"
-            android:theme="@style/AppThemeLight.Home"/>
+        <activity android:name=".module.setting.SettingActivity"></activity>
+        <activity
+            android:name=".home.HomeActivity2"
+            android:theme="@style/AppThemeLight.Home" />
         <activity android:name=".http.AppWebViewer" />
     </application>
+
 </manifest>
