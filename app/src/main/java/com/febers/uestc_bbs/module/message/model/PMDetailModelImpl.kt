@@ -14,12 +14,12 @@ class PMDetailModelImpl(val presenter: MessageContract.PMPresenter): MessageCont
 
     override fun pmSessionService(uid: Int, page: Int, beginTime: Long) {
         mUid = uid.toString()
-        Thread(Runnable { getPmDetail() }).start()
+        ThreadPoolMgr.execute(Runnable { getPmDetail() })
     }
 
     override fun pmSendService(content: Any, type: String) {
         val stContent = content.toString()
-        Thread(Runnable {
+        ThreadPoolMgr.execute(Runnable {
             getRetrofit().create(MessageInterface::class.java)
                     .pmSendResult(json = """
                         {"action":"send","toUid":$mUid,msg:{"type":"$type","content":"$stContent"}}
@@ -42,7 +42,7 @@ class PMDetailModelImpl(val presenter: MessageContract.PMPresenter): MessageCont
                             presenter.pmSendResult(BaseEvent(BaseCode.SUCCESS, result))
                         }
                     })
-        }).start()
+        })
     }
 
     private fun getPmDetail() {

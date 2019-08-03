@@ -130,6 +130,11 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         super.onRestart()
         MyApp.uiHidden = false
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityMgr.removeActivity(mContext)
+    }
 }
 
 /*

@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.post.model
 
+import com.febers.uestc_bbs.base.ThreadPoolMgr
 import com.febers.uestc_bbs.base.BaseModel
 import com.febers.uestc_bbs.base.REQUEST_SUCCESS_RS
 import com.febers.uestc_bbs.base.SERVICE_RESPONSE_NULL
@@ -15,7 +16,7 @@ import java.lang.StringBuilder
 class PEditModelImpl(val pEditPresenter: PEditContract.Presenter): BaseModel(), PEditContract.Model {
 
     override fun newPostService(fid: Int, aid: String, typeId:Int, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
-        Thread{ newPost(fid, aid, typeId, title, anonymous, onlyAuthor, *contents) }.start()
+        ThreadPoolMgr.execute(Runnable { newPost(fid, aid, typeId, title, anonymous, onlyAuthor, *contents) })
     }
 
     private fun newPost(fid: Int, aid: String, typeId:Int, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {

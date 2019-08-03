@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.module.post.contract
 
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
+import com.febers.uestc_bbs.module.post.view.bottom_sheet.ITEM_ORDER_POSITIVE
 
 interface PostContract {
 

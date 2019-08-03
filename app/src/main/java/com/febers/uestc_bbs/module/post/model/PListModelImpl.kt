@@ -23,13 +23,13 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
         this.filterType = filterType
         this.filterId = filterId
 
-        Thread{ getSavedPList() }.start()
-        Thread{ getPList() }.start()
+        ThreadPoolMgr.execute(Runnable { getSavedPList() })
+        ThreadPoolMgr.execute(Runnable { getPList() })
     }
 
     override fun boardListService(fid: Int) {
         mFid = fid.toString()
-        Thread { getBoardList() }.start()
+        ThreadPoolMgr.execute(Runnable { getBoardList() })
     }
 
     private fun getPList() {

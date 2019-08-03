@@ -18,7 +18,7 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
     override fun loginService(userName: String, userPw: String) {
         mUserName = userName
         mUserPw = userPw
-        Thread(Runnable { login() }).start()
+        ThreadPoolMgr.execute(Runnable { login() })
     }
 
     private fun login() {

@@ -26,14 +26,6 @@ class MsgPagerFragment: BaseFragment() {
         view_pager_message.setCurrentItem(msgPosition, true)
     }
 
-//    override fun onSupportVisible() {
-//        super.onSupportVisible()
-//        if (isSupportVisible && MyApp.msgCount > 0) {
-//            MyApp.msgCount = 0
-//            EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_ALL))
-//        }
-//    }
-
     /**
      *  当后台Service接收到新消息时，此方法会接受到相应的消息
      *  随后更改当前的pager页面

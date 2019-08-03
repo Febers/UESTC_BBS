@@ -2,13 +2,10 @@ package com.febers.uestc_bbs
 
 import android.content.ComponentCallbacks2
 import android.content.Context
-import android.content.Intent
 import android.os.Process
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.io.UserHelper
 import com.febers.uestc_bbs.entity.UserSimpleBean
-import com.febers.uestc_bbs.module.setting.refresh_style.REFRESH_HEADER_CODE
-import com.febers.uestc_bbs.module.setting.refresh_style.RefreshViewHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -21,6 +18,8 @@ import com.febers.uestc_bbs.home.HomeActivity2
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.view.emotion.EmotionManager
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import com.squareup.leakcanary.LeakCanary
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.BufferedReader
@@ -137,9 +136,7 @@ class MyApp: MultiDexApplication() {
              * 初始化刷新控件
              */
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-                val styleCode by PreferenceUtils(context, REFRESH_HEADER_CODE, 0)
-                val helper = RefreshViewHelper(context)
-                helper.getHeader(styleCode)
+                ClassicsHeader(context)
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)

@@ -25,7 +25,7 @@ class MsgModelImpl(private val messagePresenter: MessageContract.Presenter) : Ba
     override fun msgService(type: String, page: Int) {
         mType = type
         mPage = page.toString()
-        Thread(Runnable { getMessage() }).start()
+        ThreadPoolMgr.execute(Runnable { getMessage() })
     }
 
     private fun getMessage() {

@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.setting
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.MyApp
@@ -12,13 +13,11 @@ import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.io.CacheHelper
 import com.febers.uestc_bbs.module.service.HeartMsgService
-import com.febers.uestc_bbs.module.setting.refresh_style.RefreshStyleFragment
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.activity_setting.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlin.collections.ArrayList
@@ -31,7 +30,6 @@ class SettingActivity : BaseActivity() {
     private lateinit var simpleUserAdapter: SimpleUserAdapter
     private lateinit var settingAdapter: SettingAdapter
     private lateinit var cacheItem: SettingItemBean
-    private var refreshStyleView: RefreshStyleFragment? = null
     private var iconChooseView: IconFragment? = null
 
     private var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
@@ -84,17 +82,11 @@ class SettingActivity : BaseActivity() {
                         iconChooseView?.show(supportFragmentManager, "icon")
                     }
                     3 -> {
-                        if (refreshStyleView == null) {
-                            refreshStyleView = RefreshStyleFragment()
-                        }
-                        refreshStyleView?.show(supportFragmentManager, "style")
-                    }
-                    4 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
                         onReceiveMsgChange(!checkBox.isChecked)
                     }
-                    5 -> { clearCache() }
+                    4 -> { clearCache() }
                 }
             }
         }
@@ -122,10 +114,9 @@ class SettingActivity : BaseActivity() {
         layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription)
         val item0 = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
         val item1 = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
-        val item2 = SettingItemBean(getString(R.string.refresh_style), getString(R.string.choose_refresh_style))
         val item3 = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
-        return arrayListOf(layoutItem, item0, item1, item2, item3, cacheItem)
+        return arrayListOf(layoutItem, item0, item1, item3, cacheItem)
     }
 
     /**
@@ -208,20 +199,21 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun getCache() {
-        Thread {
+        ThreadPoolMgr.execute(Runnable {
             cacheItem.tip = CacheHelper.CacheSize
             runOnUiThread {
                 settingAdapter.notifyItemChanged(4)
-            }
-        }.start()
+            }})
     }
 
     private fun clearCache() {
         showHint(getString(R.string.cleaning))
-        Thread{
-            CacheHelper.clearCache()
-            getCache()
-        }.start()
+        CacheHelper.clearCache()
+        getCache()
+//        Thread{
+//            CacheHelper.clearCache()
+//            getCache()
+//        }.start()
     }
 
 }

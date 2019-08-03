@@ -16,27 +16,27 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
         mPage = page.toString()
         mAuthorId = authorId.toString()
         mOrder = order.toString()
-        Thread{ getPost() }.start()
+        ThreadPoolMgr.execute(Runnable { getPost() })
     }
 
     override fun postReplyService(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        Thread{ reply(postId, isQuota, replyId, aid, *contents) }.start()
+        ThreadPoolMgr.execute(Runnable { reply(postId, isQuota, replyId, aid, *contents) })
     }
 
     override fun postSupportService(postId: Int, tid: Int) {
-        Thread{ postSupport(postId, tid) }.start()
+        ThreadPoolMgr.execute(Runnable { postSupport(postId, tid) })
     }
 
     override fun postVoteService(pollItemId: List<Int>) {
-        Thread(Runnable { postVote(pollItemId) }).start()
+        ThreadPoolMgr.execute(Runnable { postVote(pollItemId) })
     }
 
     override fun userAtService(page: Int) {
-        Thread { getUsersAt(page) }.start()
+        ThreadPoolMgr.execute(Runnable { getUsersAt(page) })
     }
 
     override fun postFavService(action: String) {
-        Thread(Runnable {
+        ThreadPoolMgr.execute(Runnable {
             getRetrofit().create(PostInterface::class.java)
                     .postFavorite(action = action,
                             id = mPostId)
@@ -60,7 +60,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                             postPresenter.postFavResult(BaseEvent(BaseCode.SUCCESS, result))
                         }
                     })
-        }).start()
+        })
     }
 
     private fun getPost() {

@@ -21,6 +21,7 @@ fun SmartRefreshLayout.finishFail() {
 
 fun SmartRefreshLayout.initAttrAndBehavior() {
     setPrimaryColors(ThemeHelper.getColorPrimary(), ThemeHelper.getRefreshTextColor())
+    setEnableOverScrollBounce(false)
     setEnableLoadMore(false)
     autoRefresh()
 }

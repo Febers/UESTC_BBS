@@ -19,18 +19,16 @@ class UserModelImpl(private val presenter: UserContract.Presenter): BaseModel(),
         mUid = uid.toString()
         mPage = page.toString()
         mType = type.toString()
-        Thread(Runnable { getUserPost() }).start()
+        ThreadPoolMgr.execute(Runnable { getUserPost() })
     }
 
     override fun userDetailService(uid: Int) {
         mUid = uid.toString()
-        Thread(Runnable { getUserDetail() }).start()
+        ThreadPoolMgr.execute(Runnable { getUserDetail() })
     }
 
     override fun <T> userUpdateService(type: String, newValue: T, oldValue: T?) {
-        Thread{
-            userUpdate(type, newValue, oldValue)
-        }.start()
+        ThreadPoolMgr.execute(Runnable { userUpdate(type, newValue, oldValue) })
     }
 
     /**

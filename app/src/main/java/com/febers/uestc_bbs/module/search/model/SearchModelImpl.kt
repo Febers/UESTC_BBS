@@ -13,13 +13,13 @@ class SearchModelImpl(val searchPresenter: SearchContract.Presenter): BaseModel(
     override fun searchPostService(keyword: String, page: Int) {
         mKeyword = keyword
         mPage = page.toString()
-        Thread{ getSearchPost() }.start()
+        ThreadPoolMgr.execute(Runnable { getSearchPost() })
     }
 
     override fun searchUserService(keyword: String, page: Int) {
         mKeyword = keyword
         mPage = page.toString()
-        Thread{ getSearchUser() }.start()
+        ThreadPoolMgr.execute(Runnable { getSearchUser() })
     }
 
     private fun getSearchPost() {
