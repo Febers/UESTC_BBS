@@ -9,6 +9,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.module.service.HeartMsgService
@@ -137,6 +138,7 @@ class HomeActivity: BaseActivity() {
     @SuppressLint("RestrictedApi")
     override fun onResume() {
         super.onResume()
+
         if (bottom_navigation_home.currentItem == 0) {
             fab_home.visibility = View.VISIBLE
         }

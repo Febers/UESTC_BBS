@@ -249,6 +249,7 @@
             android:name=".home.HomeActivity2"
             android:theme="@style/AppThemeLight.Home" />
         <activity android:name=".http.AppWebViewer" />
+        <activity android:name=".module.more.ExceptionActivity" />
     </application>
 
 </manifest>

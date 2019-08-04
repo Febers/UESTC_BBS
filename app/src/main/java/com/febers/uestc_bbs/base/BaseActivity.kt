@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.custom.SupportActivity

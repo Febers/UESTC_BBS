@@ -56,6 +56,7 @@ class MyApp: MultiDexApplication() {
 
         initBugly()
         initEmotionView()
+        UEHandler.getInstance().init()
     }
 
     /**

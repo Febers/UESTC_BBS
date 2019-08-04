@@ -13,6 +13,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
