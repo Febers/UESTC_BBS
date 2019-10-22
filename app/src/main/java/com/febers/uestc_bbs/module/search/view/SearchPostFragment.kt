@@ -16,13 +16,9 @@ import com.febers.uestc_bbs.entity.SearchPostBean
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.search.contract.SearchContract
 import com.febers.uestc_bbs.module.search.presenter.SearchPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.KeyboardUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.SEARCH_TYPE_POST
 import com.febers.uestc_bbs.view.adapter.PostSearchAdapter
 import kotlinx.android.synthetic.main.fragment_search_post.*
-import kotlinx.android.synthetic.main.layout_server_null.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -89,7 +85,7 @@ class SearchPostFragment: BaseFragment(), SearchContract.View {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onSearchSubmint(event: SearchSubmitEvent) {
+    fun onSearchSubmit(event: SearchSubmitEvent) {
         if (event.type == SEARCH_TYPE_POST) {
             keyword = event.keyword
             progressDialog?.show()

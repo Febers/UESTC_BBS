@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
-import com.afollestad.aesthetic.Aesthetic
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 
 import me.yokeyword.fragmentation.ExtraTransaction
@@ -44,10 +43,10 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (enableThemeHelper()){
-            Aesthetic.attach(this)
-            if (Aesthetic.isFirstTime) {
-                ThemeHelper.setTheme(this)
-            }
+//            Aesthetic.attach(this)
+//            if (Aesthetic.isFirstTime) {
+//                ThemeHelper.setTheme(this)
+//            }
         }
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
@@ -55,11 +54,11 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
 
     override fun onResume() {
         super.onResume()
-        if (enableThemeHelper()) Aesthetic.resume(this)
+//        if (enableThemeHelper()) Aesthetic.resume(this)
     }
 
     override fun onPause() {
-        if (enableThemeHelper()) Aesthetic.pause(this)
+//        if (enableThemeHelper()) Aesthetic.pause(this)
         super.onPause()
     }
 

@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srlAccentColor="?refresh_layout_color_accent"
-        app:srlPrimaryColor="?app_color_primary"
+        app:srlPrimaryColor="?attr/colorPrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.core.widget.NestedScrollView

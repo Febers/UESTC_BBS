@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_gray</item>
-        <item name="colorAccent">@color/color_gray_deeper</item>
-        <item name="colorPrimaryDark">@color/color_gray_deeper</item>
-        <item name="app_color_primary">@color/color_gray</item>
-        <item name="app_color_accent">@color/color_gray_deeper</item>
-        <item name="app_color_primary_dark">@color/color_gray_deeper</item>
+        <item name="colorPrimary">@color/color_blue</item>
+        <item name="colorAccent">@color/color_blue</item>
 
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>
@@ -23,29 +19,26 @@
         <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
     </style>
 
-    <style name="AppThemeLight.Home" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_gray</item>
-        <item name="colorAccent">@color/color_gray_deeper</item>
-        <item name="colorPrimaryDark">@color/color_gray_deeper</item>
-        <item name="app_color_primary">@color/color_gray</item>
-        <item name="app_color_accent">@color/color_gray_deeper</item>
-        <item name="app_color_primary_dark">@color/color_gray_deeper</item>
+<!--    <style name="AppThemeLight.Home" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--        <item name="colorPrimary">@color/color_gray</item>-->
+<!--        <item name="colorAccent">@color/color_gray_deeper</item>-->
+<!--        <item name="colorPrimaryDark">@color/color_gray_deeper</item>-->
 
-        <item name="text_color_first">@color/textColorFirst_Day</item>
-        <item name="text_color_second">@color/textColorSecond_Day</item>
-        <item name="text_color_third">@color/textColorThird_Day</item>
-        <item name="text_color_convert">@color/color_white</item>
+<!--        <item name="text_color_first">@color/textColorFirst_Day</item>-->
+<!--        <item name="text_color_second">@color/textColorSecond_Day</item>-->
+<!--        <item name="text_color_third">@color/textColorThird_Day</item>-->
+<!--        <item name="text_color_convert">@color/color_white</item>-->
 
-        <item name="background_first">@color/color_white</item>
-        <item name="background_second">@color/color_gray_light</item>
+<!--        <item name="background_first">@color/color_white</item>-->
+<!--        <item name="background_second">@color/color_gray_light</item>-->
 
-        <item name="refresh_layout_color_accent">@color/color_white</item>
-        <item name="android:textColorPrimary">@color/textColorFirst_Day</item>
-        <item name="android:textColorSecondary">@color/textColorSecond_Day</item>
-        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
+<!--        <item name="refresh_layout_color_accent">@color/color_white</item>-->
+<!--        <item name="android:textColorPrimary">@color/textColorFirst_Day</item>-->
+<!--        <item name="android:textColorSecondary">@color/textColorSecond_Day</item>-->
+<!--        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>-->
 
-        <item name="android:windowIsTranslucent">false</item> <!-- 切换夜间模式时不显示桌面 -->
-    </style>
+<!--        <item name="android:windowIsTranslucent">false</item> &lt;!&ndash; 切换夜间模式时不显示桌面 &ndash;&gt;-->
+<!--    </style>-->
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/color_black</item>

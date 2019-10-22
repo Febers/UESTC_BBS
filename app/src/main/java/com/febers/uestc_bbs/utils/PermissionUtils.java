@@ -33,23 +33,17 @@ public class PermissionUtils {
 
     /**
      * 权限授权申请
-     * @param hintMessage
-     *              要申请的权限的提示
      *
-     * @param permissions
-     *              要申请的权限
-     *
-     * @param listener
-     *              申请成功之后的callback
+     * @param hintMessage 要申请的权限的提示
+     * @param permissions 要申请的权限
+     * @param listener 申请成功之后的callback
      */
     public void requestPermissions(@NonNull CharSequence hintMessage,
                                    @Nullable PermissionListener listener,
                                    @NonNull final String... permissions){
-
         if(listener != null){
             mListener = listener;
         }
-
         mPermissionList = Arrays.asList(permissions);
 
         //没全部权限

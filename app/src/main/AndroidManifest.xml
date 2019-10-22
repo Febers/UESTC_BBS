@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- bugly权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- bugly权限 -->
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -214,8 +215,7 @@
 
         <activity
             android:name=".home.HomeActivity"
-            android:theme="@style/AppThemeLight.Home"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".module.user.view.UserDetailActivity" />
         <activity
             android:name=".module.post.view.PostDetailActivity"
@@ -238,16 +238,15 @@
             android:launchMode="singleInstance"
             android:theme="@style/ImageViewerTheme" />
         <activity android:name=".module.user.view.UserPostActivity" /> <!-- <activity android:name=".http.AppWebViewer" /> -->
-        <activity android:name=".module.login.view.LoginActivity"></activity>
+        <activity android:name=".module.login.view.LoginActivity" />
         <activity
             android:name=".module.post.view.edit.PostReplyActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".module.setting.AboutActivity" />
         <activity android:name=".module.post.view.PListActivity" />
-        <activity android:name=".module.setting.SettingActivity"></activity>
+        <activity android:name=".module.setting.SettingActivity" />
         <activity
-            android:name=".home.HomeActivity2"
-            android:theme="@style/AppThemeLight.Home" />
+            android:name=".home.HomeActivity2" />
         <activity android:name=".http.AppWebViewer" />
         <activity android:name=".module.more.ExceptionActivity" />
     </application>

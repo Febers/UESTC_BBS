@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     app:srlAccentColor="@color/color_white"
-    app:srlPrimaryColor="?attr/app_color_primary"
+    app:srlPrimaryColor="?attr/colorPrimary"
     app:srlEnableNestedScrolling="false">
 
     <androidx.core.widget.NestedScrollView

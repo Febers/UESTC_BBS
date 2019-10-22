@@ -61,7 +61,7 @@ object ImageTextHelper {
             for (url in imgs) {
                 val span = ImageSpan(getUrlDrawable(url.source, tv), url.source!!)
                 style.setSpan(span, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                val myUrlSpan = MyUrlSpan(url.source, context)
+                val myUrlSpan = MyUrlSpan(url.source!!, context)
                 style.setSpan(myUrlSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             for (styleSpan in styleSpans) {

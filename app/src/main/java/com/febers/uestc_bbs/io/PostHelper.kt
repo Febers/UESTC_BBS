@@ -33,7 +33,7 @@ object PostHelper {
     fun getPostListBySp(fid: String): PostListBean {
         try {
             with(context().getSharedPreferences(fid, 0)) {
-                val json: String = this.getString(fid, "")
+                val json: String = this.getString(fid, "") ?: ""
                 return Gson().fromJson(json, PostListBean::class.java)
             }
         } catch (e: Exception) {
@@ -105,7 +105,7 @@ object PostHelper {
     fun getUserPListBySp(fid: String): UserPostBean {
         try {
             with(context().getSharedPreferences(fid, 0)) {
-                val json: String = this.getString(fid, "")
+                val json: String = this.getString(fid, "") ?: ""
                 return Gson().fromJson(json, UserPostBean::class.java)
             }
         } catch (e: Exception) {

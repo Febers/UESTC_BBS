@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.theme
 import android.content.Context
 import android.graphics.Color
 import android.view.View
-import com.afollestad.aesthetic.Aesthetic
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
@@ -34,30 +33,30 @@ object ThemeHelper {
         if (isDarkTheme()) {
             val lastColorPrimary by PreferenceUtils(context, LLCP, 2201331)
             val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
-            Aesthetic.config {
-                activityTheme(R.style.AppThemeLight)
-                isDark(false)
-                colorPrimary(lastColorPrimary)
-                colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
-                colorAccent(lastColorPrimary)
-                attribute(R.attr.app_color_primary, lastColorPrimary)
-                colorWindowBackground(res = R.color.color_white)
-                colorStatusBarAuto()
-            }
+//            Aesthetic.config {
+//                activityTheme(R.style.AppThemeLight)
+//                isDark(false)
+//                colorPrimary(lastColorPrimary)
+//                colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(lastColorPrimary) else lastColorPrimary)
+//                colorAccent(lastColorPrimary)
+//                attribute(R.attr.app_color_primary, lastColorPrimary)
+//                colorWindowBackground(res = R.color.color_white)
+//                colorStatusBarAuto()
+//            }
             setColorPrimaryToSp(lastColorPrimary)
         } else {
             var lastColorPrimary by PreferenceUtils(context, LLCP, -2201331)
             lastColorPrimary = getColorPrimary()
-            Aesthetic.config {
-                activityTheme(R.style.AppThemeDark)
-                isDark(true)
-                colorPrimary(res = R.color.color_black)
-                colorAccent(res = R.color.color_gray_light)
-                colorPrimaryDark(res = R.color.color_black)
-                colorWindowBackground(res = R.color.color_black)
-                attribute(R.attr.app_color_primary, res = R.color.color_black)
-                colorStatusBarAuto()
-            }
+//            Aesthetic.config {
+//                activityTheme(R.style.AppThemeDark)
+//                isDark(true)
+//                colorPrimary(res = R.color.color_black)
+//                colorAccent(res = R.color.color_gray_light)
+//                colorPrimaryDark(res = R.color.color_black)
+//                colorWindowBackground(res = R.color.color_black)
+//                attribute(R.attr.app_color_primary, res = R.color.color_black)
+//                colorStatusBarAuto()
+//            }
             setColorPrimaryToSp(Color.parseColor("#707070"))    //存储一个灰色值
         }
     }
@@ -68,19 +67,21 @@ object ThemeHelper {
 
     fun setTheme(context: Context, colorPrimary: Int, colorAccent: Int) {
         val colorDark by PreferenceUtils(context, COLOR_PRIMARY_DARK, true)
-        Aesthetic.config {
-            colorPrimary(colorPrimary)
-            colorAccent(colorPrimary)
-            colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(colorPrimary) else colorPrimary)
-            attribute(R.attr.app_color_primary, colorPrimary, null, true)
-            attribute(R.attr.app_color_accent, colorAccent, null, true)
-            colorStatusBarAuto()
-        }
+//        Aesthetic.config {
+//            colorPrimary(colorPrimary)
+//            colorAccent(colorPrimary)
+//            colorPrimaryDark(if (colorDark) ColorUtils.toDarkColor(colorPrimary) else colorPrimary)
+//            attribute(R.attr.app_color_primary, colorPrimary, null, true)
+//            attribute(R.attr.app_color_accent, colorAccent, null, true)
+//            colorStatusBarAuto()
+//        }
         setColorPrimaryToSp(colorPrimary)
         onThemeChange(colorPrimary, colorAccent)
     }
 
-    fun getColorPrimary(): Int =  Aesthetic.get().colorPrimary().blockingFirst()
+    fun getColorPrimary(): Int =
+            //Aesthetic.get().colorPrimary().blockingFirst()
+            blueIntValue
 
     /**
      * 保存的colorPrimary
@@ -103,9 +104,13 @@ object ThemeHelper {
         colorPrimary = color
     }
 
-    fun getColorAccent(): Int = Aesthetic.get().colorAccent().blockingFirst()
+    fun getColorAccent(): Int =
+            //Aesthetic.get().colorAccent().blockingFirst()
+            blueIntValue
 
-    fun getColorBackground(): Int = Aesthetic.get().colorWindowBackground().blockingFirst()
+    fun getColorBackground(): Int =
+            //Aesthetic.get().colorWindowBackground().blockingFirst()
+            Color.WHITE
 
     fun  subscribeOnThemeChange(view: View) {
         themeChangeSubscribers.add(view)
@@ -126,14 +131,17 @@ object ThemeHelper {
         }
     }
 
-    fun isDarkTheme(): Boolean = Aesthetic.get().isDark.blockingFirst()
+    fun isDarkTheme(): Boolean = false
+            //Aesthetic.get().isDark.blockingFirst()
 
     fun isWhiteTheme(): Boolean {
         val colorPrimary by PreferenceUtils(MyApp.context(), MY_COLOR_PRIMARY, blueIntValue)
         return colorPrimary == Color.WHITE
     }
 
-    fun getTextColorPrimary(): Int = Aesthetic.get().textColorPrimary().blockingFirst()
+    fun getTextColorPrimary(): Int =
+            //Aesthetic.get().textColorPrimary().blockingFirst()
+            Color.BLACK
 
     fun getRefreshTextColor(): Int = when {
         ColorUtils.isLightColor(getColorPrimary()) -> Color.GRAY

@@ -73,6 +73,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         text_view_post_detail_title.text = postTitle
 
         postPresenter = PostPresenterImpl(this)
+
+
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!, topicUserName).apply {
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
                 viewHolder, postReplyBean, i -> clickToUserDetail(mContext, postReplyBean.reply_id)
