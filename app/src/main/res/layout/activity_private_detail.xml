@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:orientation="horizontal">
-                <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
+                <com.febers.uestc_bbs.lib.emotion.view.EmotionEditText
                     android:id="@+id/edit_view_pm"
                     android:inputType="textMultiLine"
                     android:layout_width="0dp"
@@ -95,7 +95,7 @@
         android:id="@+id/emotion_layout_pm_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.febers.uestc_bbs.view.emotion.view.EmotionView
+        <com.febers.uestc_bbs.lib.emotion.view.EmotionView
             android:id="@+id/emotion_view_pm_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"

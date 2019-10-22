@@ -97,7 +97,7 @@
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"/>
 
-        <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
+        <com.febers.uestc_bbs.lib.emotion.view.EmotionEditText
             android:id="@+id/edit_view_post_reply_activity"
             android:inputType="textMultiLine"
             android:layout_width="match_parent"
@@ -128,7 +128,7 @@
         android:id="@+id/emotion_layout_post_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.febers.uestc_bbs.view.emotion.view.EmotionView
+        <com.febers.uestc_bbs.lib.emotion.view.EmotionView
             android:id="@+id/emotion_view_reply"
             android:layout_width="match_parent"
             android:layout_height="0dp"

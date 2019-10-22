@@ -6,7 +6,7 @@ import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.FID
 import com.febers.uestc_bbs.base.TITLE
 import com.febers.uestc_bbs.module.more.BlockFragment
-import com.febers.uestc_bbs.view.emotion.EmotionTranslator
+import com.febers.uestc_bbs.lib.emotion.EmotionTranslator
 
 class PostEditActivity : BaseActivity() {
 

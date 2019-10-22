@@ -26,8 +26,8 @@ import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
-import com.febers.uestc_bbs.view.emotion.KeyBoardManager
-import com.febers.uestc_bbs.view.emotion.view.EmotionView
+import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
+import com.febers.uestc_bbs.lib.emotion.view.EmotionView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType

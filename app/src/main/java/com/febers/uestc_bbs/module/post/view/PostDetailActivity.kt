@@ -93,13 +93,13 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
 
         refresh_layout_post_detail.apply {
-            initAttrAndBehavior()
+//            initAttrAndBehavior()
             setOnRefreshListener {
                 drawFinish = false
                 page = 1
                 getPost(postId, page) }
-            setOnLoadMoreListener {
-                getPost(postId, ++page) }
+//            setOnLoadMoreListener {
+//                getPost(postId, ++page) }
         }
         recyclerview_post_detail_replies.apply {
             layoutManager = LinearLayoutManager(mContext).apply {
@@ -126,6 +126,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         fab_post_detail.setOnClickListener {
             scroll_view_post_detail.scrollTo(0, 0)
         }
+        refresh_layout_post_detail.isRefreshing = true
+        getPost(postId, page)
     }
 
     override fun initView() {
@@ -136,7 +138,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     (由于已经关闭加载更多，只能由刷新触发)，
      */
     private fun getPost(postId: Int, page: Int, authorId: Int = this.authorId, order: Int = this.postOrder) {
-        refresh_layout_post_detail.setNoMoreData(false)
         tv_bottom_hint.visibility = View.INVISIBLE
         postPresenter?.postDetailRequest(postId, page, authorId, order)
     }
@@ -164,11 +165,11 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
         //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
+            refresh_layout_post_detail?.isRefreshing = false
             tv_bottom_hint.postDelayed( { tv_bottom_hint.visibility = View.VISIBLE }, 500)
         }
 
-        refresh_layout_post_detail?.finishSuccess()
+        refresh_layout_post_detail?.isRefreshing = false
         val start: Int = replyList?.size ?: 0
         replyList?.addAll(event.data.list!!)    //如果是第一页，在 drawTopicView 方法中已清空评论列表
         val itemCount = if (replyList?.size == null) 0 else replyList!!.size - start
@@ -278,7 +279,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     @UiThread
     override fun showVoteResult(event: BaseEvent<PostVoteResultBean>) {
         showHint(event.data.errcode.toString())
-        refresh_layout_post_detail.autoRefresh()
+        refresh_layout_post_detail.isRefreshing = true
     }
 
     ////////////////////////////////支持////////////////////////////////
@@ -350,7 +351,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             result ?: return
             if (result) {
                 scroll_view_post_detail.scrollTo(0, 0) //移动至顶部
-                refresh_layout_post_detail?.autoRefresh()
+                refresh_layout_post_detail?.isRefreshing = true
                 replyCount++
             }
         }
@@ -364,7 +365,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             } else {
                 topicUserId
             }
-            refresh_layout_post_detail.autoRefresh()
+            refresh_layout_post_detail.isRefreshing = true
         }
         if (position == ITEM_ORDER_POSITIVE) { //颠倒顺序
             postOrder = if (postOrder == POST_POSITIVE_ORDER){
@@ -372,7 +373,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             } else {
                 POST_POSITIVE_ORDER
             }
-            refresh_layout_post_detail.autoRefresh()
+            refresh_layout_post_detail.isRefreshing = true
         }
         if (position == ITEM_WEB_POST) {
             getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
@@ -426,7 +427,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     override fun showError(msg: String) {
         showHint(msg)
         if (!drawFinish) {  //此时为主贴请求或者投票（？待改进）出错，切换至空视图
-            refresh_layout_post_detail?.finishFail()
+            refresh_layout_post_detail?.isRefreshing = true
             showEmptyView()
             drawFinish = true
         }

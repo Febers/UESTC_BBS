@@ -17,7 +17,7 @@
         <item name="android:textColorPrimary">@color/textColorFirst_Day</item>
         <item name="android:textColorSecondary">@color/textColorSecond_Day</item>
         <item name="android:windowIsTranslucent">true</item> <!-- 让activity不闪屏 -->
-        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
+<!--        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>-->
     </style>
 
 <!--    <style name="AppThemeLight.Home" parent="Theme.AppCompat.Light.NoActionBar">-->

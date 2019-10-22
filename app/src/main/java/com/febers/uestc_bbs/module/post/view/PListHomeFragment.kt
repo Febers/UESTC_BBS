@@ -10,12 +10,8 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.helper.finishFail
-import com.febers.uestc_bbs.view.helper.finishSuccess
-import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -43,40 +39,36 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         postListAdapter = PostListAdapter(context!!, postSimpleList).apply {
             setOnItemClickListener { viewHolder, simplePostBean, i ->
                 ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title, simplePostBean.user_nick_name)
-//                ClickContext.clickToPostDetail(context,simplePostBean.topic_id ?: simplePostBean.source_id, simplePostBean.title,
-//                        transitionView = viewHolder.getView(R.id.text_view_item_post_title), transitionViewName = "post_title")
             }
             setOnItemChildClickListener(R.id.image_view_item_post_avatar) {
                 viewHolder, simplePostBean, i -> ClickContext.clickToUserDetail(context, simplePostBean.user_id)
             }
             setEmptyView(getEmptyViewForRecyclerView(recyclerview_subpost_fragment))
-        }
-        recyclerview_subpost_fragment.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = postListAdapter
-        }
-        refresh_layout_post_list_home.apply {
-            initAttrAndBehavior()
-            setOnRefreshListener {
-                page = 1
-                getPost(page)
-            }
+            setLoadingView(R.layout.layout_load_more)
             setOnLoadMoreListener {
                 page++
                 getPost(page)
             }
         }
-        ThemeHelper.subscribeOnThemeChange(refresh_layout_post_list_home)
-        postListAdapter.notifyDataSetChanged()
+        recyclerview_subpost_fragment.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = postListAdapter
+        }
+        refresh_layout_post_list_home.setOnRefreshListener {
+            page = 1
+            getPost(page)
+        }
+        refresh_layout_post_list_home.isRefreshing = true
+        getPost(1)
     }
 
     private fun getPost(page: Int) {
-        refresh_layout_post_list_home.setNoMoreData(false)
         pListPresenter.pListRequest(fid = mFid, page = page)
     }
 
     @UiThread
     override fun showPList(event: BaseEvent<PostListBean>) {
+        postListAdapter.finishLoadMore()
         loadFinish = true
         if (event.code == BaseCode.LOCAL) {
             context?.runOnUiThread {
@@ -84,13 +76,13 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             }
             return
         }
-        refresh_layout_post_list_home?.finishSuccess()
+        refresh_layout_post_list_home?.isRefreshing = false
         if (page == 1) {
             postListAdapter.setNewData(event.data.list)
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_post_list_home?.finishLoadMoreWithNoMoreData()
+            refresh_layout_post_list_home?.isRefreshing = false
             return
         }
         postListAdapter.setLoadMoreData(event.data.list)
@@ -99,7 +91,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
 
     override fun showError(msg: String) {
         showHint(msg)
-        refresh_layout_post_list_home?.finishFail()
+        refresh_layout_post_list_home?.isRefreshing = false
     }
 
     companion object {
@@ -121,7 +113,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
         log("get reselected")
         if (isSupportVisible && loadFinish && event.position == 0) {
             scroll_view_plist_home?.scrollTo(0, 0)
-            refresh_layout_post_list_home?.autoRefresh()
+            refresh_layout_post_list_home?.isRefreshing = true
         }
     }
 
@@ -133,7 +125,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
     fun onPostNew(event: PostNewEvent) {
         if (isSupportVisible && event.code == BaseCode.SUCCESS) {
             scroll_view_plist_home?.scrollTo(0, 0)
-            refresh_layout_post_list_home.autoRefresh()
+            refresh_layout_post_list_home.isRefreshing = true
         }
     }
 

@@ -35,7 +35,7 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <com.febers.uestc_bbs.view.emotion.view.EmotionTab
+        <com.febers.uestc_bbs.lib.emotion.view.EmotionTab
             android:id="@+id/tabAdd"
             android:layout_width="@dimen/bottom_tab_width"
             android:layout_height="@dimen/bottom_tab_height"

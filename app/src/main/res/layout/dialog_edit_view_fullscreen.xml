@@ -19,7 +19,7 @@
             android:text="完成"/>
     </RelativeLayout>
 
-    <com.febers.uestc_bbs.view.emotion.view.EmotionEditText
+    <com.febers.uestc_bbs.lib.emotion.view.EmotionEditText
         android:id="@+id/edit_text_fullscreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

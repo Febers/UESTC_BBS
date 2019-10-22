@@ -5,14 +5,15 @@ import android.view.View
 import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostListBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeHelper
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
+import com.febers.uestc_bbs.utils.log
 
 class PostListAdapter(val context: Context, data: List<PostListBean.ListBean>, val showBoardName: Boolean = true):
-        CommonBaseAdapter<PostListBean.ListBean>(context, data, false) {
+        CommonBaseAdapter<PostListBean.ListBean>(context, data, true) {
 
 
     override fun convert(p0: ViewHolder?, p1: PostListBean.ListBean?, p2: Int) {

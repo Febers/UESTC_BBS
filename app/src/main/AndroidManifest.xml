@@ -36,7 +36,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider> <!-- ++++++++++++++++++++++++++++默认的启动图标+++++++++++++++++++++++++++++++++++++++++++ -->
+        </provider>
+        <!-- ++++++++++++++++++++++++++++默认的启动图标+++++++++++++++++++++++++++++++++++++++++++ -->
         <activity android:name=".home.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

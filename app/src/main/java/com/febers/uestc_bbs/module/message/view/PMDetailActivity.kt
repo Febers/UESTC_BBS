@@ -11,8 +11,8 @@ import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.PMDetailPresenterImpl
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.view.adapter.PMDetailAdapter
-import com.febers.uestc_bbs.view.emotion.KeyBoardManager
-import com.febers.uestc_bbs.view.emotion.view.EmotionView
+import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
+import com.febers.uestc_bbs.lib.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_private_detail.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.EventBus

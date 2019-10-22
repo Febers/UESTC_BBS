@@ -2,13 +2,12 @@
 <!--SmartRefreshLayout的app:srlEnableNestedScrolling="false"
     和RecyclerView的android:nestedScrollingEnabled="false"
     非常重要-->
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     android:id="@+id/refresh_layout_post_list_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:srlEnableNestedScrolling="false"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view_plist_home"
         android:layout_width="match_parent"
@@ -20,4 +19,5 @@
             android:nestedScrollingEnabled="false">
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.core.widget.NestedScrollView>
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
