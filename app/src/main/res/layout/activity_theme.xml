@@ -6,18 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_theme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_theme"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/layout_toolbar_common" />
 
     <ScrollView
         android:layout_width="match_parent"

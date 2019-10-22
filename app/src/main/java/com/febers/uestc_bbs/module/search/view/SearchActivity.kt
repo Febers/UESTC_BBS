@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.SearchPagerAdapter
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
 class SearchActivity: BaseActivity() {
 
@@ -22,10 +23,11 @@ class SearchActivity: BaseActivity() {
 
     override fun setView(): Int = R.layout.activity_search
 
-    override fun setToolbar(): Toolbar? = toolbar_search
+    override fun setToolbar(): Toolbar? = toolbar_common
+
+    override fun setTitle(): String? = getString(R.string.search)
 
     override fun initView() {
-        toolbar_search.title = getString(R.string.search)
         val searchPagerAdapter = SearchPagerAdapter(supportFragmentManager)
         view_pager_search.adapter = searchPagerAdapter
         tab_layout_search.setupWithViewPager(view_pager_search)

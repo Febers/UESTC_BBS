@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlin.collections.ArrayList
@@ -42,7 +43,7 @@ class SettingActivity : BaseActivity() {
 
     override fun setView(): Int = R.layout.activity_setting
 
-    override fun setToolbar(): Toolbar? = toolbar_setting
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun setTitle(): String? = getString(R.string.setting_and_account)
 

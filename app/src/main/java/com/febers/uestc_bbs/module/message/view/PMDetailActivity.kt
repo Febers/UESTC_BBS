@@ -14,6 +14,7 @@ import com.febers.uestc_bbs.view.adapter.PMDetailAdapter
 import com.febers.uestc_bbs.view.emotion.KeyBoardManager
 import com.febers.uestc_bbs.view.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_private_detail.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -43,7 +44,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
             softInputStatusChange()
         }
 
-    override fun setToolbar(): Toolbar? = toolbar_private_detail
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun setView(): Int {
         uid = intent.getIntExtra(USER_ID, 0)
@@ -53,7 +54,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
 
     override fun initView() {
         EventBus.getDefault().post(MsgFeedbackEvent(BaseCode.SUCCESS, MSG_TYPE_PRIVATE))
-        toolbar_private_detail.title = userName
+        toolbar_common.title = userName
         pmPresenter = PMDetailPresenterImpl(this)
         pmAdapter = PMDetailAdapter(this, pmList, MyApp.user().uid, PMTimeUtils())
         recyclerview_private_detail.apply {

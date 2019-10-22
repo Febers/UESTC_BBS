@@ -14,20 +14,7 @@
         android:orientation="vertical"
         android:id="@+id/coo_layout_home_2">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:elevation="0dp">
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_home_2"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
+        <include layout="@layout/layout_toolbar_common" />
 
         <FrameLayout
             android:id="@+id/container_home_2"

@@ -27,6 +27,7 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.activity_post_reply.btn_edit_text_fullscreen
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import java.io.File
 import java.lang.StringBuilder
 import java.util.ArrayList
@@ -70,7 +71,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
         return R.layout.activity_post_reply
     }
 
-    override fun setToolbar(): Toolbar? = toolbar_post_reply
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun initView() {
         postPresenter = PostPresenterImpl(this@PostReplyActivity)

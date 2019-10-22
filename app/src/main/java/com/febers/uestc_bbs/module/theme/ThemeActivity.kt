@@ -13,6 +13,7 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.ThemeGridViewAdapter
 import kotlinx.android.synthetic.main.activity_theme.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
 class ThemeActivity : BaseActivity() {
 
@@ -24,7 +25,7 @@ class ThemeActivity : BaseActivity() {
 
     override fun setView(): Int = R.layout.activity_theme
 
-    override fun setToolbar(): Toolbar? = toolbar_theme
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun setTitle(): String? = getString(R.string.choose_theme)
 

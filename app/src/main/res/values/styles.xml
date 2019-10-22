@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_blue</item>
+        <item name="colorPrimary">@color/color_white</item>
         <item name="colorAccent">@color/color_blue</item>
+        <item name="colorPrimaryDark">@color/color_white</item>
 
         <item name="text_color_first">@color/textColorFirst_Day</item>
         <item name="text_color_second">@color/textColorSecond_Day</item>

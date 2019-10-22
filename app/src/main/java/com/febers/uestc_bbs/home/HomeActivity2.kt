@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_home_2.*
 import kotlinx.android.synthetic.main.activity_home_2.fab_home
 import kotlinx.android.synthetic.main.layout_drawer_home_2.*
 import kotlinx.android.synthetic.main.layout_header_drawer.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -61,7 +62,7 @@ class HomeActivity2: BaseActivity() {
 
     override fun setView(): Int = R.layout.activity_home_2
 
-    override fun setToolbar(): Toolbar? = toolbar_home_2
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun registerEventBus(): Boolean = true
 
@@ -91,9 +92,9 @@ class HomeActivity2: BaseActivity() {
     }
 
     private fun initToolbar() {
-        toolbar_home_2.title = getString(R.string.home_page)
+        toolbar_common.title = getString(R.string.home_page)
         val toggle = ActionBarDrawerToggle(mContext,
-                drawer_layout_home_2, toolbar_home_2,
+                drawer_layout_home_2, toolbar_common,
                 R.string.search, R.string.search)
         toggle.syncState()
         drawer_layout_home_2.addDrawerListener(toggle)
@@ -220,23 +221,23 @@ class HomeActivity2: BaseActivity() {
             R.id.menu_item_block_home_2 -> {
                 pagePositionNow = if (pagePositionNow == PAGE_POSITION_BLOCK) {
                     showHideFragment(mFragments[PAGE_POSITION_HOME])
-                    toolbar_home_2.title = getString(R.string.home_page)
+                    toolbar_common.title = getString(R.string.home_page)
                     PAGE_POSITION_HOME
                 } else {
                     showHideFragment(mFragments[PAGE_POSITION_BLOCK])
-                    toolbar_home_2.title = getString(R.string.forum_list_page)
+                    toolbar_common.title = getString(R.string.forum_list_page)
                     PAGE_POSITION_BLOCK
                 }
             }
             R.id.menu_item_msg_home_2 -> {
                 pagePositionNow = if (pagePositionNow == PAGE_POSITION_MESSAGE) {
                     showHideFragment(mFragments[PAGE_POSITION_HOME])
-                    toolbar_home_2.title = getString(R.string.home_page)
+                    toolbar_common.title = getString(R.string.home_page)
                     PAGE_POSITION_HOME
                 } else {
                     msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_msg_white_24dp)
                     showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
-                    toolbar_home_2.title = getString(R.string.message_page)
+                    toolbar_common.title = getString(R.string.message_page)
                     PAGE_POSITION_MESSAGE
                 }
             }
@@ -247,7 +248,7 @@ class HomeActivity2: BaseActivity() {
     override fun onBackPressedSupport() {
         if (pagePositionNow != PAGE_POSITION_HOME) {
             showHideFragment(mFragments[PAGE_POSITION_HOME])
-            toolbar_home_2.title = getString(R.string.home_page)
+            toolbar_common.title = getString(R.string.home_page)
             pagePositionNow = PAGE_POSITION_HOME
         } else {
             ActivityCompat.finishAfterTransition(this)

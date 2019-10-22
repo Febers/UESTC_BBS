@@ -14,6 +14,7 @@ import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
 import com.febers.uestc_bbs.utils.KeyboardUtils
 import com.febers.uestc_bbs.utils.postSticky
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.jetbrains.anko.browse
 
 class LoginActivity : BaseActivity(), LoginContract.View {
@@ -25,7 +26,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         return R.layout.activity_login
     }
 
-    override fun setToolbar(): Toolbar? = toolbar_login
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun setTitle(): String? = getString(R.string.login)
 

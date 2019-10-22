@@ -14,6 +14,7 @@ import com.febers.uestc_bbs.view.helper.finishFail
 import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.activity_user_post.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
 class UserPostActivity: BaseActivity(), UserContract.View {
 
@@ -24,9 +25,7 @@ class UserPostActivity: BaseActivity(), UserContract.View {
     private var uid: Int = 0
     private var type = USER_START_POST
 
-    override fun setToolbar(): Toolbar? {
-        return toolbar_user_post
-    }
+    override fun setToolbar(): Toolbar? = toolbar_common
 
 
     override fun setView(): Int {
@@ -90,13 +89,13 @@ class UserPostActivity: BaseActivity(), UserContract.View {
 
     private fun setToolbarTitle() {
         if (type == USER_START_POST) {
-            toolbar_user_post?.title = "发表"
+            toolbar_common.title = "发表"
         }
         if (type == USER_REPLY_POST) {
-            toolbar_user_post?.title = "回复"
+            toolbar_common.title = "回复"
         }
         if (type == USER_FAV_POST) {
-            toolbar_user_post?.title = "收藏"
+            toolbar_common.title = "收藏"
         }
     }
 

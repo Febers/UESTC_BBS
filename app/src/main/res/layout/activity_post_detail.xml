@@ -17,18 +17,7 @@
     android:orientation="vertical"
     android:focusableInTouchMode="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_post_detail"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/post_detail">
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/layout_toolbar_common" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

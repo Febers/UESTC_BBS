@@ -24,6 +24,7 @@ import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.search.view.SearchActivity
 import kotlinx.android.synthetic.main.fragment_more.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -182,9 +183,10 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMenu() {
-        (activity as AppCompatActivity).setSupportActionBar(toolbar_more)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar_common)
         setHasOptionsMenu(true)
-        toolbar_more.inflateMenu(R.menu.menu_more_fragment)
+        toolbar_common.inflateMenu(R.menu.menu_more_fragment)
+        toolbar_common.title = getString(R.string.more_page)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

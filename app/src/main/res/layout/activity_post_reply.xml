@@ -15,17 +15,7 @@
         android:orientation="vertical">
 
         <!--Toolbar-->
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_post_reply"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+        <include layout="@layout/layout_toolbar_common" />
 
         <ProgressBar
             android:id="@+id/progress_bar_reply_activity"

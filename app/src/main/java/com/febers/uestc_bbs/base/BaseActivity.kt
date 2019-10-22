@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.base
 
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import org.greenrobot.eventbus.EventBus
@@ -9,6 +10,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.utils.HintUtils
+import com.febers.uestc_bbs.utils.StatusBarUtil
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.custom.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
@@ -47,6 +49,9 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         setContentView(contentView)
         ActivityMgr.putActivity(mContext)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         if (!enableThemeHelper() && enableHideStatusBar()) {
             hideStatusBar()
         }

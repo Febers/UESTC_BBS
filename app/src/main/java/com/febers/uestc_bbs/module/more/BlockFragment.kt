@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.module.post.view.edit.PostEditFragment
 import com.febers.uestc_bbs.utils.BlockUtils
 import kotlinx.android.synthetic.main.fragment_block_list.*
 import kotlinx.android.synthetic.main.layout_block_list.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import java.util.ArrayList
 
 /**
@@ -37,7 +38,9 @@ class BlockFragment: BaseFragment() {
 
     override fun initView() {
         if (MyApp.homeLayout() == HOME_VIEW_STYLE_DRAWER && !newPost) {
-            toolbar_block_list.visibility = View.GONE
+            toolbar_common.visibility = View.GONE
+        } else {
+            toolbar_common.title = getString(R.string.forum_list_page)
         }
     }
 
@@ -48,12 +51,12 @@ class BlockFragment: BaseFragment() {
 
     private fun initMyView() {
         if (newPost) {
-            (activity as AppCompatActivity).setSupportActionBar(toolbar_block_list)
+            (activity as AppCompatActivity).setSupportActionBar(toolbar_common)
             (activity as AppCompatActivity).supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 title = getString(R.string.choose_block)
             }
-            toolbar_block_list.setNavigationOnClickListener { activity?.finish() }
+            toolbar_common.setNavigationOnClickListener { activity?.finish() }
         }
         text_view_title_campus.visibility = View.VISIBLE
         text_view_title_tech.visibility = View.VISIBLE

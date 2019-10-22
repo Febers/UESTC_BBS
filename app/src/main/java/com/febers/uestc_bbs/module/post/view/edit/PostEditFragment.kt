@@ -34,6 +34,7 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.fragment_post_edit.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.runOnUiThread
 import java.io.File
@@ -83,7 +84,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                 boardNames).apply {
             setDropDownViewResource(R.layout.item_layout_spinner_dropdown)
         }
-        boardSpinner = Spinner(toolbar_post_edit.context).apply {
+        boardSpinner = Spinner(toolbar_common.context).apply {
             adapter = boardSpinnerAdapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -98,7 +99,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                 }
             }
         }
-        toolbar_post_edit.addView(boardSpinner, 0)
+        toolbar_common.addView(boardSpinner, 0)
 
         classificationNames.add("不选择主题")
         classificationIds.add(0)
@@ -159,12 +160,12 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 
     private fun initToolbar() {
         val activity: AppCompatActivity = activity as AppCompatActivity
-        activity.setSupportActionBar(toolbar_post_edit)
+        activity.setSupportActionBar(toolbar_common)
         activity.supportActionBar?.apply {
             title = ""
             setDisplayHomeAsUpEnabled(true)
         }
-        toolbar_post_edit.setNavigationOnClickListener { activity.finish() }
+        toolbar_common.setNavigationOnClickListener { activity.finish() }
     }
 
     /**

@@ -8,18 +8,7 @@
     android:orientation="vertical"
     tools:context=".module.search.view.SearchActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_search"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|snap|enterAlways">
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/layout_toolbar_common" />
 
     <LinearLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

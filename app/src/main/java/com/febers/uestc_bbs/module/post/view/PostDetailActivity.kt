@@ -33,6 +33,7 @@ import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
 import kotlinx.android.synthetic.main.layout_server_null.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
 class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener {
 
@@ -63,7 +64,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     ////////////////////////////////初始化////////////////////////////////
 
     override fun setView(): Int = R.layout.activity_post_detail
-    override fun setToolbar(): Toolbar? = toolbar_post_detail
+    override fun setToolbar(): Toolbar? = toolbar_common
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
     override fun afterCreated() {
@@ -117,9 +118,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             tempDy = tempDy + scrollY - oldScrollY
             if (tempDy < 418) {
                 fab_post_detail.hide()
-                toolbar_post_detail.subtitle = ""
+                toolbar_common.subtitle = ""
             } else {
-                toolbar_post_detail.subtitle = postTitle
+                toolbar_common.subtitle = postTitle
             }
         }
         fab_post_detail.setOnClickListener {
@@ -211,7 +212,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         isFavorite = event.data.topic?.is_favor ?: POST_NO_FAVORED
         initFavStatus()
         postTitle = event.data.topic?.title ?: postTitle
-        toolbar_post_detail?.title = event.data.forumName
+        toolbar_common.title = event.data.forumName
         text_view_post_detail_title?.text = event.data.topic?.title
         text_view_post_detail_author?.text = event.data.topic?.user_nick_name
         text_view_post_detail_author_title?.text = event.data.topic?.userTitle
@@ -433,7 +434,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     ////////////////////////////////服务器响应为null////////////////////////////////
     private fun showEmptyView() {
-        toolbar_post_detail?.title = getString(R.string.unknown)
+        toolbar_common.title = getString(R.string.unknown)
         val view = LayoutInflater.from(mContext).inflate(R.layout.layout_server_null, null)
         linear_layout_post_detail?.let {
             it.removeAllViews()

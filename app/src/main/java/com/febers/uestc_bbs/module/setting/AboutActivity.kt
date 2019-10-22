@@ -25,6 +25,7 @@ import com.febers.uestc_bbs.module.update.UpdateHelper
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import kotlinx.android.synthetic.main.activity_about.*
+import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.browse
@@ -44,7 +45,7 @@ class AboutActivity: BaseActivity() {
     private var permissionDialog: AlertDialog? = null
     private var updateLogDialog: AlertDialog? = null
 
-    override fun setToolbar(): Toolbar? = toolbar_about
+    override fun setToolbar(): Toolbar? = toolbar_common
 
     override fun setTitle(): String? = getString(R.string.about)
 
