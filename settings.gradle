@@ -1,1 +1,1 @@
-include ':app', ':emotion', ':emotion', ':theme'
+include ':app', ':emotion'

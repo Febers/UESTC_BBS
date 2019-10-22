@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.home.HomeActivity2
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.lib.emotion.EmotionManager
+import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
@@ -136,7 +137,7 @@ class MyApp: MultiDexApplication() {
              * 初始化刷新控件
              */
             SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-                ClassicsHeader(context)
+                MaterialHeader(context)
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)

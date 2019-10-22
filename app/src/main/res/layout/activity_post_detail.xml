@@ -19,11 +19,12 @@
 
     <include layout="@layout/layout_toolbar_common" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlEnableNestedScrolling="false">
         <!--android:layerType="software"非常重要，否则动态添加textview是会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageView,否则无法绘制-->
         <androidx.core.widget.NestedScrollView
@@ -174,7 +175,7 @@
                     android:visibility="invisible"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_post_detail"
