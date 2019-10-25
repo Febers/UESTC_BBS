@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.custom
+package com.febers.uestc_bbs.lib.fragmentation
 
 import android.app.Activity
 import android.os.Bundle
@@ -6,17 +6,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import android.view.View
 import android.view.animation.Animation
+import androidx.annotation.FloatRange
+import me.yokeyword.fragmentation.*
 
-import me.yokeyword.fragmentation.ExtraTransaction
-import me.yokeyword.fragmentation.ISupportFragment
-import me.yokeyword.fragmentation.SupportFragmentDelegate
-import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.anim.FragmentAnimator
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackFragment
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
 
-abstract class SupportFragment : Fragment(), ISupportFragment {
+abstract class SupportFragment : Fragment(), ISupportFragment, ISwipeBackFragment {
 
     internal val mDelegate = SupportFragmentDelegate(this)
-    protected lateinit var _mActivity: FragmentActivity
+    internal val swipeDelegate = SwipeBackFragmentDelegate(this)
+    protected lateinit var mActivity: FragmentActivity
 
     /**
      * 得到位于栈顶Fragment
@@ -45,15 +46,16 @@ abstract class SupportFragment : Fragment(), ISupportFragment {
         return mDelegate.extraTransaction()
     }
 
-    override fun onAttach(activity: Activity?) {
+    override fun onAttach(activity: Activity) {
         super.onAttach(activity)
-        mDelegate.onAttach(activity!!)
-        _mActivity = mDelegate.activity
+        mDelegate.onAttach(activity)
+        mActivity = mDelegate.activity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
+        swipeDelegate.onCreate(savedInstanceState)
     }
 
     /**
@@ -84,6 +86,7 @@ abstract class SupportFragment : Fragment(), ISupportFragment {
     }
 
     override fun onDestroyView() {
+        swipeDelegate.onDestroyView()
         mDelegate.onDestroyView()
         super.onDestroyView()
     }
@@ -96,12 +99,52 @@ abstract class SupportFragment : Fragment(), ISupportFragment {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         mDelegate.onHiddenChanged(hidden)
+        swipeDelegate.onHiddenChanged(hidden)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         mDelegate.setUserVisibleHint(isVisibleToUser)
     }
+
+    //----Swipe----//
+    public override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        swipeDelegate.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun attachToSwipeBack(view: View): View {
+        return swipeDelegate.attachToSwipeBack(view)
+    }
+
+    public override fun getSwipeBackLayout(): SwipeBackLayout {
+        return swipeDelegate.swipeBackLayout
+    }
+
+    /**
+     * 是否可滑动
+     *
+     * @param enable
+     */
+    override fun setSwipeBackEnable(enable: Boolean) {
+        swipeDelegate.setSwipeBackEnable(enable)
+    }
+
+    override fun setEdgeLevel(edgeLevel: SwipeBackLayout.EdgeLevel) {
+        swipeDelegate.setEdgeLevel(edgeLevel)
+    }
+
+    override fun setEdgeLevel(widthPixel: Int) {
+        swipeDelegate.setEdgeLevel(widthPixel)
+    }
+
+    /**
+     * Set the offset of the parallax slip.
+     */
+    override fun setParallaxOffset(@FloatRange(from = 0.0, to = 1.0) offset: Float) {
+        swipeDelegate.setParallaxOffset(offset)
+    }
+    //----Swipe----//
 
     /**
      * Causes the Runnable r to be added to the action queue.

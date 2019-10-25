@@ -10,8 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
-import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.custom.SupportFragment
+import com.febers.uestc_bbs.lib.fragmentation.SupportFragment
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.runOnUiThread
 
@@ -71,14 +70,6 @@ abstract class BaseFragment : SupportFragment(), BaseView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //添加toolbar点击返回
-//        val activity: AppCompatActivity = activity as AppCompatActivity
-//        activity.setSupportActionBar(setToolbar())
-//        activity.supportActionBar?.apply {
-//            title = ""
-//            setDisplayHomeAsUpEnabled(true)
-//        }
         setToolbar()?.setNavigationOnClickListener { pop() }
         setTitle()?.apply { setToolbar()?.title = this }
         //添加Menu

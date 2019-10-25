@@ -8,12 +8,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.utils.HintUtils
-import com.febers.uestc_bbs.utils.StatusBarUtil
-import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.custom.SupportActivity
+import com.febers.uestc_bbs.lib.fragmentation.SupportActivity
 import com.febers.uestc_bbs.view.helper.hideStatusBar
+import me.yokeyword.fragmentation.SwipeBackLayout
 
 
 /**
@@ -34,7 +32,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     protected open fun setTitle(): String? = null
 
-    protected open fun enableHideStatusBar(): Boolean = true
+    protected open fun enableHideStatusBar(): Boolean = false
 
     protected open fun registerEventBus() = false
 
@@ -52,9 +50,10 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        if (!enableThemeHelper() && enableHideStatusBar()) {
+        if (enableHideStatusBar()) {
             hideStatusBar()
         }
+        setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
         setSupportActionBar(setToolbar())
         supportActionBar?.apply {
             title = ""
@@ -122,8 +121,8 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             android.R.id.home -> {
                 finish()
             }

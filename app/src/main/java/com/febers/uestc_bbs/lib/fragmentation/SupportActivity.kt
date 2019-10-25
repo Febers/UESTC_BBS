@@ -1,25 +1,24 @@
-package com.febers.uestc_bbs.view.custom
+package com.febers.uestc_bbs.lib.fragmentation
 
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MotionEvent
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import me.yokeyword.fragmentation.*
 
-import me.yokeyword.fragmentation.ExtraTransaction
-import me.yokeyword.fragmentation.ISupportActivity
-import me.yokeyword.fragmentation.ISupportFragment
-import me.yokeyword.fragmentation.SupportActivityDelegate
-import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.anim.FragmentAnimator
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackActivity
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
+import me.yokeyword.fragmentation.SwipeBackLayout
 
 /**
  * 这是Fragmentation包的基类
  * 将其变成抽象的以便实现项目的Base类
  */
-abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
+abstract class SupportActivity: AppCompatActivity(), ISupportActivity, ISwipeBackActivity {
 
     private val mDelegate = SupportActivityDelegate(this)
+    private val swipeDelegate = SwipeBackActivityDelegate(this)
 
     /**
      * 得到位于栈顶Fragment
@@ -39,38 +38,55 @@ abstract class SupportActivity : AppCompatActivity(), ISupportActivity {
         return mDelegate.extraTransaction()
     }
 
-    protected open fun enableThemeHelper(): Boolean = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (enableThemeHelper()){
-//            Aesthetic.attach(this)
-//            if (Aesthetic.isFirstTime) {
-//                ThemeHelper.setTheme(this)
-//            }
-        }
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
+        swipeDelegate.onCreate(savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
-//        if (enableThemeHelper()) Aesthetic.resume(this)
-    }
-
-    override fun onPause() {
-//        if (enableThemeHelper()) Aesthetic.pause(this)
-        super.onPause()
-    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         mDelegate.onPostCreate(savedInstanceState)
+        swipeDelegate.onPostCreate(savedInstanceState)
     }
 
     override fun onDestroy() {
         mDelegate.onDestroy()
         super.onDestroy()
     }
+
+    //----Swipe----//
+    public override fun getSwipeBackLayout(): SwipeBackLayout {
+        return swipeDelegate.swipeBackLayout
+    }
+
+    /**
+     * 是否可滑动
+     * @param enable
+     */
+    override fun setSwipeBackEnable(enable: Boolean) {
+        swipeDelegate.setSwipeBackEnable(enable)
+    }
+
+    override fun setEdgeLevel(edgeLevel: SwipeBackLayout.EdgeLevel) {
+        swipeDelegate.setEdgeLevel(edgeLevel)
+    }
+
+    override fun setEdgeLevel(widthPixel: Int) {
+        swipeDelegate.setEdgeLevel(widthPixel)
+    }
+
+    /**
+     * 限制SwipeBack的条件,默认栈内Fragment数 <= 1时 , 优先滑动退出Activity , 而不是Fragment
+     *
+     * @return true: Activity优先滑动退出;  false: Fragment优先滑动退出
+     */
+    override fun swipeBackPriority(): Boolean {
+        return swipeDelegate.swipeBackPriority()
+    }
+
+    //----Swipe----//
 
     /**
      * Note： return mDelegate.dispatchTouchEvent(ev) || super.dispatchTouchEvent(ev);

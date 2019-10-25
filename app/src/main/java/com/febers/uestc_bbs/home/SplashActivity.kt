@@ -26,11 +26,12 @@ class SplashActivity : BaseActivity() {
 
     private lateinit var permissionUtils: PermissionUtils
 
-    override fun enableThemeHelper(): Boolean = false
-
     override fun setView(): Int = R.layout.activity_splash
 
+    override fun enableHideStatusBar(): Boolean = true
+
     override fun initView() {
+        setSwipeBackEnable(false)
         if (intent.getBooleanExtra(RESTART_APP, false)) {
             ActivityMgr.removeAllActivitiesExceptOne(mContext)
         }
