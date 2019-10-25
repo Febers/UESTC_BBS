@@ -390,14 +390,14 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     private fun showReplyCountBottomAndFAB() {
         if (layout_post_reply_count.visibility == View.VISIBLE) return
-        layout_post_reply_count.visibility = View.VISIBLE
+        layout_post_reply_count.post { layout_post_reply_count.visibility = View.VISIBLE }
         if (showReplyCountBottomAnimatorSet == null) {
             showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
             (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(layout_post_reply_count)
         }
         (showReplyCountBottomAnimatorSet as AnimatorSet).start()
         if (!fab_post_detail.isShown) {
-            fab_post_detail.show()
+            fab_post_detail.post { fab_post_detail.show() }
         }
     }
 
@@ -408,9 +408,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             (hideReplyCountBottomAnimatorSet as AnimatorSet).setTarget(layout_post_reply_count)
         }
         (hideReplyCountBottomAnimatorSet as AnimatorSet).start()
-        layout_post_reply_count.visibility = View.INVISIBLE
+        layout_post_reply_count.post { layout_post_reply_count.visibility = View.INVISIBLE }
         if (fab_post_detail.isShown) {
-            fab_post_detail.hide()
+            fab_post_detail.post { fab_post_detail.hide() }
         }
     }
 

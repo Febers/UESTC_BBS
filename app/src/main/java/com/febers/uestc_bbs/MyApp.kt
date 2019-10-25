@@ -19,6 +19,7 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.lib.emotion.EmotionManager
 import com.febers.uestc_bbs.lib.header.MaterialHeader
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
@@ -141,7 +142,7 @@ class MyApp: MultiDexApplication() {
             }
             SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
                 layout.setFooterHeight(38f)
-                BallPulseFooter(context)
+                ClassicsFooter(context)
             }
         }
     }
