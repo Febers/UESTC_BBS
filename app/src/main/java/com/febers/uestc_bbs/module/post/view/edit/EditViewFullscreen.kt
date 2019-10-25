@@ -14,11 +14,11 @@ class EditViewFullscreen(private val outEditText: EditText): DialogFragment() {
     private lateinit var btnFinish: Button
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         super.onActivityCreated(savedInstanceState)
 
-        dialog.window?.setBackgroundDrawable(ColorDrawable(0x00000000))
-        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(0x00000000))
+        dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

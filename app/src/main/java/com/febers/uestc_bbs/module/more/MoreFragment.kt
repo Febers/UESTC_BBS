@@ -189,13 +189,13 @@ class MoreFragment: BaseFragment() {
         toolbar_common.title = getString(R.string.more_page)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_more_fragment, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_more_fragment, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_search_more_fragment && LoginContext.userState(context!!)) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_item_search_more_fragment && LoginContext.userState(context!!)) {
             startActivity(Intent(activity, SearchActivity::class.java))
         }
         return super.onOptionsItemSelected(item)

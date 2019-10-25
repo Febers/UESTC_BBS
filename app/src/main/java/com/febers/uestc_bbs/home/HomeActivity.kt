@@ -41,6 +41,7 @@ class HomeActivity: BaseActivity() {
 
     @SuppressLint("RestrictedApi")
     override fun initView() {
+        setSwipeBackEnable(false)
         val firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
         if (firstFragment == null) {
             with(mFragments) {

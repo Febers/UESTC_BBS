@@ -274,8 +274,8 @@ class PListActivity: BaseActivity(), PListContract.View {
         return postWebViewBottomSheet!!
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             R.id.menu_item_post_list_sticky -> {
                 showOrHideStickyPost()
                 if (!isShowStickyPost) itemShowStickyPost?.title = getString(R.string.hide_sticky_post)

@@ -67,6 +67,7 @@ class HomeActivity2: BaseActivity() {
     override fun registerEventBus(): Boolean = true
 
     override fun initView() {
+        setSwipeBackEnable(false)
         initToolbar()
         val firstFragment: ISupportFragment? = findFragment(HomeFirstContainer::class.java)
         if (firstFragment == null) {
@@ -215,8 +216,8 @@ class HomeActivity2: BaseActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
             R.id.menu_item_search_home_2 -> { startActivity(Intent(mContext, SearchActivity::class.java)) }
             R.id.menu_item_block_home_2 -> {
                 pagePositionNow = if (pagePositionNow == PAGE_POSITION_BLOCK) {

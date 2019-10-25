@@ -203,8 +203,8 @@ class AboutActivity: BaseActivity() {
 
     )
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_permission) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
                 permissionDialog = AlertDialog.Builder(mContext)
                         .setMessage(Html.fromHtml(FileHelper.getAssetsString(mContext, "permission_explain.html")))

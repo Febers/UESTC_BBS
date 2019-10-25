@@ -34,7 +34,7 @@ class PostWebViewBottomSheet(context: Context, style: Int, private val url: Stri
 
         try {
             if (dialog != null) {
-                val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
+                val bottomSheet = dialog!!.findViewById<View>(R.id.design_bottom_sheet)
                 bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
             }
             val view = view

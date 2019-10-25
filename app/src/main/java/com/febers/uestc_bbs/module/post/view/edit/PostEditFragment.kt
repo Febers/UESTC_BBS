@@ -154,7 +154,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
             if (fullscreenEditView == null) {
                 fullscreenEditView = EditViewFullscreen(edit_view_post_edit_content)
             }
-            fullscreenEditView!!.show(fragmentManager, "fullscreen_edit")
+            fragmentManager?.let { fragmentManager -> fullscreenEditView!!.show(fragmentManager, "fullscreen_edit") }
         }
     }
 

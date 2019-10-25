@@ -26,9 +26,6 @@ class ImageViewer : BaseActivity() {
     private var imageUri: Uri? = null
     private var gifUri: Uri? = null
 
-    //禁用主题设置，因为需要全屏查看图片
-    override fun enableThemeHelper(): Boolean = false
-
     override fun setView(): Int {
         imageUrl = intent.getStringExtra(IMAGE_URL)
         return R.layout.image_viewer

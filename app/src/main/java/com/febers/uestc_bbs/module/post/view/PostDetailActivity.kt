@@ -415,8 +415,8 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
     }
 
     ////////////////////////////////顶部菜单////////////////////////////////
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_post_detail_option && drawFinish) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_item_post_detail_option && drawFinish) {
             getOptionBottomSheet().show()
         }
         return super.onOptionsItemSelected(item)

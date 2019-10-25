@@ -47,8 +47,6 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     private var userItSelf = false
     private var userId: Int = 0
 
-    override fun enableThemeHelper(): Boolean = false
-
     override fun setMenu(): Int? =  R.menu.menu_user_detail
 
     override fun setView(): Int {
@@ -58,6 +56,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     }
 
     override fun setToolbar(): Toolbar? = toolbar_user_detail
+
+    override fun enableHideStatusBar(): Boolean = true
 
     override fun initView() {
         collapsing_toolbar_layout_detail.apply {
@@ -213,8 +213,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         return postWebViewBottomSheet!!
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.menu_item_user_detail_web) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_item_user_detail_web) {
             //browse("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
             getPostWebViewBottomSheet().show(supportFragmentManager, "user_web")
         }
