@@ -41,10 +41,10 @@ class ImageViewer2: DialogFragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         super.onActivityCreated(savedInstanceState)
 
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(0x00000000))
+        dialog?.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_PANEL)
+        dialog?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
     }
 
