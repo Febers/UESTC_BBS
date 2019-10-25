@@ -13,7 +13,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.module.theme.ThemeHelper
@@ -98,7 +97,7 @@ class SplashActivity : BaseActivity() {
         val hotShortcut = ShortcutInfo.Builder(mContext, "hot")
                 .setShortLabel("热门")
                 .setLongLabel("热门帖子")
-                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_hot_white))
+                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_hot_blue))
                 .setIntent(Intent(mContext, MyApp.getHomeActivity()).apply {
                     action = Intent.ACTION_VIEW
                     putExtra(SHORTCUT_HOT, true)
@@ -108,7 +107,7 @@ class SplashActivity : BaseActivity() {
         val msgShortcut = ShortcutInfo.Builder(mContext, "msg")
                 .setShortLabel("消息")
                 .setLongLabel("我的消息")
-                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_notice_white))
+                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_notice_blue))
                 .setIntent(Intent(mContext, MyApp.getHomeActivity()).apply {
                     action = Intent.ACTION_VIEW
                     putExtra(SHORTCUT_MSG, true)
@@ -117,7 +116,7 @@ class SplashActivity : BaseActivity() {
         val searchShortcut = ShortcutInfo.Builder(mContext, "search")
                 .setShortLabel("搜索")
                 .setLongLabel("帖子搜索")
-                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_search_white_24dp))
+                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_search_blue))
                 .setIntent(Intent(mContext, SearchActivity::class.java).apply {
                     action = Intent.ACTION_VIEW })
                 .build()
