@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.io.UserHelper
+import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginActivity
@@ -93,7 +93,7 @@ class SettingActivity : BaseActivity() {
         recyclerview_setting_users.adapter = simpleUserAdapter
         recyclerview_setting_option.adapter = settingAdapter
 
-        users.addAll(UserHelper.getAllUser())
+        users.addAll(UserManager.getAllUser())
         log("user size ${users.size}")  //加上之后不会出现重复显示的问题
         simpleUserAdapter.notifyDataSetChanged()
 
@@ -127,10 +127,10 @@ class SettingActivity : BaseActivity() {
      * @param user 需要切换的用户
      */
     private fun changeUser(user: UserSimpleBean) {
-        if (user.uid == UserHelper.getNowUid()) return
-        UserHelper.setNowUid(user.uid)
+        if (user.uid == UserManager.getNowUid()) return
+        UserManager.setNowUid(user.uid)
         users.clear()
-        users.addAll(0, UserHelper.getAllUser())
+        users.addAll(0, UserManager.getAllUser())
         simpleUserAdapter.notifyDataSetChanged()
         Thread {
             postSticky(UserUpdateEvent(BaseCode.LOCAL, user))
@@ -138,12 +138,12 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun deleteUser(user: UserSimpleBean, position: Int) {
-        UserHelper.deleteUser(user.uid)
+        UserManager.deleteUser(user.uid)
         users.removeAt(position)
         simpleUserAdapter.notifyDataSetChanged()
 
-        if(UserHelper.getAllUser().isNotEmpty()) {
-            postSticky(UserUpdateEvent(BaseCode.LOCAL, UserHelper.getAllUser().last()))
+        if(UserManager.getAllUser().isNotEmpty()) {
+            postSticky(UserUpdateEvent(BaseCode.LOCAL, UserManager.getAllUser().last()))
         } else {
             postSticky(UserUpdateEvent(BaseCode.FAILURE, UserSimpleBean()))
         }

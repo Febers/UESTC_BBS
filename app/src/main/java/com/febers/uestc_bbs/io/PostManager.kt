@@ -14,33 +14,7 @@ import java.lang.StringBuilder
  * 会导致极大的内存占用，做法极蠢
  * 改为使用文件保存
  */
-object PostHelper {
-
-    /**
-     * @deprecated 占用内存
-     */
-    fun savePostListToSp(fid: String, pList: PostListBean) {
-        context().getSharedPreferences(fid, 0).edit().apply {
-            val json = Gson().toJson(pList)
-            putString(fid, json)
-            apply()
-        }
-    }
-
-    /**
-     * @deprecated 占用内存
-     */
-    fun getPostListBySp(fid: String): PostListBean {
-        try {
-            with(context().getSharedPreferences(fid, 0)) {
-                val json: String = this.getString(fid, "") ?: ""
-                return Gson().fromJson(json, PostListBean::class.java)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return PostListBean()
-        }
-    }
+object PostManager {
 
     /**
      * 保存帖子列表至手机内存，由于是使用了FileProvider，所以这里其实是不需要存储权限的
@@ -85,33 +59,6 @@ object PostHelper {
             fileReader?.tryClose()
         }
         return PostListBean()
-    }
-
-    /**
-     * 保存用户的收藏、发表的帖子列表，由于这几个页面服务器响应很快，没必要本地缓存
-     * @deprecated 占用内存,没必要
-     */
-    fun saveUserPListToSp(fid: String, post: UserPostBean) {
-        context().getSharedPreferences(fid, 0).edit().apply {
-            val json = Gson().toJson(post)
-            putString(fid, json)
-            apply()
-        }
-    }
-
-    /**
-     * @deprecated 占用内存
-     */
-    fun getUserPListBySp(fid: String): UserPostBean {
-        try {
-            with(context().getSharedPreferences(fid, 0)) {
-                val json: String = this.getString(fid, "") ?: ""
-                return Gson().fromJson(json, UserPostBean::class.java)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return UserPostBean()
-        }
     }
 
     private fun context(): Context = MyApp.context()

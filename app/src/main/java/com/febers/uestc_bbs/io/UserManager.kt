@@ -19,7 +19,7 @@ import java.lang.StringBuilder
  * 使用的时候将其变成数组
  * 同时sp应该存储当前使用的uid(now_uid)
  */
-object UserHelper {
+object UserManager {
 
     /**
      * 此方法只会在登录成功的时候调用，登录成功之后，保存User的原始资料
@@ -84,27 +84,6 @@ object UserHelper {
     fun setNowUid(uid: Int) {
         var nowUid by PreferenceUtils(context(), SP_NOW_UID, 0)
         nowUid = uid
-    }
-
-    /**
-     * 通过uid获取用户，调用的地方有: 设置界面根据获取的uid数组，一个一个获取uid
-     * 然后通过uid一个一个获取有效用户列表
-     *
-     * @param uid 用户id
-     * @deprecated
-     */
-    fun getUserBySp(uid: Int): UserSimpleBean {
-        try {
-            with(context().getSharedPreferences(SP_USERS, 0)) {
-                val gson = Gson()
-                val json: String? = this.getString(uid.toString(), "")
-                if (json.isNullOrEmpty()) return UserSimpleBean()
-                return gson.fromJson(json, UserSimpleBean::class.java)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return UserSimpleBean()
-        }
     }
 
     fun addUserToFile(uid: Int, userSimple: UserSimpleBean) {

@@ -110,7 +110,8 @@ class AboutActivity: BaseActivity() {
         val item1 = SettingItemBean(getString(R.string.version), getString(R.string.version_value))
         val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.version_value))
         val item3 = SettingItemBean(getString(R.string.update_log), getString(R.string.check_update_log))
-        return arrayListOf(item2, item3)
+        val item4 = SettingItemBean("在线公告", "查看服务器的推送消息")
+        return arrayListOf(item2, item3, item4)
     }
 
     private fun initSettingData2(): List<SettingItemBean> {

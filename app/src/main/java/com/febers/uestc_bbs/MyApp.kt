@@ -2,11 +2,10 @@ package com.febers.uestc_bbs
 
 import android.content.ComponentCallbacks2
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Process
 import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
-import com.febers.uestc_bbs.io.UserHelper
+import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
@@ -129,7 +128,7 @@ class MyApp: MultiDexApplication() {
         var msgCount = 0
 
         fun context() = context
-        fun user(): UserSimpleBean = UserHelper.getNowUser()
+        fun user(): UserSimpleBean = UserManager.getNowUser()
 
         fun homeLayout(): Int {
             val homeLayout by PreferenceUtils(context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)

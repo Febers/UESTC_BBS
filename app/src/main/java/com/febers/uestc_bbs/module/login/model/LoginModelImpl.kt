@@ -1,7 +1,7 @@
 package com.febers.uestc_bbs.module.login.model
 
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.io.UserHelper
+import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.contract.LoginContract
@@ -72,6 +72,6 @@ class LoginModelImpl(val loginPresenter: LoginContract.Presenter): BaseModel(), 
 
         loginPresenter.loginResult(BaseEvent(BaseCode.SUCCESS, mUserSimple))
 
-        UserHelper.addUser(loginResultBean.uid, mUserSimple)
+        UserManager.addUser(loginResultBean.uid, mUserSimple)
     }
 }
