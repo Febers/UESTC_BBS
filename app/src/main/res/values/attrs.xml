@@ -12,6 +12,8 @@
     <attr name="background_first" format="color"/>
     <attr name="background_second" format="color"/>
 
+    <attr name="menu_icon_tint" format="color" />
+
     <attr name="refresh_layout_color_accent" format="color" />
 
     <!--在GlideImageGetter中使用-->

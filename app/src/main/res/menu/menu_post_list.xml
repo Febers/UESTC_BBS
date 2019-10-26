@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_item_post_list_classification"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/xic_classification_white_24dp"
+        android:icon="@drawable/xic_menu_classification"
         android:title="@string/classification" />
     <item
         android:id="@+id/menu_item_post_list_web"
@@ -19,6 +19,6 @@
     <item
         android:id="@+id/menu_item_post_list_sticky"
         app:showAsAction="never"
-        android:icon="@drawable/xic_search_white_24dp"
+        android:icon="@drawable/xic_menu_search"
         android:title="@string/show_sticky_post"/>
 </menu>

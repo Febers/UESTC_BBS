@@ -1,7 +1,9 @@
 package com.febers.uestc_bbs.module.search.view
 
+import android.graphics.Color
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
@@ -44,6 +46,8 @@ class SearchActivity: BaseActivity() {
         menuItem = menu?.findItem(R.id.menu_item_search_search_fragment)
         menuItem?.isChecked = true
         searchView = menuItem?.actionView as SearchView
+        //去除下划线
+        searchView.findViewById<View>(androidx.appcompat.R.id.search_plate)?.setBackgroundColor(Color.TRANSPARENT)
         val listener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query.isNullOrEmpty() || query.trim().isEmpty()) {

@@ -4,16 +4,16 @@
     <item
         android:id="@+id/menu_item_msg_home_2"
         android:title="@string/message_page"
-        android:icon="@drawable/xic_msg_white_24dp"
+        android:icon="@drawable/xic_menu_msg"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_item_block_home_2"
         android:title="@string/forum_list_page"
-        android:icon="@drawable/xic_widgets_white_24dp"
+        android:icon="@drawable/xic_menu_widgets"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_item_search_home_2"
         android:title="@string/search"
-        android:icon="@drawable/xic_search_white_24dp"
+        android:icon="@drawable/xic_menu_search"
         app:showAsAction="ifRoom"/>
 </menu>

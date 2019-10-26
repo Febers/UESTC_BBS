@@ -5,6 +5,6 @@
         app:showAsAction="always"
         android:id="@+id/menu_item_post_detail_option"
         android:title="@string/menu"
-        android:icon="@drawable/xic_more_vert_white_24dp">
+        android:icon="@drawable/xic_menu_more_vert">
     </item>
 </menu>

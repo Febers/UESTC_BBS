@@ -237,7 +237,7 @@ class HomeActivity2: BaseActivity() {
                     toolbar_common.title = getString(R.string.home_page)
                     PAGE_POSITION_HOME
                 } else {
-                    msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_msg_white_24dp)
+                    msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_menu_msg)
                     showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
                     toolbar_common.title = getString(R.string.message_page)
                     PAGE_POSITION_MESSAGE

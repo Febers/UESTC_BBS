@@ -13,6 +13,8 @@
         <item name="background_first">@color/color_white</item>
         <item name="background_second">@color/color_gray_light</item>
 
+        <item name="menu_icon_tint">@color/color_system_night</item>
+
         <item name="refresh_layout_color_accent">@color/color_white</item>
 
         <item name="android:textColorPrimary">@color/textColorFirst_Day</item>

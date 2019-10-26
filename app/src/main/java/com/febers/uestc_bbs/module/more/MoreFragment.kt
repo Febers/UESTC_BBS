@@ -99,7 +99,7 @@ class MoreFragment: BaseFragment() {
         val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
         val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
 //        val item4 = MoreItemBean("", R.drawable.xic_person_blue_24dp)
-//        val item5 = MoreItemBean("", R.drawable.xic_search_white_24dp)
+//        val item5 = MoreItemBean("", R.drawable.xic_menu_search)
         return listOf(item1, item2, item3)
     }
 
