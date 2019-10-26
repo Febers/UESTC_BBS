@@ -78,7 +78,8 @@ class MoreFragment: BaseFragment() {
             setOnItemClickListener { p0, p1, p2 -> itemClick(view = THIRD_ITEM_VIEW, position = p2) }
             setOnItemChildClickListener(R.id.switch_more_item) {
                 viewHolder, moreItemBean, i ->
-                ThemeManager.dayAndNightThemeChange(context!!)
+                ThemeManager.dayAndNightThemeChange(activity)
+                activity?.recreate()
             }
         }
         more_fragment_recyclerview_2.apply {
@@ -104,7 +105,7 @@ class MoreFragment: BaseFragment() {
 
     private fun initMoreItem2(): List<MoreItemBean> {
         val item4 = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = false, isCheck = ThemeManager.isNightTheme())
+        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeManager.isNightTheme())
         val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
         val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
         return listOf(item4, item1, item2, item3)

@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.theme
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -16,8 +17,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import java.lang.ref.WeakReference
 import android.graphics.PorterDuff
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.CompoundButtonCompat
 import com.febers.uestc_bbs.MyApp
+import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.febers.uestc_bbs.utils.log
 
@@ -43,34 +46,52 @@ object ThemeManager {
 
     fun init(context: Context) {
         val mode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        log { "mode: ${context.resources.configuration.uiMode}, and result:${context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK}"}
-        if (mode == Configuration.UI_MODE_NIGHT_YES) {
-            log { "暗黑模式" }
-            colorPrimary = Color.parseColor("#363636")
-            colorTextFirst = Color.parseColor("#ffffff")
-            colorTextSecond = Color.parseColor("#9e9e9e")
-            colorBackgroundFirst = Color.parseColor("#363636")
+        val nightModeValue by PreferenceUtils(context, NIGHT_MODE, false)
 
-            var nightModeValue by PreferenceUtils(context, NIGHT_MODE, true)
-            nightModeValue = true
-            nightMode = true
+        if (mode == Configuration.UI_MODE_NIGHT_YES || nightModeValue) {  //系统或者app为暗黑模式，自动变换为夜间模式
+            log { "暗黑模式" }
+            onNightTheme(context)
         } else {
             log { "明亮模式" }
-            colorPrimary = Color.WHITE
-            colorTextFirst = Color.BLACK
-            colorTextSecond = Color.parseColor("#888888")
-            colorBackgroundFirst = Color.WHITE
-
-            var nightModeValue by PreferenceUtils(context, NIGHT_MODE, false)
-            nightModeValue = false
-            nightMode = false
+            onDayTheme(context)
         }
         val colorAccentValue by PreferenceUtils(context, COLOR_ACCENT, colorAccent)
         colorAccent = colorAccentValue
     }
 
-    fun dayAndNightThemeChange(context: Context) {
+    fun dayAndNightThemeChange(activity: Activity?) {
+        activity ?: return
+        if (nightMode) {    //当前为夜间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            onDayTheme(activity)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            onNightTheme(activity)
+        }
+        activity.window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
+        activity.recreate()
+    }
 
+    private fun onDayTheme(context: Context) {
+        colorPrimary = Color.WHITE
+        colorTextFirst = Color.BLACK
+        colorTextSecond = Color.parseColor("#888888")
+        colorBackgroundFirst = Color.WHITE
+
+        var nightModeValue by PreferenceUtils(context, NIGHT_MODE, false)
+        nightModeValue = false
+        nightMode = false
+    }
+
+    private fun onNightTheme(context: Context) {
+        colorPrimary = Color.parseColor("#363636")
+        colorTextFirst = Color.parseColor("#ffffff")
+        colorTextSecond = Color.parseColor("#9e9e9e")
+        colorBackgroundFirst = Color.parseColor("#363636")
+
+        var nightModeValue by PreferenceUtils(context, NIGHT_MODE, true)
+        nightModeValue = true
+        nightMode = true
     }
 
     fun setTheme(context: Context, color: Int) {

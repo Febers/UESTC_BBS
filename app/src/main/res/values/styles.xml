@@ -56,6 +56,11 @@
     <style name="AppBarTheme" parent="ThemeOverlay.AppCompat.Light">
     </style>
 
+    <style name="WindowAnimationFadeInOut">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
     <!--&lt;!&ndash;默认样式 注意* 样式只可修改，不能删除任何一项 否则报错&ndash;&gt;-->
     <!--<style name="picture.default.style" parent="Theme.AppCompat.Light.DarkActionBar">-->
         <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
