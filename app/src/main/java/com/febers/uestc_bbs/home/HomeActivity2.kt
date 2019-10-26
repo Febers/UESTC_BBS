@@ -29,7 +29,7 @@ import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.setting.SettingActivity
 import com.febers.uestc_bbs.module.theme.ThemeActivity
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
@@ -85,6 +85,7 @@ class HomeActivity2: BaseActivity() {
                 add(PAGE_POSITION_MESSAGE, findFragment(HomeThirdContainer::class.java))
             }
         }
+        ThemeManager.viewInitAndSubscribe(fab_home)
         fab_home.setOnClickListener {
             ClickContext.clickToPostEdit(mContext, fid = 0, title = "") }
         initDrawer()
@@ -123,7 +124,7 @@ class HomeActivity2: BaseActivity() {
                 viewHolder, moreItemBean, i ->
                 drawer_layout_home_2.closeDrawers()
                 actionAfterDrawerClose = Runnable {
-                    ThemeHelper.dayAndNightThemeChange(mContext)
+                    ThemeManager.dayAndNightThemeChange(mContext)
                 }
             }
         }
@@ -149,8 +150,8 @@ class HomeActivity2: BaseActivity() {
         if (user.valid) {
             tv_user_name_drawer_header.text = user.name
             tv_user_level_drawer_header.text = user.title
-            tv_user_name_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
-            tv_user_level_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
+            tv_user_name_drawer_header.setTextColor(ThemeManager.colorRefreshText())
+            tv_user_level_drawer_header.setTextColor(ThemeManager.colorRefreshText())
             ImageLoader.load(mContext, user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
         } else {
             tv_user_name_drawer_header.text = getString(R.string.please_login_or_sign_up)
@@ -168,7 +169,7 @@ class HomeActivity2: BaseActivity() {
 
     private fun initDrawerItem2(): List<MoreItemBean> {
         val item4 = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
+        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = false, isCheck = ThemeManager.isNightTheme())
         val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
         val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
         return listOf(item4, item1, item2, item3)
@@ -340,6 +341,7 @@ class HomeActivity2: BaseActivity() {
         tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
         tvNaviNewer = view.findViewById(R.id.navigation_novice)
         btnNaviEnter = view.findViewById(R.id.navigation_enter)
+        btnNaviEnter?.setTextColor(ThemeManager.colorAccent())
         return view
     }
 
@@ -357,8 +359,8 @@ class HomeActivity2: BaseActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) fun onThemeChanged(event: ThemeChangedEvent) {
-        tv_user_name_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
-        tv_user_level_drawer_header.setTextColor(ThemeHelper.getRefreshTextColor())
+        tv_user_name_drawer_header.setTextColor(ThemeManager.colorRefreshText())
+        tv_user_level_drawer_header.setTextColor(ThemeManager.colorRefreshText())
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -23,8 +23,7 @@ import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.pidToWebUrl
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.utils.*
@@ -36,7 +35,6 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import kotlinx.android.synthetic.main.dialog_update_sign.*
-import org.jetbrains.anko.browse
 import java.io.File
 
 class UserDetailActivity : BaseActivity(), UserContract.View {
@@ -61,9 +59,9 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun initView() {
         collapsing_toolbar_layout_detail.apply {
-            setStatusBarScrimColor(ThemeHelper.getColorPrimary())
-            setContentScrimColor(ThemeHelper.getColorPrimary())
-            setCollapsedTitleTextColor(ThemeHelper.getRefreshTextColor())
+            setStatusBarScrimColor(ThemeManager.colorAccent())
+            setContentScrimColor(ThemeManager.colorAccent())
+            setCollapsedTitleTextColor(ThemeManager.colorRefreshText())
         }
         userPresenter = UserPresenterImpl(this)
         refresh_layout_user_detail.apply {
@@ -74,7 +72,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 //            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
 //            userBottomSheet.setView(R.layout.layout_bottom_sheet_user_detail)
         }
-        image_view_user_detail_blur_avatar.setBackgroundColor(ThemeHelper.getColorPrimary())
+        image_view_user_detail_blur_avatar.setBackgroundColor(ThemeManager.colorAccent())
         signDialog = AlertDialog.Builder(this@UserDetailActivity).create()
     }
 
@@ -124,7 +122,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
-            it.backgroundTintList = ColorStateList.valueOf(ThemeHelper.getColorAccent())
+            it.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
             it.setOnClickListener { ClickContext.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
         }
         linear_layout_user_post_start?.apply {
@@ -144,8 +142,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            iv_icon_user_post_edit.drawable.setTint(ThemeHelper.getColorAccent())
-            iv_icon_user_post_reply.drawable.setTint(ThemeHelper.getColorAccent())
+            iv_icon_user_post_edit.drawable.setTint(ThemeManager.colorAccent())
+            iv_icon_user_post_reply.drawable.setTint(ThemeManager.colorAccent())
         }
     }
 
@@ -181,11 +179,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         //使其可以弹出软键盘
         signDialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         val btnEnter = view.findViewById<Button>(R.id.btn_dialog_sign_update_enter)
-        btnEnter.setTextColor(ThemeHelper.getColorPrimary())
+        btnEnter.setTextColor(ThemeManager.colorAccent())
         val btnCancel = view.findViewById<Button>(R.id.btn_dialog_sign_update_cancel)
         btnCancel.setOnClickListener {
             signDialog?.dismiss()
         }
+        btnEnter.setTextColor(ThemeManager.colorAccent())
         btnEnter.setOnClickListener {
             view.findViewById<ProgressBar>(R.id.progress_bar_update_sign).visibility = View.VISIBLE
             userPresenter.userUpdateRequest(USER_SIGN, editText.text.toString())

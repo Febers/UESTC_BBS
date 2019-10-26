@@ -5,7 +5,8 @@ import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.lib.header.MaterialHeader
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 fun SmartRefreshLayout.finishSuccess() {
@@ -19,8 +20,15 @@ fun SmartRefreshLayout.finishFail() {
     finishLoadMore(false)
 }
 
-fun SmartRefreshLayout.initAttrAndBehavior() {
-    setPrimaryColors(ThemeHelper.getColorPrimary(), ThemeHelper.getRefreshTextColor())
+fun SmartRefreshLayout.initAttrAndBehavior(subscribeOnThemeChange: Boolean = false) {
+    if (subscribeOnThemeChange) {
+        ThemeManager.viewInitAndSubscribe(this)
+    } else {
+        this.setPrimaryColors(ThemeManager.colorAccent(), ThemeManager.colorRefreshText())
+        if (this.refreshHeader is MaterialHeader) {
+            (this.refreshHeader as MaterialHeader).setColorSchemeColors(ThemeManager.colorAccent())
+        }
+    }
     setEnableOverScrollBounce(false)
     setEnableLoadMore(false)
     autoRefresh()

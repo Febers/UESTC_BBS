@@ -15,7 +15,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.search.view.SearchActivity
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateHelper
 import com.febers.uestc_bbs.utils.PermissionUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
@@ -49,14 +49,6 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun start() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val colorPrimary = ThemeHelper.getColorPrimaryBySp()
-            image_view_splash.drawable.setTint(colorPrimary)
-            text_view_splash.setTextColor(colorPrimary)
-            image_view_drawable_list.drawable.setTint(colorPrimary)
-            image_view_topic_user.drawable.setTint(colorPrimary)
-        }
-
         val scaleX = ObjectAnimator.ofFloat(image_view_splash, "scaleX", 0.8f, 1.1f)
         val scaleY = ObjectAnimator.ofFloat(image_view_splash, "scaleY", 0.8f, 1.1f)
         scaleX.addListener(object : Animator.AnimatorListener {
@@ -120,7 +112,7 @@ class SplashActivity : BaseActivity() {
                 .setIntent(Intent(mContext, SearchActivity::class.java).apply {
                     action = Intent.ACTION_VIEW })
                 .build()
-        shortcutManager.dynamicShortcuts = arrayListOf(hotShortcut, msgShortcut,searchShortcut)
+        shortcutManager?.dynamicShortcuts = arrayListOf(hotShortcut, msgShortcut,searchShortcut)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

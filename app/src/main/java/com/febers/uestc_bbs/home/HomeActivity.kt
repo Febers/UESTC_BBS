@@ -9,20 +9,17 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.UEHandler
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.module.service.HeartMsgService
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.utils.postSticky
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -66,15 +63,14 @@ class HomeActivity: BaseActivity() {
             addItem(AHBottomNavigationItem(getString(R.string.message_page), R.drawable.xic_message_small))
             addItem(AHBottomNavigationItem(getString(R.string.more_page), R.drawable.xic_user_small))
             titleState = AHBottomNavigation.TitleState.ALWAYS_HIDE
-            accentColor = ThemeHelper.getBottomNavigationColorAccent()
-            defaultBackgroundColor = ThemeHelper.getColorBackground()
             manageFloatingActionButtonBehavior(fab_home)
             setOnTabSelectedListener { position, wasSelected -> onTabSelected(position, wasSelected) }
-            ThemeHelper.subscribeOnThemeChange(bottom_navigation_home)
+            ThemeManager.viewInitAndSubscribe(this)
         }
         fab_home.setOnClickListener {
             ClickContext.clickToPostEdit(this@HomeActivity, fid = 0, title = "") }
         fab_home.visibility = View.GONE
+        ThemeManager.viewInitAndSubscribe(fab_home)
         startService()
         getShortcutMsg()
     }

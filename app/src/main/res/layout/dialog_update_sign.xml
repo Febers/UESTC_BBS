@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:text="@string/change_sign"
         android:layout_margin="4dp"
-        />
+        android:textSize="@dimen/text_size_super_big"
+        android:textColor="?text_color_first"/>
 
     <EditText
         android:id="@+id/edit_text_update_sign"

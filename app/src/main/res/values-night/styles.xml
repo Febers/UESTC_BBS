@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppThemeLight" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_system_night</item>
+        <item name="colorAccent">@color/color_blue</item>
+        <item name="colorPrimaryDark">@color/color_system_night</item>
+
+        <item name="text_color_first">@color/textColorFirst_Night</item>
+        <item name="text_color_second">@color/textColorSecond_Night</item>
+        <item name="text_color_third">@color/textColorThird_Night</item>
+        <item name="text_color_convert">@color/color_white</item>
+
+        <item name="background_first">@color/color_system_night</item>
+        <item name="background_second">@color/color_system_night_light</item>
+
+        <item name="refresh_layout_color_accent">@color/color_black</item>
+
+        <item name="android:textColorPrimary">@color/textColorFirst_Night</item>
+        <item name="android:textColorSecondary">@color/textColorSecond_Night</item>
+
+        <item name="actionBarTheme">@style/AppBarTheme</item>
+
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppBarTheme" parent="ThemeOverlay.AppCompat.Dark">
+    </style>
+
+</resources>

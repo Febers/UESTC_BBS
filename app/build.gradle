@@ -33,11 +33,11 @@ dependencies {
     implementation 'com.github.SheHuan:RecyclerViewAdapter:1.2.9'
     implementation 'org.greenrobot:eventbus:3.1.1'
 //    implementation 'com.afollestad:aesthetic:1.0.0-beta05'
-//    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
-    implementation 'com.github.ltyhome:PictureSelector:v2.2.3-androidx'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
+//    implementation 'com.github.ltyhome:PictureSelector:v2.2.3-androidx'
 
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 
@@ -54,7 +54,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.febers.uestc_bbs"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 16
         versionName "1.1.6.1"

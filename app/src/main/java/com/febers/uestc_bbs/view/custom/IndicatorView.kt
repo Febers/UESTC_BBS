@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 /**
  * 自定义的指示器
  *
@@ -84,7 +84,7 @@ class IndicatorView : View {
             bgColor = ta.getColor(R.styleable.IndicatorView_background_color, Color.GRAY)
             ta.recycle()
             //selectedColor = ta.getColor(R.styleable.IndicatorView_selected_color, Color.BLUE)
-            selectedColor = ThemeHelper.getColorAccent()
+            selectedColor = ThemeManager.colorAccent()
         }
     }
 

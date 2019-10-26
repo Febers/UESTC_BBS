@@ -11,13 +11,13 @@
         android:id="@+id/app_bar_post_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        android:theme="@style/AppBarTheme">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_post_list"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:popupTheme="@style/AppBarTheme"
             app:layout_collapseMode="pin">
         </androidx.appcompat.widget.Toolbar>
 

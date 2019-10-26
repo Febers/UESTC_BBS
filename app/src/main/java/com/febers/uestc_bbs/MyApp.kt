@@ -2,14 +2,15 @@ package com.febers.uestc_bbs
 
 import android.content.ComponentCallbacks2
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Process
+import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
 import com.febers.uestc_bbs.io.UserHelper
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import androidx.multidex.MultiDexApplication
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
@@ -19,8 +20,8 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.lib.emotion.EmotionManager
 import com.febers.uestc_bbs.lib.header.MaterialHeader
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.BufferedReader
@@ -56,11 +57,16 @@ class MyApp: MultiDexApplication() {
 
         context = applicationContext
 
+        initTheme()
         initBugly()
         initEmotionView()
         UEHandler.getInstance().init()
     }
 
+    private fun initTheme() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        ThemeManager.init(context)
+    }
     /**
      * 初始化Bugly
      */

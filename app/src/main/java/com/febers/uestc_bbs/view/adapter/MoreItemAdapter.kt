@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.MoreItemBean
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
@@ -18,6 +19,7 @@ class MoreItemAdapter(context: Context, data: List<MoreItemBean>, isLoadMore: Bo
         if (p1!!.showSwitch) {
             p0?.getView<SwitchCompat>(R.id.switch_more_item)?.visibility = View.VISIBLE
             p0?.getView<SwitchCompat>(R.id.switch_more_item)?.isChecked = p1.isCheck
+            ThemeManager.viewInitAndSubscribe(p0?.getView<SwitchCompat>(R.id.switch_more_item))
             p0?.getView<TextView>(R.id.text_view_more_item_night)?.visibility = View.VISIBLE
         }
     }

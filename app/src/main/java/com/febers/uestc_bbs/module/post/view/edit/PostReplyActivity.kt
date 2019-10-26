@@ -13,7 +13,7 @@ import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -148,7 +148,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
      */
     private fun sendReply(stContent: String) {
         progress_bar_reply_activity.visibility = View.VISIBLE
-        progress_bar_reply_activity.setBackgroundColor(ThemeHelper.getColorPrimaryBySp())
+        progress_bar_reply_activity.setBackgroundColor(ThemeManager.colorAccent())
 
         val aidBuffer = StringBuilder()
         val contentList: MutableList<Pair<Int, String>> = ArrayList()

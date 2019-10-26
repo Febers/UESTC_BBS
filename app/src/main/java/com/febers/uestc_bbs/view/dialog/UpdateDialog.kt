@@ -11,15 +11,15 @@ import com.febers.uestc_bbs.R
 
 class UpdateDialog(context: Context, title: String, time: String = "", size: String = "", body: String) : AlertDialog(context, R.style.Theme_AppCompat_Dialog) {
 
-    private lateinit var dialog: AlertDialog
-    private lateinit var tvTitle: TextView
-    private lateinit var tvTime: TextView
-    private lateinit var tvSize: TextView
-    private lateinit var tvBody: TextView
-    private lateinit var pbDownload: ProgressBar
-    private lateinit var btnLeft: Button
-    private lateinit var btnCenter: Button
-    private lateinit var btnRight: Button
+    private var dialog: AlertDialog
+    private var tvTitle: TextView
+    private var tvTime: TextView
+    private var tvSize: TextView
+    private var tvBody: TextView
+    private var pbDownload: ProgressBar
+    private var btnLeft: Button
+    private var btnCenter: Button
+    private var btnRight: Button
 
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_update, null)
@@ -35,7 +35,7 @@ class UpdateDialog(context: Context, title: String, time: String = "", size: Str
         btnLeft = view.findViewById(R.id.btn_update_dialog_left)
         btnCenter = view.findViewById(R.id.btn_update_dialog_center)
         btnRight = view.findViewById(R.id.btn_update_dialog_right)
-        dialog = AlertDialog.Builder(context).create()
+        dialog = Builder(context).create()
         dialog.setView(view)
     }
 

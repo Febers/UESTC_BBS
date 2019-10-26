@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/color_white</item>
         <item name="colorAccent">@color/color_blue</item>
         <item name="colorPrimaryDark">@color/color_white</item>
@@ -14,79 +14,22 @@
         <item name="background_second">@color/color_gray_light</item>
 
         <item name="refresh_layout_color_accent">@color/color_white</item>
+
         <item name="android:textColorPrimary">@color/textColorFirst_Day</item>
         <item name="android:textColorSecondary">@color/textColorSecond_Day</item>
+
+        <item name="actionBarTheme">@style/AppBarTheme</item>
+
         <item name="android:windowIsTranslucent">true</item> <!-- 让activity不闪屏 -->
 <!--        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>-->
     </style>
 
-<!--    <style name="AppThemeLight.Home" parent="Theme.AppCompat.Light.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/color_gray</item>-->
-<!--        <item name="colorAccent">@color/color_gray_deeper</item>-->
-<!--        <item name="colorPrimaryDark">@color/color_gray_deeper</item>-->
-
-<!--        <item name="text_color_first">@color/textColorFirst_Day</item>-->
-<!--        <item name="text_color_second">@color/textColorSecond_Day</item>-->
-<!--        <item name="text_color_third">@color/textColorThird_Day</item>-->
-<!--        <item name="text_color_convert">@color/color_white</item>-->
-
-<!--        <item name="background_first">@color/color_white</item>-->
-<!--        <item name="background_second">@color/color_gray_light</item>-->
-
-<!--        <item name="refresh_layout_color_accent">@color/color_white</item>-->
-<!--        <item name="android:textColorPrimary">@color/textColorFirst_Day</item>-->
-<!--        <item name="android:textColorSecondary">@color/textColorSecond_Day</item>-->
-<!--        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>-->
-
-<!--        <item name="android:windowIsTranslucent">false</item> &lt;!&ndash; 切换夜间模式时不显示桌面 &ndash;&gt;-->
-<!--    </style>-->
-
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/color_black</item>
-        <item name="colorAccent">@color/color_gray_light</item>
-        <item name="colorPrimaryDark">@color/color_black</item>
-        <item name="app_color_primary">@color/color_black</item>
-        <item name="app_color_accent">@color/color_black</item>
-        <item name="app_color_primary_dark">@color/color_black</item>
-
-        <item name="text_color_first">@color/color_white</item>
-        <item name="text_color_second">@color/color_gray_light</item>
-        <item name="text_color_third">@color/color_gray</item>
-        <item name="text_color_convert">@color/color_black</item>
-
-        <item name="background_first">@color/color_black</item>
-        <item name="background_second">@color/color_gray_deep</item>
-
-        <item name="refresh_layout_color_accent">@color/color_white</item>
-        <item name="android:textColorPrimary">@color/color_white</item>
-        <item name="android:textColorSecondary">@color/color_gray_light</item>
-        <!--<item name="android:windowIsTranslucent">true</item> &lt;!&ndash; 让activity不闪屏 &ndash;&gt;-->
-        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
-    </style>
-
-    <style name="UpdateTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowAnimationStyle">@style/MyWindowAnimTheme</item>
-    </style>
 
     <style name="MyWindowAnimTheme" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/bottom_to_top_in</item>
         <item name="android:activityOpenExitAnimation">@anim/do_nothing_anim</item>
         <item name="android:activityCloseEnterAnimation">@anim/do_nothing_anim</item>
         <item name="android:activityCloseExitAnimation">@anim/top_to_bottom_out</item>
-    </style>
-
-    <style name="ImageViewerTheme" parent="AppThemeLight">
-        <item name="android:windowAnimationStyle">@style/ImageViewerAnim</item>
-    </style>
-
-    <style name="ImageViewerAnim" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/do_nothing_anim</item>
-        <item name="android:activityCloseEnterAnimation">@anim/do_nothing_anim</item>
-        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
     </style>
 
     <style name="PinkBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
@@ -104,11 +47,13 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-
     <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <style name="AppBarTheme" parent="ThemeOverlay.AppCompat.Light">
     </style>
 
     <!--&lt;!&ndash;默认样式 注意* 样式只可修改，不能删除任何一项 否则报错&ndash;&gt;-->

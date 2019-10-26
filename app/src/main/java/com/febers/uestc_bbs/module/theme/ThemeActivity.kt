@@ -8,7 +8,6 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.ThemeChangedEvent
 import com.febers.uestc_bbs.entity.ThemeItemBean
-import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.ThemeGridViewAdapter
@@ -20,7 +19,7 @@ class ThemeActivity : BaseActivity() {
     private val themeItemList: MutableList<ThemeItemBean> = ArrayList()
     private lateinit var themeGridViewAdapter: ThemeGridViewAdapter
 
-    private var colorValue: Int = ThemeHelper.getColorPrimary()
+    private var colorValue: Int = ThemeManager.colorAccent()
     private var tempColorValue = colorValue
 
     override fun setView(): Int = R.layout.activity_theme
@@ -45,11 +44,11 @@ class ThemeActivity : BaseActivity() {
         }
         var colorDark by PreferenceUtils(this, COLOR_PRIMARY_DARK, true)
         var tempColorDark = colorDark
-        check_box_theme_color_dark.isChecked = colorDark
-        check_box_theme_color_dark.setOnCheckedChangeListener { compoundButton, b ->
-            tempColorDark = b
-        }
-        btn_choose_theme.setTextColor(ThemeHelper.getTextColorPrimary())
+//        check_box_theme_color_dark.isChecked = colorDark
+//        check_box_theme_color_dark.setOnCheckedChangeListener { compoundButton, b ->
+//            tempColorDark = b
+//        }
+        btn_choose_theme.setTextColor(ThemeManager.colorAccent())
         btn_choose_theme.setOnClickListener {
             if (colorValue != tempColorValue || colorDark != tempColorDark) {
                 colorValue = tempColorValue
@@ -99,17 +98,16 @@ class ThemeActivity : BaseActivity() {
         themeItemList.add(ThemeItemBean(Color.parseColor("#FFFFFF"), false))
     }
 
-    private fun reChooseTheme(colorPrimary: Int) {
-        ColorUtils.colorCompare(colorPrimary, Color.RED)
-        ThemeHelper.setTheme(this, colorPrimary, colorPrimary)
-        color_picker.oldCenterColor = colorPrimary
+    private fun reChooseTheme(colorAccent: Int) {
+        ThemeManager.setTheme(this, colorAccent)
+        color_picker.oldCenterColor = colorAccent
         postEvent(ThemeChangedEvent(dayNightChanged = false))
         changeDrawableHint()
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun changeDrawableHint() {
-        resources.getDrawable(R.drawable.xic_list_gray, null).setTint(ThemeHelper.getColorPrimaryBySp())
-        resources.getDrawable(R.drawable.xic_user_small, null).setTint(ThemeHelper.getColorPrimaryBySp())
+        resources.getDrawable(R.drawable.xic_list_gray, null).setTint(ThemeManager.colorAccent())
+        resources.getDrawable(R.drawable.xic_user_small, null).setTint(ThemeManager.colorAccent())
     }
 }

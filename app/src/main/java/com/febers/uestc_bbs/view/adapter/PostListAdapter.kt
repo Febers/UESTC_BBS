@@ -8,9 +8,8 @@ import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
 import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.utils.log
 
 class PostListAdapter(val context: Context, data: List<PostListBean.ListBean>, val showBoardName: Boolean = true):
         CommonBaseAdapter<PostListBean.ListBean>(context, data, true) {
@@ -22,7 +21,7 @@ class PostListAdapter(val context: Context, data: List<PostListBean.ListBean>, v
             summary = p1?.summary   //热门帖子
         }
         p0?.getView<TextView>(R.id.text_view_item_post_block)?.visibility = if (showBoardName) View.VISIBLE else View.INVISIBLE
-        p0?.getView<TextView>(R.id.text_view_item_post_reply)?.setTextColor(ThemeHelper.getColorPrimaryBySp())
+        p0?.getView<TextView>(R.id.text_view_item_post_reply)?.setTextColor(ThemeManager.colorAccent())
         p0?.setText(R.id.text_view_item_poster, p1?.user_nick_name)
         p0?.setText(R.id.text_view_item_post_block, p1?.board_name)
         p0?.setText(R.id.text_view_item_post_title, p1?.title)

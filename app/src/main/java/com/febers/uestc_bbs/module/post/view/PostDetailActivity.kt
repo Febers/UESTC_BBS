@@ -4,6 +4,7 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Build
 import android.view.LayoutInflater
 import androidx.annotation.UiThread
@@ -28,7 +29,7 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
@@ -123,6 +124,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 toolbar_common.subtitle = postTitle
             }
         }
+        fab_post_detail.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
         fab_post_detail.setOnClickListener {
             scroll_view_post_detail.scrollTo(0, 0)
         }
@@ -233,12 +235,12 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         val opposeCount = allCount - postSupportCount
         layout_post_detail_support.visibility = View.VISIBLE
         btn_post_detail_support.apply {
-            setTextColor(ThemeHelper.getColorPrimaryBySp())
+            setTextColor(ThemeManager.colorAccent())
             text = "${getString(R.string.support)} $postSupportCount"
             setOnClickListener { postPresenter?.postSupportRequest(postId = topicReplyId, tid = postId) }
         }
         btn_post_detail_oppose.apply {
-            setTextColor(ThemeHelper.getColorPrimaryBySp())
+            setTextColor(ThemeManager.colorAccent())
             text = "${getString(R.string.oppose)} $opposeCount"
         }
     }
@@ -299,7 +301,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
             if (isFavorite == POST_FAVORED) {
                 it.setImageResource(R.drawable.xic_star_fill_color)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    it.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
+                    it.drawable.setTint(ThemeManager.colorAccent())
                 }
             } else {
                 it.setImageResource(R.drawable.xic_star_empty_gray)
@@ -333,7 +335,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 if (isFavorite == POST_FAVORED){
                     image_view_post_fav.setImageResource(R.drawable.xic_star_fill_color)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        image_view_post_fav.drawable.setTint(ThemeHelper.getColorPrimaryBySp())
+                        image_view_post_fav.drawable.setTint(ThemeManager.colorAccent())
                     }
                 }
                 if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_empty_gray)

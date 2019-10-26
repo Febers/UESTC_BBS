@@ -9,8 +9,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.TextView
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.module.theme.ThemeHelper
-import com.febers.uestc_bbs.utils.log
 
 class TextViewWithBackground: TextView {
 

@@ -9,7 +9,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
@@ -97,7 +97,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
             layoutManager = LinearLayoutManager(context)
         }
         refresh_layout_sub_message.apply {
-            initAttrAndBehavior()
+            initAttrAndBehavior(true)
             setOnRefreshListener {
                 page = 1
                 getMsg(page)
@@ -106,7 +106,6 @@ class MessageFragment : BaseFragment(), MessageContract.View {
                 getMsg(++page)
             }
         }
-        ThemeHelper.subscribeOnThemeChange(refresh_layout_sub_message)
     }
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {

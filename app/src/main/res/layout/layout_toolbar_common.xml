@@ -4,12 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ThemeOverlay.AppCompat.Light">
+    android:theme="@style/AppBarTheme">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_common"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/AppBarTheme"
         app:layout_scrollFlags="scroll|enterAlways|snap">
     </androidx.appcompat.widget.Toolbar>
 </com.google.android.material.appbar.AppBarLayout>

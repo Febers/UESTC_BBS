@@ -10,6 +10,9 @@
     <color name="color_gray_deep">#1a1a1a</color>
     <color name="color_black">#000000</color>
 
+    <color name="color_system_night">#363636</color>
+    <color name="color_system_night_light">#414141</color>
+
     <color name="color_green">#0f9d58</color>
     <color name="color_red">#db4437</color>
     <color name="color_pink">#fb7299</color>
@@ -22,9 +25,16 @@
     <color name="color_black_tint">#1d2323</color>
 
     <color name="transparent">#00000000</color>
-    <color name="textColorFirst_Day">#DD000000</color>
+
+    <color name="textColorFirst_Day">#000000</color>
     <color name="textColorSecond_Day">#888888</color>
     <color name="textColorThird_Day">#bdbdbd</color>
+
     <color name="background_Day">#FFFFFF</color>
 
+    <color name="textColorFirst_Night">#FFFFFF</color>
+    <color name="textColorSecond_Night">#9e9e9e</color>
+    <color name="textColorThird_Night">#666666</color>
+
+    <color name="background_Night">#363636</color>
 </resources>

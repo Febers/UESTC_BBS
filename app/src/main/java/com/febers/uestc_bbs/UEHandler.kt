@@ -9,7 +9,6 @@ class UEHandler private constructor() : Thread.UncaughtExceptionHandler {
     private var defaultHandler: Thread.UncaughtExceptionHandler? = null
 
     fun init() {
-        log("init UEHandler")
         defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler(this)
         log("default: ${Thread.getDefaultUncaughtExceptionHandler()}")

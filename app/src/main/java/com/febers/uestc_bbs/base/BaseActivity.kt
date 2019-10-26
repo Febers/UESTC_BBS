@@ -10,6 +10,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.lib.fragmentation.SupportActivity
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.view.helper.hideStatusBar
 import me.yokeyword.fragmentation.SwipeBackLayout
 
@@ -48,7 +49,11 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         ActivityMgr.putActivity(mContext)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            if (ThemeManager.isNightTheme()) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            } else {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
         }
         if (enableHideStatusBar()) {
             hideStatusBar()

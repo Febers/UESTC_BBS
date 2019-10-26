@@ -15,7 +15,7 @@ import android.view.View
 import android.widget.TextView
 
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 
 /**
  * 构建可显示图片的textview
@@ -55,7 +55,7 @@ object ImageTextHelper {
             for (url in urls) {
                 val myUrlSpan = MyUrlSpan(url.url, context)
                 style.setSpan(myUrlSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                val colorSpan = ForegroundColorSpan(ThemeHelper.getColorPrimaryBySp())
+                val colorSpan = ForegroundColorSpan(ThemeManager.colorAccent())
                 style.setSpan(colorSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             for (url in imgs) {

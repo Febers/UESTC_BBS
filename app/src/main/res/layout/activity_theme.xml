@@ -39,14 +39,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"/>
 
-            <CheckBox
-                android:id="@+id/check_box_theme_color_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/color_primary_dark_effect"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:textColorSecondary"/>
+<!--            <CheckBox-->
+<!--                android:id="@+id/check_box_theme_color_dark"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/color_primary_dark_effect"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:textColor="?android:textColorSecondary"/>-->
+
             <Button
                 android:id="@+id/btn_choose_theme"
                 android:layout_width="wrap_content"
@@ -54,7 +55,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
                 android:textSize="@dimen/text_size_big"
-                android:text="@string/confirm"/>
+                android:text="@string/confirm"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
         </LinearLayout>
     </ScrollView>
 

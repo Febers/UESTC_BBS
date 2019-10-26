@@ -11,7 +11,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
@@ -30,7 +30,7 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
         val leftLayout: LinearLayout = p0?.getView(R.id.linear_layout_pm_left)!!
         val rightLayout: LinearLayout = p0.getView(R.id.linear_layout_pm_right)!!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            rightLayout.background.setTint(ThemeHelper.getColorPrimaryBySp())
+            rightLayout.background.setTint(ThemeManager.colorAccent())
         }
         if (p1?.type == "text") {
             if (userId == p1.sender) {
@@ -41,8 +41,8 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                             infor = p1.content
                             type = CONTENT_TYPE_TEXT
                         }),
-                        mTextColor = ThemeHelper.getRefreshTextColor(),
-                        mTextLinkColor = ThemeHelper.getRefreshTextColor()
+                        mTextColor = ThemeManager.colorRefreshText(),
+                        mTextLinkColor = ThemeManager.colorRefreshText()
                 )
                 contentViewHelper?.create()
                 contentViewHelper?.getImageMapList()?.forEach {

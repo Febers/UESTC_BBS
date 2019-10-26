@@ -17,7 +17,7 @@ import com.febers.uestc_bbs.module.context.LoginContext
 import com.febers.uestc_bbs.module.setting.SettingActivity
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
@@ -58,9 +58,8 @@ class MoreFragment: BaseFragment() {
 
     override fun registerEventBus(): Boolean = true
 
-    override fun setView(): Int {
-        return R.layout.fragment_more
-    }
+    override fun setView(): Int = R.layout.fragment_more
+
 
     override fun initView() {
         initMenu()
@@ -79,7 +78,7 @@ class MoreFragment: BaseFragment() {
             setOnItemClickListener { p0, p1, p2 -> itemClick(view = THIRD_ITEM_VIEW, position = p2) }
             setOnItemChildClickListener(R.id.switch_more_item) {
                 viewHolder, moreItemBean, i ->
-                ThemeHelper.dayAndNightThemeChange(context!!)
+                ThemeManager.dayAndNightThemeChange(context!!)
             }
         }
         more_fragment_recyclerview_2.apply {
@@ -105,7 +104,7 @@ class MoreFragment: BaseFragment() {
 
     private fun initMoreItem2(): List<MoreItemBean> {
         val item4 = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeHelper.isDarkTheme())
+        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = false, isCheck = ThemeManager.isNightTheme())
         val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
         val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
         return listOf(item4, item1, item2, item3)
@@ -239,6 +238,7 @@ class MoreFragment: BaseFragment() {
         tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
         tvNaviNewer = view.findViewById(R.id.navigation_novice)
         btnNaviEnter = view.findViewById(R.id.navigation_enter)
+        btnNaviEnter?.setTextColor(ThemeManager.colorAccent())
         return view
     }
 }

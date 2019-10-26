@@ -234,10 +234,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity
-            android:name=".module.image.ImageViewer"
-            android:launchMode="singleInstance"
-            android:theme="@style/ImageViewerTheme" />
         <activity android:name=".module.user.view.UserPostActivity" /> <!-- <activity android:name=".http.AppWebViewer" /> -->
         <activity android:name=".module.login.view.LoginActivity" />
         <activity

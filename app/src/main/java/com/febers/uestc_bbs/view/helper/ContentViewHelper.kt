@@ -8,10 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.getWindowWidth
-import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.browse
 
 
@@ -118,7 +117,7 @@ class ContentViewHelper(
     private fun getTextView(): TextView = TextView(context).apply {
         setLineSpacing(1.0f, 1.2f)
         textSize = 16f
-        setTextColor(ThemeHelper.getTextColorPrimary())
+        setTextColor(ThemeManager.colorTextFirst())
         mTextColor?.let {
             setTextColor(it)
         }
@@ -126,7 +125,7 @@ class ContentViewHelper(
             setLinkTextColor(it)
         }
         linksClickable = true
-        setLinkTextColor(ThemeHelper.getColorPrimaryBySp())
+        setLinkTextColor(ThemeManager.colorAccent())
         setTextIsSelectable(true)
         layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

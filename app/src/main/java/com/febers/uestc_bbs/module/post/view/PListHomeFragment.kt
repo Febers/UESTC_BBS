@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.post.view
 
+import android.os.Build
 import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +11,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeHelper
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.finishFail
@@ -56,7 +57,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             adapter = postListAdapter
         }
         refresh_layout_post_list_home.apply {
-            initAttrAndBehavior()
+            initAttrAndBehavior(true)
             setOnRefreshListener {
                 page = 1
                 getPost(page)
@@ -66,8 +67,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
                 getPost(page)
             }
         }
-        ThemeHelper.subscribeOnThemeChange(refresh_layout_post_list_home)
-        postListAdapter.notifyDataSetChanged()
+        ThemeManager.viewInitAndSubscribe(refresh_layout_post_list_home)
     }
 
     private fun getPost(page: Int) {

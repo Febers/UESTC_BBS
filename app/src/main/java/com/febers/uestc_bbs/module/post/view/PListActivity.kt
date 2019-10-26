@@ -2,6 +2,7 @@ package com.febers.uestc_bbs.module.post.view
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.res.ColorStateList
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
@@ -19,6 +20,7 @@ import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
 import com.febers.uestc_bbs.view.helper.finishFail
@@ -81,6 +83,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
+        fab_post_list.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
 
         pListPresenter.boardListRequest(mFid)
 
