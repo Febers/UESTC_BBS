@@ -45,10 +45,11 @@ object ThemeManager {
     fun init(context: Context) {
         val mode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val nightModeValue by PreferenceUtils(context, NIGHT_MODE, false)
+        log { "获取nightValue值为: $nightModeValue" }
         if (mode == Configuration.UI_MODE_NIGHT_YES || nightModeValue) {  //系统或者app为暗黑模式，自动变换为夜间模式
-            log { "系统或者app为暗黑模式" }
+            log { "暗黑模式，系统: ${mode == Configuration.UI_MODE_NIGHT_YES}，app: $nightModeValue" }
             onNightTheme(context)
-        } else if (mode != Configuration.UI_MODE_NIGHT_YES && !nightModeValue) {
+        } else if (mode != Configuration.UI_MODE_NIGHT_YES && nightModeValue) {
             log { "系统为明亮模式，app为暗黑模式" }
             onNightTheme(context)
         } else {
@@ -81,6 +82,7 @@ object ThemeManager {
 
         var nightModeValue by PreferenceUtils(context, NIGHT_MODE, false)
         nightModeValue = false
+        log { "改变nightValue值为: $nightModeValue" }
         nightMode = false
     }
 
@@ -93,6 +95,7 @@ object ThemeManager {
 
         var nightModeValue by PreferenceUtils(context, NIGHT_MODE, true)
         nightModeValue = true
+        log { "改变nightValue值为: $nightModeValue" }
         nightMode = true
     }
 

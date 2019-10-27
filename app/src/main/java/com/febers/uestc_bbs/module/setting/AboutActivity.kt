@@ -190,6 +190,7 @@ class AboutActivity: BaseActivity() {
         btn.setOnClickListener {
             openSourceProjectsDialog?.dismiss()
         }
+        btn.setTextColor(ThemeManager.colorAccent())
         recyclerView.adapter = projectAdapter
         return view
     }

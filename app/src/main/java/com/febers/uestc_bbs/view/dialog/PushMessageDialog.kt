@@ -2,6 +2,8 @@ package com.febers.uestc_bbs.view.dialog
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.module.setting.push.PushManager
 import com.febers.uestc_bbs.module.setting.push.PushMessageListener
+import com.febers.uestc_bbs.module.theme.ThemeManager
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.runOnUiThread
 import java.lang.StringBuilder
@@ -28,11 +31,16 @@ class PushMessageDialog(var activity: Activity): AlertDialog(activity, R.style.T
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_push_msg, null)
         progressBar = view.findViewById(R.id.progress_bar_push_dialog)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            progressBar.progressTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
+        }
         tvPushMessage = view.findViewById(R.id.tv_push_dialog)
         btnEnter = view.findViewById(R.id.btn_enter_push_dialog)
         btnEnter.setOnClickListener { dismiss() }
+        btnEnter.setTextColor(ThemeManager.colorAccent())
         btnRetry = view.findViewById(R.id.btn_retry_push_dialog)
         btnRetry.setOnClickListener { getPushMessage() }
+        btnRetry.setTextColor(ThemeManager.colorAccent())
         dialog = Builder(context).setCancelable(false).create()
         dialog.setView(view)
     }

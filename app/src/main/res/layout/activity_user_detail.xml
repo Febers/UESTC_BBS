@@ -49,9 +49,9 @@
     <ProgressBar
         android:id="@+id/progress_bar_user_detail"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="4dp"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_layout_user_detail"
@@ -70,61 +70,27 @@
                     android:id="@+id/recyclerview_user_detail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:background="?attr/background_first">
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
                 </androidx.recyclerview.widget.RecyclerView>
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_user_post_start"
+                <TextView
+                    android:id="@+id/tv_user_post_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="?attr/background_first"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-                    <ImageView
-                        android:id="@+id/iv_icon_user_post_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="30dp"
-                        android:src="@drawable/xic_user_post_edit"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:textColor="?attr/text_color_first"
-                        android:textSize="@dimen/text_size_super_big"
-                        android:text="@string/ta_new"/>
-                </LinearLayout>
+                    android:paddingTop="10dp"
+                    android:paddingStart="30dp"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="?text_color_second"
+                    android:text="@string/ta_new"
+                    android:visibility="gone"/>
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_user_post_reply"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:paddingTop="10dp"
+                    android:id="@+id/recyclerview_user_post"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/background_first"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/iv_icon_user_post_reply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="30dp"
-                        android:src="@drawable/xic_user_post_reply"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:textColor="?attr/text_color_first"
-                        android:textSize="@dimen/text_size_super_big"
-                        android:text="@string/ta_reply"/>
-                </LinearLayout>
-
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

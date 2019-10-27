@@ -37,7 +37,7 @@ class UserPostActivity: BaseActivity(), UserContract.View {
     override fun initView() {
         setToolbarTitle()
         userPListPresenter = UserPresenterImpl(this)
-        userPListAdapter = UserPostAdapter(this@UserPostActivity, userPostList, false).apply {
+        userPListAdapter = UserPostAdapter(this@UserPostActivity, userPostList).apply {
             setOnItemClickListener { viewHolder, listBean, i ->
                 ClickContext.clickToPostDetail(context, listBean.topic_id, listBean.title, listBean.user_nick_name) }
             setOnItemChildClickListener(R.id.image_view_item_user_post_avatar) {

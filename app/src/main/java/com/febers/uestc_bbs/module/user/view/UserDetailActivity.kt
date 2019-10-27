@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.os.Build
 import android.view.*
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +18,7 @@ import com.febers.uestc_bbs.view.adapter.UserDetailAdapter
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.DetailItemBean
 import com.febers.uestc_bbs.entity.UserDetailBean
+import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.image.ImageLoader
@@ -27,13 +27,16 @@ import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.utils.*
+import com.febers.uestc_bbs.view.adapter.SimplePostAdapter
 import com.febers.uestc_bbs.view.helper.finishFail
+import com.febers.uestc_bbs.view.helper.finishSuccess
 import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.tools.PictureFileUtils
 import kotlinx.android.synthetic.main.activity_user_detail.*
+import kotlinx.android.synthetic.main.activity_user_detail.recyclerview_user_post
 import kotlinx.android.synthetic.main.dialog_update_sign.*
 import java.io.File
 
@@ -41,9 +44,13 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     private lateinit var userPresenter: UserContract.Presenter
     private var signDialog: Dialog? = null
-    private lateinit var oldSign: String
+    private var oldSign: String = ""
     private var userItSelf = false
     private var userId: Int = 0
+
+    private var postPage: Int = 1
+    private val postList: MutableList<UserPostBean.ListBean> = ArrayList()
+    private lateinit var postListAdapter: SimplePostAdapter
 
     override fun setMenu(): Int? =  R.menu.menu_user_detail
 
@@ -66,14 +73,29 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         userPresenter = UserPresenterImpl(this)
         refresh_layout_user_detail.apply {
             initAttrAndBehavior()
-            setOnRefreshListener { getUserDetail() }
+            setOnRefreshListener {
+                getUserDetail()
+            }
+            if (!userItSelf) {
+                setOnLoadMoreListener {
+                    getUserPost(++postPage)
+                }
+            }
         }
         if (userItSelf) {
 //            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
 //            userBottomSheet.setView(R.layout.layout_bottom_sheet_user_detail)
         }
         image_view_user_detail_blur_avatar.setBackgroundColor(ThemeManager.colorAccent())
-        signDialog = AlertDialog.Builder(this@UserDetailActivity).create()
+        signDialog = AlertDialog.Builder(mContext).create()
+
+        if (!userItSelf) {
+            postListAdapter = SimplePostAdapter(this, postList).apply {
+                setOnItemClickListener { viewHolder, listBean, i ->
+                    ClickContext.clickToPostDetail(mContext, listBean.topic_id, listBean.title, listBean.user_nick_name) }
+            }
+            recyclerview_user_post.adapter = postListAdapter
+        }
     }
 
     private fun getUserDetail() {
@@ -117,34 +139,41 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
                 ClickContext.clickToViewAvatarByUid(userId, this@UserDetailActivity)
             }
         }
-        refresh_layout_user_detail?.finishRefresh()
-        if (userItSelf) return
-
+        if (userItSelf) {
+            refresh_layout_user_detail?.finishRefresh()
+            return
+        }
+        //非当前用户
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
             it.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
             it.setOnClickListener { ClickContext.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
         }
-        linear_layout_user_post_start?.apply {
-            visibility = View.VISIBLE
-            setOnClickListener{
-                startActivity(Intent(this@UserDetailActivity, UserPostActivity::class.java).apply {
-                    putExtra(USER_ID, userId)
-                    putExtra(USER_POST_TYPE, USER_START_POST) })
+        tv_user_post_title.visibility = View.VISIBLE
+        postPage = 1
+        getUserPost(postPage)
+    }
+
+    private fun getUserPost(page: Int) {
+        userPresenter.userPostRequest(userId, USER_START_POST, page)
+    }
+
+    override fun showUserPost(event: BaseEvent<UserPostBean>) {
+        if (event.code == BaseCode.LOCAL) {
+            runOnUiThread {
+                postListAdapter.setNewData(event.data.list)
             }
+            return
         }
-        linear_layout_user_post_reply?.apply {
-            visibility = View.VISIBLE
-            setOnClickListener{
-                startActivity(Intent(this@UserDetailActivity, UserPostActivity::class.java).apply {
-                    putExtra(USER_ID, userId)
-                    putExtra(USER_POST_TYPE, USER_REPLY_POST) })
-            }
+        refresh_layout_user_detail?.finishSuccess()
+        if (postPage == 1) {
+            postListAdapter.setNewData(event.data.list)
+            return
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            iv_icon_user_post_edit.drawable.setTint(ThemeManager.colorAccent())
-            iv_icon_user_post_reply.drawable.setTint(ThemeManager.colorAccent())
+        if (event.code == BaseCode.SUCCESS_END) {
+            refresh_layout_user_detail?.finishLoadMoreWithNoMoreData()
         }
+        postListAdapter.setLoadMoreData(event.data.list)
     }
 
     /**
@@ -214,8 +243,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_item_user_detail_web) {
-            //browse("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
             getPostWebViewBottomSheet().show(supportFragmentManager, "user_web")
+        }
+        if (item.itemId == R.id.menu_item_user_post_reply) {
+            startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                putExtra(USER_ID, userId)
+                putExtra(USER_POST_TYPE, USER_REPLY_POST) })
         }
         return super.onOptionsItemSelected(item)
     }
