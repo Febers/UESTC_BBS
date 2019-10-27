@@ -3,6 +3,7 @@ package com.febers.uestc_bbs.module.setting.push
 import com.febers.uestc_bbs.base.ThreadPoolMgr
 import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.utils.ApiUtils
+import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -24,12 +25,17 @@ object PushManager {
                         }
 
                         override fun onResponse(call: Call, response: Response) {
-                            val json = response.body().toString()
+                            val json = response.body()?.string()
+                            if (json.isNullOrEmpty()) {
+                                onFailure(null, IOException("消息为空！"))
+                                return
+                            }
                             try {
                                 listener.success(Gson().fromJson(json, PushMessageBean::class.java))
                                 saveMessagesJson(json)
                             } catch (e: Exception) {
                                 onFailure(null, IOException(e.message))
+                                e.printStackTrace()
                             }
                         }
                     })

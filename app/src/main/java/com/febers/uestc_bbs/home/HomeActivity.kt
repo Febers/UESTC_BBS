@@ -22,7 +22,6 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.dialog.PushMessageDialog
-import com.febers.uestc_bbs.view.dialog.UpdateDialog
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.Subscribe
@@ -184,12 +183,12 @@ class HomeActivity: BaseActivity() {
     override fun afterCreated() {
         PushManager.getHttpMessages(object : PushMessageListener {
             override fun success(message: PushMessageBean) {
-                if (!message.msgs.isNullOrEmpty()) {
-                    if (message.msgs!!.first().show) {
+                if (!message.msg.isNullOrEmpty()) {
+                    if (message.msg!!.first().show) {
                         var lastId by PreferenceUtils(this@HomeActivity, PUSH_MESSAGE_ID_LAST, 0)
-                        if (message.msgs!!.first().id > lastId) {
-                            PushMessageDialog(this@HomeActivity).show(message.msgs!!.first().text)
-                            lastId = message.msgs!!.first().id
+                        if (message.msg!!.first().id > lastId) {
+                            runOnUiThread { PushMessageDialog(this@HomeActivity).show(message.msg!!.first().text) }
+                            lastId = message.msg!!.first().id
                         }
                     }
                 }

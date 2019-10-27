@@ -1,6 +1,8 @@
 package com.febers.uestc_bbs.view.dialog
 
+import android.app.Activity
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -11,10 +13,11 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.module.setting.push.PushManager
 import com.febers.uestc_bbs.module.setting.push.PushMessageListener
+import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.runOnUiThread
 import java.lang.StringBuilder
 
-class PushMessageDialog(context: Context): AlertDialog(context, R.style.Theme_AppCompat_Dialog) {
+class PushMessageDialog(var activity: Activity): AlertDialog(activity, R.style.Theme_AppCompat_Dialog) {
 
     private var dialog: AlertDialog
     private var progressBar: ProgressBar
@@ -43,12 +46,13 @@ class PushMessageDialog(context: Context): AlertDialog(context, R.style.Theme_Ap
     }
 
     fun show(msg: String? = null) {
+        if (activity.isDestroyed) return
         dialog.show()
         if (msg == null) {
             getPushMessage()
         } else {
             progressBar.visibility = View.GONE
-            tvPushMessage.text = msg
+            tvPushMessage.text = Html.fromHtml(msg.replace("/n", "<br>"))
         }
     }
 
@@ -58,14 +62,14 @@ class PushMessageDialog(context: Context): AlertDialog(context, R.style.Theme_Ap
             override fun success(message: PushMessageBean) {
                 context.runOnUiThread {
                     progressBar.visibility = View.GONE
-                    if (message.msgs.isNullOrEmpty()) {
+                    if (message.msg.isNullOrEmpty()) {
                         tvPushMessage.text = "推送消息为空"
                     } else {
                         val sb = StringBuilder()
-                        message.msgs!!.forEach {
-                            sb.append(it.text).append("\n")
+                        message.msg!!.forEachWithIndex { index, m ->
+                            sb.append("<h4>#${index+1}</h4><p>").append(m.text).append("</p>").append("<br><br>")
                         }
-                        tvPushMessage.text = sb.toString()
+                        tvPushMessage.text = Html.fromHtml(sb.toString().replace("/n", "<br>"))
                     }
                 }
             }

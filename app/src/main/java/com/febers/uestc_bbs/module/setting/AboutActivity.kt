@@ -112,7 +112,7 @@ class AboutActivity: BaseActivity() {
         val item1 = SettingItemBean(getString(R.string.version), getString(R.string.version_value))
         val item2 = SettingItemBean(getString(R.string.check_update), getString(R.string.version_value))
         val item3 = SettingItemBean(getString(R.string.update_log), getString(R.string.check_update_log))
-        val item4 = SettingItemBean("在线公告", "查看服务器的推送消息")
+        val item4 = SettingItemBean(getString(R.string.push_message), getString(R.string.push_message_des))
         return arrayListOf(item2, item3, item4)
     }
 
@@ -149,7 +149,7 @@ class AboutActivity: BaseActivity() {
             }
             2 -> {
                 if (pushMessageDialog == null) {
-                    pushMessageDialog = PushMessageDialog(this)
+                    pushMessageDialog = PushMessageDialog(this@AboutActivity)
                 }
                 (pushMessageDialog as PushMessageDialog).show(null)
             }
@@ -195,7 +195,6 @@ class AboutActivity: BaseActivity() {
     }
 
     private fun initOpenProjectData(): List<ProjectItemBean> = arrayListOf(
-            ProjectItemBean("aesthetic", "afollestad", ""),
             ProjectItemBean("ahbottomnavigation", "aurelhubert", ""),
             ProjectItemBean("anko", "Kotlin", ""),
             ProjectItemBean("EventBus", "greenrobot", ""),

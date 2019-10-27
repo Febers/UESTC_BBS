@@ -1,5 +1,5 @@
 # i河畔(UESTC_BBS)
-![](https://github.com/Febers/UESTC_BBS/blob/master/Screenshots/ic_launcher.png)
+![](https://github.com/Febers/UESTC_BBS/blob/master/app/src/main/ic_launcher-web.png)
 
 [前往下载页面](https://github.com/Febers/UESTC_BBS/releases)
 
@@ -13,14 +13,14 @@
 ### 功能列表
 
 - [x] 登录、看帖、发帖、回复、私信等基本功能。
-- [x] 图片保存、发帖添加图片附件。
+- [x] 图片保存、分享、发帖添加图片附件。
+- [x] 夜间模式、任意颜色主题切换。
 - [x] 查看用户收藏、回复的帖子。
-- [x] 任意颜色主题切换。
+- [x] 应用内打开web界面
 - [x] 多彩图标选择。
 - [x] 多用户切换。
 - [x] 河畔表情包。
 - [x] 帖子搜索。
-- [ ] 应用内打开web界面
 - [ ] 等等
 
 ## 实现细节
@@ -60,7 +60,7 @@
 ```
 
 ### 功能实现方法
-表情包功能魔改了[PandaEmoView](https://github.com/PandaQAQ/PandaEmoView)，界面整体的框架布局使用了[Fragmentation](https://github.com/YoKeyword/Fragmentation)，图片加载使用[Glide](https://github.com/bumptech/glide)库，主题换肤功能的则使用了[aesthetic](https://github.com/afollestad/aesthetic)，其他开源库可打开应用内的 关于-开源项目 查看。
+表情包功能魔改了[PandaEmoView](https://github.com/PandaQAQ/PandaEmoView)，界面整体的框架布局使用了[Fragmentation](https://github.com/YoKeyword/Fragmentation)，图片加载使用[Glide](https://github.com/bumptech/glide)库，其他开源库可打开应用内的 关于-开源项目 查看。
 
 你可在源码中阅读注释获取更多细节。
 

@@ -31,6 +31,10 @@ class SplashActivity : BaseActivity() {
 
     override fun initView() {
         setSwipeBackEnable(false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            image_view_splash.drawable.setTint(ThemeManager.colorAccent())
+            text_view_splash.setTextColor(ThemeManager.colorAccent())
+        }
         if (intent.getBooleanExtra(RESTART_APP, false)) {
             ActivityMgr.removeAllActivitiesExceptOne(mContext)
         }

@@ -18,6 +18,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.MoreItemBean
+import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.LoginContext
@@ -28,6 +29,8 @@ import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.setting.SettingActivity
+import com.febers.uestc_bbs.module.setting.push.PushManager
+import com.febers.uestc_bbs.module.setting.push.PushMessageListener
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
@@ -35,6 +38,7 @@ import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
+import com.febers.uestc_bbs.view.dialog.PushMessageDialog
 import kotlinx.android.synthetic.main.activity_home_2.*
 import kotlinx.android.synthetic.main.activity_home_2.fab_home
 import kotlinx.android.synthetic.main.layout_drawer_home_2.*
@@ -382,5 +386,23 @@ class HomeActivity2: BaseActivity() {
         if (intent?.getBooleanExtra(SHORTCUT_MSG, false) == true) {
             showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
         }
+    }
+
+    override fun afterCreated() {
+        PushManager.getHttpMessages(object : PushMessageListener {
+            override fun success(message: PushMessageBean) {
+                if (!message.msg.isNullOrEmpty()) {
+                    if (message.msg!!.first().show) {
+                        var lastId by PreferenceUtils(this@HomeActivity2, PUSH_MESSAGE_ID_LAST, 0)
+                        if (message.msg!!.first().id > lastId) {
+                            runOnUiThread { PushMessageDialog(this@HomeActivity2).show(message.msg!!.first().text) }
+                            lastId = message.msg!!.first().id
+                        }
+                    }
+                }
+            }
+            override fun fail(message: String) {
+            }
+        })
     }
 }

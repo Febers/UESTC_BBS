@@ -2,7 +2,7 @@ package com.febers.uestc_bbs.entity
 
 class PushMessageBean {
 
-    var msgs: List<PushMsg>? = null
+    var msg: List<PushMsg>? = null
 
     class PushMsg {
         var text: String = ""

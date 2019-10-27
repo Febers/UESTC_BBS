@@ -29,6 +29,7 @@
                 android:id="@+id/tv_push_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="all"
                 android:text=""/>
         </FrameLayout>
     </ScrollView>

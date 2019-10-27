@@ -168,4 +168,5 @@
     <string name="oppose">👎</string>
     <string name="push_message">Push Messages</string>
     <string name="retry">Retry</string>
+    <string name="push_message_des">View all messages from server</string>
 </resources>
