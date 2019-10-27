@@ -11,13 +11,18 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.GithubReleaseBean
+import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.setting.push.PushManager
+import com.febers.uestc_bbs.module.setting.push.PushMessageListener
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.utils.postSticky
+import com.febers.uestc_bbs.view.dialog.PushMessageDialog
+import com.febers.uestc_bbs.view.dialog.UpdateDialog
 import kotlinx.android.synthetic.main.activity_home.*
 import me.yokeyword.fragmentation.ISupportFragment
 import org.greenrobot.eventbus.Subscribe
@@ -174,5 +179,23 @@ class HomeActivity: BaseActivity() {
     private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
         val dialogHelper = UpdateDialogHelper(mContext)
         dialogHelper.showGithubUpdateDialog(githubReleaseBean)
+    }
+
+    override fun afterCreated() {
+        PushManager.getHttpMessages(object : PushMessageListener {
+            override fun success(message: PushMessageBean) {
+                if (!message.msgs.isNullOrEmpty()) {
+                    if (message.msgs!!.first().show) {
+                        var lastId by PreferenceUtils(this@HomeActivity, PUSH_MESSAGE_ID_LAST, 0)
+                        if (message.msgs!!.first().id > lastId) {
+                            PushMessageDialog(this@HomeActivity).show(message.msgs!!.first().text)
+                            lastId = message.msgs!!.first().id
+                        }
+                    }
+                }
+            }
+            override fun fail(message: String) {
+            }
+        })
     }
 }

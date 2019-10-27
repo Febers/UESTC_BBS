@@ -87,3 +87,5 @@ const val HINT_BY_SNACK_BAR = 1
 const val LOOP_RECEIVE_MSG = "loop_receive_msg"
 
 const val QUERY_HISTORY = "query_history"
+
+const val PUSH_MESSAGE_ID_LAST = "push_message_id_last"

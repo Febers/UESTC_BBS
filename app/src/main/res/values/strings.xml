@@ -183,6 +183,8 @@
     <string name="search_history_clear">清空</string>
     <string name="support">👍</string>
     <string name="oppose">👎</string>
+    <string name="push_message">推送消息</string>
+    <string name="retry">重试</string>
 
     <!--防止引用系统默认时找不到该属性-->
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->

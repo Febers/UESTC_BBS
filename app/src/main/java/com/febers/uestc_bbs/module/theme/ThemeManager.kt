@@ -15,8 +15,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import java.lang.ref.WeakReference
-import android.graphics.PorterDuff
-import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.CompoundButtonCompat
 import com.febers.uestc_bbs.MyApp
@@ -47,12 +45,14 @@ object ThemeManager {
     fun init(context: Context) {
         val mode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val nightModeValue by PreferenceUtils(context, NIGHT_MODE, false)
-
         if (mode == Configuration.UI_MODE_NIGHT_YES || nightModeValue) {  //系统或者app为暗黑模式，自动变换为夜间模式
-            log { "暗黑模式" }
+            log { "系统或者app为暗黑模式" }
+            onNightTheme(context)
+        } else if (mode != Configuration.UI_MODE_NIGHT_YES && !nightModeValue) {
+            log { "系统为明亮模式，app为暗黑模式" }
             onNightTheme(context)
         } else {
-            log { "明亮模式" }
+            log { "系统和app都为明亮模式" }
             onDayTheme(context)
         }
         val colorAccentValue by PreferenceUtils(context, COLOR_ACCENT, colorAccent)
@@ -73,6 +73,7 @@ object ThemeManager {
     }
 
     private fun onDayTheme(context: Context) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         colorPrimary = Color.WHITE
         colorTextFirst = Color.BLACK
         colorTextSecond = Color.parseColor("#888888")
@@ -84,6 +85,7 @@ object ThemeManager {
     }
 
     private fun onNightTheme(context: Context) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         colorPrimary = Color.parseColor("#363636")
         colorTextFirst = Color.parseColor("#ffffff")
         colorTextSecond = Color.parseColor("#9e9e9e")

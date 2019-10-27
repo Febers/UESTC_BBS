@@ -21,6 +21,7 @@ import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.update.UpdateHelper
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
+import com.febers.uestc_bbs.view.dialog.PushMessageDialog
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.Subscribe
@@ -37,8 +38,9 @@ class AboutActivity: BaseActivity() {
     private lateinit var settingAdapter1: SettingAdapter
     private lateinit var settingAdapter2: SettingAdapter
     private lateinit var settingAdapter3: SettingAdapter
-    private var openSourceProjectsDialog: AlertDialog? = null
     private lateinit var projectAdapter: OpenProjectAdapter
+    private var openSourceProjectsDialog: AlertDialog? = null
+    private var pushMessageDialog: AlertDialog? = null
     private var permissionDialog: AlertDialog? = null
     private var updateLogDialog: AlertDialog? = null
 
@@ -144,6 +146,12 @@ class AboutActivity: BaseActivity() {
                             .create()
                 }
                 updateLogDialog?.show()
+            }
+            2 -> {
+                if (pushMessageDialog == null) {
+                    pushMessageDialog = PushMessageDialog(this)
+                }
+                (pushMessageDialog as PushMessageDialog).show(null)
             }
         }
     }

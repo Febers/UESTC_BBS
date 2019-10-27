@@ -26,14 +26,14 @@
 
             </com.febers.uestc_bbs.view.custom.CustomGridView>
 
-            <com.febers.uestc_bbs.view.color_picker.ColorPicker
+            <com.febers.uestc_bbs.lib.color_picker.ColorPicker
                 android:id="@+id/color_picker"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 app:color_center_radius="80dp"/>
-            <com.febers.uestc_bbs.view.color_picker.SVBar
+            <com.febers.uestc_bbs.lib.color_picker.SVBar
                 android:id="@+id/color_picker_sv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

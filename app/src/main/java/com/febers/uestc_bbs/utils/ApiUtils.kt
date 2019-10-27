@@ -336,7 +336,6 @@ object ApiUtils {
      */
     const val BBS_MESSAGE_PM_ADMIN = "mobcent/app/web/index.php?r=message/pmadmin"
 
-
     /**
     获取周边用户/帖子。
     longitude 经度。
@@ -355,4 +354,6 @@ object ApiUtils {
     const val GIHUB_BASE_API = "https://api.github.com/"
 
     const val GITHUB_RELEASE_LATEST = "repos/Febers/UESTC_BBS/releases/latest"
+
+    const val GITHUB_PUSH_MESSAGE_RAW = "https://raw.githubusercontent.com/Febers/UESTC_BBS/master/push.txt"
 }
