@@ -15,8 +15,8 @@ import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
-import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_IMG
-import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
+import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_IMG
+import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
 import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
 import com.febers.uestc_bbs.lib.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_post_reply.*

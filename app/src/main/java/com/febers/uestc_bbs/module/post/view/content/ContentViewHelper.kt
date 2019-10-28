@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.helper
+package com.febers.uestc_bbs.module.post.view.content
 
 import android.view.Gravity
 import android.view.View
@@ -85,7 +85,7 @@ class ContentViewHelper(
         loop@ for ( (position, content) in mContents.withIndex()) {
             when(content.type) {
                 CONTENT_TYPE_TEXT -> {
-                    stringBuilder.append(emotionTransform(content.infor).encodeSpaces())
+                    stringBuilder.append(emotionTrans2Url(content.infor).encodeSpaces())
                 }
                 CONTENT_TYPE_URL -> {
                     stringBuilder
@@ -164,7 +164,7 @@ class ContentViewHelper(
      * 转换成:
      * <img src="http://bbs.uestc.edu.cn/static/image/smiley/first/1.gif">
      */
-    private fun emotionTransform(raw: String?, lastBegin: Int = 0): String{
+    private fun emotionTrans2Url(raw: String?, lastBegin: Int = 0): String{
         if (raw == null) {
             return ""
         }
@@ -183,7 +183,7 @@ class ContentViewHelper(
         } catch (e:Exception) {
             return newContent
         }
-        return emotionTransform(newContent, begin)
+        return emotionTrans2Url(newContent, begin)
     }
 
     /**

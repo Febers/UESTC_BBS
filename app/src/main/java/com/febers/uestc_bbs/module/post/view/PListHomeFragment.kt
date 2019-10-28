@@ -85,12 +85,11 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
             return
         }
         refresh_layout_post_list_home?.finishSuccess()
-        if (page == 1) {
-            postListAdapter.setNewData(event.data.list)
-            return
-        }
         if (event.code == BaseCode.SUCCESS_END) {
             refresh_layout_post_list_home?.finishLoadMoreWithNoMoreData()
+        }
+        if (page == 1) {
+            postListAdapter.setNewData(event.data.list)
             return
         }
         postListAdapter.setLoadMoreData(event.data.list)

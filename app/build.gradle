@@ -56,8 +56,8 @@ android {
         applicationId "com.febers.uestc_bbs"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 16
-        versionName "1.1.6.1"
+        versionCode 17
+        versionName "1.1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构，来自bugly

@@ -143,7 +143,7 @@ public class StickerManager {
      * 表情对象加载器,解析配置 xml
      */
     private class EntryLoader extends DefaultHandler {
-        private String configFileName = "config.xml";
+        private String configFileName = "configure.xml";
         private List<StickerItem> mStickerItems = new ArrayList<>();
         private String stickerPath;
         private StickerCategory mCategory;

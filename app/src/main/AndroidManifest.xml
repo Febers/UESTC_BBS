@@ -246,6 +246,7 @@
             android:name=".home.HomeActivity2" />
         <activity android:name=".http.AppWebViewer" />
         <activity android:name=".module.more.ExceptionActivity" />
+        <activity android:name=".module.post.view.PostDetailActivity2" />
     </application>
 
 </manifest>

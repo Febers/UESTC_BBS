@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import androidx.annotation.UiThread
@@ -19,6 +20,7 @@ import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostSupportResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
+import com.febers.uestc_bbs.http.WebViewConfiguration
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
@@ -29,16 +31,19 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
+import com.febers.uestc_bbs.module.post.view.content.ContentTransfer
 import com.febers.uestc_bbs.module.post.view.content.ContentViewHelper
 import com.febers.uestc_bbs.module.post.view.content.VoteViewHelper
 import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.WebViewUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
-import kotlinx.android.synthetic.main.activity_post_detail.*
+import kotlinx.android.synthetic.main.activity_post_detail2.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
 import kotlinx.android.synthetic.main.layout_server_null.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
-class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickListener {
+class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickListener {
 
     private var replyList: MutableList<PostDetailBean.ListBean>? = ArrayList()
     private var showReplyCountBottomAnimatorSet: AnimatorSet? = null
@@ -66,7 +71,7 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
 
     ////////////////////////////////初始化////////////////////////////////
 
-    override fun setView(): Int = R.layout.activity_post_detail
+    override fun setView(): Int = R.layout.activity_post_detail2
     override fun setToolbar(): Toolbar? = toolbar_common
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
@@ -165,14 +170,14 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
                 drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
             }
         }
-
+        refresh_layout_post_detail?.finishSuccess()
         //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
+            log { "没有下一页了" }
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
             tv_bottom_hint.postDelayed( { tv_bottom_hint.visibility = View.VISIBLE }, 500)
         }
 
-        refresh_layout_post_detail?.finishSuccess()
         val start: Int = replyList?.size ?: 0
         replyList?.addAll(event.data.list!!)    //如果是第一页，在 drawTopicView 方法中已清空评论列表
         val itemCount = if (replyList?.size == null) 0 else replyList!!.size - start
@@ -221,10 +226,9 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         text_view_post_detail_author?.text = event.data.topic?.user_nick_name
         text_view_post_detail_author_title?.text = event.data.topic?.userTitle
         text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
-        //主贴图文视图的绘制
-        contentViewHelper = ContentViewHelper(linear_layout_detail_content, event.data.topic?.content!!)
-        contentViewHelper?.create()
-        fillImageView()
+
+        ContentTransfer.transfer(web_view_post_content, event.data.topic!!.content!!)
+
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
 
@@ -247,17 +251,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         }
     }
 
-    private fun fillImageView() {
-        val imageMap = contentViewHelper?.getImageMapList()
-        imageMap ?: return
-        imageMap.forEach {
-            ImageLoader.loadForContent(context = mContext,
-                    url = it.keys.first(),
-                    imageView = it.values.first())
-        }
-        contentViewHelper = null
-    }
-
     ////////////////////////////////投票////////////////////////////////
     /**
      * 绘制投票的界面
@@ -268,15 +261,15 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
      * @param pollInfo 投票详数据情
      */
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
-        pollInfo ?: return
-        voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
-        voteViewHelper?.create()
-        voteViewHelper?.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
-            override fun click(pollItemIds: List<Int>) {
-                postPresenter?.postVoteRequest(pollItemIds)
-            }
-        })
-        voteViewHelper = null
+//        pollInfo ?: return
+//        voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
+//        voteViewHelper?.create()
+//        voteViewHelper?.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
+//            override fun click(pollItemIds: List<Int>) {
+//                postPresenter?.postVoteRequest(pollItemIds)
+//            }
+//        })
+//        voteViewHelper = null
     }
 
     @UiThread
@@ -472,5 +465,6 @@ class PostDetailActivity : BaseActivity(), PostContract.View, PostOptionClickLis
         replyList = null
         optionBottomSheet = null
         postWebViewBottomSheet = null
+        WebViewUtils.destroyWebView(web_view_post_content)
     }
 }

@@ -20,7 +20,7 @@ import org.jetbrains.anko.collections.forEachWithIndex
 import org.jetbrains.anko.runOnUiThread
 import java.lang.StringBuilder
 
-class PushMessageDialog(var activity: Activity): AlertDialog(activity, R.style.Theme_AppCompat_Dialog) {
+class PushMessageDialog(var activity: Activity): AlertDialog(activity, R.style.Theme_AppCompat_DayNight_Dialog) {
 
     private var dialog: AlertDialog
     private var progressBar: ProgressBar

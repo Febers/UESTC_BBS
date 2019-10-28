@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.view.helper;
+package com.febers.uestc_bbs.module.post.view.content;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

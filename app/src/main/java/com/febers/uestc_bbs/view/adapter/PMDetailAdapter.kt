@@ -14,8 +14,8 @@ import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.view.helper.CONTENT_TYPE_TEXT
-import com.febers.uestc_bbs.view.helper.ContentViewHelper
+import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
+import com.febers.uestc_bbs.module.post.view.content.ContentViewHelper
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 

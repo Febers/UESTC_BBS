@@ -86,6 +86,7 @@ class PostModelImpl(val postPresenter: PostContract.Presenter): BaseModel(), Pos
                     postPresenter.errorResult(postResultBean.head?.errInfo.toString())
                     return
                 }
+                log { "has next: ${postResultBean.has_next}" }
                 if (postResultBean.has_next != HAVE_NEXT_PAGE) {
                     postPresenter.postDetailResult(BaseEvent(BaseCode.SUCCESS_END, postResultBean))
                     return

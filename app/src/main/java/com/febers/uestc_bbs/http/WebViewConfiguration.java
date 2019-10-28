@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
-import android.os.Build;
+
 import androidx.annotation.Nullable;
 import android.view.View;
 import android.webkit.CookieSyncManager;
@@ -19,134 +19,131 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-public class WebViewConfigure {
+public class WebViewConfiguration {
 
-    private static final String TAG = "WebViewConfigure";
-    private WebViewConfigure(){}
+    private static final String TAG = "WebViewConfiguration";
+    private WebViewConfiguration(){ }
 
-    public static class Builder {
+    public static class Configuration {
 
         private Context context;
         private WebView webView;
         private WebSettings webSettings;
         private WebViewClient webViewClient;
-        private Boolean acceptAllRequest = true;
-        private Boolean noImage = false;
-        private Boolean openUrlOut = true;
-        private Boolean processHtml = false;
-        private Boolean enableJS = true;
-
         private WebChromeClient webChromeClient;
+
         private ProgressBar progressBar;
         private Boolean supportLoadingBar = false;
 
-        public Builder(Context context, WebView webView) {
+        private Boolean openUrlOut = true;
+        private Boolean acceptAllRequest = true;
+        private Boolean enableJavaScript = true;
+        private Boolean withoutImage = false;
+        private Boolean processHtml = false;
+
+        public Configuration(Context context, WebView webView) {
             this.context = context;
             this.webView = webView;
             webSettings = webView.getSettings();
         }
 
-        public Builder disabledJS() {
-            enableJS = false;
-            return this;
-        }
-
-        public Builder setJSEnable(Boolean enable) {
+        public Configuration setJavaScriptEnabled(Boolean enable) {
             webSettings.setJavaScriptEnabled(true);
             return this;
         }
 
         @SuppressLint("JavascriptInterface")
-        public Builder addJSInterface(Object object, String name) {
-            setJSEnable(true);
+        public Configuration addJavaScriptInterface(Object object, String name) {
+            webSettings.setJavaScriptEnabled(true);
+            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
             webView.addJavascriptInterface(object, name);
             return this;
         }
 
-        public Builder setCacheMode(int mode) {
+        public Configuration setCacheMode(int mode) {
             webSettings.setCacheMode(mode);
             return this;
         }
 
-        public Builder setAppCacheEnabled(Boolean b) {
+        public Configuration setAppCacheEnabled(Boolean b) {
             webSettings.setAppCacheEnabled(b);
             return this;
         }
 
-        public Builder setAppCachePath(String path) {
+        public Configuration setAppCachePath(String path) {
             webSettings.setAppCachePath(path);
             return this;
         }
 
-        public Builder setUseWideViewPort(Boolean useWideViewPort) {
+        public Configuration setUseWideViewPort(Boolean useWideViewPort) {
             webSettings.setUseWideViewPort(useWideViewPort);
             return this;
         }
 
-        public Builder setLoadWithOverviewMode(Boolean loadWithOverviewMode) {
+        public Configuration setLoadWithOverviewMode(Boolean loadWithOverviewMode) {
             webSettings.setLoadWithOverviewMode(loadWithOverviewMode);
             return this;
         }
 
-        public Builder setSupportZoom(Boolean supportZoom) {
+        public Configuration setSupportZoom(Boolean supportZoom) {
             webSettings.setSupportZoom(supportZoom);
             return this;
         }
 
-        public Builder setBuiltInZoomControls(Boolean builtInZoomControls) {
+        public Configuration setBuiltInZoomControls(Boolean builtInZoomControls) {
             webSettings.setBuiltInZoomControls(builtInZoomControls);
             return this;
         }
 
-        public Builder setDisplayZoomControls(Boolean displayZoomControls) {
+        public Configuration setDisplayZoomControls(Boolean displayZoomControls) {
             webSettings.setDisplayZoomControls(displayZoomControls);
             return this;
         }
 
-        public Builder setSupportWindow(Boolean supportWindow) {
+        public Configuration setSupportWindow(Boolean supportWindow) {
             webSettings.setJavaScriptCanOpenWindowsAutomatically(supportWindow);
             return this;
         }
 
-        public Builder setDomEnabled(Boolean domEnabled) {
+        public Configuration setDomEnabled(Boolean domEnabled) {
             webSettings.setDatabaseEnabled(true);
             webSettings.setDomStorageEnabled(domEnabled);
             return this;
         }
 
-        public Builder setClientWithoutImage() {
-            noImage = true;
+        public Configuration setClientWithoutImage() {
+            withoutImage = true;
             return this;
         }
 
-        public Builder acceptAnyRequest(Boolean accepter) {
+        public Configuration acceptAnyRequest(Boolean accepter) {
             acceptAllRequest = accepter;
             return this;
         }
 
-        public Builder setBlockNetworkImage(Boolean block) {
+        public Configuration setBlockNetworkImage(Boolean block) {
             webSettings.setBlockNetworkImage(block);
             return this;
         }
 
-        public Builder setSupportLoadingBar(Boolean support, ProgressBar progressBar) {
+        public Configuration setSupportLoadingBar(Boolean support, ProgressBar progressBar) {
             supportLoadingBar = support;
             this.progressBar = progressBar;
             return this;
         }
 
-        public Builder setOpenUrlOut(Boolean openUrlOut) {
+        public Configuration setOpenUrlOut(Boolean openUrlOut) {
             this.openUrlOut = openUrlOut;
             return this;
         }
 
-        public Builder setProcessHtml(Boolean processHtml, Object object, String name) {
+        public Configuration setProcessHtml(Boolean processHtml, Object object, String name) {
             this.processHtml = processHtml;
-            addJSInterface(object, name);
+            addJavaScriptInterface(object, name);
             return this;
         }
 
-        public WebView builder() {
+        public void configure() {
             webViewClient = new WebViewClient() {
                 @Override
                 public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -199,7 +196,7 @@ public class WebViewConfigure {
                 @Nullable
                 @Override
                 public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                    if (noImage) {
+                    if (withoutImage) {
                         if (request.getUrl().toString().contains("image")||
                                 request.getUrl().toString().contains("png")||
                                 request.getUrl().toString().contains("jpg")) {
@@ -212,7 +209,7 @@ public class WebViewConfigure {
                 @Nullable
                 @Override
                 public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                    if (noImage) {
+                    if (withoutImage) {
                         if (url.contains("image")||
                                 url.contains("png")||
                                 url.contains("jpg")) {
@@ -249,18 +246,16 @@ public class WebViewConfigure {
                     }
                 }
             };
-
             CookieSyncManager.createInstance(webView.getContext());
             CookieSyncManager.getInstance().sync();
             //延迟加载图片,对于4.4直接加载
-            if (Build.VERSION.SDK_INT >= 19) {
-                webSettings.setLoadsImagesAutomatically(true);
-            } else {
-                webSettings.setLoadsImagesAutomatically(false);
-            }
+//            if (Build.VERSION.SDK_INT >= 19) {
+//                webSettings.setLoadsImagesAutomatically(true);
+//            } else {
+//                webSettings.setLoadsImagesAutomatically(false);
+//            }
             webView.setWebViewClient(webViewClient);
             webView.setWebChromeClient(webChromeClient);
-            return webView;
         }
     }
 }

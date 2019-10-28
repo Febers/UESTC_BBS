@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.image
 
-import android.app.Activity
 import android.content.Context
 import android.widget.ImageView
 
@@ -12,7 +11,7 @@ import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.view.helper.GlideImageGetter
+import com.febers.uestc_bbs.module.post.view.content.GlideImageGetter
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 object ImageLoader {

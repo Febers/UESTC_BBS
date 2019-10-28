@@ -6,6 +6,7 @@ import com.febers.uestc_bbs.io.PostManager
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.model.http_interface.PListInterface
+import com.febers.uestc_bbs.utils.log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,6 +50,7 @@ class PListModelImpl(val pListPresenter: PListContract.Presenter) : BaseModel(),
                     pListPresenter.errorResult(body.head?.errInfo.toString())
                     return
                 }
+                log { "has next: ${body.has_next}" }
                 if (body.has_next != HAVE_NEXT_PAGE) {
                     pListPresenter.pListResult(BaseEvent(BaseCode.SUCCESS_END, body))
                 } else {

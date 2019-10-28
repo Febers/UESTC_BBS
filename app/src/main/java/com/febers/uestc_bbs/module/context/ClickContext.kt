@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.image.ImageViewer2
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
+import com.febers.uestc_bbs.module.post.view.PostDetailActivity2
 import com.febers.uestc_bbs.module.post.view.edit.*
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.utils.getStringSimplified
@@ -161,7 +162,7 @@ object ClickContext {
         context ?: return
         if (fid == 0 || fid == null) return
         if (!LoginContext.userState(context)) return
-        context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
+        context.startActivity(Intent(context, PostDetailActivity2::class.java).apply {
             putExtra(FID, fid)
             putExtra(POST_TITLE, postTitle)
             putExtra(USER_NAME, userName)
