@@ -1,17 +1,23 @@
 package com.febers.uestc_bbs.module.image
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URL
 import com.febers.uestc_bbs.io.FileHelper
@@ -21,6 +27,9 @@ import org.jetbrains.anko.runOnUiThread
 import java.nio.ByteBuffer
 
 class ImageViewer2: DialogFragment() {
+
+    private val permissionReqeustCode = 9527
+    private val permissionReqeustArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
 
     private var gifDrawable: GifDrawable? = null
     private var gifBytes: ByteArray? = null
@@ -42,7 +51,6 @@ class ImageViewer2: DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         dialog?.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_PANEL)
         dialog?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
@@ -97,7 +105,6 @@ class ImageViewer2: DialogFragment() {
 
             gifBuffer ?: return false
             gifBytes = FileHelper.getByteArrayFromByteBuffer(gifBuffer)
-
             context!!.runOnUiThread {
                 GlideApp.with(this).asGif().load(imageUrl).into(imageView)
             }
@@ -129,6 +136,14 @@ class ImageViewer2: DialogFragment() {
     }
 
     private fun saveImage() {
+        activity ?: return
+        val p = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (p != PackageManager.PERMISSION_GRANTED) {
+            log { "出错：应用没有读写手机存储的权限！" }
+            HintUtils.show("出错：应用没有读写手机存储的权限！")
+            ActivityCompat.requestPermissions(activity!!, permissionReqeustArray, permissionReqeustCode)
+            return
+        }
         Thread {
             if (imageBitmap != null) {
                 imageUri = ImageHelper.saveImage(context!!, imageBitmap as Bitmap, forShare = false)

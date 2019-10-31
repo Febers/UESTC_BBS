@@ -2,11 +2,14 @@ package com.febers.uestc_bbs.module.image
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.io.DownloadHelper
-import com.febers.uestc_bbs.io.FileHelper.appImageDir
+import com.febers.uestc_bbs.io.FileHelper.appImageDir2
 import com.febers.uestc_bbs.io.tryClose
 import com.febers.uestc_bbs.utils.log
 import java.io.*
@@ -30,53 +33,19 @@ object ImageHelper {
             return null
         }
         try {
-            val dir: File = File(appImageDir)
-            if (!dir.exists()) {
-                if (!dir.mkdirs()) {
-                    throw IOException()
-                }
-            }
-            imgFile = File("$appImageDir${getImageFileName()}.png")
-            val fos: FileOutputStream = FileOutputStream(imgFile)
+            val path = "$appImageDir2${getImageFileName()}"
+            imgFile = File(path)
+            log { """
+                file? : ${imgFile!!.exists()}
+                path : $path
+                file path: ${imgFile!!.absolutePath}
+            """.trimIndent() }
+            val fos = FileOutputStream(imgFile!!)
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-            fos.flush()
-            fos.close()
-
-            insertImageToGallery(context)
-            return Uri.parse(imgFile!!.absolutePath)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
-        }
-    }
-
-    /**
-     * 保存gif格式的图片
-     *
-     * @deprecated 保存之后无法读取为gif
-     */
-    fun saveGif(context: Context, gifByte: ByteArray?, forShare: Boolean): Uri? {
-        fileForShare = forShare
-        if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) { //内存未挂载
-            return null
-        }
-        if (gifByte == null) {
-            return null
-        }
-        try {
-            val dir: File = File(appImageDir)
-            if (!dir.exists()) {
-                if (!dir.mkdirs()) {
-                    throw IOException()
-                }
-            }
-            imgFile = File("$appImageDir${getImageFileName()}.gif")
-            val fos: FileOutputStream = FileOutputStream(imgFile)
-            fos.write(gifByte, 0, gifByte.size)
             fos.flush()
             fos.tryClose()
 
-            insertImageToGallery(context)
+            insertImageToGallery(context, bitmap)
             return Uri.parse(imgFile!!.absolutePath)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -85,7 +54,7 @@ object ImageHelper {
     }
 
     /**
-     * 保存gif图片，原来的保存之后无法读取为gif
+     * 保存gif动图
      * 典型的头像链接为:http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=171264&size=big
      * 由于调用的DownloadHelper的download方法使用了回调接口，无法在回调方法直接返回，使用CountDownLatch
      * 使并发变成阻塞，相关知识Google
@@ -104,7 +73,7 @@ object ImageHelper {
         }
         val countDownLatch: CountDownLatch = CountDownLatch(1)
         try {
-            DownloadHelper().download(url = gifUrl, fileName = getImageFileName() + ".gif", filePath = appImageDir,
+            DownloadHelper().download(url = gifUrl, fileName = getImageFileName() + ".gif", filePath = appImageDir2,
                     listener = object : DownloadHelper.OnDownloadListener {
                         override fun onDownloadSuccess(file: File) {
                             imgFile = file
@@ -119,8 +88,8 @@ object ImageHelper {
                         }
                     })
             countDownLatch.await()
-
-            insertImageToGallery(context)
+//            insertImageToGallery(context, BitmapFactory.decodeFile(imgFile!!.absolutePath))
+            insertGifToGallery(context)
             return Uri.parse(imgFile!!.absolutePath)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -128,7 +97,6 @@ object ImageHelper {
         }
 
     }
-
 
     /**
      * 给图片命名，方式简单粗暴，直接用时间字符串
@@ -146,24 +114,33 @@ object ImageHelper {
      *
      * @param context
      */
-    private fun insertImageToGallery(context: Context) {
-//        MediaStore.Images.Media.insertImage(mContext.contentResolver, bitmap, imgFile?.name, null)
-//        val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri)
-//        intent.data = uri
-//        mContext.sendBroadcast(intent)
-        MediaScannerConnection.scanFile(context, arrayOf(imgFile!!.absolutePath), arrayOf("image/jpeg")) { path, uri -> log("save completed")}
+    private fun insertImageToGallery(context: Context, bitmap: Bitmap) {
+        MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, imgFile!!.name, "test des")
+    }
+
+    /**
+     * 保存gif，在Android10上这样的保存方式已失效，但是上一种通知相册刷新的方式只适用于图片不适用于动图(
+     * 会直接在复制到Picture文件中，并且文件后面加上.jpg拓展)，尚未找到更合理的解决方法，故先保留
+     */
+    private fun insertGifToGallery(context: Context) {
+        MediaScannerConnection.scanFile(context, arrayOf(imgFile!!.absolutePath), arrayOf("image/gif")) { path, uri ->
+            log("save completed, path: $path")
+        }
     }
 
     /**
      * 在调用saveImage的函数的视图销毁之后，调用此方法
      * 删除图片文件
+     *
+     * 更新：使用新的刷新相册方式之后，会复制一份图片文件，所以需要两次删除
      */
     fun onImageViewDestroy() {
         imgFile ?: return
-        if (fileForShare) {
-            if (imgFile!!.exists()) {
-                imgFile!!.delete()
-            }
+        if (fileForShare) { //分享，当前会被复制到/Picture，当前删除失效
+            MyApp.context().contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, MediaStore.Images.Media.DATA+"=?", arrayOf(imgFile!!.absolutePath))
+        }
+        if (imgFile!!.exists()) {   //不管是保存还是分享一定删除
+            imgFile!!.delete()
         }
     }
 }
