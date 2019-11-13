@@ -22,7 +22,6 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.febers.uestc_bbs.utils.log
 
-
 const val COLOR_PRIMARY_DARK = "color_primary_dark"
 const val COLOR_PRIMARY = "my_color_primary"
 const val COLOR_ACCENT = "my_color_accent"

@@ -11,6 +11,7 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.DrawableCompat
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -34,6 +35,8 @@ class SplashActivity : BaseActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             image_view_splash.drawable.setTint(ThemeManager.colorAccent())
             text_view_splash.setTextColor(ThemeManager.colorAccent())
+            DrawableCompat.setTint(iv_list_gray.drawable, ThemeManager.colorAccent())
+            DrawableCompat.setTint(iv_user_small.drawable, ThemeManager.colorAccent())
         }
         if (intent.getBooleanExtra(RESTART_APP, false)) {
             ActivityMgr.removeAllActivitiesExceptOne(mContext)

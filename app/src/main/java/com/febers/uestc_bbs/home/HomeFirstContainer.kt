@@ -7,9 +7,7 @@ import com.febers.uestc_bbs.module.post.view.PListPagerFragment
 
 class HomeFirstContainer : BaseFragment() {
 
-    override fun setView(): Int {
-        return R.layout.container_home_first
-    }
+    override fun setView(): Int = R.layout.container_home_first
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

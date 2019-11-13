@@ -28,7 +28,7 @@ const val CONTENT_TYPE_URL = 4
 const val CONTENT_TYPE_FILE = 5
 const val DIVIDE_HEIGHT = 20
 
-class ContentViewHelper(
+class ReplyCreator(
         private var mLinearLayout: LinearLayout?,
         private var mContents: List<PostDetailBean.ContentBean>,
         private val mTextColor: Int? = null,
@@ -38,8 +38,8 @@ class ContentViewHelper(
 
     private var mStringBuilder: StringBuilder = StringBuilder()
     private val IMAGE_VIEW_MARGIN = 8
-    private val IMAGE_VIEW_WIDTH = getWindowWidth()
-    private val IMAGE_VIEW_HEIGHT = getWindowWidth()
+    private val IMAGE_VIEW_WIDTH = getWindowWidth()/2
+    private val IMAGE_VIEW_HEIGHT = getWindowWidth()/2
     private var context = mLinearLayout?.context
     private var belowTextView = true    //图片是否在文字下面，如果是，间距拉大
     fun getImageMapList() = imageMapList
@@ -137,7 +137,7 @@ class ContentViewHelper(
         val imageView = ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
             layoutParams = ViewGroup
-                    .LayoutParams(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT)
+                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         val marginLayoutParams = ViewGroup.MarginLayoutParams(imageView.layoutParams).apply {
             setMargins(IMAGE_VIEW_MARGIN,

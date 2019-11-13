@@ -7,44 +7,49 @@ import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.module.post.view.content.ContentViewHelper
+import com.febers.uestc_bbs.module.post.view.content.ReplyCreator
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, private val topicUserName: String):
         CommonBaseAdapter<PostDetailBean.ListBean>(context, data, false) {
 
-    private var contentViewHelper: ContentViewHelper? = null
+    private var replyCreator: ReplyCreator? = null
 
-    override fun convert(p0: ViewHolder?, p1: PostDetailBean.ListBean?, p2: Int) {
-        p0?.setText(R.id.text_view_post_reply_author, p1?.reply_name)
-        p0?.setText(R.id.text_view_post_reply_date, TimeUtils.stampChange(p1?.posts_date))
-        p0?.setText(R.id.text_view_post_reply_user_title, p1?.userTitle)
-        p0?.setText(R.id.text_view_post_reply_floor, p1?.position?.minus(1).toString())
-        if (topicUserName == p1?.reply_name) {
-            p0?.setVisibility(R.id.iv_post_reply_topic_user, View.VISIBLE)
+    override fun convert(holder: ViewHolder?, data: PostDetailBean.ListBean?, position: Int) {
+        data ?: return
+        holder ?: return
+        holder.setText(R.id.text_view_post_reply_author, data.reply_name)
+        holder.setText(R.id.text_view_post_reply_date, TimeUtils.stampChange(data.posts_date))
+        holder.setText(R.id.text_view_post_reply_user_title, data.userTitle)
+        holder.setText(R.id.text_view_post_reply_floor, data.position.minus(1).toString())
+        if (topicUserName == data.reply_name) {
+            holder.setVisibility(R.id.iv_post_reply_topic_user, View.VISIBLE)
         }
-        if (contentViewHelper == null) {
-            contentViewHelper = ContentViewHelper(
-                    mLinearLayout = p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!,
-                    mContents = p1?.reply_content!!)
+        if (replyCreator == null) {
+            replyCreator = ReplyCreator(
+                    mLinearLayout = holder.convertView?.findViewById(R.id.linear_layout_post_reply)!!,
+                    mContents = data.reply_content!!)
         } else {
-            contentViewHelper!!.reset(p0?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, p1?.reply_content!!)
+            replyCreator!!.reset(holder?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, data?.reply_content!!)
         }
 
-        contentViewHelper?.create()
-        if (p1.is_quote == REPLY_QUOTA) {
-            p0?.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
-            p0?.setText(R.id.text_view_post_reply_quota, p1.quote_content?.multiLineSpaces())
-        }
-        ImageLoader.load(context, p1.icon, p0?.getView(R.id.image_view_post_reply_author_avatar))
+        replyCreator?.create()
 
-        contentViewHelper?.getImageMapList()?.forEach {
+        if (data.is_quote == REPLY_QUOTA) {
+            holder.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
+            holder.setText(R.id.text_view_post_reply_quota, data.quote_content?.multiLineSpaces())
+        }
+        ImageLoader.load(context, data.icon, holder.getView(R.id.image_view_post_reply_author_avatar))
+
+        replyCreator?.getImageMapList()?.forEach {
             ImageLoader.loadForContent(context = context,
                     url = it.keys.first(),
                     imageView = it.values.first())
         }
     }
+
+
 
     override fun getItemLayoutId(): Int {
         return R.layout.item_layout_post_reply

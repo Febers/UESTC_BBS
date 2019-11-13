@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.view.View
 import android.webkit.WebView
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.module.webview.WebViewConfiguration
 import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.module.webview.UWebViewClient
+import com.febers.uestc_bbs.module.webview.javascript_interface.ImageClickInterface
+import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.collections.forEachWithIndex
@@ -19,22 +21,33 @@ import org.jetbrains.anko.collections.forEachWithIndex
  */
 object ContentTransfer {
 
-    private val backgroundColor = if (ThemeManager.isNightTheme()) "#00363636" else "#00ffffff"
-    private val textColor = if (ThemeManager.isNightTheme()) "white" else "black"
+    private val imageUrls: MutableList<String> = ArrayList()
 
     fun transfer(webView: WebView, contents: List<PostDetailBean.ContentBean>) {
+
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-        webView.setBackgroundColor(Color.parseColor(backgroundColor))
-        WebViewConfiguration.Configuration(webView.context, webView)
-                .setJavaScriptEnabled(true)
-                .setSupportZoom(false)
-                .configure()
+        webView.setBackgroundColor(Color.parseColor(if (ThemeManager.isNightTheme()) "#00363636" else "#00ffffff"))
+
+        webView.settings.javaScriptEnabled = true
+        webView.settings.setAppCacheEnabled(true)
+        webView.settings.databaseEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.javaScriptCanOpenWindowsAutomatically = true
+        webView.settings.setSupportZoom(false)
+
         //主贴图文视图的绘制
         webView.loadDataWithBaseURL(null, json2Html(contents), "text/html; charset=UTF-8", "UTF-8", null)
+
+        //插入图片点击接口
+        webView.addJavascriptInterface(ImageClickInterface(webView.context, imageUrls.toTypedArray()), "imagelistener")
+        webView.webViewClient = UWebViewClient(webView.context, processImageClick = true)
     }
 
     fun json2Html(contents: List<PostDetailBean.ContentBean>): String {
         val sb = StringBuilder()
+        val textColor = if (ThemeManager.isNightTheme()) "white" else "black"
+        val linkColor = ColorUtils.int2String(ThemeManager.colorAccent())
+        log { "linkColor: $linkColor" }
         contents.forEachWithIndex { index, content ->
 //            log { content.toString() }
             when(content.type) {
@@ -43,10 +56,11 @@ object ContentTransfer {
                 }
                 CONTENT_TYPE_IMG -> {
                     sb.append("""<p style="text-align:center;"><img style="max-width:90%;height:auto" src="${content.infor}"/></p>""")
+                    imageUrls.add(content.infor+"")
                 }
                 CONTENT_TYPE_URL -> {
                     if (!content.infor!!.matchImageUrl()) {
-                        sb.append("""<a href="${content.url}" style="word-break:break-all">${content.infor}</a>""")
+                        sb.append("""<a href="${content.url}" style="word-break:break-all;color:$linkColor">${content.infor}</a>""")
                     }
                 }
                 CONTENT_TYPE_AUDIO -> {
@@ -54,7 +68,8 @@ object ContentTransfer {
                 }
                 CONTENT_TYPE_FILE -> {
                     if (!content.infor!!.matchImageUrl()) {
-                        sb.append("""<a href="${content.originalInfo}" download="${content.url.simplifyDownloadUrl()}">${content.infor}</a>""")
+                        log { "download: ${content.url}" }
+                        sb.append("""<a href="${content.originalInfo}" download="${content.url}" style="word-break:break-all;color:$linkColor">${content.infor}</a>""")
                     }
                 }
             }
@@ -63,11 +78,8 @@ object ContentTransfer {
         return sb.toString()
     }
 
-
-
     private fun String?.simplifyDownloadUrl(): String {
-        if (this.isNullOrEmpty()) return "http:baidu.com"
-        return this
+        return this+""
     }
 
     /**

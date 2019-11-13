@@ -57,6 +57,19 @@
                 android:textSize="@dimen/text_size_big"
                 android:text="@string/confirm"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_list_gray"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:src="@drawable/xic_list_gray"/>
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_user_small"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:src="@drawable/xic_user_small"/>
         </LinearLayout>
     </ScrollView>
 

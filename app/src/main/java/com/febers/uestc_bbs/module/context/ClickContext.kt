@@ -10,7 +10,6 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.webview.BrowserActivity
 import com.febers.uestc_bbs.module.image.ImageDialog
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
-import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity2
 import com.febers.uestc_bbs.module.post.view.edit.*
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
@@ -184,7 +183,7 @@ object ClickContext {
             if (context is Activity)
                 bundle = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(context, transitionView, transitionViewName).toBundle()
-            context.startActivity(Intent(context, PostDetailActivity::class.java).apply {
+            context.startActivity(Intent(context, PostDetailActivity2::class.java).apply {
                 putExtra(FID, fid)
                 putExtra(POST_TITLE, postTitle)
             }, bundle)

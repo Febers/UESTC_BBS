@@ -15,8 +15,6 @@ import com.febers.uestc_bbs.module.context.ClickContext
 
 object WebViewConfiguration {
 
-    private val TAG = "WebViewConfiguration"
-
     class Configuration(private val context: Context, private val webView: WebView) {
 
         private val webSettings: WebSettings = webView.settings
@@ -34,8 +32,8 @@ object WebViewConfiguration {
         private var processImageClick = false
 
         @SuppressLint("JavascriptInterface", "SetJavaScriptEnabled")
-        fun setJavaScriptEnabled(enable: Boolean?): Configuration {
-            webSettings.javaScriptEnabled = true
+        fun setJavaScriptEnabled(enable: Boolean): Configuration {
+            webSettings.javaScriptEnabled = enable
             return this
         }
 

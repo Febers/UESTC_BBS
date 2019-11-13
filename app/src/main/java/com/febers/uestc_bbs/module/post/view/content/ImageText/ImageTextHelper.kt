@@ -23,7 +23,7 @@ import com.febers.uestc_bbs.module.theme.ThemeManager
  */
 object ImageTextHelper {
 
-    fun getUrlDrawable(source: String?, textView: TextView): Drawable {
+    private fun getUrlDrawable(source: String?, textView: TextView): Drawable {
         val imageGetter = GlideImageGetter(textView.context, textView)
         return imageGetter.getDrawable(source)
     }
@@ -47,7 +47,7 @@ object ImageTextHelper {
             val end = text.length
             val sp = tv.text as Spannable
             val urls = sp.getSpans(0, end, URLSpan::class.java)
-            val imgs = sp.getSpans(0, end, ImageSpan::class.java)
+            val images = sp.getSpans(0, end, ImageSpan::class.java)
             val styleSpans = sp.getSpans(0, end, StyleSpan::class.java)
             val colorSpans = sp.getSpans(0, end, ForegroundColorSpan::class.java)
             val style = SpannableStringBuilder(text)
@@ -58,7 +58,7 @@ object ImageTextHelper {
                 val colorSpan = ForegroundColorSpan(ThemeManager.colorAccent())
                 style.setSpan(colorSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-            for (url in imgs) {
+            for (url in images) {
                 val span = ImageSpan(getUrlDrawable(url.source, tv), url.source!!)
                 style.setSpan(span, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 val myUrlSpan = MyUrlSpan(url.source!!, context)

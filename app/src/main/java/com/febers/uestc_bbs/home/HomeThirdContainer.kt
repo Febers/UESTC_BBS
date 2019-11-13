@@ -6,9 +6,8 @@ import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.module.message.view.MsgPagerFragment
 
 class HomeThirdContainer : BaseFragment() {
-    override fun setView(): Int {
-        return R.layout.container_home_third
-    }
+
+    override fun setView(): Int = R.layout.container_home_third
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)

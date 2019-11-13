@@ -36,7 +36,10 @@ class ImageActivity : BaseActivity() {
         return R.layout.activity_image
     }
 
+    override fun enableHideStatusBar(): Boolean = true
+
     override fun initView() {
+        setSwipeBackEnable(false)
         curPosition = imageUrls.indexOf(curImageUrl)
         initialPositions.forEachIndexed { index, i -> initialPositions[index] = -1 }    //初始化
 
@@ -50,18 +53,17 @@ class ImageActivity : BaseActivity() {
                     val view = PhotoView(mContext)
                     view.isEnabled = true
                     view.scaleType = ImageView.ScaleType.FIT_CENTER
+                    view.setOnClickListener { finish() }
                     GlideApp.with(mContext)
                             .load(imageUrls[position])
                             .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                             .fitCenter()
                             .listener(object : RequestListener<Drawable> {
                                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                                    log { "加载图片失败" }
                                     return false
                                 }
 
                                 override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    log { "加载图片成功" }
                                     initialPositions[position] = position
                                     return false
                                 }

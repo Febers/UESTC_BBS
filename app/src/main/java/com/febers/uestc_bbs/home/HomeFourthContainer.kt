@@ -6,9 +6,9 @@ import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.module.more.MoreFragment
 
 class HomeFourthContainer : BaseFragment() {
-    override fun setView(): Int {
-        return R.layout.container_home_fourth
-    }
+
+    override fun setView(): Int = R.layout.container_home_fourth
+
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
         if (findChildFragment(MoreFragment::class.java) == null) {

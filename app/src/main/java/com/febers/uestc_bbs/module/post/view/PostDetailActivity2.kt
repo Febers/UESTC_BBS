@@ -30,7 +30,6 @@ import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
 import com.febers.uestc_bbs.module.post.view.content.ContentTransfer
-import com.febers.uestc_bbs.module.post.view.content.ContentViewHelper
 import com.febers.uestc_bbs.module.post.view.content.VoteViewHelper
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.WebViewUtils
@@ -38,6 +37,7 @@ import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.helper.*
 import kotlinx.android.synthetic.main.activity_post_detail2.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
+import kotlinx.android.synthetic.main.layout_post_detail_support.*
 import kotlinx.android.synthetic.main.layout_server_null.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
@@ -48,7 +48,6 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     private var hideReplyCountBottomAnimatorSet: AnimatorSet? = null
     private var postPresenter: PostContract.Presenter? = null
     private var replyItemAdapter: PostReplyItemAdapter? = null
-    private var contentViewHelper: ContentViewHelper? = null
     private var voteViewHelper: VoteViewHelper? = null
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var isFavorite: Int = POST_NO_FAVORED
@@ -167,6 +166,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
             if (event.data.topic?.vote == POST_IS_VOTE && event.data.topic?.poll_info != null) {
                 drawVoteView(event.data.topic?.poll_info as PostDetailBean.TopicBean.PollInfoBean)
             }
+            drawSupportView(event)
         }
         refresh_layout_post_detail?.finishSuccess()
         //如果没有下一页
@@ -229,24 +229,6 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
 
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
-
-        //反对与支持
-        val allCount = (event.data.topic as PostDetailBean.TopicBean).zanList?.size ?: 0
-        val supportString = (event.data.topic as PostDetailBean.TopicBean).extraPanel
-                ?.dropWhile { it.type != POST_EXTRAL_PANEL_TYPE_SUPPORT }
-                ?.first()?.extParams?.recommendAdd ?: ""
-        postSupportCount = if (supportString.isEmpty()) 0 else Integer.valueOf(supportString)
-        val opposeCount = allCount - postSupportCount
-        layout_post_detail_support.visibility = View.VISIBLE
-        btn_post_detail_support.apply {
-            setTextColor(ThemeManager.colorAccent())
-            text = "${getString(R.string.support)} $postSupportCount"
-            setOnClickListener { postPresenter?.postSupportRequest(postId = topicReplyId, tid = postId) }
-        }
-        btn_post_detail_oppose.apply {
-            setTextColor(ThemeManager.colorAccent())
-            text = "${getString(R.string.oppose)} $opposeCount"
-        }
     }
 
     ////////////////////////////////投票////////////////////////////////
@@ -259,15 +241,52 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
      * @param pollInfo 投票详数据情
      */
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
-//        pollInfo ?: return
-//        voteViewHelper = VoteViewHelper(linear_layout_detail_content, pollInfo)
-//        voteViewHelper?.create()
-//        voteViewHelper?.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
-//            override fun click(pollItemIds: List<Int>) {
-//                postPresenter?.postVoteRequest(pollItemIds)
-//            }
-//        })
-//        voteViewHelper = null
+        pollInfo ?: return
+        voteViewHelper = VoteViewHelper(linear_layout_post_vote_support, pollInfo)
+        voteViewHelper?.create()
+        voteViewHelper?.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
+            override fun click(pollItemIds: List<Int>) {
+                postPresenter?.postVoteRequest(pollItemIds)
+            }
+        })
+        voteViewHelper = null
+    }
+
+    //反对与支持
+    private fun drawSupportView(event: BaseEvent<PostDetailBean>) {
+        linear_layout_post_vote_support.removeView(getSupportLayout())
+        linear_layout_post_vote_support.addView(getSupportLayout())
+        val allCount = (event.data.topic as PostDetailBean.TopicBean).zanList?.size ?: 0
+        val supportString = (event.data.topic as PostDetailBean.TopicBean).extraPanel
+                ?.dropWhile { it.type != POST_EXTRAL_PANEL_TYPE_SUPPORT }
+                ?.first()?.extParams?.recommendAdd ?: ""
+        postSupportCount = if (supportString.isEmpty()) 0 else Integer.valueOf(supportString)
+        val opposeCount = allCount - postSupportCount
+
+        tv_post_detail_support.apply {
+            setTextColor(ThemeManager.colorAccent())
+            text = "$postSupportCount"
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val drawable = iv_post_detail_support.drawable
+            drawable.setTint(ThemeManager.colorAccent())
+        }
+        tv_post_detail_oppose.text = "$opposeCount"
+
+        btn_post_detail_support.setOnClickListener {
+            postPresenter?.postSupportRequest(postId = topicReplyId, tid = postId)
+        }
+        btn_post_detail_oppose.setOnClickListener {
+            //没有反对的api
+        }
+    }
+
+    private var supportLayout: View? = null
+    private fun getSupportLayout(): View {
+        if (supportLayout == null) {
+            supportLayout = LayoutInflater.from(mContext).inflate(R.layout.layout_post_detail_support, null)
+        }
+        return supportLayout!!
     }
 
     @UiThread
@@ -280,7 +299,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     @UiThread
     override fun showPostSupportResult(event: BaseEvent<PostSupportResultBean>) {
         if (event.data.errcode?.contains("1") == true) {
-            btn_post_detail_support.text = "${getString(R.string.support)} ${++postSupportCount}"
+            tv_post_detail_support.text = "${++postSupportCount}"
             showHint(event.data.errcode!!)
         } else {
             showHint(event.data.errcode+"")

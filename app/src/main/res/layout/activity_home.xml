@@ -35,4 +35,5 @@
         android:layout_gravity="bottom">
     </com.aurelhubert.ahbottomnavigation.AHBottomNavigation>
 
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,7 +15,7 @@ import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
-import com.febers.uestc_bbs.module.post.view.content.ContentViewHelper
+import com.febers.uestc_bbs.module.post.view.content.ReplyCreator
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
@@ -35,7 +35,7 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
         if (p1?.type == "text") {
             if (userId == p1.sender) {
                 //支持表情包的显示
-                val contentViewHelper: ContentViewHelper? = ContentViewHelper(
+                val replyCreator: ReplyCreator? = ReplyCreator(
                         mLinearLayout = rightLayout,
                         mContents = listOf(PostDetailBean.ContentBean().apply {
                             infor = p1.content
@@ -44,15 +44,15 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                         mTextColor = ThemeManager.colorRefreshText(),
                         mTextLinkColor = ThemeManager.colorRefreshText()
                 )
-                contentViewHelper?.create()
-                contentViewHelper?.getImageMapList()?.forEach {
+                replyCreator?.create()
+                replyCreator?.getImageMapList()?.forEach {
                     ImageLoader.loadForContent(context = context,
                             url = it.keys.first(),
                             imageView = it.values.first())
                 }
                 leftLayout.visibility = View.GONE
             } else {
-                val contentViewHelper: ContentViewHelper? = ContentViewHelper(
+                val replyCreator: ReplyCreator? = ReplyCreator(
                         mLinearLayout = leftLayout,
                         mContents = listOf(PostDetailBean.ContentBean().apply {
                             infor = p1.content
@@ -60,8 +60,8 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                         }),
                         mTextColor = Color.DKGRAY
                 )
-                contentViewHelper?.create()
-                contentViewHelper?.getImageMapList()?.forEach {
+                replyCreator?.create()
+                replyCreator?.getImageMapList()?.forEach {
                     ImageLoader.loadForContent(context = context,
                             url = it.keys.first(),
                             imageView = it.values.first())

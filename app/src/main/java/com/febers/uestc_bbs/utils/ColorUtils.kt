@@ -12,6 +12,8 @@ object ColorUtils {
         val b = Color.blue(color)
     }
 
+    fun int2String(colorInt: Int): String = String.format("#%06X", 0xFFFFFF and colorInt)
+
     /**
      * 通过改变HSV(色调、饱和度、明度)中的V(明度)
      * 将颜色变得更深

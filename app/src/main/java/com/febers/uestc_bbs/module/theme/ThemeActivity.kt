@@ -1,9 +1,8 @@
 package com.febers.uestc_bbs.module.theme
 
-import android.annotation.TargetApi
 import android.graphics.Color
-import android.os.Build
 import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.DrawableCompat
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.ThemeChangedEvent
@@ -102,12 +101,11 @@ class ThemeActivity : BaseActivity() {
         ThemeManager.setTheme(this, colorAccent)
         color_picker.oldCenterColor = colorAccent
         postEvent(ThemeChangedEvent(dayNightChanged = false))
-        changeDrawableHint()
+        changeDrawableTint()
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun changeDrawableHint() {
-        resources.getDrawable(R.drawable.xic_list_gray, null).setTint(ThemeManager.colorAccent())
-        resources.getDrawable(R.drawable.xic_user_small, null).setTint(ThemeManager.colorAccent())
+    private fun changeDrawableTint() {
+        DrawableCompat.setTint(iv_list_gray.drawable, ThemeManager.colorAccent())
+        DrawableCompat.setTint(iv_user_small.drawable, ThemeManager.colorAccent())
     }
 }
