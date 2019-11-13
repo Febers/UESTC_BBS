@@ -21,6 +21,7 @@ import com.febers.uestc_bbs.lib.emotion.EmotionManager
 import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.squareup.leakcanary.LeakCanary
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.BufferedReader
@@ -48,8 +49,6 @@ class MyApp: MultiDexApplication() {
         super.onCreate()
 
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            // This process is dedicated to LeakCanary for heap analysis.
-//            // You should not init your app in this process.
 //            return
 //        }
 //        LeakCanary.install(this)

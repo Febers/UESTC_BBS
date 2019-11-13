@@ -12,6 +12,7 @@ import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.post.view.content.ImageText.GlideImageGetter
+import com.febers.uestc_bbs.utils.getWindowWidth
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 object ImageLoader {
@@ -69,7 +70,7 @@ object ImageLoader {
     fun loadForContent(context: Context?, url: String?, imageView: ImageView?,
                        placeImage: Int? = R.drawable.xic_placeholder_empty,
                        clickToViewer: Boolean = true) {
-        val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+        val sizeOptions = RequestOptions().override(getWindowWidth(), getWindowWidth())
         try {
             GlideApp.with(context!!).load(url)
                     .apply {
@@ -145,6 +146,7 @@ object ImageLoader {
                        url: String?,
                        viewTarget: GlideImageGetter.ImageGetterViewTarget,
                        noCache: Boolean) {
+        val sizeOptions = RequestOptions().override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
         try {
             GlideApp.with(context!!).load(url)
                     .apply {
@@ -153,6 +155,7 @@ object ImageLoader {
                         }
                     }
                     .error(R.drawable.ic_place_holder_grey)
+                    .apply(sizeOptions)
                     .into(viewTarget)
         } catch (e: Exception) {
             e.printStackTrace()
