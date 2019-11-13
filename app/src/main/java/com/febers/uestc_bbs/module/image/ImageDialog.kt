@@ -4,11 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -17,7 +14,6 @@ import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URL
 import com.febers.uestc_bbs.io.FileHelper
@@ -26,10 +22,10 @@ import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.runOnUiThread
 import java.nio.ByteBuffer
 
-class ImageViewer2: DialogFragment() {
+class ImageDialog: DialogFragment() {
 
-    private val permissionReqeustCode = 9527
-    private val permissionReqeustArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+    private val permissionRequestCode = 9527
+    private val permissionRequestArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
 
     private var gifDrawable: GifDrawable? = null
     private var gifBytes: ByteArray? = null
@@ -58,7 +54,7 @@ class ImageViewer2: DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.image_viewer, container, false)
+        val view = inflater.inflate(R.layout.dialog_image_viewer, container, false)
 
         imageView = view.findViewById(R.id.image_view_image_viewer)
         btnSave = view.findViewById(R.id.btn_image_viewer_save)
@@ -141,7 +137,7 @@ class ImageViewer2: DialogFragment() {
         if (p != PackageManager.PERMISSION_GRANTED) {
             log { "出错：应用没有读写手机存储的权限！" }
             HintUtils.show("出错：应用没有读写手机存储的权限！")
-            ActivityCompat.requestPermissions(activity!!, permissionReqeustArray, permissionReqeustCode)
+            ActivityCompat.requestPermissions(activity!!, permissionRequestArray, permissionRequestCode)
             return
         }
         Thread {

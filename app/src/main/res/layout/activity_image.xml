@@ -5,17 +5,18 @@
     android:layout_height="match_parent"
     android:background="@color/color_black">
 
-    <com.luck.picture.lib.photoview.PhotoView
-        android:id="@+id/image_view_image_viewer"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter" />
+        android:layout_height="match_parent"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
         <ImageButton
             android:id="@+id/btn_image_viewer_share"
             android:layout_width="30dp"

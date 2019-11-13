@@ -20,7 +20,7 @@ import java.nio.ByteBuffer
 object FileHelper {
 
     /*
-        目录为/storage/emulated/0/UESTC_BBS，主要用于用户保存的图片
+        目录为/storage/emulated/0/UESTC_BBS
      */
     val appImageDir: String = Environment.getExternalStorageDirectory().absolutePath + "/UESTC_BBS/"
 
@@ -33,17 +33,17 @@ object FileHelper {
         目录为/storage/emulated/0/Android/data/com.febers.uestc_bbs/files/apk/，记住跟FileProvide的匹配
         主要用于下载更新的安装包之后利用FileProvider打开
      */
-    val appApkDir: String = MyApp.context().getExternalFilesDir("apk")?.absolutePath ?: appImageDir
+    val appApkDir: String = MyApp.context().getExternalFilesDir("apk")?.absolutePath ?: appImageDir2
 
     /*
         保存其他的下载文件
      */
-    val appFileDir: String = MyApp.context().getExternalFilesDir("other")?.absolutePath ?: appImageDir
+    val appFileDir: String = MyApp.context().getExternalFilesDir("other")?.absolutePath ?: appImageDir2
 
     /*
         目录为/storage/emulated/0/Android/data/com.febers.uestc_bbs/cache
       */
-    val appCacheDir: String = MyApp.context().externalCacheDir?.absolutePath ?: appImageDir
+    val appCacheDir: String = MyApp.context().externalCacheDir?.absolutePath ?: appImageDir2
 
     /*
         Glide的缓存目录

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.model.http_interface
+package com.febers.uestc_bbs.http
 
 import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.utils.ApiUtils
@@ -7,7 +7,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-interface PostInterface {
+interface PostDetailInterface {
 
     @FormUrlEncoded
     @POST(ApiUtils.BBS_POST_LIST_URL)

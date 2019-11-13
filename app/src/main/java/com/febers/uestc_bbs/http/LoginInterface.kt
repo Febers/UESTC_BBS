@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.login.model
+package com.febers.uestc_bbs.http
 
 import com.febers.uestc_bbs.entity.LoginResultBean
 import com.febers.uestc_bbs.utils.ApiUtils

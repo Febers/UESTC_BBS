@@ -23,17 +23,6 @@ import com.febers.uestc_bbs.entity.UserSimpleBean
  */
 interface LoginContract {
 
-    interface Model {
-        /**
-         * 登录服务
-         * 本项目所有Mvp的Model提供的公共方法都以Service作为后缀
-         *
-         * @param userName 用户名称
-         * @param userPw 用户密码
-         */
-        fun loginService(userName: String, userPw: String)
-    }
-
     interface View: BaseView {
         /**
          * 登录的结果
@@ -51,12 +40,5 @@ interface LoginContract {
          * @param userPw 用户密码
          */
         abstract fun loginRequest(userName: String, userPw: String)
-
-        /**
-         * 登录的结果，实现类应该调用view.showXX
-         *
-         * @param event 传递消息的类
-         */
-        abstract fun loginResult(event: BaseEvent<UserSimpleBean>)
     }
 }

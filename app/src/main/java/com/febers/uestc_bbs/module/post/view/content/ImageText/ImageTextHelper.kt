@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.view.content
+package com.febers.uestc_bbs.module.post.view.content.ImageText
 
 import android.content.Context
 import android.graphics.drawable.Drawable

@@ -2,9 +2,20 @@
 <LinearLayout
     android:id="@+id/linear_layout_test"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".http.AppWebViewer"
     android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar_common" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_web_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
+    <WebView
+        android:id="@+id/web_view_app"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

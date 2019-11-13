@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.webkit.WebView
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.http.WebViewConfiguration
+import com.febers.uestc_bbs.module.webview.WebViewConfiguration
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.log
@@ -36,6 +36,7 @@ object ContentTransfer {
     fun json2Html(contents: List<PostDetailBean.ContentBean>): String {
         val sb = StringBuilder()
         contents.forEachWithIndex { index, content ->
+//            log { content.toString() }
             when(content.type) {
                 CONTENT_TYPE_TEXT -> {
                     sb.append(""" <font color="$textColor" style="word-break:break-all">${emotionTrans2Url(content.infor).encodeSpaces()} </font>""")
@@ -44,7 +45,7 @@ object ContentTransfer {
                     sb.append("""<p style="text-align:center;"><img style="max-width:90%;height:auto" src="${content.infor}"/></p>""")
                 }
                 CONTENT_TYPE_URL -> {
-                    if (!content.url!!.matchImageUrl()) {
+                    if (!content.infor!!.matchImageUrl()) {
                         sb.append("""<a href="${content.url}" style="word-break:break-all">${content.infor}</a>""")
                     }
                 }
@@ -52,19 +53,21 @@ object ContentTransfer {
                     sb.append("""<embed height="100" width="100" src="${content.url}" />""")
                 }
                 CONTENT_TYPE_FILE -> {
-                    sb.append("""<a href="${content.originalInfo}" download="${content.originalInfo.simplifyDownloadUrl()}">${content.infor}</a>""")
+                    if (!content.infor!!.matchImageUrl()) {
+                        sb.append("""<a href="${content.originalInfo}" download="${content.url.simplifyDownloadUrl()}">${content.infor}</a>""")
+                    }
                 }
             }
         }
-        log { "content html: ${sb.toString()}" }
+//        log { "content html: ${sb.toString()}" }
         return sb.toString()
     }
 
 
 
     private fun String?.simplifyDownloadUrl(): String {
-        if (this.isNullOrEmpty()) return ""
-        return "1"
+        if (this.isNullOrEmpty()) return "http:baidu.com"
+        return this
     }
 
     /**

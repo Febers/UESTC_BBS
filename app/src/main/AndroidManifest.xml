@@ -234,7 +234,7 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".module.user.view.UserPostActivity" /> <!-- <activity android:name=".http.AppWebViewer" /> -->
+        <activity android:name=".module.user.view.UserPostActivity" /> <!-- <activity android:name=".http.BrowserActivity" /> -->
         <activity android:name=".module.login.view.LoginActivity" />
         <activity
             android:name=".module.post.view.edit.PostReplyActivity"
@@ -244,9 +244,10 @@
         <activity android:name=".module.setting.SettingActivity" />
         <activity
             android:name=".home.HomeActivity2" />
-        <activity android:name=".http.AppWebViewer" />
+        <activity android:name=".module.webview.BrowserActivity" />
         <activity android:name=".module.more.ExceptionActivity" />
         <activity android:name=".module.post.view.PostDetailActivity2" />
+        <activity android:name=".module.image.ImageActivity" />
     </application>
 
 </manifest>

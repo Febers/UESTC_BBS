@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.message.model
+package com.febers.uestc_bbs.http
 
 import com.febers.uestc_bbs.entity.MsgPrivateBean
 import com.febers.uestc_bbs.entity.PMDetailBean

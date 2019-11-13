@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.search.model
+package com.febers.uestc_bbs.http
 
 import com.febers.uestc_bbs.entity.SearchPostBean
 import com.febers.uestc_bbs.entity.SearchUserBean

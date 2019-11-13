@@ -22,7 +22,7 @@ object PostManager {
      * @param fid 用作文件的名称
      * @param pList class类
      */
-    fun savePostListToFile(fid: String, pList: PostListBean) {
+    fun savePostListToFile(fid: Int, pList: PostListBean) {
         val file = (FileHelper.appFileDir+"/$fid.txt").checkFileSafely()
         val fileWriter: FileWriter = FileWriter(file)
         try {
@@ -41,7 +41,7 @@ object PostManager {
      * @param fid 用于寻找文件
      * @return bean
      */
-    fun getPostListByFile(fid: String): PostListBean {
+    fun getPostListByFile(fid: Int): PostListBean {
         val file: File = (FileHelper.appFileDir+"/$fid.txt").checkFileSafely()
         var fileReader: FileReader? = null
         try {

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.base.lifecycler
+package com.febers.uestc_bbs.base.lifecycle
 
 import androidx.lifecycle.LifecycleObserver
 

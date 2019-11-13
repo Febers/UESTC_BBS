@@ -79,6 +79,15 @@ class PostDetailBean {
         var type: Int = 0
         var originalInfo: String? = null
         var url: String? = null
+
+        override fun toString(): String {
+            return """ Content: 
+                [infor] = $infor
+                [type] = $type
+                [originalInfo] = $originalInfo
+                [url] = $url
+            """.trimIndent()
+        }
     }
 
     class TopicBean {

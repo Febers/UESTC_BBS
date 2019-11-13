@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.user.model
+package com.febers.uestc_bbs.http
 
 import com.febers.uestc_bbs.entity.UserDetailBean
 import com.febers.uestc_bbs.entity.UserPostBean

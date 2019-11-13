@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.module.post.view.content.ImageText.ImageTextHelper
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.getWindowWidth

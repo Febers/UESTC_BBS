@@ -3,12 +3,12 @@ package com.febers.uestc_bbs.module.context
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
 import android.view.View
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.module.image.ImageViewer2
+import com.febers.uestc_bbs.module.webview.BrowserActivity
+import com.febers.uestc_bbs.module.image.ImageDialog
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity2
@@ -44,7 +44,8 @@ object ClickContext {
         if (url.contains("bbs.uestc.edu.cn") || url.contains("bbs.stuhome.net")) {
             clickInApp(url, context)
         } else {
-            context.browse(url, true)
+            //context.browse(url, true)
+            clickToAppWeb(context, url)
         }
     }
 
@@ -119,7 +120,7 @@ object ClickContext {
 
         val bundle = Bundle()
         bundle.putString(IMAGE_URL, url)
-        val imageViewer = ImageViewer2()
+        val imageViewer = ImageDialog()
         imageViewer.arguments = bundle
         try {
             imageViewer.show((context as BaseActivity).supportFragmentManager, "image")
@@ -262,13 +263,18 @@ object ClickContext {
     }
 
     /**
-     * TODO 在App内打开web页面
+     * 在应用内打开网页视图
      *
+     * @param context
+     * @param url
      */
     fun clickToAppWeb(context: Context?,
                       url: String?) {
         context ?: return
         url ?: return
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+//        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        context.startActivity(Intent(context, BrowserActivity::class.java).apply {
+            putExtra(URL, url)
+        })
     }
 }

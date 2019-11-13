@@ -1,59 +1,187 @@
 package com.febers.uestc_bbs.module.post.presenter
 
-import com.febers.uestc_bbs.base.BaseEvent
+import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
+import com.febers.uestc_bbs.http.PostDetailInterface
 import com.febers.uestc_bbs.module.post.contract.PostContract
-import com.febers.uestc_bbs.module.post.model.PostModelImpl
+import com.febers.uestc_bbs.utils.log
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class PostPresenterImpl(var view: PostContract.View): PostContract.Presenter(view) {
+class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
 
-    private val postModel: PostContract.Model = PostModelImpl(this)
+    private var postId = 0
 
     override fun postDetailRequest(postId: Int, page: Int, authorId: Int, order: Int) {
-        postModel.postDetailService(postId, page, authorId, order)
+        this.postId = postId
+        ThreadPoolMgr.execute(Runnable { getPostDetail(postId, page, authorId, order) })
     }
 
-    override fun postDetailResult(event: BaseEvent<PostDetailBean>) {
-        view.showPostDetail(event)
+    private fun getPostDetail(postId: Int, page: Int, authorId: Int, order: Int) {
+        val postRequest = getRetrofit().create(PostDetailInterface::class.java)
+        val call = postRequest.getPostDetail(
+                topicId = postId.toString(),
+                authorId = authorId.toString(),
+                order = order.toString(),
+                page = page.toString(),
+                pageSize = COMMON_PAGE_SIZE.toString())
+        call.enqueue(object : Callback<PostDetailBean> {
+            override fun onFailure(call: Call<PostDetailBean>?, t: Throwable?) {
+                errorResult(SERVICE_RESPONSE_ERROR)
+            }
+
+            override fun onResponse(call: Call<PostDetailBean>?, response: Response<PostDetailBean>?) {
+                val postResultBean = response?.body()
+                if (postResultBean == null) {
+                    errorResult("${SERVICE_RESPONSE_NULL}，请访问 Web 页面，查看该帖子")
+                    return
+                }
+                if (postResultBean.rs != REQUEST_SUCCESS_RS) {
+                    errorResult(postResultBean.head?.errInfo.toString())
+                    return
+                }
+                log { "has next: ${postResultBean.has_next}" }
+                if (postResultBean.has_next != HAVE_NEXT_PAGE) {
+                    mView?.showPostDetail(BaseEvent(BaseCode.SUCCESS_END, postResultBean))
+                    return
+                }
+                mView?.showPostDetail(BaseEvent(BaseCode.SUCCESS, postResultBean))
+            }
+        })
     }
 
     override fun postReplyRequest(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        postModel.postReplyService(postId, isQuota, replyId, aid, *contents)
+        ThreadPoolMgr.execute(Runnable { postReply(postId, isQuota, replyId, aid, *contents) })
     }
 
-    override fun postReplyResult(event: BaseEvent<PostSendResultBean>) {
-        view.showPostReplyResult(event)
+    private fun postReply(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
+        val stContents = StringBuilder()
+        contents.forEach {
+            val newContent = it.second.replace("\n", """\\n""") //非常重要，解决服务器不识别换行问题
+            stContents.append("""{"type":${it.first},"infor":"$newContent"},""")
+        }
+        //清除末尾的逗号
+        stContents.deleteCharAt(stContents.lastIndex)
+        getRetrofit().create(PostDetailInterface::class.java)
+                .postReply(json = """
+                    {"body":
+                        {"json":
+                            {
+                                "tid":$postId,
+                                "aid":"$aid",
+                                "isAnonymous":0,
+                                "isOnlyAuthor":0,
+                                "isQuote":$isQuota,
+                                "replyId":$replyId,
+                                "content":"[$stContents]"
+                            }
+                        }
+                    }
+                        """)
+                .enqueue(object : Callback<PostSendResultBean> {
+                    override fun onFailure(call: Call<PostSendResultBean>, t: Throwable?) {
+                        errorResult(t.toString())
+                    }
+
+                    override fun onResponse(call: Call<PostSendResultBean>, response: Response<PostSendResultBean>?) {
+                        val replySendResultBean = response?.body()
+                        if (replySendResultBean == null) {
+                            errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (replySendResultBean.rs != REQUEST_SUCCESS_RS) {
+                            errorResult(replySendResultBean.head?.errInfo.toString())
+                            return
+                        }
+                        mView?.showPostReplyResult(BaseEvent(BaseCode.SUCCESS, replySendResultBean))
+                    }
+                })
     }
 
     override fun postFavRequest(action: String) {
-        postModel.postFavService(action)
-    }
-
-    override fun postFavResult(event: BaseEvent<PostFavResultBean>) {
-        view.showPostFavResult(event)
+        ThreadPoolMgr.execute(Runnable { postFavRequest(action) })
     }
 
     override fun postSupportRequest(postId: Int, tid: Int) {
-        postModel.postSupportService(postId, tid)
+        ThreadPoolMgr.execute(Runnable { postSupport(postId, tid) })
     }
 
-    override fun postSupportResult(event: BaseEvent<PostSupportResultBean>) {
-        view.showPostSupportResult(event)
+    private fun postSupport(postId: Int, tid: Int) {
+        getRetrofit().create(PostDetailInterface::class.java)
+                .postSupport(tid = tid.toString(), pid = postId.toString())
+                .enqueue(object : Callback<PostSupportResultBean> {
+                    override fun onFailure(call: Call<PostSupportResultBean>, t: Throwable) {
+                        mView?.showPostSupportResult(BaseEvent(BaseCode.FAILURE, PostSupportResultBean().apply { errcode = SERVICE_RESPONSE_ERROR }))
+                    }
+
+                    override fun onResponse(call: Call<PostSupportResultBean>, response: Response<PostSupportResultBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            mView?.showPostSupportResult(BaseEvent(BaseCode.LOCAL, PostSupportResultBean().apply { errcode = SERVICE_RESPONSE_NULL }))
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            mView?.showPostSupportResult(BaseEvent(BaseCode.LOCAL, result))
+                            return
+                        }
+                        mView?.showPostSupportResult(BaseEvent(BaseCode.SUCCESS, result))
+                    }
+                })
     }
 
     override fun postVoteRequest(pollItemId: List<Int>) {
-        postModel.postVoteService(pollItemId)
+        ThreadPoolMgr.execute(Runnable { postVote(pollItemId) })
     }
 
-    override fun postVoteResult(event: BaseEvent<PostVoteResultBean>) {
-        view.showVoteResult(event)
+    private fun postVote(pollItemId: List<Int>) {
+        getRetrofit().create(PostDetailInterface::class.java)
+                //将list.toString之后前后的[]删去
+                .postVote(tid = postId.toString(), options = pollItemId.toString().replace("[","").replace("]",""))
+                .enqueue(object : Callback<PostVoteResultBean> {
+                    override fun onFailure(call: Call<PostVoteResultBean>, t: Throwable) {
+                        errorResult(SERVICE_RESPONSE_ERROR)
+                    }
+
+                    override fun onResponse(call: Call<PostVoteResultBean>, response: Response<PostVoteResultBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            errorResult(result.head?.errInfo.toString())
+                            return
+                        }
+                        mView?.showVoteResult(BaseEvent(BaseCode.SUCCESS, result))
+                    }
+                })
     }
 
     override fun userAtRequest(page: Int) {
-        postModel.userAtService(page)
+        ThreadPoolMgr.execute(Runnable { getUsersAt(page) })
     }
 
-    override fun userAtResult(event: BaseEvent<UserCanAtBean>) {
-        view.showUserAtResult(event)
+    private fun getUsersAt(page: Int) {
+        getRetrofit().create(PostDetailInterface::class.java)
+                .userAt(page = page.toString(), pageSize = COMMON_PAGE_SIZE.toString())
+                .enqueue(object : Callback<UserCanAtBean> {
+                    override fun onFailure(call: Call<UserCanAtBean>, t: Throwable) {
+                        log("err on at $t")
+                    }
+
+                    override fun onResponse(call: Call<UserCanAtBean>, response: Response<UserCanAtBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            errorResult(SERVICE_RESPONSE_NULL)
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            errorResult(result.head.errInfo)
+                            return
+                        }
+                        mView?.showUserAtResult(BaseEvent(BaseCode.SUCCESS, result))
+                    }
+                })
     }
 }

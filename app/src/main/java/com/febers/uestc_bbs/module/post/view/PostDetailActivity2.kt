@@ -5,7 +5,6 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import androidx.annotation.UiThread
@@ -20,7 +19,6 @@ import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.entity.PostFavResultBean
 import com.febers.uestc_bbs.entity.PostSupportResultBean
 import com.febers.uestc_bbs.entity.PostVoteResultBean
-import com.febers.uestc_bbs.http.WebViewConfiguration
 import com.febers.uestc_bbs.view.adapter.PostReplyItemAdapter
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl

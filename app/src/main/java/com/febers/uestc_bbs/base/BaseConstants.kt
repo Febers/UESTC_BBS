@@ -68,6 +68,7 @@ const val POST_POSITIVE_ORDER = 0
 const val POST_NEGATIVE_ORDER = 1
 
 const val IMAGE_URL = "image_url"
+const val IMAGE_URLS = "image_urls"
 const val URL = "url"
 
 const val SP_USERS = "users"
