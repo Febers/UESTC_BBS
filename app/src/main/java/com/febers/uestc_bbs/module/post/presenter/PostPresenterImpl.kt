@@ -28,12 +28,16 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
                 pageSize = COMMON_PAGE_SIZE.toString())
         call.enqueue(object : Callback<PostDetailBean> {
             override fun onFailure(call: Call<PostDetailBean>?, t: Throwable?) {
+                log { "Detail onFail： $t" }
+                //没有网络时：java.net.UnknownHostException: Unable to resolve host "bbs.uestc.edu.cn": No address associated with hostname
                 errorResult(SERVICE_RESPONSE_ERROR)
             }
 
             override fun onResponse(call: Call<PostDetailBean>?, response: Response<PostDetailBean>?) {
                 val postResultBean = response?.body()
+                //一些板块的帖子无法查看，服务器会返回空
                 if (postResultBean == null) {
+                    log { "Detail null" }
                     errorResult("${SERVICE_RESPONSE_NULL}，请访问 Web 页面，查看该帖子")
                     return
                 }
@@ -100,7 +104,33 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
     }
 
     override fun postFavRequest(action: String) {
-        ThreadPoolMgr.execute(Runnable { postFavRequest(action) })
+        ThreadPoolMgr.execute(Runnable { postFav(action) })
+    }
+
+    private fun postFav(action: String) {
+        getRetrofit().create(PostDetailInterface::class.java)
+                .postFavorite(action = action,
+                        id = postId.toString())
+                .enqueue(object : Callback<PostFavResultBean> {
+                    override fun onFailure(call: Call<PostFavResultBean>, t: Throwable) {
+                        errorResult(t.toString())
+                    }
+
+                    override fun onResponse(call: Call<PostFavResultBean>, response: Response<PostFavResultBean>) {
+                        val result = response.body()
+                        if (result == null) {
+                            mView?.showPostFavResult(BaseEvent(BaseCode.FAILURE, PostFavResultBean().apply {
+                                errcode = SERVICE_RESPONSE_NULL
+                            }))
+                            return
+                        }
+                        if (result.rs != REQUEST_SUCCESS_RS) {
+                            mView?.showPostFavResult(BaseEvent(BaseCode.FAILURE, result))
+                            return
+                        }
+                        mView?.showPostFavResult(BaseEvent(BaseCode.SUCCESS, result))
+                    }
+                })
     }
 
     override fun postSupportRequest(postId: Int, tid: Int) {

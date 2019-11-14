@@ -19,7 +19,7 @@ class PListPresenterImpl(view: PListContract.View) : PListContract.Presenter(vie
     private var topOrder: String = "1"   //默认返回本版置顶帖
 
     override fun pListRequest(fid: Int, page: Int, pageSize:Int, filterType: String, filterId: Int) {
-        ThreadPoolMgr.execute(Runnable { getSavedPList(fid, page) })
+//        ThreadPoolMgr.execute(Runnable { getSavedPList(fid, page) })
         ThreadPoolMgr.execute(Runnable { getPList(fid, page) })
     }
 
@@ -47,8 +47,8 @@ class PListPresenterImpl(view: PListContract.View) : PListContract.Presenter(vie
                     mView?.showPList(BaseEvent(BaseCode.SUCCESS, body))
                 }
                 //保存首页的第一页帖子列表
-                if (page == FIRST_PAGE && fid < 0)
-                    PostManager.savePostListToFile(fid, body)
+//                if (page == FIRST_PAGE && fid < 0)
+//                    PostManager.savePostListToFile(fid, body)
             }
         })
     }
@@ -111,13 +111,13 @@ class PListPresenterImpl(view: PListContract.View) : PListContract.Presenter(vie
                 .boardList(fid = fid.toString())
                 .enqueue(object : Callback<BoardListBean_> {
                     override fun onFailure(call: Call<BoardListBean_>, t: Throwable) {
-                        errorResult("获取子版块失败")
+                        errorResult(SERVICE_RESPONSE_ERROR)
                     }
 
                     override fun onResponse(call: Call<BoardListBean_>?, response: Response<BoardListBean_>?) {
                         val body = response?.body()
                         if (body == null) {
-                            errorResult("获取子版块失败")
+                            errorResult("获取子版块")
                             return
                         }
                         if (body.rs != REQUEST_SUCCESS_RS) {

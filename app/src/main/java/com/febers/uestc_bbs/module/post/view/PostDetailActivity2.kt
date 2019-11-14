@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.widget.NestedScrollView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -25,16 +26,12 @@ import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
-import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
 import com.febers.uestc_bbs.module.post.view.content.ContentTransfer
 import com.febers.uestc_bbs.module.post.view.content.VoteViewHelper
-import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.utils.WebViewUtils
-import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.helper.*
+import com.febers.uestc_bbs.utils.*
 import kotlinx.android.synthetic.main.activity_post_detail2.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
 import kotlinx.android.synthetic.main.layout_post_detail_support.*
@@ -128,7 +125,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
                 toolbar_common.subtitle = postTitle
             }
         }
-        fab_post_detail.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
+        fab_post_detail.backgroundTintList = ColorStateList.valueOf(colorAccent())
         fab_post_detail.setOnClickListener {
             scroll_view_post_detail.scrollTo(0, 0)
         }
@@ -264,18 +261,16 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         val opposeCount = allCount - postSupportCount
 
         tv_post_detail_support.apply {
-            setTextColor(ThemeManager.colorAccent())
+            setTextColor(colorAccent())
             text = "$postSupportCount"
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val drawable = iv_post_detail_support.drawable
-            drawable.setTint(ThemeManager.colorAccent())
-        }
-        tv_post_detail_oppose.text = "$opposeCount"
-
+        DrawableCompat.setTint(iv_post_detail_support.drawable, colorAccent())
+        val drawable = iv_post_detail_support.drawable
         btn_post_detail_support.setOnClickListener {
             postPresenter?.postSupportRequest(postId = topicReplyId, tid = postId)
         }
+
+        tv_post_detail_oppose.text = "$opposeCount"
         btn_post_detail_oppose.setOnClickListener {
             //没有反对的api
         }
@@ -313,7 +308,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
             if (isFavorite == POST_FAVORED) {
                 it.setImageResource(R.drawable.xic_star_fill_color)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    it.drawable.setTint(ThemeManager.colorAccent())
+                    it.drawable.setTint(colorAccent())
                 }
             } else {
                 it.setImageResource(R.drawable.xic_star_empty_gray)
@@ -347,7 +342,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
                 if (isFavorite == POST_FAVORED){
                     image_view_post_fav.setImageResource(R.drawable.xic_star_fill_color)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        image_view_post_fav.drawable.setTint(ThemeManager.colorAccent())
+                        image_view_post_fav.drawable.setTint(colorAccent())
                     }
                 }
                 if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_empty_gray)
@@ -389,7 +384,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
             refresh_layout_post_detail.autoRefresh()
         }
         if (position == ITEM_WEB_POST) {
-            getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
+            web(postId.pidToWebUrl())
         }
     }
 
@@ -437,13 +432,22 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     }
 
     ////////////////////////////////错误////////////////////////////////
+    @UiThread
     override fun showError(msg: String) {
-        showHint(msg)
-        if (!drawFinish) {  //此时为主贴请求或者投票（？待改进）出错，切换至空视图
-            refresh_layout_post_detail?.finishFail()
+        refresh_layout_post_detail?.finishFail()
+        drawFinish = true
+        //个别板块api无法打开
+        if (msg.contains(SERVICE_RESPONSE_NULL) && !drawFinish) {
+            showHint(msg)
+            web(postId.pidToWebUrl())
             showEmptyView()
-            drawFinish = true
+            return
         }
+        if (msg.contains(SERVICE_RESPONSE_ERROR)) {
+            showHint(getString(R.string.hint_check_network) + ": " + msg)
+            return
+        }
+        showHint(msg)
     }
 
     ////////////////////////////////服务器响应为null////////////////////////////////
@@ -457,17 +461,8 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         }
         btn_to_web?.visibility = View.VISIBLE
         btn_to_web?.setOnClickListener {
-            getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
+            web(postId.pidToWebUrl())
         }
-    }
-
-    private var postWebViewBottomSheet: PostWebViewBottomSheet? = null
-
-    private fun getPostWebViewBottomSheet(): PostWebViewBottomSheet {
-        if (postWebViewBottomSheet == null) {
-            postWebViewBottomSheet = PostWebViewBottomSheet(mContext, R.style.PinkBottomSheetTheme, postId.pidToWebUrl())
-        }
-        return postWebViewBottomSheet!!
     }
 
     /**
@@ -481,7 +476,6 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         replyItemAdapter = null
         replyList = null
         optionBottomSheet = null
-        postWebViewBottomSheet = null
         WebViewUtils.destroyWebView(web_view_post_content)
     }
 }

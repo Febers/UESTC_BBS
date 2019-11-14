@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -28,6 +29,8 @@ import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
 import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
 import com.febers.uestc_bbs.lib.emotion.view.EmotionView
+import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.colorAccent
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -135,6 +138,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         })
         grid_view_post_img.adapter = imgGridViewAdapter
 
+        fab_post_edit.backgroundTintList = ColorStateList.valueOf(colorAccent())
         fab_post_edit.setOnClickListener { beforeSendNewPost() }
         btn_photo_post_edit.setOnClickListener { selectPictures() }
         initEmotionView()
@@ -339,11 +343,18 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         }
     }
 
+    @UiThread
     override fun showError(msg: String) {
-        context?.runOnUiThread {
-            showHint(msg)
-            progressDialog?.dismiss()
+        progressDialog?.dismiss()
+        if (msg.contains(SERVICE_RESPONSE_NULL)) {
+            showHint("糟糕，获取版块信息失败了！")
+            return
         }
+        if (msg.contains(SERVICE_RESPONSE_ERROR)) {
+            showHint(getString(R.string.hint_check_network))
+            return
+        }
+        showHint(msg)
     }
 
     override fun onDestroy() {

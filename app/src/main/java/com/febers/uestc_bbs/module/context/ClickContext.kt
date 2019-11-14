@@ -83,10 +83,10 @@ object ClickContext {
 //            val fid = url.substring(start, url.length)
 //            return
 //        }
-            context.browse(url, true)
+            clickToAppWeb(context, url)
         } catch (e: Exception) {
             e.printStackTrace()
-            context.browse(url, true)
+            clickToAppWeb(context, url)
         }
     }
 
@@ -271,7 +271,6 @@ object ClickContext {
                       url: String?) {
         context ?: return
         url ?: return
-//        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         context.startActivity(Intent(context, BrowserActivity::class.java).apply {
             putExtra(URL, url)
         })
