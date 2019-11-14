@@ -138,7 +138,6 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
         })
         grid_view_post_img.adapter = imgGridViewAdapter
 
-        fab_post_edit.backgroundTintList = ColorStateList.valueOf(colorAccent())
         fab_post_edit.setOnClickListener { beforeSendNewPost() }
         btn_photo_post_edit.setOnClickListener { selectPictures() }
         initEmotionView()
