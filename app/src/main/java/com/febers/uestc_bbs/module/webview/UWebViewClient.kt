@@ -8,6 +8,9 @@ import android.net.http.SslError
 import android.webkit.*
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.web
+import org.jetbrains.anko.browse
+import org.jetbrains.anko.email
 
 class UWebViewClient(private val context: Context,
                      private var acceptAllRequest: Boolean = true,
@@ -26,34 +29,45 @@ class UWebViewClient(private val context: Context,
      * 以openapp开头的url时，就会报错，需要手动处理
      */
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+        if (url.contains("mailto")) {
+            val indexMailTo = url.indexOf("mailto:") + "mailto:".length
+            val mail = url.substring(indexMailTo, url.length)
+            log { "mail is $mail" }
+            context.email(mail)
+            return true
+        }
         if (openUrlOut) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            if (intent.resolveActivity(context.packageManager) != null) {
-                context.startActivity(intent)
-            }
+            context.browse(url)
             return true
         } else {
-            if (url.startsWith("openapp")) {
+            if (!url.startsWith("http")) {
+                context.browse(url)
                 return true
             }
-            ClickContext.linkClick(url, view.context)
+            context.web(url)
             return true
         }
     }
 
     @TargetApi(21)
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+        if (request.url.toString().contains("mailto")) {
+            val indexMailTo = request.url.toString().indexOf("mailto:") + "mailto:".length
+            val mail = request.url.toString().substring(indexMailTo, request.url.toString().length)
+            log { "mail is $mail" }
+            context.email(mail)
+            return true
+        }
         if (openUrlOut) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(request.url.toString()))
-            if (intent.resolveActivity(context.packageManager) != null) {
-                context.startActivity(intent)
-            }
+            context.browse(request.url.toString())
             return true
         } else {
-            if (request.url.toString().startsWith("openapp")) {
+            if (!request.url.toString().startsWith("http")) {
+                log { "非http开头链接，交给系统: ${request.url}" }
+                context.browse(request.url.toString(), true)
                 return true
             }
-            ClickContext.linkClick(request.url.toString(), view.context)
+            context.web(request.url.toString())
             return true
         }
     }

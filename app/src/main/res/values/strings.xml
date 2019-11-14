@@ -164,7 +164,7 @@
     <string name="re_edit">重新编辑</string>
     <string name="search_content">搜索内容</string>
     <string name="searching">搜索中</string>
-    <string name="web_page">web页面</string>
+    <string name="web_page">网页视图</string>
     <string name="view_all">查看所有</string>
     <string name="view_only_author">只看楼主</string>
     <string name="reverse_view">倒序查看</string>
@@ -188,6 +188,7 @@
     <string name="push_message_des">查看所有的服务器推送消息</string>
     <string name="hint_check_network">请检查网络状况</string>
     <string name="browsing_history">浏览历史</string>
+    <string name="web_out">外部浏览器打开</string>
 
     <!--防止引用系统默认时找不到该属性-->
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->

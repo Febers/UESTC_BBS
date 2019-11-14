@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_open_out"
+        android:icon="@drawable/xic_web_purple_24dp"
+        android:title="@string/web_out"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_item_copy_url"
+        android:icon="@drawable/ic_write_white"
+        android:title="@string/copy_url"
+        app:showAsAction="never"/>
+</menu>

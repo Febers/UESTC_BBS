@@ -13,6 +13,9 @@ import android.widget.ProgressBar
 
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.webview.listener.OnReceivedTitleListener
+import com.febers.uestc_bbs.utils.log
+import org.jetbrains.anko.browse
+import org.jetbrains.anko.email
 
 object WebViewConfiguration {
 
@@ -157,13 +160,11 @@ object WebViewConfiguration {
                  */
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     if (openUrlOut) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        if (intent.resolveActivity(context.packageManager) != null) {
-                            context.startActivity(intent)
-                        }
+                        context.browse(url, true)
                         return true
                     } else {
-                        if (url.startsWith("openapp")) {
+                        if (!url.startsWith("http")) {
+                            context.browse(url, true)
                             return true
                         }
                         view.loadUrl(url)
@@ -173,65 +174,19 @@ object WebViewConfiguration {
 
                 @TargetApi(21)
                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                    log { "url: ${request.url}" }
                     if (openUrlOut) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(request.url.toString()))
-                        if (intent.resolveActivity(context.packageManager) != null) {
-                            context.startActivity(intent)
-                        }
+                        context.browse(request.url.toString())
                         return true
                     } else {
-                        if (request.url.toString().startsWith("openapp")) {
+                        if (!request.url.toString().startsWith("http")) {
+                            log { "非http开头链接，交给系统: ${request.url}" }
+                            context.browse(request.url.toString(), true)
                             return true
                         }
-                        view.loadUrl(request.getUrl().toString());
+                        view.loadUrl(request.url.toString())
                         return true
                     }
-                }
-
-                override fun shouldInterceptRequest(view: WebView, url: String): WebResourceResponse? {
-//                    if (withoutImage) {
-//                        if (url.contains("image") ||
-//                                url.contains("png") ||
-//                                url.contains("jpg")) {
-//                            return WebResourceResponse(null, null, null)
-//                        }
-//                    }
-                    return super.shouldInterceptRequest(view, url)
-                }
-
-                @TargetApi(21)
-                override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
-//                    if (withoutImage) {
-//                        if (request.url.toString().contains("image") ||
-//                                request.url.toString().contains("png") ||
-//                                request.url.toString().contains("jpg")) {
-//                            return WebResourceResponse(null, null, null)
-//                        }
-//                    }
-                    return super.shouldInterceptRequest(view, request)
-                }
-
-                override fun onPageFinished(view: WebView, url: String) {
-//                    if (!webSettings.loadsImagesAutomatically) {
-//                        webSettings.loadsImagesAutomatically = true
-//                    }
-//                    if (processSourceCode) {
-//                        //解析网页源码
-//                        view.loadUrl("javascript:HTMLOUT.processHTML(document.documentElement.outerHTML);")
-//                    }
-//                    if (processImageClick) {
-//                        view.loadUrl("""
-//                            javascript:(function(){
-//                                var objs = document.getElementsByTagName("img");
-//                                for(var i=0;i<objs.length;i++) {
-//                                    objs[i].οnclick=function() {
-//                                        window.imagelistener.openImage(this.src);   //通过js代码找到标签为img的代码块，设置点击的监听方法与本地的openImage方法进行连接
-//                                    }
-//                                }
-//                            })()
-//                        """.trimIndent())
-//                    }
-                    super.onPageFinished(view, url)
                 }
             }
 
@@ -267,6 +222,10 @@ object WebViewConfiguration {
             //            } else {
             //                webSettings.setLoadsImagesAutomatically(false);
             //            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //防止不加载https资源情况出现
+                webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            }
             webView.webViewClient = webViewClient
             webView.webChromeClient = webChromeClient
         }

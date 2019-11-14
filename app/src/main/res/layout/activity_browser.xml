@@ -6,32 +6,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-        <ImageView
-            android:id="@+id/iv_back_browser"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="6dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:foreground="?selectableItemBackground"
-            android:src="@drawable/xic_arrow_back_gray"/>
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarTheme">
 
-        <com.febers.uestc_bbs.view.custom.MarqueeTextView
-            android:id="@+id/tv_title_browser"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_browser"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"/>
-    </LinearLayout>
+            android:layout_height="?android:attr/actionBarSize"
+            app:popupTheme="@style/AppBarTheme"
+            app:title="">
+
+            <com.febers.uestc_bbs.view.custom.MarqueeTextView
+                android:id="@+id/tv_title_browser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"/>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar_web_app"

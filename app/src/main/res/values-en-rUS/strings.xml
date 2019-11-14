@@ -171,4 +171,5 @@
     <string name="push_message_des">View all messages from server</string>
     <string name="hint_check_network">Please check the network condition</string>
     <string name="browsing_history">Browsing History</string>
+    <string name="web_out">External browser open</string>
 </resources>
