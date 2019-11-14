@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.setting
 import android.content.Intent
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.io.UserManager
@@ -23,85 +22,61 @@ import kotlin.collections.ArrayList
 
 class SettingActivity : BaseActivity() {
 
-    private var users: MutableList<UserSimpleBean> = ArrayList()
     private var options: MutableList<SettingItemBean> = ArrayList()
 
-    private lateinit var simpleUserAdapter: SimpleUserAdapter
     private lateinit var settingAdapter: SettingAdapter
     private lateinit var cacheItem: SettingItemBean
     private var iconChooseView: IconFragment? = null
 
-    private var homeLayout by PreferenceUtils(MyApp.context(), HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
+    private var homeLayout by PreferenceUtils(mContext, HOME_VIEW_STYLE, HOME_VIEW_STYLE_BOTTOM)
     private lateinit var layoutItem: SettingItemBean
     private lateinit var layoutDescription: String
 
-    private var hintWay by PreferenceUtils(MyApp.context(), HINT_WAY, HINT_BY_TOAST)
+    private var hintWay by PreferenceUtils(mContext, HINT_WAY, HINT_BY_TOAST)
 
-    private var loopReceiveMsg by PreferenceUtils(MyApp.context(), LOOP_RECEIVE_MSG, true)
+    private var loopReceiveMsg by PreferenceUtils(mContext, LOOP_RECEIVE_MSG, true)
+
+    private var enableSplash by PreferenceUtils(mContext, SP_SPLASH_ENABLE, true)
 
     override fun setView(): Int = R.layout.activity_setting
 
     override fun setToolbar(): Toolbar? = toolbar_common
 
-    override fun setTitle(): String? = getString(R.string.setting_and_account)
-
-    override fun registerEventBus(): Boolean = true
+    override fun setTitle(): String? = getString(R.string.setting)
 
     override fun initView() {
     }
 
     override fun afterCreated() {
-        init()
-    }
-
-    private fun init() {
-        text_view_setting_1.setTextColor(colorAccent())
-        text_view_setting_2.setTextColor(colorAccent())
-
         layoutDescription = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) getString(R.string.home_layout_bottom)
         else getString(R.string.home_layout_drawer)
-
-        simpleUserAdapter = SimpleUserAdapter(mContext, users).apply {
-            setOnItemClickListener { viewHolder, userItemBean, i ->
-                changeUser(userItemBean)
-            }
-            setOnItemChildClickListener(R.id.btn_delete_user) {viewHolder, userItemBean, i ->
-                deleteUser(userItemBean, i)
-            }
-        }
+        options.addAll(initSettingData())
         settingAdapter = SettingAdapter(mContext, options).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 when(i) {
                     0 -> { onHomeLayoutChange() }
-                    1 -> { onHintMethodChange() }
-                    2 -> {
+                    1 -> {
+                        val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
+                        checkBox.isChecked = !checkBox.isChecked
+                        enableSplash = !enableSplash
+                    }
+                    2 -> { onHintMethodChange() }
+                    3 -> {
                         if (iconChooseView == null) {
                             iconChooseView = IconFragment()
                         }
                         iconChooseView?.show(supportFragmentManager, "icon")
                     }
-                    3 -> {
+                    4 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
                         onReceiveMsgChange(!checkBox.isChecked)
                     }
-                    4 -> { clearCache() }
+                    5 -> { clearCache() }
                 }
             }
         }
-        recyclerview_setting_users.adapter = simpleUserAdapter
         recyclerview_setting_option.adapter = settingAdapter
-
-        users.addAll(UserManager.getAllUser())
-        log("user size ${users.size}")  //加上之后不会出现重复显示的问题
-        simpleUserAdapter.notifyDataSetChanged()
-
-        options.addAll(initSettingData())
-        settingAdapter.notifyDataSetChanged()
-        btn_setting_add_user.setOnClickListener {
-            startActivity(Intent(mContext, LoginActivity::class.java))
-        }
-        btn_setting_add_user.setTextColor(colorAccent())
         getCache()
         btn_restart_app.setOnClickListener {
             RestartUtils.restartApp2()
@@ -109,43 +84,14 @@ class SettingActivity : BaseActivity() {
         btn_restart_app.setTextColor(colorAccent())
     }
 
-
     private fun initSettingData(): List<SettingItemBean> {
         layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription)
-        val item0 = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
-        val item1 = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
-        val item3 = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
+        val itemSplash = SettingItemBean("闪屏开关", "开启应用时打开闪屏", showCheck = true, checked = enableSplash)
+        val itemHint = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
+        val itemIcon = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
+        val itemSilence = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
-        return arrayListOf(layoutItem, item0, item1, item3, cacheItem)
-    }
-
-    /**
-     * 进行账户的切换，在Android 8.0的模拟器上，切换之后会重复显示一个当前用户
-     * 尚不知道原因是啥，猜测问题出在adapter上，因为users的数据变化没问题
-     *
-     * @param user 需要切换的用户
-     */
-    private fun changeUser(user: UserSimpleBean) {
-        if (user.uid == UserManager.getNowUid()) return
-        UserManager.setNowUid(user.uid)
-        users.clear()
-        users.addAll(0, UserManager.getAllUser())
-        simpleUserAdapter.notifyDataSetChanged()
-        Thread {
-            postSticky(UserUpdateEvent(BaseCode.LOCAL, user))
-        }.start()
-    }
-
-    private fun deleteUser(user: UserSimpleBean, position: Int) {
-        UserManager.deleteUser(user.uid)
-        users.removeAt(position)
-        simpleUserAdapter.notifyDataSetChanged()
-
-        if(UserManager.getAllUser().isNotEmpty()) {
-            postSticky(UserUpdateEvent(BaseCode.LOCAL, UserManager.getAllUser().last()))
-        } else {
-            postSticky(UserUpdateEvent(BaseCode.FAILURE, UserSimpleBean()))
-        }
+        return arrayListOf(layoutItem, itemSplash, itemHint, itemIcon, itemSilence, cacheItem)
     }
 
     private fun onHomeLayoutChange() {
@@ -158,7 +104,6 @@ class SettingActivity : BaseActivity() {
         }
         showHint("重启应用生效")
         layoutItem.tip = getString(R.string.choose_home_layout) + layoutDescription
-//        layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription, showCheck = false)
         settingAdapter.notifyItemChanged(0)
     }
 
@@ -182,22 +127,6 @@ class SettingActivity : BaseActivity() {
         }
     }
 
-    /*
-        添加用户成功之后重新获取账户列表,
-        但是它可以在此Fragment内被触发，这个诡异的现象我浪费了一个多小时才弄明白
-        珍惜你的时间
-
-        补充：我又一次在这上面浪费了一个星期，可以看到前面的changeUser 方法上的注释就是愚蠢的思考
-        珍惜你的时间
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onLoginSuccess(event: UserUpdateEvent) {
-        if (event.code == BaseCode.SUCCESS) {
-            users.add(event.user)
-            simpleUserAdapter.notifyDataSetChanged()
-        }
-    }
-
     private fun getCache() {
         ThreadPoolMgr.execute(Runnable {
             cacheItem.tip = CacheHelper.CacheSize
@@ -210,10 +139,6 @@ class SettingActivity : BaseActivity() {
         showHint(getString(R.string.cleaning))
         CacheHelper.clearCache()
         getCache()
-//        Thread{
-//            CacheHelper.clearCache()
-//            getCache()
-//        }.start()
     }
 
 }

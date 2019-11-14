@@ -2,6 +2,9 @@ package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.collection.ArrayMap
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
@@ -13,6 +16,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.context.LoginContext
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditFragment
+import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.utils.BlockUtils
 import kotlinx.android.synthetic.main.fragment_block_list.*
 import kotlinx.android.synthetic.main.layout_block_list.*
@@ -57,6 +61,8 @@ class BlockFragment: BaseFragment() {
                 title = getString(R.string.choose_block)
             }
             toolbar_common.setNavigationOnClickListener { activity?.finish() }
+        } else {
+            initMenu()
         }
         text_view_title_campus.visibility = View.VISIBLE
         text_view_title_tech.visibility = View.VISIBLE
@@ -211,6 +217,24 @@ class BlockFragment: BaseFragment() {
 //                    title = title,
 //                    showBottomBarOnDestroy = true))
         }
+    }
+
+    private fun initMenu() {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar_common)
+        setHasOptionsMenu(true)
+        toolbar_common.inflateMenu(R.menu.menu_block_fragment)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_block_fragment, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_item_search_block_fragment && LoginContext.userState(context!!)) {
+            startActivity(Intent(activity, SearchActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

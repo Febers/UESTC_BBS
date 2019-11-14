@@ -26,7 +26,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="android:theme, label">
-        <activity android:name=".module.search.view.SearchActivity"></activity>
+        <activity android:name=".module.search.view.SearchActivity">
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -37,6 +38,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <!-- ++++++++++++++++++++++++++++默认的启动图标+++++++++++++++++++++++++++++++++++++++++++ -->
         <activity android:name=".home.SplashActivity">
             <intent-filter>
@@ -246,6 +248,8 @@
         <activity android:name=".module.post.view.PostDetailActivity2"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".module.image.ImageActivity" />
+        <activity android:name=".module.setting.AccountActivity" />
+        <activity android:name=".module.user.view.UserHistoryActivity" />
     </application>
 
 </manifest>

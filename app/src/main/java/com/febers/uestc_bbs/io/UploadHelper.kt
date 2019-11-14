@@ -2,14 +2,16 @@ package com.febers.uestc_bbs.io
 
 import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BaseModel
 import com.febers.uestc_bbs.base.REQUEST_SUCCESS_RS
 import com.febers.uestc_bbs.entity.UploadResultBean
+import com.febers.uestc_bbs.http.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import okhttp3.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.io.File
 
@@ -17,7 +19,7 @@ import java.io.File
 /**
  * 提供文件上传功能
  */
-class FileUploader: BaseModel() {
+class FileUploader {
 
     /**
      * 将图片上传至河畔服务器
@@ -61,6 +63,11 @@ class FileUploader: BaseModel() {
         }.start()
     }
 
+    private fun getRetrofit(): Retrofit = Retrofit.Builder()
+            .baseUrl(ApiUtils.BBS_BASE_URL)
+            .client(TokenClient.get())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
     interface OnFileUploadListener {
         fun onUploadFail(msg: String)

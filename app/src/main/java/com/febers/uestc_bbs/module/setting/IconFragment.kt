@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.entity.IconItemBean
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.IconUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.view.adapter.IconGridViewAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -33,6 +34,7 @@ class IconFragment: BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.fragment_choose_icon, container)
         iconGridView = view.findViewById(R.id.grid_view_choose_icon)
         btnEnter = view.findViewById(R.id.btn_choose_icon_enter)
+        btnEnter.setTextColor(colorAccent())
         return view
     }
 

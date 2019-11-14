@@ -66,8 +66,8 @@
 
 
     <!--Setting界面String-->
-    <string name="setting_and_account">账户与设置</string>
-    <string name="setting">设置</string>
+    <string name="account">账户管理</string>
+    <string name="setting">应用设置</string>
     <string name="choose_theme">选择主题</string>
     <string name="choose_block">选择板块</string>
     <string name="clear_cache">清除缓存</string>
@@ -187,6 +187,7 @@
     <string name="retry">重试</string>
     <string name="push_message_des">查看所有的服务器推送消息</string>
     <string name="hint_check_network">请检查网络状况</string>
+    <string name="browsing_history">浏览历史</string>
 
     <!--防止引用系统默认时找不到该属性-->
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->

@@ -31,6 +31,14 @@ class SplashActivity : BaseActivity() {
     override fun enableHideStatusBar(): Boolean = true
 
     override fun initView() {
+        if (intent.getBooleanExtra(RESTART_APP, false)) {
+            ActivityMgr.removeAllActivitiesExceptOne(mContext)
+        }
+        val enableSplash by PreferenceUtils(mContext, SP_SPLASH_ENABLE, true)
+        if (!enableSplash) {
+            startActivity()
+            return
+        }
         setSwipeBackEnable(false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             image_view_splash.drawable.setTint(colorAccent())
@@ -38,9 +46,7 @@ class SplashActivity : BaseActivity() {
             DrawableCompat.setTint(iv_list_gray.drawable, colorAccent())
             DrawableCompat.setTint(iv_user_small.drawable, colorAccent())
         }
-        if (intent.getBooleanExtra(RESTART_APP, false)) {
-            ActivityMgr.removeAllActivitiesExceptOne(mContext)
-        }
+
         permissionUtils = PermissionUtils(this)
         permissionUtils
                 .requestPermissions("请授予应用正常运行所需要的存储权限", object : PermissionUtils.PermissionListener {

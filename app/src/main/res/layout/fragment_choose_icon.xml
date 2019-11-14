@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?background_first">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +23,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/confirm"
-            android:textColor="?text_color_first"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_alignParentEnd="true"/>
         <TextView
@@ -31,7 +31,8 @@
             android:gravity="center_horizontal"
             android:layout_alignParentBottom="true"
             android:textSize="@dimen/text_size_small"
-            android:text="@string/wait_a_moment_for_the_change_to_take_effect"/>
+            android:text="@string/wait_a_moment_for_the_change_to_take_effect"
+            android:textColor="?text_color_second"/>
     </RelativeLayout>
 
 

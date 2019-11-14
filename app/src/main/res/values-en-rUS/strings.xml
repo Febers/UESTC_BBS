@@ -36,7 +36,7 @@
     <string name="user_friends">Friend</string>
     <string name="theme_style">Theme Style</string>
 
-    <string name="setting_and_account">Account And Setting</string>
+    <string name="account">Account Manager</string>
     <string name="setting">Setting</string>
     <string name="choose_theme">Theme</string>
     <string name="choose_block">Choose Block</string>
@@ -170,4 +170,5 @@
     <string name="retry">Retry</string>
     <string name="push_message_des">View all messages from server</string>
     <string name="hint_check_network">Please check the network condition</string>
+    <string name="browsing_history">Browsing History</string>
 </resources>

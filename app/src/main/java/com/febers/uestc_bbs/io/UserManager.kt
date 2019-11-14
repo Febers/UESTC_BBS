@@ -7,6 +7,7 @@ import com.febers.uestc_bbs.base.SP_USERS
 import com.febers.uestc_bbs.base.SP_USER_IDS
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileReader
@@ -60,7 +61,7 @@ object UserManager {
         }
     }
 
-    fun deleteUserInFile(uid: Int) {
+    private fun deleteUserInFile(uid: Int) {
         try {
             val file = File(FileHelper.appFileDir+"/$uid")
             file.delete()
@@ -86,7 +87,7 @@ object UserManager {
         nowUid = uid
     }
 
-    fun addUserToFile(uid: Int, userSimple: UserSimpleBean) {
+    private fun addUserToFile(uid: Int, userSimple: UserSimpleBean) {
         val file: File = (FileHelper.appFileDir+"/$uid").checkFileSafely()
         val fileWriter: FileWriter = FileWriter(file)
         try {
@@ -99,7 +100,7 @@ object UserManager {
         }
     }
 
-    fun getUserbyFile(uid: Int): UserSimpleBean {
+    private fun getUserbyFile(uid: Int): UserSimpleBean {
         val file: File = (FileHelper.appFileDir+"/$uid").checkFileSafely()
         var fileReader: FileReader? = null
         try {
@@ -126,6 +127,7 @@ object UserManager {
     fun getAllUser(): List<UserSimpleBean> {
         try {
             val userIds by PreferenceUtils(context(), SP_USER_IDS, "")
+//            log { "userIds: $userIds" }
             if (userIds.isEmpty()) return emptyList()
             val uidList = userIds.removePrefix("@").split("@")
             val userList: MutableList<UserSimpleBean> = ArrayList(uidList.size)

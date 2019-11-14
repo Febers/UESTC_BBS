@@ -23,6 +23,8 @@ import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.search.view.SearchActivity
+import com.febers.uestc_bbs.module.setting.AccountActivity
+import com.febers.uestc_bbs.module.user.view.UserHistoryActivity
 import com.febers.uestc_bbs.utils.colorAccent
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
@@ -37,13 +39,15 @@ const val USER_DETAIL_ITEM = -1
 const val USER_POST_ITEM = 0
 const val USER_REPLY_ITEM = 1
 const val USER_FAV_ITEM = 2
-const val USER_FRIEND_ITEM = 3
-const val SEARCH_ITEM = 4
+const val USER_HISTORY_ITEM = 3
+const val USER_FRIEND_ITEM = 4
+const val SEARCH_ITEM = 5
 
 const val NAVIGATION_ITEM = 0
 const val THEME_ITEM = 1
-const val SETTING_ITEM = 2
-const val ABOUT_ITEM = 3
+const val ACCOUNT_ITEM = 2
+const val SETTING_ITEM = 3
+const val ABOUT_ITEM = 4
 
 class MoreFragment: BaseFragment() {
 
@@ -60,7 +64,6 @@ class MoreFragment: BaseFragment() {
     override fun registerEventBus(): Boolean = true
 
     override fun setView(): Int = R.layout.fragment_more
-
 
     override fun initView() {
         initMenu()
@@ -96,20 +99,20 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMoreItem1(): List<MoreItemBean> {
-        val item1 = MoreItemBean(getString(R.string.my_start_post), R.drawable.xic_edit_blue_24dp)
-        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
-        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
-//        val item4 = MoreItemBean("", R.drawable.xic_person_blue_24dp)
-//        val item5 = MoreItemBean("", R.drawable.xic_menu_search)
-        return listOf(item1, item2, item3)
+        val itemStart = MoreItemBean(getString(R.string.my_start_post), R.drawable.xic_edit_blue_24dp)
+        val itemReply = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
+        val itemFav = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
+        val itemHistory = MoreItemBean(getString(R.string.browsing_history), R.drawable.xic_history_purple)
+        return listOf(itemStart, itemReply, itemFav, itemHistory)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
-        val item4 = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeManager.isNightTheme())
-        val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
-        val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
-        return listOf(item4, item1, item2, item3)
+        val itemNav = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
+        val itemTheme = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeManager.isNightTheme())
+        val itemAccount = MoreItemBean(getString(R.string.account), R.drawable.xic_person_blue_24dp)
+        val itemSetting = MoreItemBean(getString(R.string.setting), R.drawable.ic_setting_gray)
+        val itemAbout = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
+        return listOf(itemNav, itemTheme, itemAccount, itemSetting, itemAbout)
     }
 
     private fun initUserDetail() {
@@ -156,6 +159,9 @@ class MoreFragment: BaseFragment() {
                     putExtra(USER_POST_TYPE, USER_FAV_POST) })
                 return
             }
+            if (position == USER_HISTORY_ITEM) {
+                startActivity(Intent(activity, UserHistoryActivity::class.java))
+            }
             if (position == USER_FRIEND_ITEM) {
                 return
             }
@@ -171,6 +177,10 @@ class MoreFragment: BaseFragment() {
             }
             if (position == THEME_ITEM) {
                 startActivity(Intent(activity, ThemeActivity::class.java))
+                return
+            }
+            if (position == ACCOUNT_ITEM) {
+                startActivity(Intent(activity, AccountActivity::class.java))
                 return
             }
             if (position == SETTING_ITEM) {

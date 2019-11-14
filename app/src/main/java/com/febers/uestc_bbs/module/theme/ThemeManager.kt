@@ -140,7 +140,7 @@ object ThemeManager {
         }
         if (view is SwitchCompat) {
             val thumbStates = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf(android.R.attr.state_checked), intArrayOf()),
-                    intArrayOf(colorAccent, colorAccent, Color.GRAY))
+                    intArrayOf(colorAccent, colorAccent, Color.WHITE))
             view.thumbTintList = thumbStates
 //            if (Build.VERSION.SDK_INT >= 24) {
 //                val trackStates = ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_enabled), intArrayOf()),

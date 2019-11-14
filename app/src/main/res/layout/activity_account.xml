@@ -2,10 +2,9 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?background_first">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include layout="@layout/layout_toolbar_common" />
 
@@ -18,22 +17,21 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_setting_option"
+                android:id="@+id/recyclerview_accounts"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
             </androidx.recyclerview.widget.RecyclerView>
 
             <Button
-                android:id="@+id/btn_restart_app"
+                android:id="@+id/btn_add_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:text="@string/restart_app"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="@string/add_user"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>

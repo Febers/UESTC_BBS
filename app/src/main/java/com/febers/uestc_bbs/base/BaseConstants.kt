@@ -90,3 +90,5 @@ const val LOOP_RECEIVE_MSG = "loop_receive_msg"
 const val QUERY_HISTORY = "query_history"
 
 const val PUSH_MESSAGE_ID_LAST = "push_message_id_last"
+
+const val SP_SPLASH_ENABLE = "sp_splash_enable"
