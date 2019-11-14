@@ -1,13 +1,21 @@
-package com.febers.uestc_bbs.view.helper
+package com.febers.uestc_bbs.utils
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.febers.uestc_bbs.lib.header.MaterialHeader
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+
+fun Context?.web(url: String?) {
+    ClickContext.clickToAppWeb(this, url)
+}
+
+fun colorAccent() = ThemeManager.colorAccent()
 
 fun SmartRefreshLayout.finishSuccess() {
     finishRefresh(true)

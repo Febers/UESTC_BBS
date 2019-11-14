@@ -16,9 +16,9 @@ import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.update.UpdateHelper
+import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.view.adapter.OpenProjectAdapter
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.dialog.PushMessageDialog
@@ -58,9 +58,9 @@ class AboutActivity: BaseActivity() {
     }
 
     override fun afterCreated() {
-        text_view_about_1.setTextColor(ThemeManager.colorAccent())
-        text_view_about_2.setTextColor(ThemeManager.colorAccent())
-        text_view_about_3.setTextColor(ThemeManager.colorAccent())
+        text_view_about_1.setTextColor(colorAccent())
+        text_view_about_2.setTextColor(colorAccent())
+        text_view_about_3.setTextColor(colorAccent())
 
         settingAdapter1 = SettingAdapter(mContext, items1).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
@@ -105,7 +105,7 @@ class AboutActivity: BaseActivity() {
 
             """.trimIndent())
         }
-        btn_share_app.setTextColor(ThemeManager.colorAccent())
+        btn_share_app.setTextColor(colorAccent())
     }
 
     private fun initSettingData1(): List<SettingItemBean> {
@@ -186,11 +186,11 @@ class AboutActivity: BaseActivity() {
         val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_open_projects, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_open_source)
         val btn = view.findViewById<Button>(R.id.btn_dialog_open_prj_enter)
-        btn.setTextColor(ThemeManager.colorAccent())
+        btn.setTextColor(colorAccent())
         btn.setOnClickListener {
             openSourceProjectsDialog?.dismiss()
         }
-        btn.setTextColor(ThemeManager.colorAccent())
+        btn.setTextColor(colorAccent())
         recyclerView.adapter = projectAdapter
         return view
     }

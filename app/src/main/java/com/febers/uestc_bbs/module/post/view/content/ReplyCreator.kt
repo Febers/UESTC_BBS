@@ -8,8 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.febers.uestc_bbs.module.post.view.content.ImageText.ImageTextHelper
+import com.febers.uestc_bbs.module.post.view.content.image_text.ImageTextHelper
 import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.getWindowWidth
 import org.jetbrains.anko.browse
@@ -126,7 +127,7 @@ class ReplyCreator(
             setLinkTextColor(it)
         }
         linksClickable = true
-        setLinkTextColor(ThemeManager.colorAccent())
+        setLinkTextColor(colorAccent())
         setTextIsSelectable(true)
         layoutParams = ViewGroup
                 .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

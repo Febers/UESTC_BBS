@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import androidx.core.widget.CompoundButtonCompat
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SettingItemBean
-import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.colorAccent
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
@@ -26,7 +26,7 @@ class SettingAdapter(val context: Context, data: List<SettingItemBean>):
             (p0?.getView(R.id.check_box_item_setting) as CheckBox).apply {
                 visibility = View.VISIBLE
                 isChecked = p1.checked
-                CompoundButtonCompat.setButtonTintList(this, ColorStateList.valueOf(ThemeManager.colorAccent()))
+                CompoundButtonCompat.setButtonTintList(this, ColorStateList.valueOf(colorAccent()))
             }
         } else {
             (p0?.getView(R.id.check_box_item_setting) as CheckBox).apply {

@@ -8,7 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.colorAccent
 
 class UpdateDialog(context: Context, title: String, time: String = "", size: String = "", body: String) : AlertDialog(context, R.style.Theme_AppCompat_Dialog) {
 
@@ -36,9 +36,9 @@ class UpdateDialog(context: Context, title: String, time: String = "", size: Str
         btnLeft = view.findViewById(R.id.btn_update_dialog_left)
         btnCenter = view.findViewById(R.id.btn_update_dialog_center)
         btnRight = view.findViewById(R.id.btn_update_dialog_right)
-        btnLeft.setTextColor(ThemeManager.colorAccent())
-        btnCenter.setTextColor(ThemeManager.colorAccent())
-        btnRight.setTextColor(ThemeManager.colorAccent())
+        btnLeft.setTextColor(colorAccent())
+        btnCenter.setTextColor(colorAccent())
+        btnRight.setTextColor(colorAccent())
         dialog = Builder(context).create()
         dialog.setView(view)
     }

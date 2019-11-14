@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.utils.PMTimeUtils
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
 import com.febers.uestc_bbs.module.post.view.content.ReplyCreator
+import com.febers.uestc_bbs.utils.colorAccent
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
@@ -30,7 +31,7 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
         val leftLayout: LinearLayout = p0?.getView(R.id.linear_layout_pm_left)!!
         val rightLayout: LinearLayout = p0.getView(R.id.linear_layout_pm_right)!!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            rightLayout.background.setTint(ThemeManager.colorAccent())
+            rightLayout.background.setTint(colorAccent())
         }
         if (p1?.type == "text") {
             if (userId == p1.sender) {

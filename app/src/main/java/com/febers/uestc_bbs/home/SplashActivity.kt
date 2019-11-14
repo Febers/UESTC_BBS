@@ -16,10 +16,10 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.search.view.SearchActivity
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateHelper
 import com.febers.uestc_bbs.utils.PermissionUtils
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.colorAccent
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : BaseActivity() {
@@ -33,10 +33,10 @@ class SplashActivity : BaseActivity() {
     override fun initView() {
         setSwipeBackEnable(false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            image_view_splash.drawable.setTint(ThemeManager.colorAccent())
-            text_view_splash.setTextColor(ThemeManager.colorAccent())
-            DrawableCompat.setTint(iv_list_gray.drawable, ThemeManager.colorAccent())
-            DrawableCompat.setTint(iv_user_small.drawable, ThemeManager.colorAccent())
+            image_view_splash.drawable.setTint(colorAccent())
+            text_view_splash.setTextColor(colorAccent())
+            DrawableCompat.setTint(iv_list_gray.drawable, colorAccent())
+            DrawableCompat.setTint(iv_user_small.drawable, colorAccent())
         }
         if (intent.getBooleanExtra(RESTART_APP, false)) {
             ActivityMgr.removeAllActivitiesExceptOne(mContext)

@@ -10,9 +10,9 @@ import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.view.adapter.UserPostAdapter
-import com.febers.uestc_bbs.view.helper.finishFail
-import com.febers.uestc_bbs.view.helper.finishSuccess
-import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
+import com.febers.uestc_bbs.utils.finishFail
+import com.febers.uestc_bbs.utils.finishSuccess
+import com.febers.uestc_bbs.utils.initAttrAndBehavior
 import kotlinx.android.synthetic.main.activity_user_post.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 

@@ -19,18 +19,14 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
 import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
-import com.febers.uestc_bbs.view.helper.finishFail
-import com.febers.uestc_bbs.view.helper.finishSuccess
-import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
 import kotlinx.android.synthetic.main.activity_post_list.*
 import kotlinx.android.synthetic.main.layout_server_null.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.browse
 import java.lang.IndexOutOfBoundsException
 
 class PListActivity: BaseActivity(), PListContract.View {
@@ -83,7 +79,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
-        fab_post_list.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
+        fab_post_list.backgroundTintList = ColorStateList.valueOf(colorAccent())
 
         pListPresenter.boardListRequest(mFid)
 
@@ -251,30 +247,27 @@ class PListActivity: BaseActivity(), PListContract.View {
     private fun onAppbarLayoutOffsetChange() {
     }
 
+    @UiThread
     override fun showError(msg: String) {
-        mContext.runOnUiThread {
+        refresh_layout_post_list?.finishFail()
+        if (msg.contains(SERVICE_RESPONSE_NULL)) {
             showHint(msg)
-            refresh_layout_post_list?.finishFail()
             showEmptyView()
+            web("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
+            return
         }
+        if (msg.contains(SERVICE_RESPONSE_ERROR)) {
+            showHint(getString(R.string.hint_check_network) + ": " + msg)
+            return
+        }
+        showHint(msg)
     }
 
     private fun showEmptyView() {
         btn_to_web?.visibility = View.VISIBLE
         btn_to_web?.setOnClickListener {
-//            browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
-            getPostWebViewBottomSheet().show(supportFragmentManager, "9527")
+            web("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
         }
-    }
-
-    private var postWebViewBottomSheet: PostWebViewBottomSheet? = null
-
-    private fun getPostWebViewBottomSheet(): PostWebViewBottomSheet {
-        if (postWebViewBottomSheet == null) {
-            postWebViewBottomSheet = PostWebViewBottomSheet(mContext, R.style.PinkBottomSheetTheme,
-                    "http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
-        }
-        return postWebViewBottomSheet!!
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -286,7 +279,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                 isShowStickyPost = !isShowStickyPost
             }
             R.id.menu_item_post_list_web -> {
-                browse("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
+                web("http://bbs.uestc.edu.cn/forum.php?mod=forumdisplay&fid=$mFid")
             }
             R.id.menu_item_post_list_classification -> {
                 classificationDialog?.show()

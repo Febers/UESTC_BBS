@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.post.view
 
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +13,9 @@ import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.view.helper.finishFail
-import com.febers.uestc_bbs.view.helper.finishSuccess
-import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
+import com.febers.uestc_bbs.utils.finishFail
+import com.febers.uestc_bbs.utils.finishSuccess
+import com.febers.uestc_bbs.utils.initAttrAndBehavior
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

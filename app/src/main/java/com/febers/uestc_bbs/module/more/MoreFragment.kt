@@ -23,6 +23,7 @@ import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.setting.AboutActivity
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.search.view.SearchActivity
+import com.febers.uestc_bbs.utils.colorAccent
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.Subscribe
@@ -239,7 +240,7 @@ class MoreFragment: BaseFragment() {
         tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
         tvNaviNewer = view.findViewById(R.id.navigation_novice)
         btnNaviEnter = view.findViewById(R.id.navigation_enter)
-        btnNaviEnter?.setTextColor(ThemeManager.colorAccent())
+        btnNaviEnter?.setTextColor(colorAccent())
         return view
     }
 }

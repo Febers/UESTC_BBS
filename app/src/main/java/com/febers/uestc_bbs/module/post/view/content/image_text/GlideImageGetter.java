@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.view.content.ImageText;
+package com.febers.uestc_bbs.module.post.view.content.image_text;
 
 import android.content.Context;
 import android.graphics.Rect;

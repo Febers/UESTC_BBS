@@ -36,7 +36,6 @@ class UWebViewClient(private val context: Context,
             if (url.startsWith("openapp")) {
                 return true
             }
-            //view.loadUrl(url);
             ClickContext.linkClick(url, view.context)
             return true
         }
@@ -54,7 +53,6 @@ class UWebViewClient(private val context: Context,
             if (request.url.toString().startsWith("openapp")) {
                 return true
             }
-            //view.loadUrl(request.getUrl().toString());
             ClickContext.linkClick(request.url.toString(), view.context)
             return true
         }

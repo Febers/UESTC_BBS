@@ -17,7 +17,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import java.lang.ref.WeakReference
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.CompoundButtonCompat
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.febers.uestc_bbs.utils.log

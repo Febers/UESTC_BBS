@@ -186,6 +186,7 @@
     <string name="push_message">推送消息</string>
     <string name="retry">重试</string>
     <string name="push_message_des">查看所有的服务器推送消息</string>
+    <string name="hint_check_network">请检查网络状况</string>
 
     <!--防止引用系统默认时找不到该属性-->
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>-->

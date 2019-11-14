@@ -28,9 +28,9 @@ import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.SimplePostAdapter
-import com.febers.uestc_bbs.view.helper.finishFail
-import com.febers.uestc_bbs.view.helper.finishSuccess
-import com.febers.uestc_bbs.view.helper.initAttrAndBehavior
+import com.febers.uestc_bbs.utils.finishFail
+import com.febers.uestc_bbs.utils.finishSuccess
+import com.febers.uestc_bbs.utils.initAttrAndBehavior
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -66,8 +66,8 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 
     override fun initView() {
         collapsing_toolbar_layout_detail.apply {
-            setStatusBarScrimColor(ThemeManager.colorAccent())
-            setContentScrimColor(ThemeManager.colorAccent())
+            setStatusBarScrimColor(colorAccent())
+            setContentScrimColor(colorAccent())
             setCollapsedTitleTextColor(ThemeManager.colorRefreshText())
         }
         userPresenter = UserPresenterImpl(this)
@@ -86,7 +86,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 //            userBottomSheet = UserDetailBottomSheet(this, R.style.PinkBottomSheetTheme)
 //            userBottomSheet.setView(R.layout.layout_bottom_sheet_user_detail)
         }
-        image_view_user_detail_blur_avatar.setBackgroundColor(ThemeManager.colorAccent())
+        image_view_user_detail_blur_avatar.setBackgroundColor(colorAccent())
         signDialog = AlertDialog.Builder(mContext).create()
 
         if (!userItSelf) {
@@ -146,7 +146,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         //非当前用户
         fab_user_detail?.let { it ->
             it.visibility = View.VISIBLE
-            it.backgroundTintList = ColorStateList.valueOf(ThemeManager.colorAccent())
+            it.backgroundTintList = ColorStateList.valueOf(colorAccent())
             it.setOnClickListener { ClickContext.clickToPrivateMsg(this@UserDetailActivity, userId, event.data.name) }
         }
         tv_user_post_title.visibility = View.VISIBLE
@@ -208,12 +208,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         //使其可以弹出软键盘
         signDialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         val btnEnter = view.findViewById<Button>(R.id.btn_dialog_sign_update_enter)
-        btnEnter.setTextColor(ThemeManager.colorAccent())
+        btnEnter.setTextColor(colorAccent())
         val btnCancel = view.findViewById<Button>(R.id.btn_dialog_sign_update_cancel)
         btnCancel.setOnClickListener {
             signDialog?.dismiss()
         }
-        btnEnter.setTextColor(ThemeManager.colorAccent())
+        btnEnter.setTextColor(colorAccent())
         btnEnter.setOnClickListener {
             view.findViewById<ProgressBar>(R.id.progress_bar_update_sign).visibility = View.VISIBLE
             userPresenter.userUpdateRequest(USER_SIGN, editText.text.toString())

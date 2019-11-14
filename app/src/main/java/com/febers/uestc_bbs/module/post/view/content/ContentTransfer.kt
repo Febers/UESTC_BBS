@@ -8,6 +8,7 @@ import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.webview.UWebViewClient
 import com.febers.uestc_bbs.module.webview.javascript_interface.ImageClickInterface
 import com.febers.uestc_bbs.utils.ColorUtils
+import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.utils.encodeSpaces
 import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.collections.forEachWithIndex
@@ -44,9 +45,10 @@ object ContentTransfer {
     }
 
     fun json2Html(contents: List<PostDetailBean.ContentBean>): String {
+        imageUrls.clear()
         val sb = StringBuilder()
         val textColor = if (ThemeManager.isNightTheme()) "white" else "black"
-        val linkColor = ColorUtils.int2String(ThemeManager.colorAccent())
+        val linkColor = ColorUtils.int2String(colorAccent())
         log { "linkColor: $linkColor" }
         contents.forEachWithIndex { index, content ->
 //            log { content.toString() }

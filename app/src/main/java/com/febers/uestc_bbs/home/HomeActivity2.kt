@@ -36,6 +36,7 @@ import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.adapter.MoreItemAdapter
 import com.febers.uestc_bbs.view.dialog.PushMessageDialog
@@ -345,7 +346,7 @@ class HomeActivity2: BaseActivity() {
         tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
         tvNaviNewer = view.findViewById(R.id.navigation_novice)
         btnNaviEnter = view.findViewById(R.id.navigation_enter)
-        btnNaviEnter?.setTextColor(ThemeManager.colorAccent())
+        btnNaviEnter?.setTextColor(colorAccent())
         return view
     }
 

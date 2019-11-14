@@ -8,8 +8,8 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.Gravity
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.ColorUtils
+import com.febers.uestc_bbs.utils.colorAccent
 
 class RedPointDrawable(context: Context, private val origin: Drawable) : Drawable() {
     private val paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
@@ -18,7 +18,7 @@ class RedPointDrawable(context: Context, private val origin: Drawable) : Drawabl
     private var isShow = true
 
     init {
-        paint.color = if (ColorUtils.colorCompare(ThemeManager.colorAccent(), Color.RED)) Color.WHITE else Color.RED
+        paint.color = if (ColorUtils.colorCompare(colorAccent(), Color.RED)) Color.WHITE else Color.RED
         radius = 6
         gravity = Gravity.START
     }

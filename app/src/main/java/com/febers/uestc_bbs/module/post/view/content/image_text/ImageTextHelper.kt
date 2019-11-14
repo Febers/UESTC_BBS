@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.module.post.view.content.ImageText
+package com.febers.uestc_bbs.module.post.view.content.image_text
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -15,7 +15,7 @@ import android.view.View
 import android.widget.TextView
 
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.colorAccent
 
 /**
  * 构建可显示图片的textview
@@ -55,7 +55,7 @@ object ImageTextHelper {
             for (url in urls) {
                 val myUrlSpan = MyUrlSpan(url.url, context)
                 style.setSpan(myUrlSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                val colorSpan = ForegroundColorSpan(ThemeManager.colorAccent())
+                val colorSpan = ForegroundColorSpan(colorAccent())
                 style.setSpan(colorSpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             for (url in images) {

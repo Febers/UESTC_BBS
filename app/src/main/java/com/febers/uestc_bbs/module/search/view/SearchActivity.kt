@@ -9,8 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.SearchSubmitEvent
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.KeyboardUtils
+import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.view.adapter.SearchPagerAdapter
 import kotlinx.android.synthetic.main.activity_search.*
@@ -34,7 +34,7 @@ class SearchActivity: BaseActivity() {
         val searchPagerAdapter = SearchPagerAdapter(supportFragmentManager)
         view_pager_search.adapter = searchPagerAdapter
         tab_layout_search.setupWithViewPager(view_pager_search)
-        tab_layout_search.setSelectedTabIndicatorColor(ThemeManager.colorAccent())
+        tab_layout_search.setSelectedTabIndicatorColor(colorAccent())
     }
 
     /**

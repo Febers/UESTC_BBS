@@ -13,7 +13,6 @@ import com.febers.uestc_bbs.entity.UploadResultBean
 import com.febers.uestc_bbs.io.FileUploader
 import com.febers.uestc_bbs.module.post.contract.PostContract
 import com.febers.uestc_bbs.module.post.presenter.PostPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.view.adapter.ImgGridViewAdapter
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
@@ -21,6 +20,7 @@ import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
 import com.febers.uestc_bbs.lib.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_post_reply.*
 import com.febers.uestc_bbs.lib.emotion.EmotionTranslator
+import com.febers.uestc_bbs.utils.colorAccent
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -148,7 +148,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
      */
     private fun sendReply(stContent: String) {
         progress_bar_reply_activity.visibility = View.VISIBLE
-        progress_bar_reply_activity.setBackgroundColor(ThemeManager.colorAccent())
+        progress_bar_reply_activity.setBackgroundColor(colorAccent())
 
         val aidBuffer = StringBuilder()
         val contentList: MutableList<Pair<Int, String>> = ArrayList()

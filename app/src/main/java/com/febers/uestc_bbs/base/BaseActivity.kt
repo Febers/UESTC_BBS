@@ -11,7 +11,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.lib.fragmentation.SupportActivity
 import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.view.helper.hideStatusBar
+import com.febers.uestc_bbs.utils.hideStatusBar
 import me.yokeyword.fragmentation.SwipeBackLayout
 
 

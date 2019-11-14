@@ -5,8 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.ColorUtils
+import com.febers.uestc_bbs.utils.colorAccent
 
 /**
  * 绘制一个带有色彩的圆形View
@@ -14,7 +14,7 @@ import com.febers.uestc_bbs.utils.ColorUtils
 class CircleColorView : View {
 
     private lateinit var paint: Paint
-    private var color: Int = ColorUtils.toDarkColor(ThemeManager.colorAccent())   //默认为该颜色
+    private var color: Int = ColorUtils.toDarkColor(colorAccent())   //默认为该颜色
     private var radius: Int = 0
     private var drawRing: Boolean = false
 

@@ -12,7 +12,6 @@ import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.io.CacheHelper
 import com.febers.uestc_bbs.module.service.HeartMsgService
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
@@ -56,8 +55,8 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun init() {
-        text_view_setting_1.setTextColor(ThemeManager.colorAccent())
-        text_view_setting_2.setTextColor(ThemeManager.colorAccent())
+        text_view_setting_1.setTextColor(colorAccent())
+        text_view_setting_2.setTextColor(colorAccent())
 
         layoutDescription = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) getString(R.string.home_layout_bottom)
         else getString(R.string.home_layout_drawer)
@@ -102,12 +101,12 @@ class SettingActivity : BaseActivity() {
         btn_setting_add_user.setOnClickListener {
             startActivity(Intent(mContext, LoginActivity::class.java))
         }
-        btn_setting_add_user.setTextColor(ThemeManager.colorAccent())
+        btn_setting_add_user.setTextColor(colorAccent())
         getCache()
         btn_restart_app.setOnClickListener {
             RestartUtils.restartApp2()
         }
-        btn_restart_app.setTextColor(ThemeManager.colorAccent())
+        btn_restart_app.setTextColor(colorAccent())
     }
 
 
