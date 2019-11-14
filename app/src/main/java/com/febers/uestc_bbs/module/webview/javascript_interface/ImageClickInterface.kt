@@ -13,9 +13,12 @@ class ImageClickInterface(private val context: Context, private val imageUrls: A
     @JavascriptInterface
     fun openImage(imageUrl: String) {
         log { "js接口方法被调用" }
-        context.startActivity(Intent(context, ImageActivity::class.java).apply {
-            putExtra(IMAGE_URLS, imageUrls)
-            putExtra(IMAGE_URL, imageUrl)
-        })
+        if (imageUrls.contains(imageUrl)) {
+            context.startActivity(Intent(context, ImageActivity::class.java).apply {
+                putExtra(IMAGE_URLS, imageUrls)
+                putExtra(IMAGE_URL, imageUrl)
+            })
+        }
+
     }
 }

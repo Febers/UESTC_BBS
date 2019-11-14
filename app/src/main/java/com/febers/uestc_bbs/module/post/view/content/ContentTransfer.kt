@@ -1,7 +1,9 @@
 package com.febers.uestc_bbs.module.post.view.content
 
 import android.graphics.Color
+import android.os.Build
 import android.view.View
+import android.webkit.WebSettings
 import android.webkit.WebView
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.theme.ThemeManager
@@ -35,6 +37,10 @@ object ContentTransfer {
         webView.settings.domStorageEnabled = true
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
         webView.settings.setSupportZoom(false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //防止不加载https资源情况出现
+            webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        }
 
         //主贴图文视图的绘制
         webView.loadDataWithBaseURL(null, json2Html(contents), "text/html; charset=UTF-8", "UTF-8", null)
@@ -49,9 +55,8 @@ object ContentTransfer {
         val sb = StringBuilder()
         val textColor = if (ThemeManager.isNightTheme()) "white" else "black"
         val linkColor = ColorUtils.int2String(colorAccent())
-        log { "linkColor: $linkColor" }
         contents.forEachWithIndex { index, content ->
-//            log { content.toString() }
+            log { content.toString() }
             when(content.type) {
                 CONTENT_TYPE_TEXT -> {
                     sb.append(""" <font color="$textColor" style="word-break:break-all">${emotionTrans2Url(content.infor).encodeSpaces()} </font>""")
@@ -66,12 +71,11 @@ object ContentTransfer {
                     }
                 }
                 CONTENT_TYPE_AUDIO -> {
-                    sb.append("""<embed height="100" width="100" src="${content.url}" />""")
+                    sb.append("""<br><embed height="100" width="100" src="${content.url}" /><br>""")
                 }
                 CONTENT_TYPE_FILE -> {
                     if (!content.infor!!.matchImageUrl()) {
-                        log { "download: ${content.url}" }
-                        sb.append("""<a href="${content.originalInfo}" download="${content.url}" style="word-break:break-all;color:$linkColor">${content.infor}</a>""")
+                        sb.append("""<br><a href="${content.url}" download="${content.url}" style="word-break:break-all;color:$linkColor">${content.infor}</a><br>""")
                     }
                 }
             }

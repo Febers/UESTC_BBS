@@ -75,14 +75,25 @@
             android:layout_margin="16dp">
         </com.febers.uestc_bbs.view.custom.CustomGridView>
 
-        <Button
-            android:id="@+id/btn_edit_text_fullscreen"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:text="全屏编辑"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/btn_edit_text_fullscreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/xic_zoom_out_white" />
+
+            <ImageButton
+                android:id="@+id/fab_post_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/xic_send_white"/>
+        </RelativeLayout>
 
         <com.febers.uestc_bbs.lib.emotion.view.EmotionEditText
             android:id="@+id/edit_view_post_edit_content"
@@ -91,7 +102,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:hint="@string/post_content"
-            android:maxLines="3"
             android:lineSpacingMultiplier="1.2"/>
 
         <CheckBox
@@ -109,18 +119,6 @@
             android:layout_marginStart="16dp"
             android:checked="false"
             android:text="回帖仅作者可见"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_post_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="normal"
-            app:borderWidth="0dp"
-            android:src="@drawable/ic_send_white"
-            app:pressedTranslationZ="8dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="@dimen/fab_margin_right"
-            android:layout_marginBottom="@dimen/fab_margin_right"/>
 
     </LinearLayout>
 

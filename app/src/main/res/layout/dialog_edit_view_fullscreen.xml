@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background_first">
+    android:background="?attr/background_first"
+    android:paddingTop="20dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,11 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:text="完成"/>
     </RelativeLayout>
 
     <com.febers.uestc_bbs.lib.emotion.view.EmotionEditText
         android:id="@+id/edit_text_fullscreen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"/>
 </LinearLayout>

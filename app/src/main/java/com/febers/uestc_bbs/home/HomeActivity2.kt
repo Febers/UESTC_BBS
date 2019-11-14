@@ -432,6 +432,5 @@ class HomeActivity2: BaseActivity() {
             override fun fail(message: String) {
             }
         })
-        Thread.currentThread().uncaughtExceptionHandler = ExceptionHandler.getInstance()
     }
 }

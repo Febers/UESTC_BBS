@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.exception.ExceptionHandler
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.lib.fragmentation.SupportActivity
 import com.febers.uestc_bbs.module.theme.ThemeManager
@@ -47,6 +48,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         super.onCreate(savedInstanceState)
         setContentView(contentView)
         ActivityMgr.putActivity(mContext)
+        Thread.currentThread().uncaughtExceptionHandler = ExceptionHandler.getInstance()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ThemeManager.isNightTheme()) {

@@ -23,25 +23,28 @@ import kotlinx.android.synthetic.main.activity_image.*
 class ImageActivity : BaseActivity() {
 
     private lateinit var imageUrls: Array<String>
-    private lateinit var curImageUrl: String
-    private lateinit var initialPositions: IntArray
+    private lateinit var currentImageUrl: String
+    private lateinit var positionArray: IntArray
 
-    private var curPosition: Int = 0
-    private var curPage: View? = null
+    private var currentPosition: Int = 0
 
     override fun setView(): Int {
         imageUrls = intent.getStringArrayExtra(IMAGE_URLS)
-        curImageUrl = intent.getStringExtra(IMAGE_URL)
-        initialPositions = IntArray(imageUrls.size)
+        currentImageUrl = intent.getStringExtra(IMAGE_URL)
+        positionArray = IntArray(imageUrls.size)
         return R.layout.activity_image
     }
 
     override fun enableHideStatusBar(): Boolean = true
 
     override fun initView() {
+        if (!imageUrls.contains(currentImageUrl)) {
+            log { "该url未被包含: $currentImageUrl" }
+            finish()
+        }
         setSwipeBackEnable(false)
-        curPosition = imageUrls.indexOf(curImageUrl)
-        initialPositions.forEachIndexed { index, i -> initialPositions[index] = -1 }    //初始化
+        currentPosition = imageUrls.indexOf(currentImageUrl)
+        positionArray.forEachIndexed { index, i -> positionArray[index] = -1 }    //初始化
 
         view_pager_image.adapter = object : PagerAdapter() {
             override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
@@ -60,11 +63,17 @@ class ImageActivity : BaseActivity() {
                             .fitCenter()
                             .listener(object : RequestListener<Drawable> {
                                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                    if (currentPosition == position) {
+                                        hideLoading()
+                                    }
                                     return false
                                 }
 
                                 override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    initialPositions[position] = position
+                                    positionArray[position] = position
+                                    if (currentPosition == position) {
+                                        hideLoading()
+                                    }
                                     return false
                                 }
                             })
@@ -72,38 +81,48 @@ class ImageActivity : BaseActivity() {
                     container.addView(view)
                     return view
                 }
-                return View(mContext) //是否有风险
+                return PhotoView(mContext) //是否有风险
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-                initialPositions[position] = -1
+                positionArray[position] = -1
                 container.removeView(`object` as View)
             }
 
             override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
-                curPage = `object` as View
             }
         }
-        view_pager_image.currentItem = curPosition
-        view_pager_image.tag = curPosition
-        if (initialPositions[curPosition] != curPosition) {
+
+        view_pager_image.currentItem = currentPosition
+        tv_image_order.text = "${currentPosition+1}/${imageUrls.size}"
+        if (positionArray[currentPosition] != currentPosition) {
             //未加载完毕
+            hideLoading()
         }
         view_pager_image.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
-
+            override fun onPageScrollStateChanged(state: Int) { }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) { }
             override fun onPageSelected(position: Int) {
+                if (positionArray[position] != position) {//如果当前页面未加载完毕，则显示加载动画，反之相反；
+                    showLoading()
+                } else {
+                    hideLoading()
+                }
+                currentPosition = position
+                tv_image_order.text = "${currentPosition+1}/${imageUrls.size}"
             }
         })
     }
 
+    private fun showLoading() {
+        progress_bar_image.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        progress_bar_image.visibility = View.INVISIBLE
+    }
+
     override fun onDestroy() {
-        curPage = null
         view_pager_image.removeAllViews()
         super.onDestroy()
     }

@@ -435,18 +435,20 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     @UiThread
     override fun showError(msg: String) {
         refresh_layout_post_detail?.finishFail()
-        drawFinish = true
         //个别板块api无法打开
         if (msg.contains(SERVICE_RESPONSE_NULL) && !drawFinish) {
             showHint(msg)
             web(postId.pidToWebUrl())
             showEmptyView()
+            drawFinish = true
             return
         }
         if (msg.contains(SERVICE_RESPONSE_ERROR)) {
             showHint(getString(R.string.hint_check_network) + ": " + msg)
+            drawFinish = true
             return
         }
+        drawFinish = true
         showHint(msg)
     }
 
