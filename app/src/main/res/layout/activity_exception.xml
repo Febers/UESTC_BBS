@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_toolbar_common" />
+    <include layout="@layout/layout_toolbar_common"/>
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:src="@drawable/xic_bug_gray"/>
-
-    <TextView
-        android:id="@+id/tv_exception_detail"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"/>
+        android:layout_marginTop="?actionBarSize">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:src="@drawable/xic_bug_gray"/>
+
+            <Button
+                android:id="@+id/btn_send_exception"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_red"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:text="邮件反馈（或者采取其他方式）"/>
+
+            <TextView
+                android:id="@+id/tv_exception_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textIsSelectable="true"/>
+
+        </LinearLayout>
+    </ScrollView>
+
     <Button
         android:id="@+id/btn_restart_app"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_red"
+        android:textSize="@dimen/text_size_super_big"
+        android:layout_margin="10dp"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:text="@string/restart_app"/>
-</LinearLayout>
+
+</RelativeLayout>

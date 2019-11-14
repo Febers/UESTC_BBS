@@ -244,7 +244,7 @@
         <activity
             android:name=".home.HomeActivity2" />
         <activity android:name=".module.webview.BrowserActivity" />
-        <activity android:name=".module.more.ExceptionActivity" />
+        <activity android:name=".base.exception.ExceptionActivity" />
         <activity android:name=".module.post.view.PostDetailActivity2"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".module.image.ImageActivity" />

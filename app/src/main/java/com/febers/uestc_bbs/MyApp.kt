@@ -13,6 +13,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import androidx.multidex.MultiDexApplication
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
+import com.febers.uestc_bbs.base.exception.ExceptionHandler
 import com.febers.uestc_bbs.home.HomeActivity
 import com.febers.uestc_bbs.home.HomeActivity2
 import com.febers.uestc_bbs.module.image.ImageLoader
@@ -21,7 +22,6 @@ import com.febers.uestc_bbs.lib.emotion.EmotionManager
 import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
-import com.squareup.leakcanary.LeakCanary
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import java.io.BufferedReader
@@ -58,7 +58,7 @@ class MyApp: MultiDexApplication() {
         initTheme()
         initBugly()
         initEmotionView()
-        UEHandler.getInstance().init()
+        ExceptionHandler.getInstance().init()
     }
 
     private fun initTheme() {
