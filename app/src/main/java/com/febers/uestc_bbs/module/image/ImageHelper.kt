@@ -2,7 +2,9 @@ package com.febers.uestc_bbs.module.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.PixelFormat
+import android.graphics.drawable.Drawable
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
@@ -32,8 +34,9 @@ object ImageHelper {
         if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) { //内存未挂载
             return null
         }
+        val end = if (forShare) ".jpg" else ""
         try {
-            val path = "$appImageDir2${getImageFileName()}"
+            val path = "$appImageDir2${getImageFileName()}$end"
             imgFile = File(path)
             log { """
                 file? : ${imgFile!!.exists()}
@@ -51,6 +54,10 @@ object ImageHelper {
             e.printStackTrace()
             return null
         }
+    }
+
+    fun saveImage(context: Context, drawable: Drawable, forShare: Boolean): Uri? {
+        return saveImage(context, drawable2Bitmap(drawable), forShare)
     }
 
     /**
@@ -142,5 +149,24 @@ object ImageHelper {
         if (imgFile!!.exists()) {   //不管是保存还是分享一定删除
             imgFile!!.delete()
         }
+    }
+
+    private fun drawable2Bitmap(drawable: Drawable): Bitmap {
+        val width = drawable.intrinsicWidth
+        val height = drawable.intrinsicHeight
+        drawable.setBounds(0, 0, width, height)
+
+        // 获取drawable的颜色格式
+        val config = if (drawable.opacity != PixelFormat.OPAQUE) Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
+
+        // 创建bitmap
+        val bitmap = Bitmap.createBitmap(width, height, config)
+
+        // 创建bitmap画布
+        val canvas = Canvas(bitmap)
+
+        // 将drawable 内容画到画布中
+        drawable.draw(canvas)
+        return bitmap
     }
 }

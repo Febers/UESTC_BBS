@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityOptionsCompat
 import android.view.View
 import com.febers.uestc_bbs.base.*
+import com.febers.uestc_bbs.module.image.ImageActivity
 import com.febers.uestc_bbs.module.webview.BrowserActivity
 import com.febers.uestc_bbs.module.image.ImageDialog
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
@@ -100,7 +101,8 @@ object ClickContext {
                                context: Context?) {
         uid ?: return
         context ?: return
-        clickToImageViewer(url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big", context = context)
+        val url = "http://bbs.uestc.edu.cn/uc_server/avatar.php?uid=$uid&size=big"
+        clickToImageViewer(url = url, urls = arrayOf(url), context = context)
     }
 
     /**
@@ -113,20 +115,24 @@ object ClickContext {
      * 目前没有进行相应的调用
      */
     fun clickToImageViewer(url: String?,
+                           urls: Array<String>,
                            context: Context?) {
         url ?: return
         context ?: return
 
-        val bundle = Bundle()
-        bundle.putString(IMAGE_URL, url)
-        val imageViewer = ImageDialog()
-        imageViewer.arguments = bundle
-        try {
-            imageViewer.show((context as BaseActivity).supportFragmentManager, "image")
-        } catch (e: Exception) {
-            log(e.toString())
-        }
-        return
+//        val bundle = Bundle()
+//        bundle.putString(IMAGE_URL, url)
+//        val imageViewer = ImageDialog()
+//        imageViewer.arguments = bundle
+//        try {
+//            imageViewer.show((context as BaseActivity).supportFragmentManager, "image")
+//        } catch (e: Exception) {
+//            log(e.toString())
+//        }
+        context.startActivity(Intent(context, ImageActivity::class.java).apply {
+            putExtra(IMAGE_URLS, urls)
+            putExtra(IMAGE_URL, url)
+        })
     }
 
     /**

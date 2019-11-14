@@ -103,7 +103,7 @@ class MoreFragment: BaseFragment() {
         val itemReply = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
         val itemFav = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
         val itemHistory = MoreItemBean(getString(R.string.browsing_history), R.drawable.xic_history_purple)
-        return listOf(itemStart, itemReply, itemFav, itemHistory)
+        return listOf(itemStart, itemReply, itemFav)
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {

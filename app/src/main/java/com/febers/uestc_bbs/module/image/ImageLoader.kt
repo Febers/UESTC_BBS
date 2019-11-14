@@ -1,6 +1,7 @@
 package com.febers.uestc_bbs.module.image
 
 import android.content.Context
+import android.content.Intent
 import android.widget.ImageView
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -10,6 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.IMAGE_URL
+import com.febers.uestc_bbs.base.IMAGE_URLS
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.post.view.content.image_text.GlideImageGetter
 import com.febers.uestc_bbs.utils.getWindowWidth
@@ -31,6 +34,7 @@ object ImageLoader {
              isBlur: Boolean = false,
              noCache: Boolean = false,
              clickToViewer: Boolean = true) {
+        url ?: return
         try {
             GlideApp.with(context!!).load(url)
                     .apply {
@@ -55,7 +59,7 @@ object ImageLoader {
         }
         if (clickToViewer) {
             imageView?.setOnClickListener {
-                ClickContext.clickToImageViewer(url, context)
+                ClickContext.clickToImageViewer(url, arrayOf(url), context)
             }
         }
     }
@@ -67,7 +71,10 @@ object ImageLoader {
      * @param url           加载图片的url地址  String
      * @param imageView     加载图片的ImageView 控件
      */
-    fun loadForContent(context: Context?, url: String?, imageView: ImageView?,
+    fun loadForContent(context: Context?,
+                       url: String?,
+                       urls: Array<String>,
+                       imageView: ImageView?,
                        placeImage: Int? = R.drawable.xic_placeholder_empty,
                        clickToViewer: Boolean = true) {
         val sizeOptions = RequestOptions().override(getWindowWidth(), getWindowWidth())
@@ -88,7 +95,7 @@ object ImageLoader {
         }
         if (clickToViewer) {
             imageView?.setOnClickListener {
-                ClickContext.clickToImageViewer(url, context)
+                ClickContext.clickToImageViewer(url, urls, context)
             }
         }
     }

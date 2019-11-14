@@ -38,7 +38,7 @@ object ContentTransfer {
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
         webView.settings.setSupportZoom(false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //防止不加载https资源情况出现
+            //防止不加载http资源情况出现
             webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
 

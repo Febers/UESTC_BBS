@@ -34,7 +34,7 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
             replyCreator!!.reset(holder?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, data?.reply_content!!)
         }
 
-        replyCreator?.create()
+        replyCreator!!.create()
 
         if (data.is_quote == REPLY_QUOTA) {
             holder.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
@@ -42,9 +42,10 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         }
         ImageLoader.load(context, data.icon, holder.getView(R.id.image_view_post_reply_author_avatar))
 
-        replyCreator?.getImageMapList()?.forEach {
+        replyCreator!!.getImageMapList().forEach {
             ImageLoader.loadForContent(context = context,
                     url = it.keys.first(),
+                    urls = replyCreator!!.getImageUrlList().toTypedArray(),
                     imageView = it.values.first())
         }
     }

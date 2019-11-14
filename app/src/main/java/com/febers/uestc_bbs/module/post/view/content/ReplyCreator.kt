@@ -35,7 +35,8 @@ class ReplyCreator(
         private val mTextColor: Int? = null,
         private val mTextLinkColor: Int? = null) {
 
-    private var imageMapList: MutableList<Map<String, ImageView>>? = ArrayList()
+    private var imageMapList: MutableList<Map<String, ImageView>> = ArrayList()
+    private var imageUrlList: MutableList<String> = ArrayList()
 
     private var mStringBuilder: StringBuilder = StringBuilder()
     private val IMAGE_VIEW_MARGIN = 8
@@ -43,7 +44,10 @@ class ReplyCreator(
     private val IMAGE_VIEW_HEIGHT = getWindowWidth()/2
     private var context = mLinearLayout?.context
     private var belowTextView = true    //图片是否在文字下面，如果是，间距拉大
+
     fun getImageMapList() = imageMapList
+
+    fun getImageUrlList() = imageUrlList
 
     fun create() {
         mLinearLayout ?: return
@@ -55,7 +59,8 @@ class ReplyCreator(
         mLinearLayout = linearLayout
         mContents = contents
         mStringBuilder.clear()
-        imageMapList?.clear()
+        imageMapList.clear()
+        imageUrlList.clear()
         context = mLinearLayout?.context
     }
 
@@ -76,7 +81,8 @@ class ReplyCreator(
             val imageView = getImageView(content.originalInfo.toString())
             mLinearLayout?.addView(imageView)
             mLinearLayout?.gravity = Gravity.CENTER
-            imageMapList?.add(mapOf(content.originalInfo.toString() to imageView))
+            imageMapList.add(mapOf(content.originalInfo.toString() to imageView))
+            imageUrlList.add(content.originalInfo.toString())
             belowTextView = false
         }
         fun drawFileView(url: String, title: String) {

@@ -45,10 +45,11 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                         mTextColor = ThemeManager.colorRefreshText(),
                         mTextLinkColor = ThemeManager.colorRefreshText()
                 )
-                replyCreator?.create()
-                replyCreator?.getImageMapList()?.forEach {
+                replyCreator!!.create()
+                replyCreator.getImageMapList().forEach {
                     ImageLoader.loadForContent(context = context,
                             url = it.keys.first(),
+                            urls = replyCreator.getImageUrlList().toTypedArray(),
                             imageView = it.values.first())
                 }
                 leftLayout.visibility = View.GONE
@@ -61,10 +62,11 @@ class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmL
                         }),
                         mTextColor = Color.DKGRAY
                 )
-                replyCreator?.create()
-                replyCreator?.getImageMapList()?.forEach {
+                replyCreator!!.create()
+                replyCreator.getImageMapList().forEach {
                     ImageLoader.loadForContent(context = context,
                             url = it.keys.first(),
+                            urls = replyCreator.getImageUrlList().toTypedArray(),
                             imageView = it.values.first())
                 }
                 rightLayout.visibility = View.GONE
