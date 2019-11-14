@@ -1,7 +1,11 @@
 package com.febers.uestc_bbs.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkRequest
+import android.os.Build
 import androidx.core.app.ActivityCompat
 import android.view.View
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
@@ -15,6 +19,7 @@ import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.service.NetworkCallbackImpl
 import com.febers.uestc_bbs.module.setting.push.PushManager
 import com.febers.uestc_bbs.module.setting.push.PushMessageListener
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
@@ -33,6 +38,9 @@ const val PAGE_POSITION_MESSAGE = 2
 const val PAGE_POSITION_MORE = 3
 
 class HomeActivity: BaseActivity() {
+
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+    private lateinit var connectivityManager: ConnectivityManager
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
 
@@ -148,6 +156,9 @@ class HomeActivity: BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopService(Intent(this, HeartMsgService::class.java))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            connectivityManager.unregisterNetworkCallback(networkCallback)
+        }
     }
 
     private fun startService() {
@@ -155,6 +166,11 @@ class HomeActivity: BaseActivity() {
         if (loopReceiveMsg) {
             val intent = Intent(this, HeartMsgService::class.java)
             startService(intent)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkCallback = NetworkCallbackImpl()
+            connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager.registerNetworkCallback(NetworkRequest.Builder().build(), networkCallback)
         }
     }
 

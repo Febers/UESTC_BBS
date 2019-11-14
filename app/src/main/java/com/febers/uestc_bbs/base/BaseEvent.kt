@@ -28,3 +28,5 @@ data class UserUpdateEvent(var code: BaseCode, var user: UserSimpleBean)
 
 data class SearchSubmitEvent(var type: Int, var keyword: String)
 
+data class NetworkChangeEvent(var changed: Boolean)
+

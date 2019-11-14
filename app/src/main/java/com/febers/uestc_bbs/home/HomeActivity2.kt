@@ -1,6 +1,10 @@
 package com.febers.uestc_bbs.home
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkRequest
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -27,13 +31,16 @@ import com.febers.uestc_bbs.module.more.*
 import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.module.service.HeartMsgService
+import com.febers.uestc_bbs.module.service.NetworkCallbackImpl
 import com.febers.uestc_bbs.module.setting.AboutActivity
+import com.febers.uestc_bbs.module.setting.AccountActivity
 import com.febers.uestc_bbs.module.setting.SettingActivity
 import com.febers.uestc_bbs.module.setting.push.PushManager
 import com.febers.uestc_bbs.module.setting.push.PushMessageListener
 import com.febers.uestc_bbs.module.theme.ThemeActivity
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
+import com.febers.uestc_bbs.module.user.view.UserHistoryActivity
 import com.febers.uestc_bbs.module.user.view.UserPostActivity
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.colorAccent
@@ -50,6 +57,9 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class HomeActivity2: BaseActivity() {
+
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+    private lateinit var connectivityManager: ConnectivityManager
 
     private var mFragments : MutableList<ISupportFragment> = ArrayList()
     private var pagePositionNow = PAGE_POSITION_HOME
@@ -166,18 +176,20 @@ class HomeActivity2: BaseActivity() {
     }
 
     private fun initDrawerItem1(): List<MoreItemBean> {
-        val item1 = MoreItemBean(getString(R.string.my_start_post), R.drawable.xic_edit_blue_24dp)
-        val item2 = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
-        val item3 = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
-        return listOf(item1, item2, item3)
+        val itemStart = MoreItemBean(getString(R.string.my_start_post), R.drawable.xic_edit_blue_24dp)
+        val itemReply = MoreItemBean(getString(R.string.my_reply_post), R.drawable.xic_reply_red_24dp)
+        val itemFav = MoreItemBean(getString(R.string.my_fav_post), R.drawable.xic_star_border_teal_24dp)
+        val itemHistory = MoreItemBean(getString(R.string.browsing_history), R.drawable.xic_history_purple)
+        return listOf(itemStart, itemReply, itemFav, itemHistory)
     }
 
     private fun initDrawerItem2(): List<MoreItemBean> {
-        val item4 = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
-        val item1 = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeManager.isNightTheme())
-        val item2 = MoreItemBean(getString(R.string.setting_and_account), R.drawable.ic_setting_gray)
-        val item3 = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
-        return listOf(item4, item1, item2, item3)
+        val itemNav = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
+        val itemTheme = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeManager.isNightTheme())
+        val itemAccount = MoreItemBean(getString(R.string.account), R.drawable.xic_person_blue_24dp)
+        val itemSetting = MoreItemBean(getString(R.string.setting), R.drawable.ic_setting_gray)
+        val itemAbout = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
+        return listOf(itemNav, itemTheme, itemAccount, itemSetting, itemAbout)
     }
 
     private fun onFirstItemClick(position: Int) {
@@ -199,6 +211,9 @@ class HomeActivity2: BaseActivity() {
                     putExtra(USER_ID, MyApp.user().uid)
                     putExtra(USER_POST_TYPE, USER_FAV_POST) })
             }
+            USER_HISTORY_ITEM -> Runnable {
+                startActivity(Intent(mContext, UserHistoryActivity::class.java))
+            }
             else -> null
         }
     }
@@ -211,6 +226,9 @@ class HomeActivity2: BaseActivity() {
             }
             THEME_ITEM -> Runnable {
                 startActivity(Intent(mContext, ThemeActivity::class.java))
+            }
+            ACCOUNT_ITEM -> Runnable {
+                startActivity(Intent(mContext, AccountActivity::class.java))
             }
             SETTING_ITEM -> Runnable {
                 startActivity(Intent(mContext, SettingActivity::class.java))
@@ -353,6 +371,9 @@ class HomeActivity2: BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopService(Intent(this, HeartMsgService::class.java))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            connectivityManager.unregisterNetworkCallback(networkCallback)
+        }
     }
 
     private fun startService() {
@@ -360,6 +381,11 @@ class HomeActivity2: BaseActivity() {
         if (loopReceiveMsg) {
             val intent = Intent(this, HeartMsgService::class.java)
             startService(intent)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            networkCallback = NetworkCallbackImpl()
+            connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager.registerNetworkCallback(NetworkRequest.Builder().build(), networkCallback)
         }
     }
 
