@@ -1,7 +1,5 @@
 package com.febers.uestc_bbs.module.login.view
 
-import android.content.res.ColorStateList
-import android.graphics.drawable.ColorDrawable
 import android.view.View
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.Toolbar
@@ -11,17 +9,14 @@ import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.UserUpdateEvent
 import com.febers.uestc_bbs.entity.UserSimpleBean
+import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.module.login.contract.LoginContract
 import com.febers.uestc_bbs.module.login.presenter.LoginPresenterImpl
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.KeyboardUtils
-import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.utils.web
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
-import org.jetbrains.anko.browse
-import org.jetbrains.anko.colorAttr
 
 class LoginActivity : BaseActivity(), LoginContract.View {
 
@@ -38,7 +33,13 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun initView() {
         loginPresenter = LoginPresenterImpl(this)
-        btn_login.setOnClickListener { login() }
+        btn_login.setOnClickListener {
+            if (UserManager.containUser(edit_text_user_name.text.toString())) {
+                edit_text_user_name.error = "账户已登录"
+            } else {
+                login()
+            }
+        }
         btn_sign_up.setOnClickListener {
             web(signUpUrl)
         }
