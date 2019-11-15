@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.http
+package com.febers.uestc_bbs.http.client
 
 import com.febers.uestc_bbs.MyApp
 import okhttp3.*

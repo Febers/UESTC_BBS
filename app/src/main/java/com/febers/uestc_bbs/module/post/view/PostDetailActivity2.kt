@@ -311,7 +311,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
                     it.drawable.setTint(colorAccent())
                 }
             } else {
-                it.setImageResource(R.drawable.xic_star_empty_gray)
+                it.setImageResource(R.drawable.xic_star_fill_gray)
             }
             it.setOnClickListener {
                 if (isFavorite == POST_FAVORED) {
@@ -345,7 +345,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
                         image_view_post_fav.drawable.setTint(colorAccent())
                     }
                 }
-                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_empty_gray)
+                if (isFavorite == POST_NO_FAVORED) image_view_post_fav.setImageResource(R.drawable.xic_star_fill_gray)
             }
         }
     }

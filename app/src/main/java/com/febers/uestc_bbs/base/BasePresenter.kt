@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.base
 
-import com.febers.uestc_bbs.http.TokenClient
+import com.febers.uestc_bbs.http.client.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

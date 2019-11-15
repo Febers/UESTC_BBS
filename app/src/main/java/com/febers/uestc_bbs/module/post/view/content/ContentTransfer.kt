@@ -50,13 +50,13 @@ object ContentTransfer {
         webView.webViewClient = UWebViewClient(webView.context, processImageClick = true)
     }
 
-    fun json2Html(contents: List<PostDetailBean.ContentBean>): String {
+    private fun json2Html(contents: List<PostDetailBean.ContentBean>): String {
         imageUrls.clear()
         val sb = StringBuilder()
         val textColor = if (ThemeManager.isNightTheme()) "white" else "black"
         val linkColor = ColorUtils.int2String(colorAccent())
         contents.forEachWithIndex { index, content ->
-            log { content.toString() }
+//            log { content.toString() }
             when(content.type) {
                 CONTENT_TYPE_TEXT -> {
                     sb.append(""" <font color="$textColor" style="word-break:break-all">${emotionTrans2Url(content.infor).encodeSpaces()} </font>""")
@@ -71,7 +71,8 @@ object ContentTransfer {
                     }
                 }
                 CONTENT_TYPE_AUDIO -> {
-                    sb.append("""<br><embed height="100" width="100" src="${content.url}" /><br>""")
+//                    sb.append("""<br><embed height="100" width="100" src="${content.url}" /><br>""")
+                    sb.append("""<br><audio src="${content.infor}" controls="controls" style="clear:both;display:block;margin:auto"/><br>""")
                 }
                 CONTENT_TYPE_FILE -> {
                     if (!content.infor!!.matchImageUrl()) {

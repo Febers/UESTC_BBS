@@ -6,10 +6,9 @@ import android.os.IBinder
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.MsgHeartBean
-import com.febers.uestc_bbs.http.TokenClient
+import com.febers.uestc_bbs.http.client.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.utils.postSticky
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

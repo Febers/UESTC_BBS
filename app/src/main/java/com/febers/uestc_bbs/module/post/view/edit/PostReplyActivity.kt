@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.DrawableCompat
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -103,6 +104,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
                 beforeSendReply()
             }
         }
+        DrawableCompat.setTint(btn_post_reply_activity.drawable, colorAccent())
         initEmotionView()
         layout_divide_line.setBackgroundColor(colorAccent())
         btn_edit_text_fullscreen.setOnClickListener {
@@ -111,6 +113,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
             }
             fullscreenEditView!!.show(supportFragmentManager, "fullscreen_edit")
         }
+
     }
 
     private fun initEmotionView() {

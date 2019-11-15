@@ -11,6 +11,7 @@ import com.febers.uestc_bbs.module.image.ImageActivity
 import com.febers.uestc_bbs.module.webview.BrowserActivity
 import com.febers.uestc_bbs.module.image.ImageDialog
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
+import com.febers.uestc_bbs.module.more.DebugActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity2
 import com.febers.uestc_bbs.module.post.view.edit.*
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
@@ -119,7 +120,6 @@ object ClickContext {
                            context: Context?) {
         url ?: return
         context ?: return
-
 //        val bundle = Bundle()
 //        bundle.putString(IMAGE_URL, url)
 //        val imageViewer = ImageDialog()
@@ -133,6 +133,7 @@ object ClickContext {
             putExtra(IMAGE_URLS, urls)
             putExtra(IMAGE_URL, url)
         })
+        (context as? Activity)?.overridePendingTransition(0, 0)
     }
 
     /**
@@ -279,6 +280,14 @@ object ClickContext {
         url ?: return
         context.startActivity(Intent(context, BrowserActivity::class.java).apply {
             putExtra(URL, url)
+        })
+    }
+
+    fun clickToDebug(context: Context?, content: String) {
+        context ?: return
+        context.startActivity(Intent(context, DebugActivity::class.java).apply {
+            putExtra("debug", content)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         })
     }
 }

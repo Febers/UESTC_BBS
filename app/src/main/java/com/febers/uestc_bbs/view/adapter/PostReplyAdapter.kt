@@ -24,7 +24,7 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         holder.setText(R.id.text_view_post_reply_user_title, data.userTitle)
         holder.setText(R.id.text_view_post_reply_floor, data.position.minus(1).toString())
         if (topicUserName == data.reply_name) {
-            holder.setVisibility(R.id.iv_post_reply_topic_user, View.VISIBLE)
+            holder.setVisibility(R.id.tv_post_reply_topic_user, View.VISIBLE)
         }
         if (replyCreator == null) {
             replyCreator = ReplyCreator(

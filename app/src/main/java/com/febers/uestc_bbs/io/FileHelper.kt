@@ -29,6 +29,7 @@ object FileHelper {
         因为保存图片之后会将图片插入至系统相册，重复保存没有意义
      */
     val appImageDir2: String = MyApp.context().getExternalFilesDir("image")?.absolutePath ?: appImageDir
+
     /*
         目录为/storage/emulated/0/Android/data/com.febers.uestc_bbs/files/apk/，记住跟FileProvide的匹配
         主要用于下载更新的安装包之后利用FileProvider打开
@@ -188,7 +189,7 @@ object FileHelper {
      * @param deleteThisPath 为true，则在删除文件之后也会删除文件夹
      * @return boolean
      */
-    fun deleteFolderFile(filePath: String, deleteThisPath: Boolean): Boolean {
+    fun deleteFolderFile(filePath: String, deleteThisPath: Boolean = true): Boolean {
         try {
             val file = File(filePath)
             if (file.isDirectory) {
@@ -201,7 +202,7 @@ object FileHelper {
                 if (!file.isDirectory) {
                     file.delete()
                 } else {
-                    if (file.listFiles().isEmpty()) {
+                    if (file.listFiles()?.isEmpty() == true) {
                         file.delete()
                     }
                 }

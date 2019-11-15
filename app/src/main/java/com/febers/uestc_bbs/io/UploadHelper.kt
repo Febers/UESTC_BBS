@@ -4,7 +4,7 @@ import com.febers.uestc_bbs.base.BaseCode
 import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.REQUEST_SUCCESS_RS
 import com.febers.uestc_bbs.entity.UploadResultBean
-import com.febers.uestc_bbs.http.TokenClient
+import com.febers.uestc_bbs.http.client.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils
 import okhttp3.*
 import retrofit2.Call

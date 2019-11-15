@@ -13,7 +13,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.febers.uestc_bbs.MyApp
 
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.exception.ExceptionHandler
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.PushMessageBean

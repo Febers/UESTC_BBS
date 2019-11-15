@@ -36,16 +36,18 @@ class LoginPresenterImpl(view: LoginContract.View): LoginContract.Presenter(view
                     errorResult(SERVICE_RESPONSE_NULL)
                     return
                 }
-                resolveLoginResult(body)
+                if (resolveLoginResult(body)) {
+//                    ThreadPoolMgr.execute(Runnable { LoginMockWebView().login(userName, userPw) })
+                }
             }
         })
     }
 
-    private fun resolveLoginResult(loginResultBean: LoginResultBean) {
+    private fun resolveLoginResult(loginResultBean: LoginResultBean): Boolean {
         val rs = loginResultBean.rs
         if (rs != REQUEST_SUCCESS_RS ) {
             errorResult(loginResultBean.head.errInfo)
-            return
+            return false
         }
 
         /*
@@ -69,6 +71,7 @@ class LoginPresenterImpl(view: LoginContract.View): LoginContract.Presenter(view
         mView?.showLoginResult(BaseEvent(BaseCode.SUCCESS, userSimple))
 
         UserManager.addUser(loginResultBean.uid, userSimple)
+        return true
     }
 
 }

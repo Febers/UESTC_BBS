@@ -23,6 +23,7 @@ import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URLS
 import com.febers.uestc_bbs.utils.HintUtils
+import com.febers.uestc_bbs.utils.getWindowWidth
 import com.febers.uestc_bbs.utils.log
 import com.luck.picture.lib.photoview.PhotoView
 import kotlinx.android.synthetic.main.activity_image.*
@@ -73,10 +74,13 @@ class ImageActivity : BaseActivity() {
                     val view = PhotoView(mContext)
                     view.isEnabled = true
                     view.scaleType = ImageView.ScaleType.FIT_CENTER
-                    view.setOnClickListener { finish() }
+                    view.setOnClickListener {
+                        finish()
+                        overridePendingTransition(0, 0)
+                    }
                     GlideApp.with(mContext)
                             .load(imageUrls[position])
-                            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .override(getWindowWidth(), getWindowWidth())
                             .fitCenter()
                             .listener(object : RequestListener<Drawable> {
                                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
@@ -115,7 +119,7 @@ class ImageActivity : BaseActivity() {
         tv_image_order.text = "${currentPosition+1}/${imageUrls.size}"
         if (positionArray[currentPosition] != currentPosition) {
             //未加载完毕
-            hideLoading()
+            showLoading()
         }
         view_pager_image.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) { }

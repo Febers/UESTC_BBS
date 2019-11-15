@@ -250,6 +250,7 @@
         <activity android:name=".module.image.ImageActivity" />
         <activity android:name=".module.setting.AccountActivity" />
         <activity android:name=".module.user.view.UserHistoryActivity" />
+        <activity android:name=".module.more.DebugActivity" />
     </application>
 
 </manifest>

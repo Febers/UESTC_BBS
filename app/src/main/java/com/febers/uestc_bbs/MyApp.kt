@@ -72,22 +72,9 @@ class MyApp: MultiDexApplication() {
         val packageName = applicationContext.packageName
         val processName = getProcessName(Process.myPid())
         // 设置是否为上报进程
-        val strategy = CrashReport.UserStrategy(MyApp.context())
+        val strategy = CrashReport.UserStrategy(context())
         strategy.isUploadProcess = processName == null || processName == packageName
 
-//        Beta.autoInit = true
-        //初步去除 Bugly 更新，改用其他方式
-//        Beta.autoCheckUpgrade = true
-//        Beta.upgradeListener = UpgradeListener { ret, strategy, isManual, isSilence ->
-//            if (strategy != null) {
-//                context.startActivity(
-//                        Intent().apply {
-//                            setClass(context, UpdateActivity::class.java)
-//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                        }
-//                )
-//            }
-//        }
         Bugly.init(context, ApiUtils.BUGLY_APP_ID, false)
     }
 

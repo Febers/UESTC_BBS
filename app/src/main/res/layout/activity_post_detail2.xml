@@ -24,15 +24,14 @@
         android:id="@+id/refresh_layout_post_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableNestedScrolling="false">
+        app:srlEnableNestedScrolling="false"
+        android:paddingBottom="20dp">
         <!--android:layerType="software"非常重要，否则动态添加textview时会遇到绘制问题-->
         <!--在绘制其他view时可以动态打开硬件加速，比如imageView,否则无法绘制-->
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view_post_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:layout_gravity="fill_vertical">
+            android:layout_height="match_parent">
             <LinearLayout
                 android:id="@+id/linear_layout_post_detail"
                 android:layout_width="match_parent"

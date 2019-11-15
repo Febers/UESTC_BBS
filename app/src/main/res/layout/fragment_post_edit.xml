@@ -81,18 +81,20 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp">
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_edit_text_fullscreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/xic_zoom_out_white" />
+                android:text="全屏编辑"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:textColor="?text_color_second"/>
 
             <ImageButton
                 android:id="@+id/fab_post_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/xic_send_white"/>
+                android:src="@drawable/xic_send_blue"/>
         </RelativeLayout>
 
         <com.febers.uestc_bbs.lib.emotion.view.EmotionEditText
