@@ -286,7 +286,7 @@ class HomeActivity2: BaseActivity() {
      *  当后台Service接收到新消息时，此方法会接受到相应的消息
      *  接收到一个msgCount的参数，代表未读消息的数目
      */
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
     fun onReceiveNewMsg(event: MsgEvent) {
         if (pagePositionNow != PAGE_POSITION_MESSAGE) {
             msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_msg_notice_white_24dp)

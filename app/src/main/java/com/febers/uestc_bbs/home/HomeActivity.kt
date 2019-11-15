@@ -24,6 +24,7 @@ import com.febers.uestc_bbs.module.setting.push.PushManager
 import com.febers.uestc_bbs.module.setting.push.PushMessageListener
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.utils.PreferenceUtils
+import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.utils.postEvent
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.dialog.PushMessageDialog
@@ -122,8 +123,9 @@ class HomeActivity: BaseActivity() {
      *  当后台Service接收到新消息时，此方法会接受到相应的消息
      *  接收到一个msgCount的参数，代表未读消息的数目
      */
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
     fun onReceiveNewMsg(event: MsgEvent) {
+        log { "接收到消息: ${event.count}" }
         if (bottom_navigation_home.currentItem != PAGE_POSITION_MESSAGE) {
             MyApp.msgCount = event.count
             bottom_navigation_home.setNotification(MyApp.msgCount, PAGE_POSITION_MESSAGE)
