@@ -2,14 +2,13 @@ package com.febers.uestc_bbs.module.more
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import androidx.collection.ArrayMap
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
 import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.SimpleAdapter
+import android.widget.TextView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -18,7 +17,7 @@ import com.febers.uestc_bbs.module.post.view.PListActivity
 import com.febers.uestc_bbs.module.post.view.edit.PostEditFragment
 import com.febers.uestc_bbs.module.search.view.SearchActivity
 import com.febers.uestc_bbs.utils.BlockUtils
-import kotlinx.android.synthetic.main.fragment_block_list.*
+import com.febers.uestc_bbs.utils.getWindowWidth
 import kotlinx.android.synthetic.main.layout_block_list.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import java.util.ArrayList
@@ -69,6 +68,12 @@ class BlockFragment: BaseFragment() {
         text_view_title_play.visibility = View.VISIBLE
         text_view_title_market.visibility = View.VISIBLE
         text_view_title_manager.visibility = View.VISIBLE
+        changeTitlePosition(text_view_title_campus)
+        changeTitlePosition(text_view_title_tech)
+        changeTitlePosition(text_view_title_play)
+        changeTitlePosition(text_view_title_market)
+        changeTitlePosition(text_view_title_manager)
+
         val from = arrayOf("image", "title")
         val to = intArrayOf(R.id.image_view_forum_list_item, R.id.text_view_forum_list_item)
         val campusAdapter = SimpleAdapter(context, campusGridList(), R.layout.item_layout_forum_list, from, to)
@@ -235,6 +240,13 @@ class BlockFragment: BaseFragment() {
             startActivity(Intent(activity, SearchActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun changeTitlePosition(tv: TextView) {
+        val itemWidth = getWindowWidth()/3
+        val marginLayoutParams = LinearLayout.LayoutParams(tv.layoutParams)
+        marginLayoutParams.setMargins(itemWidth/4, 10, 0, 10)
+        tv.layoutParams = marginLayoutParams
     }
 
     companion object {

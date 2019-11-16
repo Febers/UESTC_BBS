@@ -19,7 +19,8 @@
         android:id="@+id/grid_view_campus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3">
+        android:numColumns="3"
+        android:gravity="center">
     </com.febers.uestc_bbs.view.custom.CustomGridView>
 
     <TextView
@@ -36,7 +37,8 @@
         android:id="@+id/grid_view_tech"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3">
+        android:numColumns="3"
+        android:gravity="center">
     </com.febers.uestc_bbs.view.custom.CustomGridView>
 
     <TextView
@@ -53,7 +55,8 @@
         android:id="@+id/grid_view_play"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3">
+        android:numColumns="3"
+        android:gravity="center">
     </com.febers.uestc_bbs.view.custom.CustomGridView>
 
     <TextView
@@ -70,7 +73,8 @@
         android:id="@+id/grid_view_market"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3">
+        android:numColumns="3"
+        android:gravity="center">
     </com.febers.uestc_bbs.view.custom.CustomGridView>
 
     <TextView
@@ -88,6 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="3"
+        android:gravity="center"
         android:layout_marginBottom="@dimen/bottom_navigation_height">
     </com.febers.uestc_bbs.view.custom.CustomGridView>
 </LinearLayout>

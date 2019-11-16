@@ -22,7 +22,6 @@ import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.entity.UserUpdateResultBean
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.module.post.view.bottom_sheet.PostWebViewBottomSheet
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.user.contract.UserContract
 import com.febers.uestc_bbs.module.user.presenter.UserPresenterImpl
@@ -155,6 +154,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
     }
 
     private fun getUserPost(page: Int) {
+        refresh_layout_user_detail.setNoMoreData(false)
         userPresenter.userPostRequest(userId, USER_START_POST, page)
     }
 
@@ -166,12 +166,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             return
         }
         refresh_layout_user_detail?.finishSuccess()
+        if (event.code == BaseCode.SUCCESS_END) {
+            refresh_layout_user_detail?.finishLoadMoreWithNoMoreData()
+        }
         if (postPage == 1) {
             postListAdapter.setNewData(event.data.list)
             return
-        }
-        if (event.code == BaseCode.SUCCESS_END) {
-            refresh_layout_user_detail?.finishLoadMoreWithNoMoreData()
         }
         postListAdapter.setLoadMoreData(event.data.list)
     }
@@ -232,18 +232,9 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
         }
     }
 
-    private var postWebViewBottomSheet: PostWebViewBottomSheet? = null
-
-    private fun getPostWebViewBottomSheet(): PostWebViewBottomSheet {
-        if (postWebViewBottomSheet == null) {
-            postWebViewBottomSheet = PostWebViewBottomSheet(mContext, R.style.PinkBottomSheetTheme, "http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
-        }
-        return postWebViewBottomSheet!!
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_item_user_detail_web) {
-            getPostWebViewBottomSheet().show(supportFragmentManager, "user_web")
+            web("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
         }
         if (item.itemId == R.id.menu_item_user_post_reply) {
             startActivity(Intent(mContext, UserPostActivity::class.java).apply {
