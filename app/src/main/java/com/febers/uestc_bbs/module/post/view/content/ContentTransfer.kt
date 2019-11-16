@@ -1,13 +1,11 @@
 package com.febers.uestc_bbs.module.post.view.content
 
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.theme.ThemeManager
@@ -16,7 +14,6 @@ import com.febers.uestc_bbs.module.webview.javascript_interface.ImageClickInterf
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.colorAccent
 import com.febers.uestc_bbs.utils.encodeSpaces
-import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.collections.forEachWithIndex
 
 /**

@@ -2,7 +2,6 @@ package com.febers.uestc_bbs.base.exception
 
 import android.content.Intent
 import com.febers.uestc_bbs.MyApp
-import com.febers.uestc_bbs.utils.log
 import org.jetbrains.anko.getStackTraceString
 
 class ExceptionHandler private constructor() : Thread.UncaughtExceptionHandler {

@@ -27,8 +27,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import static com.febers.uestc_bbs.utils.LogUtilsKt.log;
-
 
 /**
  * 表情控件的ViewPager适配器(emoji + 贴图)

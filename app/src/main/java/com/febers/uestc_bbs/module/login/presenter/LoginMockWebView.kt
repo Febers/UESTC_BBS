@@ -3,7 +3,8 @@ package com.febers.uestc_bbs.module.login.presenter
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.http.client.WebViewClient
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.logd
+import com.febers.uestc_bbs.utils.loge
 import okhttp3.*
 import java.io.IOException
 
@@ -50,7 +51,7 @@ class LoginMockWebView {
                 .build()
         httpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                log { "模拟登录出错：$e" }
+                loge { "模拟登录出错：$e" }
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -72,7 +73,7 @@ class LoginMockWebView {
         }
         var source = response.body()!!.string()
         if (source.contains("欢迎")) {
-            log { "已经登录过WebView了，需要先注销" }
+            logd { "已经登录过WebView了，需要先注销" }
             logout(source)
         }
 
@@ -83,7 +84,7 @@ class LoginMockWebView {
         }
         source = response.body()!!.string()
         if (source.contains("欢迎")) {
-            log { "异常链路：注销失败" }
+            loge { "异常链路：注销失败" }
             return emptyArray()
         }
 
@@ -95,10 +96,10 @@ class LoginMockWebView {
         end = source.indexOf("&amp", pre)+4
         val loginHash = source.substring(pre, end)
         if (loginHash.length > 16 || formHash.length > 16) {
-            log { "异常链路：hash值过长" }
+            loge { "异常链路：hash值过长" }
         }
 
-        log { "loginHash: ${loginHash}, formHash: $formHash" }
+        logd { "loginHash: ${loginHash}, formHash: $formHash" }
         return arrayOf(loginHash, formHash)
     }
 
@@ -115,6 +116,6 @@ class LoginMockWebView {
                 .url("http://bbs.uestc.edu.cn/member.php?mod=logging&action=logout&formhash=$formHash&mobile=yes")
                 .build()
         WebViewClient.get().newCall(request).execute()
-        log { "注销完毕" }
+        logd { "注销完毕" }
     }
 }

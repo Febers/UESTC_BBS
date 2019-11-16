@@ -9,15 +9,13 @@ import android.view.View
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.image.ImageActivity
 import com.febers.uestc_bbs.module.webview.BrowserActivity
-import com.febers.uestc_bbs.module.image.ImageDialog
 import com.febers.uestc_bbs.module.message.view.PMDetailActivity
 import com.febers.uestc_bbs.module.more.DebugActivity
 import com.febers.uestc_bbs.module.post.view.PostDetailActivity2
 import com.febers.uestc_bbs.module.post.view.edit.*
 import com.febers.uestc_bbs.module.user.view.UserDetailActivity
 import com.febers.uestc_bbs.utils.getStringSimplified
-import com.febers.uestc_bbs.utils.log
-import org.jetbrains.anko.browse
+import com.febers.uestc_bbs.utils.logi
 
 object ClickContext {
 
@@ -37,7 +35,7 @@ object ClickContext {
      */
     fun linkClick(url: String,
                   context: Context) {
-        log("Link ", url)
+        logi { "Click: $url" }
         if (url.endsWith(".gif")) {
             return
         }

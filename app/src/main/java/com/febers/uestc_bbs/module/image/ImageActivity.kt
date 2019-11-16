@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.image
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -22,9 +21,8 @@ import com.febers.uestc_bbs.base.IMAGE_URL
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URLS
-import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.utils.getWindowWidth
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.loge
 import com.luck.picture.lib.photoview.PhotoView
 import kotlinx.android.synthetic.main.activity_image.*
 
@@ -56,7 +54,7 @@ class ImageActivity : BaseActivity() {
 
     override fun initView() {
         if (!imageUrls.contains(currentImageUrl)) {
-            log { "该url未被包含: $currentImageUrl" }
+            loge { "该url未被包含: $currentImageUrl" }
             finish()
         }
         setSwipeBackEnable(false)
@@ -150,7 +148,7 @@ class ImageActivity : BaseActivity() {
     private fun saveImage() {
         val p = ActivityCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (p != PackageManager.PERMISSION_GRANTED) {
-            log { "出错：应用没有读写手机存储的权限！" }
+            loge { "出错：应用没有读写手机存储的权限！" }
             showHint("出错：应用没有读写手机存储的权限！")
             ActivityCompat.requestPermissions(mContext, permissionRequestArray, permissionRequestCode)
             return

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.LinearLayout
-import com.febers.uestc_bbs.utils.log
 
 /**
  * 该布局拦截了所有触控事件，交由自己和子布局处理

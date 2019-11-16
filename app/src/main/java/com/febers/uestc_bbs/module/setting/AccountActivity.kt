@@ -11,7 +11,7 @@ import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.module.login.view.LoginActivity
 import com.febers.uestc_bbs.utils.colorAccent
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.logi
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.activity_account.*
@@ -36,7 +36,7 @@ class AccountActivity: BaseActivity() {
     override fun initView() {
         users.addAll(UserManager.getAllUser())
         users.forEach {
-            log { "User: $it" }
+            logi { "User: $it" }
         }
         simpleUserAdapter = SimpleUserAdapter(mContext, users).apply {
             setOnItemClickListener { viewHolder, userItemBean, i ->

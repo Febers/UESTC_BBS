@@ -18,7 +18,7 @@ import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.IMAGE_URL
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.HintUtils
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.loge
 import org.jetbrains.anko.runOnUiThread
 import java.nio.ByteBuffer
 
@@ -82,7 +82,7 @@ class ImageDialog: DialogFragment() {
                 }
             }.start()
         } catch (e: Exception) {
-            log(e.toString())
+            loge { e.toString() }
         }
         btnSave.setOnClickListener { saveImage() }
         btnShare.setOnClickListener { shareImage() }
@@ -135,7 +135,7 @@ class ImageDialog: DialogFragment() {
         activity ?: return
         val p = ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (p != PackageManager.PERMISSION_GRANTED) {
-            log { "出错：应用没有读写手机存储的权限！" }
+            loge { "出错：应用没有读写手机存储的权限！" }
             HintUtils.show("出错：应用没有读写手机存储的权限！")
             ActivityCompat.requestPermissions(activity!!, permissionRequestArray, permissionRequestCode)
             return

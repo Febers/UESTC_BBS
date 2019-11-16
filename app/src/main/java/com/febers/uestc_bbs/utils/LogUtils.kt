@@ -1,15 +1,19 @@
 package com.febers.uestc_bbs.utils
 
-import android.util.Log.e
+import android.util.Log.*
 
-fun log(message: String) {
-    log("[UESTC]", message)
+fun logd(function: () -> String) {
+    d("[UESTC]", function.invoke())
 }
 
-fun log(tag: String, message: String) {
-    e(tag, message)
+fun logi(function: () -> String) {
+    i("![UESTC]", function.invoke())
 }
 
-fun log(function: () -> String) {
-    log(function.invoke())
+fun logw(function: () -> String) {
+    w("!![UESTC]", function.invoke())
+}
+
+fun loge(function: () -> String) {
+    e("!!![UESTC]", function.invoke())
 }

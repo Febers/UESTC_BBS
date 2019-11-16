@@ -2,14 +2,10 @@ package com.febers.uestc_bbs.module.webview
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.net.http.SslError
 import android.view.View
 import android.webkit.*
-import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.logd
 import com.febers.uestc_bbs.utils.web
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
@@ -34,7 +30,7 @@ class UWebViewClient(private val context: Context,
         if (url.contains("mailto")) {
             val indexMailTo = url.indexOf("mailto:") + "mailto:".length
             val mail = url.substring(indexMailTo, url.length)
-            log { "mail is $mail" }
+            logd { "mail is $mail" }
             context.email(mail)
             return true
         }
@@ -56,7 +52,7 @@ class UWebViewClient(private val context: Context,
         if (request.url.toString().contains("mailto")) {
             val indexMailTo = request.url.toString().indexOf("mailto:") + "mailto:".length
             val mail = request.url.toString().substring(indexMailTo, request.url.toString().length)
-            log { "mail is $mail" }
+            logd { "mail is $mail" }
             context.email(mail)
             return true
         }
@@ -65,7 +61,7 @@ class UWebViewClient(private val context: Context,
             return true
         } else {
             if (!request.url.toString().startsWith("http")) {
-                log { "非http开头链接，交给系统: ${request.url}" }
+                logd { "非http开头链接，交给系统: ${request.url}" }
                 context.browse(request.url.toString(), true)
                 return true
             }
@@ -79,7 +75,7 @@ class UWebViewClient(private val context: Context,
         view.settings.javaScriptEnabled = true
         super.onPageFinished(view, url)
         if (processImageClick) {
-            log { "pageFinish, 注入js方法" }
+            logd { "pageFinish, 注入js方法" }
             view.loadUrl("javascript:(function(){" +
                     "var objs = document.getElementsByTagName(\"img\"); " +
                     "for(var i=0;i<objs.length;i++)  " +

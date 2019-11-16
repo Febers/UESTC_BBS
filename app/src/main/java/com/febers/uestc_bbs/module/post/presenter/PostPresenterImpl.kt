@@ -4,7 +4,7 @@ import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
 import com.febers.uestc_bbs.http.PostDetailInterface
 import com.febers.uestc_bbs.module.post.contract.PostContract
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.loge
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +28,7 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
                 pageSize = COMMON_PAGE_SIZE.toString())
         call.enqueue(object : Callback<PostDetailBean> {
             override fun onFailure(call: Call<PostDetailBean>?, t: Throwable?) {
-                log { "Detail onFail： $t" }
+                loge { "Detail onFail： $t" }
                 //没有网络时：java.net.UnknownHostException: Unable to resolve host "bbs.uestc.edu.cn": No address associated with hostname
                 errorResult(SERVICE_RESPONSE_ERROR)
             }
@@ -37,7 +37,7 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
                 val postResultBean = response?.body()
                 //一些板块的帖子无法查看，服务器会返回空
                 if (postResultBean == null) {
-                    log { "Detail null" }
+                    loge { "Detail null" }
                     errorResult("${SERVICE_RESPONSE_NULL}，请访问 Web 页面，查看该帖子")
                     return
                 }
@@ -45,7 +45,6 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
                     errorResult(postResultBean.head?.errInfo.toString())
                     return
                 }
-                log { "has next: ${postResultBean.has_next}" }
                 if (postResultBean.has_next != HAVE_NEXT_PAGE) {
                     mView?.showPostDetail(BaseEvent(BaseCode.SUCCESS_END, postResultBean))
                     return
@@ -197,7 +196,7 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
                 .userAt(page = page.toString(), pageSize = COMMON_PAGE_SIZE.toString())
                 .enqueue(object : Callback<UserCanAtBean> {
                     override fun onFailure(call: Call<UserCanAtBean>, t: Throwable) {
-                        log("err on at $t")
+                        loge { "err on at $t" }
                     }
 
                     override fun onResponse(call: Call<UserCanAtBean>, response: Response<UserCanAtBean>) {

@@ -13,7 +13,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.io.DownloadHelper
 import com.febers.uestc_bbs.io.FileHelper.appImageDir2
 import com.febers.uestc_bbs.io.tryClose
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.logd
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +38,7 @@ object ImageHelper {
         try {
             val path = "$appImageDir2${getImageFileName()}$end"
             imgFile = File(path)
-            log { """
+            logd { """
                 file? : ${imgFile!!.exists()}
                 path : $path
                 file path: ${imgFile!!.absolutePath}
@@ -131,7 +131,7 @@ object ImageHelper {
      */
     private fun insertGifToGallery(context: Context) {
         MediaScannerConnection.scanFile(context, arrayOf(imgFile!!.absolutePath), arrayOf("image/gif")) { path, uri ->
-            log("save completed, path: $path")
+            logd { "save completed, path: $path"}
         }
     }
 

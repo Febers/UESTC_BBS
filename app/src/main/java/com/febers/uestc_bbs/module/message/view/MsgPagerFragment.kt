@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.message.view
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.utils.log
 import com.febers.uestc_bbs.view.adapter.MsgPagerAdapter
 import kotlinx.android.synthetic.main.fragment_msg_pager.*
 import org.greenrobot.eventbus.Subscribe

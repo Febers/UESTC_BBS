@@ -10,9 +10,6 @@ import com.febers.uestc_bbs.lib.emotion.view.EmotionView;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import static com.febers.uestc_bbs.utils.LogUtilsKt.log;
-
-
 /**
  * Created by huxinyu on 2017/10/19 0019.
  * description ：emoji 表情管理类

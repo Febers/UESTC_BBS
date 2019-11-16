@@ -6,7 +6,6 @@ import com.febers.uestc_bbs.view.adapter.PListPagerAdapter
 import com.febers.uestc_bbs.base.BaseFragment
 import com.febers.uestc_bbs.base.TabSelectedEvent
 import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.utils.log
 import kotlinx.android.synthetic.main.fragment_post_pager.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

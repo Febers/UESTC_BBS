@@ -12,10 +12,7 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.context.ClickContext
-import com.febers.uestc_bbs.utils.log
-import com.febers.uestc_bbs.utils.finishFail
-import com.febers.uestc_bbs.utils.finishSuccess
-import com.febers.uestc_bbs.utils.initAttrAndBehavior
+import com.febers.uestc_bbs.utils.*
 import kotlinx.android.synthetic.main.fragment_post_list_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -116,7 +113,7 @@ class PListHomeFragment: BaseFragment(), PListContract.View {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTabReselceted(event: TabReselectedEvent) {
-        log("get reselected")
+        logi { "get reselected" }
         if (isSupportVisible && loadFinish && event.position == 0) {
             scroll_view_plist_home?.scrollTo(0, 0)
             refresh_layout_post_list_home?.autoRefresh()

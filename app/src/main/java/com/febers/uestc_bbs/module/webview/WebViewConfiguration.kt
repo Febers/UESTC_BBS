@@ -13,7 +13,7 @@ import android.widget.ProgressBar
 
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.webview.listener.OnReceivedTitleListener
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.logd
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 
@@ -174,13 +174,13 @@ object WebViewConfiguration {
 
                 @TargetApi(21)
                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                    log { "url: ${request.url}" }
+                    logd { "url: ${request.url}" }
                     if (openUrlOut) {
                         context.browse(request.url.toString())
                         return true
                     } else {
                         if (!request.url.toString().startsWith("http")) {
-                            log { "非http开头链接，交给系统: ${request.url}" }
+                            logd { "非http开头链接，交给系统: ${request.url}" }
                             context.browse(request.url.toString(), true)
                             return true
                         }

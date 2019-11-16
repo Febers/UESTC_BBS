@@ -3,7 +3,6 @@ package com.febers.uestc_bbs.module.setting.push
 import com.febers.uestc_bbs.base.ThreadPoolMgr
 import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.utils.log
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException

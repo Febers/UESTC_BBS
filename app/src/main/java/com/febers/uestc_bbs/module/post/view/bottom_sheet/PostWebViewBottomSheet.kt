@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.webkit.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.loge
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_post_web.*
@@ -44,7 +44,7 @@ class PostWebViewBottomSheet(context: Context, style: Int, private val url: Stri
                 bottomSheetBehavior.peekHeight = view.measuredHeight
             }
         } catch (e: Exception) {
-            log(e.toString())
+            loge { e.toString() }
         }
         btn_open_in_browser.setOnClickListener { context?.browse(url) }
         btn_close_web_bottom_sheet.setOnClickListener { dismiss() }

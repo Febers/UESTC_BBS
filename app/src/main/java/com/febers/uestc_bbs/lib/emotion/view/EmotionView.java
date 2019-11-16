@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 import androidx.viewpager.widget.ViewPager;
 
-import static com.febers.uestc_bbs.utils.LogUtilsKt.log;
-
 
 /**
  * Created by huxinyu on 2017/10/19 0019.

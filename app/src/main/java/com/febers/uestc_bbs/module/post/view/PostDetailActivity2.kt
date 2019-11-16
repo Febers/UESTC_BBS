@@ -168,7 +168,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         refresh_layout_post_detail?.finishSuccess()
         //如果没有下一页
         if (event.code == BaseCode.SUCCESS_END) {
-            log { "没有下一页了" }
+            logd { "没有下一页了" }
             refresh_layout_post_detail?.finishLoadMoreWithNoMoreData()
             tv_bottom_hint.postDelayed( { tv_bottom_hint.visibility = View.VISIBLE }, 500)
         }

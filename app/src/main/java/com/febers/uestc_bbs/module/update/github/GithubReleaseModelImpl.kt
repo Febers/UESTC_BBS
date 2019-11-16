@@ -3,15 +3,12 @@ package com.febers.uestc_bbs.module.update.github
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.BaseEvent
 import com.febers.uestc_bbs.base.ThreadPoolMgr
 import com.febers.uestc_bbs.base.UpdateCheckEvent
 import com.febers.uestc_bbs.entity.GithubReleaseBean
-import com.febers.uestc_bbs.entity.UpdateCheckBean
 import com.febers.uestc_bbs.utils.ApiUtils
-import com.febers.uestc_bbs.utils.log
+import com.febers.uestc_bbs.utils.loge
 import com.febers.uestc_bbs.utils.postEvent
-import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +30,7 @@ class GithubReleaseModelImpl {
                 .latestRelease()
                 .enqueue(object : Callback<GithubReleaseBean> {
                     override fun onFailure(call: Call<GithubReleaseBean>, t: Throwable) {
-                        log("github release err: $t")
+                        loge { "github release err: $t" }
                     }
 
                     override fun onResponse(call: Call<GithubReleaseBean>, response: Response<GithubReleaseBean>) {

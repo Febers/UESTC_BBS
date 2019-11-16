@@ -14,7 +14,6 @@ import java.math.BigDecimal
 import android.content.Intent
 import androidx.core.content.FileProvider
 import android.os.Build
-import com.febers.uestc_bbs.utils.log
 import java.nio.ByteBuffer
 
 object FileHelper {
