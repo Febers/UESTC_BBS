@@ -3,8 +3,10 @@ package com.febers.uestc_bbs.module.webview
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
+import android.view.View
 import android.webkit.*
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.utils.log
@@ -73,6 +75,7 @@ class UWebViewClient(private val context: Context,
     }
 
     override fun onPageFinished(view: WebView, url: String) {
+        view.visibility = View.VISIBLE
         view.settings.javaScriptEnabled = true
         super.onPageFinished(view, url)
         if (processImageClick) {

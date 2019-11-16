@@ -13,6 +13,7 @@ import com.febers.uestc_bbs.module.webview.listener.OnReceivedTitleListener
 import com.febers.uestc_bbs.utils.WebViewUtils
 import com.febers.uestc_bbs.utils.web
 import kotlinx.android.synthetic.main.activity_browser.*
+import me.yokeyword.fragmentation.SwipeBackLayout
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.toast
 
@@ -30,6 +31,7 @@ class BrowserActivity : BaseActivity() {
     override fun setMenu(): Int? = R.menu.menu_browser
 
     override fun initView() {
+        setEdgeLevel(SwipeBackLayout.EdgeLevel.MIN)
         tv_title_browser.text = url
         WebViewConfiguration.Configuration(mContext, web_view_app)
                 .setOpenUrlOut(false)

@@ -133,7 +133,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
             android.R.id.home -> {
                 finish()
             }
-            else -> {}
+            else -> { }
         }
         return super.onOptionsItemSelected(item)
     }

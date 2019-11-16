@@ -1,10 +1,14 @@
 package com.febers.uestc_bbs.module.post.view.content
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.LinearLayout
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.module.webview.UWebViewClient
@@ -27,7 +31,6 @@ object ContentTransfer {
     private val imageUrls: MutableList<String> = ArrayList()
 
     fun transfer(webView: WebView, contents: List<PostDetailBean.ContentBean>) {
-
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         webView.setBackgroundColor(Color.parseColor(if (ThemeManager.isNightTheme()) "#00363636" else "#00ffffff"))
 
@@ -44,6 +47,7 @@ object ContentTransfer {
 
         //主贴图文视图的绘制
         webView.loadDataWithBaseURL(null, json2Html(contents), "text/html; charset=UTF-8", "UTF-8", null)
+        webView.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         //插入图片点击接口
         webView.addJavascriptInterface(ImageClickInterface(webView.context, imageUrls.toTypedArray()), "imagelistener")
@@ -81,12 +85,7 @@ object ContentTransfer {
                 }
             }
         }
-//        log { "content html: ${sb.toString()}" }
         return sb.toString()
-    }
-
-    private fun String?.simplifyDownloadUrl(): String {
-        return this+""
     }
 
     /**

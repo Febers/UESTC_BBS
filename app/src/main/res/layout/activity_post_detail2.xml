@@ -129,7 +129,8 @@
                 <WebView
                     android:id="@+id/web_view_post_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="300dp"
+                    android:visibility="invisible"/>
 
                 <LinearLayout
                     android:id="@+id/linear_layout_post_vote_support"

@@ -69,14 +69,26 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     override fun setToolbar(): Toolbar? = toolbar_common
     override fun setMenu(): Int? = R.menu.menu_post_detail
 
-    override fun afterCreated() {
+    override fun initView() {
         postTitle = intent.getStringExtra(POST_TITLE) ?: ""
         topicUserName = intent.getStringExtra(USER_NAME) ?: ""
         postId = intent.getIntExtra(FID, 0)
         text_view_post_detail_title.text = postTitle
+    }
 
+    override fun afterCreated() {
         postPresenter = PostPresenterImpl(this)
-
+        refresh_layout_post_detail.apply {
+            setPrimaryColors(colorAccent())
+            setOnRefreshListener {
+                drawFinish = false
+                page = 1
+                getPost(postId, page) }
+            setOnLoadMoreListener {
+                getPost(postId, ++page) }
+            autoRefresh()
+            setEnableLoadMore(false)
+        }
 
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!, topicUserName).apply {
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
@@ -94,15 +106,6 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
             }
         }
 
-        refresh_layout_post_detail.apply {
-            initAttrAndBehavior()
-            setOnRefreshListener {
-                drawFinish = false
-                page = 1
-                getPost(postId, page) }
-            setOnLoadMoreListener {
-                getPost(postId, ++page) }
-        }
         recyclerview_post_detail_replies.apply {
             layoutManager = LinearLayoutManager(mContext).apply {
                 stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱，使用新的绘制方案之后会出现问题
@@ -129,9 +132,6 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         fab_post_detail.setOnClickListener {
             scroll_view_post_detail.scrollTo(0, 0)
         }
-    }
-
-    override fun initView() {
     }
 
     /*
@@ -207,6 +207,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
      * 绘制主贴视图
      */
     private fun drawTopicView(event: BaseEvent<PostDetailBean>) {
+        ContentTransfer.transfer(web_view_post_content, event.data.topic!!.content!!)
         image_view_post_detail_author_avatar?.let { it ->
             it.visibility = View.VISIBLE
             ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
@@ -221,8 +222,6 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         text_view_post_detail_author?.text = event.data.topic?.user_nick_name
         text_view_post_detail_author_title?.text = event.data.topic?.userTitle
         text_view_post_detail_date?.text = TimeUtils.stampChange(event.data.topic?.create_date)
-
-        ContentTransfer.transfer(web_view_post_content, event.data.topic!!.content!!)
 
         //将帖子标题传递给BottomSheet以便进行后续的复制与分享工作
         getOptionBottomSheet().postTitle = event.data.topic?.title!!
