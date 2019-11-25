@@ -1,8 +1,8 @@
 package com.febers.uestc_bbs.module.search.contract
 
 import com.febers.uestc_bbs.base.BaseEvent
-import com.febers.uestc_bbs.base.BasePresenter
-import com.febers.uestc_bbs.base.BaseView
+import com.febers.uestc_bbs.base.mvp.BasePresenter
+import com.febers.uestc_bbs.base.mvp.BaseView
 import com.febers.uestc_bbs.entity.SearchPostBean
 import com.febers.uestc_bbs.entity.SearchUserBean
 

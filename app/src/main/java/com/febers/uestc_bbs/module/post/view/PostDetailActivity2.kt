@@ -28,7 +28,6 @@ import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
-import com.febers.uestc_bbs.module.dialog.Dialog
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
 import com.febers.uestc_bbs.module.post.view.content.ContentTransfer
 import com.febers.uestc_bbs.module.post.view.content.VoteViewCreator

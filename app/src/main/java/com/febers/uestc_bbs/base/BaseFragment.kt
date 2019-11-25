@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.base.mvp.BaseView
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.lib.fragmentation.SupportFragment
 import org.greenrobot.eventbus.EventBus

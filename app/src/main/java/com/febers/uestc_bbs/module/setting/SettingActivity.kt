@@ -15,10 +15,10 @@ import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import kotlin.collections.ArrayList
 
 class SettingActivity : BaseActivity() {
+    private lateinit var settingAdapter1: SettingAdapter
+    private lateinit var settingAdapter2: SettingAdapter
+    private lateinit var settingAdapter3: SettingAdapter
 
-    private var options: MutableList<SettingItemBean> = ArrayList()
-
-    private lateinit var settingAdapter: SettingAdapter
     private lateinit var cacheItem: SettingItemBean
     private var iconChooseView: IconFragment? = null
 
@@ -44,33 +44,66 @@ class SettingActivity : BaseActivity() {
     override fun afterCreated() {
         layoutDescription = if (homeLayout == HOME_VIEW_STYLE_BOTTOM) getString(R.string.home_layout_bottom)
         else getString(R.string.home_layout_drawer)
-        options.addAll(initSettingData())
-        settingAdapter = SettingAdapter(mContext, options).apply {
+        text_view_setting_1.setTextColor(colorAccent())
+        text_view_setting_2.setTextColor(colorAccent())
+        text_view_setting_3.setTextColor(colorAccent())
+
+        settingAdapter1 = SettingAdapter(mContext, initSettingData1()).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 when(i) {
-                    0 -> { onHomeLayoutChange() }
+                    0 -> {
+                        onHomeLayoutChange()
+                    }
                     1 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
                         enableSplash = !enableSplash
                     }
-                    2 -> { onHintMethodChange() }
+                    2 -> {
+                        //更改滑动范围
+                    }
                     3 -> {
                         if (iconChooseView == null) {
                             iconChooseView = IconFragment()
                         }
                         iconChooseView?.show(supportFragmentManager, "icon")
                     }
-                    4 -> {
+                }
+            }
+        }
+        recyclerview_setting_option_1.adapter = settingAdapter1
+
+        settingAdapter2 = SettingAdapter(mContext, initSettingData2()).apply {
+            setOnItemClickListener { viewHolder, settingItemBean, i ->
+                when(i) {
+                    0 -> {
+
+                    }
+                    1 -> {
+
+                    }
+                    2 -> {
+                        onHintMethodChange()
+                    }
+                }
+            }
+        }
+        recyclerview_setting_option_2.adapter = settingAdapter2
+
+        settingAdapter3 = SettingAdapter(mContext, initSettingData3()).apply {
+            setOnItemClickListener { viewHolder, settingItemBean, i ->
+                when(i) {
+                    0 -> {
                         val checkBox = viewHolder.getView<CheckBox>(R.id.check_box_item_setting)
                         checkBox.isChecked = !checkBox.isChecked
                         onReceiveMsgChange(!checkBox.isChecked)
                     }
-                    5 -> { clearCache() }
+                    1 -> { clearCache() }
                 }
             }
         }
-        recyclerview_setting_option.adapter = settingAdapter
+        recyclerview_setting_option_3.adapter = settingAdapter3
+
         getCache()
         btn_restart_app.setOnClickListener {
             RestartUtils.restartApp2()
@@ -78,15 +111,24 @@ class SettingActivity : BaseActivity() {
         btn_restart_app.setTextColor(colorAccent())
     }
 
-    private fun initSettingData(): List<SettingItemBean> {
+    private fun initSettingData1(): List<SettingItemBean> {
         layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription)
         val itemSplash = SettingItemBean("闪屏开关", "开启应用时打开闪屏", showCheck = true, checked = enableSplash)
         val itemSwipe = SettingItemBean("滑动范围", "选择滑动返回的触发范围")
-        val itemHint = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
         val itemIcon = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
+        return arrayListOf(layoutItem, itemSplash, itemSwipe, itemIcon)
+    }
+    private fun initSettingData2(): List<SettingItemBean> {
+        val itemContentMode = SettingItemBean("渲染机制", "选择帖子详情界面的渲染机制")
+        val itemPostItem = SettingItemBean("列表样式", "自定义帖子列表的显示样式")
+        val itemHint = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
+        return arrayListOf(itemContentMode, itemPostItem, itemHint)
+    }
+
+    private fun initSettingData3(): List<SettingItemBean> {
         val itemSilence = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
-        return arrayListOf(layoutItem, itemSplash, itemSwipe, itemHint, itemIcon, itemSilence, cacheItem)
+        return arrayListOf(itemSilence, cacheItem)
     }
 
     private fun onHomeLayoutChange() {
@@ -99,7 +141,7 @@ class SettingActivity : BaseActivity() {
         }
         showHint("重启应用生效")
         layoutItem.tip = getString(R.string.choose_home_layout) + layoutDescription
-        settingAdapter.notifyItemChanged(0)
+        settingAdapter1.notifyItemChanged(0)
     }
 
     private fun onHintMethodChange() {
@@ -128,7 +170,7 @@ class SettingActivity : BaseActivity() {
             cacheItem.tip = CacheManager.CacheSize
             logd { "获取缓存大小成功：${cacheItem.tip}" }
             ThreadMgr.ui(mContext) {
-                settingAdapter.notifyItemChanged(6)
+                settingAdapter3.notifyItemChanged(settingAdapter3.dataCount-1)
             }
         }
     }

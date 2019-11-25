@@ -42,6 +42,7 @@ const val POST_REPLY_DESCRIPTION = "post_reply_description"
 const val POST_REPLY_RESULT_CODE = 418
 const val POST_REPLY_RESULT = "post_reply_result"
 
+//TODO：更改progress方式
 class PostReplyActivity: BaseActivity(), PostContract.View {
 
     private lateinit var imgGridViewAdapter: ImgGridViewAdapter

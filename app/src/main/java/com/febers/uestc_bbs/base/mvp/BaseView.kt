@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.base
+package com.febers.uestc_bbs.base.mvp
 
 import androidx.annotation.UiThread
 

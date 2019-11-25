@@ -2,6 +2,7 @@ package com.febers.uestc_bbs
 
 import android.content.ComponentCallbacks2
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.os.Process
 import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
@@ -114,6 +115,7 @@ class MyApp: MultiDexApplication() {
         var msgCount = 0
 
         fun context() = context
+
         fun user(): UserSimpleBean = UserManager.getNowUser()
 
         fun homeLayout(): Int {
@@ -123,6 +125,8 @@ class MyApp: MultiDexApplication() {
 
         fun getHomeActivity() = if (homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
         else HomeActivity2::class.java
+
+        fun isDebug(): Boolean = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0)
 
         init {
             /**

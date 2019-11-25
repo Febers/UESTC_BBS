@@ -218,7 +218,6 @@ class AboutActivity: BaseActivity() {
                         .setPositiveButton(getString(R.string.confirm)) { p0, p1 -> }
                         .create()
             }
-
             permissionDialog?.show()
         }
         return super.onOptionsItemSelected(item)

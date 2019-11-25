@@ -17,8 +17,49 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/text_view_setting_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="基本"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/text_size_normal"/>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_setting_option"
+                android:id="@+id/recyclerview_setting_option_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/text_view_setting_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="显示"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/text_size_normal"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_setting_option_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/text_view_setting_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="其他"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/text_size_normal"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_setting_option_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"

@@ -1,4 +1,4 @@
-package com.febers.uestc_bbs.base
+package com.febers.uestc_bbs.base.mvp
 
 import com.febers.uestc_bbs.http.client.TokenClient
 import com.febers.uestc_bbs.utils.ApiUtils

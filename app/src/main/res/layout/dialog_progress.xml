@@ -18,6 +18,6 @@
         android:layout_weight="3"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="@dimen/text_size_big"
+        android:textSize="@dimen/text_size_super_big"
         android:layout_margin="15dp"/>
 </LinearLayout>

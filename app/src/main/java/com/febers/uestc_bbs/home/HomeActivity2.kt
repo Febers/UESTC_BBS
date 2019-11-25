@@ -74,7 +74,7 @@ class HomeActivity2: BaseActivity() {
 
     private var msgMenuItem: MenuItem? = null
 
-    private var actionAfterDrawerClose: Runnable? = null
+    private var actionAfterDrawerClose: ()->Unit = { }
 
     override fun setView(): Int = R.layout.activity_home_2
 
@@ -122,7 +122,7 @@ class HomeActivity2: BaseActivity() {
         initDrawerHeader(MyApp.user())
         drawer_header_home.setOnClickListener {
             drawer_layout_home_2.closeDrawers()
-            actionAfterDrawerClose = Runnable {
+            actionAfterDrawerClose = {
                 ClickContext.clickToUserDetail(mContext, MyApp.user().uid)
             }
         }
@@ -139,7 +139,7 @@ class HomeActivity2: BaseActivity() {
             setOnItemChildClickListener(R.id.switch_more_item) {
                 viewHolder, moreItemBean, i ->
                 drawer_layout_home_2.closeDrawers()
-                actionAfterDrawerClose = Runnable {
+                actionAfterDrawerClose = {
                     ThemeManager.dayAndNightThemeChange(mContext)
                 }
             }
@@ -153,11 +153,8 @@ class HomeActivity2: BaseActivity() {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) { }
             override fun onDrawerOpened(draweriew: View) { }
             override fun onDrawerClosed(drawerView: View) {
-                actionAfterDrawerClose ?: return
-                post {
-                    (actionAfterDrawerClose as Runnable).run()
-                    actionAfterDrawerClose = null
-                }
+                actionAfterDrawerClose.invoke()
+                actionAfterDrawerClose = { }
             }
         })
     }
@@ -197,47 +194,53 @@ class HomeActivity2: BaseActivity() {
         if (!LoginContext.userState(mContext)) return
         drawer_layout_home_2.closeDrawers()
         actionAfterDrawerClose =  when(position) {
-            USER_POST_ITEM -> Runnable {
-                startActivity(Intent(mContext, UserPostActivity::class.java).apply {
-                    putExtra(USER_ID, MyApp.user().uid)
-                    putExtra(USER_POST_TYPE, USER_START_POST) })
+            USER_POST_ITEM -> {
+                {
+                    startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                        putExtra(USER_ID, MyApp.user().uid)
+                        putExtra(USER_POST_TYPE, USER_START_POST) })
+                }
             }
-            USER_REPLY_ITEM -> Runnable {
-                startActivity(Intent(mContext, UserPostActivity::class.java).apply {
-                    putExtra(USER_ID, MyApp.user().uid)
-                    putExtra(USER_POST_TYPE, USER_REPLY_POST) })
+            USER_REPLY_ITEM -> {
+                {
+                    startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                        putExtra(USER_ID, MyApp.user().uid)
+                        putExtra(USER_POST_TYPE, USER_REPLY_POST) })
+                }
             }
-            USER_FAV_ITEM -> Runnable {
-                startActivity(Intent(mContext, UserPostActivity::class.java).apply {
-                    putExtra(USER_ID, MyApp.user().uid)
-                    putExtra(USER_POST_TYPE, USER_FAV_POST) })
+            USER_FAV_ITEM -> {
+                {
+                    startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                        putExtra(USER_ID, MyApp.user().uid)
+                        putExtra(USER_POST_TYPE, USER_FAV_POST) })
+                }
             }
-            USER_HISTORY_ITEM -> Runnable {
-                startActivity(Intent(mContext, UserHistoryActivity::class.java))
+            USER_HISTORY_ITEM -> {
+                { startActivity(Intent(mContext, UserHistoryActivity::class.java)) }
             }
-            else -> null
+            else -> { { } }
         }
     }
 
     private fun onSecondItemClick(position: Int) {
         drawer_layout_home_2.closeDrawers()
         actionAfterDrawerClose = when(position) {
-            NAVIGATION_ITEM -> Runnable {
-                showNavigationDialog()
+            NAVIGATION_ITEM -> {
+                { showNavigationDialog() }
             }
-            THEME_ITEM -> Runnable {
-                startActivity(Intent(mContext, ThemeActivity::class.java))
+            THEME_ITEM -> {
+                { startActivity(Intent(mContext, ThemeActivity::class.java)) }
             }
-            ACCOUNT_ITEM -> Runnable {
-                startActivity(Intent(mContext, AccountActivity::class.java))
+            ACCOUNT_ITEM -> {
+                { startActivity(Intent(mContext, AccountActivity::class.java)) }
             }
-            SETTING_ITEM -> Runnable {
-                startActivity(Intent(mContext, SettingActivity::class.java))
+            SETTING_ITEM -> {
+                { startActivity(Intent(mContext, SettingActivity::class.java)) }
             }
-            ABOUT_ITEM -> Runnable {
-                startActivity(Intent(mContext, AboutActivity::class.java))
+            ABOUT_ITEM -> {
+                { startActivity(Intent(mContext, AboutActivity::class.java)) }
             }
-            else -> null
+            else -> { { } }
         }
     }
 

@@ -48,6 +48,7 @@ const val THEME_ITEM = 1
 const val ACCOUNT_ITEM = 2
 const val SETTING_ITEM = 3
 const val ABOUT_ITEM = 4
+const val DEBUG_ITEM = 5
 
 class MoreFragment: BaseFragment() {
 
@@ -107,12 +108,17 @@ class MoreFragment: BaseFragment() {
     }
 
     private fun initMoreItem2(): List<MoreItemBean> {
+        val list: MutableList<MoreItemBean> = ArrayList()
         val itemNav = MoreItemBean(getString(R.string.bbs_navigation), R.drawable.xic_navigation_blue_24dp)
         val itemTheme = MoreItemBean(getString(R.string.theme_style), R.drawable.xic_style_pink_24dp, showSwitch = true, isCheck = ThemeManager.isNightTheme())
         val itemAccount = MoreItemBean(getString(R.string.account), R.drawable.xic_person_blue_24dp)
         val itemSetting = MoreItemBean(getString(R.string.setting), R.drawable.ic_setting_gray)
         val itemAbout = MoreItemBean(getString(R.string.about), R.drawable.xic_emot_blue_24dp)
-        return listOf(itemNav, itemTheme, itemAccount, itemSetting, itemAbout)
+        list.add(itemNav); list.add(itemTheme); list.add(itemAccount); list.add(itemSetting); list.add(itemAbout)
+        if (MyApp.isDebug()) {
+            list.add(MoreItemBean("Debug", R.drawable.xic_bug_gray))
+        }
+        return list
     }
 
     private fun initUserDetail() {
@@ -189,6 +195,9 @@ class MoreFragment: BaseFragment() {
             }
             if (position == ABOUT_ITEM) {
                 startActivity(Intent(activity, AboutActivity::class.java))
+            }
+            if (position == DEBUG_ITEM) {
+                startActivity(Intent(activity, DebugActivity::class.java))
             }
         }
     }

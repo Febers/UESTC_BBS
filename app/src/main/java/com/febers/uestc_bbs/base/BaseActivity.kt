@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.exception.ExceptionHandler
+import com.febers.uestc_bbs.base.mvp.BaseView
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.lib.fragmentation.SupportActivity
 import com.febers.uestc_bbs.module.theme.ThemeManager
