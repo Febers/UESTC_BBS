@@ -5,15 +5,16 @@ import android.content.Context
 import android.net.http.SslError
 import android.view.View
 import android.webkit.*
+import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.utils.logd
 import com.febers.uestc_bbs.utils.web
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 
-class UWebViewClient(private val context: Context,
-                     private var acceptAllRequest: Boolean = true,
-                     private var openUrlOut: Boolean = false,
-                     private var processImageClick: Boolean = false): WebViewClient() {
+class ContentClient(private val context: Context,
+                    private var acceptAllRequest: Boolean = true,
+                    private var openUrlOut: Boolean = false,
+                    private var processImageClick: Boolean = false): WebViewClient() {
 
     override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
         if (acceptAllRequest) {
@@ -42,7 +43,7 @@ class UWebViewClient(private val context: Context,
                 context.browse(url)
                 return true
             }
-            context.web(url)
+            ClickContext.linkClick(url, context)
             return true
         }
     }
@@ -65,7 +66,7 @@ class UWebViewClient(private val context: Context,
                 context.browse(request.url.toString(), true)
                 return true
             }
-            context.web(request.url.toString())
+            ClickContext.linkClick(request.url.toString(), context)
             return true
         }
     }

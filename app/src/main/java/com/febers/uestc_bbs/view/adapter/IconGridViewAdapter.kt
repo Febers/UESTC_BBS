@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.entity.IconItemBean
 
 class IconGridViewAdapter(private val context: Context,
                           private val icons: List<IconItemBean>,
-                          private val clickListener: OnItemClickListener): BaseAdapter() {
+                          private val clickListener: (position: Int) -> Unit): BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val viewHolder: IconGridViewAdapter.ViewHolder
@@ -32,7 +32,7 @@ class IconGridViewAdapter(private val context: Context,
         } else {
             (viewHolder.iconIsChoose as ImageView).visibility = View.INVISIBLE
         }
-        viewHolder.itemLayout?.setOnClickListener { clickListener.onClick(position) }
+        viewHolder.itemLayout?.setOnClickListener { clickListener(position) }
         return view!!
     }
 
@@ -52,9 +52,5 @@ class IconGridViewAdapter(private val context: Context,
         var iconImage: ImageView? = null
         var iconIsChoose: ImageView? = null
         var itemLayout: LinearLayout? = null
-    }
-
-    interface OnItemClickListener {
-        fun onClick(position: Int)
     }
 }

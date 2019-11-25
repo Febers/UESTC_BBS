@@ -4,6 +4,7 @@ import android.content.Context
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.base.SP_NOW_UID
 import com.febers.uestc_bbs.base.SP_USER_IDS
+import com.febers.uestc_bbs.base.ThreadMgr
 import com.febers.uestc_bbs.entity.UserSimpleBean
 import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.google.gson.Gson
@@ -49,7 +50,9 @@ object UserManager {
     fun deleteUser(uid: Int) {
         var userIds by PreferenceUtils(context(), SP_USER_IDS, "")
         userIds = userIds.replace("@$uid", "")
-        deleteUserInFile(uid)
+        ThreadMgr.io {
+            deleteUserInFile(uid)
+        }
         if (getNowUid() == uid) {
             if (getAllUser().isNotEmpty()) {
                 setNowUid(getAllUser().last().uid)

@@ -15,11 +15,11 @@ class PMDetailPresenterImpl(val view: MessageContract.PMView): MessageContract.P
 
     override fun pmSessionRequest(uid: Int, page: Int, beginTime: Long) {
         this.uid = uid
-        ThreadPoolMgr.execute(Runnable { getPmDetail(uid, page, beginTime) })
+        ThreadMgr.network { getPmDetail(uid, page, beginTime) }
     }
 
     override fun pmSendRequest(content: Any, type: String) {
-        ThreadPoolMgr.execute(Runnable { pmSendService(content, type) })
+        ThreadMgr.network { pmSendService(content, type) }
     }
 
     private fun getPmDetail(uid: Int, page: Int, beginTime: Long) {
@@ -62,7 +62,7 @@ class PMDetailPresenterImpl(val view: MessageContract.PMView): MessageContract.P
 
     private fun pmSendService(content: Any, type: String) {
         val stContent = content.toString()
-        ThreadPoolMgr.execute(Runnable {
+        ThreadMgr.network {
             getRetrofit().create(MessageInterface::class.java)
                     .pmSendResult(json = """
                         {"action":"send","toUid":$uid,msg:{"type":"$type","content":"$stContent"}}
@@ -85,6 +85,6 @@ class PMDetailPresenterImpl(val view: MessageContract.PMView): MessageContract.P
                             mView?.showPMSendResult(BaseEvent(BaseCode.SUCCESS, result))
                         }
                     })
-        })
+        }
     }
 }

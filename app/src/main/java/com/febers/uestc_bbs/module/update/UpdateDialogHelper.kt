@@ -3,7 +3,7 @@ package com.febers.uestc_bbs.module.update
 import android.content.Context
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.io.FileHelper
-import com.febers.uestc_bbs.module.service.NotificationHelper
+import com.febers.uestc_bbs.module.service.NotificationManager
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.view.dialog.UpdateDialog
 import org.jetbrains.anko.browse
@@ -30,7 +30,7 @@ ${githubReleaseBean.body}
         dialog.setOnClickRightButtonListener("直接下载（慢）", object : UpdateDialog.ButtonClickListener {
             override fun onClick() {
                 dialog.dismiss()
-                NotificationHelper().showDownloadNotification(context = context,
+                NotificationManager().showDownloadNotification(context = context,
                         channelId = "download",
                         notificationId = 9527, url = githubReleaseBean.assets?.get(0)?.browser_download_url+"",
                         fileName = githubReleaseBean.assets?.get(0)?.name+"")

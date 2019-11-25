@@ -29,7 +29,7 @@ const val POLL_STATUS_AVAILABLE = 2
 const val POLL_STATUS_DENY = 3
 const val POLL_STATUS_FINISHED = 4
 
-class VoteViewHelper(private val linearLayout: LinearLayout, private val pollInfo: PostDetailBean.TopicBean.PollInfoBean) {
+class VoteViewCreator(private val linearLayout: LinearLayout, private val pollInfo: PostDetailBean.TopicBean.PollInfoBean) {
 
     private val data: MutableList<PostDetailBean.TopicBean.PollInfoBean.PollItemListBean> = ArrayList()
     private lateinit var buttonClickListener: VoteButtonClickListener

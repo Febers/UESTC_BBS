@@ -1,6 +1,6 @@
 package com.febers.uestc_bbs.module.setting.push
 
-import com.febers.uestc_bbs.base.ThreadPoolMgr
+import com.febers.uestc_bbs.base.ThreadMgr
 import com.febers.uestc_bbs.entity.PushMessageBean
 import com.febers.uestc_bbs.utils.ApiUtils
 import com.google.gson.Gson
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 object PushManager {
 
     fun getHttpMessages(listener: PushMessageListener) {
-        ThreadPoolMgr.execute(Runnable {
+        ThreadMgr.network {
             val request = Request.Builder().url(ApiUtils.GITHUB_PUSH_MESSAGE_RAW).build()
             OkHttpClient.Builder().callTimeout(10, TimeUnit.SECONDS)
                     .connectTimeout(10, TimeUnit.SECONDS)
@@ -39,7 +39,7 @@ object PushManager {
                         }
                     })
 
-        })
+        }
 
     }
 

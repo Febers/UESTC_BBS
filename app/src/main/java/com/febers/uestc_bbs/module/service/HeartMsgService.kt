@@ -28,7 +28,7 @@ import retrofit2.http.GET
  */
 class HeartMsgService : Service() {
 
-    private var notificationHelper: NotificationHelper? = null
+    private var notificationManager: NotificationManager? = null
     private var msgThread: Thread? = null
     private var flag: Boolean = true
 
@@ -87,8 +87,8 @@ class HeartMsgService : Service() {
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 })
         postSticky(MsgEvent(BaseCode.SUCCESS, count, msgType))
-        notificationHelper = NotificationHelper()
-        notificationHelper!!.show(context = this,
+        notificationManager = NotificationManager()
+        notificationManager!!.show(context = this,
                 title = title,
                 content = content,
                 channelId = channelId,
@@ -102,20 +102,20 @@ class HeartMsgService : Service() {
         when(event.type) {
             MSG_TYPE_REPLY -> {
                 rmCount = 0
-                notificationHelper?.cancelNotification(rNotificationId)
+                notificationManager?.cancelNotification(rNotificationId)
             }
             MSG_TYPE_PRIVATE -> {
                 pmCount = 0
-                notificationHelper?.cancelNotification(pNotificationId)
+                notificationManager?.cancelNotification(pNotificationId)
             }
             MSG_TYPE_AT -> {
                 amCount = 0
-                notificationHelper?.cancelNotification(aNotificationId)
+                notificationManager?.cancelNotification(aNotificationId)
                 aNotificationId
             }
             MSG_TYPE_SYSTEM -> {
                 smCount = 0
-                notificationHelper?.cancelNotification(sNotificationId)
+                notificationManager?.cancelNotification(sNotificationId)
             }
         }
     }

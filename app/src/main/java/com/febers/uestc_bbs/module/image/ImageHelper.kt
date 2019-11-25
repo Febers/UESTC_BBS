@@ -10,7 +10,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import com.febers.uestc_bbs.MyApp
-import com.febers.uestc_bbs.io.DownloadHelper
+import com.febers.uestc_bbs.io.DownloadManager
 import com.febers.uestc_bbs.io.FileHelper.appImageDir2
 import com.febers.uestc_bbs.io.tryClose
 import com.febers.uestc_bbs.utils.logd
@@ -80,8 +80,8 @@ object ImageHelper {
         }
         val countDownLatch: CountDownLatch = CountDownLatch(1)
         try {
-            DownloadHelper().download(url = gifUrl, fileName = getImageFileName() + ".gif", filePath = appImageDir2,
-                    listener = object : DownloadHelper.OnDownloadListener {
+            DownloadManager().download(url = gifUrl, fileName = getImageFileName() + ".gif", filePath = appImageDir2,
+                    listener = object : DownloadManager.OnDownloadListener {
                         override fun onDownloadSuccess(file: File) {
                             imgFile = file
                             countDownLatch.countDown()

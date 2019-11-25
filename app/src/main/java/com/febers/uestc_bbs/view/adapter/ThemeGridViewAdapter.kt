@@ -12,7 +12,7 @@ import com.febers.uestc_bbs.view.custom.CircleColorView
 
 class ThemeGridViewAdapter(private val context: Context,
                            private val themeItems: List<ThemeItemBean>,
-                           private val onItemClickListener: OnItemClickListener): BaseAdapter() {
+                           private val onItemClickListener: (position: Int) -> Unit): BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val viewHolder: ViewHolder
@@ -25,7 +25,7 @@ class ThemeGridViewAdapter(private val context: Context,
         } else {
             viewHolder = view.tag as ViewHolder
         }
-        viewHolder.linearLayout?.setOnClickListener { onItemClickListener.onClick(position) }
+        viewHolder.linearLayout?.setOnClickListener { onItemClickListener(position) }
         viewHolder.circleColorView?.setColor(themeItems[position].color)
         return view!!
     }
@@ -45,9 +45,5 @@ class ThemeGridViewAdapter(private val context: Context,
     class ViewHolder {
         var circleColorView: CircleColorView? = null
         var linearLayout: LinearLayout? = null
-    }
-
-    interface OnItemClickListener {
-        fun onClick(position: Int)
     }
 }

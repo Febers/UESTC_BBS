@@ -2,7 +2,7 @@ package com.febers.uestc_bbs.module.post.presenter
 
 import com.febers.uestc_bbs.base.REQUEST_SUCCESS_RS
 import com.febers.uestc_bbs.base.SERVICE_RESPONSE_NULL
-import com.febers.uestc_bbs.base.ThreadPoolMgr
+import com.febers.uestc_bbs.base.ThreadMgr
 import com.febers.uestc_bbs.entity.PostSendResultBean
 import com.febers.uestc_bbs.http.PostEditInterface
 import com.febers.uestc_bbs.module.post.contract.PEditContract
@@ -15,7 +15,7 @@ import java.lang.StringBuilder
 class PEditPresenterImpl(view: PEditContract.View): PEditContract.Presenter(view) {
 
     override fun newPostRequest(fid: Int, aid: String, typeId:Int, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {
-        ThreadPoolMgr.execute(Runnable { newPost(fid, aid, typeId, title, anonymous, onlyAuthor, *contents) })
+        ThreadMgr.network { newPost(fid, aid, typeId, title, anonymous, onlyAuthor, *contents) }
     }
 
     private fun newPost(fid: Int, aid: String, typeId:Int, title: String, anonymous: Int, onlyAuthor: Int, vararg contents: Pair<Int, String>) {

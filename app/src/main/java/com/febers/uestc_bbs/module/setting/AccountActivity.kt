@@ -59,8 +59,11 @@ class AccountActivity: BaseActivity() {
             }
         }
         recyclerview_accounts.adapter = simpleUserAdapter
+        logi { "user adapter size: ${simpleUserAdapter?.itemCount}" }
         btn_add_user.setTextColor(colorAccent())
-        btn_add_user.setOnClickListener { startActivity(Intent(mContext, LoginActivity::class.java)) }
+        btn_add_user.setOnClickListener {
+            startActivity(Intent(mContext, LoginActivity::class.java))
+        }
     }
 
     private fun changeUser(user: UserSimpleBean) {
@@ -84,9 +87,15 @@ class AccountActivity: BaseActivity() {
         }
     }
 
+    /**
+     * 当在账户界面打开登录界面添加用户之后，由于sticky设置为true，
+     * 第一次返回账户界面和再一次打开账户界面，
+     * 都会触发该事件，造成列表显示重复的问题
+     */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onLoginSuccess(event: UserUpdateEvent) {
-        if (event.code == BaseCode.SUCCESS) {
+        if (event.code == BaseCode.SUCCESS && !users.contains(event.user)) {
+            logi { "账户Activity收到用户登录的消息：${event.user.name}" }
             users.add(event.user)
             simpleUserAdapter?.notifyDataSetChanged()
         }

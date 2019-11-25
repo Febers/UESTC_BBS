@@ -13,7 +13,7 @@ import retrofit2.Response
 class MsgPresenterImpl(view: MessageContract.View) : MessageContract.Presenter(view) {
 
     override fun msgRequest(type: String, page: Int) {
-        ThreadPoolMgr.execute(Runnable { getMessage(type, page) })
+        ThreadMgr.network { getMessage(type, page) }
     }
 
     private fun getMessage(type: String, page: Int) {

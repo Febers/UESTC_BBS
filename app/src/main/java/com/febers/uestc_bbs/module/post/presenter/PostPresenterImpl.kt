@@ -15,7 +15,9 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
 
     override fun postDetailRequest(postId: Int, page: Int, authorId: Int, order: Int) {
         this.postId = postId
-        ThreadPoolMgr.execute(Runnable { getPostDetail(postId, page, authorId, order) })
+        ThreadMgr.network {
+            getPostDetail(postId, page, authorId, order)
+        }
     }
 
     private fun getPostDetail(postId: Int, page: Int, authorId: Int, order: Int) {
@@ -55,7 +57,9 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
     }
 
     override fun postReplyRequest(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
-        ThreadPoolMgr.execute(Runnable { postReply(postId, isQuota, replyId, aid, *contents) })
+        ThreadMgr.network {
+            postReply(postId, isQuota, replyId, aid, *contents)
+        }
     }
 
     private fun postReply(postId: Int, isQuota: Int, replyId: Int, aid: String, vararg contents: Pair<Int, String>) {
@@ -103,7 +107,9 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
     }
 
     override fun postFavRequest(action: String) {
-        ThreadPoolMgr.execute(Runnable { postFav(action) })
+        ThreadMgr.network {
+            postFav(action)
+        }
     }
 
     private fun postFav(action: String) {
@@ -133,7 +139,9 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
     }
 
     override fun postSupportRequest(postId: Int, tid: Int) {
-        ThreadPoolMgr.execute(Runnable { postSupport(postId, tid) })
+        ThreadMgr.network {
+            postSupport(postId, tid)
+        }
     }
 
     private fun postSupport(postId: Int, tid: Int) {
@@ -160,7 +168,9 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
     }
 
     override fun postVoteRequest(pollItemId: List<Int>) {
-        ThreadPoolMgr.execute(Runnable { postVote(pollItemId) })
+        ThreadMgr.network {
+            postVote(pollItemId)
+        }
     }
 
     private fun postVote(pollItemId: List<Int>) {
@@ -188,7 +198,9 @@ class PostPresenterImpl(view: PostContract.View): PostContract.Presenter(view) {
     }
 
     override fun userAtRequest(page: Int) {
-        ThreadPoolMgr.execute(Runnable { getUsersAt(page) })
+        ThreadMgr.network {
+            getUsersAt(page)
+        }
     }
 
     private fun getUsersAt(page: Int) {

@@ -17,7 +17,7 @@ import java.io.File
 class UserPresenterImpl(view: UserContract.View): UserContract.Presenter(view) {
 
     override fun userPostRequest(uid: Int, type: Int, page: Int) {
-        ThreadPoolMgr.execute(Runnable { getUserPost(uid, type, page) })
+        ThreadMgr.network { getUserPost(uid, type, page) }
     }
 
     private fun getUserPost(uid: Int, type: Int, page: Int) {
@@ -45,7 +45,7 @@ class UserPresenterImpl(view: UserContract.View): UserContract.Presenter(view) {
     }
 
     override fun userDetailRequest(uid: Int) {
-        ThreadPoolMgr.execute(Runnable { getUserDetail(uid) })
+        ThreadMgr.network { getUserDetail(uid) }
     }
 
     private fun getUserDetail(uid: Int) {
@@ -72,7 +72,7 @@ class UserPresenterImpl(view: UserContract.View): UserContract.Presenter(view) {
     }
 
     override fun <T> userUpdateRequest(type: String, newValue: T, oldValue: T?) {
-        ThreadPoolMgr.execute(Runnable { userUpdate(type, newValue, oldValue) })
+        ThreadMgr.network { userUpdate(type, newValue, oldValue) }
     }
 
     /**

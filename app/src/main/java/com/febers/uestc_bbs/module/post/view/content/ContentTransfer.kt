@@ -9,7 +9,7 @@ import android.webkit.WebView
 import android.widget.LinearLayout
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.module.webview.UWebViewClient
+import com.febers.uestc_bbs.module.webview.ContentClient
 import com.febers.uestc_bbs.module.webview.javascript_interface.ImageClickInterface
 import com.febers.uestc_bbs.utils.ColorUtils
 import com.febers.uestc_bbs.utils.colorAccent
@@ -48,7 +48,7 @@ object ContentTransfer {
 
         //插入图片点击接口
         webView.addJavascriptInterface(ImageClickInterface(webView.context, imageUrls.toTypedArray()), "imagelistener")
-        webView.webViewClient = UWebViewClient(webView.context, processImageClick = true)
+        webView.webViewClient = ContentClient(webView.context, processImageClick = true)
     }
 
     private fun json2Html(contents: List<PostDetailBean.ContentBean>): String {

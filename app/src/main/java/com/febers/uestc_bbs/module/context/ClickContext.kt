@@ -43,7 +43,6 @@ object ClickContext {
         if (url.contains("bbs.uestc.edu.cn") || url.contains("bbs.stuhome.net")) {
             clickInApp(url, context)
         } else {
-            //context.browse(url, true)
             clickToAppWeb(context, url)
         }
     }
@@ -118,15 +117,6 @@ object ClickContext {
                            context: Context?) {
         url ?: return
         context ?: return
-//        val bundle = Bundle()
-//        bundle.putString(IMAGE_URL, url)
-//        val imageViewer = ImageDialog()
-//        imageViewer.arguments = bundle
-//        try {
-//            imageViewer.show((context as BaseActivity).supportFragmentManager, "image")
-//        } catch (e: Exception) {
-//            log(e.toString())
-//        }
         context.startActivity(Intent(context, ImageActivity::class.java).apply {
             putExtra(IMAGE_URLS, urls)
             putExtra(IMAGE_URL, url)

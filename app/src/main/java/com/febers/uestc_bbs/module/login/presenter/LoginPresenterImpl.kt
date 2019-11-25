@@ -13,7 +13,7 @@ import retrofit2.Response
 class LoginPresenterImpl(view: LoginContract.View): LoginContract.Presenter(view){
 
     override fun loginRequest(userName: String, userPw: String) {
-        ThreadPoolMgr.execute(Runnable { login(userName, userPw) })
+        ThreadMgr.network { login(userName, userPw) }
     }
 
     private fun login(userName: String, userPw: String) {
@@ -37,7 +37,7 @@ class LoginPresenterImpl(view: LoginContract.View): LoginContract.Presenter(view
                     return
                 }
                 if (resolveLoginResult(body)) {
-//                    ThreadPoolMgr.execute(Runnable { LoginMockWebView().login(userName, userPw) })
+//                    ThreadMgr.execute(Runnable { LoginMockWebView().login(userName, userPw) })
                 }
             }
         })

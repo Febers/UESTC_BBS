@@ -1,11 +1,13 @@
 package com.febers.uestc_bbs.base
 
+import android.content.Context
+import org.jetbrains.anko.runOnUiThread
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-object ThreadPoolMgr {
+object ThreadMgr {
 
     private var executor: ThreadPoolExecutor
 
@@ -22,11 +24,25 @@ object ThreadPoolMgr {
                 ThreadPoolExecutor.AbortPolicy())
     }
 
-    fun execute(runnable: Runnable) {
-        executor.execute(runnable)
-    }
-
     fun remove(runnable: Runnable) {
         executor.remove(runnable)
+    }
+
+    fun network(func: () -> Unit) {
+        executor.execute {
+            func.invoke()
+        }
+    }
+
+    fun io(func: () -> Unit) {
+        executor.execute {
+            func.invoke()
+        }
+    }
+
+    fun ui(context: Context, func: () -> Unit) {
+        context.runOnUiThread {
+            func.invoke()
+        }
     }
 }

@@ -18,8 +18,8 @@ class PListPresenterImpl(view: PListContract.View) : PListContract.Presenter(vie
     private var topOrder: String = "1"   //默认返回本版置顶帖
 
     override fun pListRequest(fid: Int, page: Int, pageSize:Int, filterType: String, filterId: Int) {
-//        ThreadPoolMgr.execute(Runnable { getSavedPList(fid, page) })
-        ThreadPoolMgr.execute(Runnable { getPList(fid, page) })
+//        ThreadMgr.execute(Runnable { getSavedPList(fid, page) })
+        ThreadMgr.network { getPList(fid, page) }
     }
 
     private fun getPList(fid: Int, page: Int) {
@@ -101,7 +101,7 @@ class PListPresenterImpl(view: PListContract.View) : PListContract.Presenter(vie
     }
 
     override fun boardListRequest(fid: Int) {
-        ThreadPoolMgr.execute(Runnable { getBoardList(fid) })
+        ThreadMgr.network { getBoardList(fid) }
     }
 
     private fun getBoardList(fid: Int) {

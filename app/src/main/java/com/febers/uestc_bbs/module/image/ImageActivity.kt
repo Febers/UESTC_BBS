@@ -27,7 +27,7 @@ import com.luck.picture.lib.photoview.PhotoView
 import kotlinx.android.synthetic.main.activity_image.*
 
 
-class ImageActivity : BaseActivity() {
+class ImageActivity: BaseActivity() {
 
     private val permissionRequestCode = 9527
     private val permissionRequestArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)

@@ -7,18 +7,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.widget.ProgressBar
-import android.widget.RemoteViews
-import android.widget.TextView
 import androidx.core.app.NotificationCompat
-import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.io.DownloadHelper
+import com.febers.uestc_bbs.io.DownloadManager
 import com.febers.uestc_bbs.io.FileHelper
-import org.jetbrains.anko.runOnUiThread
 import java.io.File
 
-class NotificationHelper {
+class NotificationManager {
 
     private var notificationManager: NotificationManager? = null
     private var notification: Notification? = null
@@ -103,7 +98,7 @@ class NotificationHelper {
         builder.setProgress(100, 0, false)
         notificationManager?.notify(notificationId, builder.build())
 
-        DownloadHelper().download(url = url, fileName = fileName, listener = object : DownloadHelper.OnDownloadListener {
+        DownloadManager().download(url = url, fileName = fileName, listener = object : DownloadManager.OnDownloadListener {
             override fun onDownloadSuccess(file: File) {
                 builder.setContentTitle("$fileName 下载完成，安装中")
                 notificationManager?.notify(notificationId, builder.build())

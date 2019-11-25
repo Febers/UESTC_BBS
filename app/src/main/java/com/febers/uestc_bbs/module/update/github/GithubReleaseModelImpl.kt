@@ -3,7 +3,7 @@ package com.febers.uestc_bbs.module.update.github
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseCode
-import com.febers.uestc_bbs.base.ThreadPoolMgr
+import com.febers.uestc_bbs.base.ThreadMgr
 import com.febers.uestc_bbs.base.UpdateCheckEvent
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.utils.ApiUtils
@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class GithubReleaseModelImpl {
 
     fun get(manual: Boolean) {
-        ThreadPoolMgr.execute(Runnable { doGet(manual) })
+        ThreadMgr.network { doGet(manual) }
     }
 
     private fun doGet(manual: Boolean) {

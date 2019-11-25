@@ -5,19 +5,13 @@ import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.entity.SettingItemBean
-import com.febers.uestc_bbs.entity.UserSimpleBean
-import com.febers.uestc_bbs.module.login.view.LoginActivity
-import com.febers.uestc_bbs.io.CacheHelper
+import com.febers.uestc_bbs.io.CacheManager
 import com.febers.uestc_bbs.module.service.HeartMsgService
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.SettingAdapter
-import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import kotlin.collections.ArrayList
 
 class SettingActivity : BaseActivity() {
@@ -87,11 +81,12 @@ class SettingActivity : BaseActivity() {
     private fun initSettingData(): List<SettingItemBean> {
         layoutItem = SettingItemBean(getString(R.string.home_layout), getString(R.string.choose_home_layout) + layoutDescription)
         val itemSplash = SettingItemBean("闪屏开关", "开启应用时打开闪屏", showCheck = true, checked = enableSplash)
+        val itemSwipe = SettingItemBean("滑动范围", "选择滑动返回的触发范围")
         val itemHint = SettingItemBean(getString(R.string.hint), getString(R.string.set_hint_style))
         val itemIcon = SettingItemBean(getString(R.string.icon), getString(R.string.icon_style_in_launcher))
         val itemSilence = SettingItemBean(getString(R.string.no_disturbing), getString(R.string.no_disturbing_explain), showCheck = true, checked = !loopReceiveMsg)
         cacheItem = SettingItemBean(getString(R.string.clear_cache), "...")
-        return arrayListOf(layoutItem, itemSplash, itemHint, itemIcon, itemSilence, cacheItem)
+        return arrayListOf(layoutItem, itemSplash, itemSwipe, itemHint, itemIcon, itemSilence, cacheItem)
     }
 
     private fun onHomeLayoutChange() {
@@ -128,16 +123,19 @@ class SettingActivity : BaseActivity() {
     }
 
     private fun getCache() {
-        ThreadPoolMgr.execute(Runnable {
-            cacheItem.tip = CacheHelper.CacheSize
-            runOnUiThread {
-                settingAdapter.notifyItemChanged(4)
-            }})
+        logd { "即将获取缓存" }
+        ThreadMgr.io {
+            cacheItem.tip = CacheManager.CacheSize
+            logd { "获取缓存大小成功：${cacheItem.tip}" }
+            ThreadMgr.ui(mContext) {
+                settingAdapter.notifyItemChanged(6)
+            }
+        }
     }
 
     private fun clearCache() {
         showHint(getString(R.string.cleaning))
-        CacheHelper.clearCache()
+        CacheManager.clearCache()
         getCache()
     }
 

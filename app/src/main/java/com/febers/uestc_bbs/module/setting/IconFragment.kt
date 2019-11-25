@@ -60,12 +60,9 @@ class IconFragment: BottomSheetDialogFragment() {
 
             iconList.addAll(getIconData())
             iconList[nowCode].isChoose = true
-            iconAdapter = IconGridViewAdapter(context!!, iconList,
-                    clickListener = object : IconGridViewAdapter.OnItemClickListener {
-                        override fun onClick(position: Int) {
-                            onIconItemClick(position)
-                        }
-                    })
+            iconAdapter = IconGridViewAdapter(context!!, iconList, clickListener = { position ->
+                onIconItemClick(position)
+            })
             iconGridView.adapter = iconAdapter
 
             btnEnter.setOnClickListener {

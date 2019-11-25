@@ -7,14 +7,14 @@ import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.module.post.view.content.ReplyCreator
+import com.febers.uestc_bbs.module.post.view.content.ContentCreator
 import com.othershe.baseadapter.ViewHolder
 import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, private val topicUserName: String):
         CommonBaseAdapter<PostDetailBean.ListBean>(context, data, false) {
 
-    private var replyCreator: ReplyCreator? = null
+    private var contentCreator: ContentCreator? = null
 
     override fun convert(holder: ViewHolder?, data: PostDetailBean.ListBean?, position: Int) {
         data ?: return
@@ -26,15 +26,15 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         if (topicUserName == data.reply_name) {
             holder.setVisibility(R.id.tv_post_reply_topic_user, View.VISIBLE)
         }
-        if (replyCreator == null) {
-            replyCreator = ReplyCreator(
+        if (contentCreator == null) {
+            contentCreator = ContentCreator(
                     mLinearLayout = holder.convertView?.findViewById(R.id.linear_layout_post_reply)!!,
                     mContents = data.reply_content!!)
         } else {
-            replyCreator!!.reset(holder?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, data?.reply_content!!)
+            contentCreator!!.reset(holder?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, data?.reply_content!!)
         }
 
-        replyCreator!!.create()
+        contentCreator!!.create()
 
         if (data.is_quote == REPLY_QUOTA) {
             holder.setVisibility(R.id.linear_layout_post_reply_quota, View.VISIBLE)
@@ -42,10 +42,10 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
         }
         ImageLoader.load(context, data.icon, holder.getView(R.id.image_view_post_reply_author_avatar))
 
-        replyCreator!!.getImageMapList().forEach {
+        contentCreator!!.getImageMapList().forEach {
             ImageLoader.loadForContent(context = context,
                     url = it.keys.first(),
-                    urls = replyCreator!!.getImageUrlList().toTypedArray(),
+                    urls = contentCreator!!.getImageUrlList().toTypedArray(),
                     imageView = it.values.first())
         }
     }

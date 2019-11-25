@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-class DownloadHelper {
+class DownloadManager {
 
     /**
      * 如果下载的文件为apk，保存在appApkDir

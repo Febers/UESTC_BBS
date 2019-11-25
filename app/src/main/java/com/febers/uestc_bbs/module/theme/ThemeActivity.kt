@@ -59,10 +59,8 @@ class ThemeActivity : BaseActivity() {
 
     private fun initGridView() {
         initData()
-        themeGridViewAdapter = ThemeGridViewAdapter(mContext, themeItemList, object : ThemeGridViewAdapter.OnItemClickListener {
-            override fun onClick(position: Int) {
-                color_picker.color = themeItemList[position].color
-            }
+        themeGridViewAdapter = ThemeGridViewAdapter(mContext, themeItemList, onItemClickListener = {
+            position -> color_picker.color = themeItemList[position].color
         })
         grid_view_theme.adapter = themeGridViewAdapter
     }

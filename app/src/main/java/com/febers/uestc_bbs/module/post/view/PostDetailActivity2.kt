@@ -28,9 +28,10 @@ import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT
 import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
+import com.febers.uestc_bbs.module.dialog.Dialog
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
 import com.febers.uestc_bbs.module.post.view.content.ContentTransfer
-import com.febers.uestc_bbs.module.post.view.content.VoteViewHelper
+import com.febers.uestc_bbs.module.post.view.content.VoteViewCreator
 import com.febers.uestc_bbs.utils.*
 import kotlinx.android.synthetic.main.activity_post_detail2.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_post_detail.*
@@ -45,7 +46,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     private var hideReplyCountBottomAnimatorSet: AnimatorSet? = null
     private var postPresenter: PostContract.Presenter? = null
     private var replyItemAdapter: PostReplyItemAdapter? = null
-    private var voteViewHelper: VoteViewHelper? = null
+    private var voteViewCreator: VoteViewCreator? = null
     private var optionBottomSheet: PostOptionBottomSheet? = null
     private var isFavorite: Int = POST_NO_FAVORED
     private var postOrder = POST_POSITIVE_ORDER
@@ -238,14 +239,14 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
      */
     private fun drawVoteView(pollInfo: PostDetailBean.TopicBean.PollInfoBean?) {
         pollInfo ?: return
-        voteViewHelper = VoteViewHelper(linear_layout_post_vote_support, pollInfo)
-        voteViewHelper?.create()
-        voteViewHelper?.setVoteButtonClickListener(object : VoteViewHelper.VoteButtonClickListener {
+        voteViewCreator = VoteViewCreator(linear_layout_post_vote_support, pollInfo)
+        voteViewCreator?.create()
+        voteViewCreator?.setVoteButtonClickListener(object : VoteViewCreator.VoteButtonClickListener {
             override fun click(pollItemIds: List<Int>) {
                 postPresenter?.postVoteRequest(pollItemIds)
             }
         })
-        voteViewHelper = null
+        voteViewCreator = null
     }
 
     //反对与支持

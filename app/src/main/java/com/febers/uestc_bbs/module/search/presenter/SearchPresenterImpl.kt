@@ -12,7 +12,7 @@ import retrofit2.Response
 class SearchPresenterImpl(view: SearchContract.View): SearchContract.Presenter(view) {
 
     override fun searchPostRequest(keyword: String, page: Int) {
-        ThreadPoolMgr.execute(Runnable { getSearchPost(keyword, page) })
+        ThreadMgr.network { getSearchPost(keyword, page) }
     }
 
     private fun getSearchPost(keyword: String, page: Int) {
@@ -46,7 +46,7 @@ class SearchPresenterImpl(view: SearchContract.View): SearchContract.Presenter(v
     }
 
     override fun searchUserRequest(keyword: String, page: Int) {
-        ThreadPoolMgr.execute(Runnable { getSearchUser(keyword, page) })
+        ThreadMgr.network { getSearchUser(keyword, page) }
     }
 
     private fun getSearchUser(keyword: String, page: Int) {

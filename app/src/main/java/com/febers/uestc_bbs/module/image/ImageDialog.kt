@@ -22,6 +22,9 @@ import com.febers.uestc_bbs.utils.loge
 import org.jetbrains.anko.runOnUiThread
 import java.nio.ByteBuffer
 
+/**
+ * @deprecated 使用 ImageActivity
+ */
 class ImageDialog: DialogFragment() {
 
     private val permissionRequestCode = 9527

@@ -18,7 +18,7 @@ import java.io.File
 /**
  * 提供清除缓存功能
  */
-object CacheHelper {
+object CacheManager {
 
     /**
      * 获取图片缓存大小
