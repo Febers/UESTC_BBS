@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.RecyclerView
 import com.febers.uestc_bbs.R
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.colorAccent
 import java.lang.ref.WeakReference
@@ -22,6 +24,12 @@ class Dialog {
     private var btnMid: Button? = null
     private var btnRight: Button? = null
 
+    /**
+     * 消息弹窗
+     *
+     * @param title 标题
+     * @param message 消息
+     */
     fun message(title: String, message: String) {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_message, null)
@@ -36,6 +44,11 @@ class Dialog {
         dialog = builder.create()
     }
 
+    /**
+     * 加载中弹窗
+     *
+     * @param title 标题
+     */
     fun progress(title: String? = contextRef.get()?.getString(R.string.loading)) {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_progress, null)
@@ -49,29 +62,78 @@ class Dialog {
         dialog = builder.create()
     }
 
+    /**
+     * 列表弹窗
+     *
+     * @param title 标题
+     * @param items 列表
+     * @param onClick 点击列表项之后的回调函数
+     */
     fun items(title: String, items: List<String>, onClick: (dialog: AlertDialog?, item: String, position: Int) -> Unit) {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_list, null)
-        val listView = layout.findViewById<ListView>(R.id.list_view_dialog)
+        val recyclerView = layout.findViewById<RecyclerView>(R.id.list_view_dialog)
         val tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
-        btnLeft = layout.findViewById<Button>(R.id.btn_list_dialog_left)
-        btnMid = layout.findViewById<Button>(R.id.btn_list_dialog_mid)
-        btnRight = layout.findViewById<Button>(R.id.btn_list_dialog_right)
+        btnLeft = layout.findViewById(R.id.btn_list_dialog_left)
+        btnMid = layout.findViewById(R.id.btn_list_dialog_mid)
+        btnRight = layout.findViewById(R.id.btn_list_dialog_right)
         tvTitle.text = title
-        listView.adapter = ArrayAdapter<String>(contextRef.get()!!, android.R.layout.simple_list_item_1, items)
-        listView.setOnItemClickListener { parent, view, position, id ->
-            onClick(dialog, items[position], position)
+        recyclerView.adapter = ListAdapter(contextRef.get()!!, items).apply {
+            setOnItemClickListener { viewHolder, data, position ->
+                onClick(dialog, data, position)
+            }
         }
         builder.setView(layout)
         dialog = builder.create()
     }
 
-    fun <T> singleChoiceItems(items: List<T>, checked: Int, onClick: (item: T, position: Int) -> Unit) {
+    fun singleChoiceItems(title: String, items: List<String>, descriptions: List<String>, checked: Int, onChecked: (item: String, position: Int) -> Unit) {
+        contextRef.get() ?: return
+        val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_list, null)
+        val recyclerView = layout.findViewById<RecyclerView>(R.id.list_view_dialog)
+        val tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
+        btnLeft = layout.findViewById(R.id.btn_list_dialog_left)
+        btnMid = layout.findViewById(R.id.btn_list_dialog_mid)
+        btnRight = layout.findViewById(R.id.btn_list_dialog_right)
+        tvTitle.text = title
+        recyclerView.adapter = ChoiceAdapter(contextRef.get()!!, items, descriptions, listOf(checked))
+                .apply {
+                    setOnItemChildClickListener(R.id.check_item_choice_dialog) {
+                    viewHolder: ViewHolder?, data: String?, position: Int ->
+                        this.checked = listOf(position)
+                        this.notifyDataSetChanged()
+                        onChecked(data!!, position)
+                }
+        }
 
+        builder.setView(layout)
+        dialog = builder.create()
     }
 
-    fun <T> multiChoiceItems(items: List<T>, checked: IntArray, onClick: (item: T, position: IntArray) -> Unit) {
+    fun multiChoiceItems(title: String, items: List<String>, descriptions: List<String>, checked: MutableList<Int>, onChecked: (item: String, positions: IntArray) -> Unit) {
+        contextRef.get() ?: return
+        val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_list, null)
+        val recyclerView = layout.findViewById<RecyclerView>(R.id.list_view_dialog)
+        val tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
+        btnLeft = layout.findViewById(R.id.btn_list_dialog_left)
+        btnMid = layout.findViewById(R.id.btn_list_dialog_mid)
+        btnRight = layout.findViewById(R.id.btn_list_dialog_right)
+        tvTitle.text = title
+        recyclerView.adapter = ChoiceAdapter(contextRef.get()!!, items, descriptions, checked)
+                .apply {
+                    setOnItemChildClickListener(R.id.check_item_choice_dialog) {
+                        viewHolder: ViewHolder?, data: String?, position: Int ->
+                        if (checked.contains(position)) {
+                            checked.remove(position)
+                        } else {
+                            checked.add(position)
+                        }
+                        onChecked(data!!, checked.toIntArray())
+                    }
+                }
 
+        builder.setView(layout)
+        dialog = builder.create()
     }
 
     fun positiveButton(
