@@ -12,8 +12,10 @@ import com.febers.uestc_bbs.utils.PreferenceUtils
 import kotlin.properties.Delegates
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import androidx.multidex.MultiDexApplication
+import com.febers.uestc_bbs.base.DEFAULT_POST_ITEM_VISIBLE_VALUE
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE
 import com.febers.uestc_bbs.base.HOME_VIEW_STYLE_BOTTOM
+import com.febers.uestc_bbs.base.SP_POST_ITEM_VISIBLE
 import com.febers.uestc_bbs.base.exception.ExceptionHandler
 import com.febers.uestc_bbs.home.HomeActivity
 import com.febers.uestc_bbs.home.HomeActivity2
@@ -22,6 +24,7 @@ import com.febers.uestc_bbs.utils.ApiUtils
 import com.febers.uestc_bbs.lib.emotion.EmotionManager
 import com.febers.uestc_bbs.lib.header.MaterialHeader
 import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.logi
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
@@ -59,6 +62,7 @@ class MyApp: MultiDexApplication() {
         initTheme()
         initBugly()
         initEmotionView()
+        initPostItemVisible()
         ExceptionHandler.getInstance().init()
     }
 
@@ -66,6 +70,7 @@ class MyApp: MultiDexApplication() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         ThemeManager.init(context)
     }
+
     /**
      * 初始化Bugly
      */
@@ -77,6 +82,19 @@ class MyApp: MultiDexApplication() {
         strategy.isUploadProcess = processName == null || processName == packageName
 
         Bugly.init(context, ApiUtils.BUGLY_APP_ID, false)
+    }
+
+    private fun initPostItemVisible() {
+        val visibleValue by PreferenceUtils(context, SP_POST_ITEM_VISIBLE, DEFAULT_POST_ITEM_VISIBLE_VALUE)
+        if (!visibleValue.contains(",")) {
+            if (visibleValue.isNotEmpty()) {
+                postItemVisibleSetting.add(visibleValue.toInt())
+            }
+        } else {
+            postItemVisibleSetting.addAll(visibleValue.split(",").map { it.toInt() }.toTypedArray().toMutableList())
+        }
+
+        logi { "value: $visibleValue, list: $postItemVisibleSetting" }
     }
 
     /**
@@ -104,6 +122,9 @@ class MyApp: MultiDexApplication() {
 
     companion object {
         private var context: Context by Delegates.notNull()
+
+        val postItemVisibleSetting: MutableList<Int> = ArrayList()
+
         var uiHidden: Boolean = false
         /*
             为了处理表情键盘的返回键逻辑而设置的标志变量
@@ -124,9 +145,10 @@ class MyApp: MultiDexApplication() {
         }
 
         fun getHomeActivity() = if (homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
-        else HomeActivity2::class.java
+                                else HomeActivity2::class.java
 
         fun isDebug(): Boolean = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0)
+
 
         init {
             /**

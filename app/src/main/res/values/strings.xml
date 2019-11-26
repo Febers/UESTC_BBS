@@ -95,7 +95,7 @@
     <string name="hint_way_changed">提示方式已更改</string>
     <string name="cleaning">清除中</string>
     <string name="home_layout">主界面布局</string>
-    <string name="choose_home_layout">选择不同的主界面布局，已设为：</string>
+    <string name="choose_home_layout">选择不同的主界面布局</string>
 
     <!--About界面-->
     <string name="thank_you">感谢您的捐赠!</string>

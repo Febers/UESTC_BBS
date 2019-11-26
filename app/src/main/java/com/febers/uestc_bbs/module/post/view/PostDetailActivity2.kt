@@ -29,6 +29,7 @@ import com.febers.uestc_bbs.module.post.view.edit.POST_REPLY_RESULT_CODE
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToUserDetail
 import com.febers.uestc_bbs.module.post.view.bottom_sheet.*
+import com.febers.uestc_bbs.module.post.view.content.ContentCreator
 import com.febers.uestc_bbs.module.post.view.content.ContentTransfer
 import com.febers.uestc_bbs.module.post.view.content.VoteViewCreator
 import com.febers.uestc_bbs.utils.*
@@ -39,6 +40,8 @@ import kotlinx.android.synthetic.main.layout_server_null.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 
 class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickListener {
+
+    private var renderContentValue by PreferenceUtils(ctx, SP_RENDER_CONTENT_MODE, RENDER_MODE_TRANSFER)
 
     private var replyList: MutableList<PostDetailBean.ListBean>? = ArrayList()
     private var showReplyCountBottomAnimatorSet: AnimatorSet? = null
@@ -80,6 +83,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         postPresenter = PostPresenterImpl(this)
         refresh_layout_post_detail.apply {
             setPrimaryColors(colorAccent())
+            setEnableOverScrollBounce(false)
             setOnRefreshListener {
                 drawFinish = false
                 page = 1
@@ -92,11 +96,11 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
 
         replyItemAdapter = PostReplyItemAdapter(this, replyList!!, topicUserName).apply {
             setOnItemChildClickListener(R.id.image_view_post_reply_author_avatar) {
-                viewHolder, postReplyBean, i -> clickToUserDetail(mContext, postReplyBean.reply_id)
+                viewHolder, postReplyBean, i -> clickToUserDetail(ctx, postReplyBean.reply_id)
             }
             setOnItemChildClickListener(R.id.image_view_post_reply_reply) {
                 viewHolder, postReplyBean, i ->
-                ClickContext.clickToPostReply(context = mContext,
+                ClickContext.clickToPostReply(context = ctx,
                         toUserId = postReplyBean.reply_id,
                         toUserName = postReplyBean.reply_name,
                         postId = postId,
@@ -107,7 +111,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         }
 
         recyclerview_post_detail_replies.apply {
-            layoutManager = LinearLayoutManager(mContext).apply {
+            layoutManager = LinearLayoutManager(ctx).apply {
                 stackFromEnd = true //配合adjustResize使软键盘弹出时recyclerView不错乱，使用新的绘制方案之后会出现问题
             }
             adapter = replyItemAdapter
@@ -192,7 +196,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
             } catch (e: Exception) {
                 "[主贴内容]"
             }
-            ClickContext.clickToPostReply(context = mContext,
+            ClickContext.clickToPostReply(context = ctx,
                     toUserId = topicUserId,
                     toUserName = topicUserName,
                     postId = postId,
@@ -207,11 +211,27 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
      * 绘制主贴视图
      */
     private fun drawTopicView(event: BaseEvent<PostDetailBean>) {
-        ContentTransfer.transfer(web_view_post_content, event.data.topic!!.content!!)
+        if (renderContentValue == RENDER_MODE_TRANSFER) {
+            ContentTransfer.transfer(web_view_post_content, event.data.topic!!.content!!)
+            logi { "webView加载帖子" }
+        } else {
+            logi { "动态添加layout加载帖子" }
+            web_view_post_content.visibility = View.GONE
+            layout_post_detail_content.visibility = View.VISIBLE
+            val contentCreator = ContentCreator(layout_post_detail_content, event.data.topic!!.content!!)
+            contentCreator.create()
+            contentCreator.getImageMapList().forEach {
+                ImageLoader.loadForContent(context = ctx,
+                        url = it.keys.first(),
+                        urls = contentCreator.getImageUrlList().toTypedArray(),
+                        imageView = it.values.first())
+            }
+        }
+
         image_view_post_detail_author_avatar?.let { it ->
             it.visibility = View.VISIBLE
             ImageLoader.load(this, event.data.topic?.icon, it, isCircle = true)
-            it.setOnClickListener { clickToUserDetail(mContext, event.data.topic?.user_id) }
+            it.setOnClickListener { clickToUserDetail(ctx, event.data.topic?.user_id) }
         }
         //收藏图标的相应设置
         isFavorite = event.data.topic?.is_favor ?: POST_NO_FAVORED
@@ -278,7 +298,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     private var supportLayout: View? = null
     private fun getSupportLayout(): View {
         if (supportLayout == null) {
-            supportLayout = LayoutInflater.from(mContext).inflate(R.layout.layout_post_detail_support, null)
+            supportLayout = LayoutInflater.from(ctx).inflate(R.layout.layout_post_detail_support, null)
         }
         return supportLayout!!
     }
@@ -389,7 +409,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
 
     private fun getOptionBottomSheet(): PostOptionBottomSheet {
         if (optionBottomSheet == null) {
-            optionBottomSheet = PostOptionBottomSheet(context = mContext, style = R.style.PinkBottomSheetTheme,
+            optionBottomSheet = PostOptionBottomSheet(context = ctx, style = R.style.PinkBottomSheetTheme,
                     itemClickListenerPost = this, postId = postId)
             optionBottomSheet!!.setContentView(R.layout.layout_bottom_sheet_post_option)
         }
@@ -400,7 +420,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
         if (layout_post_reply_count.visibility == View.VISIBLE) return
         layout_post_reply_count.post { layout_post_reply_count.visibility = View.VISIBLE }
         if (showReplyCountBottomAnimatorSet == null) {
-            showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
+            showReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(ctx, R.animator.scroll_show_fab) as AnimatorSet
             (showReplyCountBottomAnimatorSet as AnimatorSet).setTarget(layout_post_reply_count)
         }
         (showReplyCountBottomAnimatorSet as AnimatorSet).start()
@@ -412,7 +432,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     private fun hideReplyCountBottomAndFAB() {
         if (layout_post_reply_count.visibility == View.INVISIBLE) return
         if (hideReplyCountBottomAnimatorSet == null) {
-            hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(mContext, R.animator.scroll_show_fab) as AnimatorSet
+            hideReplyCountBottomAnimatorSet = AnimatorInflater.loadAnimator(ctx, R.animator.scroll_show_fab) as AnimatorSet
             (hideReplyCountBottomAnimatorSet as AnimatorSet).setTarget(layout_post_reply_count)
         }
         (hideReplyCountBottomAnimatorSet as AnimatorSet).start()
@@ -454,7 +474,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     ////////////////////////////////服务器响应为null////////////////////////////////
     private fun showEmptyView() {
         toolbar_common.title = getString(R.string.unknown)
-        val view = LayoutInflater.from(mContext).inflate(R.layout.layout_server_null, null)
+        val view = LayoutInflater.from(ctx).inflate(R.layout.layout_server_null, null)
         linear_layout_post_detail?.let {
             it.removeAllViews()
             it.addView(view)

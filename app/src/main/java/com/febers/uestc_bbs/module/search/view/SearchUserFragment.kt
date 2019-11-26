@@ -80,7 +80,7 @@ class SearchUserFragment: BaseFragment(), SearchContract.View {
             setEnableLoadMore(true)
         }
         if (page == 1) {
-            userAdapter.setNewData(event.data.body?.list)
+            userAdapter.setNewData(event.data.body?.list ?: emptyList())
             return
         }
         if (event.code == BaseCode.SUCCESS_END) {

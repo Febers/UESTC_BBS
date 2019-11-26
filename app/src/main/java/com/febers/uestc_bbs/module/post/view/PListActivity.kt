@@ -19,7 +19,6 @@ import com.febers.uestc_bbs.module.post.contract.PListContract
 import com.febers.uestc_bbs.module.post.presenter.PListPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.context.ClickContext.clickToPostDetail
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.*
 import com.febers.uestc_bbs.view.adapter.StickyPostAdapter
 import com.febers.uestc_bbs.view.helper.FABBehaviorHelper
@@ -75,7 +74,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
     override fun afterCreated() {
         pListPresenter = PListPresenterImpl(this)
-        postListAdapter = PostListAdapter(mContext, postList, showBoardName = false)
+        postListAdapter = PostListAdapter(ctx, postList, showBoardName = false)
 
         onAppbarLayoutOffsetChange()
         FABBehaviorHelper.fabBehaviorWithScrollView(scroll_view_post_list, fab_post_list)
@@ -85,7 +84,7 @@ class PListActivity: BaseActivity(), PListContract.View {
 
         boardNames.add(title.toString())
         boardIds.add(mFid)
-        boardSpinnerAdapter = ArrayAdapter(mContext,
+        boardSpinnerAdapter = ArrayAdapter(ctx,
                 R.layout.item_layout_spinner,
                 R.id.text_view_item_spinner,
                 boardNames).apply {
@@ -130,7 +129,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                 getPost(++page) }
         }
         fab_post_list.setOnClickListener {
-            ClickContext.clickToPostEdit(mContext, mFid, title!!)
+            ClickContext.clickToPostEdit(ctx, mFid, title!!)
         }
     }
 
@@ -157,7 +156,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                     classificationNameList.add(it.classificationType_name!!)
                     classificationIdList.add(it.classificationType_id)
                 }
-                classificationDialog = AlertDialog.Builder(mContext)
+                classificationDialog = AlertDialog.Builder(ctx)
                         .setTitle(getString(R.string.classification))
                         .setItems(classificationNameList.toTypedArray()) { dialog, which ->
                             classificationId = classificationIdList[which]
@@ -166,7 +165,7 @@ class PListActivity: BaseActivity(), PListContract.View {
                         }.create()
                 //帖子详情
                 if (boardDetailDialog == null) {
-                    boardDetailDialog = AlertDialog.Builder(mContext)
+                    boardDetailDialog = AlertDialog.Builder(ctx)
                             .setTitle(getString(R.string.block_detail))
                             .setMessage("""
 版块id: ${event.data.forumInfo?.id}
@@ -224,7 +223,7 @@ class PListActivity: BaseActivity(), PListContract.View {
         if (stickyPostList.isEmpty()) return
         if (!isShowStickyPost) {
             if (stickyPostAdapter == null) {
-                stickyPostAdapter = StickyPostAdapter(mContext, stickyPostList).apply {
+                stickyPostAdapter = StickyPostAdapter(ctx, stickyPostList).apply {
                     setOnItemClickListener { viewHolder, topTopicListBean, i ->
                         ClickContext.clickToPostDetail(context, topTopicListBean.id)
                     }

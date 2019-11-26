@@ -15,7 +15,6 @@ import com.febers.uestc_bbs.utils.logi
 import com.febers.uestc_bbs.utils.postSticky
 import com.febers.uestc_bbs.view.adapter.SimpleUserAdapter
 import kotlinx.android.synthetic.main.activity_account.*
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.layout_toolbar_common.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -38,12 +37,12 @@ class AccountActivity: BaseActivity() {
         users.forEach {
             logi { "User: $it" }
         }
-        simpleUserAdapter = SimpleUserAdapter(mContext, users).apply {
+        simpleUserAdapter = SimpleUserAdapter(ctx, users).apply {
             setOnItemClickListener { viewHolder, userItemBean, i ->
                 changeUser(userItemBean)
             }
             setOnItemChildClickListener(R.id.btn_delete_user) {viewHolder, userItemBean, i ->
-                AlertDialog.Builder(mContext).setTitle("提示")
+                AlertDialog.Builder(ctx).setTitle("提示")
                         .setMessage("是否注销账户: ${userItemBean.name}")
                         .setPositiveButton("注销") { dialog, which ->
                             deleteUser(userItemBean, i)
@@ -62,7 +61,7 @@ class AccountActivity: BaseActivity() {
         logi { "user adapter size: ${simpleUserAdapter?.itemCount}" }
         btn_add_user.setTextColor(colorAccent())
         btn_add_user.setOnClickListener {
-            startActivity(Intent(mContext, LoginActivity::class.java))
+            startActivity(Intent(ctx, LoginActivity::class.java))
         }
     }
 

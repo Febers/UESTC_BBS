@@ -86,12 +86,12 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
 //            userBottomSheet.setView(R.layout.layout_bottom_sheet_user_detail)
         }
         image_view_user_detail_blur_avatar.setBackgroundColor(colorAccent())
-        signDialog = AlertDialog.Builder(mContext).create()
+        signDialog = AlertDialog.Builder(ctx).create()
 
         if (!userItSelf) {
             postListAdapter = SimplePostAdapter(this, postList).apply {
                 setOnItemClickListener { viewHolder, listBean, i ->
-                    ClickContext.clickToPostDetail(mContext, listBean.topic_id, listBean.title, listBean.user_nick_name) }
+                    ClickContext.clickToPostDetail(ctx, listBean.topic_id, listBean.title, listBean.user_nick_name) }
             }
             recyclerview_user_post.adapter = postListAdapter
         }
@@ -237,7 +237,7 @@ class UserDetailActivity : BaseActivity(), UserContract.View {
             web("http://bbs.uestc.edu.cn/home.php?mod=space&uid=$userId")
         }
         if (item.itemId == R.id.menu_item_user_post_reply) {
-            startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+            startActivity(Intent(ctx, UserPostActivity::class.java).apply {
                 putExtra(USER_ID, userId)
                 putExtra(USER_POST_TYPE, USER_REPLY_POST) })
         }

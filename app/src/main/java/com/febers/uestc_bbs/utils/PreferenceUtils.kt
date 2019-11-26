@@ -9,7 +9,7 @@ import kotlin.reflect.KProperty
 /**
  * 自定义的封装SharedPreferences工具类
  * 使用方法：
- * val themeCode by PreferenceUtils(mContext = mContext!!, name = getString(R.string.sp_theme_code), default = 1)
+ * val themeCode by PreferenceUtils(ctx = ctx!!, name = getString(R.string.sp_theme_code), default = 1)
  * 通过赋值的方式简单改变i的值:
  * i = "new_value"
  */

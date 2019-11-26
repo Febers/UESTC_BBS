@@ -62,21 +62,21 @@ class AboutActivity: BaseActivity() {
         text_view_about_2.setTextColor(colorAccent())
         text_view_about_3.setTextColor(colorAccent())
 
-        settingAdapter1 = SettingAdapter(mContext, items1).apply {
+        settingAdapter1 = SettingAdapter(ctx, items1).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onFirstGroupItemClick(i)
             }
         }
         recyclerview_about_1.adapter = settingAdapter1
 
-        settingAdapter2 = SettingAdapter(mContext, items2).apply {
+        settingAdapter2 = SettingAdapter(ctx, items2).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onSecondGroupItemClick(i)
             }
         }
         recyclerview_about_2.adapter = settingAdapter2
 
-        settingAdapter3 = SettingAdapter(mContext, items3).apply {
+        settingAdapter3 = SettingAdapter(ctx, items3).apply {
             setOnItemClickListener { viewHolder, settingItemBean, i ->
                 onThirdGroupItemClick(i)
             }
@@ -90,9 +90,9 @@ class AboutActivity: BaseActivity() {
         items3.addAll(initSettingData3())
         settingAdapter3.notifyDataSetChanged()
 
-        openSourceProjectsDialog = AlertDialog.Builder(mContext)
+        openSourceProjectsDialog = AlertDialog.Builder(ctx)
                 .create()
-        projectAdapter = OpenProjectAdapter(mContext, initOpenProjectData()).apply {
+        projectAdapter = OpenProjectAdapter(ctx, initOpenProjectData()).apply {
             setOnItemClickListener { viewHolder, projectItemBean, i ->
                 context.browse(url = "https://github.com/" + projectItemBean.author + "/" + projectItemBean.name)
             }
@@ -137,9 +137,9 @@ class AboutActivity: BaseActivity() {
             }
             1 -> {
                 if (updateLogDialog == null) {
-                    updateLogDialog = AlertDialog.Builder(mContext)
+                    updateLogDialog = AlertDialog.Builder(ctx)
                             .setTitle(getString(R.string.update_log))
-                            .setMessage(Html.fromHtml(FileHelper.getAssetsString(mContext, "update_log.html")))
+                            .setMessage(Html.fromHtml(FileHelper.getAssetsString(ctx, "update_log.html")))
                             .setPositiveButton(getString(R.string.confirm)) { dialog, which ->
                                 updateLogDialog?.dismiss()
                             }
@@ -159,13 +159,13 @@ class AboutActivity: BaseActivity() {
     private fun onSecondGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                ClickContext.clickToUserDetail(context = mContext, uid = 196486)
+                ClickContext.clickToUserDetail(context = ctx, uid = 196486)
             }
             1 -> {
-                mContext.email(getString(R.string.developer_email))
+                ctx.email(getString(R.string.developer_email))
             }
             2 -> {
-                DonateUtils(mContext).donateByAlipay()
+                DonateUtils(ctx).donateByAlipay()
             }
         }
     }
@@ -173,7 +173,7 @@ class AboutActivity: BaseActivity() {
     private fun onThirdGroupItemClick(position: Int) {
         when(position) {
             0 -> {
-                mContext.browse(getString(R.string.app_project_url))
+                ctx.browse(getString(R.string.app_project_url))
             }
             1 -> {
                 openSourceProjectsDialog?.show()
@@ -183,7 +183,7 @@ class AboutActivity: BaseActivity() {
     }
 
     private fun getOpenSourceProjects(): View {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_open_projects, null)
+        val view = LayoutInflater.from(ctx).inflate(R.layout.dialog_open_projects, null)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_open_source)
         val btn = view.findViewById<Button>(R.id.btn_dialog_open_prj_enter)
         btn.setTextColor(colorAccent())
@@ -213,8 +213,8 @@ class AboutActivity: BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
-                permissionDialog = AlertDialog.Builder(mContext)
-                        .setMessage(Html.fromHtml(FileHelper.getAssetsString(mContext, "permission_explain.html")))
+                permissionDialog = AlertDialog.Builder(ctx)
+                        .setMessage(Html.fromHtml(FileHelper.getAssetsString(ctx, "permission_explain.html")))
                         .setPositiveButton(getString(R.string.confirm)) { p0, p1 -> }
                         .create()
             }
@@ -234,7 +234,7 @@ class AboutActivity: BaseActivity() {
     }
 
     private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
-        val dialogHelper = UpdateDialogHelper(mContext)
+        val dialogHelper = UpdateDialogHelper(ctx)
         dialogHelper.showGithubUpdateDialog(githubReleaseBean)
     }
 }

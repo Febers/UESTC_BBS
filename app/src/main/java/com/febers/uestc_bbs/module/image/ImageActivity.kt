@@ -69,14 +69,14 @@ class ImageActivity: BaseActivity() {
 
             override fun instantiateItem(container: ViewGroup, position: Int): Any {
                 if (imageUrls[position].isNotEmpty()) {
-                    val view = PhotoView(mContext)
+                    val view = PhotoView(ctx)
                     view.isEnabled = true
                     view.scaleType = ImageView.ScaleType.FIT_CENTER
                     view.setOnClickListener {
                         finish()
                         overridePendingTransition(0, 0)
                     }
-                    GlideApp.with(mContext)
+                    GlideApp.with(ctx)
                             .load(imageUrls[position])
                             .override(getWindowWidth(), getWindowWidth())
                             .fitCenter()
@@ -101,7 +101,7 @@ class ImageActivity: BaseActivity() {
                     container.addView(view)
                     return view
                 }
-                return PhotoView(mContext) //是否有风险
+                return PhotoView(ctx) //是否有风险
             }
 
             override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -146,20 +146,20 @@ class ImageActivity: BaseActivity() {
     }
 
     private fun saveImage() {
-        val p = ActivityCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val p = ActivityCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (p != PackageManager.PERMISSION_GRANTED) {
             loge { "出错：应用没有读写手机存储的权限！" }
             showHint("出错：应用没有读写手机存储的权限！")
-            ActivityCompat.requestPermissions(mContext, permissionRequestArray, permissionRequestCode)
+            ActivityCompat.requestPermissions(ctx, permissionRequestArray, permissionRequestCode)
             return
         }
         val drawable = drawableArray[currentPosition] ?: return
         Thread {
             if (drawable is GifDrawable) {
-                gifUri = ImageHelper.saveGif(mContext, imageUrls[currentPosition], false)
+                gifUri = ImageHelper.saveGif(ctx, imageUrls[currentPosition], false)
                 if (gifUri == null) showHint("gif保存失败") else showHint("gif保存成功")
             } else {
-                imageUri = ImageHelper.saveImage(mContext, drawable, false)
+                imageUri = ImageHelper.saveImage(ctx, drawable, false)
                 if (imageUri == null) showHint("图片保存失败") else showHint("图片已保存至相册")
             }
         }.start()
@@ -175,7 +175,7 @@ class ImageActivity: BaseActivity() {
             if (drawable is GifDrawable) {
                 //第一次判断，是否已经保存过图片
                 if (gifUri == null) {
-                    gifUri = ImageHelper.saveGif(mContext, imageUrls[currentPosition], true)
+                    gifUri = ImageHelper.saveGif(ctx, imageUrls[currentPosition], true)
                 }
                 //再次判断，是否保存失败
                 if (gifUri == null) {
@@ -185,7 +185,7 @@ class ImageActivity: BaseActivity() {
                 showShareView(gifUri as Uri)
             } else {
                 if (imageUri == null) {
-                    imageUri = ImageHelper.saveImage(mContext, drawable, forShare = true)
+                    imageUri = ImageHelper.saveImage(ctx, drawable, forShare = true)
                 }
                 if (imageUri == null) {
                     showHint("分享失败")

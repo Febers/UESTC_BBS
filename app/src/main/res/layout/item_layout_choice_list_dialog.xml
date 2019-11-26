@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toStartOf="@+id/check_item_choice_dialog"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_title_item_choice_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文字文字"
+            android:textColor="?text_color_first"
+            android:textSize="@dimen/text_size_big"/>
+
+        <TextView
+            android:id="@+id/tv_des_item_choice_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="附加说明"
+            android:paddingTop="2dp"
+            android:textColor="?text_color_second"
+            android:textSize="@dimen/text_size_normal"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+
+    <CheckBox
+        android:id="@+id/check_item_choice_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

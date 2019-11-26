@@ -32,26 +32,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_view_splash" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_splash">
-        <ImageView
-            android:visibility="invisible"
-            android:id="@+id/iv_list_gray"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:src="@drawable/xic_list_gray"/>
-        <ImageView
-            android:visibility="invisible"
-            android:id="@+id/iv_user_small"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:src="@drawable/xic_user_small"/>
-    </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

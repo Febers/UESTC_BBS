@@ -48,7 +48,7 @@ class UserPostActivity: BaseActivity(), UserContract.View {
         recyclerview_user_post.apply {
             adapter = userPListAdapter
             layoutManager = LinearLayoutManager(context)
-            //addItemDecoration(DividerItemDecoration(mContext, LinearLayoutManager.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(ctx, LinearLayoutManager.VERTICAL))
         }
         refresh_layout_user_post.apply {
             initAttrAndBehavior()

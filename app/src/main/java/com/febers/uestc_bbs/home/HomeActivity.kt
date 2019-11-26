@@ -194,7 +194,7 @@ class HomeActivity: BaseActivity() {
     }
 
     private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
-        val dialogHelper = UpdateDialogHelper(mContext)
+        val dialogHelper = UpdateDialogHelper(ctx)
         dialogHelper.showGithubUpdateDialog(githubReleaseBean)
     }
 

@@ -150,7 +150,8 @@ object ThemeManager {
 //            }
         }
         if (view is CheckBox) {
-            CompoundButtonCompat.setButtonTintList(view, ColorStateList.valueOf(colorAccent))
+            CompoundButtonCompat.setButtonTintList(view,
+                    ColorStateList(arrayOf(intArrayOf(android.R.attr.state_checked), intArrayOf()), intArrayOf(colorAccent, Color.GRAY)))
         }
         if (view is AHBottomNavigation) {
             view.accentColor = colorAccent

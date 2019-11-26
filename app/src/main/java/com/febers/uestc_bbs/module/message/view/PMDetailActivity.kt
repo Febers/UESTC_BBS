@@ -81,7 +81,7 @@ class PMDetailActivity : BaseActivity(), MessageContract.PMView {
 
     private fun initEmotionView() {
         (emotion_view_pm_detail as EmotionView).attachEditText(edit_view_pm)
-        keyboardManager = KeyBoardManager.with(mContext)
+        keyboardManager = KeyBoardManager.with(ctx)
                 .bindToEmotionButton(btn_emotion_pm_detail)
                 .setEmotionView(emotion_view_pm_detail as EmotionView)
                 .bindToLockContent(content_layout_pm_detail)

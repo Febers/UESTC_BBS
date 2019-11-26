@@ -30,11 +30,8 @@ dependencies {
 
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-15'
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
-    implementation 'com.github.SheHuan:RecyclerViewAdapter:1.2.9'
     implementation 'org.greenrobot:eventbus:3.1.1'
-//    implementation 'com.afollestad:aesthetic:1.0.0-beta05'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
-//    implementation 'com.github.ltyhome:PictureSelector:v2.2.3-androidx'
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'

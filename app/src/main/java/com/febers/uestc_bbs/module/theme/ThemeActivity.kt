@@ -59,7 +59,7 @@ class ThemeActivity : BaseActivity() {
 
     private fun initGridView() {
         initData()
-        themeGridViewAdapter = ThemeGridViewAdapter(mContext, themeItemList, onItemClickListener = {
+        themeGridViewAdapter = ThemeGridViewAdapter(ctx, themeItemList, onItemClickListener = {
             position -> color_picker.color = themeItemList[position].color
         })
         grid_view_theme.adapter = themeGridViewAdapter
@@ -99,11 +99,5 @@ class ThemeActivity : BaseActivity() {
         ThemeManager.setTheme(this, colorAccent)
         color_picker.oldCenterColor = colorAccent
         postEvent(ThemeChangedEvent(dayNightChanged = false))
-        changeDrawableTint()
-    }
-
-    private fun changeDrawableTint() {
-        DrawableCompat.setTint(iv_list_gray.drawable, ThemeManager.colorAccent())
-        DrawableCompat.setTint(iv_user_small.drawable, ThemeManager.colorAccent())
     }
 }

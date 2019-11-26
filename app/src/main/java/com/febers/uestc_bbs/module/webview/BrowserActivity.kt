@@ -8,10 +8,8 @@ import androidx.appcompat.widget.Toolbar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.BaseActivity
 import com.febers.uestc_bbs.base.URL
-import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.webview.listener.OnReceivedTitleListener
 import com.febers.uestc_bbs.utils.WebViewUtils
-import com.febers.uestc_bbs.utils.web
 import kotlinx.android.synthetic.main.activity_browser.*
 import me.yokeyword.fragmentation.SwipeBackLayout
 import org.jetbrains.anko.browse
@@ -33,7 +31,7 @@ class BrowserActivity : BaseActivity() {
     override fun initView() {
         setEdgeLevel(SwipeBackLayout.EdgeLevel.MIN)
         tv_title_browser.text = url
-        WebViewConfiguration.Configuration(mContext, web_view_app)
+        WebViewConfiguration.Configuration(ctx, web_view_app)
                 .setOpenUrlOut(false)
                 .setJavaScriptEnabled(true)
                 .setAppCacheEnabled(true)

@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
-import com.febers.uestc_bbs.base.exception.ExceptionHandler
 import com.febers.uestc_bbs.entity.GithubReleaseBean
 import com.febers.uestc_bbs.entity.MoreItemBean
 import com.febers.uestc_bbs.entity.PushMessageBean
@@ -103,7 +102,7 @@ class HomeActivity2: BaseActivity() {
         }
         ThemeManager.viewInitAndSubscribe(fab_home)
         fab_home.setOnClickListener {
-            ClickContext.clickToPostEdit(mContext, fid = 0, title = "") }
+            ClickContext.clickToPostEdit(ctx, fid = 0, title = "") }
         initDrawer()
         startService()
         getShortcutMsg()
@@ -111,7 +110,7 @@ class HomeActivity2: BaseActivity() {
 
     private fun initToolbar() {
         toolbar_common.title = getString(R.string.home_page)
-        val toggle = ActionBarDrawerToggle(mContext,
+        val toggle = ActionBarDrawerToggle(ctx,
                 drawer_layout_home_2, toolbar_common,
                 R.string.search, R.string.search)
         toggle.syncState()
@@ -123,24 +122,24 @@ class HomeActivity2: BaseActivity() {
         drawer_header_home.setOnClickListener {
             drawer_layout_home_2.closeDrawers()
             actionAfterDrawerClose = {
-                ClickContext.clickToUserDetail(mContext, MyApp.user().uid)
+                ClickContext.clickToUserDetail(ctx, MyApp.user().uid)
             }
         }
 
-        val menuItemAdapter1 = MoreItemAdapter(mContext, initDrawerItem1(), false)
+        val menuItemAdapter1 = MoreItemAdapter(ctx, initDrawerItem1(), false)
         menuItemAdapter1.setOnItemClickListener { p0, p1, p2 -> onFirstItemClick(position = p2) }
         recycler_view_drawer_1.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = menuItemAdapter1
         }
 
-        val menuItemAdapter2 = MoreItemAdapter(mContext, initDrawerItem2(), false).apply {
+        val menuItemAdapter2 = MoreItemAdapter(ctx, initDrawerItem2(), false).apply {
             setOnItemClickListener { p0, p1, p2 -> onSecondItemClick(position = p2) }
             setOnItemChildClickListener(R.id.switch_more_item) {
                 viewHolder, moreItemBean, i ->
                 drawer_layout_home_2.closeDrawers()
                 actionAfterDrawerClose = {
-                    ThemeManager.dayAndNightThemeChange(mContext)
+                    ThemeManager.dayAndNightThemeChange(ctx)
                 }
             }
         }
@@ -165,11 +164,11 @@ class HomeActivity2: BaseActivity() {
             tv_user_level_drawer_header.text = user.title
             tv_user_name_drawer_header.setTextColor(ThemeManager.colorRefreshText())
             tv_user_level_drawer_header.setTextColor(ThemeManager.colorRefreshText())
-            ImageLoader.load(mContext, user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
+            ImageLoader.load(ctx, user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
         } else {
             tv_user_name_drawer_header.text = getString(R.string.please_login_or_sign_up)
             tv_user_level_drawer_header.text = " "
-            ImageLoader.loadResource(mContext, R.drawable.ic_default_avatar_circle, iv_user_avatar_drawer_header, isCircle = true)
+            ImageLoader.loadResource(ctx, R.drawable.ic_default_avatar_circle, iv_user_avatar_drawer_header, isCircle = true)
         }
     }
 
@@ -191,32 +190,32 @@ class HomeActivity2: BaseActivity() {
     }
 
     private fun onFirstItemClick(position: Int) {
-        if (!LoginContext.userState(mContext)) return
+        if (!LoginContext.userState(ctx)) return
         drawer_layout_home_2.closeDrawers()
         actionAfterDrawerClose =  when(position) {
             USER_POST_ITEM -> {
                 {
-                    startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                    startActivity(Intent(ctx, UserPostActivity::class.java).apply {
                         putExtra(USER_ID, MyApp.user().uid)
                         putExtra(USER_POST_TYPE, USER_START_POST) })
                 }
             }
             USER_REPLY_ITEM -> {
                 {
-                    startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                    startActivity(Intent(ctx, UserPostActivity::class.java).apply {
                         putExtra(USER_ID, MyApp.user().uid)
                         putExtra(USER_POST_TYPE, USER_REPLY_POST) })
                 }
             }
             USER_FAV_ITEM -> {
                 {
-                    startActivity(Intent(mContext, UserPostActivity::class.java).apply {
+                    startActivity(Intent(ctx, UserPostActivity::class.java).apply {
                         putExtra(USER_ID, MyApp.user().uid)
                         putExtra(USER_POST_TYPE, USER_FAV_POST) })
                 }
             }
             USER_HISTORY_ITEM -> {
-                { startActivity(Intent(mContext, UserHistoryActivity::class.java)) }
+                { startActivity(Intent(ctx, UserHistoryActivity::class.java)) }
             }
             else -> { { } }
         }
@@ -229,16 +228,16 @@ class HomeActivity2: BaseActivity() {
                 { showNavigationDialog() }
             }
             THEME_ITEM -> {
-                { startActivity(Intent(mContext, ThemeActivity::class.java)) }
+                { startActivity(Intent(ctx, ThemeActivity::class.java)) }
             }
             ACCOUNT_ITEM -> {
-                { startActivity(Intent(mContext, AccountActivity::class.java)) }
+                { startActivity(Intent(ctx, AccountActivity::class.java)) }
             }
             SETTING_ITEM -> {
-                { startActivity(Intent(mContext, SettingActivity::class.java)) }
+                { startActivity(Intent(ctx, SettingActivity::class.java)) }
             }
             ABOUT_ITEM -> {
-                { startActivity(Intent(mContext, AboutActivity::class.java)) }
+                { startActivity(Intent(ctx, AboutActivity::class.java)) }
             }
             else -> { { } }
         }
@@ -246,7 +245,7 @@ class HomeActivity2: BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.menu_item_search_home_2 -> { startActivity(Intent(mContext, SearchActivity::class.java)) }
+            R.id.menu_item_search_home_2 -> { startActivity(Intent(ctx, SearchActivity::class.java)) }
             R.id.menu_item_block_home_2 -> {
                 pagePositionNow = if (pagePositionNow == PAGE_POSITION_BLOCK) {
                     showHideFragment(mFragments[PAGE_POSITION_HOME])
@@ -264,7 +263,7 @@ class HomeActivity2: BaseActivity() {
                     toolbar_common.title = getString(R.string.home_page)
                     PAGE_POSITION_HOME
                 } else {
-                    msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_menu_msg)
+                    msgMenuItem?.icon = ctx.resources.getDrawable(R.drawable.xic_menu_msg)
                     showHideFragment(mFragments[PAGE_POSITION_MESSAGE])
                     toolbar_common.title = getString(R.string.message_page)
                     PAGE_POSITION_MESSAGE
@@ -292,7 +291,7 @@ class HomeActivity2: BaseActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
     fun onReceiveNewMsg(event: MsgEvent) {
         if (pagePositionNow != PAGE_POSITION_MESSAGE) {
-            msgMenuItem?.icon = mContext.resources.getDrawable(R.drawable.xic_msg_notice_white_24dp)
+            msgMenuItem?.icon = ctx.resources.getDrawable(R.drawable.xic_msg_notice_white_24dp)
         }
     }
 
@@ -301,11 +300,11 @@ class HomeActivity2: BaseActivity() {
         if (event.user.valid) {
             tv_user_name_drawer_header.text = event.user.name
             tv_user_level_drawer_header.text = event.user.title
-            ImageLoader.load(mContext, event.user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
+            ImageLoader.load(ctx, event.user.avatar, iv_user_avatar_drawer_header, clickToViewer = false)
         } else {
             tv_user_name_drawer_header.text = getString(R.string.please_login_or_sign_up)
             tv_user_level_drawer_header.text = " "
-            ImageLoader.loadResource(mContext, R.drawable.ic_default_avatar_circle, iv_user_avatar_drawer_header, isCircle = true)
+            ImageLoader.loadResource(ctx, R.drawable.ic_default_avatar_circle, iv_user_avatar_drawer_header, isCircle = true)
         }
     }
 
@@ -332,28 +331,28 @@ class HomeActivity2: BaseActivity() {
 
     private fun showNavigationDialog() {
         if (navigationDialog == null) {
-            navigationDialog = AlertDialog.Builder(mContext)
+            navigationDialog = AlertDialog.Builder(ctx)
                     .create()
         }
         navigationDialog?.show()
         navigationDialog?.setContentView(getNavigationDialogView())
         tvNaviLostAndFound?.setOnClickListener {
-            startActivity(Intent(mContext, PListActivity::class.java).apply {
+            startActivity(Intent(ctx, PListActivity::class.java).apply {
                 putExtra(FID, 305)
                 putExtra(TITLE, "失物招领")
             })
             navigationDialog?.dismiss()
         }
         tvNaviSchoolBus?.setOnClickListener {
-            ClickContext.clickToPostDetail(mContext, 1430861)
+            ClickContext.clickToPostDetail(ctx, 1430861)
             navigationDialog?.dismiss()
         }
         tvNaviCalendar?.setOnClickListener {
-            ClickContext.clickToPostDetail(mContext, 1493930)
+            ClickContext.clickToPostDetail(ctx, 1493930)
             navigationDialog?.dismiss()
         }
         tvNaviNewer?.setOnClickListener {
-            ClickContext.clickToPostDetail(mContext, 1456557)
+            ClickContext.clickToPostDetail(ctx, 1456557)
             navigationDialog?.dismiss()
         }
         btnNaviEnter?.setOnClickListener {
@@ -362,7 +361,7 @@ class HomeActivity2: BaseActivity() {
     }
 
     private fun getNavigationDialogView(): View {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.dialog_navigation, null)
+        val view = LayoutInflater.from(ctx).inflate(R.layout.dialog_navigation, null)
         tvNaviLostAndFound = view.findViewById(R.id.navigation_lost_and_found)
         tvNaviSchoolBus = view.findViewById(R.id.navigation_school_bus)
         tvNaviCalendar = view.findViewById(R.id.navigation_calendar)
@@ -406,7 +405,7 @@ class HomeActivity2: BaseActivity() {
     }
 
     private fun showUpdateDialog(githubReleaseBean: GithubReleaseBean) {
-        val dialogHelper = UpdateDialogHelper(mContext)
+        val dialogHelper = UpdateDialogHelper(ctx)
         dialogHelper.showGithubUpdateDialog(githubReleaseBean)
     }
 

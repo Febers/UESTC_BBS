@@ -8,8 +8,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
 import com.febers.uestc_bbs.view.adapter.VoteItemAdapter
-import com.othershe.baseadapter.ViewHolder
 
 /**
  * 投票贴的视图绘制，投票状态有两种：可投和不可投

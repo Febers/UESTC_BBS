@@ -13,6 +13,7 @@ import com.febers.uestc_bbs.base.mvp.BaseView
 import com.febers.uestc_bbs.utils.HintUtils
 import com.febers.uestc_bbs.lib.fragmentation.SupportActivity
 import com.febers.uestc_bbs.module.theme.ThemeManager
+import com.febers.uestc_bbs.utils.PreferenceUtils
 import com.febers.uestc_bbs.utils.hideStatusBar
 import me.yokeyword.fragmentation.SwipeBackLayout
 
@@ -26,7 +27,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     protected val contentView: Int
         get() = setView()
 
-    protected val mContext: BaseActivity
+    protected val ctx: BaseActivity
         get() = this@BaseActivity
 
     protected open fun setMenu(): Int? = null
@@ -48,7 +49,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(contentView)
-        ActivityMgr.putActivity(mContext)
+        ActivityMgr.putActivity(ctx)
         Thread.currentThread().uncaughtExceptionHandler = ExceptionHandler.getInstance()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -61,7 +62,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
         if (enableHideStatusBar()) {
             hideStatusBar()
         }
-        setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
+        initSwipeBack()
         setSupportActionBar(setToolbar())
         supportActionBar?.apply {
             title = ""
@@ -74,6 +75,27 @@ abstract class BaseActivity : SupportActivity(), BaseView {
             setToolbar()!!.inflateMenu(setMenu()!!)
         }
         initView()
+    }
+
+    private fun initSwipeBack() {
+        val swipeBackRange by PreferenceUtils(ctx, SP_SWIPE_BACK_RANGE_VALUE, SWIPE_BACK_MED)
+        when(swipeBackRange) {
+            0 -> {
+                setSwipeBackEnable(false)
+            }
+            1 -> {
+                setSwipeBackEnable(true)
+                setEdgeLevel(SwipeBackLayout.EdgeLevel.MIN)
+            }
+            2 -> {
+                setSwipeBackEnable(true)
+                setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
+            }
+            3 -> {
+                setSwipeBackEnable(true)
+                setEdgeLevel(SwipeBackLayout.EdgeLevel.MAX)
+            }
+        }
     }
 
     override fun onStart() {
@@ -94,7 +116,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     protected open fun getEmptyViewForRecyclerView(recyclerView: RecyclerView): View =
             LayoutInflater
-                    .from(mContext)
+                    .from(ctx)
                     .inflate(R.layout.layout_server_null, recyclerView.parent as ViewGroup, false)
 
     private var isInitAllView = false
@@ -114,7 +136,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     override fun showHint(msg: String) {
         runOnUiThread {
-            HintUtils.show(mContext, msg)
+            HintUtils.show(ctx, msg)
         }
     }
 
@@ -146,7 +168,7 @@ abstract class BaseActivity : SupportActivity(), BaseView {
 
     override fun onDestroy() {
         super.onDestroy()
-        ActivityMgr.removeActivity(mContext)
+        ActivityMgr.removeActivity(ctx)
     }
 }
 

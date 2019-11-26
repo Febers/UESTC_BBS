@@ -92,3 +92,16 @@ const val QUERY_HISTORY = "query_history"
 const val PUSH_MESSAGE_ID_LAST = "push_message_id_last"
 
 const val SP_SPLASH_ENABLE = "sp_splash_enable"
+
+const val SP_SWIPE_BACK_RANGE_VALUE = "sp_swipe_back_range_value"
+const val SWIPE_BACK_FORBIDDEN = 0
+const val SWIPE_BACK_MIN = 1
+const val SWIPE_BACK_MED = 2
+const val SWIPE_BACK_MAX = 3
+
+const val SP_RENDER_CONTENT_MODE = "sp_render_content_mode"
+const val RENDER_MODE_TRANSFER = 0
+const val RENDER_MODE_CREATOR = 1
+
+const val SP_POST_ITEM_VISIBLE = "sp_post_item_visible_value"
+const val DEFAULT_POST_ITEM_VISIBLE_VALUE = "0,1,2,3,4,5"

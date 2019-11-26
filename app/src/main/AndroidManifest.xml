@@ -251,6 +251,7 @@
         <activity android:name=".module.setting.AccountActivity" />
         <activity android:name=".module.user.view.UserHistoryActivity" />
         <activity android:name=".module.more.DebugActivity" />
+        <activity android:name=".module.setting.PostItemSettingActivity" />
     </application>
 
 </manifest>

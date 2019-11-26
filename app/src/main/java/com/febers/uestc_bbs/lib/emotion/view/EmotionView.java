@@ -113,7 +113,7 @@ public class EmotionView extends RelativeLayout {
             result = specSize;
         } else {
             //非精确模式时显示默认 Size 如果是限制类型则显示默认值和限制值中较小的一个
-            //result = EmoticonUtils.dp2px(mContext, 200);
+            //result = EmoticonUtils.dp2px(ctx, 200);
             result = EmoticonUtils.dp2px(mContext, 300);
             //log("height, now result:" + result);
             if (specMode == MeasureSpec.AT_MOST) {
@@ -155,7 +155,7 @@ public class EmotionView extends RelativeLayout {
          添加多个Tab，当不同的Tab被点击的时候，viewPager显示不同的页数，以此实现多套主题方案
          */
 //        for (int i = 0; i < 4; i++) {
-//            EmotionTab emojiTab = new EmotionTab(mContext, EmotionDirHelper.getTabIcon(i));
+//            EmotionTab emojiTab = new EmotionTab(ctx, EmotionDirHelper.getTabIcon(i));
 //            mBottomTabLayout.addView(emojiTab);
 //            mTabs.add(emojiTab);
 //        }
@@ -169,11 +169,11 @@ public class EmotionView extends RelativeLayout {
 //                StickerCategory category = stickerCategories.get(i);
 //                EmotionTab tab;
 //                if (category.getName().equals(StickerManager.selfSticker)) {
-//                    tab = new EmotionTab(mContext, R.drawable.ic_emotion_self);
+//                    tab = new EmotionTab(ctx, R.drawable.ic_emotion_self);
 //                    mBottomTabLayout.addView(tab);
 //                    mTabs.add(tab);
 //                } else {
-//                    tab = new EmotionTab(mContext, category.getCoverPath());
+//                    tab = new EmotionTab(ctx, category.getCoverPath());
 //                    mBottomTabLayout.addView(tab);
 //                    mTabs.add(tab);
 //                }
@@ -181,11 +181,11 @@ public class EmotionView extends RelativeLayout {
 //        }
 //        //最后添加一个表情设置Tab
 //        if (EmotionManager.getInstance().isShowSetButton()) {
-//            mSettingTab = new EmotionTab(mContext, R.drawable.ic_setting_gray);
+//            mSettingTab = new EmotionTab(ctx, R.drawable.ic_setting_gray);
 //            StateListDrawable drawable = new StateListDrawable();
-//            Drawable unSelected = mContext.getResources().getDrawable(R.color.white);
+//            Drawable unSelected = ctx.getResources().getDrawable(R.color.white);
 //            drawable.addState(new int[]{-android.R.attr.state_pressed}, unSelected);
-//            Drawable selected = mContext.getResources().getDrawable(R.color.color_gray);
+//            Drawable selected = ctx.getResources().getDrawable(R.color.color_gray);
 //            drawable.addState(new int[]{android.R.attr.state_pressed}, selected);
 //            mSettingTab.setBackground(drawable);
 //            mBottomTabLayout.addView(mSettingTab);

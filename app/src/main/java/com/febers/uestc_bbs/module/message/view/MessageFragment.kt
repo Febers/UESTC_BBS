@@ -7,6 +7,7 @@ import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
 import com.febers.uestc_bbs.entity.*
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
 import com.febers.uestc_bbs.module.message.contract.MessageContract
 import com.febers.uestc_bbs.module.message.presenter.MsgPresenterImpl
 import com.febers.uestc_bbs.module.context.ClickContext
@@ -17,7 +18,6 @@ import com.febers.uestc_bbs.view.adapter.*
 import com.febers.uestc_bbs.utils.finishFail
 import com.febers.uestc_bbs.utils.finishSuccess
 import com.febers.uestc_bbs.utils.initAttrAndBehavior
-import com.othershe.baseadapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_message.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

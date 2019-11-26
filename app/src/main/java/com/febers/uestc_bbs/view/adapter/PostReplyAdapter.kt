@@ -31,7 +31,7 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
                     mLinearLayout = holder.convertView?.findViewById(R.id.linear_layout_post_reply)!!,
                     mContents = data.reply_content!!)
         } else {
-            contentCreator!!.reset(holder?.convertView?.findViewById(R.id.linear_layout_post_reply)!!, data?.reply_content!!)
+            contentCreator!!.reset(holder.convertView?.findViewById(R.id.linear_layout_post_reply)!!, data.reply_content!!)
         }
 
         contentCreator!!.create()
@@ -66,8 +66,8 @@ class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListB
     var isListScrolling: Boolean = false
 //        set(value) {
 //            field = value
-//            if (field) GlideApp.with(mContext).pauseRequests()
-//            else GlideApp.with(mContext).resumeRequests()
+//            if (field) GlideApp.with(ctx).pauseRequests()
+//            else GlideApp.with(ctx).resumeRequests()
 //        }
 
     //将引用的回复中的前缀跟内容分得更开

@@ -27,7 +27,7 @@ class CircleColorView : View {
     private fun init(attrs: AttributeSet?) {
         attrs ?: return
         paint = Paint()
-        //val typeArray = mContext.obtainStyledAttributes(attrs, R.styleable.CircleColorView)
+        //val typeArray = ctx.obtainStyledAttributes(attrs, R.styleable.CircleColorView)
         //color = typeArray.getColor(R.styleable.CircleColorView_color, Color.BLUE)
     }
 

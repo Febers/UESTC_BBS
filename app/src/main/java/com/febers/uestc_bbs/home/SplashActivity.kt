@@ -32,9 +32,9 @@ class SplashActivity : BaseActivity() {
 
     override fun initView() {
         if (intent.getBooleanExtra(RESTART_APP, false)) {
-            ActivityMgr.removeAllActivitiesExceptOne(mContext)
+            ActivityMgr.removeAllActivitiesExceptOne(ctx)
         }
-        val enableSplash by PreferenceUtils(mContext, SP_SPLASH_ENABLE, true)
+        val enableSplash by PreferenceUtils(ctx, SP_SPLASH_ENABLE, true)
         if (!enableSplash) {
             startActivity()
             return
@@ -43,8 +43,6 @@ class SplashActivity : BaseActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             image_view_splash.drawable.setTint(colorAccent())
             text_view_splash.setTextColor(colorAccent())
-            DrawableCompat.setTint(iv_list_gray.drawable, colorAccent())
-            DrawableCompat.setTint(iv_user_small.drawable, colorAccent())
         }
 
         permissionUtils = PermissionUtils(this)
@@ -79,7 +77,7 @@ class SplashActivity : BaseActivity() {
             start()
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            var shortCutInit by PreferenceUtils(mContext, SHORTCUT_INIT, false)
+            var shortCutInit by PreferenceUtils(ctx, SHORTCUT_INIT, false)
 //            if (!shortCutInit) {
                 initShortCuts()
                 shortCutInit = true
@@ -88,7 +86,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun startActivity() {
-        startActivity(Intent(mContext,
+        startActivity(Intent(ctx,
                 if (MyApp.homeLayout() == HOME_VIEW_STYLE_BOTTOM) HomeActivity::class.java
                 else HomeActivity2::class.java))
         overridePendingTransition(0, 0)
@@ -99,30 +97,30 @@ class SplashActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.N_MR1)
     private fun initShortCuts() {
         val shortcutManager = getSystemService(ShortcutManager::class.java)
-        val hotShortcut = ShortcutInfo.Builder(mContext, "hot")
+        val hotShortcut = ShortcutInfo.Builder(ctx, "hot")
                 .setShortLabel("热门")
                 .setLongLabel("热门帖子")
-                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_hot_blue))
-                .setIntent(Intent(mContext, MyApp.getHomeActivity()).apply {
+                .setIcon(Icon.createWithResource(ctx, R.drawable.xic_hot_blue))
+                .setIntent(Intent(ctx, MyApp.getHomeActivity()).apply {
                     action = Intent.ACTION_VIEW
                     putExtra(SHORTCUT_HOT, true)
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
                 })
                 .build()
-        val msgShortcut = ShortcutInfo.Builder(mContext, "msg")
+        val msgShortcut = ShortcutInfo.Builder(ctx, "msg")
                 .setShortLabel("消息")
                 .setLongLabel("我的消息")
-                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_notice_blue))
-                .setIntent(Intent(mContext, MyApp.getHomeActivity()).apply {
+                .setIcon(Icon.createWithResource(ctx, R.drawable.xic_notice_blue))
+                .setIntent(Intent(ctx, MyApp.getHomeActivity()).apply {
                     action = Intent.ACTION_VIEW
                     putExtra(SHORTCUT_MSG, true)
                     flags = Intent.FLAG_ACTIVITY_SINGLE_TOP })
                 .build()
-        val searchShortcut = ShortcutInfo.Builder(mContext, "search")
+        val searchShortcut = ShortcutInfo.Builder(ctx, "search")
                 .setShortLabel("搜索")
                 .setLongLabel("帖子搜索")
-                .setIcon(Icon.createWithResource(mContext, R.drawable.xic_search_blue))
-                .setIntent(Intent(mContext, SearchActivity::class.java).apply {
+                .setIcon(Icon.createWithResource(ctx, R.drawable.xic_search_blue))
+                .setIntent(Intent(ctx, SearchActivity::class.java).apply {
                     action = Intent.ACTION_VIEW })
                 .build()
         shortcutManager?.dynamicShortcuts = arrayListOf(hotShortcut, msgShortcut,searchShortcut)

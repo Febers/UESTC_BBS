@@ -55,7 +55,7 @@ class SearchActivity: BaseActivity() {
                 }
                 keyword = query
                 page = 1
-                KeyboardUtils.closeKeyboard(searchView, mContext)
+                KeyboardUtils.closeKeyboard(searchView, ctx)
                 postEvent(SearchSubmitEvent(view_pager_search.currentItem, keyword))
                 return true
             }

@@ -245,7 +245,7 @@ class BlockFragment: BaseFragment() {
     private fun changeTitlePosition(tv: TextView) {
         val itemWidth = getWindowWidth()/3
         val marginLayoutParams = LinearLayout.LayoutParams(tv.layoutParams)
-        marginLayoutParams.setMargins(itemWidth/4, 10, 0, 10)
+        marginLayoutParams.setMargins(itemWidth/5, 10, 0, 10)
         tv.layoutParams = marginLayoutParams
     }
 

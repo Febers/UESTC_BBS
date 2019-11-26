@@ -2,38 +2,85 @@ package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostListBean
 import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
 import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.febers.uestc_bbs.utils.colorAccent
 
 class PostListAdapter(val context: Context, data: List<PostListBean.ListBean>, val showBoardName: Boolean = true):
         CommonBaseAdapter<PostListBean.ListBean>(context, data, true) {
 
-
-    override fun convert(p0: ViewHolder?, p1: PostListBean.ListBean?, p2: Int) {
-        var summary = p1?.subject   //普通帖子
+    override fun convert(holder: ViewHolder?, bean: PostListBean.ListBean?, p2: Int) {
+        holder ?: return
+        bean ?: return
+        var summary = bean.subject   //普通帖子
         if (summary == null) {
-            summary = p1?.summary   //热门帖子
+            summary = bean.summary   //热门帖子
         }
-        p0?.getView<TextView>(R.id.text_view_item_post_block)?.visibility = if (showBoardName) View.VISIBLE else View.INVISIBLE
-        p0?.getView<TextView>(R.id.text_view_item_post_reply)?.setTextColor(colorAccent())
-        p0?.setText(R.id.text_view_item_poster, p1?.user_nick_name)
-        p0?.setText(R.id.text_view_item_post_block, p1?.board_name)
-        p0?.setText(R.id.text_view_item_post_title, p1?.title)
-
-        p0?.setText(R.id.text_view_item_post_content, summary)
-        p0?.setText(R.id.text_view_item_post_reply, p1?.replies.toString())
-
-//        p0?.setText(R.id.text_view_item_post_hits, p1?.hits.toString())
-        p0?.setText(R.id.text_view_item_post_time, TimeUtils.stampChange(p1?.last_reply_date))
-
-        ImageLoader.load(context, p1?.userAvatar, p0?.getView(R.id.image_view_item_post_avatar))
+        holder.setText(R.id.text_view_item_post_title, bean.title)
+        holder.getView<ImageView>(R.id.image_view_item_post_avatar).let {
+            if (MyApp.postItemVisibleSetting.contains(0)) {
+                it.visibility = View.VISIBLE
+                ImageLoader.load(context, bean.userAvatar, holder.getView(R.id.image_view_item_post_avatar))
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_poster).let {
+            if (MyApp.postItemVisibleSetting.contains(1)) {
+                it.visibility = View.VISIBLE
+                it.text = bean.user_nick_name
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_post_time).let {
+            if (MyApp.postItemVisibleSetting.contains(1)) {
+                it.visibility = View.VISIBLE
+                it.text = TimeUtils.stampChange(bean.last_reply_date)
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_post_content).let {
+            if (MyApp.postItemVisibleSetting.contains(2)) {
+                it.visibility = View.VISIBLE
+                it.text = summary
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_post_block).let {
+            if (MyApp.postItemVisibleSetting.contains(3) && showBoardName) {
+                it.visibility = View.VISIBLE
+                it.text = bean.board_name
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_post_hits).let {
+            if (MyApp.postItemVisibleSetting.contains(4)) {
+                it.visibility = View.VISIBLE
+                it.text = bean.hits.toString()
+            } else {
+                it.visibility = View.GONE
+                holder.getView<ImageView>(R.id.image_view_item_post_hits).visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_post_reply).let {
+            if (MyApp.postItemVisibleSetting.contains(5)) {
+                it.visibility = View.VISIBLE
+                it.text = bean.replies.toString()
+            } else {
+                it.visibility = View.GONE
+                holder.getView<ImageView>(R.id.image_view_reply_list).visibility = View.GONE
+            }
+        }
     }
 
     override fun getItemLayoutId(): Int {

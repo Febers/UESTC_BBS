@@ -1,21 +1,23 @@
 package com.febers.uestc_bbs.module.image
 
 import android.content.Context
-import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.bumptech.glide.load.DataSource
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
-import com.febers.uestc_bbs.base.IMAGE_URL
-import com.febers.uestc_bbs.base.IMAGE_URLS
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.post.view.content.image_text.GlideImageGetter
 import com.febers.uestc_bbs.utils.getWindowWidth
+import com.febers.uestc_bbs.utils.logi
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 object ImageLoader {
@@ -77,7 +79,8 @@ object ImageLoader {
                        imageView: ImageView?,
                        placeImage: Int? = R.drawable.xic_placeholder_empty,
                        clickToViewer: Boolean = true) {
-        val sizeOptions = RequestOptions().override(getWindowWidth(), getWindowWidth())
+//        val sizeOptions = RequestOptions().override(getWindowWidth(), getWindowWidth())
+        imageView ?: return
         try {
             GlideApp.with(context!!).load(url)
                     .apply {
@@ -85,10 +88,23 @@ object ImageLoader {
                             this.placeholder(placeImage)
                         }
                     }
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            logi { "Image load for content onResourceReady" }
+                            target?.getSize { width, height ->
+                                logi { "Image load for content getSize: [w:$width,h:$height], windowWidth: ${getWindowWidth()}" }
+                            }
+                            return false
+                        }
+                    })
                     .error(R.drawable.image_error_400200)
-                    .apply(sizeOptions)
+//                    .apply(sizeOptions)
                     .centerInside()
-                    .into(imageView!!)
+                    .into(imageView)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -174,11 +190,11 @@ object ImageLoader {
      *
      * @param url
      */
-//    fun getImageWidthAndHeight(mContext: Context,
+//    fun getImageWidthAndHeight(ctx: Context,
 //                               url: String): Array<Int> {
 //        var width = 0
 //        var height= 0
-//        GlideApp.with(mContext).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+//        GlideApp.with(ctx).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
 //            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
 //                width = resource.width
 //                height = resource.height

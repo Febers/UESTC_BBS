@@ -1,5 +1,6 @@
 package com.febers.uestc_bbs.module.post.view.content
 
+import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -7,12 +8,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.post.view.content.image_text.ImageTextHelper
 import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.utils.colorAccent
-import com.febers.uestc_bbs.utils.encodeSpaces
-import com.febers.uestc_bbs.utils.getWindowWidth
+import com.febers.uestc_bbs.utils.*
 import org.jetbrains.anko.browse
 
 
