@@ -17,14 +17,6 @@
         <!--Toolbar-->
         <include layout="@layout/layout_toolbar_common" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar_reply_activity"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/common_pb_height"
-            android:indeterminate="true"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:visibility="gone"/>
-
         <!--引用的文字-->
         <LinearLayout
             android:id="@+id/linear_layout_reply_quota_activity"

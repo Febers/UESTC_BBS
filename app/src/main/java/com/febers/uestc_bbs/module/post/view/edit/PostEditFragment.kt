@@ -1,16 +1,15 @@
 package com.febers.uestc_bbs.module.post.view.edit
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.UiThread
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.*
@@ -29,8 +28,6 @@ import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_IMG
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
 import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
 import com.febers.uestc_bbs.lib.emotion.view.EmotionView
-import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.febers.uestc_bbs.utils.colorAccent
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -262,7 +259,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
                             aidBuffer.append("${event.data.body?.attachment?.first()?.id},")
                             contentList.add(CONTENT_TYPE_IMG to event.data.body?.attachment?.first()?.urlName.toString())
                             if (++successCount == selectedImagePaths.size) {
-                                context?.runOnUiThread { progressDialog?.setTitle("上传图片成功,正在发表帖子") }
+                                context?.runOnUiThread { progressDialog?.setMessage("上传图片成功,正在发表帖子") }
                                 aidBuffer.deleteCharAt(aidBuffer.lastIndex)
                                 pEditPresenter.newPostRequest(fid = mFid,
                                         aid = aidBuffer.toString(),
@@ -276,7 +273,7 @@ class PostEditFragment: BaseFragment(), PEditContract.View, PListContract.View {
 
                         override fun onUploading(msg: String) {
                                 context?.runOnUiThread {
-                                    progressDialog?.setTitle("正在上传第${successCount+1}张图片")
+                                    progressDialog?.setMessage("正在上传第${successCount+1}张图片")
                                 }
                         }
                     })

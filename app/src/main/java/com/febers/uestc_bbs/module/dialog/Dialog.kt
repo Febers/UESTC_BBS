@@ -3,6 +3,9 @@ package com.febers.uestc_bbs.module.dialog
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.text.Html
+import android.text.method.MovementMethod
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -24,22 +27,32 @@ class Dialog {
     private var btnMid: Button? = null
     private var btnRight: Button? = null
 
+    private var tvTitle: TextView? = null
+
     /**
      * 消息弹窗
      *
      * @param title 标题
      * @param message 消息
      */
-    fun message(title: String, message: String) {
+    fun message(title: String, message: String, fromHtml: Boolean = false) {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_message, null)
         val tvMessage = layout.findViewById<TextView>(R.id.text_view_message_dialog)
-        val tvTitle = layout.findViewById<TextView>(R.id.text_dialog_title)
-        tvMessage.text = message
-        tvTitle.text = title
-        btnRight = layout.findViewById<Button>(R.id.btn_msg_dialog_right)
-        btnMid = layout.findViewById<Button>(R.id.btn_msg_dialog_mid)
-        btnLeft = layout.findViewById<Button>(R.id.btn_msg_dialog_left)
+        tvTitle = layout.findViewById<TextView>(R.id.text_dialog_title)
+        if (title.isEmpty()) {
+            tvTitle!!.visibility = View.GONE
+        } else {
+            tvTitle!!.text = title
+        }
+        if (!fromHtml) {
+            tvMessage.text = message
+        } else {
+            tvMessage.text = Html.fromHtml(message)
+        }
+        btnRight = layout.findViewById(R.id.btn_msg_dialog_right)
+        btnMid = layout.findViewById(R.id.btn_msg_dialog_mid)
+        btnLeft = layout.findViewById(R.id.btn_msg_dialog_left)
         builder.setView(layout)
         dialog = builder.create()
     }
@@ -53,10 +66,10 @@ class Dialog {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_progress, null)
         val progressBar = layout.findViewById<ProgressBar>(R.id.pb_progress)
-        val tvTitle = layout.findViewById<TextView>(R.id.progress_dialog_title)
+        tvTitle = layout.findViewById<TextView>(R.id.progress_dialog_title)
         progressBar.indeterminateDrawable.colorFilter = PorterDuffColorFilter(colorAccent(), PorterDuff.Mode.MULTIPLY)
         title?.let {
-            tvTitle.text = it
+            tvTitle!!.text = it
         }
         builder.setView(layout)
         dialog = builder.create()
@@ -73,11 +86,11 @@ class Dialog {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_list, null)
         val recyclerView = layout.findViewById<RecyclerView>(R.id.list_view_dialog)
-        val tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
+        tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
         btnLeft = layout.findViewById(R.id.btn_list_dialog_left)
         btnMid = layout.findViewById(R.id.btn_list_dialog_mid)
         btnRight = layout.findViewById(R.id.btn_list_dialog_right)
-        tvTitle.text = title
+        tvTitle!!.text = title
         recyclerView.adapter = ListAdapter(contextRef.get()!!, items).apply {
             setOnItemClickListener { viewHolder, data, position ->
                 onClick(dialog, data, position)
@@ -91,11 +104,11 @@ class Dialog {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_list, null)
         val recyclerView = layout.findViewById<RecyclerView>(R.id.list_view_dialog)
-        val tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
+        tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
         btnLeft = layout.findViewById(R.id.btn_list_dialog_left)
         btnMid = layout.findViewById(R.id.btn_list_dialog_mid)
         btnRight = layout.findViewById(R.id.btn_list_dialog_right)
-        tvTitle.text = title
+        tvTitle!!.text = title
         recyclerView.adapter = ChoiceAdapter(contextRef.get()!!, items, descriptions, listOf(checked))
                 .apply {
                     setOnItemChildClickListener(R.id.check_item_choice_dialog) {
@@ -114,11 +127,11 @@ class Dialog {
         contextRef.get() ?: return
         val layout = LayoutInflater.from(contextRef.get()).inflate(R.layout.dialog_list, null)
         val recyclerView = layout.findViewById<RecyclerView>(R.id.list_view_dialog)
-        val tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
+        tvTitle = layout.findViewById<TextView>(R.id.list_dialog_title)
         btnLeft = layout.findViewById(R.id.btn_list_dialog_left)
         btnMid = layout.findViewById(R.id.btn_list_dialog_mid)
         btnRight = layout.findViewById(R.id.btn_list_dialog_right)
-        tvTitle.text = title
+        tvTitle!!.text = title
         recyclerView.adapter = ChoiceAdapter(contextRef.get()!!, items, descriptions, checked)
                 .apply {
                     setOnItemChildClickListener(R.id.check_item_choice_dialog) {
@@ -177,6 +190,7 @@ class Dialog {
 
     fun cancelable(b: Boolean) {
         builder.setCancelable(b)
+        dialog?.setCanceledOnTouchOutside(b)
     }
 
     fun show() {
@@ -185,6 +199,10 @@ class Dialog {
 
     fun dismiss() {
         dialog?.dismiss()
+    }
+
+    fun changeTitle(title: String) {
+        tvTitle?.text = title
     }
 
     fun re(): AlertDialog? = dialog

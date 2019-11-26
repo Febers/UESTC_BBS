@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="24dp"
         android:indeterminate="true"/>
     <TextView
         android:id="@+id/progress_dialog_title"
@@ -19,5 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:textSize="@dimen/text_size_super_big"
+        android:textColor="?text_color_first"
         android:layout_margin="15dp"/>
 </LinearLayout>

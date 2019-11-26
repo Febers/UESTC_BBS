@@ -21,6 +21,7 @@ import com.febers.uestc_bbs.lib.emotion.KeyBoardManager
 import com.febers.uestc_bbs.lib.emotion.view.EmotionView
 import kotlinx.android.synthetic.main.activity_post_reply.*
 import com.febers.uestc_bbs.lib.emotion.EmotionTranslator
+import com.febers.uestc_bbs.module.dialog.Dialog
 import com.febers.uestc_bbs.utils.colorAccent
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -42,13 +43,14 @@ const val POST_REPLY_DESCRIPTION = "post_reply_description"
 const val POST_REPLY_RESULT_CODE = 418
 const val POST_REPLY_RESULT = "post_reply_result"
 
-//TODO：更改progress方式
 class PostReplyActivity: BaseActivity(), PostContract.View {
 
     private lateinit var imgGridViewAdapter: ImgGridViewAdapter
+    private lateinit var postPresenter: PostContract.Presenter
+    private lateinit var keyboardManager: KeyBoardManager
+
     private val selectedImagePaths: MutableList<String> = ArrayList()
     private val selectedImageMedias: MutableList<LocalMedia> = ArrayList()
-    private lateinit var postPresenter: PostContract.Presenter
 
     private var toUserId: Int?  = 0
     private var toUserName: String? = null
@@ -57,9 +59,8 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
     private var isQuota: Int? = REPLY_NO_QUOTA
     private var description: String? = ""
 
-    private lateinit var keyboardManager: KeyBoardManager
-
     private var fullscreenEditView: EditViewFullscreen? = null
+    private var progressDialog: AlertDialog? = null
 
     override fun setView(): Int {
         intent?.let {
@@ -101,9 +102,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
 
         btn_photo_post_reply.setOnClickListener { selectPictures() }
         btn_post_reply_activity.setOnClickListener {
-            if (progress_bar_reply_activity.visibility != View.VISIBLE) {
-                beforeSendReply()
-            }
+            beforeSendReply()
         }
         DrawableCompat.setTint(btn_post_reply_activity.drawable, colorAccent())
         initEmotionView()
@@ -153,9 +152,13 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
      *
      */
     private fun sendReply(stContent: String) {
-        progress_bar_reply_activity.visibility = View.VISIBLE
-        progress_bar_reply_activity.setBackgroundColor(colorAccent())
-
+        if (progressDialog == null) {
+            progressDialog = Dialog.build(ctx) {
+                progress("正在回复")
+                cancelable(false)
+            }
+        }
+        progressDialog!!.show()
         val aidBuffer = StringBuilder()
         val contentList: MutableList<Pair<Int, String>> = ArrayList()
         contentList.add(CONTENT_TYPE_TEXT to stContent)
@@ -196,7 +199,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
             })
             if (!flag) {
                 showError("上传第${successCount+1}张图片时失败,避免上传过大图片,请重试")
-                progress_bar_reply_activity.visibility = View.GONE
+                progressDialog?.dismiss()
                 break
             }
         }
@@ -209,7 +212,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
      */
     override fun showPostReplyResult(event: BaseEvent<PostSendResultBean>) {
         runOnUiThread{
-            progress_bar_reply_activity.visibility = View.GONE
+            progressDialog?.dismiss()
             showHint(event.data.head?.errInfo.toString())
             setResult(POST_REPLY_RESULT_CODE, Intent().apply {
                     putExtra(POST_REPLY_RESULT, true)
@@ -232,7 +235,7 @@ class PostReplyActivity: BaseActivity(), PostContract.View {
     override fun showError(msg: String) {
         runOnUiThread{
             showHint(msg)
-            progress_bar_reply_activity?.visibility = View.GONE
+            progressDialog?.dismiss()
         }
     }
 

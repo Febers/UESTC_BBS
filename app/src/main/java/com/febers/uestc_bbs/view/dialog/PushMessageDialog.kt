@@ -3,6 +3,8 @@ package com.febers.uestc_bbs.view.dialog
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -31,9 +33,7 @@ class PushMessageDialog(var activity: Activity): AlertDialog(activity, R.style.T
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_push_msg, null)
         progressBar = view.findViewById(R.id.progress_bar_push_dialog)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            progressBar.progressTintList = ColorStateList.valueOf(colorAccent())
-        }
+        progressBar.indeterminateDrawable.colorFilter = PorterDuffColorFilter(colorAccent(), PorterDuff.Mode.MULTIPLY)
         tvPushMessage = view.findViewById(R.id.tv_push_dialog)
         btnEnter = view.findViewById(R.id.btn_enter_push_dialog)
         btnEnter.setOnClickListener { dismiss() }

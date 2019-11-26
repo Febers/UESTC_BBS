@@ -16,6 +16,7 @@ import com.febers.uestc_bbs.entity.SettingItemBean
 import com.febers.uestc_bbs.io.FileHelper
 import com.febers.uestc_bbs.utils.DonateUtils
 import com.febers.uestc_bbs.module.context.ClickContext
+import com.febers.uestc_bbs.module.dialog.Dialog
 import com.febers.uestc_bbs.module.update.UpdateDialogHelper
 import com.febers.uestc_bbs.module.update.UpdateHelper
 import com.febers.uestc_bbs.utils.colorAccent
@@ -137,19 +138,19 @@ class AboutActivity: BaseActivity() {
             }
             1 -> {
                 if (updateLogDialog == null) {
-                    updateLogDialog = AlertDialog.Builder(ctx)
-                            .setTitle(getString(R.string.update_log))
-                            .setMessage(Html.fromHtml(FileHelper.getAssetsString(ctx, "update_log.html")))
-                            .setPositiveButton(getString(R.string.confirm)) { dialog, which ->
-                                updateLogDialog?.dismiss()
-                            }
-                            .create()
+                    updateLogDialog = Dialog.build(ctx) {
+                        message(getString(R.string.update_log),
+                                FileHelper.getAssetsString(ctx, "update_log.html"),
+                                fromHtml = true)
+                        positiveButton(getString(R.string.confirm),
+                                action = {dialog: AlertDialog? -> dialog?.dismiss() })
+                    }
                 }
                 updateLogDialog?.show()
             }
             2 -> {
                 if (pushMessageDialog == null) {
-                    pushMessageDialog = PushMessageDialog(this@AboutActivity)
+                    pushMessageDialog = PushMessageDialog(ctx)
                 }
                 (pushMessageDialog as PushMessageDialog).show(null)
             }
@@ -213,10 +214,12 @@ class AboutActivity: BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_item_permission) {
             if (permissionDialog == null) {
-                permissionDialog = AlertDialog.Builder(ctx)
-                        .setMessage(Html.fromHtml(FileHelper.getAssetsString(ctx, "permission_explain.html")))
-                        .setPositiveButton(getString(R.string.confirm)) { p0, p1 -> }
-                        .create()
+                permissionDialog = Dialog.build(ctx) {
+                    message("", FileHelper.getAssetsString(ctx, "permission_explain.html"), fromHtml = true)
+                    positiveButton(getString(R.string.confirm), action = {
+                        it?.dismiss()
+                    })
+                }
             }
             permissionDialog?.show()
         }
