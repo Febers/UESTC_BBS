@@ -52,13 +52,13 @@ android {
         applicationId "com.febers.uestc_bbs"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 19
-        versionName "1.1.8.1"
+        versionCode 20
+        versionName "1.1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        ndk {
-            //设置支持的SO库架构，来自bugly,不需要，因为项目没有so库
-            //abiFilters 'armeabi'//, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-//        }
+        ndk {
+            //设置bugly支持的SO库架构，只保留armeabi，其兼容性最好
+            abiFilters 'armeabi'//, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
         multiDexEnabled true
         multiDexKeepProguard file('multiDexKeep.pro') // keep specific classes using proguard syntax
     }

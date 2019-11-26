@@ -172,5 +172,6 @@ class PostItemSettingActivity: BaseActivity() {
         }
         choiceAdapter.checked = tempItems
         choiceAdapter.notifyDataSetChanged()
+        showHint("恢复成功")
     }
 }
