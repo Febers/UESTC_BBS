@@ -5,9 +5,9 @@ import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.io.UserManager
 import com.febers.uestc_bbs.entity.UserSimpleBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.view.custom.CircleColorView
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class SimpleUserAdapter(val context: Context, val data: MutableList<UserSimpleBean>):
         CommonBaseAdapter<UserSimpleBean>(context, data, false) {

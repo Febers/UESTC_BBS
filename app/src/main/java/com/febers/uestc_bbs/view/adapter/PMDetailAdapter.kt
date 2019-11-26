@@ -10,6 +10,8 @@ import android.widget.TextView
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PMDetailBean
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.module.theme.ThemeManager
 import com.febers.uestc_bbs.utils.PMTimeUtils
@@ -17,8 +19,6 @@ import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.post.view.content.CONTENT_TYPE_TEXT
 import com.febers.uestc_bbs.module.post.view.content.ContentCreator
 import com.febers.uestc_bbs.utils.colorAccent
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class PMDetailAdapter(val context: Context, data: List<PMDetailBean.BodyBean.PmListBean.MsgListBean>,
                       private val userId: Int, private val timeUtils: PMTimeUtils):

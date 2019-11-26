@@ -5,11 +5,11 @@ import android.view.View
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.base.REPLY_QUOTA
 import com.febers.uestc_bbs.entity.PostDetailBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
 import com.febers.uestc_bbs.module.post.view.content.ContentCreator
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class PostReplyItemAdapter(val context: Context, data: List<PostDetailBean.ListBean>, private val topicUserName: String):
         CommonBaseAdapter<PostDetailBean.ListBean>(context, data, false) {

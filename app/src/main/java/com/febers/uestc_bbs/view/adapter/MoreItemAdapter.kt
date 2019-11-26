@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.MoreItemBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.theme.ThemeManager
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class MoreItemAdapter(context: Context, data: List<MoreItemBean>, isLoadMore: Boolean):
         CommonBaseAdapter<MoreItemBean>(context, data, isLoadMore) {

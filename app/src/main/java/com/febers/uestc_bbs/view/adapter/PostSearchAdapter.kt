@@ -3,9 +3,9 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SearchPostBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class PostSearchAdapter(val context: Context, data: List<SearchPostBean.SearchPostBeanList>):
         CommonBaseAdapter<SearchPostBean.SearchPostBeanList>(context, data, false) {

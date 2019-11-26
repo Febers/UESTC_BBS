@@ -5,8 +5,8 @@ import android.widget.CheckBox
 import android.widget.ProgressBar
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.PostDetailBean
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 
 class VoteItemAdapter(val context: Context, data: List<PostDetailBean.TopicBean.PollInfoBean.PollItemListBean>, private val canVote: Boolean):
         CommonBaseAdapter<PostDetailBean.TopicBean.PollInfoBean.PollItemListBean>(context, data, false) {

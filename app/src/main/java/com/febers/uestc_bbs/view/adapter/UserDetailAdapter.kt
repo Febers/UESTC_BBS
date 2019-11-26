@@ -3,8 +3,8 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.DetailItemBean
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 
 class UserDetailAdapter(context: Context, data: List<DetailItemBean>):
         CommonBaseAdapter<DetailItemBean>(context, data, false){

@@ -3,9 +3,9 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SearchUserBeanList
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class UserSearchAdapter(val context: Context, data: List<SearchUserBeanList>):
         CommonBaseAdapter<SearchUserBeanList>(context, data, false) {

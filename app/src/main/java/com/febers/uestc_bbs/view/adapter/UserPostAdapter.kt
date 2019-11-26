@@ -3,10 +3,10 @@ package com.febers.uestc_bbs.view.adapter
 import android.content.Context
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.UserPostBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.module.image.ImageLoader
 import com.febers.uestc_bbs.utils.TimeUtils
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class UserPostAdapter(val context: Context, data: List<UserPostBean.ListBean>):
         CommonBaseAdapter<UserPostBean.ListBean>(context, data, false) {

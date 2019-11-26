@@ -7,9 +7,9 @@ import android.widget.CheckBox
 import androidx.core.widget.CompoundButtonCompat
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.SettingItemBean
+import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
+import com.febers.uestc_bbs.lib.baseAdapter.base.CommonBaseAdapter
 import com.febers.uestc_bbs.utils.colorAccent
-import com.othershe.baseadapter.ViewHolder
-import com.othershe.baseadapter.base.CommonBaseAdapter
 
 class SettingAdapter(val context: Context, data: List<SettingItemBean>):
         CommonBaseAdapter<SettingItemBean>(context, data, false) {
