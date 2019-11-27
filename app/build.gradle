@@ -52,8 +52,8 @@ android {
         applicationId "com.febers.uestc_bbs"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 20
-        versionName "1.1.9"
+        versionCode 21
+        versionName "1.1.9.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             //设置bugly支持的SO库架构，只保留armeabi，其兼容性最好

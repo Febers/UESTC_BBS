@@ -16,7 +16,7 @@ import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.module.context.ClickContext
 import com.febers.uestc_bbs.module.post.view.content.image_text.GlideImageGetter
-import com.febers.uestc_bbs.utils.getWindowWidth
+import com.febers.uestc_bbs.utils.ImageViewUtils
 import com.febers.uestc_bbs.utils.logi
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -88,21 +88,19 @@ object ImageLoader {
                             this.placeholder(placeImage)
                         }
                     }
+                    .error(R.drawable.image_error_400200)
+//                    .apply(sizeOptions)
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                             return false
                         }
 
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            logi { "Image load for content onResourceReady" }
-                            target?.getSize { width, height ->
-                                logi { "Image load for content getSize: [w:$width,h:$height], windowWidth: ${getWindowWidth()}" }
-                            }
+                            logi { "onResourceReady，即将更改大小，glide大小：${resource?.intrinsicWidth}, ${resource?.intrinsicHeight}" }
+                            ImageViewUtils.match(context, imageView, resource?.intrinsicWidth, resource?.intrinsicHeight)
                             return false
                         }
                     })
-                    .error(R.drawable.image_error_400200)
-//                    .apply(sizeOptions)
                     .centerInside()
                     .into(imageView)
 
@@ -110,7 +108,7 @@ object ImageLoader {
             e.printStackTrace()
         }
         if (clickToViewer) {
-            imageView?.setOnClickListener {
+            imageView.setOnClickListener {
                 ClickContext.clickToImageViewer(url, urls, context)
             }
         }

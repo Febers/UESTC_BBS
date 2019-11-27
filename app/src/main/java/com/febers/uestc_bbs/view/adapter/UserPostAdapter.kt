@@ -1,6 +1,10 @@
 package com.febers.uestc_bbs.view.adapter
 
 import android.content.Context
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import com.febers.uestc_bbs.MyApp
 import com.febers.uestc_bbs.R
 import com.febers.uestc_bbs.entity.UserPostBean
 import com.febers.uestc_bbs.lib.baseAdapter.ViewHolder
@@ -15,12 +19,38 @@ class UserPostAdapter(val context: Context, data: List<UserPostBean.ListBean>):
         return R.layout.item_layout_user_post
     }
 
-    override fun convert(p0: ViewHolder?, p1: UserPostBean.ListBean?, p2: Int) {
-        p0?.setText(R.id.text_view_item_user_post_title, p1?.title)
-        p0?.setText(R.id.text_view_item_user_post_content, p1?.subject)
-        p0?.setText(R.id.text_view_item_user_post_reply, ""+p1?.replies)
-        p0?.setText(R.id.text_view_item_user_post_time, TimeUtils.stampChange(p1?.last_reply_date))
-        ImageLoader.load(context, p1?.userAvatar, p0?.getView(R.id.image_view_item_user_post_avatar))
+    override fun convert(holder: ViewHolder?, bean: UserPostBean.ListBean?, p2: Int) {
+        holder ?: return
+        bean ?: return
+        holder.setText(R.id.text_view_item_user_post_title, bean.title)
+        holder.getView<ImageView>(R.id.image_view_item_user_post_avatar).let {
+            if (MyApp.postItemVisibleSetting.contains(0)) {
+                ImageLoader.load(context, bean.userAvatar, it)
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_user_post_time).let {
+            if (MyApp.postItemVisibleSetting.contains(1)) {
+                it.text = TimeUtils.stampChange(bean.last_reply_date)
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_user_post_content).let {
+            if (MyApp.postItemVisibleSetting.contains(2)) {
+                it.text = bean.subject
+            } else {
+                it.visibility = View.GONE
+            }
+        }
+        holder.getView<TextView>(R.id.text_view_item_user_post_reply).let {
+            if (MyApp.postItemVisibleSetting.contains(5)) {
+                it.text = bean.replies.toString()
+            } else {
+                it.visibility = View.GONE
+            }
+        }
     }
 }
 

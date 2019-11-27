@@ -1,6 +1,5 @@
 package com.febers.uestc_bbs.module.post.view.content
 
-import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +7,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.febers.uestc_bbs.GlideApp
 import com.febers.uestc_bbs.entity.PostDetailBean
 import com.febers.uestc_bbs.module.post.view.content.image_text.ImageTextHelper
 import com.febers.uestc_bbs.module.theme.ThemeManager
@@ -43,11 +37,9 @@ class ContentCreator(
     private var imageUrlList: MutableList<String> = ArrayList()
 
     private var mStringBuilder: StringBuilder = StringBuilder()
-    private val IMAGE_VIEW_MARGIN = 8
-    private val IMAGE_VIEW_WIDTH = getWindowWidth()/2
-    private val IMAGE_VIEW_HEIGHT = getWindowWidth()/2
     private var context = mLinearLayout?.context
-    private var belowTextView = true    //图片是否在文字下面，如果是，间距拉大
+    private var topImageView = true    //文字是否在图片上面，如果是，添加换行在文字最后
+    private var belowImageView = false //文字是否在图片下面，如果是，添加换行在文字最前
 
     fun getImageMapList() = imageMapList
 
@@ -75,10 +67,18 @@ class ContentCreator(
         val stringBuilder = StringBuilder()
 
         fun drawTextView() {
+            if (topImageView) {
+                stringBuilder.append("<br>")
+            }
+            if (belowImageView) {
+                stringBuilder.insert(0, "<br>")
+            }
+            topImageView = false
+            belowImageView = false
+
             val textView = getTextView()
             ImageTextHelper.setImageText(textView, stringBuilder.toString(), mTextLinkColor)
             mLinearLayout?.addView(textView)
-            belowTextView = true
         }
         fun drawImageView(content: PostDetailBean.ContentBean) {
             drawTextView()
@@ -87,7 +87,11 @@ class ContentCreator(
             mLinearLayout?.gravity = Gravity.CENTER
             imageMapList.add(mapOf(content.originalInfo.toString() to imageView))
             imageUrlList.add(content.originalInfo.toString())
-            belowTextView = false
+            if (stringBuilder.isEmpty()) {
+                belowImageView = true
+            } else {
+                topImageView = true
+            }
         }
         fun drawFileView(url: String, title: String) {
             val button = getFileButton(url, title)
@@ -145,18 +149,8 @@ class ContentCreator(
 
     //创建ImageView
     private fun getImageView(url: String): ImageView {
-        val imageView = ImageView(context).apply {
+        return ImageView(context).apply {
             setLayerType(View.LAYER_TYPE_HARDWARE, null)
-            layoutParams = ViewGroup
-                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        }
-        val marginLayoutParams = ViewGroup.MarginLayoutParams(imageView.layoutParams).apply {
-            setMargins(IMAGE_VIEW_MARGIN,
-                    if (belowTextView)  3*IMAGE_VIEW_MARGIN else 0,
-                    IMAGE_VIEW_MARGIN,
-                    0) }
-        return imageView.apply {
-            layoutParams = marginLayoutParams
         }
     }
 

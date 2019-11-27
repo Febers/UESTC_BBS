@@ -213,6 +213,7 @@ class PostDetailActivity2 : BaseActivity(), PostContract.View, PostOptionClickLi
     private fun drawTopicView(event: BaseEvent<PostDetailBean>) {
         if (renderContentValue == RENDER_MODE_TRANSFER) {
             ContentTransfer.transfer(web_view_post_content, event.data.topic!!.content!!)
+            web_view_post_content.visibility = View.VISIBLE
             logi { "webView加载帖子" }
         } else {
             logi { "动态添加layout加载帖子" }
