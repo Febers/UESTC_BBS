@@ -19,7 +19,7 @@ class LoginMockWebView {
         fastloginfield:username
         cookietime:2592000
         username:四条眉毛
-        password:hzg2016030301007
+        password:xx
         questionid:0
         answer:
         submit:登录
